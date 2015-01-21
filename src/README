@@ -1,0 +1,9 @@
+
+This folder contains source code from upstreams or from open source
+
+e.g. dpdk, openvswitch, netmap
+
+These sources are mostly downloaded from upstream using wget or git
+tags. The source code are not checked into vswitchperf repo.
+
+
