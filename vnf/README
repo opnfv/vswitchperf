@@ -1,0 +1,8 @@
+
+This folder contains a portfolio of VNFs that can be used for 
+vswitch performance testing.
+
+The VNF images are copies of virgin images. The images are never
+checked into git repository.
+
+
