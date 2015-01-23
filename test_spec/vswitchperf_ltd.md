@@ -32,7 +32,7 @@
 
 ---
 <a name="Introduction"></a>
-##1. Introduction ##
+##1. Introduction
   The objective of the OPNFV project titled **“Characterize vSwitch Performance for Telco NFV Use Cases”**, is to evaluate a virtual switch to identify its suitability for a Telco Network Function Virtualization (NFV) environment. The intention of this Level Test Design (LTD) document is to specify the set of tests to carry out in order to objectively measure the current characteristics of a virtual switch in the Network Function Virtualization Infrastructure (NFVI) as well as the test pass criteria. The detailed test cases will be defined in [Section 2](#DetailsOfTheLevelTestDesign), preceded by the [Document identifier](#DocId) and the [Scope](#Scope).
 
  This document is currently in draft form.
@@ -50,12 +50,30 @@
   <a name="References"></a>
   ###1.3. References
 
-  - [RFC 2544 Benchmarking Methodology for Network Interconnect Devices](https://www.ietf.org/rfc/rfc2544.txt)
-  - [RFC 2885 Benchmarking Terminology for LAN Switching Devices](https://www.ietf.org/rfc/rfc2885.txt)
-  - [RFC 2889 Benchmarking Methodology for LAN Switching Devices](https://www.ietf.org/rfc/rfc2889.txt)
-  - [RFC 3918 Methodology for IP Multicast Benchmarking](https://www.ietf.org/rfc/rfc3918.txt)
-  - [RFC 4737 Packet Reordering Metrics](https://www.ietf.org/rfc/rfc4737.txt)
-  - [RFC 5481 Packet Delay Variation Applicability Statement](https://www.ietf.org/rfc/rfc5481.txt)
+  - [RFC 1242 Benchmarking Terminology for Network Interconnection Devices](http://www.ietf.org/rfc/rfc1242.txt)
+  - [RFC 2544 Benchmarking Methodology for Network Interconnect Devices](http://www.ietf.org/rfc/rfc2544.txt)
+  - [RFC 2885 Benchmarking Terminology for LAN Switching Devices](http://www.ietf.org/rfc/rfc2885.txt)
+  - [RFC 2889 Benchmarking Methodology for LAN Switching Devices](http://www.ietf.org/rfc/rfc2889.txt)
+  - [RFC 3918 Methodology for IP Multicast Benchmarking](http://www.ietf.org/rfc/rfc3918.txt)
+  - [RFC 4737 Packet Reordering Metrics](http://www.ietf.org/rfc/rfc4737.txt)
+  - [RFC 5481 Packet Delay Variation Applicability Statement](http://www.ietf.org/rfc/rfc5481.txt)
 
 <br/>
+  <a name="FeaturesToBeTested"></a>
+  ###2.1. Features to be tested
+  Characterizing virtual switches (i.e. Device Under Test (DUT) in this document) includes measuring the following performance metrics:
+   - Throughput as defined by [RFC1242]: The maximum rate at which none of the offered frames are dropped by the DUT. The maximum frame rate and bit rate that can be transmitted by the DUT without any error should be recorded. Note there is an equivalent bit rate and a specific layer at which the payloads contribute to the bits. Errors and improperly formed frames or packets are dropped.
+   - Packet delay introduced by the DUT and its cumulative effect on E2E networks. Frame delay can be measured equivalently.
+   - Packet delay variation: measured from the perspective of the VNF/application. Packet delay variation is sometimes called "jitter". However, we will avoid the term "jitter" as the term holds different meaning to different groups of people. In this document we will simply use the term packet delay variation. The preferred form for this metric is the PDV form of delay variation defined in [RFC5481].
+   - Packet loss (within a configured waiting time at the receiver): All packets sent to the DUT should be accounted for.
+   - Burst behaviour: measures the ability of the DUT to buffer packets.
+   - Packet re-ordering: measures the ability of the device under test to maintain sending order throughout transfer to the destination.
+   - Packet correctness Packets or Frames must be well-formed, in that they include all required fields, conform to length requirements, pass integrity checks, etc.
+   - Availability and capacity of the DUT i.e. when the DUT is fully “up” and connected:
+     - Includes power consumption of the CPU (in various power states) and system.
+     - Includes CPU utilization.
+     - Includes # NIC interfaces supported.
+     - Includes headroom of VM workload processing cores (i.e. available for applications).
 
+[RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
+[RFC5481]:(http://www.ietf.org/rfc/rfc5482.txt)
