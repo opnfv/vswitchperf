@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_bf6177d5",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-01-26T16:45:14Z",
+      "side": 1,
+      "message": "Whitespaces at the End of Lines and Tabs should be fixed. \nother than that the structure looks good...",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 37
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_1f0e2335",
         "filename": "README",
         "patchSetId": 1
@@ -98,6 +121,29 @@
       "writtenOn": "2015-01-26T16:24:00Z",
       "side": 1,
       "message": "Will there be any relationship between the different test case categories? Will test XYZ need to exist for all test case categories?",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_9f5eb311",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-01-26T16:45:14Z",
+      "side": 1,
+      "message": "what do we mean by collection of jobs configuration? what\u0027s the aim here?",
+      "range": {
+        "startLine": 32,
+        "startChar": 11,
+        "endLine": 32,
+        "endChar": 32
+      },
       "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -241,6 +287,52 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_5fa02bf4",
+        "filename": "mk/master.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-01-26T16:45:14Z",
+      "side": 1,
+      "message": "whitespace at the end of the line should be removed",
+      "range": {
+        "startLine": 3,
+        "startChar": 26,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_7f9befc9",
+        "filename": "mk/master.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-01-26T16:45:14Z",
+      "side": 1,
+      "message": "Tab, convert to spaces?",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 3
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_9f30f3e9",
         "filename": "src/README",
         "patchSetId": 1
@@ -252,6 +344,29 @@
       "writtenOn": "2015-01-26T16:24:00Z",
       "side": 1,
       "message": "Markdown",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_3fa56704",
+        "filename": "systems/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-01-26T16:45:14Z",
+      "side": 1,
+      "message": "Linux*",
+      "range": {
+        "startLine": 2,
+        "startChar": 39,
+        "endLine": 2,
+        "endChar": 44
+      },
       "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -292,6 +407,29 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_bfb8572b",
+        "filename": "systems/Ubuntu-14.04/build_base_mahcine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-01-26T16:45:14Z",
+      "side": 1,
+      "message": "There\u0027s a typo in the name of this file (machine)",
+      "range": {
+        "startLine": 3,
+        "startChar": 11,
+        "endLine": 3,
+        "endChar": 12
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_5f526b14",
         "filename": "systems/Ubuntu-14.04/build_base_mahcine.sh",
         "patchSetId": 1
@@ -303,6 +441,52 @@
       "writtenOn": "2015-01-26T16:24:00Z",
       "side": 1,
       "message": "array + for loop? less chance of typos too.",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_1faaa3d4",
+        "filename": "systems/Ubuntu-14.04/build_base_mahcine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-01-26T16:45:14Z",
+      "side": 1,
+      "message": "This file should also download git and clone and checkout appropriate projects and tags?\nor possibly the master build_base_machine.sh file should do this",
+      "range": {
+        "startLine": 56,
+        "startChar": 20,
+        "endLine": 56,
+        "endChar": 27
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_9fb59333",
+        "filename": "systems/build_base_mahcine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-01-26T16:45:14Z",
+      "side": 1,
+      "message": "is this the apache 2 copyright? I think we may have to include that instead\n\nCopyright [yyyy] [name of copyright owner]\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 26
+      },
       "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
