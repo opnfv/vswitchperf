@@ -1,0 +1,464 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af53d3f_5f04ab14",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Can this be stored as Markdown? The test spec is in Markdown.",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_3f09e72c",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "If using Markdown, the ATX-style headers tend to be a little more scalable (i.e. more levels). For example:\n\n    # vswitchperf Directory Layout:",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_1f0e2335",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Erroneous whitespace + mixed use of tabs/spaces for indentation (use spaces only for inner indentation).",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_ff125f57",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Is Fedora/Ubuntu under the \u0027build_base_machine\u0027 subdirectory? If so, indent it as such. If not, change the character from \u0027/\u0027 to \u0027|\u0027",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_df0f9b2d",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "*Ubuntu",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_7f264fbc",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Will there be any relationship between the different test case categories? Will test XYZ need to exist for all test case categories?",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_9f19137c",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "This would be more scalable if you gave the directory structure, then explained each part in separate subsections below. That would allow you to flesh out, for example, what the \u0027jobs\u0027 section is and how a \u0027jobs\u0027 config file should look.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 67
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_5f2b8b82",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Why bother including the top-level directories at all? Surely it\u0027d be easier to define arbitrary vnf/src directories as part of the \u0027.conf\u0027 files?",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 60
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_3f20c79a",
+        "filename": "jobs/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Markdown",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_ff393fd9",
+        "filename": "mk/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Markdown",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_1f2503ab",
+        "filename": "mk/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "definitions",
+      "range": {
+        "startLine": 2,
+        "startChar": 40,
+        "endLine": 2,
+        "endChar": 50
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_df367be7",
+        "filename": "mk/master.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "I\u0027m unsure of the purpose of this file. Is it expected to build the chosen vswitch? If so, I foresee a lot of overhead maintaining different versions of Makefile to build these switches.\n\nIf, on the other hand, it\u0027s expected to do more than build the code then is Make the best option? There are a lot of other tools out there for configuring the environment etc.",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_bf33b7f5",
+        "filename": "mk/master.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "whitespace. whitespace everywhere!",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_9f30f3e9",
+        "filename": "src/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Markdown",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_7f4d2f72",
+        "filename": "systems/Ubuntu-14.04/build_base_mahcine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "typo in file name: build_base_machine.sh\n\nYou could probably do this in a cross platform manner with Puppet. Alternatively, if you wanted to stick with this method, check out this (\"Fair License\" licensed) for a good way to detect different distros.\n\n    https://github.com/icy/pacapt/blob/master/pacapt#L168",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_3f57a704",
+        "filename": "systems/Ubuntu-14.04/build_base_mahcine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Assuming Bash is available everywhere. Also, I don\u0027t know why people don\u0027t do this for Bash?\n\n    #!/usr/bin/env bash",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_5f526b14",
+        "filename": "systems/Ubuntu-14.04/build_base_mahcine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "array + for loop? less chance of typos too.",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_ff401f37",
+        "filename": "testcases/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Markdown",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_1f5ce324",
+        "filename": "testcases/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "What do all these mean (I know because of the slides, but will anyone else?)",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_df3d5bbd",
+        "filename": "testspec/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Markdown",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_bf4a9753",
+        "filename": "testspec/organize_vswitch_performance_test_framework.pptx",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "I don\u0027t think this binary file belongs here. A Wiki/Google Drive/Dropbox would be more appropriate. If you used Markdown, though, the images could be kept in a \u0027doc\u0027 folder?",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_9f47d34b",
+        "filename": "tools/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Markdown",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_7f740f9c",
+        "filename": "vnf/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Markdown",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_5f794b92",
+        "filename": "vnf/testspec/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Markdown",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_3f6e87ca",
+        "filename": "vswitches/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "Markdown",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_1f73c3b2",
+        "filename": "vswitches/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-26T16:24:00Z",
+      "side": 1,
+      "message": "How do you expect these \"APIs\" to be defined. Assuming Python is OK, then I suggest a Python \"interface\" class like so:\n\n    class VSwitch(object):\n        def __init__(self, *args, **kwargs):\n            \"\"\"Start and initialise switch.\"\"\"\n            pass\n\n        def add_phy_port(self, name):\n            \"\"\"Add physical port with ``name``.\"\"\"\n            pass\n\n        def add_virt_port(self, name):\n            \"\"\"Add physical port with ``name``.\"\"\"\n            pass\n\n        ...\n\nAnd then:\n\n    from vswitch import VSwitch\n\n    class MyVSwitch(VSwitch):\n        def __init__(self, *args, **kwargs):\n            do.something()\n            ...\n\n        ...",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
