@@ -145,6 +145,29 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_df92fb9e",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-01-26T17:36:55Z",
+      "side": 1,
+      "message": "I\u0027m still not entirely sure about separating test cases by deployment scenario. There could be a lot of duplication of a test... where as if for example we group tests under a category then it\u0027s implementation would cover the relevant deployment scenario without any duplication",
+      "range": {
+        "startLine": 28,
+        "startChar": 10,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_9f5eb311",
         "filename": "README",
         "patchSetId": 1
