@@ -94,6 +94,24 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_1ff863e4",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "I will fix all the white space and tabs",
+      "parentUuid": "9af53d3f_1f0e2335",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_ff125f57",
         "filename": "README",
         "patchSetId": 1
@@ -105,6 +123,24 @@
       "writtenOn": "2015-01-26T16:24:00Z",
       "side": 1,
       "message": "Is Fedora/Ubuntu under the \u0027build_base_machine\u0027 subdirectory? If so, indent it as such. If not, change the character from \u0027/\u0027 to \u0027|\u0027",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_ffdc9f76",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "build_base_machine.sh is top level script. It calls Fedora/Ubuntu\u0027s implementation based on output of lsb-release.",
+      "parentUuid": "9af53d3f_ff125f57",
       "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -145,6 +181,24 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_dfd9db84",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "Each of the test case will contain a number of tests, i.e, iperf, l2 packet forwarding etc.",
+      "parentUuid": "9af53d3f_7f264fbc",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_df92fb9e",
         "filename": "README",
         "patchSetId": 1
@@ -156,6 +210,30 @@
       "writtenOn": "2015-01-26T17:36:55Z",
       "side": 1,
       "message": "I\u0027m still not entirely sure about separating test cases by deployment scenario. There could be a lot of duplication of a test... where as if for example we group tests under a category then it\u0027s implementation would cover the relevant deployment scenario without any duplication",
+      "range": {
+        "startLine": 28,
+        "startChar": 10,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_bfe61743",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "We will run a lot of the same tests for each test case. However, that is desired! Same test result, e.g., iperf for P2P will be definitely different that V2P. We need the test output for P2P, V2V separately.",
+      "parentUuid": "9af53d3f_df92fb9e",
       "range": {
         "startLine": 28,
         "startChar": 10,
@@ -191,6 +269,30 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_9fe35333",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "A test configuration contains the test configuration for a particular vswitch solution. We can have a configuration for dpdk solution and a configuration for another vswitch solution when it is ready to be dropped in. This folder contains multiple such potential configurations.",
+      "parentUuid": "9af53d3f_9f5eb311",
+      "range": {
+        "startLine": 32,
+        "startChar": 11,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_9f19137c",
         "filename": "README",
         "patchSetId": 1
@@ -202,6 +304,30 @@
       "writtenOn": "2015-01-26T16:24:00Z",
       "side": 1,
       "message": "This would be more scalable if you gave the directory structure, then explained each part in separate subsections below. That would allow you to flesh out, for example, what the \u0027jobs\u0027 section is and how a \u0027jobs\u0027 config file should look.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 67
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_7fd08f53",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "This will be combined with Maryam\u0027s effort. I will delete this and merge with Maryam\u0027s work",
+      "parentUuid": "9af53d3f_9f19137c",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -311,6 +437,24 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_5fd5cb41",
+        "filename": "mk/master.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "In my previous work with OVS etc, I need add another level of build on top of OVS to control the things like configure --with-dpdk\u003d/PATH-TO-DPDK. Let\u0027s discuss this more and if we have a better alternative, I am o.k. to go with the alternative.",
+      "parentUuid": "9af53d3f_df367be7",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_bf33b7f5",
         "filename": "mk/master.mk",
         "patchSetId": 1
@@ -351,6 +495,24 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_3fca07a2",
+        "filename": "mk/master.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9af53d3f_bf33b7f5",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_7f9befc9",
         "filename": "mk/master.mk",
         "patchSetId": 1
@@ -362,6 +524,30 @@
       "writtenOn": "2015-01-26T16:45:14Z",
       "side": 1,
       "message": "Tab, convert to spaces?",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 3
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_1fcf43b2",
+        "filename": "mk/master.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9af53d3f_7f9befc9",
       "range": {
         "startLine": 11,
         "startChar": 1,
@@ -511,6 +697,30 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_ffc37f88",
+        "filename": "systems/Ubuntu-14.04/build_base_mahcine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "It maybe an issue on ubuntu. I am not sure for other distro yet.",
+      "parentUuid": "9af53d3f_1faaa3d4",
+      "range": {
+        "startLine": 56,
+        "startChar": 20,
+        "endLine": 56,
+        "endChar": 27
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_9fb59333",
         "filename": "systems/build_base_mahcine.sh",
         "patchSetId": 1
@@ -602,6 +812,24 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_dfc0bb7e",
+        "filename": "testspec/organize_vswitch_performance_test_framework.pptx",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9af53d3f_bf4a9753",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_9f47d34b",
         "filename": "tools/README",
         "patchSetId": 1
@@ -681,6 +909,24 @@
       "writtenOn": "2015-01-26T16:24:00Z",
       "side": 1,
       "message": "How do you expect these \"APIs\" to be defined. Assuming Python is OK, then I suggest a Python \"interface\" class like so:\n\n    class VSwitch(object):\n        def __init__(self, *args, **kwargs):\n            \"\"\"Start and initialise switch.\"\"\"\n            pass\n\n        def add_phy_port(self, name):\n            \"\"\"Add physical port with ``name``.\"\"\"\n            pass\n\n        def add_virt_port(self, name):\n            \"\"\"Add physical port with ``name``.\"\"\"\n            pass\n\n        ...\n\nAnd then:\n\n    from vswitch import VSwitch\n\n    class MyVSwitch(VSwitch):\n        def __init__(self, *args, **kwargs):\n            do.something()\n            ...\n\n        ...",
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_bfbdf704",
+        "filename": "vswitches/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-01-27T08:49:52Z",
+      "side": 1,
+      "message": "Yes, we can go with your suggestion.",
+      "parentUuid": "9af53d3f_1f73c3b2",
       "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
