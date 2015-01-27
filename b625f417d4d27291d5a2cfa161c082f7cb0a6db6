@@ -246,6 +246,30 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_9fffd3aa",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-01-27T12:45:44Z",
+      "side": 1,
+      "message": "I agree the output should be separate. But there\u0027s no reason I can think of why the output can\u0027t be separate under a test grouping? \nI just think it would save on a lot of duplication. i.e. modifying a test once vs modifying a test in 4 directories...",
+      "parentUuid": "9af53d3f_bfe61743",
+      "range": {
+        "startLine": 28,
+        "startChar": 10,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_9f5eb311",
         "filename": "README",
         "patchSetId": 1
@@ -281,6 +305,30 @@
       "side": 1,
       "message": "A test configuration contains the test configuration for a particular vswitch solution. We can have a configuration for dpdk solution and a configuration for another vswitch solution when it is ready to be dropped in. This folder contains multiple such potential configurations.",
       "parentUuid": "9af53d3f_9f5eb311",
+      "range": {
+        "startLine": 32,
+        "startChar": 11,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "b625f417d4d27291d5a2cfa161c082f7cb0a6db6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_7f2c0f4b",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-01-27T12:45:44Z",
+      "side": 1,
+      "message": "Do you mean this is the directory that\u0027s used to launch a test suite for a particular vSwitch based on config?",
+      "parentUuid": "9af53d3f_9fe35333",
       "range": {
         "startLine": 32,
         "startChar": 11,
