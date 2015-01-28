@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af53d3f_bfc73764",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-01-28T11:21:24Z",
+      "side": 1,
+      "message": "Is definition of test pass criteria and identification of required architectural changes within the current project scope? In my reading the project proposal covers definition of test procedures only, and the rest is for later. Suggest to bring this part in line with the project definition to avoid confusion.",
+      "revId": "8723905028662c8324c3decf6c8f94d016552bc8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_9fc47360",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-01-28T11:21:24Z",
+      "side": 1,
+      "message": "Unclear: \"shall not\" and later \"some or all\". Do we aim at integration into the other frameworks from the start (are the other frameworks mature enough for that?) or is that a second step after a first incarnation that works standalone?",
+      "revId": "8723905028662c8324c3decf6c8f94d016552bc8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_7fa1afa8",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-01-28T11:21:24Z",
+      "side": 1,
+      "message": "For a pure L2 switch measuring performance on frame level is sufficient, but in case of more advanced networking services (which are often realized by vSwitches) tesing performance and correctness on packet level is also important.",
+      "revId": "8723905028662c8324c3decf6c8f94d016552bc8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_5fa6ebc2",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-01-28T11:21:24Z",
+      "side": 1,
+      "message": "Why are we looking at delay itself on frame level and delay variation on packet level?",
+      "revId": "8723905028662c8324c3decf6c8f94d016552bc8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_1fb063f3",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-01-28T11:21:24Z",
+      "side": 1,
+      "message": "What do we mean by \"node\"? The vSwitch or vSwitch + VNF?",
+      "revId": "8723905028662c8324c3decf6c8f94d016552bc8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_3fab278b",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-01-28T11:21:24Z",
+      "side": 1,
+      "message": "Same comment as previous.",
+      "revId": "8723905028662c8324c3decf6c8f94d016552bc8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_ff949f45",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-01-28T11:21:24Z",
+      "side": 1,
+      "message": "What is meant by \"network element\"? Let\u0027s use a consistent terminology...",
+      "revId": "8723905028662c8324c3decf6c8f94d016552bc8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
