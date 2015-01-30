@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af53d3f_9f9b5372",
+        "filename": "README",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-30T10:30:26Z",
+      "side": 1,
+      "message": "If we\u0027re using Markdown here, you should keep either the \u0027#\u0027 or the underline. As mentioned before, the \u0027#\u0027-style (ATX-style) headers are more flexible but either would do. If you keep the underline, I would change the dashes (\u0027-\u0027) to equals signs (\u0027\u003d\u0027) as \u0027-\u0027 is for level 2 headers while \u0027\u003d\u0027 is for level 1.\n\nIf using a custom formatting strategy then remove the \u0027#\u0027 since it makes no sense.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 38
+      },
+      "revId": "e15be86236f3b0b51618880ff226c4371edc16a4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_5f8dcb30",
+        "filename": "README",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-30T10:30:26Z",
+      "side": 1,
+      "message": "*Ubuntu",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 16
+      },
+      "revId": "e15be86236f3b0b51618880ff226c4371edc16a4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_3f820701",
+        "filename": "testcases/README",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-01-30T10:30:26Z",
+      "side": 1,
+      "message": "There is still no description of what these mean?",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 7
+      },
+      "revId": "e15be86236f3b0b51618880ff226c4371edc16a4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
