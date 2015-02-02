@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af53d3f_7fb64fde",
+        "filename": "REAME",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-02T10:38:31Z",
+      "side": 1,
+      "message": "Dir Structure looks fine. Whitespace at the end of every line should be removed",
+      "range": {
+        "startLine": 5,
+        "startChar": 14,
+        "endLine": 5,
+        "endChar": 15
+      },
+      "revId": "3e350a7b72c0adeb0b5f57c1091da4253a3539aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_5fbb8bc4",
+        "filename": "systems/Ubuntu/build_base_machine.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-02T10:38:31Z",
+      "side": 1,
+      "message": "tab should be replaced with spaces",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 3
+      },
+      "revId": "3e350a7b72c0adeb0b5f57c1091da4253a3539aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_3fb0c7dc",
+        "filename": "systems/Ubuntu/build_base_machine.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-02T10:38:31Z",
+      "side": 1,
+      "message": "can remove this?",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 7
+      },
+      "revId": "3e350a7b72c0adeb0b5f57c1091da4253a3539aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_1fb503cd",
+        "filename": "testcases/README",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-02T10:38:31Z",
+      "side": 1,
+      "message": "whitespace at the end of this line and line 1 to be removed",
+      "range": {
+        "startLine": 4,
+        "startChar": 47,
+        "endLine": 4,
+        "endChar": 48
+      },
+      "revId": "3e350a7b72c0adeb0b5f57c1091da4253a3539aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
