@@ -515,3 +515,26 @@ The following tests aim to determine the maximum forwarding rate that can be ach
    - The average latency of the traffic flow when passing through the DUT (if testing for latency).
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2544.SomePacketLoss
+  **Title**: RFC 2544 *some* packet loss Throughput and Latency Test
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  This test determines the DUT's maximum forwarding rate allowing for *packet loss of 0.001%* for each frame size previously defined under [Default Test Parameters](#DefaultParams). The test will also determine the average latency for the traffic with this packet loss.
+
+  The test should run for a minimum period of 6 hours.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+  - The maximum forwarding rate of the DUT for each frame size with 0.001% packet loss.
+  - The average latency of the traffic flow when passing through the DUT (if testing for latency).
+
+<br/>
