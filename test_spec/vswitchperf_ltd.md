@@ -501,3 +501,32 @@ The following tests aim to determine the maximum forwarding rate that can be ach
    - The average latency of the traffic flow when passing through the DUT (if testing for latency).
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2544.ZeroPacketLossFrameModification
+  **Title**: RFC 2544 0% packet loss Throughput and Latency Test with packet modification
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  This test determines the DUT's maximum forwarding rate without traffic loss for each frame size previously defined under [Default Test Parameters](#DefaultParams). The test will also determine the average latency for the traffic.
+
+  During this test, the DUT must perform the following operations on the traffic flow:
+
+   - Perform packet parsing on the DUT's ingress port.
+   - Perform any relevant address look-ups on the DUT's ingress ports.
+   - Modify the packet header before forwarding the packet to the DUT's egress port.
+
+  The test should run for a minimum period of 6 hours.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - The maximum forwarding rate of the DUT for each frame size with zero packet loss and packet modification operations being performed by the DUT.
+   - The average latency of the traffic flow when passing through the DUT (if testing for latency).
+
+<br/>
