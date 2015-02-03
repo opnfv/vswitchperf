@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af53d3f_7fee4f8d",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-03T19:13:56Z",
+      "side": 1,
+      "message": "Remove whitespace",
+      "range": {
+        "startLine": 227,
+        "startChar": 13,
+        "endLine": 227,
+        "endChar": 47
+      },
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_5ff38b73",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-03T19:13:56Z",
+      "side": 1,
+      "message": "remove whitespace",
+      "range": {
+        "startLine": 238,
+        "startChar": 16,
+        "endLine": 238,
+        "endChar": 42
+      },
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_3fe8c77b",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-03T19:13:56Z",
+      "side": 1,
+      "message": "remove whitespace",
+      "range": {
+        "startLine": 301,
+        "startChar": 69,
+        "endLine": 301,
+        "endChar": 104
+      },
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
