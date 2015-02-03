@@ -78,3 +78,18 @@
   - RFC 5481 Packet Delay Variation Applicability Statement
 
 <br/>
+  <a name="FeaturesToBeTested"></a>
+  ###2.1. Features to be tested
+  Characterizing virtual switches (i.e. Device Under Test (DUT) in this document) includes measuring the following performance parameters:
+   - Throughput: maximum frame rate and bit rate that can be transmitted without any error (multiple flows).
+   - Packet delay introduced by the node and its cumulative effect on E2E networks.
+   - Packet delay variation: measured from the perspective of the VNF/application. Packet delay variation is sometimes called "jitter". However, we will avoid the term "jitter" as the term holds different meaning to different groups of people. In this document we will simply use the term packet delay variation.
+   - Packet loss: Within the node all packets should be accounted for.
+   - Burst behaviour: measures the ability of the DUT to buffer packets.
+   - Packet re-ordering.
+   - Packet correctness.
+   - Availability and capacity of the DUT i.e. when the DUT is fully “up” and connected:
+    - Includes power consumption of the CPU (in various power states) and system.
+    - Includes CPU utilization.
+    - Includes # NIC interfaces supported.
+    - Includes headroom of VM workload processing cores (i.e. available for applications).
