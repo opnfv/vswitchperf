@@ -446,5 +446,41 @@ The following represents possible deployments which can help to determine the pe
  RFC 2889 is an IETF RFC that outlines a benchmarking methodology for LAN switching, it extends RFC 2544. The outlined methodology gathers performance metrics for forwarding, congestion control, latency, address handling and finally filtering.
 
  #####RFC 4737 Packet Reordering Metrics
- 
+
  ##### RFC 5481 Packet Delay Variation Applicability Statement
+
+<br/>
+
+<a name="TestIdentification"></a>
+###2.3. Test identification
+
+ <a name="ThroughputTests"></a>
+  ####2.3.1 Throughput tests
+The following tests aim to determine the maximum forwarding rate that can be achieved with a virtual switch.
+
+ The following list is not exhaustive but should indicate the type of tests that should be required. It is expected that more will be added.
+
+  - #####Test ID: LTD.Throughput.RFC2544.ZeroPacketLoss
+
+  **Title**: RFC 2544 0% packet loss Throughput and Latency Test
+
+  **Prerequisite Test**: N/A
+
+  **Priority**:
+
+  **Description**:
+
+  This test determines the DUT's maximum forwarding rate without traffic loss for each frame size previously defined under [Default Test Parameters](#DefaultParams). The test will also determine the average latency of the traffic.
+
+  The test duration should last for the period of time needed for the system to reach steady state for the frame size being tested. Under the RFC 2544 test methodology, the test duration should run for a minimum period of 60 seconds, regardless if the system reaches steady state before the minimum duration ends. (**Note**: The recommended test duration is at least 6 hours).
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - The maximum forwarding rate of the DUT for each frame size with zero packet loss.
+   - The average latency of the traffic flow when passing through the DUT (if testing for latency).
+
+<br/>
