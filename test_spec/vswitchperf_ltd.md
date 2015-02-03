@@ -545,6 +545,29 @@ The following represents possible deployments which can help to determine the pe
    - The average latency of the traffic flow when passing through the DUT (if testing for latency).
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2544.SomePacketLoss
+  **Title**: RFC 2544 *some* packet loss Throughput and Latency Test
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  This test determines the DUT's maximum forwarding rate allowing for *packet loss of X%* for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams). The test can also be used to determine the average latency of the traffic.
+
+  Under the [RFC2544] test methodology, the test duration will include a number of trials; each trial should run for a minimum period of 60 seconds. A binary search methodology must be applied for each trial to obtain the final result.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+  - The maximum forwarding rate in Frame Per Second (FPS) and Mbps of the DUT for each frame size with X% packet loss.
+  - The average latency of the traffic flow when passing through the DUT (if testing for latency).
+
+<br/>
 
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
