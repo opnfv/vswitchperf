@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af53d3f_3f356746",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-03T06:14:19Z",
+      "side": 1,
+      "message": "Since this document is archived in git repository. Is there a need to use version id in the document id?",
+      "revId": "2d983a43091ea0877da9081b16c71c7efabe7d1a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_1f3aa336",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-03T06:14:19Z",
+      "side": 1,
+      "message": "I think it is more accurate to say \"to facilitate testing any vswitch\". It is testing a vswitch at any given time. not testing multiple switches.",
+      "range": {
+        "startLine": 65,
+        "startChar": 10,
+        "endLine": 65,
+        "endChar": 15
+      },
+      "revId": "2d983a43091ea0877da9081b16c71c7efabe7d1a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_ff3edf28",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-03T06:14:19Z",
+      "side": 1,
+      "message": "I thought you added P2V, V2V, V2P testcases, not sure why it is no longer here.",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 6
+      },
+      "revId": "2d983a43091ea0877da9081b16c71c7efabe7d1a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_df3b1b37",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-03T06:14:19Z",
+      "side": 1,
+      "message": "which test will produce Mbps number?",
+      "range": {
+        "startLine": 348,
+        "startChar": 10,
+        "endLine": 348,
+        "endChar": 15
+      },
+      "revId": "2d983a43091ea0877da9081b16c71c7efabe7d1a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
