@@ -52,11 +52,12 @@
 
   - [RFC 1242 Benchmarking Terminology for Network Interconnection Devices](http://www.ietf.org/rfc/rfc1242.txt)
   - [RFC 2544 Benchmarking Methodology for Network Interconnect Devices](http://www.ietf.org/rfc/rfc2544.txt)
-  - [RFC 2885 Benchmarking Terminology for LAN Switching Devices](http://www.ietf.org/rfc/rfc2885.txt)
+  - [RFC 2285 Benchmarking Terminology for LAN Switching Devices](http://www.ietf.org/rfc/rfc2285.txt)
   - [RFC 2889 Benchmarking Methodology for LAN Switching Devices](http://www.ietf.org/rfc/rfc2889.txt)
   - [RFC 3918 Methodology for IP Multicast Benchmarking](http://www.ietf.org/rfc/rfc3918.txt)
   - [RFC 4737 Packet Reordering Metrics](http://www.ietf.org/rfc/rfc4737.txt)
   - [RFC 5481 Packet Delay Variation Applicability Statement](http://www.ietf.org/rfc/rfc5481.txt)
+  - [RFC 6201 Device Reset Characterization](http://tools.ietf.org/html/rfc6201)
 
 <br/>
 
@@ -80,5 +81,402 @@ This section describes the features to be tested ([cf. 2.1](#FeaturesToBeTested)
      - Includes # NIC interfaces supported.
      - Includes headroom of VM workload processing cores (i.e. available for applications).
 
+<a name="Approach"></a>
+ ###2.2. Approach
+ In order to determine the packet transfer characteristics of a virtual switch, the tests will be broken down into the following categories:
+
+  - Throughput Tests to measure the maximum forwarding rate (in frames per second or fps) and bit rate (in Mbps) for a constant load (as defined by [RFC1242]) without traffic loss.
+  - Packet and Frame Delay Tests to measure average, min and max packet and frame delay for constant loads.
+  - Stream Performance Tests (TCP, UDP) to measure bulk data transfer performance, i.e. how fast systems can send and receive data through the switch.
+  - Request/Response Performance Tests (TCP, UDP) the measure the transaction rate through the switch.
+ - Packet delay tests to understand latency distribution for different packet sizes and over an extended test run to uncover outliers.
+  - Scalability Tests to understand how the virtual switch performs as the number of flows, active ports, complexity of the forwarding logic's configuration... it has to deal with increases.
+  - Control Path and Datapath Coupling Tests, to understand how closely coupled the datapath and the control path are as well as the effect of this coupling on the performance of the DUT.
+  - CPU and Memory Consumption Tests to understand the virtual switch’s footprint on the system, this includes:
+   - CPU utilization
+   - Cache utilization
+   - Memory footprint
+  - Time To Establish Flows Tests.
+  - Noisy Neighbour Tests, to understand the effects of resource sharing on the performance of a virtual switch.
+
+**Note:** some of the tests above can be conducted simultaneously where the combined results would be insightful, for example Packet/Frame Delay and Scalability.
+
+The following represents possible deployments which can help to determine the performance of both the virtual switch and the datapath into the VNF:
+
+  - Physical port  → virtual switch → physical port.
+
+<pre><code>
+                                                         __
+    +--------------------------------------------------+   |
+    |              +--------------------+              |   |
+    |              |                    |              |   |
+    |              |                    v              |   |  Host
+    |   +--------------+            +--------------+   |   |
+    |   |   phy port   |  vSwitch   |   phy port   |   |   |
+    +---+--------------+------------+--------------+---+ __|
+               ^                           :
+               |                           |
+               :                           v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+
+</code></pre>
+
+  - Physical port → virtual switch → VNF → virtual switch → physical port.
+
+<pre><code>
+                                                          __
+    +---------------------------------------------------+   |
+    |                                                   |   |
+    |   +-------------------------------------------+   |   |
+    |   |                 Application               |   |   |
+    |   +-------------------------------------------+   |   |
+    |       ^                                  :        |   |
+    |       |                                  |        |   |  Guest
+    |       :                                  v        |   |
+    |   +---------------+           +---------------+   |   |
+    |   | logical port 0|           | logical port 1|   |   |
+    +---+---------------+-----------+---------------+---+ __|
+            ^                                  :
+            |                                  |
+            :                                  v         __
+    +---+---------------+----------+---------------+---+   |
+    |   | logical port 0|          | logical port 1|   |   |
+    |   +---------------+          +---------------+   |   |
+    |       ^                                  :       |   |
+    |       |                                  |       |   |  Host
+    |       :                                  v       |   |
+    |   +--------------+            +--------------+   |   |
+    |   |   phy port   |  vSwitch   |   phy port   |   |   |
+    +---+--------------+------------+--------------+---+ __|
+               ^                           :
+               |                           |
+               :                           v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+
+</code></pre>
+
+  - Physical port → virtual switch → VNF → virtual switch → VNF → virtual switch → physical port.
+
+<pre><code>
+                                                                                                                 __
+    +---------------------------------------------------+   +---------------------------------------------------+  |
+    |   Guest 1                                         |   |   Guest 2                                         |  |
+    |   +-------------------------------------------+   |   |   +-------------------------------------------+   |  |
+    |   |                 Application               |   |   |   |                 Application               |   |  |
+    |   +-------------------------------------------+   |   |   +-------------------------------------------+   |  |
+    |       ^                                  :        |   |       ^                                  :        |  |
+    |       |                                  |        |   |       |                                  |        |  |  Guest
+    |       :                                  v        |   |       :                                  v        |  |
+    |   +---------------+           +---------------+   |   |   +---------------+           +---------------+   |  |
+    |   | logical port 0|           | logical port 1|   |   |   | logical port 0|           | logical port 1|   |  |
+    +---+---------------+-----------+---------------+---+   +---+---------------+-----------+---------------+---+__|
+            ^                                  :                    ^                                  :
+            |                                  |                    |                                  |
+            :                                  v                    :                                  v         __
+    +---+---------------+----------+---------------+------------+---------------+-----------+---------------+---+  |
+    |   |     port 0    |          |     port 1    |            |     port 2    |           |     port 3    |   |  |
+    |   +---------------+          +---------------+            +---------------+           +---------------+   |  |
+    |       ^                                  :                    ^                                  :        |  |
+    |       |                                  |                    |                                  |        |  |  Host
+    |       :                                  +--------------------+                                  v        |  |
+    |   +--------------+                                                                    +--------------+    |  |
+    |   |   phy port   |                               vswitch                              |   phy port   |    |  |
+    +---+--------------+--------------------------------------------------------------------+--------------+----+__|
+               ^                                                                                    :
+               |                                                                                    |
+               :                                                                                    v
+    +-----------------------------------------------------------------------------------------------------------+
+    |                                                                                                           |
+    |                                              traffic generator                                            |
+    |                                                                                                           |
+    +-----------------------------------------------------------------------------------------------------------+
+</code></pre>
+
+  - Physical port → virtual switch → VNF.
+
+<pre><code>
+                                                          __
+    +---------------------------------------------------+   |
+    |                                                   |   |
+    |   +-------------------------------------------+   |   |
+    |   |                 Application               |   |   |
+    |   +-------------------------------------------+   |   |
+    |       ^                                           |   |
+    |       |                                           |   |  Guest
+    |       :                                           |   |
+    |   +---------------+                               |   |
+    |   | logical port 0|                               |   |
+    +---+---------------+-------------------------------+ __|
+            ^
+            |
+            :                                            __
+    +---+---------------+------------------------------+   |
+    |   | logical port 0|                              |   |
+    |   +---------------+                              |   |
+    |       ^                                          |   |
+    |       |                                          |   |  Host
+    |       :                                          |   |
+    |   +--------------+                               |   |
+    |   |   phy port   |  vSwitch                      |   |
+    +---+--------------+------------ -------------- ---+ __|
+               ^
+               |
+               :
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+
+</code></pre>
+
+  - VNF → virtual switch → physical port.
+
+<pre><code>
+                                                          __
+    +---------------------------------------------------+   |
+    |                                                   |   |
+    |   +-------------------------------------------+   |   |
+    |   |                 Application               |   |   |
+    |   +-------------------------------------------+   |   |
+    |                                          :        |   |
+    |                                          |        |   |  Guest
+    |                                          v        |   |
+    |                               +---------------+   |   |
+    |                               | logical port  |   |   |
+    +-------------------------------+---------------+---+ __|
+                                               :
+                                               |
+                                               v         __
+    +------------------------------+---------------+---+   |
+    |                              | logical port  |   |   |
+    |                              +---------------+   |   |
+    |                                          :       |   |
+    |                                          |       |   |  Host
+    |                                          v       |   |
+    |                               +--------------+   |   |
+    |                     vSwitch   |   phy port   |   |   |
+    +-------------------------------+--------------+---+ __|
+                                           :
+                                           |
+                                           v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+
+</code></pre>
+
+  - virtual switch → VNF → virtual switch.
+
+<pre><code>
+                                                                                                                 __
+    +---------------------------------------------------+   +---------------------------------------------------+  |
+    |   Guest 1                                         |   |   Guest 2                                         |  |
+    |   +-------------------------------------------+   |   |   +-------------------------------------------+   |  |
+    |   |                 Application               |   |   |   |                 Application               |   |  |
+    |   +-------------------------------------------+   |   |   +-------------------------------------------+   |  |
+    |                                          :        |   |       ^                                           |  |
+    |                                          |        |   |       |                                           |  |  Guest
+    |                                          v        |   |       :                                           |  |
+    |                               +---------------+   |   |   +---------------+                               |  |
+    |                               | logical port 0|   |   |   | logical port 0|                               |  |
+    +-------------------------------+---------------+---+   +---+---------------+-------------------------------+__|
+                                               :                    ^
+                                               |                    |
+                                               v                    :                                            __
+    +------------------------------+---------------+------------+---------------+-------------------------------+  |
+    |                              |     port 0    |            |     port 1    |                               |  |
+    |                              +---------------+            +---------------+                               |  |
+    |                                          :                    ^                                           |  |
+    |                                          |                    |                                           |  |  Host
+    |                                          +--------------------+                                           |  |
+    |                                                                                                           |  |
+    |                                                  vswitch                                                  |  |
+    +-----------------------------------------------------------------------------------------------------------+__|
+</code></pre>
+
+**Note:** For tests where the traffic generator and/or measurement receiver are implemented on VM and connected to the virtual switch through vNIC, the issues of shared resources and interactions between the measurement devices and the device under test must be considered.
+
+ ####General Methodology:
+
+  To establish the baseline performance of the virtual switch, tests would initially be run with a simple workload in the VNF (the recommended simple workload VNF would be [DPDK]'s testpmd application forwarding packets in a VM). Subsequently, the tests would also be executed with a real Telco workload running in the VNF, which would exercise the virtual switch in the context of higher level Telco NFV use cases, and prove that its underlying characteristics and behaviour can be measured and validated. Suitable real Telco workload VNFs are yet to be identified.
+
+ <a name="DefaultParams"></a>
+ #####Default Test Parameters:
+ The following list identifies the default parameters for suite of tests:
+
+ - Reference application: Simple forwarding or Open Source VNF.
+ - Frame size (bytes): 64, 128, 256, 512, 1024, 1280, 1518, 2K, 4k OR Packet size based on use-case (e.g. RTP 64B, 256B).
+ - Reordering check: Tests should confirm that packets within a flow are not reordered.
+ - Duplex: Unidirectional / Bidirectional. Default: Full duplex with traffic transmitting in both directions, as network traffic generally does not flow in a single direction. By default the data rate of transmitted traffic should be the same in both directions, please note that asymmetric traffic (e.g. downlink-heavy) tests will be mentioned explicitly for the relevant test cases.
+ - Number of Flows: Default for non scalability tests is a single flow. For scalability tests the goal is to test with maximum supported flows but where possible will test up to 10 Million flows. Start with a single flow and scale up. By default flows should be added sequentially, tests that add flows simultaneously will explicitly call out their flow addition behaviour. Packets are generated across the flows uniformly with no burstiness.
+ - Traffic Types: UDP, SCTP, RTP, GTP and UDP traffic.
+ - Deployment scenarios are:
+   - Physical → virtual switch → physical.
+   - Physical → virtual switch → VNF → virtual switch → physical.
+   - Physical → virtual switch → VNF → virtual switch → VNF → virtual switch → physical.
+   - Physical → virtual switch → VNF.
+   - VNF → virtual switch → Physical.
+   - VNF → virtual switch → VNF.
+
+ Tests MUST have these parameters unless otherwise stated. **Test cases with non default parameters will be stated explicitly**.
+
+ **Note**: For throughput tests unless stated otherwise, test configurations should ensure that traffic traverses the installed flows through the switch, i.e. flows are installed and have an appropriate time out that doesn't expire before packet transmission starts.
+
+ #####Test Priority
+  Tests will be assigned a priority in order to determine which tests should be implemented immediately and which tests implementations can be deferred.
+
+ Priority can be of following types:
+  - Urgent: Must be implemented immediately.
+  - High: Must be implemented in the next release.
+  - Medium: May be implemented after the release.
+  - Low: May or may not be implemented at all.
+
+ #####DUT Setup
+ The DUT should be configured to it's "default" state. The DUT's configuration or set-up must not change between tests in any way other than what is required to do the test. All supported protocols must be configured and enabled for each test set up.
+
+ #####Port Configuration
+ The DUT should be configured with n ports where n is a multiple of 2. Half of the ports on the DUT should be used as ingress ports and the other half of the ports on the DUT should be used as egress ports. Where a DUT has more than 2 ports, the ingress data streams should be set-up so that they transmit packets to the egress ports in sequence so that there is an even distribution of traffic across ports. For example, if a DUT has 4 ports 0(ingress), 1(ingress), 2(egress) and 3(egress), the traffic stream directed at port 0 should output a packet to port 2 followed by a packet to port 3. The traffic stream directed at port 1 should also output a packet to port 2 followed by a packet to port 3.
+
+ #####Frame formats
+ Layer 2 (data link layer) protocols:
+
+ -  Ethernet II
+
+ <pre><code>
+
+  +-----------------------------+-----------------------------------------------------------------------+---------+
+  |       Ethernet Header       |                                Payload                                |Check Sum|
+  +-----------------------------+-----------------------------------------------------------------------+---------+
+   |___________________________| |_____________________________________________________________________| |_______|
+              14 Bytes                                       46 - 1500 Bytes                              4 Bytes
+
+ </code></pre>
+
+ Layer 3 (network layer) protocols:
+
+ - IPv4
+
+ <pre><code>
+
+  +-----------------------------+-------------------------------------+---------------------------------+---------+
+  |       Ethernet Header       |              IP Header              |             Payload             |Check Sum|
+  +-----------------------------+-------------------------------------+---------------------------------+---------+
+   |___________________________| |___________________________________| |_______________________________| |_______|
+              14 Bytes                         20 Bytes                         26 - 1480 Bytes           4 Bytes
+
+ </code></pre>
+
+- IPv6
+
+ <pre><code>
+
+  +-----------------------------+-------------------------------------+---------------------------------+---------+
+  |       Ethernet Header       |              IP Header              |             Payload             |Check Sum|
+  +-----------------------------+-------------------------------------+---------------------------------+---------+
+   |___________________________| |___________________________________| |_______________________________| |_______|
+              14 Bytes                         40 Bytes                         26 - 1460 Bytes           4 Bytes
+
+ </code></pre>
+
+ Layer 4 (transport layer) protocols:
+
+ - TCP
+ - UDP
+ - SCTP
+
+ <pre><code>
+
+  +-----------------------------+-------------------------------------+-----------------+---------------+---------+
+  |       Ethernet Header       |              IP Header              | Layer 4 Header  |    Payload    |Check Sum|
+  +-----------------------------+-------------------------------------+-----------------+---------------+---------+
+   |___________________________| |___________________________________| |_______________| |_____________| |_______|
+              14 Bytes                         20 Bytes                    20 Bytes       6 - 1460 Bytes  4 Bytes
+
+ </code></pre>
+
+ Layer 5 (application layer) protocols:
+
+ - RTP
+ - GTP
+
+ <pre><code>
+
+  +-----------------------------+-------------------------------------+-----------------+---------------+---------+
+  |       Ethernet Header       |              IP Header              | Layer 4 Header  |    Payload    |Check Sum|
+  +-----------------------------+-------------------------------------+-----------------+---------------+---------+
+   |___________________________| |___________________________________| |_______________| |_____________| |_______|
+              14 Bytes                         20 Bytes                    20 Bytes        Min 6 Bytes    4 Bytes
+
+ </code></pre>
+
+ #####Packet Throughput
+ There is a difference between an Ethernet frame, an IP packet, and a UDP datagram. In the seven-layer OSI model of computer networking, packet refers to a data unit at layer 3 (network layer). The correct term for a data unit at layer 2 (data link layer) is a frame, and at layer 4 (transport layer) is a segment or datagram.
+
+ Important concepts related to 10GbE performance are frame rate and throughput. The MAC bit rate of 10GbE, defined in the IEEE standard 802 .3ae, is 10 billion bits per second. Frame rate is based on the bit rate and frame format definitions. Throughput, defined in IETF RFC 1242, is the highest rate at which the system under test can forward the offered load, without loss.
+
+ The frame rate for 10GbE is determined by a formula that divides the 10 billion bits per second by the preamble + frame length + inter-frame gap.
+
+ The maximum frame rate is calculated using the minimum values of the following parameters, as described in the IEEE 802 .3ae standard:
+
+ - Preamble: 8 bytes * 8 = 64 bits
+ -  Frame Length: 64 bytes (minimum) * 8 = 512 bits
+ -  Inter-frame Gap: 12 bytes (minimum) * 8 = 96 bits
+
+ Therefore, Maximum Frame Rate (64B Frames)
+
+ = MAC Transmit Bit Rate / (Preamble + Frame Length + Inter-frame Gap)
+
+ = 10,000,000,000 / (64 + 512 + 96)
+
+ = 10,000,000,000 / 672
+
+ = 14,880,952.38 frame per second (fps)
+
+ #####RFC 1242 Benchmarking Terminology for Network Interconnection Devices
+ RFC 1242 defines the terminology that is used in describing performance benchmarking tests and their results. Definitions and discussions covered include: Back-to-back, bridge, bridge/router, constant load, data link frame size, frame loss rate, inter frame gap, latency, and many more.
+
+ #####RFC 2544 Benchmarking Methodology for Network Interconnect Devices
+ RFC 2544 outlines a benchmarking methodology for network Interconnect Devices. The methodology results in performance metrics such as latency, frame loss percentage, and maximum data throughput.
+
+ In this document network “throughput” (measured in millions of frames per second) is based on RFC 2544, unless otherwise noted. Frame size refers to Ethernet frames ranging from smallest frames of 64 bytes to largest frames of 4K bytes.
+
+ Types of tests are:
+ 1.	Throughput test defines the maximum number of frames per second that can be transmitted without any error.
+ 2.	Latency test measures the time required for a frame to travel from the originating device through the network to the destination device. Please note that note RFC2544 Latency measurement will be superseded with a measurement of average latency over all successfully transferred packets or frames.
+ 3.	Frame loss test measures the network’s response in overload conditions - a critical indicator of the network’s ability to support real-time applications in which a large amount of frame loss will rapidly degrade service quality.
+ 4.	Burst test assesses the buffering capability of a switch. It measures the maximum number of frames received at full line rate before a frame is lost. In carrier Ethernet networks, this measurement validates the excess information rate (EIR) as defined in many SLAs.
+ 5.	System recovery to characterize speed of recovery from an overload condition
+ 6.	Reset to characterize speed of recovery from device or software reset. This type of test has been updated by [RFC 6201] as such, the methodology defined by this specification will be that of RFC 6201.
+
+ Although not included in the defined RFC 2544 standard, another crucial measurement in Ethernet networking is packet delay variation. The definition set out by this specification comes from [RFC 5481].
+
+ #####RFC 2285 Benchmarking Terminology for LAN Switching Devices
+ RFC 2285 defines the terminology that is used to describe the terminology for benchmarking a LAN switching device. It extends RFC 1242 and defines: DUTs, SUTs, Traffic orientation and distribution, bursts, loads, forwarding rates, etc.
+
+ #####RFC 2889 Benchmarking Methodology for LAN Switching
+ RFC 2889 outlines a benchmarking methodology for LAN switching, it extends RFC 2544. The outlined methodology gathers performance metrics for forwarding, congestion control, latency, address handling and finally filtering.
+
+ #####RFC 3918 Methodology for IP Multicast Benchmarking
+ RFC 3918 outlines a methodology for IP Multicast benchmarking.
+
+ #####RFC 4737 Packet Reordering Metrics
+ RFC 4737 describes metrics for identifying and counting re-ordered packets within a stream, and metrics to measure the extent each packet has been re-ordered.
+
+ #####RFC 5481 Packet Delay Variation Applicability Statement
+ RFC 5481 defined two common, but different forms of delay variation metrics, and compares the metrics over a range of networking circumstances and tasks. The most suitable form for vSwitch benchmarking is the "PDV" form.
+
+ #####RFC 6201 Device Reset Characterization
+ RFC 6201 extends the methodology for characterizing the speed of recovery of the DUT from device or software reset described in RFC 2544.
+
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC5481]:(http://www.ietf.org/rfc/rfc5482.txt)
+[DPDK]:http://www.dpdk.org/
+[RFC 6201]:http://tools.ietf.org/html/rfc6201
+[RFC 5481]:http://tools.ietf.org/html/rfc5481
