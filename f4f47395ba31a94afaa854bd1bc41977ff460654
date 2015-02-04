@@ -69,6 +69,23 @@
       "revId": "f4f47395ba31a94afaa854bd1bc41977ff460654",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_df731be6",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T13:35:20Z",
+      "side": 1,
+      "message": "It would be good to mention here that we are superseding the Latency measurement of Sec 26.2 in RFC2544, which is based on a single frame/packet latency measurement.",
+      "revId": "f4f47395ba31a94afaa854bd1bc41977ff460654",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
