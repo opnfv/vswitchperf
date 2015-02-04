@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af53d3f_7f4acf84",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-04T15:25:26Z",
+      "side": 1,
+      "message": "update spacing to a more readable format",
+      "range": {
+        "startLine": 7,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "146c249d77be1ec12ede3be57dec095b2275adb8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_9f7d93b4",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-04T15:25:26Z",
+      "side": 1,
+      "message": "tab should be removed",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "146c249d77be1ec12ede3be57dec095b2275adb8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_5f4f0b93",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-04T15:25:26Z",
+      "side": 1,
+      "message": "characterize**",
+      "range": {
+        "startLine": 56,
+        "startChar": 53,
+        "endLine": 56,
+        "endChar": 59
+      },
+      "revId": "146c249d77be1ec12ede3be57dec095b2275adb8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
