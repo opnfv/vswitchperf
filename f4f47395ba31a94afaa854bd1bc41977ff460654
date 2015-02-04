@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af53d3f_9f8fd3cc",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-04T05:12:17Z",
+      "side": 1,
+      "message": "Could we rewrite this section?\n\nThe test framework can adopt any VNF applications along the tested path. The VNF applications will be indicated in the testing report. The potential Telco VNF service might be:\n \n - A simple forwarding based on DPDK technique\n - A simple forwarding based virtio technique\n - other forwarding techniques as they become ready\n - EPC, MME, SGW, PGW  (vEPC)\n - vBRAS",
+      "revId": "f4f47395ba31a94afaa854bd1bc41977ff460654",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_7fbc0f6d",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-04T05:12:17Z",
+      "side": 1,
+      "message": "where is Mbps number?",
+      "revId": "f4f47395ba31a94afaa854bd1bc41977ff460654",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
