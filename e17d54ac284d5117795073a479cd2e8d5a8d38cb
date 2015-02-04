@@ -68,6 +68,24 @@
       "revId": "e17d54ac284d5117795073a479cd2e8d5a8d38cb",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_225c3025",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-04T22:15:05Z",
+      "side": 1,
+      "message": "Al, all the configuration options would be printed in the test report. if testing for the purpose of certification, then you require user to chose the 6 hours option. If testing for the purpose of CI, then the testing duration would be reduced to a reasonable period.",
+      "parentUuid": "9af53d3f_3f120763",
+      "revId": "e17d54ac284d5117795073a479cd2e8d5a8d38cb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
