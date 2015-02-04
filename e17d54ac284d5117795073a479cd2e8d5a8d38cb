@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af53d3f_3fb6878b",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-04T05:17:02Z",
+      "side": 1,
+      "message": "Mbps number?",
+      "revId": "e17d54ac284d5117795073a479cd2e8d5a8d38cb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_1fbbc373",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-04T05:17:02Z",
+      "side": 1,
+      "message": "put 6 hours a test configuration.",
+      "revId": "e17d54ac284d5117795073a479cd2e8d5a8d38cb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_ffafff29",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-04T05:17:02Z",
+      "side": 1,
+      "message": "put both the packet loss rate and time of duration as test configuration. This framework would be also used in CI, we can not run 6 hours for each submission.",
+      "revId": "e17d54ac284d5117795073a479cd2e8d5a8d38cb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
