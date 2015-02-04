@@ -50,6 +50,24 @@
       "revId": "e17d54ac284d5117795073a479cd2e8d5a8d38cb",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_3f120763",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T17:27:37Z",
+      "side": 1,
+      "message": "If the target packet loss ratio and test duration are both configurable, then the test might not accomplish its goal. The goal appears to be to allow background packet losses which are not associated with congestion/overload, but are nonetheless present in, and possibly inextricable from the test setup. Thus, the loss ratio which represents background loss would need to be agreed, if this is the goal.  Worth discussing...",
+      "parentUuid": "9af53d3f_ffafff29",
+      "revId": "e17d54ac284d5117795073a479cd2e8d5a8d38cb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
