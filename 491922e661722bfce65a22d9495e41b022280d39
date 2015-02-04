@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9af53d3f_a219607b",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T18:50:55Z",
+      "side": 1,
+      "message": "suggest to add: \nNote: some of the tests above can be conducted simultaneously where the combined results would be insightful, for example Packet Delay and Scalability.",
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_7fee4f8d",
         "filename": "test_spec/vswitchperf_ltd.md",
         "patchSetId": 2
@@ -65,6 +82,142 @@
         "endLine": 301,
         "endChar": 104
       },
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_82265cb9",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T18:50:55Z",
+      "side": 1,
+      "message": "suggest to add: Note:\nFor tests where the traffic generator and/or measurement receiver are implemented on VM and connected to the vSwitch through vNIC, the issues of shared resources and interactions between the measurement devices and the device under test must be considered.",
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_622b5883",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T18:50:55Z",
+      "side": 1,
+      "message": "Comment: this project and several others would likely benefit if one or more \"reference VNFs\" with different workload characteristics were defined and available to support testing.",
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_4220549b",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T18:50:55Z",
+      "side": 1,
+      "message": "edit s/it\u0027s/its/",
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_222550ab",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T18:50:55Z",
+      "side": 1,
+      "message": "The v6 project would probably like to see IPv6 here, too.",
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_023a4ccd",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T18:50:55Z",
+      "side": 1,
+      "message": "to largest frame of 15...\" Need to revise to include Jumbo frames mentioned above, 2K and 4K sizes.",
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_e23648e7",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T18:50:55Z",
+      "side": 1,
+      "message": "Here we should also note that we are superseding RFC2544 Latency with a measurement of average latency over all successfully transferred packets or frames.",
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_c23344f5",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T18:50:55Z",
+      "side": 1,
+      "message": "RFC 2544 was updated recently in this test topic, by RFC 6201, Reset Characterization: http://tools.ietf.org/html/rfc6201",
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_a23040e9",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T18:50:55Z",
+      "side": 1,
+      "message": "Reference the PDV form defined in RFC 5481 here.",
       "revId": "491922e661722bfce65a22d9495e41b022280d39",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
