@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af53d3f_bf05f715",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T17:58:12Z",
+      "side": 1,
+      "message": "I know the term \"parameters\" is sometimes used synonymously with \"metrics\", but in the IETF both terms are used. Parameters are taken to be \"input factors\" and are part of metric definitions (especially in IPPM wg). So suggest: \n 1,$ s/parameters/metrics/g",
+      "revId": "106556da6113b5b7f59eb9fe1e6523224ef62673",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_9f02330a",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T17:58:12Z",
+      "side": 1,
+      "message": "Since we\u0027re measuring RFC2544 Throughput, it would be good to use and reference the definition from RFC 1242:\nThe maximum rate at which none of the offered frames are dropped by the device (under test).\n(we can note that there is an equivalent bit rate and a specific layer at which the payloads contribute to the bits, also that errors and improperly formed frames or packets are dropped.)",
+      "revId": "106556da6113b5b7f59eb9fe1e6523224ef62673",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_82ff7c01",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T17:58:12Z",
+      "side": 1,
+      "message": "Is the node the \"device under test\"?",
+      "revId": "106556da6113b5b7f59eb9fe1e6523224ef62673",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_62047815",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T17:58:12Z",
+      "side": 1,
+      "message": "Suggest to Append: Frame delay variation can be measured equivalently.",
+      "revId": "106556da6113b5b7f59eb9fe1e6523224ef62673",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_4209742b",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T17:58:12Z",
+      "side": 1,
+      "message": "suggest to append:  (within a configured waiting time at the receiver).",
+      "revId": "106556da6113b5b7f59eb9fe1e6523224ef62673",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_02136c5d",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T17:58:12Z",
+      "side": 1,
+      "message": "suggest to append: measures the ability of the device under test to maintain sending order throughout transfer to the destination.",
+      "revId": "106556da6113b5b7f59eb9fe1e6523224ef62673",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_220e7035",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-04T17:58:12Z",
+      "side": 1,
+      "message": "suggest to append: Packets or Frames must be well-formed, in that they include all required fields, conform to length requirements, pass integrity checks, etc.",
+      "revId": "106556da6113b5b7f59eb9fe1e6523224ef62673",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
