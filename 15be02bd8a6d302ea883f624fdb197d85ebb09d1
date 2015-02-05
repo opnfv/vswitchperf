@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_e2d9a884",
+        "filename": "README",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-05T19:04:30Z",
+      "side": 1,
+      "message": "Hi, Juan, the readme is simple and quick description. For the details, I plan to work out a proper document in right format and submit a separate patch.",
+      "parentUuid": "9af53d3f_e2abe8d4",
+      "revId": "15be02bd8a6d302ea883f624fdb197d85ebb09d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_a2b5e032",
         "filename": "jobs/README",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-05T12:19:38Z",
       "side": 1,
       "message": "Is this file really needed? I see it\u0027s already being described in the main README",
+      "revId": "15be02bd8a6d302ea883f624fdb197d85ebb09d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_c2e6a444",
+        "filename": "jobs/README",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-05T19:04:30Z",
+      "side": 1,
+      "message": "This will be expanded later. Right now, it is a place holder.",
+      "parentUuid": "9af53d3f_a2b5e032",
       "revId": "15be02bd8a6d302ea883f624fdb197d85ebb09d1",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
