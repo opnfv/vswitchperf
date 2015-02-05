@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af53d3f_e2abe8d4",
+        "filename": "README",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 378
+      },
+      "writtenOn": "2015-02-05T12:19:38Z",
+      "side": 1,
+      "message": "Could you be more verbose on the contents of this repo? While knowing the directory structure is useful, I don\u0027t see any more info being provided here, thus, this is not very useful to someone coming to take a look at this and wanting info about it.\n\nAlso, if some format is already being used for the README, it would be useful to rename the files to have a proper extension, such as README.md, or rst, whatever you want is fine.",
+      "revId": "15be02bd8a6d302ea883f624fdb197d85ebb09d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_a2b5e032",
+        "filename": "jobs/README",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 378
+      },
+      "writtenOn": "2015-02-05T12:19:38Z",
+      "side": 1,
+      "message": "Is this file really needed? I see it\u0027s already being described in the main README",
+      "revId": "15be02bd8a6d302ea883f624fdb197d85ebb09d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
