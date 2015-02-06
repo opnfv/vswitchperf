@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9af53d3f_62d59842",
+        "filename": "README",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 378
+      },
+      "writtenOn": "2015-02-06T08:00:41Z",
+      "side": 1,
+      "message": "Alright, thanks for the clarification.",
+      "parentUuid": "9af53d3f_e2d9a884",
+      "revId": "15be02bd8a6d302ea883f624fdb197d85ebb09d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_a2b5e032",
         "filename": "jobs/README",
         "patchSetId": 7
