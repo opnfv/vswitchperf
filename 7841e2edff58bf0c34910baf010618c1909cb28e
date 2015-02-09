@@ -87,6 +87,24 @@
       "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_fe95c188",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-09T18:46:57Z",
+      "side": 1,
+      "message": "We need CPU/Memory usages for performance test. We don\u0027t necessary need them for all tests. I don\u0027t see much value to have a separate CPU tests.",
+      "parentUuid": "7afa4931_3e7c4972",
+      "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
