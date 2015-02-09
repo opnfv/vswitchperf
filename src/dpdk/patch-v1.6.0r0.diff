@@ -1,0 +1,13 @@
+diff --git a/config/defconfig_x86_64-default-linuxapp-gcc b/config/defconfig_x86_64-default-linuxapp-gcc
+index d13b7ba..3409eda 100644
+--- a/config/defconfig_x86_64-default-linuxapp-gcc
++++ b/config/defconfig_x86_64-default-linuxapp-gcc
+@@ -81,7 +81,7 @@ CONFIG_RTE_BUILD_SHARED_LIB=n
+ #
+ # Combine to one single library
+ #
+-CONFIG_RTE_BUILD_COMBINE_LIBS=n
++CONFIG_RTE_BUILD_COMBINE_LIBS=y
+ CONFIG_RTE_LIBNAME="intel_dpdk"
+ 
+ #

@@ -2,6 +2,11 @@
 ---------------------------------------
 
 \- vswitchperf
+    \- src                          - directory to manage upstream packages
+       |- package-list.mk              - list of all related package url and tags
+       \- mk                           - contains common makefiles
+       \- dpdk                         - sub folder for dpdk package
+       \- ovs                          - sub folder for ovs package
     \- systems                      - contains linux distributions
        |- build_base_machine.sh        - Input for generating Makefiles
        \- Fedora                       - Fedora specific setup
