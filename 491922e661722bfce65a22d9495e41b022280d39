@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "7afa4931_7e74119c",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-02-09T10:33:42Z",
+      "side": 1,
+      "message": "The difference between these two types of test does not become clear at this point. The detailed test spec further down will probably clarify this but is it possibly to clarify this here a bit more without jumping ahead too much?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 150
+      },
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_5e795592",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-02-09T10:33:42Z",
+      "side": 1,
+      "message": "Number of flows is only one dimension of scalability. Do we want to limit to this or explore others as well? E.g., number of active ports (types of ports), complexity of the forwarding logic\u0027s configuration (particularly relevant for the case of Open Flow), just to mention a few.",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 105,
+        "endChar": 121
+      },
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_3e6e89ca",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-02-09T10:33:42Z",
+      "side": 1,
+      "message": "Could use some elaboration; what question is this test to answer?",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 45
+      },
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_a219607b",
         "filename": "test_spec/vswitchperf_ltd.md",
         "patchSetId": 2
@@ -116,6 +185,110 @@
       "writtenOn": "2015-02-04T18:50:55Z",
       "side": 1,
       "message": "Comment: this project and several others would likely benefit if one or more \"reference VNFs\" with different workload characteristics were defined and available to support testing.",
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_fe6701e9",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-02-09T10:33:42Z",
+      "side": 1,
+      "message": "Fully agree, this is a very relevant area to address.",
+      "parentUuid": "9af53d3f_622b5883",
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_de6445e7",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-02-09T10:33:42Z",
+      "side": 1,
+      "message": "Suggest to remove this.",
+      "range": {
+        "startLine": 328,
+        "startChar": 21,
+        "endLine": 328,
+        "endChar": 26
+      },
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_be6179d5",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-02-09T10:33:42Z",
+      "side": 1,
+      "message": "Asymmetric traffic (e.g. downlink-heavy) is rather typical for Telco NFV applications. Ok to use symmetric traffic as default but important to have tests that represent the assymmetric case.",
+      "range": {
+        "startLine": 329,
+        "startChar": 110,
+        "endLine": 329,
+        "endChar": 175
+      },
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_9e5ebd11",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-02-09T10:33:42Z",
+      "side": 1,
+      "message": "It is important to specify the way different flows shall be initiated. All at the same time, one after the other? Traverse address space lineraly or randomly?",
+      "range": {
+        "startLine": 330,
+        "startChar": 1,
+        "endLine": 330,
+        "endChar": 299
+      },
+      "revId": "491922e661722bfce65a22d9495e41b022280d39",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af53d3f_bf2e17a4",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-02-09T10:33:42Z",
+      "side": 1,
+      "message": "The assumption of a fastpath being implemented in the SUT is not generally valid. Improved handling of flows that are detected to be relevant is a performance-improving feature that should show a benefit in certain tests but the test design should not assume particular implementations of such behavior.",
       "revId": "491922e661722bfce65a22d9495e41b022280d39",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
