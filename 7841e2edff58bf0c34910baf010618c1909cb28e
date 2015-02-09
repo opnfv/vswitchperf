@@ -51,6 +51,24 @@
       "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_7e82d153",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-02-09T18:06:39Z",
+      "side": 1,
+      "message": "It is o.k. that you don\u0027t sample the cpu usage during the initial rate search. However, during the performance test, we should be able to sample the CPU and memory utilization with minimum impact on the performance number.\n\nIf not doing the sample for all tests, we need at least do it during the performance test.",
+      "parentUuid": "7afa4931_9e30fde9",
+      "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
