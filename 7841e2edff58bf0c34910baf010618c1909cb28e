@@ -33,6 +33,24 @@
       "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_9e30fde9",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-09T09:15:16Z",
+      "side": 1,
+      "message": "I don\u0027t think we will measure CPU and memory utilization in all of the tests, this would surely skew some of the performance tests measurements. for example in the LTD I tried to put the performance tests upfront to figure out the 0% loss throughput rate for a particular packet size, then later on we run the CPU and memory utilization test for that packet size only for the found rate (not all the rates). Which is why I think it should have it\u0027s own category.",
+      "parentUuid": "9af53d3f_024b6c2c",
+      "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
