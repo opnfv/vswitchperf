@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7afa4931_1e5ced24",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-02-09T09:22:11Z",
+      "side": 0,
+      "message": "It is not clear to me on what basis we will define test pass criteria from \"suitability for a Telco NFV environment\" but that is maybe out of scope for this review. So the patch as such is fine with me.",
+      "revId": "15be02bd8a6d302ea883f624fdb197d85ebb09d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
