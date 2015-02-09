@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "7afa4931_be4a9953",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2015-02-09T09:26:40Z",
+      "side": 1,
+      "message": "Agree, \"the node\" should be defined somewhere if we want to use such terminology. This is particularly important for vSwitches since depending on this definition there may or may not be possibilities for packet loss \"outside the node\" (e.g. are packets lost the ingress ring buffer of a vhost interface towards a VM due to too slow polling of the VM to be accounted to the vSwitch?).",
+      "parentUuid": "9af53d3f_82ff7c01",
+      "revId": "106556da6113b5b7f59eb9fe1e6523224ef62673",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_62047815",
         "filename": "test_spec/vswitchperf_ltd.md",
         "patchSetId": 1
