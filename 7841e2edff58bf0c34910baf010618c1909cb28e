@@ -69,6 +69,24 @@
       "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_3e7c4972",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-09T18:12:10Z",
+      "side": 1,
+      "message": "the idea is to measure them for performance tests yes with minimum impact on the performance number. Just not necessarily all of them. Do you still think these should be under the hood of other tests? or the separate category is ok?",
+      "parentUuid": "7afa4931_7e82d153",
+      "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
