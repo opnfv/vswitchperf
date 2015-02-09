@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7afa4931_deab25d5",
+        "filename": "src/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 313
+      },
+      "writtenOn": "2015-02-09T17:26:39Z",
+      "side": 1,
+      "message": "White space at the end of the lines should be removed",
+      "range": {
+        "startLine": 9,
+        "startChar": 78,
+        "endLine": 9,
+        "endChar": 79
+      },
+      "revId": "71b5a16fd17c704c907aa031573c9177a648f3e9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
