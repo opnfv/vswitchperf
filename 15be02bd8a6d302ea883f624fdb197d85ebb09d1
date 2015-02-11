@@ -16,6 +16,24 @@
       "revId": "15be02bd8a6d302ea883f624fdb197d85ebb09d1",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_9ee35d33",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-11T22:08:37Z",
+      "side": 0,
+      "message": "Hi Tim\nif you checkout the etherpad:https://etherpad.opnfv.org/p/vSwitchPerfTestSpec which contains the full draft you\u0027ll see a section called feature pass/fail criteria that defines the criteria to be met for each test. we aren\u0027t planning on defining test pass criteria from \"suitability for a Telco NFV environment\".",
+      "parentUuid": "7afa4931_1e5ced24",
+      "revId": "15be02bd8a6d302ea883f624fdb197d85ebb09d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
