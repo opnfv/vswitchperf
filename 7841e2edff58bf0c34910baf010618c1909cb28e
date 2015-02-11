@@ -105,6 +105,96 @@
       "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_5eeef523",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-11T21:59:48Z",
+      "side": 1,
+      "message": "I think all the test categories measure a specific metric, be it throughput or latency or cpu utilization or memory utilization or the time to establish flows... If we don\u0027t have a categorization for cpu utilization tests then we can\u0027t really justify having a categorization for latency tests, a lot of the performance tests will be measuring latency...\n\nI think this logical separation makes sense if you want to identify a particular grouping of tests or if you want to run just a particular test category using the test framework.\n\nCPU utilization won\u0027t be a metric that\u0027s measured by all the throughput tests, so if it is removed you\u0027d have to run each throughput test individually to get results. You\u0027d also have to reference tests separately when you talk about tests that measure cpu utilization...",
+      "parentUuid": "7afa4931_fe95c188",
+      "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_fedca176",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-11T21:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9af53d3f_024b6c2c",
+      "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_ded9e584",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-11T21:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7afa4931_3e7c4972",
+      "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_3ef3290c",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-11T21:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7afa4931_9e30fde9",
+      "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_1ef86de4",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-11T21:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7afa4931_7e82d153",
+      "revId": "7841e2edff58bf0c34910baf010618c1909cb28e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
