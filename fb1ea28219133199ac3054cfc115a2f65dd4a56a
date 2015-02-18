@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7afa4931_fea26199",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-18T23:00:38Z",
+      "side": 1,
+      "message": "Please remove \"variation\" from the last sentence, (Frame delay variation can be measured equivalently), since this is the delay metric, variation is below (and we could append this sentence there).",
+      "revId": "fb1ea28219133199ac3054cfc115a2f65dd4a56a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_1e9e2d57",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-18T23:00:38Z",
+      "side": 1,
+      "message": "could add: \"...and prefer the PDV form of delay variation defined in [RFC5481].\"",
+      "revId": "fb1ea28219133199ac3054cfc115a2f65dd4a56a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
