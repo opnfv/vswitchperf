@@ -108,6 +108,23 @@
     },
     {
       "key": {
+        "uuid": "7afa4931_9eed9df2",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-18T21:46:18Z",
+      "side": 1,
+      "message": "This is a plain-old Throughput test, so I think the default duration should be much less than 6 hours. We have lots of packet sizes and we need to search for the maximum, so there will be many iterations. IIRC we have another test where we can set the default duration at 6 hours, so let\u0027s emphisize long-term characterization there.",
+      "revId": "f4f47395ba31a94afaa854bd1bc41977ff460654",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af53d3f_df731be6",
         "filename": "test_spec/vswitchperf_ltd.md",
         "patchSetId": 1
