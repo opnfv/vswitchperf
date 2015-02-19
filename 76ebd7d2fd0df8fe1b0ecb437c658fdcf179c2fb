@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7afa4931_bef17997",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-19T21:17:12Z",
+      "side": 1,
+      "message": "I think I would reverse this list to provide some emphasis on UDP - all the benchmarking RFCs we\u0027ve referenced use UDP for repeatability (which is not to say we should not try TCP, we have a draft in BMWG that treads carefully toward TCP testing).\n\nWe should include measurement of delay variation with UDP, RTP, GTP.",
+      "revId": "76ebd7d2fd0df8fe1b0ecb437c658fdcf179c2fb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_5e1715a4",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-19T21:17:12Z",
+      "side": 1,
+      "message": "\"somewhere\" in the IETF BMWG literature, we talk about jumbo frame sizes and allow them in benchmarking, it might be the IMIX Genome RFC.  In any case, the text says the jumbo sizes will be included above...",
+      "revId": "76ebd7d2fd0df8fe1b0ecb437c658fdcf179c2fb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_3e0c4994",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-19T21:17:12Z",
+      "side": 1,
+      "message": "Suggest:  RFC 4737 describes metrics for identifying and counting re-ordered packets within a stream, and metrics to measure the extent each packet has been re-ordered.",
+      "revId": "76ebd7d2fd0df8fe1b0ecb437c658fdcf179c2fb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afa4931_1e118dac",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-02-19T21:17:12Z",
+      "side": 1,
+      "message": "Suggest: RFC 5481 defined two common, but different forms of delay variation metrics, and compares the metrics over a range of networking circumstances and tasks. The most suitable form for vSwitch benchmarking is the \"PDV\" form.",
+      "revId": "76ebd7d2fd0df8fe1b0ecb437c658fdcf179c2fb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
