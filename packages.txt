@@ -1,0 +1,6 @@
+python
+python-pip
+tkinter
+graphviz
+stress
+memtester

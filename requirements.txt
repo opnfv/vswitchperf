@@ -1,0 +1,5 @@
+pexpect==3.3
+unittest-xml-reporting==1.10.0
+linux-metrics==0.1.4
+tox==1.8.1
+jinja==2.7.3
