@@ -1,0 +1,348 @@
+# Copyright 2015 Intel Corporation.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""
+Automation of system configuration.
+
+Parts of this based on ``tools/pci_unbind.py`` script from Intel(R) DPDK.
+
+Part of 'toit' - The OVS Integration Testsuite.
+"""
+
+from sys import platform as _platform
+
+import os
+import re
+import subprocess
+import logging
+
+from toit import utils
+from toit.conf import settings
+
+_LOGGER = logging.getLogger(__name__)
+RTE_PCI_TOOL = os.path.join(
+    getattr(settings, 'RTE_SDK'), 'tools', 'dpdk_nic_bind.py')
+
+#
+# system management
+#
+
+
+def init():
+    """
+    Setup system for DPDK.
+    """
+    if not _is_linux():
+        _LOGGER.error('Not running on a compatible Linux version. Exiting...')
+        return
+
+    _mount_hugepages()
+    _insert_modules()
+    _remove_vhost_net()
+    _bind_nics()
+    _copy_dpdk_for_guest()
+
+
+def cleanup():
+    """
+    Setup system for DPDK.
+    """
+    if not _is_linux():
+        _LOGGER.error('Not running on a compatible Linux version. Exiting...')
+        return
+
+    _unbind_nics()
+    _remove_modules()
+    _umount_hugepages()
+
+#
+# basic compatibility test
+#
+
+
+def _is_linux():
+    """
+    Check if running on Linux.
+
+    Many of the functions in this file rely on features commonly found
+    only on Linux (i.e. ``/proc`` is not present on FreeBSD). Hence, this
+    check is important to ensure someone doesn't run this on an incompatible
+    OS or distro.
+    """
+    return _platform.startswith('linux') and os.path.isdir('/proc')
+
+#
+# hugepage management
+#
+
+
+def _is_hugepage_available():
+    """
+    Check if hugepages are available on the system.
+    """
+    hugepage_re = re.compile(r'^HugePages_Free:\s+(?P<num_hp>\d+)$')
+
+    # read in meminfo
+    with open('/proc/meminfo') as mem_file:
+        mem_info = mem_file.readlines()
+
+    # first check if module is loaded
+    for line in mem_info:
+        result = hugepage_re.match(line)
+        if not result:
+            continue
+
+        num_huge = result.group('num_hp')
+        if not num_huge:
+            _LOGGER.info('No free hugepages.')
+        else:
+            _LOGGER.info('Found \'%s\' free hugepage(s).', num_huge)
+        return True
+
+    return False
+
+
+def _is_hugepage_mounted():
+    """
+    Check if hugepages are mounted.
+    """
+    output = subprocess.check_output(['mount'])
+    for line in output.split('\n'):
+        if 'hugetlbfs' in line:
+            return True
+
+    return False
+
+
+def _mount_hugepages():
+    """
+    Ensure hugepages are mounted.
+    """
+    if not _is_hugepage_available():
+        return
+
+    if _is_hugepage_mounted():
+        return
+
+    if not os.path.exists(getattr(settings, 'HUGEPAGE_DIR')):
+        os.makedirs(getattr(settings, 'HUGEPAGE_DIR'))
+    try:
+        utils.run_task(['sudo', 'mount', '-t', 'hugetlbfs', 'nodev',
+                        getattr(settings, 'HUGEPAGE_DIR')],
+                       _LOGGER, 'Mounting hugepages...', True)
+    except subprocess.CalledProcessError:
+        _LOGGER.error('Unable to mount hugepages.')
+
+
+def _umount_hugepages():
+    """
+    Ensure hugepages are unmounted.
+    """
+    if not _is_hugepage_mounted():
+        return
+
+    try:
+        utils.run_task(['sudo', 'umount', getattr(settings, 'HUGEPAGE_DIR')],
+                       _LOGGER, 'Unmounting hugepages...', True)
+    except subprocess.CalledProcessError:
+        _LOGGER.error('Unable to umount hugepages.')
+
+#
+# module management
+#
+
+
+def _is_module_inserted(module):
+    """
+    Check if a module is inserted on system.
+    """
+    with open('/proc/modules') as mod_file:
+        loaded_mods = mod_file.readlines()
+
+    # first check if module is loaded
+    for line in loaded_mods:
+        if line.startswith(module):
+            return True
+    return False
+
+
+def _insert_modules():
+    """
+    Ensure required modules are inserted on system.
+    """
+    for module in getattr(settings, 'SYS_MODULES'):
+        if _is_module_inserted(module):
+            continue
+
+        try:
+            utils.run_task(['sudo', 'modprobe', module], _LOGGER,
+                           'Inserting module \'%s\'...' % module, True)
+        except subprocess.CalledProcessError:
+            _LOGGER.error('Unable to insert module \'%s\'.', module)
+            raise  # fail catastrophically
+
+    mod_path_prefix = getattr(settings, 'OVS_DIR')
+    _insert_module_group('OVS_MODULES', mod_path_prefix)
+    mod_path_prefix = os.path.join(getattr(settings, 'RTE_SDK'),
+                                   getattr(settings, 'RTE_TARGET'))
+    _insert_module_group('DPDK_MODULES', mod_path_prefix)
+
+
+def _insert_module_group(module_group, group_path_prefix):
+    """
+    Take a module group name and ensure modules are inserted
+    into the system.
+    """
+    for module in getattr(settings, module_group):
+        # first check if module is loaded
+        if _is_module_inserted(module[1]):
+            continue
+
+        try:
+            mod_path = os.path.join(group_path_prefix, module[0],
+                                    '%s.ko' % module[1])
+            utils.run_task(['sudo', 'insmod', mod_path], _LOGGER,
+                           'Inserting module \'%s\'...' % module[1], True)
+        except subprocess.CalledProcessError:
+            _LOGGER.error('Unable to insert module \'%s\'.', module[1])
+            raise  # fail catastrophically
+
+
+def _remove_modules():
+    """
+    Ensure required modules are removed from system.
+    """
+    _remove_module_group('OVS_MODULES')
+    _remove_module_group('DPDK_MODULES')
+
+    for module in getattr(settings, 'SYS_MODULES'):
+        # first check if module is loaded
+        if not _is_module_inserted(module):
+            continue
+
+        try:
+            utils.run_task(['sudo', 'rmmod', module], _LOGGER,
+                           'Removing module \'%s\'...' % module, True)
+        except subprocess.CalledProcessError:
+            _LOGGER.error('Unable to remove module \'%s\'.', module)
+            continue
+
+
+def _remove_module_group(module_group):
+    """
+    Take a module group name and ensure modules are removed
+    from the system.
+    """
+    for module in getattr(settings, module_group):
+        # first check if module is loaded
+        if not _is_module_inserted(module[1]):
+            continue
+
+        try:
+            utils.run_task(['sudo', 'rmmod', module[1]], _LOGGER,
+                           'Removing module \'%s\'...' % module[1], True)
+        except subprocess.CalledProcessError:
+            _LOGGER.error('Unable to remove module \'%s\'.', module[1])
+            continue
+
+
+#
+# 'vhost-net' module management
+#
+
+def _remove_vhost_net():
+    """
+    Remove vhost-net driver and file.
+    """
+    if _is_module_inserted('vhost_net'):
+        try:
+            utils.run_task(['sudo', 'rmmod', 'vhost_net'], _LOGGER,
+                           'Removing \'/dev/vhost-net\' directory...', True)
+        except subprocess.CalledProcessError:
+            _LOGGER.error('Unable to remove module \'vhost_net\'.')
+
+    try:
+        utils.run_task(['sudo', 'rm', '-f', '/dev/vhost-net'], _LOGGER,
+                       'Removing \'/dev/vhost-net\' directory...', True)
+    except subprocess.CalledProcessError:
+        _LOGGER.error('Unable to remove directory \'/dev/vhost-net\'.')
+
+#
+# NIC management
+#
+
+
+def _bind_nics():
+    """
+    Bind NICs using the Intel DPDK ``pci_unbind.py`` tool.
+    """
+    try:
+        utils.run_task(['sudo', RTE_PCI_TOOL, '--bind', 'igb_uio'] +
+                       getattr(settings, 'WHITELIST_NICS'), _LOGGER,
+                       'Binding NICs %s...' %
+                       str(getattr(settings, 'WHITELIST_NICS')),
+                       True)
+    except subprocess.CalledProcessError:
+        _LOGGER.error('Unable to bind NICs %s',
+                      str(getattr(settings, 'WHITELIST_NICS')))
+
+
+def _unbind_nics():
+    """
+    Unbind NICs using the Intel DPDK ``pci_unbind.py`` tool.
+    """
+    try:
+        utils.run_task(['sudo', RTE_PCI_TOOL, '--unbind'] +
+                       getattr(settings, 'WHITELIST_NICS'), _LOGGER,
+                       'Unbinding NICs %s...' %
+                       str(getattr(settings, 'WHITELIST_NICS')),
+                       True)
+    except subprocess.CalledProcessError:
+        _LOGGER.error('Unable to unbind NICs %s',
+                      str(getattr(settings, 'WHITELIST_NICS')))
+
+
+def _copy_dpdk_for_guest():
+    """
+    Copy dpdk code to GUEST_SHARE_DIR for use by guests.
+    """
+    guest_share_dir = os.path.join(
+        getattr(settings, 'GUEST_SHARE_DIR'), 'DPDK')
+
+    if not os.path.exists(guest_share_dir):
+        os.makedirs(guest_share_dir)
+
+    try:
+        utils.run_task(['rsync', '-r', '-l', r'--exclude="\.git"',
+                        os.path.join(getattr(settings, 'RTE_SDK'), ''),
+                        guest_share_dir],
+                       _LOGGER,
+                       'Copying DPDK to shared directory...',
+                       True)
+    except subprocess.CalledProcessError:
+        _LOGGER.error('Unable to copy DPDK to shared directory')
+
+
+class System(object):
+    """
+    A context manager for the system init/cleanup.
+    """
+    def __enter__(self):
+        _LOGGER.info('Setting up system')
+        init()
+        return self
+
+    def __exit__(self, type_, value, traceback):
+        _LOGGER.info('Cleaning up system')
+        cleanup()
