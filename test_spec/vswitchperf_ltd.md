@@ -582,7 +582,30 @@ The following represents possible deployments which can help to determine the pe
    - Physical → virtual switch → physical.
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2544.BackToBackFrames
+  **Title**: RFC 2544 Back To Back Frames Test
 
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to characterize the ability of the DUT to process back-to-back frames. For each frame size previously defined under [Default Test Parameters](#DefaultParams), a burst of traffic is sent to the DUT with the minimum inter-frame gap between each frame. If the number of received frames equals the number of frames that were transmitted, the burst size should be increased and traffic is sent to the DUT again. The value measured is the back-to-back value, that is the maximum burst size the DUT can handle without any frame loss. 
+
+  **Expected Result**:
+
+  **Metrics collected**
+
+  The following are the metrics collected for this test:
+
+   - The back-to-back value.
+
+  **Deployment scenario**:
+
+   - Physical → virtual switch → physical.
+
+<br/>
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC5481]:(http://www.ietf.org/rfc/rfc5481.txt)
