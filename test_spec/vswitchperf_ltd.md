@@ -604,6 +604,32 @@ The following represents possible deployments which can help to determine the pe
    - The average latency of the traffic flow when passing through the DUT (if testing for latency).
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2544.SystemRecoveryTime
+  **Title**: RFC 2544 System Recovery Time Test
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to determine the length of time it takes the DUT to recover from an overload condition for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent to the DUT under normal conditions. During the duration of the test and while the traffic flows are passing though the DUT, at least one situation leading to an overload condition for the DUT should occur. The time from the start of the overload condition to when the DUT returns to normal operations should be measured to determine recovery time. 
+
+  The suggested overload condition would be to transmit traffic at a very high frame rate to the DUT, for at least 60 seconds, then reduce the frame rate to the DUT by half; Record the timestamp at which the frame rate was halfed and record a second timestamp at the time of the last frame lost. The recovery time is the difference between the two timestamps.
+
+  **Expected Result**:
+
+  **Metrics collected**
+
+  The following are the metrics collected for this test:
+
+   - The length of time it takes the DUT to recover from an overload condition.
+
+  **Deployment scenario**:
+
+   - Physical → virtual switch → physical.
+
+<br/>
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC5481]:(http://www.ietf.org/rfc/rfc5481.txt)
