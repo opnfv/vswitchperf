@@ -714,7 +714,7 @@ The following represents possible deployments which can help to determine the pe
 
    - Perform packet parsing on the DUT's ingress port.
    - Perform any relevant address look-ups on the DUT's ingress port.
-   - Modify the packet header before forwarding the packet on the egress port.  Packet modifications include:
+   - Modify the packet header before forwarding the packet on the egress port. Packet modifications include:
      - Modifying the Ethernet source or destination MAC address.
      - Modifying/adding a VLAN tag.
      - Modifying/adding a MPLS tag.
@@ -751,6 +751,40 @@ The following represents possible deployments which can help to determine the pe
   The following are the metrics collected for this test:
 
    - Throughput distribution of the DUT with minimal packet loss.
+   - Any outliers in the throughput distribution.
+
+<br/>
+ - #####Test ID: LTD.Throughput.RFC2544.SoakSomeLossFrameModification
+  **Title**: RFC 2544 some packet loss Throughput Soak Test with packet modification
+
+  **Prerequisite Test**: LTD.Throughput.RFC2544.SoakSomeLoss
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to understand the throughput distribution over an extended test duration in order to uncover any outliers. To allow for an extended test duration, the test should ideally run for 24 hours or, if this is not possible, for at least 6 hours. For this test, each frame size must be sent at the highest throughput with minimal packet loss, as determined in the prerequisite test.
+
+  During this test, the DUT must perform the following actions on the traffic flow:
+
+   - Perform packet parsing on the DUT's ingress port.
+   - Perform any relevant address look-ups on the DUT's on the ingress port.
+   - Modify the packet header before forwarding the packet on the egress port. Packet modifications include:
+     - Modifying the Ethernet source or destination MAC address.
+     - Modifying/adding a VLAN tag.
+     - Modifying/adding a MPLS tag.
+     - Modifying the source or destination ip address.
+     - Modifying the TOS/DSCP field.
+     - Modifying the source or destination ports for UDP/TCP/SCTP  (Recommended).
+     - Modifying the TTL.
+
+  **Expected Result**:
+
+ **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - Throughput distribution of the DUT with minimal packet loss and packet modification operations performed by the DUT.
    - Any outliers in the throughput distribution.
 
 <br/>
