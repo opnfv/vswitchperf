@@ -654,6 +654,30 @@ The following represents possible deployments which can help to determine the pe
    - Physical → virtual switch → physical.
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2544.ResetTime
+  **Title**: RFC 2544 Reset Time Test
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to determine the length of time it takes the DUT to recover from a reset. For each frame size previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent to the DUT under normal conditions. During the duration of the test and while the traffic flows are passing through the DUT, the DUT should be reset. The time from the beginning of the reset to when the DUT returns to normal operations should be measured to determine recovery time. That is the time from which the last frame is forwarded from the DUT to the time the first frame is forwarded after the reset. 
+
+  **Expected Result**:
+
+  **Metrics collected**
+
+  The following are the metrics collected for this test:
+
+   - The length of time it takes the DUT to recover from a device or software reset.
+
+  **Deployment scenario**:
+
+   - Physical → virtual switch → physical.
+
+<br/>
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC5481]:(http://www.ietf.org/rfc/rfc5481.txt)
