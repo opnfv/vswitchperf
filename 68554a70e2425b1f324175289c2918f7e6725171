@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_3ca57104",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-02-27T11:30:20Z",
+      "side": 1,
+      "message": "We need to agree on the % allowable background loss",
+      "range": {
+        "startLine": 557,
+        "startChar": 86,
+        "endLine": 557,
+        "endChar": 87
+      },
+      "revId": "68554a70e2425b1f324175289c2918f7e6725171",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
