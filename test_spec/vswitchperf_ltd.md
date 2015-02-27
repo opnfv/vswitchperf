@@ -606,6 +606,27 @@ The following represents possible deployments which can help to determine the pe
    - Physical → virtual switch → physical.
 
 <br/>
+  - #####Test ID: LTD.Throughput.RFC2544.Soak
+  **Title**: RFC 2544 0% packet loss Throughput Soak Test
+
+  **Prerequisite Test** LTD.Throughput.RFC2544.ZeroPacketLoss
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to understand the throughput distribution over an extended test duration in order to uncover any outliers. To allow for an extended test duration, the test should ideally run for 24 hours or, if this is not possible, for at least 6 hour. For this test, each frame size must be sent at the highest throughput with zero packet loss, as determined in the prerequisite test.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - Throughput distribution of the DUT.
+   - Any outliers in the throughput distribution.
+
+<br/>
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC5481]:(http://www.ietf.org/rfc/rfc5481.txt)
