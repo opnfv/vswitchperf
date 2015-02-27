@@ -568,7 +568,42 @@ The following represents possible deployments which can help to determine the pe
   - The average latency of the traffic flow when passing through the DUT (if testing for latency).
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2544.SomePacketLossFrameModification
+  **Title**: RFC 2544 *some* packet loss Throughput and Latency Test with packet modification
 
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  This test determines the DUT's maximum forwarding rate allowing for *packet loss of X%* for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams). The test can also be used to determine the average latency of the traffic.
+
+  Under the [RFC2544] test methodology, the test duration will include a number of trials; each trial should run for a minimum period of 60 seconds. A binary search methodology must be applied for each trial to obtain the final result.
+
+  During this test, the DUT must perform the following operations on the traffic flow:
+
+   - Perform packet parsing on the DUT's ingress port.
+   - Perform any relevant address look-ups on the DUT's ingress ports.
+   - Modify the packet header before forwarding the packet to the DUT's egress port. Packet modifications include:
+     - Modifying the Ethernet source or destination MAC address.
+     - Modifying/adding a VLAN tag.
+     - Modifying/adding a MPLS tag.
+     - Modifying the source or destination ip address.
+     - Modifying the TOS/DSCP field.
+     - Modifying the source or destination ports for UDP/TCP/SCTP  (Recommended).
+     - Modifying the TTL.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - The maximum forwarding rate in Frame Per Second (FPS) and Mbps of the DUT for each frame size with X% packet loss and packet modification operations being performed by the DUT.
+   - The average latency of the traffic flow when passing through the DUT (if testing for latency).
+
+<br/>
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC5481]:(http://www.ietf.org/rfc/rfc5481.txt)
