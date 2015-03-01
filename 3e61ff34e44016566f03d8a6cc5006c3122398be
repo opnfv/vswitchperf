@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_7c3779b1",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-01T21:46:29Z",
+      "side": 1,
+      "message": "Add:  At the end of each trial, the presence or absence of loss determines the modification of offered load for the next trial, converging on a maximum rate, or [RFC2544] Throughput with zero loss. The Throughput load is re-used in related [RFC2544] tests and other tests.",
+      "revId": "3e61ff34e44016566f03d8a6cc5006c3122398be",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_5c3cbd93",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-01T21:46:29Z",
+      "side": 1,
+      "message": "Add: , note that this average is different from the test specified in Section 26.3 of [RFC2544].",
+      "revId": "3e61ff34e44016566f03d8a6cc5006c3122398be",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
