@@ -22,6 +22,30 @@
       "revId": "68554a70e2425b1f324175289c2918f7e6725171",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_bc54e1ca",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-01T22:28:57Z",
+      "side": 1,
+      "message": "Yes, my initial thought is that 10^-7 loss ratio would probably be inconsequential (measured across all traffic through a single vSwitch). There\u0027s some dependency on the rates we\u0027re using though.\n\nBut is the objective to see how much additional load we can add above the zero-loss Throughput and *characterize* the relationship between loss and excess load?  In this case we would simply increase load by fractional steps and measure the loss (and we don\u0027t need a threshold).\n\nPerhaps the answer is \"both\", and we need another test ;-)",
+      "parentUuid": "3a045101_3ca57104",
+      "range": {
+        "startLine": 557,
+        "startChar": 86,
+        "endLine": 557,
+        "endChar": 87
+      },
+      "revId": "68554a70e2425b1f324175289c2918f7e6725171",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
