@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_bcbd0105",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-01T19:56:51Z",
+      "side": 1,
+      "message": "Based on several face2face discussions last week, I suggest we add this as relevant to all the deployment scenarios:\n\nIn the deployment scenarios below, configuration of resources on the Hosts and Guests will be varied to achieve 1) resource independence between components (or as little inter-dependence as possible) and 2) shared resources which may be more typical of non-testing deployments. This way, both a best case and more typical performance can be assessed for each scenario.\n\n\nOtherwise, I would +1 this topic if I could figure out how to do it...",
+      "revId": "808117396edcdd425eb8163188bd70b4ac0d43b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
