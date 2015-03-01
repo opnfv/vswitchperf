@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_1c463524",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-01T22:12:16Z",
+      "side": 1,
+      "message": "The Packet parsing/modifications require some additional degree of processing resource, therefore the [RFC2544] Throughput is expected to be somewhat lower than the Throughput level measured without additional steps. The reduction is expected to be greatest on tests with the smallest packet sizes (greatest header processing rates).",
+      "revId": "649f63a95fc8720172f72ea1dfc6f33d27d2ae50",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_fc4a6926",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-01T22:12:16Z",
+      "side": 1,
+      "message": "Suggest to add delay variation metric here:\n\n- The [RFC5481] PDV form of delay variation on the traffic flow, using the 99th percentile.",
+      "revId": "649f63a95fc8720172f72ea1dfc6f33d27d2ae50",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
