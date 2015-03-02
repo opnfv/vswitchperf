@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_bc02a1b2",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-02T05:36:30Z",
+      "side": 1,
+      "message": "Can we combine the zero packet loss and x% packet loss into a single section, and just treat zero packet loss as special case where x\u003d0?",
+      "revId": "a78399d00d68bc1a7b1a8ad929c4075f4992df99",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
