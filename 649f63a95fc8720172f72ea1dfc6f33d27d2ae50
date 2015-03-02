@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3a045101_3c0fb1e3",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-02T05:26:39Z",
+      "side": 1,
+      "message": "My earlier comment is to specify the test duration to be configurable. I don\u0027t meant to remove the specification on test duration.",
+      "revId": "649f63a95fc8720172f72ea1dfc6f33d27d2ae50",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a045101_1c463524",
         "filename": "test_spec/vswitchperf_ltd.md",
         "patchSetId": 3
