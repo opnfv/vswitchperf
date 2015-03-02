@@ -16,6 +16,24 @@
       "revId": "a78399d00d68bc1a7b1a8ad929c4075f4992df99",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_dc1c4d16",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-02T13:09:25Z",
+      "side": 1,
+      "message": "It would be possible to record the packet loss measurements and corresponding load conditions during the \"zero-loss +modifications\" test, and IF one of the trials has loss that meets the loss threshold, then you could simply pass that result forward.",
+      "parentUuid": "3a045101_bc02a1b2",
+      "revId": "a78399d00d68bc1a7b1a8ad929c4075f4992df99",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
