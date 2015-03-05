@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_3ce8d17b",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-05T20:50:27Z",
+      "side": 1,
+      "message": "Strictly speaking, this is a Loss Ratio. Rate implies frequency, we don\u0027t really guarantee that with most loss measurements.",
+      "revId": "8277655563f7a768567a37246fa1291ea03e2dda",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
