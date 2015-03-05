@@ -34,6 +34,24 @@
       "revId": "a78399d00d68bc1a7b1a8ad929c4075f4992df99",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_5c7efde5",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-05T10:47:20Z",
+      "side": 1,
+      "message": "I will try to combine with the previous X% loss test as suggested by Aihua and abandon this review.\nPassing the result forward for 0% loss test is actually easy enough to do with toit and something we have implemented. Having said that all you could really do with it here is set it as the base rate for the traffiC generator to start with when it goes off to do the binary search, so you\u0027d probably end up with faster convergence for the test. I think it would be good to maintain a small bit of independence between tests where we can from the perspective of being able to run something without implicitly running another test? or do we want to build dependency chains in the framework itself, so if a test requires a result from another test, it sets up and runs that test first automatically, what do people think?",
+      "parentUuid": "3a045101_dc1c4d16",
+      "revId": "a78399d00d68bc1a7b1a8ad929c4075f4992df99",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
