@@ -52,6 +52,24 @@
       "revId": "a78399d00d68bc1a7b1a8ad929c4075f4992df99",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_dcd7adbe",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-05T20:39:53Z",
+      "side": 1,
+      "message": "I agree, dependencies between tests are good to avoid where possible.  However, we routinely pass the 2544Throughput level forward to other tests in that RFC.  If you repeat a test on a different day and get a different Throughput, it means you would repeat all the dependent tests, too.  So sometimes dependencies are good and reasonable, as long as there is a limited number of pre-requisites.  For example, once you have the Throughput, you can run any other test in 2544.",
+      "parentUuid": "3a045101_5c7efde5",
+      "revId": "a78399d00d68bc1a7b1a8ad929c4075f4992df99",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
