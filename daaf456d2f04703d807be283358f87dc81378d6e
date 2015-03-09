@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_5f0a6fd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-09T11:45:40Z",
+      "side": 1,
+      "message": "make sure to add reviewed-by\u0027s for whoever reviews the patch",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "daaf456d2f04703d807be283358f87dc81378d6e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_3f0fa3e3",
+        "filename": "src/dpdk/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-09T11:45:40Z",
+      "side": 1,
+      "message": "whitespace at the end of lines everywhere, need to be removed",
+      "range": {
+        "startLine": 1,
+        "startChar": 33,
+        "endLine": 1,
+        "endChar": 34
+      },
+      "revId": "daaf456d2f04703d807be283358f87dc81378d6e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_1f14e7f3",
+        "filename": "src/dpdk/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-09T11:45:40Z",
+      "side": 1,
+      "message": "Indentation? would be nice here",
+      "revId": "daaf456d2f04703d807be283358f87dc81378d6e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_5fd82f53",
+        "filename": "src/dpdk/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-09T11:45:40Z",
+      "side": 1,
+      "message": "before making you should:\nsed -i \u0027s/CONFIG_RTE_BUILD_COMBINE_LIBS\u003dn/CONFIG_RTE_BUILD_COMBINE_LIBS\u003dy/g\u0027 config/common_linuxapp\n\nand remove the patch file in DPDK it\u0027s not needed",
+      "range": {
+        "startLine": 36,
+        "startChar": 22,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "daaf456d2f04703d807be283358f87dc81378d6e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_3fdd6343",
+        "filename": "src/dpdk/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-09T11:45:40Z",
+      "side": 1,
+      "message": "don\u0027t need the patch file: \nsed -i \u0027s/CONFIG_RTE_BUILD_COMBINE_LIBS\u003dn/CONFIG_RTE_BUILD_COMBINE_LIBS\u003dy/g\u0027 config/common_linuxapp\n\nwill do the job for you",
+      "range": {
+        "startLine": 63,
+        "startChar": 9,
+        "endLine": 63,
+        "endChar": 19
+      },
+      "revId": "daaf456d2f04703d807be283358f87dc81378d6e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_7fd3eb38",
+        "filename": "src/dpdk/patch-v1.6.0r0.diff",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-09T11:45:40Z",
+      "side": 1,
+      "message": "There is no need for this file and the patching that is used. simply use sed... see comments in DPDK Makefile",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "daaf456d2f04703d807be283358f87dc81378d6e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_1fe2a703",
+        "filename": "src/ovs/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-09T11:45:40Z",
+      "side": 1,
+      "message": "Can we store some directory paths in environment variables somewhere so we can manipulate easily",
+      "range": {
+        "startLine": 28,
+        "startChar": 32,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "daaf456d2f04703d807be283358f87dc81378d6e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_dfe31f04",
+        "filename": "src/ovs/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-09T11:45:40Z",
+      "side": 1,
+      "message": "the naming is confusing. we\u0027re calling it configure but what it actually does is boot, and then later we actually run the configure command... I would either document the intention or give it a more meaningful name",
+      "range": {
+        "startLine": 69,
+        "startChar": 17,
+        "endLine": 69,
+        "endChar": 26
+      },
+      "revId": "daaf456d2f04703d807be283358f87dc81378d6e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
