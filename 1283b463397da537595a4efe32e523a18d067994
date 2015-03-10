@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_3f3b23ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-10T17:01:55Z",
+      "side": 1,
+      "message": "feel free to add me as a reviewer",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "1283b463397da537595a4efe32e523a18d067994",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_7f31ab0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-10T17:01:55Z",
+      "side": 1,
+      "message": "How did this bypass the JIRA tag check?",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "1283b463397da537595a4efe32e523a18d067994",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_5f36ef04",
+        "filename": "LICENSE",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-10T17:01:55Z",
+      "side": 1,
+      "message": "additional spaces should be removed",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 1
+      },
+      "revId": "1283b463397da537595a4efe32e523a18d067994",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
