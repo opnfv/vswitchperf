@@ -7,6 +7,7 @@
   - [1.2. Scope](#Scope)
   - [1.3. References](#References)
 
+
 - [2. Details of the Level Test Design](#DetailsOfTheLevelTestDesign)
   - [2.1. Features to be tested](#FeaturesToBeTested)
   - [2.2. Approach](#Approach)
@@ -22,6 +23,7 @@
     - [2.3.9 Summary Test List](#SummaryList)
   - [2.4. Feature pass/fail criteria](#PassFail)
   - [2.5. Test deliverables](#TestDeliverables)
+
 
 - [3. General](#General)
   - [3.1. Glossary](#Glossary)
@@ -339,17 +341,17 @@ The following represents possible deployments which can help to determine the pe
   - Low: May or may not be implemented at all.
 
  #####DUT Setup
- The DUT should be configured to it's "default" state. The DUT's configuration or set-up must not change between tests in any way other than what is required to do the test. All supported protocols must be configured and enabled for each test set up.
+ The DUT should be configured to its "default" state. The DUT's configuration or set-up must not change between tests in any way other than what is required to do the test. All supported protocols must be configured and enabled for each test set up.
 
  #####Port Configuration
  The DUT should be configured with n ports where n is a multiple of 2. Half of the ports on the DUT should be used as ingress ports and the other half of the ports on the DUT should be used as egress ports. Where a DUT has more than 2 ports, the ingress data streams should be set-up so that they transmit packets to the egress ports in sequence so that there is an even distribution of traffic across ports. For example, if a DUT has 4 ports 0(ingress), 1(ingress), 2(egress) and 3(egress), the traffic stream directed at port 0 should output a packet to port 2 followed by a packet to port 3. The traffic stream directed at port 1 should also output a packet to port 2 followed by a packet to port 3.
 
  #####Frame formats
- Layer 2 (data link layer) protocols:
+  Layer 2 (data link layer) protocols:
 
- -  Ethernet II
+  -  Ethernet II
 
- <pre><code>
+  <pre><code>
 
   +-----------------------------+-----------------------------------------------------------------------+---------+
   |       Ethernet Header       |                                Payload                                |Check Sum|
@@ -357,13 +359,13 @@ The following represents possible deployments which can help to determine the pe
    |___________________________| |_____________________________________________________________________| |_______|
               14 Bytes                                       46 - 1500 Bytes                              4 Bytes
 
- </code></pre>
+  </code></pre>
 
- Layer 3 (network layer) protocols:
+  Layer 3 (network layer) protocols:
 
- - IPv4
+  - IPv4
 
- <pre><code>
+  <pre><code>
 
   +-----------------------------+-------------------------------------+---------------------------------+---------+
   |       Ethernet Header       |              IP Header              |             Payload             |Check Sum|
@@ -371,11 +373,11 @@ The following represents possible deployments which can help to determine the pe
    |___________________________| |___________________________________| |_______________________________| |_______|
               14 Bytes                         20 Bytes                         26 - 1480 Bytes           4 Bytes
 
- </code></pre>
+  </code></pre>
 
-- IPv6
+  - IPv6
 
- <pre><code>
+  <pre><code>
 
   +-----------------------------+-------------------------------------+---------------------------------+---------+
   |       Ethernet Header       |              IP Header              |             Payload             |Check Sum|
@@ -383,15 +385,14 @@ The following represents possible deployments which can help to determine the pe
    |___________________________| |___________________________________| |_______________________________| |_______|
               14 Bytes                         40 Bytes                         26 - 1460 Bytes           4 Bytes
 
- </code></pre>
+  </code></pre>
 
- Layer 4 (transport layer) protocols:
+  Layer 4 (transport layer) protocols:
+  - TCP
+  - UDP
+  - SCTP
 
- - TCP
- - UDP
- - SCTP
-
- <pre><code>
+  <pre><code>
 
   +-----------------------------+-------------------------------------+-----------------+---------------+---------+
   |       Ethernet Header       |              IP Header              | Layer 4 Header  |    Payload    |Check Sum|
@@ -399,14 +400,14 @@ The following represents possible deployments which can help to determine the pe
    |___________________________| |___________________________________| |_______________| |_____________| |_______|
               14 Bytes                         20 Bytes                    20 Bytes       6 - 1460 Bytes  4 Bytes
 
- </code></pre>
+  </code></pre>
 
- Layer 5 (application layer) protocols:
+  Layer 5 (application layer) protocols:
 
- - RTP
- - GTP
+  - RTP
+  - GTP
 
- <pre><code>
+  <pre><code>
 
   +-----------------------------+-------------------------------------+-----------------+---------------+---------+
   |       Ethernet Header       |              IP Header              | Layer 4 Header  |    Payload    |Check Sum|
@@ -414,69 +415,108 @@ The following represents possible deployments which can help to determine the pe
    |___________________________| |___________________________________| |_______________| |_____________| |_______|
               14 Bytes                         20 Bytes                    20 Bytes        Min 6 Bytes    4 Bytes
 
- </code></pre>
+  </code></pre>
 
- #####Packet Throughput
- There is a difference between an Ethernet frame, an IP packet, and a UDP datagram. In the seven-layer OSI model of computer networking, packet refers to a data unit at layer 3 (network layer). The correct term for a data unit at layer 2 (data link layer) is a frame, and at layer 4 (transport layer) is a segment or datagram.
+  #####Packet Throughput
+  There is a difference between an Ethernet frame, an IP packet, and a UDP datagram. In the seven-layer OSI model of computer networking, packet refers to a data unit at layer 3 (network layer). The correct term for a data unit at layer 2 (data link layer) is a frame, and at layer 4 (transport layer) is a segment or datagram.
 
- Important concepts related to 10GbE performance are frame rate and throughput. The MAC bit rate of 10GbE, defined in the IEEE standard 802 .3ae, is 10 billion bits per second. Frame rate is based on the bit rate and frame format definitions. Throughput, defined in IETF RFC 1242, is the highest rate at which the system under test can forward the offered load, without loss.
+  Important concepts related to 10GbE performance are frame rate and throughput. The MAC bit rate of 10GbE, defined in the IEEE standard 802 .3ae, is 10 billion bits per second. Frame rate is based on the bit rate and frame format definitions. Throughput, defined in IETF RFC 1242, is the highest rate at which the system under test can forward the offered load, without loss.
 
- The frame rate for 10GbE is determined by a formula that divides the 10 billion bits per second by the preamble + frame length + inter-frame gap.
+  The frame rate for 10GbE is determined by a formula that divides the 10 billion bits per second by the preamble + frame length + inter-frame gap.
 
- The maximum frame rate is calculated using the minimum values of the following parameters, as described in the IEEE 802 .3ae standard:
+  The maximum frame rate is calculated using the minimum values of the following parameters, as described in the IEEE 802 .3ae standard:
 
- - Preamble: 8 bytes * 8 = 64 bits
- -  Frame Length: 64 bytes (minimum) * 8 = 512 bits
- -  Inter-frame Gap: 12 bytes (minimum) * 8 = 96 bits
+  - Preamble: 8 bytes * 8 = 64 bits
+  -  Frame Length: 64 bytes (minimum) * 8 = 512 bits
+  -  Inter-frame Gap: 12 bytes (minimum) * 8 = 96 bits
 
- Therefore, Maximum Frame Rate (64B Frames)
+  Therefore, Maximum Frame Rate (64B Frames)
 
- = MAC Transmit Bit Rate / (Preamble + Frame Length + Inter-frame Gap)
+  = MAC Transmit Bit Rate / (Preamble + Frame Length + Inter-frame Gap)
 
- = 10,000,000,000 / (64 + 512 + 96)
+  = 10,000,000,000 / (64 + 512 + 96)
 
- = 10,000,000,000 / 672
+  = 10,000,000,000 / 672
 
- = 14,880,952.38 frame per second (fps)
+  = 14,880,952.38 frame per second (fps)
 
- #####RFC 1242 Benchmarking Terminology for Network Interconnection Devices
- RFC 1242 defines the terminology that is used in describing performance benchmarking tests and their results. Definitions and discussions covered include: Back-to-back, bridge, bridge/router, constant load, data link frame size, frame loss rate, inter frame gap, latency, and many more.
+  #####RFC 1242 Benchmarking Terminology for Network Interconnection Devices
+  RFC 1242 defines the terminology that is used in describing performance benchmarking tests and their results. Definitions and discussions covered include: Back-to-back, bridge, bridge/router, constant load, data link frame size, frame loss rate, inter frame gap, latency, and many more.
 
- #####RFC 2544 Benchmarking Methodology for Network Interconnect Devices
- RFC 2544 outlines a benchmarking methodology for network Interconnect Devices. The methodology results in performance metrics such as latency, frame loss percentage, and maximum data throughput.
+  #####RFC 2544 Benchmarking Methodology for Network Interconnect Devices
+  RFC 2544 outlines a benchmarking methodology for network Interconnect Devices. The methodology results in performance metrics such as latency, frame loss percentage, and maximum data throughput.
 
- In this document network “throughput” (measured in millions of frames per second) is based on RFC 2544, unless otherwise noted. Frame size refers to Ethernet frames ranging from smallest frames of 64 bytes to largest frames of 4K bytes.
+  In this document network “throughput” (measured in millions of frames per second) is based on RFC 2544, unless otherwise noted. Frame size refers to Ethernet frames ranging from smallest frames of 64 bytes to largest frames of 4K bytes.
 
- Types of tests are:
- 1.	Throughput test defines the maximum number of frames per second that can be transmitted without any error.
- 2.	Latency test measures the time required for a frame to travel from the originating device through the network to the destination device. Please note that note RFC2544 Latency measurement will be superseded with a measurement of average latency over all successfully transferred packets or frames.
- 3.	Frame loss test measures the network’s response in overload conditions - a critical indicator of the network’s ability to support real-time applications in which a large amount of frame loss will rapidly degrade service quality.
- 4.	Burst test assesses the buffering capability of a switch. It measures the maximum number of frames received at full line rate before a frame is lost. In carrier Ethernet networks, this measurement validates the excess information rate (EIR) as defined in many SLAs.
- 5.	System recovery to characterize speed of recovery from an overload condition
- 6.	Reset to characterize speed of recovery from device or software reset. This type of test has been updated by [RFC 6201] as such, the methodology defined by this specification will be that of RFC 6201.
+  Types of tests are:
+  1.	Throughput test defines the maximum number of frames per second that can be transmitted without any error.
+  2.	Latency test measures the time required for a frame to travel from the originating device through the network to the destination device. Please note that note RFC2544 Latency measurement will be superseded with a measurement of average latency over all successfully transferred packets or frames.
+  3.	Frame loss test measures the network’s response in overload conditions - a critical indicator of the network’s ability to support real-time applications in which a large amount of frame loss will rapidly degrade service quality.
+  4.	Burst test assesses the buffering capability of a switch. It measures the maximum number of frames received at full line rate before a frame is lost. In carrier Ethernet networks, this measurement validates the excess information rate (EIR) as defined in many SLAs.
+  5.	System recovery to characterize speed of recovery from an overload condition
+  6.	Reset to characterize speed of recovery from device or software reset. This type of test has been updated by [RFC6201] as such, the methodology defined by this specification will be that of RFC 6201.
 
- Although not included in the defined RFC 2544 standard, another crucial measurement in Ethernet networking is packet delay variation. The definition set out by this specification comes from [RFC 5481].
+  Although not included in the defined RFC 2544 standard, another crucial measurement in Ethernet networking is packet delay variation. The definition set out by this specification comes from [RFC5481].
 
- #####RFC 2285 Benchmarking Terminology for LAN Switching Devices
- RFC 2285 defines the terminology that is used to describe the terminology for benchmarking a LAN switching device. It extends RFC 1242 and defines: DUTs, SUTs, Traffic orientation and distribution, bursts, loads, forwarding rates, etc.
+  #####RFC 2285 Benchmarking Terminology for LAN Switching Devices
+  RFC 2285 defines the terminology that is used to describe the terminology for benchmarking a LAN switching device. It extends RFC 1242 and defines: DUTs, SUTs, Traffic orientation and distribution, bursts, loads, forwarding rates, etc.
 
- #####RFC 2889 Benchmarking Methodology for LAN Switching
- RFC 2889 outlines a benchmarking methodology for LAN switching, it extends RFC 2544. The outlined methodology gathers performance metrics for forwarding, congestion control, latency, address handling and finally filtering.
+  #####RFC 2889 Benchmarking Methodology for LAN Switching
+  RFC 2889 outlines a benchmarking methodology for LAN switching, it extends RFC 2544. The outlined methodology gathers performance metrics for forwarding, congestion control, latency, address handling and finally filtering.
 
- #####RFC 3918 Methodology for IP Multicast Benchmarking
- RFC 3918 outlines a methodology for IP Multicast benchmarking.
+  #####RFC 3918 Methodology for IP Multicast Benchmarking
+  RFC 3918 outlines a methodology for IP Multicast benchmarking.
 
- #####RFC 4737 Packet Reordering Metrics
- RFC 4737 describes metrics for identifying and counting re-ordered packets within a stream, and metrics to measure the extent each packet has been re-ordered.
+  #####RFC 4737 Packet Reordering Metrics
+  RFC 4737 describes metrics for identifying and counting re-ordered packets within a stream, and metrics to measure the extent each packet has been re-ordered.
 
- #####RFC 5481 Packet Delay Variation Applicability Statement
- RFC 5481 defined two common, but different forms of delay variation metrics, and compares the metrics over a range of networking circumstances and tasks. The most suitable form for vSwitch benchmarking is the "PDV" form.
+  #####RFC 5481 Packet Delay Variation Applicability Statement
+  RFC 5481 defined two common, but different forms of delay variation metrics, and compares the metrics over a range of networking circumstances and tasks. The most suitable form for vSwitch benchmarking is the "PDV" form.
 
- #####RFC 6201 Device Reset Characterization
- RFC 6201 extends the methodology for characterizing the speed of recovery of the DUT from device or software reset described in RFC 2544.
+  #####RFC 6201 Device Reset Characterization
+  RFC 6201 extends the methodology for characterizing the speed of recovery of the DUT from device or software reset described in RFC 2544.
+
+
+<a name="TestIdentification"></a>
+###2.3. Test identification
+  <a name="ThroughputTests"></a>
+  ####2.3.1 Throughput tests
+  The following tests aim to determine the maximum forwarding rate that can be achieved with a virtual switch.
+
+  The following list is not exhaustive but should indicate the type of tests that should be required. It is expected that more will be added.
+
+  - #####Test ID: LTD.Throughput.RFC2544.PacketLossRatio
+
+  **Title**: RFC 2544 X% packet loss ratio Throughput and Latency Test
+
+  **Prerequisite Test**: N/A
+
+  **Priority**:
+
+  **Description**:
+
+  This test determines the DUT's maximum forwarding rate with X% traffic loss for a constant load (fixed length frames at a fixed interval time). The default loss percentages to be tested are:
+    - X = 0%
+    - X = 10^-7%
+  Note: Other values can be tested if required by the user.
+  The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams). The test can also be used to determine the average latency of the traffic.
+
+  Under the [RFC2544] test methodology, the test duration will include a number of trials; each trial should run for a minimum period of 60 seconds. A binary search methodology must be applied for each trial to obtain the final result.
+
+  **Expected Result**:
+  At the end of each trial, the presence or absence of loss determines the modification of offered load for the next trial, converging on a maximum rate, or [RFC2544] Throughput with X% loss. The Throughput load is re-used in related [RFC2544] tests and other tests.
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - The maximum forwarding rate in Frames Per Second (FPS) and Mbps of the DUT for each frame size with X% packet loss.
+   - The average latency of the traffic flow when passing through the DUT (if testing for latency, note that this average is different from the test specified in Section 26.3 of [RFC2544]).
+
+<br/>
 
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
-[RFC5481]:(http://www.ietf.org/rfc/rfc5482.txt)
+[RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
+[RFC5481]:(http://www.ietf.org/rfc/rfc5481.txt)
+[RFC6201]:(http://www.ietf.org/rfc/rfc6201.txt)
 [DPDK]:http://www.dpdk.org/
-[RFC 6201]:http://tools.ietf.org/html/rfc6201
-[RFC 5481]:http://tools.ietf.org/html/rfc5481
