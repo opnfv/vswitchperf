@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_e2e3e203",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-11T14:45:27Z",
+      "side": 1,
+      "message": "suggest:\ns/throughput distribution/Throughput stability/\n\n(in RFC2544, Throughput is capitalized to refer to the named benchmark that characterizes the max loss-less frame rate,\nsuggest we use that term.)",
+      "revId": "975638611f83cd549a8270d32b6d3975cb2a7b84",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_c2f0e6cb",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-11T14:45:27Z",
+      "side": 1,
+      "message": "suggest:\ns/throughput distribution/Throughput stability/",
+      "revId": "975638611f83cd549a8270d32b6d3975cb2a7b84",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_82a1beab",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-11T14:45:27Z",
+      "side": 1,
+      "message": "- Any unexpected variation in Throughput stability",
+      "revId": "975638611f83cd549a8270d32b6d3975cb2a7b84",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
