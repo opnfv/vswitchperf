@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_e23be236",
+        "filename": "src/package-list.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-11T21:40:26Z",
+      "side": 1,
+      "message": "this wouldn\u0027t work for me, http repo is a safer bet as it\u0027s unlikey to be blocked by firewalls (http://dpdk.org/git/dpdk)",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "3d6b0f7086ee958daadbb2491edd06402d86f13c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
