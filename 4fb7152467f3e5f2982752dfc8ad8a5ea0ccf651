@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_02ddae70",
+        "filename": "src/dpdk/Makefile",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 325
+      },
+      "writtenOn": "2015-03-11T09:51:05Z",
+      "side": 1,
+      "message": "Why not the following?\n\n    git clean -xfd\n    git checkout -f\n\nThis deletes all the files that aren\u0027t in the upstream (including those hidden by .gitignore) and ensures any deleted/modified files are restored to their original form.",
+      "revId": "4fb7152467f3e5f2982752dfc8ad8a5ea0ccf651",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
