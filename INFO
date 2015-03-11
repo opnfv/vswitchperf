@@ -1,15 +1,16 @@
 
-haracterize vSwitch Performance for Telco NFV Use Cases
+Project: Characterize vSwitch Performance for Telco NFV Use Cases
 Creation Date: December 16th, 2014
 Category: Integration & Testing
 Lifecycle State: Incubation
 Primary Contact: Mike Lynch
 Project Lead: maryam.tahhan@intel.com
 Jira name vSwitch Characterization Project
-JIRA tag : VSPERF                                                                                                                  mailing list tag: [vsperf]
+JIRA tag : VSPERF
+Mailing list tag: [vsperf]
 Repository: vswitchperf
 
-Submitters:
+Commiters:
 maryam.tahhan@intel.com
 chenjinzhou@huawei.com
 randy.wang@huawei.com
