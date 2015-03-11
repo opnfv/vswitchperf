@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_22142af4",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-11T14:17:34Z",
+      "side": 1,
+      "message": "I suggest that we add the average Latency metric measurement, \nrecord the average for 100 frames after the last frame loss.\n(The point being that loss is not the only impairment encountered. Ideally, we could continue to make average latency measurements on 100 packet sets, and record the time when latency returns to pre-overload levels.)",
+      "revId": "4d2117eaf087c4439e458df4dad4cc56bbcded47",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
