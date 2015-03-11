@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_22b0aaf3",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-11T14:55:43Z",
+      "side": 1,
+      "message": "Tests of back-to-back frames with physical devices have produced unstable results in some cases.  All tests should be repeated in multiple test sessions and results stability should be examined.",
+      "revId": "bb5d4c78398e86583f7789a3231d80735e2ed80b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_42abb689",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-11T14:55:43Z",
+      "side": 1,
+      "message": "..., which is the the number of frames in the longest burst\n   that the DUT will handle without the loss of any frames.",
+      "revId": "bb5d4c78398e86583f7789a3231d80735e2ed80b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
