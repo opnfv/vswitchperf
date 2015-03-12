@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a045101_025ece45",
+        "filename": "src/Makefile",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-12T17:21:11Z",
+      "side": 1,
+      "message": "Maryam, what you observed is expected behavior. For simple make, you never have to supply anything, just run \u0027make\u0027 is enough. \u0027make dpdk\u0027 is just one step for the goal \u0027all\u0027.",
+      "parentUuid": "3a045101_225f8a74",
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a045101_62659244",
         "filename": "src/dpdk/Makefile",
         "patchSetId": 7
@@ -30,6 +48,30 @@
       "writtenOn": "2015-03-12T10:29:45Z",
       "side": 1,
       "message": "KNI was causing the 1.6.0 build to fail...\nfix would be to $(AT)sed -i \u0027s/CONFIG_RTE_LIBRTE_KNI\u003dy\n/CONFIG_RTE_LIBRTE_KNI\u003dn/g\u0027 $(CONFIG_FILE)",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 5
+      },
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_e25ac24f",
+        "filename": "src/dpdk/Makefile",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-12T17:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a045101_62659244",
       "range": {
         "startLine": 58,
         "startChar": 3,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "3a045101_c257c625",
+        "filename": "src/mk/master.mk",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-12T17:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a045101_e269a226",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a045101_2288aae6",
         "filename": "src/ovs/Makefile",
         "patchSetId": 7
@@ -76,6 +142,30 @@
       "writtenOn": "2015-03-12T10:29:45Z",
       "side": 1,
       "message": "file permissions on this file are not correct.",
+      "range": {
+        "startLine": 1,
+        "startChar": 14,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_a254ba21",
+        "filename": "src/ovs/Makefile",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-12T17:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a045101_2288aae6",
       "range": {
         "startLine": 1,
         "startChar": 14,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "3a045101_8231be0d",
+        "filename": "src/ovs/Makefile",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-12T17:21:11Z",
+      "side": 1,
+      "message": "both clean and clobber are common make-goals and would be used frequently by developers. Over here, I made both goals to perform same actions.",
+      "parentUuid": "3a045101_026dae32",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 5
+      },
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a045101_a2739a14",
         "filename": "src/package-list.mk",
         "patchSetId": 7
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "3a045101_423bb6eb",
+        "filename": "src/package-list.mk",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-12T17:21:11Z",
+      "side": 1,
+      "message": "I put it here since this file would mostly be updated as more packages are added. It is relatively simple edit and would be easier to find when it is at the top level. The rest of the .mk files are in the mk directory to avoid too many files scattered around the top level. They are also relatively stable and need not much changes.",
+      "parentUuid": "3a045101_a2739a14",
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a045101_82609e36",
         "filename": "src/package-list.mk",
         "patchSetId": 7
@@ -139,6 +271,24 @@
       "writtenOn": "2015-03-12T10:29:45Z",
       "side": 1,
       "message": "KNI build fails. I specified a fix in the dpdk/Makefile",
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_6236b205",
+        "filename": "src/package-list.mk",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-12T17:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a045101_82609e36",
       "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
