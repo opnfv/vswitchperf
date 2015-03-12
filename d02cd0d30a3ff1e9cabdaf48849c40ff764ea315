@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_225f8a74",
+        "filename": "src/Makefile",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-12T10:29:45Z",
+      "side": 1,
+      "message": "something not quite right here, make DPDK in src only cloning DPDK, was this the intention? I\u0027m not sure if .DEFAULT_GOAL :\u003d all is being picked up correctly in mk/subdirs.mk",
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_62659244",
+        "filename": "src/dpdk/Makefile",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-12T10:29:45Z",
+      "side": 1,
+      "message": "KNI was causing the 1.6.0 build to fail...\nfix would be to $(AT)sed -i \u0027s/CONFIG_RTE_LIBRTE_KNI\u003dy\n/CONFIG_RTE_LIBRTE_KNI\u003dn/g\u0027 $(CONFIG_FILE)",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 5
+      },
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_e269a226",
+        "filename": "src/mk/master.mk",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-12T10:29:45Z",
+      "side": 1,
+      "message": "typo still not",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_2288aae6",
+        "filename": "src/ovs/Makefile",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-12T10:29:45Z",
+      "side": 1,
+      "message": "file permissions on this file are not correct.",
+      "range": {
+        "startLine": 1,
+        "startChar": 14,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_026dae32",
+        "filename": "src/ovs/Makefile",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-12T10:29:45Z",
+      "side": 1,
+      "message": "should call clobber? I think",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 5
+      },
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_a2739a14",
+        "filename": "src/package-list.mk",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-12T10:29:45Z",
+      "side": 1,
+      "message": "Question: why is this not in src/mk/ with the other .mk files?",
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_82609e36",
+        "filename": "src/package-list.mk",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-12T10:29:45Z",
+      "side": 1,
+      "message": "KNI build fails. I specified a fix in the dpdk/Makefile",
+      "revId": "d02cd0d30a3ff1e9cabdaf48849c40ff764ea315",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
