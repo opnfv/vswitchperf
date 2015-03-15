@@ -43,6 +43,7 @@ apt-get -y install libcurl4-openssl-dev
 apt-get -y install autoconf libtool
 apt-get -y install libpcap-dev
 apt-get -y install libglib2.0
+apt-get -y install libfuse-dev
 
 # Some useful tools you may optionally install
 #apt-get -y install ctags
