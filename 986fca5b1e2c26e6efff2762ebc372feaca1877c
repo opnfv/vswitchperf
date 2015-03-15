@@ -16,6 +16,24 @@
       "revId": "986fca5b1e2c26e6efff2762ebc372feaca1877c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_252554ab",
+        "filename": "systems/CentOS/build_base_machine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-15T19:39:59Z",
+      "side": 1,
+      "message": "Actually, your title implies this will be a CentOS build, so Ubuntu?",
+      "parentUuid": "3a045101_652b5c83",
+      "revId": "986fca5b1e2c26e6efff2762ebc372feaca1877c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
