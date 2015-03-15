@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_652b5c83",
+        "filename": "systems/CentOS/build_base_machine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-03-15T19:36:58Z",
+      "side": 1,
+      "message": "Hi Aihua, it would be good to menton version #, 14.04 or your target #.",
+      "revId": "986fca5b1e2c26e6efff2762ebc372feaca1877c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
