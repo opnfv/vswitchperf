@@ -34,6 +34,42 @@
       "revId": "986fca5b1e2c26e6efff2762ebc372feaca1877c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_c53350f5",
+        "filename": "systems/CentOS/build_base_machine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-15T20:23:53Z",
+      "side": 1,
+      "message": "Thanks for catching this. Revised.",
+      "parentUuid": "3a045101_252554ab",
+      "revId": "986fca5b1e2c26e6efff2762ebc372feaca1877c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_e5364ce7",
+        "filename": "systems/CentOS/build_base_machine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-15T20:23:53Z",
+      "side": 1,
+      "message": "Our project decided to go with CentOS 7. The script itself is not limited to a single CentOS version.",
+      "parentUuid": "3a045101_652b5c83",
+      "revId": "986fca5b1e2c26e6efff2762ebc372feaca1877c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
