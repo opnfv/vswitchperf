@@ -50,6 +50,12 @@ clobber:
 cleanse:
 	$(AT)cd $(WORK_DIR) && git clean -xfd && git checkout -f
 
+test:
+	@echo "Make test in $(WORK_DIR) (stub) "
+
+sanity:
+	@echo "Make sanity in $(WORK_DIR) (stub) "
+
 $(WORK_DIR):
 	$(AT)git clone $(DPDK_URL)
 
