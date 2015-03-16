@@ -66,6 +66,12 @@ clobber:
 cleanse:
 	$(AT)cd $(WORK_DIR) && git clean -xfd && git checkout -f
 
+test: 
+	@echo "Make test in $(WORK_DIR) (stub) "
+
+sanity: 
+	@echo "Make sanity in $(WORK_DIR) (stub) "
+
 .PHONY: boot
 # boot ovs is the process to produce the script 'configure'
 boot $(WORK_DIR)/configure:
