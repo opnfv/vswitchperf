@@ -681,6 +681,59 @@ The following represents possible deployments which can help to determine the pe
    - Any unexpected variation in Throughput stability.
 
 <br/>
+
+ - #####Test ID: LTD.Throughput.RFC6201.ResetTime
+  **Title**: RFC 6201 Reset Time Test
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to determine the length of time it takes the DUT to recover from a reset. For each frame size previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent to the DUT under normal conditions. During the duration of the test and while the traffic flows are passing through the DUT, the DUT should be reset and the Reset time measured. The Reset time is the total time that a device is determined to be out of operation and includes the time to perform the reset and the time to recover from it (cf. [RFC6201]) 
+
+  [RFC6201] defines two methods to measure the Reset time:
+    - Frame-Loss Method: which requires the monitoring of the number of lost frames and calculates the Reset time based on the number of frames lost and the offered rate according to the following formula:
+  <pre><code>
+                              Frames_lost (packets)
+          Reset_time = -------------------------------------
+                         Offered_rate (packets per second)
+  </code></pre>
+    - Timestamp Method: which measures the time from which the last frame is forwarded from the DUT to the time the first frame is forwarded after the reset. This involves time-stamping all transmitted frames and recording the timestamp of the last frame that was received prior to the reset and also measuring the timestamp of the first frame that is received after the reset. The Reset time is the difference between these two timestamps.
+
+  According to [RFC6201] the choice of method depends on the test tool's capability; the Frame-Loss method SHOULD be used if the test tool supports:
+    - Counting the number of lost frames per stream.
+    - Transmitting test frame despite the physical link status.
+
+  whereas the Timestamp method SHOULD be used if the test tool supports:
+    - Timestamping each frame.
+    - Monitoring received frame's timestamp.
+    - Transmitting frames only if the physical link status is up.
+
+  **Expected Result**:
+
+  **Metrics collected**
+
+  The following are the metrics collected for this test:
+   - Average Reset Time.
+
+  Results of this test should include the following information:
+   - Throughput in Fps and Mbps.
+   - Average Frame Loss.
+   - Average Reset Time in milliseconds.
+   - Number of trials.
+   - Protocol: IPv4, IPv6, MPLS, etc.
+   - Frame Size in Octets
+   - Port Media: Ethernet, Gigabit Ethernet (GbE), etc.
+   - Port Speed: 10 Gbps, 40 Gbps etc.
+   - Interface Encapsulation: Ethernet, Ethernet VLAN, etc.
+
+  **Deployment scenario**:
+
+   - Physical → virtual switch → physical.
+
+<br/>
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC5481]:(http://www.ietf.org/rfc/rfc5481.txt)
