@@ -498,7 +498,9 @@ The following represents possible deployments which can help to determine the pe
   This test determines the DUT's maximum forwarding rate with X% traffic loss for a constant load (fixed length frames at a fixed interval time). The default loss percentages to be tested are:
     - X = 0%
     - X = 10^-7%
+
   Note: Other values can be tested if required by the user.
+
   The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams). The test can also be used to determine the average latency of the traffic.
 
   Under the [RFC2544] test methodology, the test duration will include a number of trials; each trial should run for a minimum period of 60 seconds. A binary search methodology must be applied for each trial to obtain the final result.
@@ -526,7 +528,9 @@ The following represents possible deployments which can help to determine the pe
   This test determines the DUT's maximum forwarding rate with X% traffic loss for a constant load (fixed length frames at a fixed interval time). The default loss percentages to be tested are:
     - X = 0%
     - X = 10^-7%
+
   Note: Other values can be tested if required by the user.
+
   The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams). The test can also be used to determine the average latency of the traffic.
 
   Under the [RFC2544] test methodology, the test duration will include a number of trials; each trial should run for a minimum period of 60 seconds. A binary search methodology must be applied for each trial to obtain the final result.
@@ -625,6 +629,46 @@ The following represents possible deployments which can help to determine the pe
     - X = 10^-7%
 
   Note: Other values can be tested if required by the user.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - Throughput stability of the DUT.
+   - Any outliers in the Throughput stability.
+   - Any unexpected variation in Throughput stability.
+
+<br/>
+
+  - #####Test ID: LTD.Throughput.RFC2544.SoakFrameModification
+  **Title**: RFC 2544 X% packet loss Throughput Soak Test with Frame Modification
+
+  **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatioFrameModification
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to understand the Throughput stability over an extended test duration in order to uncover any outliers. To allow for an extended test duration, the test should ideally run for 24 hours or, if this is not possible, for at least 6 hour. For this test, each frame size must be sent at the highest Throughput with X% packet loss, as determined in the prerequisite test. The default loss percentages to be tested are:
+    - X = 0%
+    - X = 10^-7%
+
+  Note: Other values can be tested if required by the user.
+
+  During this test, the DUT must perform the following operations on the traffic flow:
+
+   - Perform packet parsing on the DUT's ingress port.
+   - Perform any relevant address look-ups on the DUT's ingress ports.
+   - Modify the packet header before forwarding the packet to the DUT's egress port. Packet modifications include:
+     - Modifying the Ethernet source or destination MAC address.
+     - Modifying/adding a VLAN tag.
+     - Modifying/adding a MPLS tag.
+     - Modifying the source or destination ip address.
+     - Modifying the TOS/DSCP field.
+     - Modifying the source or destination ports for UDP/TCP/SCTP  (Recommended).
+     - Modifying the TTL.
 
   **Expected Result**:
 
