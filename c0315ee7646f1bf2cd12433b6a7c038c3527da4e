@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_500c9c94",
+        "filename": "src/package-list.mk",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-03-25T18:23:12Z",
+      "side": 1,
+      "message": "master is not a tag. it changes from day to day. We would not get consistent and repeatable build result. Please use a commit ID da79ce2b71dd879e7f20fdddc715568f6a74185a until ovs2.4 is ready.",
+      "revId": "c0315ee7646f1bf2cd12433b6a7c038c3527da4e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
