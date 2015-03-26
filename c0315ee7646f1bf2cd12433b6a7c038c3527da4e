@@ -16,6 +16,24 @@
       "revId": "c0315ee7646f1bf2cd12433b6a7c038c3527da4e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_30bb5074",
+        "filename": "src/package-list.mk",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-03-26T09:03:33Z",
+      "side": 1,
+      "message": "to build it\u0027s stable enough, but I will add the particular commit",
+      "parentUuid": "3a045101_500c9c94",
+      "revId": "c0315ee7646f1bf2cd12433b6a7c038c3527da4e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
