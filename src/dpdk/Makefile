@@ -62,6 +62,6 @@ $(WORK_DIR):
 $(TAG_DONE_FLAG): $(WORK_DIR)
 	$(AT)cd $(WORK_DIR); git checkout $(DPDK_TAG)
 	$(AT)sed -i 's/CONFIG_RTE_BUILD_COMBINE_LIBS=n/CONFIG_RTE_BUILD_COMBINE_LIBS=y/g' $(CONFIG_FILE)
-	# KNI was causing the 1.6.0 build to fail
+	$(AT)sed -i 's/CONFIG_RTE_LIBRTE_VHOST=n/CONFIG_RTE_LIBRTE_VHOST=y/g' $(CONFIG_FILE)
 	$(AT)sed -i 's/CONFIG_RTE_LIBRTE_KNI=y /CONFIG_RTE_LIBRTE_KNI=n/g' $(CONFIG_FILE)
 	$(AT)touch $@
