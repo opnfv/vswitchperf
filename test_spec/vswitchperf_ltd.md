@@ -761,7 +761,31 @@ The following represents possible deployments which can help to determine the pe
    - The Max Forwarding Rate for the DUT for each packet size.
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2889.ForwardPressure
+  **Title**: RFC2889 Forward Pressure Test
 
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to determine if the DUT transmits frames with an inter-frame gap that is less than 12 bytes. This test overloads the DUT and measures the output for forward pressure. Traffic should be transmitted to the DUT with an inter-frame gap of 11 bytes, this will overload the DUT by 1 byte per frame. The forwarding rate of the DUT should be measured.
+
+  **Expected Result**:
+  The forwarding rate should not exceed the maximum forwarding rate of the DUT.
+
+  **Metrics collected**
+
+  The following are the metrics collected for this test:
+
+   - Forwarding rate of the DUT.
+
+  **Deployment scenario**:
+
+   - Physical → virtual switch → physical.
+
+<br/>
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC2885]:(http://www.ietf.org/rfc/rfc2885.txt)
