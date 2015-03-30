@@ -815,6 +815,30 @@ The following represents possible deployments which can help to determine the pe
    - Physical → virtual switch → physical.
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2889.AddressLearningRate
+  **Title**: RFC2889 Address Learning Rate Test
+
+  **Prerequisite Test**: LTD.Memory.RFC2889.AddressCachingCapacity
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to determine the rate of address learning of the DUTfor a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent with each IPv4 address incremented by one. The rate at which the DUT learns a new address should be measured. The maximum caching capacity from LTD.Memory.RFC2889.AddressCachingCapacity should be taken into consideration as the maximum number of addresses for which the learning rate can be obtained.
+
+  **Expected Result**:
+
+  **Metrics collected**:
+
+  The following are the metrics collected for this test:
+
+   - The address learning rate of the DUT.
+
+  **Deployment scenario**:
+
+   - Physical → virtual switch → physical.
+
+<br/>
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC2885]:(http://www.ietf.org/rfc/rfc2885.txt)
