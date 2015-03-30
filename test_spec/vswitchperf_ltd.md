@@ -734,8 +734,34 @@ The following represents possible deployments which can help to determine the pe
    - Physical → virtual switch → physical.
 
 <br/>
+
+ - #####Test ID: LTD.Throughput.RFC2889.ForwardingRate
+
+  **Title**: RFC2889 Forwarding Rate Test
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  This test determines the DUT's maximum forwarding rate for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent to the DUT under normal conditions.
+
+  The test duration should last for the period of time needed for the system to reach steady state for the frame size being tested. Under [RFC2889] test methodology, the test duration should run for a minimum period of 30 seconds, regardless it the system reaches steady state before the minimum duration ends.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - The maximum possible forwarding rate for the DUT for each packet size.
+
+<br/>
+
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
+[RFC2889]:(http://www.ietf.org/rfc/rfc2889.txt)
 [RFC5481]:(http://www.ietf.org/rfc/rfc5481.txt)
 [RFC6201]:(http://www.ietf.org/rfc/rfc6201.txt)
 [DPDK]:http://www.dpdk.org/
