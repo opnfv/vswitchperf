@@ -872,6 +872,26 @@ The following represents possible deployments which can help to determine the pe
    - Physical → virtual switch → physical.
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2889.BroadcastFrameForwarding
+  **Title**: RFC2889 Broadcast Frame Forwarding Test
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to determine the maximum forwarding rate of the DUT when forwarding broadcast traffic. For each frame previously defined under [Default Test Parameters](#DefaultParams), the traffic should be set up as broadcast traffic. The traffic throughput of the DUT should be measured.
+
+  **Expected Result**:
+
+  **Metrics collected**
+
+  The following are the metrics collected for this test:
+
+   - The forwarding rate of the DUT when forwarding broadcast traffic.
+
+----
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC2885]:(http://www.ietf.org/rfc/rfc2885.txt)
