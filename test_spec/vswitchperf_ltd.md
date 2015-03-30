@@ -831,6 +831,37 @@ The following represents possible deployments which can help to determine the pe
    - Physical → virtual switch → physical.
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2889.ErrorFramesFiltering
+  **Title**: RFC2889 Error Frames Filtering Test
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to determine whether the DUT will propagate any erroneous frames it receives or whether it is capable of filtering out the erroneous frames. Traffic should be sent with erroneous frames included within the flow at random intervals. Illegal frames that must be tested include:
+    - Undersize Frames.
+    - Oversize Frames.
+    - CRC error frames.
+    - Fragment Frames.
+
+  The traffic flow exiting the DUT should be recorded and checked to determine if the erroneous frames where passed through the DUT.
+
+  **Expected Result**:
+
+  **Metrics collected**
+
+  No Metrics are collected in this test, instead it determines:
+
+   - Whether the DUT will propagate erroneous frames.
+   - Or whether the DUT will correctly filter out any erroneous frames from traffic flow with out removing correct frames.
+
+  **Deployment scenario**:
+
+   - Physical → virtual switch → physical.
+
+<br/>
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC2889]:(http://www.ietf.org/rfc/rfc2889.txt)
