@@ -783,6 +783,30 @@ The following represents possible deployments which can help to determine the pe
    - Physical → virtual switch → physical.
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2889.AddressCachingCapacity
+  **Title**: RFC2889 Address Caching Capacity Test
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to determine the address caching capacity of the DUT for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent under normal conditions. The number of addresses cached by the DUT during the test duration should be measured to determine the address caching capacity of the DUT.
+
+  **Expected Result**:
+
+  **Metrics collected**:
+
+  The following are the metrics collected for this test:
+
+   - Number of addresses supported by the DUT.
+
+  **Deployment scenario**:
+
+   - Physical → virtual switch → physical.
+
+<br/>
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC2889]:(http://www.ietf.org/rfc/rfc2889.txt)
