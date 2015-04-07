@@ -734,8 +734,38 @@ The following represents possible deployments which can help to determine the pe
    - Physical → virtual switch → physical.
 
 <br/>
+
+ - #####Test ID: LTD.Throughput.RFC2889.ForwardingRate
+
+  **Title**: RFC2889 Forwarding Rate Test
+
+  **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatio
+
+  **Priority**:
+
+  **Description**:
+
+  This test measures the DUT's maximum forwarding rate when the Offered Load is varied between the throughput and the Maximum Offered Load for fixed length frames at a fixed time interval. The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams). The throughput is the maximum offered load with 0% frame loss (measured by the prerequisite test), and the Maximum Offered Load (as defined by [RFC2885]) is _"the highest number of frames per second that an external source can transmit to a DUT/SUT for forwarding to a specified output interface or interfaces"_.
+
+  Traffic should be sent to the DUT at a particular rate (TX rate) starting with TX rate equal to the throughput rate. The rate of successfully received frames at the destination counted (in FPS). If the RX rate is equal to the TX rate, the TX rate should be increased by a fixed step size and the RX rate measured again until the Max Forwarding Rate is found.
+
+  The trial duration for each iteration should last for the period of time needed for the system to reach steady state for the frame size being tested. Under [RFC2889] test methodology, the test duration should run for a minimum period of 30 seconds, regardless whether the system reaches steady state before the minimum duration ends.
+
+  **Expected Result**:
+  According to [RFC2889] The Max Forwarding Rate is the highest forwarding rate of a DUT taken from an iterative set of forwarding rate measurements. The iterative set of forwarding rate measurements are made by setting the intended load for a traffic generator and measuring the offered load (i.e what the DUT is capable of forwarding). If the Throughput == the Maximum Offered Load, it follows that Max Forwarding Rate is equal to the Maximum Offered Load.
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - The Max Forwarding Rate for the DUT for each packet size.
+
+<br/>
+
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
+[RFC2885]:(http://www.ietf.org/rfc/rfc2885.txt)
+[RFC2889]:(http://www.ietf.org/rfc/rfc2889.txt)
 [RFC5481]:(http://www.ietf.org/rfc/rfc5481.txt)
 [RFC6201]:(http://www.ietf.org/rfc/rfc6201.txt)
 [DPDK]:http://www.dpdk.org/
