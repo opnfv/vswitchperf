@@ -786,6 +786,35 @@ The following represents possible deployments which can help to determine the pe
    - Physical → virtual switch → physical.
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2889.AddressCachingCapacity
+  **Title**: RFC2889 Address Caching Capacity Test
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to determine the address caching capacity of the DUT for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams). 
+
+  In order to run this test the aging time, that is the maximum time the DUT will keep a learned address in its flow table, and a set of initial addresses, whose value should be >= 1 and <= the max number supported by the implementation must be known. Please note that if the aging time is configurable it must be longer than the time necessary to produce frames from the external source at the specified rate. If the aging time is fixed the frame rate must be brought down to a value that the external source can produce in a time that is less than the aging time.
+
+  Learning Frames should be sent from an external source to the DUT to install a number of flows. The Learning Frames must have a fixed destination address and must vary the source address of the frames. The DUT should install flows in its flow table based on the varying source addresses.
+  Frames should then be transmitted from an external source at a suitable frame rate to see if the DUT has properly learned all of the addresses. If there is no frame loss and no flooding, the number of addresses sent to the DUT should be increased and the test is repeated until the max number of cached addresses supported by the DUT determined. 
+
+  **Expected Result**:
+
+  **Metrics collected**:
+
+  The following are the metrics collected for this test:
+
+   - Number of cached addresses supported by the DUT.
+
+  **Deployment scenario**:
+
+   - Physical → virtual switch → physical.
+
+<br/>
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC2885]:(http://www.ietf.org/rfc/rfc2885.txt)
