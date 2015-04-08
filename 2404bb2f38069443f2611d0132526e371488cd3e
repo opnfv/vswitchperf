@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_e3764106",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-04-08T19:33:34Z",
+      "side": 1,
+      "message": "Hi Aihua, (responding to your comment which I can\u0027t find here)\nthe vSw could be programmed under openflow to behave as an L2 learning Sw.  There might be a case where we need a \u003e2-port vSw to verify correct flooding behavior, but that seems to be a different test.",
+      "revId": "2404bb2f38069443f2611d0132526e371488cd3e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
