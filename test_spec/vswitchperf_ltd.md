@@ -924,6 +924,33 @@ The following represents possible deployments which can help to determine the pe
  **Deployment scenario**:
  
   - Physical → Virtual Switch → Physical.
+
+<br/>
+ - #####Test ID: LTD.PacketLatency.Fastpath
+  **Title**: Fastpath Packet Delay
+
+  **Prerequisite**: LTD.Throughput.RFC2544.PacketLossRatio
+  
+  **Priority**:
+
+  **Description**:
+
+  In some virtual switch architectures, the first packets of a flow will take the system longer to process than subsequent packets in the flow. This test determines the latency of packets that are processed by the DUT's fastpath. The DUT must be setup with a particular stream's flow already established. Then flows of each frame size (previously defined under [Default Test Parameters](#DefaultParams)) are passed through the system and the average latency measured.
+
+  Each frame size must be sent at the highest throughput with 0% packet loss, as determined in the prerequisite test.
+
+  The test should run for a minimum period of 6 hours.
+
+  Although this test can be run as a separate test, the test is can also be covered the LTD.Throughput.RFC2544.PacketLossRatio test, as this also measures latency.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+  - Average latency of packets that are processed by the fastpath of the DUT.
+
 <br/>
 ----
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
