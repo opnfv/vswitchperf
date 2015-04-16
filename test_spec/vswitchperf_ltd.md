@@ -891,6 +891,40 @@ The following represents possible deployments which can help to determine the pe
 
    - The forwarding rate of the DUT when forwarding broadcast traffic.
 
+<br/>
+----
+<a name="LatencyTests"></a>
+####2.3.2 Packet Latency tests
+  These tests will measure the store and forward latency as well as the packet delay variation for various packet types through the virtual switch.
+
+  The following list is not exhaustive but should indicate the type of tests that should be required. It is expected that more will be added.
+
+ - #####Test ID: LTD.PacketLatency.Slowpath
+  **Title**: Slow-path Packet Delay
+
+   **Prerequisite Test**: N\A
+  
+  **Priority**:
+
+  **Description**:
+
+  In some virtual switch architectures, the first packets of a flow will take the system longer to process than subsequent packets in the flow. This test determines the latency for these packets. The test will measure the latency of the packets as they are processed by the slow-path of the DUT. This test will send a single packet to the DUT after a fixed interval of time. The time interval will be equivalent to the amount of time it takes for a flow to time out in the virtual switch. Average packet latency will be determined over 1,000,000 packets.
+
+  For this test, only unidirectional traffic is required.
+  
+  **Expected Result**:
+  The average latency for traffic traversing the slow-path should be greater than the latency of traffic traversing the fastpath.
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+  - Average latency of packets that are processed by the slow-path of the DUT.
+  
+ **Deployment scenario**:
+ 
+  - Physical → Virtual Switch → Physical.
+<br/>
 ----
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
