@@ -953,6 +953,51 @@ The following represents possible deployments which can help to determine the pe
 
 <br/>
 ----
+<a name="ScalabilityTests"></a>
+####2.3.3 Scalability tests
+
+  The general aim of these tests is to understand the impact of large flow table size and flow lookups on throughput.
+
+  The following list is not exhaustive but should indicate the type of tests that should be required. It is expected that more will be added.
+
+<br/>
+ - #####Test ID: LTD.Scalability.RFC2544.0PacketLoss
+  **Title**: RFC 2544 0% loss Scalability throughput test
+
+  **Prerequisite Test**:
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to measure how throughput changes as the number of flows in the DUT increases.
+
+  For each frame size previously defined under [Default Test Parameters](#DefaultParams) and foreach of the following number of flows:
+  - 1,000
+  - 2,000
+  - 2,000
+  - 4,000
+  - 8,000
+  - 16,000
+  - 32,000
+  - 64,000
+  the maximum 0% packet loss throughput should be determined in a manner identical to [Test ID: LTD.Throughput.RFC2544.PacketLossRatio]
+
+  During the test, the DUT must perform the following operations on the traffic flow:
+
+   - Perform packet matching on the 5 tuple (IP Dst, IP Src, UDP Dst, UDP Src, IP Proto) on the DUT's ingress port.
+   - Perform packet matching on the 10 tuple (Ingress Port, Ether Src, Ether Dst, Ether Type, Vlan ID, IP Dst, IP Src, UDP Dst, UDP Src, IP Proto) on the DUT's ingress port.
+   - Modify the packet header before forwarding the packet on the DUT's egress port.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - The maximum number of frames per second that can be forwarded at the specified number of flows and the specified frame size, with zero packet loss.
+<br/>
+----
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC2885]:(http://www.ietf.org/rfc/rfc2885.txt)
