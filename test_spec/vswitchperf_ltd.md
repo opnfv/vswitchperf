@@ -953,6 +953,40 @@ The following represents possible deployments which can help to determine the pe
 
 <br/>
 ----
+<a name="ScalabilityTests"></a>
+####2.3.3 Scalability tests
+
+  The general aim of these tests is to understand the impact of large flow table size and flow lookups on throughput.
+
+  The following list is not exhaustive but should indicate the type of tests that should be required. It is expected that more will be added.
+
+<br/>
+ - #####Test ID: LTD.Scalability.RFC2544.0PacketLoss
+  **Title**: RFC 2544 0% loss Scalability throughput test
+
+  **Prerequisite Test**: LTD.Throughput.RFC2544.ZeroPacketLoss
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to understand how scalable the datapath is when a large number of flows are passed through the DUT. When starting the test, a single flow should be passed to the DUT and over the course of the test duration, the number of flows should be incremented to 64K flows. This should be done for each frame size previously defined under [Default Test Parameters](#DefaultParams). For each frame size, the traffic should be sent at the highest possible throughput with zero packet loss, as determined in the prerequisite test. The throughput should be measured in order to determine how scalable the datapath is in the presence of the a large number of flows.qq
+
+  During the test, the DUT must perform the following operations on the traffic flow:
+
+   - Perform packet matching on the 5 tuple (IP Dst, IP Src, TCP Dst, TCP Src, IP Proto) on the DUT's ingress port.
+   - Perform packet matching on the 10 tuple (Ingress Port, Ether Src, Ether Dst, Ether Type, Vlan ID, IP Dst, IP Src, TCP Dst, TCP Src, IP Proto) on the DUT's ingress port.
+   - Modify the packet header before forwarding the packet on the DUT's egress port.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - Scalability of the datapath of the DUT for different frame sizes.
+<br/>
+----
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
 [RFC2885]:(http://www.ietf.org/rfc/rfc2885.txt)
