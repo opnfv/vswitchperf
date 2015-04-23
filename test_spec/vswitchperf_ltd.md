@@ -985,6 +985,39 @@ The following represents possible deployments which can help to determine the pe
   The following are the metrics collected for this test:
 
    - Scalability of the datapath of the DUT for different frame sizes.
+----
+<a name="CPUTests"></a>
+####2.3.4 CPU and memory consumption
+
+  The following tests will profile a virtual switch's CPU and memory utilization under various loads and circumstances.
+
+  The following list is not exhaustive but should indicate the type of tests that should be required. It is expected that more will be added.
+
+ - #####Test ID: LTD.CPUUtilization.RFC2544.0PacketLoss
+  **Title**: RFC 2544 0% loss CPU utilization throughput test
+
+  **Prerequisite Test**: LTD.Throughput.RFC2544.ZeroPacketLoss
+  
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to understand the overall CPU utilization of the system as the datapath forwards traffic through the DUT. This test should be run with traffic flows for each frame size previously defined under [Default Test Parameters](#DefaultParams). For each frame size, the traffic should be sent at the highest possible throughput with zero packet loss, as determined in the prerequisite test. To determine how compute intensive the DUT is, the overall CPU utilization of the system should be measured.
+
+  During the test, the DUT  must perform the following operations on the traffic flow:
+
+   - Perform packet matching on the 5 tuple (IP Dst, IP Src, TCP Dst, TCP Src, IP Proto) on the DUT's ingress port.
+   - Perform packet matching on the 10 tuple (Ingress Port, Ether Src, Ether Dst, Ether Type, Vlan ID, IP Dst, IP Src, TCP Dst, TCP Src, IP Proto) on the DUT's ingress port.
+   - Modify the packet header before forwarding the packet on the DUT's egress port.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - CPU utilization of the DUT on the system as the datapath forwards traffic through the DUT.
+
 <br/>
 ----
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
