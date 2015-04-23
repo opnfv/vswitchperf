@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_3448d62c",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-04-23T15:32:35Z",
+      "side": 1,
+      "message": "It seems like we could measure CPU and Memory Utilization as auxiliary metrics during the Scaleability test.  These are internal metrics, not really external black-box benchmarks. I agree they should be measured alongside the typical benchmarks.",
+      "revId": "7486241253a622356722b98d56c2dd6731cf1a3a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
