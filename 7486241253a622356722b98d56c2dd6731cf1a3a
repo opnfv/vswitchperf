@@ -75,6 +75,24 @@
       "revId": "7486241253a622356722b98d56c2dd6731cf1a3a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_94444a75",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-04-27T22:58:30Z",
+      "side": 1,
+      "message": "Yes, exactly.  We can\u0027t really use CPU/Mem Utilization as benchmarks, because they are not externally observable.  This has come up at BMWG meetings in the past (the 2008 meeting in Dublin to be exact).  But I fully support making the measurements and offering the results as auxiliary info to the readers of the test report.",
+      "parentUuid": "3a045101_f41caec3",
+      "revId": "7486241253a622356722b98d56c2dd6731cf1a3a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
