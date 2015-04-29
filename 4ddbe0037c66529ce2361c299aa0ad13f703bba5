@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_6287c010",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-04-29T12:59:00Z",
+      "side": 1,
+      "message": "make sure to add reviewed-by for Al",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "4ddbe0037c66529ce2361c299aa0ad13f703bba5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_427cc420",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-04-29T12:59:00Z",
+      "side": 1,
+      "message": "is the indentation right here?",
+      "range": {
+        "startLine": 976,
+        "startChar": 2,
+        "endLine": 976,
+        "endChar": 3
+      },
+      "revId": "4ddbe0037c66529ce2361c299aa0ad13f703bba5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_2279b82f",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-04-29T12:59:00Z",
+      "side": 1,
+      "message": "one of the following? all of the following?",
+      "range": {
+        "startLine": 986,
+        "startChar": 40,
+        "endLine": 986,
+        "endChar": 43
+      },
+      "revId": "4ddbe0037c66529ce2361c299aa0ad13f703bba5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
