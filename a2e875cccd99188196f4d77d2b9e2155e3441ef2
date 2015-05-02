@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_fde6d143",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-05-02T20:34:40Z",
+      "side": 1,
+      "message": "In routing, there are two permanent paths called slow and fast path.  Packets on the Slow path are usually passed to the CPU or other additional elements for processing, while packets on the fast path packets pass from ingress to egress interfaces with little processing, if any. Packets of the same type always experience slow-path or fast-path. What we have here is the additional processing on packets of *any* new flow (in one instantiation at least). So, maybe the title should be \"Initial Packet Processing Latency\"  ???  It\u0027s clear that the packets don\u0027t take a different path, but that the time to decide the path is different for initial packets than for subsequent packets (after the flow is installed in the switch).",
+      "revId": "a2e875cccd99188196f4d77d2b9e2155e3441ef2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
