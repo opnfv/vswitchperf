@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_9dd58d45",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-05-02T20:41:03Z",
+      "side": 1,
+      "message": "Just a question: why did you remove the flow tuples? Because we may not have used them earlier in the Throughput testing? just checking...",
+      "revId": "b643f344d2a81124a75c087362768b0874b29008",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
