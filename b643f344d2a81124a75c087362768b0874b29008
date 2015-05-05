@@ -16,6 +16,24 @@
       "revId": "b643f344d2a81124a75c087362768b0874b29008",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_c8ba35e1",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-05-05T13:08:09Z",
+      "side": 1,
+      "message": "Mainly to ensure that there is exactly one point of difference between this test and PacketLossRatio(RFC2544 Throughput). If we keep to this constraint then any difference between the performance of this test and throughput can *only* be related to the number of flows. \n\nWithout that constraint we may not be able to understand if the difference between the results of this test and RFC2544 Throughput is due to the tuple-matching requirement or the presence of the extra flows.",
+      "parentUuid": "3a045101_9dd58d45",
+      "revId": "b643f344d2a81124a75c087362768b0874b29008",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
