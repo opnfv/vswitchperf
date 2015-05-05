@@ -23,6 +23,7 @@ include mk/master.mk
 
 # specify upstream package as SUBDIRS - common terms as suggest by gnu-make
 SUBDIRS =
+SUBDIRS += l2fwd
 SUBDIRS += dpdk
 SUBDIRS += ovs
 
