@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_288639ba",
+        "filename": "src/l2fwd/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-05-06T13:09:46Z",
+      "side": 1,
+      "message": "white space issues",
+      "range": {
+        "startLine": 2,
+        "startChar": 1,
+        "endLine": 2,
+        "endChar": 2
+      },
+      "revId": "ea5b435df0f1f3698548cf18d7f0ad9340449344",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_08937dfb",
+        "filename": "src/l2fwd/gen_debian_package.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-05-06T13:09:46Z",
+      "side": 1,
+      "message": "whitespace at the ends of lines throughout the file\n\ntry: \tgit rebase --whitespace\u003dfix HEAD~1\non the patch branch and push again",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 3,
+        "endChar": 2
+      },
+      "revId": "ea5b435df0f1f3698548cf18d7f0ad9340449344",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_e88f31cb",
+        "filename": "src/l2fwd/l2fwd.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-05-06T13:09:46Z",
+      "side": 1,
+      "message": "white space throughout the file\nand tabs instead of space?",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 3,
+        "endChar": 2
+      },
+      "revId": "ea5b435df0f1f3698548cf18d7f0ad9340449344",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
