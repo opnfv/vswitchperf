@@ -643,6 +643,7 @@ The following represents possible deployments which can help to determine the pe
    - Any outliers in the Throughput stability.
    - Any unexpected variation in Throughput stability.
    - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
+   - The [RFC5481] PDV form of delay variation on the traffic flow, using the 99th percentile.
 
 <br/>
 
@@ -684,6 +685,7 @@ The following represents possible deployments which can help to determine the pe
    - Any outliers in the Throughput stability.
    - Any unexpected variation in Throughput stability.
    - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
+   - The [RFC5481] PDV form of delay variation on the traffic flow, using the 99th percentile.
 
 <br/>
 
