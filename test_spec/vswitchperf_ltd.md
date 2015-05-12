@@ -70,36 +70,36 @@ This section describes the features to be tested ([cf. 2.1](#FeaturesToBeTested)
 <a name="FeaturesToBeTested"></a>
   ###2.1. Features to be tested
   Characterizing virtual switches (i.e. Device Under Test (DUT) in this document) includes measuring the following performance metrics:
-   - Throughput as defined by [RFC1242]: The maximum rate at which none of the offered frames are dropped by the DUT. The maximum frame rate and bit rate that can be transmitted by the DUT without any error should be recorded. Note there is an equivalent bit rate and a specific layer at which the payloads contribute to the bits. Errors and improperly formed frames or packets are dropped.
-   - Packet delay introduced by the DUT and its cumulative effect on E2E networks. Frame delay can be measured equivalently.
-   - Packet delay variation: measured from the perspective of the VNF/application. Packet delay variation is sometimes called "jitter". However, we will avoid the term "jitter" as the term holds different meaning to different groups of people. In this document we will simply use the term packet delay variation. The preferred form for this metric is the PDV form of delay variation defined in [RFC5481].
-   - Packet loss (within a configured waiting time at the receiver): All packets sent to the DUT should be accounted for.
-   - Burst behaviour: measures the ability of the DUT to buffer packets.
-   - Packet re-ordering: measures the ability of the device under test to maintain sending order throughout transfer to the destination.
-   - Packet correctness Packets or Frames must be well-formed, in that they include all required fields, conform to length requirements, pass integrity checks, etc.
-   - Availability and capacity of the DUT i.e. when the DUT is fully “up” and connected:
+   - **Throughput** as defined by [RFC1242]: The maximum rate at which **none** of the offered frames are dropped by the DUT. The maximum frame rate and bit rate that can be transmitted by the DUT without any error should be recorded. Note there is an equivalent bit rate and a specific layer at which the payloads contribute to the bits. Errors and improperly formed frames or packets are dropped.
+   - **Packet delay** introduced by the DUT and its cumulative effect on E2E networks. Frame delay can be measured equivalently.
+   - **Packet delay variation**: measured from the perspective of the VNF/application. Packet delay variation is sometimes called "jitter". However, we will avoid the term "jitter" as the term holds different meaning to different groups of people. In this document we will simply use the term packet delay variation. The preferred form for this metric is the PDV form of delay variation defined in [RFC5481].
+   - **Packet loss** (within a configured waiting time at the receiver): All packets sent to the DUT should be accounted for.
+   - **Burst behaviour**: measures the ability of the DUT to buffer packets.
+   - **Packet re-ordering**: measures the ability of the device under test to maintain sending order throughout transfer to the destination.
+   - **Packet correctness**: packets or Frames must be well-formed, in that they include all required fields, conform to length requirements, pass integrity checks, etc.
+   - **Availability and capacity** of the DUT i.e. when the DUT is fully “up” and connected:
      - Includes power consumption of the CPU (in various power states) and system.
      - Includes CPU utilization.
-     - Includes # NIC interfaces supported.
+     - Includes the number of NIC interfaces supported.
      - Includes headroom of VM workload processing cores (i.e. available for applications).
 
 <a name="Approach"></a>
  ###2.2. Approach
  In order to determine the packet transfer characteristics of a virtual switch, the tests will be broken down into the following categories:
 
-  - Throughput Tests to measure the maximum forwarding rate (in frames per second or fps) and bit rate (in Mbps) for a constant load (as defined by [RFC1242]) without traffic loss.
-  - Packet and Frame Delay Tests to measure average, min and max packet and frame delay for constant loads.
-  - Stream Performance Tests (TCP, UDP) to measure bulk data transfer performance, i.e. how fast systems can send and receive data through the switch.
-  - Request/Response Performance Tests (TCP, UDP) the measure the transaction rate through the switch.
- - Packet delay tests to understand latency distribution for different packet sizes and over an extended test run to uncover outliers.
-  - Scalability Tests to understand how the virtual switch performs as the number of flows, active ports, complexity of the forwarding logic's configuration... it has to deal with increases.
-  - Control Path and Datapath Coupling Tests, to understand how closely coupled the datapath and the control path are as well as the effect of this coupling on the performance of the DUT.
-  - CPU and Memory Consumption Tests to understand the virtual switch’s footprint on the system, this includes:
+  - **Throughput Tests** to measure the maximum forwarding rate (in frames per second or fps) and bit rate (in Mbps) for a constant load (as defined by [RFC1242]) without traffic loss.
+  - **Packet and Frame Delay Tests** to measure average, min and max packet and frame delay for constant loads.
+  - **Stream Performance Tests** (TCP, UDP) to measure bulk data transfer performance, i.e. how fast systems can send and receive data through the switch.
+  - **Request/Response Performance** Tests (TCP, UDP) the measure the transaction rate through the switch.
+  - **Packet Delay Tests** to understand latency distribution for different packet sizes and over an extended test run to uncover outliers.
+  - **Scalability Tests** to understand how the virtual switch performs as the number of flows, active ports, complexity of the forwarding logic's configuration... it has to deal with increases.
+  - **Control Path and Datapath Coupling** Tests, to understand how closely coupled the datapath and the control path are as well as the effect of this coupling on the performance of the DUT.
+  - **CPU and Memory Consumption Tests** to understand the virtual switch’s footprint on the system, this includes:
    - CPU utilization
    - Cache utilization
    - Memory footprint
   - Time To Establish Flows Tests.
-  - Noisy Neighbour Tests, to understand the effects of resource sharing on the performance of a virtual switch.
+  - **Noisy Neighbour Tests**, to understand the effects of resource sharing on the performance of a virtual switch.
 
 **Note:** some of the tests above can be conducted simultaneously where the combined results would be insightful, for example Packet/Frame Delay and Scalability.
 
@@ -307,7 +307,7 @@ The following represents possible deployments which can help to determine the pe
 
  ####General Methodology:
 
-  To establish the baseline performance of the virtual switch, tests would initially be run with a simple workload in the VNF (the recommended simple workload VNF would be [DPDK]'s testpmd application forwarding packets in a VM). Subsequently, the tests would also be executed with a real Telco workload running in the VNF, which would exercise the virtual switch in the context of higher level Telco NFV use cases, and prove that its underlying characteristics and behaviour can be measured and validated. Suitable real Telco workload VNFs are yet to be identified.
+  To establish the baseline performance of the virtual switch, tests would initially be run with a simple workload in the VNF (the recommended simple workload VNF would be [DPDK]'s testpmd application forwarding packets in a VM or vloop_vnf a simple kernel module that forwards traffic between two network interfaces inside the virtualized environment while bypassing the networking stack). Subsequently, the tests would also be executed with a real Telco workload running in the VNF, which would exercise the virtual switch in the context of higher level Telco NFV use cases, and prove that its underlying characteristics and behaviour can be measured and validated. Suitable real Telco workload VNFs are yet to be identified.
 
  <a name="DefaultParams"></a>
  #####Default Test Parameters:
@@ -514,6 +514,7 @@ The following represents possible deployments which can help to determine the pe
 
    - The maximum forwarding rate in Frames Per Second (FPS) and Mbps of the DUT for each frame size with X% packet loss.
    - The average latency of the traffic flow when passing through the DUT (if testing for latency, note that this average is different from the test specified in Section 26.3 of [RFC2544]).
+   - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
 
 <br/>
  - #####Test ID: LTD.Throughput.RFC2544.PacketLossRatioFrameModification
@@ -558,6 +559,7 @@ The following represents possible deployments which can help to determine the pe
    - The maximum forwarding rate in Frames Per Second (FPS) and Mbps of the DUT for each frame size with X% packet loss and packet modification operations being performed by the DUT.
    - The average latency of the traffic flow when passing through the DUT (if testing for latency, note that this average is different from the test specified in Section 26.3 of [RFC2544]).
    - The [RFC5481] PDV form of delay variation on the traffic flow, using the 99th percentile.
+   - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
 
 <br/>
  - #####Test ID: LTD.Throughput.RFC2544.SystemRecoveryTime
@@ -609,6 +611,7 @@ The following represents possible deployments which can help to determine the pe
   The following are the metrics collected for this test:
 
    - The back-to-back value, which is the the number of frames in the longest burst that the DUT will handle without the loss of any frames.
+   - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
 
   **Deployment scenario**:
 
@@ -639,6 +642,7 @@ The following represents possible deployments which can help to determine the pe
    - Throughput stability of the DUT.
    - Any outliers in the Throughput stability.
    - Any unexpected variation in Throughput stability.
+   - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
 
 <br/>
 
@@ -679,6 +683,7 @@ The following represents possible deployments which can help to determine the pe
    - Throughput stability of the DUT.
    - Any outliers in the Throughput stability.
    - Any unexpected variation in Throughput stability.
+   - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
 
 <br/>
 
@@ -759,6 +764,7 @@ The following represents possible deployments which can help to determine the pe
   The following are the metrics collected for this test:
 
    - The Max Forwarding Rate for the DUT for each packet size.
+   - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
 
 <br/>
  - #####Test ID: LTD.Throughput.RFC2889.ForwardPressure
@@ -779,7 +785,8 @@ The following represents possible deployments which can help to determine the pe
 
   The following are the metrics collected for this test:
 
-   - Forwarding rate of the DUT.
+   - Forwarding rate of the DUT in FPS or Mbps.
+   - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
 
   **Deployment scenario**:
 
@@ -809,6 +816,7 @@ The following represents possible deployments which can help to determine the pe
   The following are the metrics collected for this test:
 
    - Number of cached addresses supported by the DUT.
+   - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
 
   **Deployment scenario**:
 
