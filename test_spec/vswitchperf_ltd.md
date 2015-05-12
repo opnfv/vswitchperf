@@ -936,7 +936,28 @@ The following represents possible deployments which can help to determine the pe
  **Deployment scenario**:
 
   - Physical → Virtual Switch → Physical.
+
 <br/>
+ - #####Test ID: LTD.PacketLatency.RFC2889.BroadcastFrameLatency 
+  **Title**: RFC 2889 Broadcast Frame Latency Test
+
+  **Prerequisite Test**: N\A
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to determine the maximum latency of the DUT when forwarding broadcast traffic through the DUT. For each frame previously defined under [Default Test Parameters](#DefaultParams), the traffic should be set up as broadcast traffic. The packet latency for the DUT should be measured. A single frame is all that is required to test the packet latency for the DUT.
+
+  For this test, only unidirectional traffic is required.
+
+  **Expected Result**:
+
+  **Metrics collected**
+
+  The following are the metrics collected for this test:
+
+   - The latency of the packets being forwarded by the DUT.
 ----
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
