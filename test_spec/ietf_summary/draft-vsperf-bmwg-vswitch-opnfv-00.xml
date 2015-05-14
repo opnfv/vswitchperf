@@ -94,7 +94,7 @@
       </address>
     </author>
 
-    <date day="6" month="June" year="2015"/>
+    <date day="1" month="July" year="2015"/>
 
     <abstract>
       <t>This memo describes the progress of the Open Platform for NFV (OPNFV)
@@ -135,7 +135,7 @@
       This project intends to build on the current and completed work of the
       Benchmarking Methodology Working Group in IETF, by referencing existing
       literature. For example, currently the most referenced RFC is <xref
-      target="RFC2544"/> (which depens on <xref target="RFC1242"/>) and
+      target="RFC2544"/> (which depends on <xref target="RFC1242"/>) and
       foundation of the benchmarking work in OPNFV is common and strong.</t>
 
       <t>See
@@ -146,7 +146,7 @@
       <t>The authors note that OPNFV distinguishes itself from other open
       source compute and networking projects through its emphasis on existing
       "telco" services as opposed to cloud-computing. There are many ways in
-      which telco requirements have different emhasis on performance
+      which telco requirements have different emphasis on performance
       dimensions when compared to cloud computing: support for and transfer of
       isochronous media streams is one example.</t>
 
@@ -168,8 +168,10 @@
 
     <section title="Benchmarking Considerations">
       <t>This section highlights some specific considerations (from <xref
-      target="ID.ietf-bmwg-virtual-net"/>)related to Benchmarks for virtual
-      switches.</t>
+      target="I-D.ietf-bmwg-virtual-net"/>)related to Benchmarks for virtual
+      switches. The OPNFV project is sharing its present view on these areas,
+      as they develop their specifications in the Level Test Design (LTD)
+      document.</t>
 
       <section title="Comparison with Physical Network Functions">
         <t>To compare the performance of virtual designs and implementations
@@ -179,7 +181,7 @@
         during development of new methods. A key configuration aspect is the
         number of parallel cores required to achieve comparable performance
         with a given physical device, or whether some limit of scale was
-        reached before the cores could achieve the comparable level. </t>
+        reached before the cores could achieve the comparable level.</t>
 
         <t>It's unlikely that the virtual switch will be the only application
         running on the SUT, so CPU utilization, Cache utilization, and Memory
@@ -191,13 +193,143 @@
         <t>External observations remain essential as the basis for Benchmarks.
         Internal observations with fixed specification and interpretation will
         be provided in parallel to assist the development of operations
-        procedures when the technology is deployed. </t>
+        procedures when the technology is deployed.</t>
+      </section>
+
+      <section title="New Configuration Parameters">
+        <t>This section lists some of the many new parameters which this
+        project believes are critical to report in order to achieve
+        repeatability.</t>
+
+        <t>Hardware details including:</t>
+
+        <t><list style="symbols">
+            <t>Platform details</t>
+
+            <t>Processor details</t>
+
+            <t>Memory information (type and size)</t>
+
+            <t>Number of enabled cores</t>
+
+            <t>Number of cores used for the test</t>
+
+            <t>Number of physical NICs, as well as their details
+            (manufacturer, versions, type and the PCI slot they are plugged
+            into)</t>
+
+            <t>NIC interrupt configuration</t>
+
+            <t>BIOS version, release date and any configurations that were
+            modified</t>
+
+            <t>CPU microcode level</t>
+
+            <t>Memory DIMM configurations (quad rank performance may not be
+            the same as dual rank) in size, freq and slot locations</t>
+
+            <t>PCI configuration parameters (payload size, early ack
+            option...) </t>
+
+            <t>Power management at all levels (ACPI sleep states, processor
+            package, OS...) </t>
+          </list>Software details including: </t>
+
+        <t><list style="symbols">
+            <t>OS parameters and behavior (text vs graphical no one typing at
+            the console on one system)</t>
+
+            <t>OS version (for host and VNF)</t>
+
+            <t>Kernel version (for host and VNF)</t>
+
+            <t>GRUB boot parameters (for host and VNF)</t>
+
+            <t>Hypervisor details (Type and version)</t>
+
+            <t>Selected vSwitch, version number or commit id used</t>
+
+            <t>vSwitch launch command line if it has been parameterised</t>
+
+            <t>Memory allocation to the vSwitch</t>
+
+            <t>which NUMA node it is using, and how many memory channels</t>
+
+            <t>DPDK or any other SW dependency version number or commit id
+            used</t>
+
+            <t>Memory allocation to a VM - if it's from Hugpages/elsewhere</t>
+
+            <t>VM storage type: snapshot/independent persistent/independent
+            non-persistent</t>
+
+            <t>Number of VMs</t>
+
+            <t>Number of Virtual NICs (vNICs), versions, type and driver</t>
+
+            <t>Number of virtual CPUs and their core affinity on the host</t>
+
+            <t>Number vNIC interrupt configuration</t>
+
+            <t>Thread affinitization for the applications (including the
+            vSwitch itself) on the host</t>
+
+            <t>Details of Resource isolation, such as CPUs designated for
+            Host/Kernel (isolcpu) and CPUs designated for specific processes
+            (taskset). - Test duration. - Number of flows.</t>
+          </list> </t>
+
+        <t>Test Traffic Information:<list style="symbols">
+            <t>Traffic type - UDP, TCP, IMIX / Other</t>
+
+            <t>Packet Sizes</t>
+
+            <t>Deployment Scenario</t>
+          </list></t>
+
+        <t/>
+      </section>
+
+      <section title="Benchmarks using Baselines with Resource Isolation">
+        <t>This outline describes measurement of baseline with isolated
+        resources at a high level, which is the intended approach at this
+        time.</t>
+
+        <t><list style="numbers">
+            <t>Before commencing with a Baseline benchmark the system HW and
+            SW should be validated for at least 72 hours.</t>
+
+            <t>Benchmark VNF(s) with direct connectivity (vswitch bypass,
+            e.g., SR/IOV)</t>
+
+            <t>Baselines: <list style="symbols">
+                <t>benchmarking with isolated resources alone, with other
+                resources (both HW&amp;SW) disabled Example, vSw and VM are
+                SUT</t>
+
+                <t>benchmarking with isolated resources alone, leaving some
+                resources unused</t>
+
+                <t>benchmark with isolated resources and all resources
+                occupied</t>
+              </list></t>
+
+            <t>Next Steps<list style="symbols">
+                <t>Limited sharing </t>
+
+                <t>Production scenarios </t>
+
+                <t>Stressful scenarios</t>
+              </list></t>
+
+            <t/>
+          </list></t>
       </section>
     </section>
 
     <section title="VSWITCHPERF Specification Summary">
       <t>The overall specification in preparation is referred to as a Level
-      Test Design (LTD) document, which will contain a suite of performace
+      Test Design (LTD) document, which will contain a suite of performance
       tests.</t>
 
       <t>As one might expect, the most fundamental internetworking
@@ -242,25 +374,25 @@
           performance, i.e. how fast systems can send and receive data through
           the switch.</t>
 
-          <t>Request/Response Performance Tests (TCP, UDP) the measure the
-          transaction rate through the switch.</t>
-
           <t>Control Path and Datapath Coupling Tests, to understand how
           closely coupled the datapath and the control path are as well as the
           effect of this coupling on the performance of the DUT (example:
           delay of the initial packet of a flow).</t>
 
-          <t>Noisy Neighbour Tests, to understand the effects of resource
-          sharing on the performance of a virtual switch.</t>
-
           <t>CPU and Memory Consumption Tests to understand the virtual
           switch&rsquo;s footprint on the system, usually conducted as
-          auxilliary measurements with benchmarks above. They include: CPU
+          auxiliary measurements with benchmarks above. They include: CPU
           utilization, Cache utilization and Memory footprint.</t>
         </list></t>
 
-      <t>The felixability of deployemnt of a virtual switch within a network
-      means that the BMWG IETF existing literature needs to be used to
+      <t>Future/planned test specs include:<list style="symbols">
+          <t>Request/Response Performance Tests (TCP, UDP) which measure the
+          transaction rate through the switch.</t>
+
+          <t>Noisy Neighbour Tests, to understand the effects of resource
+          sharing on the performance of a virtual switch.</t>
+        </list>The flexibility of deployment of a virtual switch within a
+      network means that the BMWG IETF existing literature needs to be used to
       characterize the performance of a switch in various deployment
       scenarios. The deployment scenarios under consideration include:</t>
 
@@ -346,13 +478,13 @@
  |   | logical ports |         | logical ports |  | |
  |   +---------------+         +---------------+  | |
  |       ^       |                 ^       |      | |  Host
- |       |       L-----------------+       v      | |
+ |       |       |-----------------|       v      | |
  |   +--------------+          +--------------+   | |
  |   |   phy ports  | vSwitch  |   phy ports  |   | |
  +---+--------------+----------+--------------+---+_|
-         ^       :                 ^       :
-         |       |                 |       |
-         :       v                 :       v
+         ^                                 :
+         |                                 |
+         :                                 v
  +--------------------------------------------------+
  |                                                  |
  |                traffic generator                 |
@@ -429,7 +561,7 @@
     |                                                  |
     +--------------------------------------------------+]]></artwork>
         </figure><figure>
-          <preamble> VNF to virtual switch to VNF</preamble>
+          <preamble>VNF to virtual switch to VNF</preamble>
 
           <artwork><![CDATA[                                                   __
  +----------------------+  +----------------------+  |
@@ -443,8 +575,8 @@
  |   | logical ports |  |  |   | logical ports |  |  |
  |   |           0   |  |  |   |   0           |  |  |
  +---+---------------+--+  +---+---------------+--+__|
-                 :                 ^
-                 |                 |
+                 :                 ^        
+                 |                 |        
                  v                 :               _
  +---+---------------+---------+---------------+--+ |
  |   |           1   |         |   1           |  | |
@@ -455,9 +587,110 @@
  |                                                | |
  |                    vSwitch                     | |
  +------------------------------------------------+_|
-
+ 
 ]]></artwork>
         </figure></t>
+    </section>
+
+    <section title="3x3 Matrix Coverage">
+      <t>This section organizes the many existing test specifications into the
+      "3x3" matrix (introduced in <xref target="I-D.ietf-bmwg-virtual-net"/>).
+      Because the LTD specification ID names are quite long, this section is
+      organized into lists for each occupied cell of the matrix (not all are
+      occupied, also the matrix has grown to 3x4 to accommodate scale
+      metrics).</t>
+
+      <t>The tests listed below assess the activation of paths in the data
+      plane, rather than the control plane.</t>
+
+      <t>(Editor's Note: a complete list of tests is available here:
+      https://wiki.opnfv.org/wiki/vswitchperf_test_spec_review )</t>
+
+      <section title="Speed of Activation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2889.AddressLearningRate</t>
+
+            <t>Throughput.RFC2889.AddressCachingCapacity</t>
+
+            <t>PacketLatency.InitialPacketProcessingLatency</t>
+
+            <t/>
+          </list></t>
+      </section>
+
+      <section title="Reliability of Activation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2544.SystemRecoveryTime</t>
+
+            <t>Throughput.RFC2544.ResetTime</t>
+          </list></t>
+      </section>
+
+      <section title="Scale of Activation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2889.AddressCachingCapacity</t>
+
+            <t/>
+          </list></t>
+      </section>
+
+      <section title="Speed of Operation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2544.PacketLossRate</t>
+
+            <t>Throughput.RFC2544.PacketLossRateFrameModification</t>
+
+            <t>Throughput.RFC2544.BackToBackFrames</t>
+
+            <t>Throughput.RFC2889.ForwardingRate</t>
+
+            <t>Throughput.RFC2889.ForwardPressure</t>
+
+            <t>Throughput.RFC2889.BroadcastFrameForwarding</t>
+
+            <t>RFC2889 Broadcast Frame Latency test</t>
+          </list></t>
+      </section>
+
+      <section title="Accuracy of Operation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2889.ErrorFramesFiltering</t>
+
+            <t/>
+          </list></t>
+      </section>
+
+      <section title="Reliability of Operation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2544.Soak</t>
+
+            <t>Throughput.RFC2544.SoakFrameModification</t>
+
+            <t/>
+          </list></t>
+      </section>
+
+      <section title="Summary">
+        <t><figure>
+            <artwork><![CDATA[|------------------------------------------------------------------------|
+|               |             |            |               |             |
+|               |   SPEED     |  ACCURACY  |  RELIABILITY  |    SCALE    |
+|               |             |            |               |             |
+|------------------------------------------------------------------------|
+|               |             |            |               |             |
+|  Activation   |      X      |            |       X       |      X      |
+|               |             |            |               |             |
+|------------------------------------------------------------------------|
+|               |             |            |               |             |
+|  Operation    |      X      |      X     |       X       |             |
+|               |             |            |               |             |
+|------------------------------------------------------------------------|
+|               |             |            |               |             |
+| De-activation |             |            |               |             |
+|               |             |            |               |             |
+|------------------------------------------------------------------------|]]></artwork>
+          </figure></t>
+      </section>
     </section>
 
     <section title="Security Considerations">
@@ -548,7 +781,19 @@
 
       <?rfc include='reference.RFC.6390'?>
 
-      <?rfc include='reference.ID.ietf-bmwg-virtual-net'?>
+      <reference anchor="Anchor">
+        <front>
+          <title/>
+
+          <author>
+            <organization/>
+          </author>
+
+          <date/>
+        </front>
+      </reference>
+
+      <?rfc include='reference.I-D.ietf-bmwg-virtual-net'?>
     </references>
   </back>
 </rfc>
