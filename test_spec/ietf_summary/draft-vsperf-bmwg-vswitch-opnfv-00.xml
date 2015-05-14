@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<?rfc toc="yes"?>
+<?rfc tocompact="yes"?>
+<?rfc tocdepth="3"?>
+<?rfc tocindent="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes"?>
+<?rfc comments="yes"?>
+<?rfc inline="yes"?>
+<?rfc compact="yes"?>
+<?rfc subcompact="no"?>
+<rfc category="info" docName="draft-vsperf-bmwg-vswitch-opnfv-00"
+     ipr="trust200902">
+  <front>
+    <title abbrev="Benchmarking vSwitches">Benchmarking Virtual Switches in
+    OPNFV</title>
+
+    <author fullname="Maryam Tahhan" initials="M." surname="Tahhan">
+      <organization>Intel</organization>
+
+      <address>
+        <postal>
+          <street/>
+
+          <city/>
+
+          <region/>
+
+          <code/>
+
+          <country/>
+        </postal>
+
+        <phone/>
+
+        <facsimile/>
+
+        <email/>
+
+        <uri/>
+      </address>
+    </author>
+
+    <author fullname="Billy O Mahony" initials="B." surname="O Mahony">
+      <organization>Intel</organization>
+
+      <address>
+        <postal>
+          <street/>
+
+          <city/>
+
+          <region/>
+
+          <code/>
+
+          <country/>
+        </postal>
+
+        <phone/>
+
+        <facsimile/>
+
+        <email/>
+
+        <uri/>
+      </address>
+    </author>
+
+    <author fullname="Al Morton" initials="A." surname="Morton">
+      <organization>AT&amp;T Labs</organization>
+
+      <address>
+        <postal>
+          <street>200 Laurel Avenue South</street>
+
+          <city>Middletown,</city>
+
+          <region>NJ</region>
+
+          <code>07748</code>
+
+          <country>USA</country>
+        </postal>
+
+        <phone>+1 732 420 1571</phone>
+
+        <facsimile>+1 732 368 1192</facsimile>
+
+        <email>acmorton@att.com</email>
+
+        <uri>http://home.comcast.net/~acmacm/</uri>
+      </address>
+    </author>
+
+    <date day="10" month="May" year="2015"/>
+
+    <abstract>
+      <t>This memo describes the progress of the Open Platform for NFV (OPNFV)
+      project on virtual switch performance "VSWITCHPERF". This project
+      intends to build on the current and completed work of the Benchmarking
+      Methodology Working Group in IETF, by referencing existing literature.
+      The Benchmarking Methodology Working Group has traditionally conducted
+      laboratory characterization of dedicated physical implementations of
+      internetworking functions. Therefore, this memo begins to describes the
+      additional considerations when virtual switches are implemented in
+      general-purpose hardware. The expanded tests and benchmarks are also
+      influenced by the OPNFV mission to support virtualization of the "telco"
+      infrastructure.</t>
+    </abstract>
+
+    <note title="Requirements Language">
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+      document are to be interpreted as described in <xref
+      target="RFC2119">RFC 2119</xref>.</t>
+
+      <t/>
+    </note>
+  </front>
+
+  <middle>
+    <section title="Introduction">
+      <t>Benchmarking Methodology Working Group (BMWG) has traditionally
+      conducted laboratory characterization of dedicated physical
+      implementations of internetworking functions. The Black-box Benchmarks
+      of Throughput, Latency, Forwarding Rates and others have served our
+      industry for many years. Now, Network Function Virtualization (NFV) has
+      the goal to transform how internetwork functions are implemented, and
+      therefore has garnered much attention.</t>
+
+      <t>This memo describes the progress of the Open Platform for NFV (OPNFV)
+      project on virtual switch performance characterization, "VSWITCHPERF".
+      This project intends to build on the current and completed work of the
+      Benchmarking Methodology Working Group in IETF, by referencing existing
+      literature. For example, currently the most referenced RFC is <xref
+      target="RFC2544"/> (which depens on <xref target="RFC1242"/>) and
+      foundation of the benchmarking work in OPNFV is common and strong. </t>
+
+      <t>See
+      https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases
+      for more background, and the OPNFV website for general information:
+      https://www.opnfv.org/</t>
+
+      <t>The authors note that OPNFV distinguishes itself from other open
+      source compute and networking projects through its emphasis on existing
+      "telco" services as opposed to cloud-computing. There are many ways in
+      which telco requirements have different emhasis on performance
+      dimensions when compared to cloud computing: support for and transfer of
+      isochronous media streams is one example.</t>
+
+      <t>Note also that the move to NFV Infrastructure has resulted in many
+      new benchmarking initiatives across the industry, and the authors are
+      currently doing their best to maintain alignment with many other
+      projects, and this Internet Draft is evidence of the efforts.</t>
+    </section>
+
+    <section title="Scope">
+      <t>The primary purpose and scope of the memo is to inform BMWG of
+      work-in-progress that builds on the body of extensive literature and
+      experience. Additionally, once the initial information conveyed here is
+      received, this memo may be expanded to include more detail and
+      commentary from both BMWG and OPNFV communities, under BMWG's chartered
+      work to characterize the NFV Infrastructure (a virtual switch is an
+      important aspect of that infrastructure).</t>
+    </section>
+
+    <section title="Benchmarking Considerations">
+      <t>This section discusses considerations related to Benchmarks
+      applicable to virtual switches.</t>
+
+      <t>&lt;plan to summarize this material more briefly than what exists,
+      this text borrowed from another draft&gt;</t>
+
+      <section title="Comparison with Physical Network Functions">
+        <t>In order to compare the performance of virtual designs and
+        implementations with their physical counterparts, identical benchmarks
+        must be used. Since BMWG has developed specifications for many network
+        functions already, there will be re-use of existing benchmarks through
+        references, while allowing for the possibility of benchmark curation
+        during development of new methodologies. Consideration should be given
+        to quantifying the number of parallel VNFs required to achieve
+        comparable performance with a given physical device, or whether some
+        limit of scale was reached before the VNFs could achieve the
+        comparable level. It's unlikely that the virtual switch will be the
+        only application running on the SUT as such CPU utilization, Cache
+        utilization, and Memory footprint should also be recorded for the
+        virtual implementations of internetworking functions.</t>
+      </section>
+
+      <section title="Continued Emphasis on Black-Box Benchmarks">
+        <t>When the network functions under test are based on Open Source
+        code, there may be a tendency to rely on internal measurements to some
+        extent, especially when the externally-observable phenomena only
+        support an inference of internal events (such as routing protocol
+        convergence). However, external observations remain essential as the
+        basis for Benchmarks. Internal observations with fixed specification
+        and interpretation may be provided in parallel, to assist the
+        development of operations procedures when the technology is deployed,
+        for example. Internal metrics and measurements from Open Source
+        implementations may be the only direct source of performance results
+        in a desired dimension, but corroborating external observations are
+        still required to assure the integrity of measurement discipline was
+        maintained for all reported results.</t>
+
+        <t>A related aspect of benchmark development is where the scope
+        includes multiple approaches to a common function under the same
+        benchmark. For example, there are many ways to arrange for activation
+        of a network path between interface points and the activation times
+        can be compared if the start-to-stop activation interval has a generic
+        and unambiguous definition. Thus, generic benchmark definitions are
+        preferred over technology/protocol specific definitions where
+        possible.</t>
+      </section>
+    </section>
+
+    <section title="VSWITCHPERF Specification Summary">
+      <t>The overall specification in preparation is referred to as a Level
+      Test Design (LTD) document, which will contain a suite of performace
+      tests.</t>
+
+      <t>As one might expect, the most fundamental internetworking
+      characteristics of Throughput and Latency remain important when the
+      switch is virtualized, and these benchmarks figure prominently in the
+      specification.</t>
+
+      <t>When considering characteristics important to "telco" network
+      functions, we must begin to consider additional performance metrics. In
+      this case, the project specifications have referenced metrics from the
+      IETF IP Performance Metrics (IPPM) literature. This means that the <xref
+      target="RFC2544"/> test of Latency is replaced by measurement of a
+      metric derived from IPPM's <xref target="RFC2679"/>, where a set of
+      statistical summaries will be provided (mean, max, min, etc.). Further
+      metrics planned to be benchmarked include packet delay variation as
+      defined by <xref target="RFC5481"/> , reordering, burst behaviour, DUT
+      availability, DUT capacity and packet loss in long term testing at
+      Throughput level, where some low-level of background loss may be present
+      and characterized.</t>
+
+      <t>Tests to collect these metrics are catagorized as follows:</t>
+
+      <t><list style="symbols">
+          <t>Throughput Tests to measure the maximum forwarding rate (in
+          frames per second or fps) and bit rate (in Mbps) for a constant load
+          (as defined by RFC1242) without traffic loss.</t>
+
+          <t>Packet and Frame Delay Tests to measure average, min and max
+          packet and frame delay for constant loads.</t>
+
+          <t>Stream Performance Tests (TCP, UDP) to measure bulk data transfer
+          performance, i.e. how fast systems can send and receive data through
+          the switch.</t>
+
+          <t>Request/Response Performance Tests (TCP, UDP) the measure the
+          transaction rate through the switch.</t>
+
+          <t>Packet Delay Tests to understand latency distribution for
+          different packet sizes and over an extended test run to uncover
+          outliers.</t>
+
+          <t>Scalability Tests to understand how the virtual switch performs
+          as the number of flows, active ports, complexity of the forwarding
+          logic&rsquo;s configuration&hellip; it has to deal with
+          increases.</t>
+
+          <t>Control Path and Datapath Coupling Tests, to understand how
+          closely coupled the datapath and the control path are as well as the
+          effect of this coupling on the performance of the DUT.</t>
+
+          <t>CPU and Memory Consumption Tests to understand the virtual
+          switch&rsquo;s footprint on the system, this includes: CPU
+          utilization, Cache utilization and Memory footprint.</t>
+
+          <t>Noisy Neighbour Tests, to understand the effects of resource
+          sharing on the performance of a virtual switch.</t>
+        </list></t>
+
+      <t>The felixability of deployemnt of a virtual switch within a network
+      means that the BMWG IETF existing literature needs to be used to
+      characterize the performance of a switch in various deployment
+      scenarios. The deployment scenarios under consideration include:</t>
+
+      <t><figure>
+          <preamble>Physical port to virtual switch to physical
+          port</preamble>
+
+          <artwork><![CDATA[                                                         __
+    +--------------------------------------------------+   |
+    |              +--------------------+              |   |
+    |              |                    |              |   |
+    |              |                    v              |   |  Host
+    |   +--------------+            +--------------+   |   |
+    |   |   phy port   |  vSwitch   |   phy port   |   |   |
+    +---+--------------+------------+--------------+---+ __|
+               ^                           :
+               |                           |
+               :                           v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+]]></artwork>
+        </figure></t>
+
+      <t><figure>
+          <preamble>Physical port to virtual switch to VNF to virtual switch
+          to physical port</preamble>
+
+          <artwork><![CDATA[                                                          __
+    +---------------------------------------------------+   |
+    |                                                   |   |
+    |   +-------------------------------------------+   |   |
+    |   |                 Application               |   |   |
+    |   +-------------------------------------------+   |   |
+    |       ^                                  :        |   |
+    |       |                                  |        |   |  Guest
+    |       :                                  v        |   |
+    |   +---------------+           +---------------+   |   |
+    |   | logical port 0|           | logical port 1|   |   |
+    +---+---------------+-----------+---------------+---+ __|
+            ^                                  :
+            |                                  |
+            :                                  v         __
+    +---+---------------+----------+---------------+---+   |
+    |   | logical port 0|          | logical port 1|   |   |
+    |   +---------------+          +---------------+   |   |
+    |       ^                                  :       |   |
+    |       |                                  |       |   |  Host
+    |       :                                  v       |   |
+    |   +--------------+            +--------------+   |   |
+    |   |   phy port   |  vSwitch   |   phy port   |   |   |
+    +---+--------------+------------+--------------+---+ __|
+               ^                           :
+               |                           |
+               :                           v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+]]></artwork>
+        </figure><figure>
+          <preamble>Physical port to virtual switch to VNF to virtual switch
+          to physical port</preamble>
+
+          <artwork><![CDATA[                                                          __
+    +---------------------------------------------------+   |
+    |                                                   |   |
+    |   +-------------------------------------------+   |   |
+    |   |                 Application               |   |   |
+    |   +-------------------------------------------+   |   |
+    |       ^                                  :        |   |
+    |       |                                  |        |   |  Guest
+    |       :                                  v        |   |
+    |   +---------------+           +---------------+   |   |
+    |   | logical port 0|           | logical port 1|   |   |
+    +---+---------------+-----------+---------------+---+ __|
+            ^                                  :
+            |                                  |
+            :                                  v         __
+    +---+---------------+----------+---------------+---+   |
+    |   | logical port 0|          | logical port 1|   |   |
+    |   +---------------+          +---------------+   |   |
+    |       ^                                  :       |   |
+    |       |                                  |       |   |  Host
+    |       :                                  v       |   |
+    |   +--------------+            +--------------+   |   |
+    |   |   phy port   |  vSwitch   |   phy port   |   |   |
+    +---+--------------+------------+--------------+---+ __|
+               ^                           :
+               |                           |
+               :                           v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+]]></artwork>
+        </figure><figure>
+          <preamble>Physical port to virtual switch to VNF to virtual switch
+          to VNF to virtual switch to physical port</preamble>
+
+          <artwork><![CDATA[                                                                                                                 __
+    +---------------------------------------------------+   +---------------------------------------------------+  |
+    |   Guest 1                                         |   |   Guest 2                                         |  |
+    |   +-------------------------------------------+   |   |   +-------------------------------------------+   |  |
+    |   |                 Application               |   |   |   |                 Application               |   |  |
+    |   +-------------------------------------------+   |   |   +-------------------------------------------+   |  |
+    |       ^                                  :        |   |       ^                                  :        |  |
+    |       |                                  |        |   |       |                                  |        |  |  Guest
+    |       :                                  v        |   |       :                                  v        |  |
+    |   +---------------+           +---------------+   |   |   +---------------+           +---------------+   |  |
+    |   | logical port 0|           | logical port 1|   |   |   | logical port 0|           | logical port 1|   |  |
+    +---+---------------+-----------+---------------+---+   +---+---------------+-----------+---------------+---+__|
+            ^                                  :                    ^                                  :
+            |                                  |                    |                                  |
+            :                                  v                    :                                  v         __
+    +---+---------------+----------+---------------+------------+---------------+-----------+---------------+---+  |
+    |   |     port 0    |          |     port 1    |            |     port 2    |           |     port 3    |   |  |
+    |   +---------------+          +---------------+            +---------------+           +---------------+   |  |
+    |       ^                                  :                    ^                                  :        |  |
+    |       |                                  |                    |                                  |        |  |  Host
+    |       :                                  +--------------------+                                  v        |  |
+    |   +--------------+                                                                    +--------------+    |  |
+    |   |   phy port   |                               vswitch                              |   phy port   |    |  |
+    +---+--------------+--------------------------------------------------------------------+--------------+----+__|
+               ^                                                                                    :
+               |                                                                                    |
+               :                                                                                    v
+    +-----------------------------------------------------------------------------------------------------------+
+    |                                                                                                           |
+    |                                              traffic generator                                            |
+    |                                                                                                           |
+    +-----------------------------------------------------------------------------------------------------------+]]></artwork>
+        </figure><figure>
+          <preamble>Physical port to virtual switch to VNF</preamble>
+
+          <artwork><![CDATA[                                                          __
+    +---------------------------------------------------+   |
+    |                                                   |   |
+    |   +-------------------------------------------+   |   |
+    |   |                 Application               |   |   |
+    |   +-------------------------------------------+   |   |
+    |       ^                                           |   |
+    |       |                                           |   |  Guest
+    |       :                                           |   |
+    |   +---------------+                               |   |
+    |   | logical port 0|                               |   |
+    +---+---------------+-------------------------------+ __|
+            ^
+            |
+            :                                            __
+    +---+---------------+------------------------------+   |
+    |   | logical port 0|                              |   |
+    |   +---------------+                              |   |
+    |       ^                                          |   |
+    |       |                                          |   |  Host
+    |       :                                          |   |
+    |   +--------------+                               |   |
+    |   |   phy port   |  vSwitch                      |   |
+    +---+--------------+------------ -------------- ---+ __|
+               ^
+               |
+               :
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+]]></artwork>
+        </figure><figure>
+          <preamble>VNF to virtual switch to physical port</preamble>
+
+          <artwork><![CDATA[                                                          __
+    +---------------------------------------------------+   |
+    |                                                   |   |
+    |   +-------------------------------------------+   |   |
+    |   |                 Application               |   |   |
+    |   +-------------------------------------------+   |   |
+    |                                          :        |   |
+    |                                          |        |   |  Guest
+    |                                          v        |   |
+    |                               +---------------+   |   |
+    |                               | logical port  |   |   |
+    +-------------------------------+---------------+---+ __|
+                                               :
+                                               |
+                                               v         __
+    +------------------------------+---------------+---+   |
+    |                              | logical port  |   |   |
+    |                              +---------------+   |   |
+    |                                          :       |   |
+    |                                          |       |   |  Host
+    |                                          v       |   |
+    |                               +--------------+   |   |
+    |                     vSwitch   |   phy port   |   |   |
+    +-------------------------------+--------------+---+ __|
+                                           :
+                                           |
+                                           v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+]]></artwork>
+        </figure><figure>
+          <preamble>virtual switch to VNF to virtual switch</preamble>
+
+          <artwork><![CDATA[                                                                                                                 __
+    +---------------------------------------------------+   +---------------------------------------------------+  |
+    |   Guest 1                                         |   |   Guest 2                                         |  |
+    |   +-------------------------------------------+   |   |   +-------------------------------------------+   |  |
+    |   |                 Application               |   |   |   |                 Application               |   |  |
+    |   +-------------------------------------------+   |   |   +-------------------------------------------+   |  |
+    |                                          :        |   |       ^                                           |  |
+    |                                          |        |   |       |                                           |  |  Guest
+    |                                          v        |   |       :                                           |  |
+    |                               +---------------+   |   |   +---------------+                               |  |
+    |                               | logical port 0|   |   |   | logical port 0|                               |  |
+    +-------------------------------+---------------+---+   +---+---------------+-------------------------------+__|
+                                               :                    ^
+                                               |                    |
+                                               v                    :                                            __
+    +------------------------------+---------------+------------+---------------+-------------------------------+  |
+    |                              |     port 0    |            |     port 1    |                               |  |
+    |                              +---------------+            +---------------+                               |  |
+    |                                          :                    ^                                           |  |
+    |                                          |                    |                                           |  |  Host
+    |                                          +--------------------+                                           |  |
+    |                                                                                                           |  |
+    |                                                  vswitch                                                  |  |
+    +-----------------------------------------------------------------------------------------------------------+__|]]></artwork>
+        </figure></t>
+    </section>
+
+    <section title="Security Considerations">
+      <t>Benchmarking activities as described in this memo are limited to
+      technology characterization of a Device Under Test/System Under Test
+      (DUT/SUT) using controlled stimuli in a laboratory environment, with
+      dedicated address space and the constraints specified in the sections
+      above.</t>
+
+      <t>The benchmarking network topology will be an independent test setup
+      and MUST NOT be connected to devices that may forward the test traffic
+      into a production network, or misroute traffic to the test management
+      network.</t>
+
+      <t>Further, benchmarking is performed on a "black-box" basis, relying
+      solely on measurements observable external to the DUT/SUT.</t>
+
+      <t>Special capabilities SHOULD NOT exist in the DUT/SUT specifically for
+      benchmarking purposes. Any implications for network security arising
+      from the DUT/SUT SHOULD be identical in the lab and in production
+      networks.</t>
+    </section>
+
+    <section anchor="IANA" title="IANA Considerations">
+      <t>No IANA Action is requested at this time.</t>
+    </section>
+
+    <section title="Acknowledgements">
+      <t>The authors acknowledge</t>
+    </section>
+  </middle>
+
+  <back>
+    <references title="Normative References">
+      <?rfc ?>
+
+      <?rfc include="reference.RFC.2119"?>
+
+      <?rfc include="reference.RFC.2330"?>
+
+      <?rfc include='reference.RFC.2544'?>
+
+      <?rfc include="reference.RFC.2679"?>
+
+      <?rfc include='reference.RFC.2680'?>
+
+      <?rfc include='reference.RFC.3393'?>
+
+      <?rfc include='reference.RFC.3432'?>
+
+      <?rfc include='reference.RFC.2681'?>
+
+      <?rfc include='reference.RFC.5905'?>
+
+      <?rfc include='reference.RFC.4689'?>
+
+      <?rfc include='reference.RFC.4737'?>
+
+      <?rfc include='reference.RFC.5357'?>
+
+      <reference anchor="NFV.PER001">
+        <front>
+          <title>Network Function Virtualization: Performance and Portability
+          Best Practices</title>
+
+          <author fullname="ETSI NFV" initials="" surname="">
+            <organization/>
+          </author>
+
+          <date month="June" year="2014"/>
+        </front>
+
+        <seriesInfo name="Group Specification"
+                    value="ETSI GS NFV-PER 001 V1.1.1 (2014-06)"/>
+
+        <format type="PDF"/>
+      </reference>
+    </references>
+
+    <references title="Informative References">
+      <?rfc include='reference.RFC.1242'?>
+
+      <?rfc include='reference.RFC.5481'?>
+
+      <?rfc include='reference.RFC.6049'?>
+
+      <?rfc include='reference.RFC.6248'?>
+
+      <?rfc include='reference.RFC.6390'?>
+    </references>
+  </back>
+</rfc>
