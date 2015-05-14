@@ -94,7 +94,7 @@
       </address>
     </author>
 
-    <date day="6" month="June" year="2015"/>
+    <date day="16" month="June" year="2015"/>
 
     <abstract>
       <t>This memo describes the progress of the Open Platform for NFV (OPNFV)
@@ -168,7 +168,7 @@
 
     <section title="Benchmarking Considerations">
       <t>This section highlights some specific considerations (from <xref
-      target="ID.ietf-bmwg-virtual-net"/>)related to Benchmarks for virtual
+      target="I-D.ietf-bmwg-virtual-net"/>)related to Benchmarks for virtual
       switches.</t>
 
       <section title="Comparison with Physical Network Functions">
@@ -179,7 +179,7 @@
         during development of new methods. A key configuration aspect is the
         number of parallel cores required to achieve comparable performance
         with a given physical device, or whether some limit of scale was
-        reached before the cores could achieve the comparable level. </t>
+        reached before the cores could achieve the comparable level.</t>
 
         <t>It's unlikely that the virtual switch will be the only application
         running on the SUT, so CPU utilization, Cache utilization, and Memory
@@ -191,7 +191,7 @@
         <t>External observations remain essential as the basis for Benchmarks.
         Internal observations with fixed specification and interpretation will
         be provided in parallel to assist the development of operations
-        procedures when the technology is deployed. </t>
+        procedures when the technology is deployed.</t>
       </section>
     </section>
 
@@ -242,21 +242,23 @@
           performance, i.e. how fast systems can send and receive data through
           the switch.</t>
 
-          <t>Request/Response Performance Tests (TCP, UDP) the measure the
-          transaction rate through the switch.</t>
-
           <t>Control Path and Datapath Coupling Tests, to understand how
           closely coupled the datapath and the control path are as well as the
           effect of this coupling on the performance of the DUT (example:
           delay of the initial packet of a flow).</t>
 
-          <t>Noisy Neighbour Tests, to understand the effects of resource
-          sharing on the performance of a virtual switch.</t>
-
           <t>CPU and Memory Consumption Tests to understand the virtual
           switch&rsquo;s footprint on the system, usually conducted as
           auxilliary measurements with benchmarks above. They include: CPU
           utilization, Cache utilization and Memory footprint.</t>
+
+          <t>(future test specs below)</t>
+
+          <t>Request/Response Performance Tests (TCP, UDP) the measure the
+          transaction rate through the switch.</t>
+
+          <t>Noisy Neighbour Tests, to understand the effects of resource
+          sharing on the performance of a virtual switch.</t>
         </list></t>
 
       <t>The felixability of deployemnt of a virtual switch within a network
@@ -346,13 +348,13 @@
  |   | logical ports |         | logical ports |  | |
  |   +---------------+         +---------------+  | |
  |       ^       |                 ^       |      | |  Host
- |       |       L-----------------+       v      | |
+ |       |       |-----------------|       v      | |
  |   +--------------+          +--------------+   | |
  |   |   phy ports  | vSwitch  |   phy ports  |   | |
  +---+--------------+----------+--------------+---+_|
-         ^       :                 ^       :
-         |       |                 |       |
-         :       v                 :       v
+         ^                                 :
+         |                                 |
+         :                                 v
  +--------------------------------------------------+
  |                                                  |
  |                traffic generator                 |
@@ -429,7 +431,7 @@
     |                                                  |
     +--------------------------------------------------+]]></artwork>
         </figure><figure>
-          <preamble> VNF to virtual switch to VNF</preamble>
+          <preamble>VNF to virtual switch to VNF</preamble>
 
           <artwork><![CDATA[                                                   __
  +----------------------+  +----------------------+  |
@@ -443,8 +445,8 @@
  |   | logical ports |  |  |   | logical ports |  |  |
  |   |           0   |  |  |   |   0           |  |  |
  +---+---------------+--+  +---+---------------+--+__|
-                 :                 ^
-                 |                 |
+                 :                 ^        
+                 |                 |        
                  v                 :               _
  +---+---------------+---------+---------------+--+ |
  |   |           1   |         |   1           |  | |
@@ -455,9 +457,109 @@
  |                                                | |
  |                    vSwitch                     | |
  +------------------------------------------------+_|
-
+ 
 ]]></artwork>
         </figure></t>
+    </section>
+
+    <section title="3x3 Matrix Coverage">
+      <t>This section organizes the many existing test specifications into the
+      "3x3" matrix (introduced in <xref target="I-D.ietf-bmwg-virtual-net"/>).
+      Because the LTD specification ID names are quite long, this section is
+      organized into lists for each occupied cell of the matrix (not all are
+      occupied, also the ).</t>
+
+      <t>The tests listed below assess the activation of paths in the data
+      plane, rather than the control plane.</t>
+
+      <t>(Editor's Note: a complete list of tests is available here:
+      https://wiki.opnfv.org/wiki/vswitchperf_test_spec_review )</t>
+
+      <section title="Speed of Activation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2889.AddressLearningRate</t>
+
+            <t>Throughput.RFC2889.AddressCachingCapacity</t>
+
+            <t>PacketLatency.InitialPacketProcessingLatency</t>
+
+            <t/>
+          </list></t>
+      </section>
+
+      <section title="Reliability of Activation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2544.SystemRecoveryTime</t>
+
+            <t>Throughput.RFC2544.ResetTime</t>
+          </list></t>
+      </section>
+
+      <section title="Scale of Activation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2889.AddressCachingCapacity</t>
+
+            <t/>
+          </list></t>
+      </section>
+
+      <section title="Speed of Operation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2544.PacketLossRate</t>
+
+            <t>Throughput.RFC2544.PacketLossRateFrameModification</t>
+
+            <t>Throughput.RFC2544.BackToBackFrames</t>
+
+            <t>Throughput.RFC2889.ForwardingRate</t>
+
+            <t>Throughput.RFC2889.ForwardPressure</t>
+
+            <t>Throughput.RFC2889.BroadcastFrameForwarding</t>
+
+            <t>RFC2889 Broadcast Frame Latency test</t>
+          </list></t>
+      </section>
+
+      <section title="Accuracy of Operation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2889.ErrorFramesFiltering</t>
+
+            <t/>
+          </list></t>
+      </section>
+
+      <section title="Reliability of Operation">
+        <t><list style="symbols">
+            <t>Throughput.RFC2544.Soak</t>
+
+            <t>Throughput.RFC2544.SoakFrameModification</t>
+
+            <t/>
+          </list></t>
+      </section>
+
+      <section title="Summary">
+        <t><figure>
+            <artwork><![CDATA[|------------------------------------------------------------------------|
+|               |             |            |               |             |
+|               |   SPEED     |  ACCURACY  |  RELIABILITY  |    SCALE    |
+|               |             |            |               |             |
+|------------------------------------------------------------------------|
+|               |             |            |               |             |
+|  Activation   |      X      |            |       X       |      X      |
+|               |             |            |               |             |
+|------------------------------------------------------------------------|
+|               |             |            |               |             |
+|  Operation    |      X      |      X     |       X       |             |
+|               |             |            |               |             |
+|------------------------------------------------------------------------|
+|               |             |            |               |             |
+| De-activation |             |            |               |             |
+|               |             |            |               |             |
+|------------------------------------------------------------------------|]]></artwork>
+          </figure></t>
+      </section>
     </section>
 
     <section title="Security Considerations">
@@ -548,7 +650,19 @@
 
       <?rfc include='reference.RFC.6390'?>
 
-      <?rfc include='reference.ID.ietf-bmwg-virtual-net'?>
+      <reference anchor="Anchor">
+        <front>
+          <title/>
+
+          <author>
+            <organization/>
+          </author>
+
+          <date/>
+        </front>
+      </reference>
+
+      <?rfc include='reference.I-D.ietf-bmwg-virtual-net'?>
     </references>
   </back>
 </rfc>
