@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_c44fb991",
+        "filename": "test_spec/ietf_summary/draft-vsperf-bmwg-vswitch-opnfv-00.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-05-20T11:51:31Z",
+      "side": 1,
+      "message": "Need to fix Billy\u0027s name, sorry Billy!",
+      "revId": "03c956ddfaf90a2c485721aeeeaa983d7d4c4ba8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
