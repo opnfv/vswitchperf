@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_84bbf171",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-05-20T10:04:02Z",
+      "side": 1,
+      "message": "Still a stray \"Slow-path\" in the title:\n  s/Slow-path Packet Delay/Initial Packet Processing Latency/   Sorry, I should have indicated all instances (or fixed them myself, which is a different issue. Otherwise, +1",
+      "revId": "96249bce15db6cacb1d30155a9767b3d821340e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_64b0e58b",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-05-20T10:04:02Z",
+      "side": 1,
+      "message": "s/traffic traversing the slow-path/initial packet of all flows/",
+      "revId": "96249bce15db6cacb1d30155a9767b3d821340e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_44ade930",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-05-20T10:04:02Z",
+      "side": 1,
+      "message": "s/packets that are processed by the slow-path/initial packets of all flows/",
+      "revId": "96249bce15db6cacb1d30155a9767b3d821340e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
