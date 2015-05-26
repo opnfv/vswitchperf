@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_9a9fc803",
+        "filename": "test_spec/ietf_summary/draft-vsperf-bmwg-vswitch-opnfv-00.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-05-26T03:48:02Z",
+      "side": 1,
+      "message": "This test case seemed to be a duplicate of the above test case",
+      "revId": "0cedabd10d2630cd6eafb1b274fa5a2c3a9cf4d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
