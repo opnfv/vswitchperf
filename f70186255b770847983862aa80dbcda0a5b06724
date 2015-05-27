@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_03a114f8",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-05-27T11:24:50Z",
+      "side": 1,
+      "message": "I agree with Aihua\u0027s comment requiring the number of ports to be specified and suggesting 5 ports as default. I suggest the text below.",
+      "revId": "f70186255b770847983862aa80dbcda0a5b06724",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_83ac04ef",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-05-27T11:24:50Z",
+      "side": 1,
+      "message": "The number of ports receiving broadcast traffic MUST be specified, making the distinction between physical and virtual ports. The default number of receiving ports is 5, with 1 physical and 4 virtual ports, in addition to one physical port where the broadcast frame originates.",
+      "revId": "f70186255b770847983862aa80dbcda0a5b06724",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
