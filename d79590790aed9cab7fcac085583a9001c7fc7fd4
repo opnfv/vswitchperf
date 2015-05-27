@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_438ddc7a",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-05-27T11:41:37Z",
+      "side": 1,
+      "message": "Hi Aihau, you mention the Mininum delay could be unreliable, because it could be an outlier. While either extreme of the distribution could troubled by an outlier, the Minimum is \nusually much more stable than Maximum (and that\u0027s why we use 99th percentile). There are often both practical and physical properties which place a lower bound on an accurately measured Minimum Latency. In practice, frames with minimum latency often appear many times in the latency distribution (with a meaningful precision to avoid using random values of pico-seconds, for example).  When considering packet delay variation, the extremes are of interest and the mean has little meaning.",
+      "revId": "d79590790aed9cab7fcac085583a9001c7fc7fd4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
