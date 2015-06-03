@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3a045101_da178950",
+        "filename": "conf/10_custom.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-06-03T15:17:26Z",
+      "side": 1,
+      "message": "What I meant is why not just put the relative path as default value so user can test out without changing the source files.",
+      "parentUuid": "3a045101_4fd85d1d",
+      "revId": "873ea4f3d27f3f9befdd20669ef8a10e367aba7a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a045101_ef0cc996",
         "filename": "docs/installation.md",
         "patchSetId": 1
