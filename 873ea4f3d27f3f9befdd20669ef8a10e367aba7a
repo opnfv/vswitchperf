@@ -16,6 +16,40 @@
       "revId": "873ea4f3d27f3f9befdd20669ef8a10e367aba7a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_ef0cc996",
+        "filename": "docs/installation.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-06-03T07:04:03Z",
+      "side": 1,
+      "message": "the scl command worked only for super user.  For regular user, the scl command seemed accepted without error, but the python command still comes from python2.7 from the system.",
+      "revId": "873ea4f3d27f3f9befdd20669ef8a10e367aba7a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_2f13d1b9",
+        "filename": "docs/installation.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-06-03T07:04:03Z",
+      "side": 1,
+      "message": "need to add a line\ncd ..",
+      "revId": "873ea4f3d27f3f9befdd20669ef8a10e367aba7a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
