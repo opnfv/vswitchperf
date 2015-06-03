@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_4fd85d1d",
+        "filename": "conf/10_custom.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 202
+      },
+      "writtenOn": "2015-06-03T06:14:38Z",
+      "side": 1,
+      "message": "can these path be relative path inside the repo?",
+      "revId": "873ea4f3d27f3f9befdd20669ef8a10e367aba7a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
