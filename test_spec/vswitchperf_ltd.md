@@ -700,7 +700,13 @@ The following represents possible deployments which can help to determine the pe
 
   **Description**:
 
-  The aim of this test is to determine the length of time it takes the DUT to recover from a reset. For each frame size previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent to the DUT under normal conditions. During the duration of the test and while the traffic flows are passing through the DUT, the DUT should be reset and the Reset time measured. The Reset time is the total time that a device is determined to be out of operation and includes the time to perform the reset and the time to recover from it (cf. [RFC6201]) 
+  The aim of this test is to determine the length of time it takes the DUT to recover from a reset.
+
+  Two reset methods are defined - planned and unplanned. A planned reset requires stopping and restarting the virtual switch by the usual 'graceful' method defined by it's documentation. An unplanned reset requires simulating a fatal internal fault in the virtual switch - for example by using kill -SIGKILL on a Linux environment.
+
+  Both reset methods SHOULD be exercised.
+
+  For each frame size previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent to the DUT under normal conditions. During the duration of the test and while the traffic flows are passing through the DUT, the DUT should be reset and the Reset time measured. The Reset time is the total time that a device is determined to be out of operation and includes the time to perform the reset and the time to recover from it (cf. [RFC6201]).
 
   [RFC6201] defines two methods to measure the Reset time:
     - Frame-Loss Method: which requires the monitoring of the number of lost frames and calculates the Reset time based on the number of frames lost and the offered rate according to the following formula:
@@ -725,13 +731,14 @@ The following represents possible deployments which can help to determine the pe
   **Metrics collected**
 
   The following are the metrics collected for this test:
-   - Average Reset Time.
+   - Average Reset Time over the number of trials performed.
 
   Results of this test should include the following information:
+   - The reset method used.
    - Throughput in Fps and Mbps.
-   - Average Frame Loss.
-   - Average Reset Time in milliseconds.
-   - Number of trials.
+   - Average Frame Loss over the number of trials performed.
+   - Average Reset Time in milliseconds over the number of trials performed.
+   - Number of trials performed.
    - Protocol: IPv4, IPv6, MPLS, etc.
    - Frame Size in Octets
    - Port Media: Ethernet, Gigabit Ethernet (GbE), etc.
