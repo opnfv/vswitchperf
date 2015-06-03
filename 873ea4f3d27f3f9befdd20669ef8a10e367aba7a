@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a045101_3a00ad00",
+        "filename": "conf/10_custom.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-06-03T09:57:11Z",
+      "side": 1,
+      "message": "I usually use absolute paths but paths relative to ./vsperf should be also work",
+      "parentUuid": "3a045101_4fd85d1d",
+      "revId": "873ea4f3d27f3f9befdd20669ef8a10e367aba7a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a045101_ef0cc996",
         "filename": "docs/installation.md",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3a045101_7a1d1566",
+        "filename": "docs/installation.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-06-03T09:57:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a045101_ef0cc996",
+      "revId": "873ea4f3d27f3f9befdd20669ef8a10e367aba7a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a045101_2f13d1b9",
         "filename": "docs/installation.md",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-06-03T07:04:03Z",
       "side": 1,
       "message": "need to add a line\ncd ..",
+      "revId": "873ea4f3d27f3f9befdd20669ef8a10e367aba7a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_9a10e14f",
+        "filename": "docs/installation.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-06-03T09:57:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a045101_2f13d1b9",
       "revId": "873ea4f3d27f3f9befdd20669ef8a10e367aba7a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
