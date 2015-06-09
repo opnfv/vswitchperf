@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a045101_7d962c96",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-06-09T20:43:21Z",
+      "side": 1,
+      "message": "I pounded many comments into the test for cache \u0026 memory which are applicable here as well.  But Since Utilization and memory/cache measurements are all \"internal measurements\" (or white box measurements in BMWG), we could combine them in\na single test case and add the point that these will usually be measured in combination with an external/black-box benchmark.",
+      "revId": "a22f51f829cfa61f150a61f5b3d1fd82dbaa9342",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
