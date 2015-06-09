@@ -574,7 +574,7 @@ The starting point for defining the suite of tests for benchmarking the performa
   - Hardware details including:
     - Platform details.
     - Processor details.
-    - Memory information (type and size).
+    - Memory information (see below)
     - Number of enabled cores.
     - Number of cores used for the test.
     - Number of physical NICs, as well as their details (manufacturer, versions, type and the PCI slot they are plugged into).
@@ -597,6 +597,18 @@ The starting point for defining the suite of tests for benchmarking the performa
     - Number vNIC interrupt configuration.
     - Thread affinitization for the applications (including the vSwitch itself) on the host.
     - Details of Resource isolation, such as CPUs designated for Host/Kernel (isolcpu) and CPUs designated for specific processes (taskset).
+  - Memory Details
+    - Total memory
+    - Type of memory
+    - Used memory
+    - Active memory
+    - Inactive memory
+    - Free memory
+    - Buffer memory
+    - Swap cache
+    - Total swap
+    - Used swap
+    - Free swap
   - Test duration.
   - Number of flows.
   - Traffic Information:
@@ -915,7 +927,7 @@ The starting point for defining the suite of tests for benchmarking the performa
 
   **Description**:
 
-  This test measures the DUT's Max Forwarding Rate when the Offered Load is varied between the throughput and the Maximum Offered Load for fixed length frames at a fixed time interval. The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams). The throughput is the maximum offered load with 0% frame loss (measured by the prerequisite test), and the Maximum Offered Load (as defined by [RFC2885]) is _"the highest number of frames per second that an external source can transmit to a DUT/SUT for forwarding to a specified output interface or interfaces"_.
+  This test measures the DUT's Max Forwarding Rate when the Offered Load is varied between the throughput and the Maximum Offered Load for fixed length frames at a fixed time interval. The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams). The throughput is the maximum offered load with 0% frame loss (measured by the prerequisite test), and the Maximum Offered Load (as defined by [RFC2285]) is _"the highest number of frames per second that an external source can transmit to a DUT/SUT for forwarding to a specified output interface or interfaces"_.
 
   Traffic should be sent to the DUT at a particular rate (TX rate) starting with TX rate equal to the throughput rate. The rate of successfully received frames at the destination counted (in FPS). If the RX rate is equal to the TX rate, the TX rate should be increased by a fixed step size and the RX rate measured again until the Max Forwarding Rate is found.
 
@@ -1066,6 +1078,33 @@ The starting point for defining the suite of tests for benchmarking the performa
    - The forwarding rate of the DUT when forwarding broadcast traffic.
 
 <br/>
+ - #####Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
+  **Title**: RFC 2544 0% loss Memory Bandwidth Scalability test
+
+  **Prerequisite Tests**:
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to understand how the DUT's performance is affected by cache sharing and memory bandwidth between processes.
+
+  During the test all cores not used by the vSwitch should be running a memory intensive application. This application should read and write random data to random addresses in unused physical memory. The random nature of the data and addresses is intended to consume cache, exercise main memory access (as opposed to cache) and exercise all memory buses equally. Furthermore:
+  - the ratio of reads to writes should be recorded. A ratio of 1:1 SHOULD be used.
+  - the reads and writes MUST be of cache-line size and be cache-line aligned.
+  - in NUMA architectures memory access SHOULD be local to the core's node. Whether only local memory or a mix of local and remote memory is used MUST be recorded.
+  - the memory bandwidth (reads plus writes) used per-core MUST be recorded; the test MUST be run with a per-core memory bandwidth equal to half the maximum system memory bandwidth divided by the number of cores. The test MAY be run with other values for the per-core memory bandwidth.
+  - the test MAY also be run with the memory intensive application running on all cores.
+
+  Under these conditions the DUT's 0% packet loss throughput is determined as per LTD.Throughput.RFC2544.PacketLossRatio.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+  - The DUT's 0% packet loss throughput in the presence of cache sharing and memory bandwidth between processes.
 ----
 <a name="LatencyTests"></a>
 ####2.3.2 Packet Latency tests
@@ -1163,7 +1202,7 @@ The starting point for defining the suite of tests for benchmarking the performa
 ----
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
-[RFC2885]:(http://www.ietf.org/rfc/rfc2885.txt)
+[RFC2285]:(http://www.ietf.org/rfc/rfc2285.txt)
 [RFC2889]:(http://www.ietf.org/rfc/rfc2889.txt)
 [RFC5481]:(http://www.ietf.org/rfc/rfc5481.txt)
 [RFC6201]:(http://www.ietf.org/rfc/rfc6201.txt)
