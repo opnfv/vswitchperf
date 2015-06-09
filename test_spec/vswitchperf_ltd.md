@@ -899,6 +899,32 @@ The following represents possible deployments which can help to determine the pe
 
    - The forwarding rate of the DUT when forwarding broadcast traffic.
 
+<br/>
+ - #####Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
+  **Title**: RFC 2544 0% loss Memory Bandwidth Scalability test
+
+  **Prerequisite Tests**: LTD.Throughput.RFC2544.ZeroPacketLoss, LTD.Scalability.RFC2544.0PacketLoss
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to understand how the DUT's performance is affected by cache sharing and memory bandwidth between processes. For this test, the DUT's datapath should be configured with the maximum number of flows previously determined in the prerequisite scalability test for each frame size. Traffic for each frame size should be sent at the highest possible throughput with zero packet loss, as determined in the prerequisite throughput test. The overall memory utilization of the the system should be measured to determine how compute intensive the datapath is in the presence of a large number of flows.
+
+  During the test, the DUT must perform the following operations on the traffic flow:
+
+   - Perform packet matching on the 5 tuple (IP Dst, IP Src, TCP Dst, TCP Src, IP Proto) on the DUT's ingress port.
+   - Perform packet matching on the 10 tuple (Ingress Port, Ether Src, Ether Type, Dst, Vlan ID, IP Dst, IP Src, TCP Dst, TCP Src, IP Proto) on the DUT'S ingress port.
+   - Modify the packet header before forwarding the packet on the DUT's egress port.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - Performance of the DUT in the presence of cache sharing and memory bandwidth between processes.
+
 ----
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
