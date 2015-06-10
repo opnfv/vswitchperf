@@ -16,6 +16,24 @@
       "revId": "a22f51f829cfa61f150a61f5b3d1fd82dbaa9342",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_7d7cec20",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-06-10T12:36:25Z",
+      "side": 1,
+      "message": "agreed, we should remove this test and measure these in conjunction with the other tests. Perhaps even as a default metric to be collected across the board unless otherwise stated",
+      "parentUuid": "3a045101_7d962c96",
+      "revId": "a22f51f829cfa61f150a61f5b3d1fd82dbaa9342",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
