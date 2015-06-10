@@ -52,6 +52,24 @@
       "revId": "b643f344d2a81124a75c087362768b0874b29008",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_bd995470",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-06-10T13:02:51Z",
+      "side": 1,
+      "message": "It sounds like we do (Agree), I don\u0027t think that changing the set of \u0027tuples included in the test load made a significant difference in past. If it does now, we need to make sure that the \u0027tuples used are recorded so the test can be repeated.",
+      "parentUuid": "3a045101_dd8d4033",
+      "revId": "b643f344d2a81124a75c087362768b0874b29008",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
