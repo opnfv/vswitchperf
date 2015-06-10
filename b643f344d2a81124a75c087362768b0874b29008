@@ -34,6 +34,24 @@
       "revId": "b643f344d2a81124a75c087362768b0874b29008",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a045101_dd8d4033",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-06-10T12:33:55Z",
+      "side": 1,
+      "message": "Do we need it in the base packet loss ratio test, maybe that is the more accurate way of doing this?\nwe have noticed in the past that depending on what you chose to match on your performance will vary... and the default params to match on will probably differ from switch to switch...",
+      "parentUuid": "3a045101_c8ba35e1",
+      "revId": "b643f344d2a81124a75c087362768b0874b29008",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
