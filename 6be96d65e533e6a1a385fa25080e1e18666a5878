@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a014df3_1e2509ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-06-16T10:59:52Z",
+      "side": 1,
+      "message": "Add JIRA # VSPERF39",
+      "revId": "6be96d65e533e6a1a385fa25080e1e18666a5878",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
