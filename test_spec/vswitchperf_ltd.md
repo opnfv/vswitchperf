@@ -565,17 +565,17 @@ The following represents possible deployments which can help to determine the pe
  - #####Test ID: LTD.Throughput.RFC2544.SystemRecoveryTime
   **Title**: RFC 2544 System Recovery Time Test
 
-  **Prerequisite Test**: N\A
+  **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatio
 
   **Priority**:
 
   **Description**:
 
-  The aim of this test is to determine the length of time it takes the DUT to recover from an overload condition for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent to the DUT under normal conditions. During the duration of the test and while the traffic flows are passing though the DUT, at least one situation leading to an overload condition for the DUT should occur. The time from the start of the overload condition to when the DUT returns to normal operations should be measured to determine recovery time. Prior to overloading the DUT, one should record the average latency for 100 packets forwarded through the DUT.
+  The aim of this test is to determine the length of time it takes the DUT to recover from an overload condition for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent to the DUT under normal conditions. During the duration of the test and while the traffic flows are passing though the DUT, at least one situation leading to an overload condition for the DUT should occur. The time from the end of the overload condition to when the DUT returns to normal operations should be measured to determine recovery time. Prior to overloading the DUT, one should record the average latency for 10,000 packets forwarded through the DUT.
 
-  The suggested overload condition would be to transmit traffic at a very high frame rate to the DUT, for at least 60 seconds, then reduce the frame rate to the DUT by half; A number of time-stamps should be recorded: 
-    - Record the time-stamp at which the frame rate was halved and record a second time-stamp at the time of the last frame lost. The recovery time is the difference between the two timestamps.
-    - Record the average Latency for 100 frames after the last frame loss and continue to record average latency measurements for every 100 frames, when latency returns to pre-overload levels record the time-stamp.
+  The overload condition SHOULD be to transmit traffic at a very high frame rate to the DUT (150% of the maximum 0% packet loss rate as determined by LTD.Throughput.RFC2544.PacketLossRatio or line-rate whichever is lower), for at least 60 seconds, then reduce the frame rate to 75% of the maximum 0% packet loss rate. A number of time-stamps should be recorded:
+    - Record the time-stamp at which the frame rate was reduced and record a second time-stamp at the time of the last frame lost. The recovery time is the difference between the two timestamps.
+    - Record the average latency for 10,000 frames after the last frame loss and continue to record average latency measurements for every 10,000 frames, when latency returns to within 10% of pre-overload levels record the time-stamp.
 
   **Expected Result**:
 
