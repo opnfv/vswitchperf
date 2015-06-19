@@ -186,8 +186,8 @@ class IxNet(trafficgen.ITrafficGenerator):
             'card': settings.getValue('TRAFFICGEN_IXIA_CARD'),
             'port1': settings.getValue('TRAFFICGEN_IXIA_PORT1'),
             'port2': settings.getValue('TRAFFICGEN_IXIA_PORT2'),
-            'output_dir': settings.getValue(
-                          'TRAFFICGEN_IXNET_TESTER_RESULT_DIR'),
+            'output_dir':
+                settings.getValue('TRAFFICGEN_IXNET_TESTER_RESULT_DIR'),
         }
 
         self._logger.debug('IXIA configuration configuration : %s', self._cfg)
@@ -365,7 +365,7 @@ class IxNet(trafficgen.ITrafficGenerator):
                         results[ResultsConstants.THROUGHPUT_TX_MBPS] = tx_mbps
                         results[ResultsConstants.THROUGHPUT_RX_MBPS] = row[10]
                         results[ResultsConstants.THROUGHPUT_TX_PERCENT] = row[7]
-                        results[ResultsConstants.THROUGHPUT_TX_PERCENT] = row[8]
+                        results[ResultsConstants.THROUGHPUT_RX_PERCENT] = row[8]
                         results[ResultsConstants.MIN_LATENCY_NS] = row[15]
                         results[ResultsConstants.MAX_LATENCY_NS] = row[16]
                         results[ResultsConstants.AVG_LATENCY_NS] = row[17]
@@ -468,7 +468,8 @@ class IxNet(trafficgen.ITrafficGenerator):
 
             :returns: Best parsed result from CSV file.
             """
-            results = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+            results = OrderedDict()
+            results[ResultsConstants.B2B_FRAMES] = 0
 
             with open(path, 'r') as in_file:
                 reader = csv.reader(in_file, delimiter=',')
@@ -477,29 +478,20 @@ class IxNet(trafficgen.ITrafficGenerator):
                     # if back2back count higher than previously found, store it
                     # Note: row[N] here refers to the Nth column of a row
                     if float(row[14]) <= self._params['config']['lossrate']:
-                        if int(row[12]) > int(results[5]):
-                            results = [
-                                float(row[9]),  # rx throughput (fps)
-                                float(row[10]),  # rx throughput (mbps)
-                                float(row[7]),  # tx rate (% linerate)
-                                float(row[8]),  # rx rate (% linerate)
-                                int(row[11]),  # tx count (frames)
-                                int(row[12]),  # back2back count (frames)
-                                int(row[13]),  # frame loss (frames)
-                                float(row[14]),  # frame loss (%)
-                            ]
+                        if int(row[12]) > \
+                         int(results[ResultsConstants.B2B_FRAMES]):
+                            results[ResultsConstants.B2B_FRAMES] = int(row[12])
 
             return results
 
-        self.run_tcl('waitForRfc2544Test')
+        output = self.run_tcl('waitForRfc2544Test')
 
         # the run_tcl function will return a list with one element. We extract
         # that one element (a string representation of an IXIA-specific Tcl
         # datatype), parse it to find the path of the results file then parse
         # the results file
 
-        #TODO implement back2back result via IResult interface.
-        #return parse_ixnet_rfc_results(parse_result_string(output[0]))
+        return parse_ixnet_rfc_results(parse_result_string(output[0]))
 
 
 if __name__ == '__main__':

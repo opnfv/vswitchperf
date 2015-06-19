@@ -36,13 +36,13 @@
 
         <facsimile/>
 
-        <email/>
+        <email>maryam.tahhan@intel.com</email>
 
         <uri/>
       </address>
     </author>
 
-    <author fullname="Billy O Mahony" initials="B." surname="O Mahony">
+    <author fullname="Billy O'Mahony" initials="B." surname="O'Mahony">
       <organization>Intel</organization>
 
       <address>
@@ -62,7 +62,7 @@
 
         <facsimile/>
 
-        <email/>
+        <email>billy.o.mahony@intel.com</email>
 
         <uri/>
       </address>
@@ -103,7 +103,7 @@
       Methodology Working Group in IETF, by referencing existing literature.
       The Benchmarking Methodology Working Group has traditionally conducted
       laboratory characterization of dedicated physical implementations of
-      internetworking functions. Therefore, this memo begins to describes the
+      internetworking functions. Therefore, this memo begins to describe the
       additional considerations when virtual switches are implemented in
       general-purpose hardware. The expanded tests and benchmarks are also
       influenced by the OPNFV mission to support virtualization of the "telco"
@@ -186,7 +186,7 @@
         <t>It's unlikely that the virtual switch will be the only application
         running on the SUT, so CPU utilization, Cache utilization, and Memory
         footprint should also be recorded for the virtual implementations of
-        internetworking functions. </t>
+        internetworking functions.</t>
       </section>
 
       <section title="Continued Emphasis on Black-Box Benchmarks">
@@ -203,7 +203,7 @@
         can affect the consistency of results, one key factor is matching the
         various hardware and software details of the SUT. This section lists
         some of the many new parameters which this project believes are
-        critical to report in order to achieve repeatability. </t>
+        critical to report in order to achieve repeatability.</t>
 
         <t>Hardware details including:</t>
 
@@ -309,7 +309,7 @@
         particular stream will install the flow in the virtual switch which
         adds an additional latency, subsequent packets of the same flow are
         not subject to this latency if the flow is already installed on the
-        vSwitch. </t>
+        vSwitch.</t>
       </section>
 
       <section title="Benchmarks using Baselines with Resource Isolation">
