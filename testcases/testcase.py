@@ -68,8 +68,7 @@ class TestCase(object):
         with vswitch_ctl:
             if vnf_ctl:
                 vnf_ctl.start()
-                #TODO 'traffic' is placeholder for traffic dict
-                traffic = {'test': 'rfc2544'}
+                traffic = {'traffic_type': self._traffic_type}
             with traffic_ctl:
                 traffic_ctl.send_traffic(traffic)
 

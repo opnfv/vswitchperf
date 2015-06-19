@@ -82,10 +82,15 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
 
         for packet_size in self._packet_sizes:
             traffic['l2'] = {'framesize': packet_size}
-            result = self._traffic_gen_class.send_rfc2544_throughput(
-                traffic,
-                trials=int(self._trials),
-                duration=int(get_test_param('rfc2544_duration', 20)))
+            if traffic['traffic_type'] == 'back2back':
+                result = self._traffic_gen_class.send_rfc2544_back2back(
+                    traffic, trials=int(self._trials),
+                    duration=int(get_test_param('rfc2544_duration', 20)))
+            else:
+                result = self._traffic_gen_class.send_rfc2544_throughput(
+                    traffic, trials=int(self._trials),
+                    duration=int(get_test_param('rfc2544_duration', 20)))
+
             result = TrafficControllerRFC2544._append_results(result,
                                                               packet_size)
             self._results.append(result)
