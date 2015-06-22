@@ -6,8 +6,8 @@
 # dpdk section
 # DPDK_URL ?= git://dpdk.org/dpdk
 DPDK_URL ?= http://dpdk.org/git/dpdk
-DPDK_TAG ?= v1.8.0
+DPDK_TAG ?= v2.0.0
 
 # OVS section
 OVS_URL ?= https://github.com/openvswitch/ovs
-OVS_TAG ?= da79ce2b71dd879e7f20fdddc715568f6a74185a 
+OVS_TAG ?= master 
