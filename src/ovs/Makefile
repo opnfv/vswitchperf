@@ -32,6 +32,11 @@ ifeq ($(DPDK_DIR),)
 DPDK_DIR = ../../dpdk/dpdk
 endif
 
+ifeq ($(DPDK_TARGET),)
+DPDK_TARGET = x86_64-native-linuxapp-gcc
+endif
+
+
 .PHONY: install force_install config force_make
 
 # install depends on make
@@ -41,10 +46,8 @@ WORK_DIR = ovs
 TAG_DONE_FLAG = $(WORK_DIR)/.$(OVS_TAG).done
 CONFIG_CMD =
 CONFIG_CMD += ./configure
-CONFIG_CMD += --with-linux=$(LINUX_BUILD)
-CONFIG_CMD += --prefix=$(INSTALL_DIR)/usr
-CONFIG_CMD += --localstatedir=$(INSTALL_DIR)/usr/local
-CONFIG_CMD += --with-dpdk=$(DPDK_DIR)/build
+CONFIG_CMD += --with-dpdk=$(DPDK_DIR)/$(DPDK_TARGET)
+
 
 all: force_make
 	@echo "Finished making $(WORK_DIR) "

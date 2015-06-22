@@ -25,11 +25,6 @@
 # try to read it in from environment
 INSTALL_DIR ?= $(shell echo $$INSTALL_DIR)
 
-# if it is still not set, then set it to default
-ifeq ($(INSTALL_DIR),)
-INSTALL_DIR = /opt/opnfv
-endif
-
 # for debugging Makefile
 # Make V as a synonum for VERBOSE
 ifdef V
