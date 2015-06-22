@@ -3,8 +3,20 @@
 ## Installation
 
 Follow the [installation instructions] to install.
-
 ---
+## Cloning and building src dependencies
+In order to run VSPERF, you will need to download DPDK and OVS. You can do this manually and build them in a preferred location, or you could use vswitchperf/src. The vswitchperf/src directory contains makefiles that will allow you to clone and build the libraries that VSPERF depends on, such as DPDK and OVS. To clone and build simply:
+
+```bash
+cd src
+make
+```
+
+To delete a src subdirectory and its contents to allow you to re-clone simply use:
+
+```bash
+make cleanse
+```
 
 ## Configure the `./conf/10_custom.conf` file
 
@@ -12,7 +24,6 @@ The supplied `10_custom.conf` file must be modified, as it contains configuratio
 
 The configuration items that can be added is not limited to the initial contents. Any configuration item mentioned in any .conf file in `./conf` directory can be added and that item will be overridden by the custom
 configuration value.
-
 
 ## Using a custom settings file
 
@@ -31,6 +42,11 @@ Note that configuration passed in via the environment (`--load-env`) or via anot
 ---
 
 ## Executing tests
+Before running any tests make sure you have root permissions by adding the following line to /etc/sudoers:
+```
+username ALL=(ALL)       NOPASSWD: ALL
+```
+username in the example above should be replaced with a real username.
 
 To list the available tests:
 
