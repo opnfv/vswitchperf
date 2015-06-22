@@ -42,7 +42,7 @@ all: force_make
 INSTALL_TARGET = force_make
 
 force_make: $(TAG_DONE_FLAG)
-	$(AT)cd $(WORK_DIR); make config T=$(DPDK_TARGET) && make
+	$(AT)cd $(WORK_DIR); make install T=$(DPDK_TARGET) CONFIG_RTE_LIBRTE_KNI=n CONFIG_RTE_LIBRTE_VHOST=y CONFIG_RTE_LIBRTE_VHOST_USER=n CONFIG_RTE_BUILD_COMBINE_LIBS=y -j
 	@echo "Make done"
 
 install: $(INSTALL_TARGET)
@@ -70,7 +70,4 @@ $(WORK_DIR):
 
 $(TAG_DONE_FLAG): $(WORK_DIR)
 	$(AT)cd $(WORK_DIR); git checkout $(DPDK_TAG)
-	$(AT)sed -i 's/CONFIG_RTE_BUILD_COMBINE_LIBS=n/CONFIG_RTE_BUILD_COMBINE_LIBS=y/g' $(CONFIG_FILE)
-	$(AT)sed -i 's/CONFIG_RTE_LIBRTE_VHOST=n/CONFIG_RTE_LIBRTE_VHOST=y/g' $(CONFIG_FILE)
-	$(AT)sed -i 's/CONFIG_RTE_LIBRTE_KNI=y /CONFIG_RTE_LIBRTE_KNI=n/g' $(CONFIG_FILE)
 	$(AT)touch $@
