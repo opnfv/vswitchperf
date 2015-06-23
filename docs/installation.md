@@ -1,8 +1,7 @@
 # Installing toit
 
 The test suite requires Python 3.3 and relies on a number of other packages. These need to be installed for the test suite to function.
-To install Python 3.3 in CentOS 7, an additional repository, Software Collections (see https://www.softwarecollections.org/en/scls/rhscl/python33)
-should be enabled.
+To install Python 3.3 in CentOS 7, an additional repository, Software Collections (see https://www.softwarecollections.org/en/scls/rhscl/python33) should be enabled.
 
 Install the requirements as specified below.
 
@@ -39,7 +38,7 @@ source bin/activate
 pip install -r requirements.txt
 ```
 
-You need to activate the virtual environment everytime you start a new shell session.
+You need to activate the virtual environment every time you start a new shell session.
 To activate, simple run:
 
 ```bash
