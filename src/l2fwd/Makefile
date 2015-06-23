@@ -25,12 +25,19 @@ PWD := $(shell pwd)
 all:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
 
+force_make: all
+
 sanity:
-	echo "Done"
+	@echo "Make sanity in $(WORK_DIR) (stub) "
 
 clean:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
 	rm -f l2fwd*deb
+
+cleanse: clean
+
+clobber: clean
+
 
 install:
 	sudo mkdir /lib/modules/`uname -r`/kernel/net/core
