@@ -1,9 +1,23 @@
 # Getting Started with 'vsperf'
 
+## Hardware Requirements
+VSPERF requires the following hardware to run tests: IXIA traffic generator (IxNetwork), a machine that runs the IXIA client software and a CentOS Linux release 7.1.1503 (Core) host.
+
 ## Installation
 
 Follow the [installation instructions] to install.
----
+
+## IXIA Setup
+###On the CentOS 7 system
+You need to install IxNetworkTclClient$(VER_NUM)Linux.bin.tgz.
+
+### On the IXIA client software system
+Find the IxNetwork TCL server app (start -> All Programs -> IXIA -> IxNetwork -> IxNetwork_$(VER_NUM) -> IxNetwork TCL Server)
+  - Right click on IxNetwork TCL Server, select properties
+  - Under shortcut tab in the Target dialogue box make sure there is the argument "-tclport xxxx" where xxxx is your port number (take note of this port number you will need it for the 10_custom.conf file).
+  ![Alt text](TCLServerProperties.png)
+  - Hit Ok and start the TCL server application
+
 ## Cloning and building src dependencies
 In order to run VSPERF, you will need to download DPDK and OVS. You can do this manually and build them in a preferred location, or you could use vswitchperf/src. The vswitchperf/src directory contains makefiles that will allow you to clone and build the libraries that VSPERF depends on, such as DPDK and OVS. To clone and build simply:
 
