@@ -24,6 +24,8 @@ import argparse
 import time
 import datetime
 import shutil
+import unittest
+import xmlrunner
 
 sys.dont_write_bytecode = True
 
@@ -130,6 +132,10 @@ def parse_arguments():
     group.add_argument('--trafficgen', help='traffic generator to use')
     group.add_argument('--sysmetrics', help='system metrics logger to use')
     group = parser.add_argument_group('test behavior options')
+    group.add_argument('--xunit', action='store_true',
+                       help='enable xUnit-formatted output')
+    group.add_argument('--xunit-dir', action=_ValidateDirAction,
+                       help='output directory of xUnit-formatted output')
     group.add_argument('--load-env', action='store_true',
                        help='enable loading of settings from the environment')
     group.add_argument('--conf-file', action=_ValidateFileAction,
@@ -231,6 +237,34 @@ def apply_filter(tests, tc_filter):
     return result
 
 
+class MockTestCase(unittest.TestCase):
+    """Allow use of xmlrunner to generate Jenkins compatible output without
+    using xmlrunner to actually run tests.
+
+    Usage:
+        suite = unittest.TestSuite()
+        suite.addTest(MockTestCase('Test1 passed ', True, 'Test1'))
+        suite.addTest(MockTestCase('Test2 failed because...', False, 'Test2'))
+        xmlrunner.XMLTestRunner(...).run(suite)
+    """
+
+    def __init__(self, msg, is_pass, test_name):
+        #remember the things
+        self.msg = msg
+        self.is_pass = is_pass
+
+        #dynamically create a test method with the right name
+        #but point the method at our generic test method
+        setattr(MockTestCase, test_name, self.generic_test)
+
+        super(MockTestCase, self).__init__(test_name)
+
+    def generic_test(self):
+        """Provide a generic function that raises or not based
+        on how self.is_pass was set in the constructor"""
+        self.assertTrue(self.is_pass, self.msg)
+
+
 def main():
     """Main function.
     """
@@ -317,14 +351,23 @@ def main():
         logger.info("Creating result directory: "  + results_path)
         os.makedirs(results_path)
 
+    suite = unittest.TestSuite()
+
     # run tests
     for test in all_tests:
         try:
             test.run()
+            suite.addTest(MockTestCase('', True, test.name))
         #pylint: disable=broad-except
-        except (Exception) as _:
+        except (Exception) as ex:
             logger.exception("Failed to run test: %s", test.name)
+            suite.addTest(MockTestCase(str(ex), False, test.name))
             logger.info("Continuing with next test...")
+
+    if settings.getValue('XUNIT'):
+        xmlrunner.XMLTestRunner(
+            output=settings.getValue('XUNIT_DIR'), outsuffix="",
+            verbosity=0).run(suite)
 
     #remove directory if no result files were created.
     if os.path.exists(results_path):
