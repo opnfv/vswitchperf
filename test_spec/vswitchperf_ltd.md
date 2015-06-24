@@ -629,7 +629,7 @@ The following represents possible deployments which can help to determine the pe
 
   **Description**:
 
-  The aim of this test is to understand the Throughput stability over an extended test duration in order to uncover any outliers. To allow for an extended test duration, the test should ideally run for 24 hours or, if this is not possible, for at least 6 hour. For this test, each frame size must be sent at the highest Throughput with X% packet loss, as determined in the prerequisite test. The default loss percentages to be tested are:
+  The aim of this test is to understand the Throughput stability over an extended test duration in order to uncover any outliers. To allow for an extended test duration, the test should ideally run for 24 hours or, if this is not possible, for at least 6 hours. For this test, each frame size must be sent at the highest Throughput with X% packet loss, as determined in the prerequisite test. The default loss percentages to be tested are:
     - X = 0%
     - X = 10^-7%
 
@@ -642,8 +642,7 @@ The following represents possible deployments which can help to determine the pe
   The following are the metrics collected for this test:
 
    - Throughput stability of the DUT.
-   - Any outliers in the Throughput stability.
-   - Any unexpected variation in Throughput stability.
+     - This means reporting the number of packets lost per time interval and reporting any time intervals with packet loss. An interval of 60s is suggested.
    - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
    - The [RFC5481] PDV form of delay variation on the traffic flow, using the 99th percentile.
 
