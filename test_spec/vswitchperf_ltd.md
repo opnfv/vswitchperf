@@ -812,7 +812,7 @@ The following represents possible deployments which can help to determine the pe
 
   **Description**:
 
-  The aim of this test is to determine the address caching capacity of the DUT for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams). 
+  Please note this test is only applicable to switches that are capable of MAC learning. The aim of this test is to determine the address caching capacity of the DUT for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams). 
 
   In order to run this test the aging time, that is the maximum time the DUT will keep a learned address in its flow table, and a set of initial addresses, whose value should be >= 1 and <= the max number supported by the implementation must be known. Please note that if the aging time is configurable it must be longer than the time necessary to produce frames from the external source at the specified rate. If the aging time is fixed the frame rate must be brought down to a value that the external source can produce in a time that is less than the aging time.
 
@@ -842,7 +842,7 @@ The following represents possible deployments which can help to determine the pe
 
   **Description**:
 
-  The aim of this test is to determine the rate of address learning of the DUT for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent with each IPv4/IPv6 address incremented by one. The rate at which the DUT learns a new address should be measured. The maximum caching capacity from LTD.Memory.RFC2889.AddressCachingCapacity should be taken into consideration as the maximum number of addresses for which the learning rate can be obtained.
+  Please note this test is only applicable to switches that are capable of MAC learning. The aim of this test is to determine the rate of address learning of the DUT for a constant load (fixed length frames at a fixed interval time). The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams), traffic should be sent with each IPv4/IPv6 address incremented by one. The rate at which the DUT learns a new address should be measured. The maximum caching capacity from LTD.Memory.RFC2889.AddressCachingCapacity should be taken into consideration as the maximum number of addresses for which the learning rate can be obtained.
 
   **Expected Result**:
   It may be worthwhile to report the behaviour when operating beyond address capacity - some DUTS may be more friendly to new addresses than others.
