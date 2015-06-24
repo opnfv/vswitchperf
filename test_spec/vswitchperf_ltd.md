@@ -544,11 +544,11 @@ The following represents possible deployments which can help to determine the pe
    - Perform any relevant address look-ups on the DUT's ingress ports.
    - Modify the packet header before forwarding the packet to the DUT's egress port. Packet modifications include:
      - Modifying the Ethernet source or destination MAC address.
-     - Modifying/adding a VLAN tag.
+     - Modifying/adding a VLAN tag. (Recommended).
      - Modifying/adding a MPLS tag.
      - Modifying the source or destination ip address.
      - Modifying the TOS/DSCP field.
-     - Modifying the source or destination ports for UDP/TCP/SCTP  (Recommended).
+     - Modifying the source or destination ports for UDP/TCP/SCTP.
      - Modifying the TTL.
 
   **Expected Result**:
