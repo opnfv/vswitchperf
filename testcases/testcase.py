@@ -39,6 +39,7 @@ class TestCase(object):
         self._traffic_type = cfg['Traffic Type']
         self._deployment = cfg['Deployment']
         self._collector = cfg['Collector']
+        self._bidir = cfg['biDirectional']
         self._results_dir = results_dir
 
     def run(self):
@@ -68,7 +69,7 @@ class TestCase(object):
         with vswitch_ctl:
             if vnf_ctl:
                 vnf_ctl.start()
-                traffic = {'traffic_type': self._traffic_type}
+                traffic = {'traffic_type': self._traffic_type, 'bidir': self._bidir}
             with traffic_ctl:
                 traffic_ctl.send_traffic(traffic)
 
