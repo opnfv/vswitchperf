@@ -62,6 +62,9 @@ class VswitchControllerP2P(IVswitchController):
             flow = add_ports_to_flow(_FLOW_TEMPLATE, phy1_number, phy2_number)
             self._vswitch.add_flow(BRIDGE_NAME, flow)
 
+            flow = add_ports_to_flow(_FLOW_TEMPLATE, phy2_number, phy1_number)
+            self._vswitch.add_flow(BRIDGE_NAME, flow)
+
         except:
             self._vswitch.stop()
             raise

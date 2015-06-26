@@ -43,7 +43,7 @@ lappend auto_path [list $lib_path]
 
 # verify that the IXIA chassis spec is given
 
-set reqVars [list "machine" "port" "user" "chassis" "card" "port1" "port2" "output_dir"]
+set reqVars [list "machine" "port" "user" "chassis" "card" "port1" "port2" "output_dir" "bidir"]
 set rfc2544test ""
 
 foreach var $reqVars {
@@ -58,6 +58,7 @@ foreach var $reqVars {
 
 set ::IxNserver $machine
 set ::IxNport   $port
+set ::biDirect  $bidir
 
 # change to windows path format and append directory
 set output_dir [string map {"/" "\\"} $output_dir]
@@ -1235,7 +1236,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
     ixNet setMultiAttrs $sg_trafficItem \
      -transportRsvpTePreference one \
      -trafficItemType l2L3 \
-     -biDirectional False \
+     -biDirectional $::biDirect \
      -mergeDestinations True \
      -hostsPerNetwork 1 \
      -transmitMode interleaved \

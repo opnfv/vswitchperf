@@ -158,6 +158,7 @@ class IxNet(trafficgen.ITrafficGenerator):
     _cfg = None
     _logger = logging.getLogger(__name__)
     _params = None
+    _bidir = None
 
     def run_tcl(self, cmd):
         """Run a TCL script using the TCL interpreter found in ``tkinter``.
@@ -211,6 +212,7 @@ class IxNet(trafficgen.ITrafficGenerator):
                            multistream=False):
         """Start transmission.
         """
+        self._bidir = traffic['bidir']
         self._params = {}
 
         self._params['config'] = {
@@ -225,6 +227,7 @@ class IxNet(trafficgen.ITrafficGenerator):
         if traffic:
             self._params['traffic'] = trafficgen.merge_spec(
                 self._params['traffic'], traffic)
+        self._cfg['bidir'] = self._bidir
 
         for cmd in _build_set_cmds(self._cfg, prefix='set'):
             self.run_tcl(cmd)
@@ -262,6 +265,7 @@ class IxNet(trafficgen.ITrafficGenerator):
                                  lossrate=0.0, multistream=False):
         """Start transmission.
         """
+        self._bidir = traffic['bidir']
         self._params = {}
 
         self._params['config'] = {
@@ -277,6 +281,7 @@ class IxNet(trafficgen.ITrafficGenerator):
         if traffic:
             self._params['traffic'] = trafficgen.merge_spec(
                 self._params['traffic'], traffic)
+        self._cfg['bidir'] = self._bidir
 
         for cmd in _build_set_cmds(self._cfg, prefix='set'):
             self.run_tcl(cmd)
@@ -329,7 +334,7 @@ class IxNet(trafficgen.ITrafficGenerator):
             # transform path into someting useful
 
             path = result_path.group(1).replace('\\', '/')
-            path = os.path.join(path, 'results.csv')
+            path = os.path.join(path, 'AggregateResults.csv')
             path = path.replace(
                 settings.getValue('TRAFFICGEN_IXNET_TESTER_RESULT_DIR'),
                 settings.getValue('TRAFFICGEN_IXNET_DUT_RESULT_DIR'))
@@ -349,9 +354,9 @@ class IxNet(trafficgen.ITrafficGenerator):
                     #Replace null entries added by Ixia with 0s.
                     row = [entry if len(entry) > 0 else '0' for entry in row]
                     # calculate tx fps by (rx fps * (tx % / rx %))
-                    tx_fps = float(row[9]) * (float(row[8]) / float(row[7]))
+                    tx_fps = float(row[5]) * (float(row[4]) / float(row[3]))
                     # calculate tx mbps by (rx mbps * (tx % / rx %))
-                    tx_mbps = float(row[10]) * (float(row[8]) / float(row[7]))
+                    tx_mbps = float(row[6]) * (float(row[4]) / float(row[3]))
 
                     if bool(results.get(ResultsConstants.THROUGHPUT_RX_FPS)) \
                                                                 == False:
@@ -359,16 +364,16 @@ class IxNet(trafficgen.ITrafficGenerator):
                     else:
                         prev_percent_rx = \
                         float(results.get(ResultsConstants.THROUGHPUT_RX_FPS))
-                    if float(row[9]) >= prev_percent_rx:
+                    if float(row[5]) >= prev_percent_rx:
                         results[ResultsConstants.THROUGHPUT_TX_FPS] = tx_fps
-                        results[ResultsConstants.THROUGHPUT_RX_FPS] = row[9]
+                        results[ResultsConstants.THROUGHPUT_RX_FPS] = row[5]
                         results[ResultsConstants.THROUGHPUT_TX_MBPS] = tx_mbps
-                        results[ResultsConstants.THROUGHPUT_RX_MBPS] = row[10]
-                        results[ResultsConstants.THROUGHPUT_TX_PERCENT] = row[7]
-                        results[ResultsConstants.THROUGHPUT_RX_PERCENT] = row[8]
-                        results[ResultsConstants.MIN_LATENCY_NS] = row[15]
-                        results[ResultsConstants.MAX_LATENCY_NS] = row[16]
-                        results[ResultsConstants.AVG_LATENCY_NS] = row[17]
+                        results[ResultsConstants.THROUGHPUT_RX_MBPS] = row[6]
+                        results[ResultsConstants.THROUGHPUT_TX_PERCENT] = row[3]
+                        results[ResultsConstants.THROUGHPUT_RX_PERCENT] = row[4]
+                        results[ResultsConstants.MIN_LATENCY_NS] = row[11]
+                        results[ResultsConstants.MAX_LATENCY_NS] = row[12]
+                        results[ResultsConstants.AVG_LATENCY_NS] = row[13]
             return results
 
         output = self.run_tcl('waitForRfc2544Test')
@@ -392,6 +397,7 @@ class IxNet(trafficgen.ITrafficGenerator):
                                 lossrate=0.0, multistream=False):
         """Start transmission.
         """
+        self._bidir = traffic['bidir']
         self._params = {}
 
         self._params['config'] = {
@@ -407,6 +413,7 @@ class IxNet(trafficgen.ITrafficGenerator):
         if traffic:
             self._params['traffic'] = trafficgen.merge_spec(
                 self._params['traffic'], traffic)
+        self._cfg['bidir'] = self._bidir
 
         for cmd in _build_set_cmds(self._cfg, prefix='set'):
             self.run_tcl(cmd)
