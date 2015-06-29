@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_9ceda9f2",
+        "filename": "test_spec/ietf_summary/draft-vsperf-bmwg-vswitch-opnfv-00.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-06-29T19:42:05Z",
+      "side": 1,
+      "message": "\u0027the measure\u0027 \u003e \u0027which measure\u0027",
+      "revId": "5d9c7c04951a23a37b0562bfc9d13d472293ea19",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_7cbacde2",
+        "filename": "test_spec/ietf_summary/draft-vsperf-bmwg-vswitch-opnfv-00.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-06-29T19:42:05Z",
+      "side": 1,
+      "message": "contents of last parens does not scan.",
+      "revId": "5d9c7c04951a23a37b0562bfc9d13d472293ea19",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
