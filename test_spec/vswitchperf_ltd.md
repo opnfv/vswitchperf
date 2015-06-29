@@ -23,8 +23,6 @@
     - [2.3.9 Summary Test List](#SummaryList)
   - [2.4. Feature pass/fail criteria](#PassFail)
   - [2.5. Test deliverables](#TestDeliverables)
-
-
 - [3. General](#General)
   - [3.1. Glossary](#Glossary)
   - [3.2. Document change procedures and history](#History)
@@ -985,6 +983,25 @@ The following represents possible deployments which can help to determine the pe
 
    - The maximum number of frames per second that can be forwarded at the specified number of flows and the specified frame size, with zero packet loss.
 <br/>
+
+<a name="SummaryList"></a>
+####2.3.9 Summary List of Tests
+- LTD.Throughput.RFC2544.PacketLossRatio
+- LTD.Throughput.RFC2544.PacketLossRatioFrameModification
+- LTD.Throughput.RFC2544.SystemRecoveryTime
+- LTD.Throughput.RFC2544.BackToBackFrames
+- LTD.Throughput.RFC2544.Soak
+- LTD.Throughput.RFC2544.SoakFrameModification
+- LTD.Throughput.RFC6201.ResetTime
+- LTD.Throughput.RFC2889.ForwardingRate
+- LTD.Throughput.RFC2889.ForwardPressure
+- LTD.Throughput.RFC2889.AddressCachingCapacity
+- LTD.Throughput.RFC2889.AddressLearningRate
+- LTD.Throughput.RFC2889.ErrorFramesFiltering
+- LTD.Throughput.RFC2889.BroadcastFrameForwarding
+- LTD.PacketLatency.InitialPacketProcessingLatency
+- LTD.Scalability.RFC2544.0PacketLoss
+
 ----
 [RFC1242]:(http://www.ietf.org/rfc/rfc1242.txt)
 [RFC2544]:(http://www.ietf.org/rfc/rfc2544.txt)
