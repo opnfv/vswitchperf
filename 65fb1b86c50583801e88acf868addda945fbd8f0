@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_270e8235",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-06-30T19:22:42Z",
+      "side": 1,
+      "message": "This is a good list.  I suggest capturing the \"Isolation of Resources\" Information as well, \u003chttps://wiki.opnfv.org/_media/wiki/isolating_functions.pdf\u003e for example:\n- CPUs designated for Host/Kernel (isolcpu)\n- CPUs designated for specific processes (taskset)\n\n(some of this may be covered in GRUB below, but we should\nbe spelling this out, I think)",
+      "revId": "65fb1b86c50583801e88acf868addda945fbd8f0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
