@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_e70f6a2d",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-06-30T19:30:21Z",
+      "side": 1,
+      "message": "The Description still says a single Packet is enough. IMO, we should delete that sentence, and replace this line as follows:\n- The number of Broadcast Frames and their average latency when forwarded by the DUT (under minimal load?).\n\nThe unspecified load aspect bothers me a bit, too.  Need to Check 2889...",
+      "revId": "880d458fbb1fe13bcacf075c66d63d2e0b8377ac",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
