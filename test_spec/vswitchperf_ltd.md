@@ -564,6 +564,32 @@ The following represents possible deployments which can help to determine the pe
    - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
 
 <br/>
+ - #####Test ID: LTD.Throughput.RFC2544.Profile
+
+  **Title**: RFC 2544 Throughput and Latency Profile
+
+  This test reveals how throughput and latency degrades as the offered rate varies in the region of the DUT's maximum forwarding rate as determined by LTD.Throughput.RFC2544.PacketLossRatio (0% Packet Loss).  For example it can be used to determine if the degradation of throughput and latency as the offered rate increases is slow and graceful or sudden and severe.
+
+  The selected frame sizes are those previously defined under [Default Test Parameters](#DefaultParams).
+
+  The offered traffic rate is described as a percentage delta with respect to the DUT's maximum forwarding rate as determined by LTD.Throughput.RFC2544.PacketLoss Ratio (0% Packet Loss case). A delta of 0% is equivalent to an offered traffic rate equal to the maximum forwarding rate; A delta of +50% indicates an offered rate half-way between the maximum forwarding rate and line-rate, whereas a delta of -50% indicates an offered rate of half the maximum rate. Therefore the range of the delta figure is natuarlly bounded at -100% (zero offered traffic) and +100% (traffic offered at line rate).
+
+  The following deltas to the maximum forwarding rate should be applied:
+
+   - -50%, -10%, 0%, +10% & +50%
+
+  **Expected Result**:
+  For each packet size a profile should be produced of how throughput and latency vary with offered rate.
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - The forwarding rate in Frames Per Second (FPS) and Mbps of the DUT for each delta to the maximum forwarding rate and for each frame size.
+   - The average latency for each delta to the maximum forwarding rate and for each frame size.
+   - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
+
+<br/>
  - #####Test ID: LTD.Throughput.RFC2544.SystemRecoveryTime
   **Title**: RFC 2544 System Recovery Time Test
 
