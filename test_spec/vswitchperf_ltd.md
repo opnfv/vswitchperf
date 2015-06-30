@@ -11,6 +11,7 @@
 - [2. Details of the Level Test Design](#DetailsOfTheLevelTestDesign)
   - [2.1. Features to be tested](#FeaturesToBeTested)
   - [2.2. Approach](#Approach)
+    - [2.2.1 Details of the Test Report](#TestReport)
   - [2.3. Test identification](#TestIdentification)
     - [2.3.1 Throughput tests](#ThroughputTests)
     - [2.3.2 Packet Delay Tests](#PacketDelayTests)
@@ -563,6 +564,44 @@ The starting point for defining the suite of tests for benchmarking the performa
   #####RFC 6201 Device Reset Characterization
   RFC 6201 extends the methodology for characterizing the speed of recovery of the DUT from device or software reset described in RFC 2544.
 
+  <a name="TestReport"></a>
+  ####2.2.1 Details of the Test Report
+  There are a number of parameters related to the system, DUT and tests that can affect the repeatability of a test results and should be recorded. In order to minimise the variation in the results of a test, it is recommended that the test report includes the following information:
+
+  - Hardware details including:
+    - Platform details.
+    - Processor details.
+    - Memory information (type and size).
+    - Number of enabled cores.
+    - Number of cores used for the test.
+    - Number of physical NICs, as well as their details (manufacturer, versions, type and the PCI slot they are plugged into).
+    - NIC interrupt configuration.
+    - BIOS version, release date and any configurations that were modified.
+  - Software details including:
+    - OS version (for host and VNF)
+    - Kernel version (for host and VNF)
+    - GRUB boot parameters (for host and VNF).
+    - Hypervisor details (Type and version).
+    - Selected vSwitch, version number or commit id used.
+      - vSwitch launch command line if it has been parameterised.
+      - Memory allocation to the vSwitch – which NUMA node it is using, and how many memory channels.
+    - DPDK or any other SW dependency version number or commit id used.
+    - Memory allocation to a VM - if it's from Hugpages/elsewhere.
+    - VM storage type: snapshot/independent persistent/independent non-persistent.
+    - Number of VMs.
+    - Number of Virtual NICs (vNICs), versions, type and driver.
+    - Number of virtual CPUs and their core affinity on the host.
+    - Number vNIC interrupt configuration.
+    - Thread affinitization for the applications (including the vSwitch itself) on the host.
+    - Details of Resource isolation, such as CPUs designated for Host/Kernel (isolcpu) and CPUs designated for specific processes (taskset).
+  - Test duration.
+  - Number of flows.
+  - Traffic Information:
+    - Traffic type - UDP, TCP, IMIX / Other.
+    - Packet Sizes.
+  - Deployment Scenario.
+
+  Note: Tests that require additional parameters to be recorded will explicitly specify this.
 
 <a name="TestIdentification"></a>
 ###2.3. Test identification
