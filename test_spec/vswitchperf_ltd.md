@@ -809,19 +809,15 @@ The starting point for defining the suite of tests for benchmarking the performa
 <br/>
 
   - #####Test ID: LTD.Throughput.RFC2544.SoakFrameModification
-  **Title**: RFC 2544 X% packet loss Throughput Soak Test with Frame Modification
+  **Title**: RFC 2544 Throughput Soak Test with Frame Modification
 
-  **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatioFrameModification
+  **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatioFrameModification (0% Packet Loss)
 
   **Priority**:
 
   **Description**:
 
-  The aim of this test is to understand the Throughput stability over an extended test duration in order to uncover any outliers. To allow for an extended test duration, the test should ideally run for 24 hours or, if this is not possible, for at least 6 hour. For this test, each frame size must be sent at the highest Throughput with X% packet loss, as determined in the prerequisite test. The default loss percentages to be tested are:
-    - X = 0%
-    - X = 10^-7%
-
-  Note: Other values can be tested if required by the user.
+  The aim of this test is to understand the throughput stability over an extended test duration in order to uncover any outliers. To allow for an extended test duration, the test should ideally run for 24 hours or, if this is not possible, for at least 6 hour. For this test, each frame size must be sent at the highest Throughput with 0% packet loss, as determined in the prerequisite test.
 
   During this test, the DUT must perform the following operations on the traffic flow:
 
@@ -829,11 +825,11 @@ The starting point for defining the suite of tests for benchmarking the performa
    - Perform any relevant address look-ups on the DUT's ingress ports.
    - Modify the packet header before forwarding the packet to the DUT's egress port. Packet modifications include:
      - Modifying the Ethernet source or destination MAC address.
-     - Modifying/adding a VLAN tag.
+     - Modifying/adding a VLAN tag (Recommended).
      - Modifying/adding a MPLS tag.
      - Modifying the source or destination ip address.
      - Modifying the TOS/DSCP field.
-     - Modifying the source or destination ports for UDP/TCP/SCTP  (Recommended).
+     - Modifying the source or destination ports for UDP/TCP/SCTP.
      - Modifying the TTL.
 
   **Expected Result**:
@@ -843,8 +839,7 @@ The starting point for defining the suite of tests for benchmarking the performa
   The following are the metrics collected for this test:
 
    - Throughput stability of the DUT.
-   - Any outliers in the Throughput stability.
-   - Any unexpected variation in Throughput stability.
+     - This means reporting the number of packets lost per time interval and reporting any time intervals with packet loss. An interval of 60s is suggested.
    - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
    - The [RFC5481] PDV form of delay variation on the traffic flow, using the 99th percentile.
 
