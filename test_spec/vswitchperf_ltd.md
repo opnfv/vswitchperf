@@ -442,6 +442,89 @@ The following represents possible deployments which can help to determine the pe
 
   = 14,880,952.38 frame per second (fps)
 
+####System isolation and validation
+A key consideration when conducting any sort of benchmark is trying to ensure the consistency and repeatability of test results between runs. When benchmarking the performance of a virtual switch there are many factors that can affect the consistency of results. This section describes these factors and the measures that can be taken to limit their effects. In addition, this section will outline some system tests to validate the platform and the VNF before conducting any vSwitch benchmarking tests.
+
+#####System Isolation
+When conducting a benchmarking test on any SUT, it is essential to limit the side effects, and even eliminate, any noise that may interfere with the accuracy of the metrics collected by the test. This noise may be introduced by other hardware or software (OS, other applications), and can result in significantly varying performance metrics being collected between consecutive runs of the same system. In the case of characterizing the performance of There are a number of configuration parameters that can help increase the repeatability and stability of test results, including:
+
+  - OS/GRUB configuration:
+    - maxcpus = n where n >= 0; limits the kernel to using 'n' processors. Only use exactly what you need.
+    - isolcpus: Isolate CPUs from the general scheduler. Isolate all CPUs bar one which will be used by the OS.
+    - use taskset affinitize the forwarding application and the VNFs to isolated cores. VNFs and the vSwitch should be allocated their own cores, i.e. must not share the same cores. vCPUs for the VNF should be affinitized to individual cores also.
+    - Limit the amount of background applications that are running and set OS to boot to runlevel 3. Make sure to kill any unnecessary system processes/daemons.
+    - Only enable hardware that you need to use for your test – to ensure there are no other interrupts on the system.
+    - Configure NIC interrupts to only use the cores that are not allocated to any other process (VNF/vSwitch).
+  - NUMA configuration: Any unused sockets in a multi-socket system should be disabled.
+  - CPU pinning: The vSwitch and the VNF should each be affinitized to separate logical cores using a combination of maxcpus, isolcpus and taskset.
+  - BIOS configuration: BIOS should be configured for performance where an explicit option exists, sleep states should be disabled, any virtualization optimization technologies should be enabled, and hyperthreading should also be enabled.
+
+#####System Validation
+System validation is broken down into two sub-categories: Platform validation and VNF validation. The validation test itself involves verifying the forwarding capability and stability for the sub-system under test. The rationale behind system validation is two fold. Firstly to give a tester confidence in the stability of the platform or VNF that is being tested; and secondly to provide base performance comparison points to understand the overhead introduced by the virtual switch.
+
+######Benchmark platform forwarding capability
+This is an OPTIONAL test used to verify the platform and measure the base performance (maximum forwarding rate in fps and latency) that can be achieved by the platform without a vSwitch or a VNF.
+
+The following diagram outlines the set-up for benchmarking Platform forwarding capability:
+<pre><code>
+                                                         __
+    +--------------------------------------------------+   |
+    |   +------------------------------------------+   |   |
+    |   |                                          |   |   |
+    |   |          l2fw or DPDK L2FWD app          |   |  Host
+    |   |                                          |   |   |
+    |   +------------------------------------------+   |   |
+    |   |                 NIC                      |   |   |
+    +---+------------------------------------------+---+ __|
+               ^                           :
+               |                           |
+               :                           v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+
+</code></pre>
+
+######Benchmark VNF forwarding capability
+This test is used to verify the VNF and measure the base performance (maximum forwarding rate in fps and latency) that can be achieved by the VNF without a vSwitch. The performance metrics collected by this test will serve as a key comparison point for NIC passthrough technologies and vSwitches. VNF in this context refers to the hypervisor and the VM.
+
+The following diagram outlines the set-up for benchmarking VNF forwarding capability:
+<pre><code>
+                                                         __
+    +--------------------------------------------------+   |
+    |   +------------------------------------------+   |   |
+    |   |                                          |   |   |
+    |   |                 VNF                      |   |   |
+    |   |                                          |   |   |
+    |   +------------------------------------------+   |   |
+    |   |          Passthrough/SR-IOV              |   |  Host
+    |   +------------------------------------------+   |   |
+    |   |                 NIC                      |   |   |
+    +---+------------------------------------------+---+ __|
+               ^                           :
+               |                           |
+               :                           v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+
+</code></pre>
+
+######Methodology to benchmark Platform/VNF forwarding capability
+The recommended methodology for the platform/VNF validation and benchmark is:
+  - Run [RFC2889] Maximum Forwarding Rate test, this test will produce maximum forwarding rate and latency results that will serve as the expected values. These expected values can be used in subsequent steps or compared with in subsequent validation tests.
+  - Transmit bidirectional traffic at line rate/max forwarding rate (whichever is higher) for at least 72 hours, measure throughput (fps) and latency.
+  - Note: Traffic should be bidirectional.
+  - Establish a baseline forwarding rate for what the platform can achieve.
+  - Additional validation: After the test has completed for 72 hours run bidirectional traffic at the maximum forwarding rate once more to see if the system is still functional and measure throughput (fps) and latency. Compare the measure the new obtained values with the expected values.
+
+**NOTE 1**: How the Platform is configured for its forwarding capability test (BIOS settings, GRUB configuration, runlevel...) is how the platform should be configured for every test after this
+
+**NOTE 2**: How the VNF is configured for its forwarding capability test (# of vCPUs, vNICs, Memory, affinitization…) is how it should be configured for every test that uses a VNF after this.
+
+####RFCs for testing switch performance
   #####RFC 1242 Benchmarking Terminology for Network Interconnection Devices
   RFC 1242 defines the terminology that is used in describing performance benchmarking tests and their results. Definitions and discussions covered include: Back-to-back, bridge, bridge/router, constant load, data link frame size, frame loss rate, inter frame gap, latency, and many more.
 
