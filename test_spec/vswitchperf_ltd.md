@@ -750,7 +750,7 @@ The following represents possible deployments which can help to determine the pe
 
 <br/>
 
- - #####Test ID: LTD.Throughput.RFC2889.ForwardingRate
+ - #####Test ID: LTD.Throughput.RFC2889.MaxForwardingRate
 
   **Title**: RFC2889 Forwarding Rate Test
 
@@ -764,7 +764,7 @@ The following represents possible deployments which can help to determine the pe
 
   Traffic should be sent to the DUT at a particular rate (TX rate) starting with TX rate equal to the throughput rate. The rate of successfully received frames at the destination counted (in FPS). If the RX rate is equal to the TX rate, the TX rate should be increased by a fixed step size and the RX rate measured again until the Max Forwarding Rate is found.
 
-  The trial duration for each iteration should last for the period of time needed for the system to reach steady state for the frame size being tested. Under [RFC2889] test methodology, the test duration should run for a minimum period of 30 seconds, regardless whether the system reaches steady state before the minimum duration ends.
+  The trial duration for each iteration should last for the period of time needed for the system to reach steady state for the frame size being tested. Under [RFC2889] (Sec. 5.6.3.1) test methodology, the test duration should run for a minimum period of 30 seconds, regardless whether the system reaches steady state before the minimum duration ends.
 
   **Expected Result**:
   According to [RFC2889] The Max Forwarding Rate is the highest forwarding rate of a DUT taken from an iterative set of forwarding rate measurements. The iterative set of forwarding rate measurements are made by setting the intended load transmitted from an external source and measuring the offered load (i.e what the DUT is capable of forwarding). If the Throughput == the Maximum Offered Load, it follows that Max Forwarding Rate is equal to the Maximum Offered Load.
@@ -780,7 +780,7 @@ The following represents possible deployments which can help to determine the pe
  - #####Test ID: LTD.Throughput.RFC2889.ForwardPressure
   **Title**: RFC2889 Forward Pressure Test
 
-  **Prerequisite Test**: LTD.Throughput.RFC2889.ForwardingRate
+  **Prerequisite Test**: LTD.Throughput.RFC2889.MaxForwardingRate
 
   **Priority**:
 
@@ -789,7 +789,7 @@ The following represents possible deployments which can help to determine the pe
   The aim of this test is to determine if the DUT transmits frames with an inter-frame gap that is less than 12 bytes. This test overloads the DUT and measures the output for forward pressure. Traffic should be transmitted to the DUT with an inter-frame gap of 11 bytes, this will overload the DUT by 1 byte per frame. The forwarding rate of the DUT should be measured.
 
   **Expected Result**:
-  The forwarding rate should not exceed the maximum forwarding rate of the DUT collected by LTD.Throughput.RFC2889.ForwardingRate.
+  The forwarding rate should not exceed the maximum forwarding rate of the DUT collected by LTD.Throughput.RFC2889.MaxForwardingRate.
 
   **Metrics collected**
 
@@ -995,7 +995,7 @@ The following represents possible deployments which can help to determine the pe
 - LTD.Throughput.RFC2544.Soak
 - LTD.Throughput.RFC2544.SoakFrameModification
 - LTD.Throughput.RFC6201.ResetTime
-- LTD.Throughput.RFC2889.ForwardingRate
+- LTD.Throughput.RFC2889.MaxForwardingRate
 - LTD.Throughput.RFC2889.ForwardPressure
 - LTD.Throughput.RFC2889.AddressCachingCapacity
 - LTD.Throughput.RFC2889.AddressLearningRate
