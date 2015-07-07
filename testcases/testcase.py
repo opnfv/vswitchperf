@@ -31,7 +31,10 @@ class TestCase(object):
     def __init__(self, cfg, results_dir):
         """Pull out fields from test config
 
-        No external actions yet.
+        :param cfg: A dictionary of string-value pairs describing the test
+            configuration. Both the key and values strings use well-known
+            values.
+        :param results_dir: Where the csv formatted results are written.
         """
         self._logger = logging.getLogger(__name__)
         self.name = cfg['Name']
@@ -39,6 +42,9 @@ class TestCase(object):
         self._traffic_type = cfg['Traffic Type']
         self._deployment = cfg['Deployment']
         self._collector = cfg['Collector']
+        self._frame_mod = cfg.get('Frame Modification', None)
+        if self._frame_mod:
+            self._frame_mod = self._frame_mod.lower()
         self._results_dir = results_dir
 
     def run(self):
@@ -63,12 +69,22 @@ class TestCase(object):
             self._collector,
             loader.get_collector_class())
 
+
         self._logger.debug("Setup:")
         collector_ctl.log_cpu_stats()
         with vswitch_ctl:
             if vnf_ctl:
                 vnf_ctl.start()
                 traffic = {'traffic_type': self._traffic_type}
+                vswitch = vswitch_ctl.get_vswitch()
+                if self._frame_mod == "vlan":
+                    flow = {'table':'2', 'priority':'1000', 'metadata':'2', 'actions': ['push_vlan:0x8100','goto_table:3']}
+                    vswitch.add_flow('br0', flow)
+                    flow = {'table':'2', 'priority':'1000', 'metadata':'1', 'actions': ['push_vlan:0x8100','goto_table:3']}
+                    vswitch.add_flow('br0', flow)
+
+                #TODO 'traffic' is placeholder for traffic dict
+                traffic = {'test': 'rfc2544'}
             with traffic_ctl:
                 traffic_ctl.send_traffic(traffic)
 
