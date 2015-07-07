@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa3479d7_952b2694",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-07T10:07:21Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean by cache and memory configuration parameters, these are generally fixed?\nthe real aim of this test is to understand the memory footprint of the vSwitch as we scale up the number of flows... (I think)",
+      "parentUuid": "3a045101_1d5f2810",
+      "revId": "7d9f02c0d0fb549d1847b2c93723b87e095a0a43",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a045101_5d65b0df",
         "filename": "test_spec/vswitchperf_ltd.md",
         "patchSetId": 1
@@ -47,6 +65,47 @@
       "writtenOn": "2015-06-09T17:55:50Z",
       "side": 1,
       "message": "s/TCP/TCP_or_UDP/g\n\nsame below",
+      "revId": "7d9f02c0d0fb549d1847b2c93723b87e095a0a43",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3479d7_7518c284",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-07T10:07:21Z",
+      "side": 1,
+      "message": "we can take this out now we have a patch for flow classification in the LTD, I think we can do a separate frame modification test? what do you think",
+      "parentUuid": "3a045101_3d62e4d8",
+      "revId": "7d9f02c0d0fb549d1847b2c93723b87e095a0a43",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3479d7_551dbe72",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-07T10:07:21Z",
+      "side": 1,
+      "message": "memory utilization of the DUT. I think some of the metrics we can collect are:\n    total memory\n    used memory\n    active memory\n    inactive memory\n    free memory\n    buffer memory\n    swap cache\n    total swap\n    used swap\n    free swap",
+      "range": {
+        "startLine": 926,
+        "startChar": 17,
+        "endLine": 926,
+        "endChar": 19
+      },
       "revId": "7d9f02c0d0fb549d1847b2c93723b87e095a0a43",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
