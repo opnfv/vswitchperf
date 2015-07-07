@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "fa3479d7_d8ab25d5",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-07-07T16:28:59Z",
+      "side": 1,
+      "message": "I was imagining some max limit on memory, beyond which the process would have to swap stuff in/out of storage?  And any swaps would bring a drastic reduction in performance.",
+      "parentUuid": "fa3479d7_952b2694",
+      "revId": "7d9f02c0d0fb549d1847b2c93723b87e095a0a43",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a045101_5d65b0df",
         "filename": "test_spec/vswitchperf_ltd.md",
         "patchSetId": 1
@@ -89,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "fa3479d7_98b59d33",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-07-07T16:28:59Z",
+      "side": 1,
+      "message": "Yes, classification is so much lighter-weight than modification (which also requires classification to\ndetermine what/if to modify).",
+      "parentUuid": "fa3479d7_7518c284",
+      "revId": "7d9f02c0d0fb549d1847b2c93723b87e095a0a43",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa3479d7_551dbe72",
         "filename": "test_spec/vswitchperf_ltd.md",
         "patchSetId": 1
@@ -100,6 +136,30 @@
       "writtenOn": "2015-07-07T10:07:21Z",
       "side": 1,
       "message": "memory utilization of the DUT. I think some of the metrics we can collect are:\n    total memory\n    used memory\n    active memory\n    inactive memory\n    free memory\n    buffer memory\n    swap cache\n    total swap\n    used swap\n    free swap",
+      "range": {
+        "startLine": 926,
+        "startChar": 17,
+        "endLine": 926,
+        "endChar": 19
+      },
+      "revId": "7d9f02c0d0fb549d1847b2c93723b87e095a0a43",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3479d7_b8b8612b",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-07-07T16:28:59Z",
+      "side": 1,
+      "message": "Yes, good list!",
+      "parentUuid": "fa3479d7_551dbe72",
       "range": {
         "startLine": 926,
         "startChar": 17,
