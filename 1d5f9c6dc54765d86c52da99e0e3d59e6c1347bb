@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fa3479d7_1881ad4a",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-07-07T18:02:41Z",
+      "side": 1,
+      "message": "I think this test \"allows* up to Default \u003d 10**-7 packet loss ratio, but it\u0027s a limit and not a specific percentage target. IOW, if you can Soak for days at zero packet loss, that\u0027s cool.",
+      "range": {
+        "startLine": 660,
+        "startChar": 392,
+        "endLine": 660,
+        "endChar": 437
+      },
+      "revId": "1d5f9c6dc54765d86c52da99e0e3d59e6c1347bb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa3479d7_f524b2c7",
         "filename": "test_spec/vswitchperf_ltd.md",
         "patchSetId": 1
