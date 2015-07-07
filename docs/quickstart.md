@@ -3,6 +3,9 @@
 ## Hardware Requirements
 VSPERF requires the following hardware to run tests: IXIA traffic generator (IxNetwork), a machine that runs the IXIA client software and a CentOS Linux release 7.1.1503 (Core) host.
 
+## vSwitch Requirements
+The vSwitch must support Open Flow 1.3 or greater.
+
 ## Installation
 
 Follow the [installation instructions] to install.

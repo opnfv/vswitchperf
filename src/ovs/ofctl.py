@@ -124,7 +124,7 @@ class OFBridge(OFBase):
 
         :return: None
         """
-        cmd = ['sudo', _OVS_OFCTL_BIN, '--timeout', str(self.timeout)] + args
+        cmd = ['sudo', _OVS_OFCTL_BIN, '-O', 'OpenFlow13', '--timeout', str(self.timeout)] + args
         return tasks.run_task(
             cmd, self.logger, 'Running ovs-ofctl...', check_error)
 
