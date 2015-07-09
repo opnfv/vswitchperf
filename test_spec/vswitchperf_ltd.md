@@ -334,6 +334,9 @@ The following represents possible deployments which can help to determine the pe
 
  **Note**: For throughput tests unless stated otherwise, test configurations should ensure that traffic traverses the installed flows through the switch, i.e. flows are installed and have an appropriate time out that doesn't expire before packet transmission starts.
 
+#####Flow Classification:
+Virtual switches group packets into flows by processing and matching particular header fields in the packet or frame, or by matching packets based on the input ports into the vSwitch. Thus a flow is considered to be a sequence of packets that have a shared set of header field values or have arrived on the same port. Performance results can vary based on the parameters the vSwitch uses to match for a flow. The recommended  flow classification parameters for any vSwitch performance tests are: the input port, the source IP address, the destination IP address and the Ethernet protocol type field. It is essential to increase the flow time-out time on a vSwitch before conducting any performance tests that do not measure the flow set-up time. Normally the first packet of a particular flow will install the flow in the vSwitch which adds an additional latency, subsequent packets of the same flow are not subject to this latency if the flow is already installed on the vSwitch.
+
  #####Test Priority
   Tests will be assigned a priority in order to determine which tests should be implemented immediately and which tests implementations can be deferred.
 
