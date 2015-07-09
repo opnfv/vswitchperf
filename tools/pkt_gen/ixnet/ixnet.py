@@ -95,7 +95,7 @@ from core.results.results_constants import ResultsConstants
 _ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 _RESULT_RE = r'(?:\{kString,result\},\{kString,)(\w+)(?:\})'
-_RESULTPATH_RE = r'(?:\{kString,resultPath\},\{kString,)([\\\w\.\-]+)(?:\})'
+_RESULTPATH_RE = r'(?:\{kString,resultPath\},\{kString,)([\\\w\.\-\:]+)(?:\})'
 
 
 def _build_set_cmds(values, prefix='dict set'):
