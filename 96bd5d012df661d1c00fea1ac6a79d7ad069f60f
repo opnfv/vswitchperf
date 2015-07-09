@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa3479d7_789559e3",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-07-09T12:11:28Z",
+      "side": 1,
+      "message": "s/stream/flow/ in this case",
+      "range": {
+        "startLine": 337,
+        "startChar": 788,
+        "endLine": 337,
+        "endChar": 794
+      },
+      "revId": "96bd5d012df661d1c00fea1ac6a79d7ad069f60f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
