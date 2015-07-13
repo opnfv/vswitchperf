@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa3479d7_9b68f788",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-13T16:39:32Z",
+      "side": 1,
+      "message": "I don\u0027t know if they need to match? \nThe total frames sent and receive do need to match, but the fps could be different if the DUT is overloaded?\nOr is this in the case where there is not overload?",
+      "range": {
+        "startLine": 13,
+        "startChar": 46,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "b7ba9cc7695b972f41081fe6d6c437226c878e0f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3479d7_7b0553c1",
+        "filename": "core/vswitch_controller_p2p.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-13T16:39:32Z",
+      "side": 1,
+      "message": "drop? is it worth adding a comment why we are using drop?",
+      "revId": "b7ba9cc7695b972f41081fe6d6c437226c878e0f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3479d7_1b1407f4",
+        "filename": "src/ovs/ofctl.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-13T16:39:32Z",
+      "side": 1,
+      "message": "Can we update News.md to say that we are using OpenFlow 1.3 and to add this change to the list of implemented features?",
+      "range": {
+        "startLine": 127,
+        "startChar": 46,
+        "endLine": 127,
+        "endChar": 56
+      },
+      "revId": "b7ba9cc7695b972f41081fe6d6c437226c878e0f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
