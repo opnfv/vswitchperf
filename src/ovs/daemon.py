@@ -138,5 +138,5 @@ class VSwitchd(tasks.Process):
         :returns: None
         """
         if self._ovsdb_pid:
-            tasks.run_task(['sudo', 'kill', '-2', str(self._ovsdb_pid)],
+            tasks.run_task(['sudo', 'kill', '-15', str(self._ovsdb_pid)],
                            self._logger, 'Killing ovsdb-server...')

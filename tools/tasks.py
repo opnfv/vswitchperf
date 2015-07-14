@@ -23,6 +23,7 @@ import threading
 import sys
 import os
 import locale
+import time
 
 from conf import settings
 
@@ -244,8 +245,10 @@ class Process(object):
         """Kill process instance if it is alive.
         """
         if self._child and self._child.isalive():
-            run_task(['sudo', 'kill', '-2', str(self._child.pid)],
+            run_task(['sudo', 'kill', '-15', str(self._child.pid)],
                      self._logger)
+            self._logger.debug('Wait for process to terminate')
+            time.sleep(2)
 
             if self.is_relinquished():
                 self._relinquish_thread.join()
