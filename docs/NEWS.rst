@@ -3,6 +3,7 @@ August 2015
 New
 ---
 - Backport and enhancement of reporting
+- PVP deployment scenario testing using vhost-cuse as guest access method
 
 July 2015
 =========
