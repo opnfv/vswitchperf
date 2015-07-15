@@ -1138,6 +1138,29 @@ The starting point for defining the suite of tests for benchmarking the performa
 
   - Physical → Virtual Switch → Physical.
 <br/>
+ - #####Test ID: LTD.PacketDelayVariation.RFC3393.Soak
+  **Title**: Packet Delay Variation Soak Test
+
+  **Prerequisite Tests**: LTD.Throughput.RFC2544.PacketLossRatio (0% Packet Loss)
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to understand the distribution of packet delay variation for different frame sizes over an extended test duration and to determine if there are any outliers. To allow for an extended test duration, the test should ideally run for 24 hours or, if this is not possible, for at least 6 hour. For this test, each frame size must be sent at the highest possible throughput with 0% packet loss, as determined in the prerequisite test.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - The packet delay variation value for traffic passing through the DUT.
+   - The [RFC5481] PDV form of delay variation on the traffic flow, using the 99th percentile, for each 60s interval during the test.
+   - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
+
+
+<br/>
 ----
 <a name="ScalabilityTests"></a>
 ####2.3.3 Scalability tests
