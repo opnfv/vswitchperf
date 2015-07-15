@@ -20,7 +20,7 @@ from vswitches.vswitch import IVSwitch
 from src.ovs import VSwitchd, OFBridge
 from src.dpdk import dpdk
 
-VSWITCHD_CONST_ARGS = ['--', '--log-file']
+_VSWITCHD_CONST_ARGS = ['--', '--log-file']
 
 class OvsDpdkVhost(IVSwitch):
     """VSwitch implementation using DPDK and vhost ports
@@ -36,7 +36,7 @@ class OvsDpdkVhost(IVSwitch):
     def __init__(self):
         vswitchd_args = ['--dpdk']
         vswitchd_args += settings.getValue('VSWITCHD_DPDK_ARGS')
-        vswitchd_args += VSWITCHD_CONST_ARGS
+        vswitchd_args += _VSWITCHD_CONST_ARGS
 
         self._vswitchd = VSwitchd(vswitchd_args=vswitchd_args)
         self._bridges = {}
@@ -97,9 +97,10 @@ class OvsDpdkVhost(IVSwitch):
         from 0
         """
         bridge = self._bridges[switch_name]
-        vhost_count = self._get_port_count(bridge, 'type=dpdkvhost')
-        port_name = 'dpdkvhost' + str(vhost_count)
-        params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhost']
+        # Changed dpdkvhost to dpdkvhostuser to be able to run in Qemu 2.2
+        vhost_count = self._get_port_count(bridge, 'type=dpdkvhostuser')
+        port_name = 'dpdkvhostuser' + str(vhost_count)
+        params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostuser']
         of_port = bridge.add_port(port_name, params)
 
         return (port_name, of_port)

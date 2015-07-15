@@ -79,7 +79,7 @@ def create_vnf(deployment_scenario, vnf_class):
     #correct controller class
     deployment_scenario = deployment_scenario.lower()
     if deployment_scenario.find("p2p") >= 0:
-        return VnfControllerP2P(vnf_class)
+        return VnfControllerP2P(None)
     elif deployment_scenario.find("pvp") >= 0:
         return VnfControllerPVP(vnf_class)
 

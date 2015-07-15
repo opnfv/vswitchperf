@@ -1,3 +1,12 @@
+#July 2015
+
+## New
+
+* PVP deployment scenario testing using vhost-user as guest access method
+  * Verified on CentOS7 and Fedora 20
+  * Requires QEMU 2.2.0 and DPDK 2.0
+
+
 #May 2015
 
 This is the initial release of a re-designed version of the software based on
