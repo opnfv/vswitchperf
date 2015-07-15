@@ -808,7 +808,7 @@ The starting point for defining the suite of tests for benchmarking the performa
 
   **Description**:
 
-  The aim of this test is to characterize the ability of the DUT to process back-to-back frames. For each frame size previously defined under [Default Test Parameters](#DefaultParams), a burst of traffic is sent to the DUT with the minimum inter-frame gap between each frame. If the number of received frames equals the number of frames that were transmitted, the burst size should be increased and traffic is sent to the DUT again. The value measured is the back-to-back value, that is the maximum burst size the DUT can handle without any frame loss. 
+  The aim of this test is to characterize the ability of the DUT to process back-to-back frames. For each frame size previously defined under [Default Test Parameters](#DefaultParams), a burst of traffic is sent to the DUT with the minimum inter-frame gap between each frame. If the number of received frames equals the number of frames that were transmitted, the burst size should be increased and traffic is sent to the DUT again. The value measured is the back-to-back value, that is the maximum burst size the DUT can handle without any frame loss.
 
   **Expected Result**:
 
@@ -1254,6 +1254,56 @@ The starting point for defining the suite of tests for benchmarking the performa
 
    - The maximum number of frames per second that can be forwarded at the specified number of flows and the specified frame size, with zero packet loss.
 <br/>
+----
+<a name="CPDPTests"></a>
+#####2.3.5 Coupling between control path and datapath Tests
+
+  The following tests aim to determine how tightly coupled the datapath and the control path are within a virtual switch.
+
+  The following list is not exhaustive but should indicate the type of tests that should be required. It is expected that more will be added.
+
+ - #####Test ID: LTD.CPDPCouplingFlowAddition
+  **Title**: Control Path and Datapath Coupling
+
+  **Prerequisite Test**:
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to understand how exercising the DUT's control path affects datapath performance.
+
+  Initially a certain number of flow table entries are installed in the vSwitch. Then over the duration of an RFC2544 throughput test flow-entries are added and removed at the rates specified below. No traffic is 'hitting' these flow-entries, they are simply added and removed.
+
+  The test MUST be repeated with the following initial number of flow-entries installed:
+  - < 10
+  - 1000
+  - 100,000
+  - 10,000,000 (or the maximum supported number of flow-entries)
+
+  The test MUST be repeated with the following rates of flow-entry addition and deletion per second:
+  - 0
+  - 1 (i.e. 1 addition plus 1 deletion)
+  - 100
+  - 10,000
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - The maximum forwarding rate in Frames Per Second (FPS) and Mbps of the DUT.
+   - The average latency of the traffic flow when passing through the DUT (if testing for latency, note that this average is different from the test specified in Section 26.3 of [RFC2544]).
+   - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
+
+  **Deployment scenario**:
+
+   - Physical → virtual switch → physical.
+
+
+<br/>
+
 
 <a name="SummaryList"></a>
 ####2.3.9 Summary List of Tests
