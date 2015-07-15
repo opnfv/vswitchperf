@@ -56,3 +56,9 @@ class VnfControllerP2P(IVnfController):
         """Stops nothing.
         """
         self._logger.debug('stop with ' + str(self._vnf_class))
+
+    def __enter__(self):
+        self.start()
+
+    def __exit__(self, type_, value, traceback):
+        self.stop()

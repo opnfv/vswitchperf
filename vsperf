@@ -35,6 +35,8 @@ from testcases import TestCase
 from tools import tasks
 from tools.collectors import collector
 from tools.pkt_gen import trafficgen
+from vswitches import vswitch
+from vnfs import vnf
 
 VERBOSITY_LEVELS = {
     'debug': logging.DEBUG,
@@ -117,6 +119,8 @@ def parse_arguments():
                         help='list all system metrics loggers and exit')
     parser.add_argument('--list-vswitches', action='store_true',
                         help='list all system vswitches and exit')
+    parser.add_argument('--list-vnfs', action='store_true',
+                        help='list all system vnfs and exit')
     parser.add_argument('--list-settings', action='store_true',
                         help='list effective settings configuration and exit')
     parser.add_argument('test', nargs='*', help='test specification(s)')
@@ -131,6 +135,7 @@ def parse_arguments():
                        help='debug level')
     group.add_argument('--trafficgen', help='traffic generator to use')
     group.add_argument('--vswitch', help='vswitch implementation to use')
+    group.add_argument('--vnf', help='vnf to use')
     group.add_argument('--sysmetrics', help='system metrics logger to use')
     group = parser.add_argument_group('test behavior options')
     group.add_argument('--xunit', action='store_true',
@@ -311,7 +316,13 @@ def main():
                           settings.getValue('VSWITCH_DIR'))
             sys.exit(1)
 
-
+    if args['vnf']:
+        vnfs = Loader().get_vnfs()
+        if args['vnf'] not in vnfs:
+            logging.error('there are no vnfs matching \'%s\' found in'
+                          ' \'%s\'. exiting...', args['vnf'],
+                          settings.getValue('vnf_dir'))
+            sys.exit(1)
 
     # generate results directory name
     date = datetime.datetime.fromtimestamp(time.time())
@@ -351,6 +362,10 @@ def main():
 
     if args['list_vswitches']:
         print(Loader().get_vswitches_printable())
+        exit()
+
+    if args['list_vnfs']:
+        print(Loader().get_vnfs_printable())
         exit()
 
     if args['list_settings']:
