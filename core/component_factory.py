@@ -38,7 +38,7 @@ def create_traffic(traffic_type, trafficgen_class):
 
     traffic_types: 'rfc2544_throughput'
 
-    :param traffic_type: Name of traffic type 
+    :param traffic_type: Name of traffic type
     :param trafficgen_class: Reference to traffic generator class to be used.
     :return: A new ITrafficController
     """
@@ -80,7 +80,7 @@ def create_vnf(deployment_scenario, vnf_class):
     #correct controller class
     deployment_scenario = deployment_scenario.lower()
     if deployment_scenario.find("p2p") >= 0:
-        return VnfControllerP2P(vnf_class)
+        return VnfControllerP2P(None)
     elif deployment_scenario.find("pvp") >= 0:
         return VnfControllerPVP(vnf_class)
 
