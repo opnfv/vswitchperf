@@ -36,6 +36,12 @@ cd src
 make WITH_LINUX=/lib/modules/`uname -r`/build
 ```
 
+To build DPDK and OVS for PVP testing, use:
+
+```bash
+make VHOST_USER=y
+```
+
 To delete a src subdirectory and its contents to allow you to re-clone simply use:
 
 ```bash

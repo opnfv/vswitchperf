@@ -20,6 +20,7 @@ from core.loader.loader_servant import LoaderServant
 from tools.pkt_gen.trafficgen import ITrafficGenerator
 from tools.collectors.collector import ICollector
 from vswitches.vswitch import IVSwitch
+from vnfs.vnf.vnf import IVnf
 
 class Loader(object):
     """Loader class - main object context holder.
@@ -27,6 +28,7 @@ class Loader(object):
     _trafficgen_loader = None
     _metrics_loader = None
     _vswitch_loader = None
+    _vnf_loader = None
 
     def __init__(self):
         """Loader ctor - initialization method.
@@ -49,6 +51,11 @@ class Loader(object):
             settings.getValue('VSWITCH_DIR'),
             settings.getValue('VSWITCH'),
             IVSwitch)
+
+        self._vnf_loader = LoaderServant(
+            settings.getValue('VNF_DIR'),
+            settings.getValue('VNF'),
+            IVnf)
 
     def get_trafficgen(self):
         """Returns a new instance configured traffic generator.
@@ -144,10 +151,34 @@ class Loader(object):
         """
         return self._vswitch_loader.get_classes_printable()
 
-    def get_vnf_class(self):
-        """Returns a new instance of the configured VNF
+    def get_vnf(self):
+        """Returns instance of currently configured vnf implementation.
 
-        Currently always returns None
+        :return: IVnf implementation if available, None otherwise.
         """
-        #TODO: Load the VNF class
-        return None
+        return self._vnf_loader.get_class()()
+
+    def get_vnf_class(self):
+        """Returns type of currently configured vnf implementation.
+
+        :return: Type of IVnf implementation if available.
+            None otherwise.
+        """
+        return self._vnf_loader.get_class()
+
+    def get_vnfs(self):
+        """Returns dictionary of all available vnfs.
+
+        :return: Dictionary of vnfs.
+            - key: name of the class which implements IVnf,
+            - value: Type of vnf which implements IVnf.
+        """
+        return self._vnf_loader.get_classes()
+
+    def get_vnfs_printable(self):
+        """Returns all available vnfs in printable format.
+
+        :return: String containing printable list of vnfs.
+        """
+        return self._vnf_loader.get_classes_printable()
+
