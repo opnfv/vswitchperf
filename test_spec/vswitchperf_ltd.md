@@ -1145,6 +1145,35 @@ The starting point for defining the suite of tests for benchmarking the performa
 
    - The maximum number of frames per second that can be forwarded at the specified number of flows and the specified frame size, with zero packet loss.
 <br/>
+----
+<a name="CPDPTests"></a>
+#####2.3.5 Coupling between control path and datapath Tests
+
+  The following tests aim to determine how tightly coupled the datapath and the control path are within a virtual switch.
+
+  The following list is not exhaustive but should indicate the type of tests that should be required. It is expected that more will be added.
+
+ - #####Test ID: LTD.CPDPCouplingFlowAddition
+  **Title**: Control Path and Datapath Coupling
+
+  **Prerequisite Test** LTD.Throughput.RFC2544.ZeroPacketLoss
+
+  **Priority**:
+
+  **Description**:
+
+  The aim of this test is to understand how closely coupled the DUT's control path and datapath are. For this test, a single high frame rate flow should be passed through the DUT. Over the duration of the test, a range of flows, 1 - 10 million flows, or the maximum number of supported flows, should be added and removed from the datapath, as the performance is measured(**Note**: no traffic is passing through these flows, they are simply added and removed). The performance of the initial single flow should be measured to determine the amount of coupling between the DUT's datapath and control path. Each frame size must be sent at the highest throughput with zero packet loss, as determined in the prerequisite test.
+
+  **Expected Result**:
+
+  **Metrics Collected**:
+
+  The following are the metrics collected for this test:
+
+   - The forwarding rate with 0 packet loss.
+
+<br/>
+
 
 <a name="SummaryList"></a>
 ####2.3.9 Summary List of Tests
