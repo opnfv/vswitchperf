@@ -14,7 +14,6 @@
 """TestCase base class
 """
 
-import time
 import csv
 import os
 import logging
@@ -65,7 +64,8 @@ class TestCase(object):
             loader.get_vnf_class())
         vswitch_ctl = component_factory.create_vswitch(
             self._deployment,
-            loader.get_vswitch_class())
+            loader.get_vswitch_class(),
+            self._bidir)
         collector_ctl = component_factory.create_collector(
             self._collector,
             loader.get_collector_class())
@@ -74,19 +74,19 @@ class TestCase(object):
         self._logger.debug("Setup:")
         collector_ctl.log_cpu_stats()
         with vswitch_ctl:
-            if vnf_ctl:
-                vnf_ctl.start()
+            with vnf_ctl:
                 traffic = {'traffic_type': self._traffic_type, 'bidir': self._bidir}
                 vswitch = vswitch_ctl.get_vswitch()
                 if self._frame_mod == "vlan":
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'2', 'actions': ['push_vlan:0x8100','goto_table:3']}
+                    flow = {'table':'2', 'priority':'1000', 'metadata':'2',
+                            'actions': ['push_vlan:0x8100', 'goto_table:3']}
                     vswitch.add_flow('br0', flow)
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'1', 'actions': ['push_vlan:0x8100','goto_table:3']}
+                    flow = {'table':'2', 'priority':'1000', 'metadata':'1',
+                            'actions': ['push_vlan:0x8100', 'goto_table:3']}
                     vswitch.add_flow('br0', flow)
 
-            with traffic_ctl:
-                traffic_ctl.send_traffic(traffic)
-
+                with traffic_ctl:
+                    traffic_ctl.send_traffic(traffic)
 
         self._logger.debug("Traffic Results:")
         traffic_ctl.print_results()
