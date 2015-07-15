@@ -37,24 +37,33 @@ class VnfControllerPVP(IVnfController):
         :param vnf_class: The VNF class to be used.
         """
         self._logger = logging.getLogger(__name__)
-        self._vnf_class = vnf_class
+        self._vnf_class = vnf_class()
         self._deployment_scenario = "PVP"
-        self._vnfs = []
-        self._logger.debug('__init__ with ' + str(self._vnf_class))
+        self._vnfs = [vnf_class(deployment=self._deployment_scenario)]
+        self._logger.debug('__init__ with ' + str(self._vnfs[0]))
         #TODO call vnf.xxx to carry out the required setup
 
     def get_vnfs(self):
         """See IVnfController for description
         """
-        self._logger.debug('get_vnfs with ' + str(self._vnf_class))
+        self._logger.debug('get_vnfs with ' + str(self._vnfs[0]))
         return self._vnfs
 
     def start(self):
         """See IVnfController for description
         """
-        self._logger.debug('start with ' + str(self._vnf_class))
+        self._logger.debug('start with ' + str(self._vnfs[0]))
+        for vnf in self._vnfs:
+            vnf.start()
 
     def stop(self):
         """See IVnfController for description
         """
-        self._logger.debug('stop with ' + str(self._vnf_class))
+        self._logger.debug('stop with ' + str(self._vnfs[0]))
+        self._vnfs[0].stop()
+
+    def __enter__(self):
+        self.start()
+
+    def __exit__(self, type_, value, traceback):
+        self.stop()
