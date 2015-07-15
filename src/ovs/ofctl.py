@@ -32,6 +32,8 @@ _OVS_VSCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
 _OVS_OFCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
                               'ovs-ofctl')
 
+_OVS_VAR_DIR = '/usr/local/var/run/openvswitch/'
+
 class OFBase(object):
     """Add/remove/show datapaths using ``ovs-ofctl``.
     """

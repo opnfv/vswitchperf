@@ -49,7 +49,7 @@ class VSwitchd(tasks.Process):
     _expect = r'EAL: Master l*core \d+ is ready'
     _proc_name = 'ovs-vswitchd'
 
-    def __init__(self, timeout=30, vswitchd_args=None):
+    def __init__(self, timeout=60, vswitchd_args=None):
         """Initialise the wrapper with a specific start timeout and extra
         parameters.
 
