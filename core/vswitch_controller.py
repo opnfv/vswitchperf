@@ -20,12 +20,13 @@ class IVswitchController(object):
     This interface is used to setup and control a vSwitch provider for a
     particular deployment scenario.
     """
-    def setup(self):
+    def __enter__(self):
         """Sets up the switch for the particular deployment scenario
         """
         raise NotImplementedError(
             "The VswitchController does not implement the \"setup\" function.")
-    def stop(self):
+
+    def __exit__(self, type_, value, traceback):
         """Tears down the switch created in setup()
         """
         raise NotImplementedError(

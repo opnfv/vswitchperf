@@ -18,6 +18,12 @@
 import logging
 
 from core.vswitch_controller import IVswitchController
+from vswitches.utils import add_ports_to_flow
+
+_FLOW_TEMPLATE = {
+    'idle_timeout': '0'
+}
+BRIDGE_NAME = 'br0'
 
 class VswitchControllerPVP(IVswitchController):
     """VSwitch controller for PVP deployment scenario.
@@ -40,19 +46,43 @@ class VswitchControllerPVP(IVswitchController):
         self._logger.debug('Creation using ' + str(self._vswitch_class))
 
     def setup(self):
+        """ Sets up the switch for pvp
         """
-        Sets up the switch for the particular deployment scenario passed in to
-        the constructor.
-        """
-        # TODO call IVSwitch methods to configure VSwitch for PVP scenario.
         self._logger.debug('Setup using ' + str(self._vswitch_class))
 
+        try:
+            self._vswitch.start()
+
+            self._vswitch.add_switch(BRIDGE_NAME)
+
+            (_, phy1_number) = self._vswitch.add_phy_port(BRIDGE_NAME)
+            (_, phy2_number) = self._vswitch.add_phy_port(BRIDGE_NAME)
+            (_, vport1_number) = self._vswitch.add_vport(BRIDGE_NAME)
+            (_, vport2_number) = self._vswitch.add_vport(BRIDGE_NAME)
+
+            self._vswitch.del_flow(BRIDGE_NAME)
+            flow1 = add_ports_to_flow(_FLOW_TEMPLATE, phy1_number,
+                                      vport1_number)
+            flow2 = add_ports_to_flow(_FLOW_TEMPLATE, vport2_number,
+                                      phy2_number)
+            self._vswitch.add_flow(BRIDGE_NAME, flow1)
+            self._vswitch.add_flow(BRIDGE_NAME, flow2)
+
+        except:
+            self._vswitch.stop()
+            raise
+
     def stop(self):
+        """Tears down the switch created in setup().
         """
-        Tears down the switch created in setup().
-        """
-        # TODO call IVSwitch methods to stop VSwitch for PVP scenario.
         self._logger.debug('Stop using ' + str(self._vswitch_class))
+        self._vswitch.stop()
+
+    def __enter__(self):
+        self.setup()
+
+    def __exit__(self, type_, value, traceback):
+        self.stop()
 
     def get_vswitch(self):
         """See IVswitchController for description
@@ -63,7 +93,4 @@ class VswitchControllerPVP(IVswitchController):
         """See IVswitchController for description
         """
         self._logger.debug('get_ports_info  using ' + str(self._vswitch_class))
-        return []
-
-
-
+        return self._vswitch.get_ports(BRIDGE_NAME)
