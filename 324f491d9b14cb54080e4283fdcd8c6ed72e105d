@@ -16,6 +16,29 @@
       "revId": "324f491d9b14cb54080e4283fdcd8c6ed72e105d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3479d7_e6ac0638",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-07-16T14:52:10Z",
+      "side": 1,
+      "message": "Thinking about Maryam\u0027s comment, we seem to need to clarify what processes are vying for cache and memory - are they only vSwitch processes expanding with the number of flows, or are they *other* processes operating on other cores?  If the vSwitch (manipulating the flows in some reasonable way) is not enough to see the effects of cache sharing on its own, then we might be headed toward one form of \u0027noisy neighbor\u0027 testing  (which we said we would do, haven\u0027t addressed yet).",
+      "range": {
+        "startLine": 1094,
+        "startChar": 54,
+        "endLine": 1094,
+        "endChar": 134
+      },
+      "revId": "324f491d9b14cb54080e4283fdcd8c6ed72e105d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
