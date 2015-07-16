@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "fa3479d7_e63be636",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-07-16T12:51:25Z",
+      "side": 1,
+      "message": "Done.\n\nI\u0027ve changed the test title and body in PS2 to reflect that there is no \"acceptable % packet loss\" \u0027parameter\u0027 to the test. Or there is no pass/fail criterion. \n\nI think that makes sense as we are really running the DUT very close to it\u0027s capacity throughput and then just seeing if \u0026 when packets were lost. It would be up to a further analyis of the results to see if they are acceptable or not.\n\nIt could be the case that if 10**-7 % of pkts are lost that if the are all lost in one 60s time period or lost randomly over the entire test duration. One could be acceptable the other not even though the average packet loss is the same in both cases.",
+      "parentUuid": "fa3479d7_1881ad4a",
+      "revId": "1d5f9c6dc54765d86c52da99e0e3d59e6c1347bb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa3479d7_f524b2c7",
         "filename": "test_spec/vswitchperf_ltd.md",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 685,
         "endChar": 101
       },
+      "revId": "1d5f9c6dc54765d86c52da99e0e3d59e6c1347bb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3479d7_c648e2ce",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-07-16T12:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa3479d7_f524b2c7",
       "revId": "1d5f9c6dc54765d86c52da99e0e3d59e6c1347bb",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
