@@ -45,6 +45,30 @@
       "revId": "1dd3e85f4c91faf279d6d70f8b7a4b181777d7d4",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3479d7_e6fe4638",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-07-16T14:17:20Z",
+      "side": 1,
+      "message": "Right, all soak tests running on the order of hours should allow loss ratio \u003c10**-7 (we fixed this in another Soak test, IIRC)",
+      "parentUuid": "fa3479d7_66093695",
+      "range": {
+        "startLine": 1116,
+        "startChar": 10,
+        "endLine": 1116,
+        "endChar": 11
+      },
+      "revId": "1dd3e85f4c91faf279d6d70f8b7a4b181777d7d4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
