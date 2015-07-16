@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa3479d7_66c136e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-16T14:29:08Z",
+      "side": 1,
+      "message": "Did everyone actually review this patch?",
+      "revId": "cf82d4798f507fe6e753949524926ebc0e7a3c26",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
