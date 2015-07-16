@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa3479d7_6665b644",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-16T13:54:29Z",
+      "side": 1,
+      "message": "Is this just like the scalability test where we measure memory utilization?\nI\u0027m not sure that frame/packet header modification is enough, I think that any unused cores should be used to run a memory intensive application to determine the effects on the vswitch running on the same core",
+      "revId": "324f491d9b14cb54080e4283fdcd8c6ed72e105d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
