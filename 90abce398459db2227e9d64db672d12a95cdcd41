@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa3479d7_e6cd265f",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-16T09:37:06Z",
+      "side": 1,
+      "message": "Packet loss ratio test?",
+      "range": {
+        "startLine": 1159,
+        "startChar": 47,
+        "endLine": 1159,
+        "endChar": 61
+      },
+      "revId": "90abce398459db2227e9d64db672d12a95cdcd41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3479d7_c6da2217",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-16T09:37:06Z",
+      "side": 1,
+      "message": "should there be set intervals per flow addition and measure the performance at each point or just go for the addition for n flows while we pass traffic and measure the performance?",
+      "range": {
+        "startLine": 1165,
+        "startChar": 29,
+        "endLine": 1165,
+        "endChar": 39
+      },
+      "revId": "90abce398459db2227e9d64db672d12a95cdcd41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
