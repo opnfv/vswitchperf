@@ -1028,10 +1028,11 @@ The starting point for defining the suite of tests for benchmarking the performa
   **Description**:
 
   The aim of this test is to determine whether the DUT will propagate any erroneous frames it receives or whether it is capable of filtering out the erroneous frames. Traffic should be sent with erroneous frames included within the flow at random intervals. Illegal frames that must be tested include:
-    - Undersize Frames.
     - Oversize Frames.
-    - CRC error frames.
-    - Fragment Frames.
+    - Undersize Frames.
+    - CRC Errored Frames.
+    - Dribble Bit Errored Frames
+    - Alignment Errored Frames
 
   The traffic flow exiting the DUT should be recorded and checked to determine if the erroneous frames where passed through the DUT.
 
