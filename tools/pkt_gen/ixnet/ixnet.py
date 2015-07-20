@@ -200,7 +200,7 @@ class IxNet(trafficgen.ITrafficGenerator):
         """
         pass
 
-    def send_cont_traffic(self, traffic=None, time=20, framerate=0,
+    def send_cont_traffic(self, traffic=None, time=30, framerate=100,
                           multistream=False):
         """See ITrafficGenerator for description
         """
@@ -208,7 +208,7 @@ class IxNet(trafficgen.ITrafficGenerator):
 
         return self.stop_cont_traffic()
 
-    def start_cont_traffic(self, traffic=None, time=20, framerate=0,
+    def start_cont_traffic(self, traffic=None, time=30, framerate=100,
                            multistream=False):
         """Start transmission.
         """
