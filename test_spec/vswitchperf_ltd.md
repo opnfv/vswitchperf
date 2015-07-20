@@ -1061,13 +1061,24 @@ The starting point for defining the suite of tests for benchmarking the performa
 
   The aim of this test is to determine the maximum forwarding rate of the DUT when forwarding broadcast traffic. For each frame previously defined under [Default Test Parameters](#DefaultParams), the traffic should be set up as broadcast traffic. The traffic throughput of the DUT should be measured.
 
+  The test should be conducted with at least 4 physical ports on the DUT. The number of ports used MUST be recorded.
+
+  As broadcast involves forwarding a single incoming packet to several destinations, the latency of a single packet is defined as the average of the latencies for each of the broadcast destinations.
+
+  The incoming packet is transmitted on each of the other physical ports, it is not transmitted on the port on which it was received. The test MAY be conducted using different broadcasting ports to uncover any performance differences.
+
   **Expected Result**:
 
-  **Metrics collected**
+  **Metrics collected**:
 
   The following are the metrics collected for this test:
 
    - The forwarding rate of the DUT when forwarding broadcast traffic.
+   - The minimum, average & maximum packets latencies observed.
+
+  **Deployment scenario**:
+
+   - Physical → virtual switch → physical.
 
 <br/>
 ----
