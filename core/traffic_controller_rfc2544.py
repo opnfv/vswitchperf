@@ -86,6 +86,9 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
                 result = self._traffic_gen_class.send_rfc2544_back2back(
                     traffic, trials=int(self._trials),
                     duration=int(get_test_param('rfc2544_duration', 20)))
+            elif traffic['traffic_type'] == 'continuous':
+                result = self._traffic_gen_class.send_cont_traffic(
+                    traffic, time=int(get_test_param('rfc2544_duration', 30)))
             else:
                 result = self._traffic_gen_class.send_rfc2544_throughput(
                     traffic, trials=int(self._trials),

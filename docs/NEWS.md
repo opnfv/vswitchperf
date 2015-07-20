@@ -9,6 +9,7 @@ once the community has digested the initial release.
 
 ## New
 
+* Performance testing with continuous stream
 * CentOS7 support
   * Verified on CentOS7
   * Install & Quickstart documentation
@@ -19,6 +20,7 @@ once the community has digested the initial release.
   * Framework support for non-Ixia traffic generators
   * Framework support for different VNFs
 * Python3
+* Support for biDirectional functionality for ixnet interface
 
 ## Missing
 
