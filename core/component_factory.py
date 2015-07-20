@@ -38,13 +38,12 @@ def create_traffic(traffic_type, trafficgen_class):
 
     traffic_types: 'rfc2544_throughput'
 
-    :param traffic_type: Name of traffic type 
+    :param traffic_type: Name of traffic type
     :param trafficgen_class: Reference to traffic generator class to be used.
     :return: A new ITrafficController
     """
-    #TODO - full mapping from all traffic_types to
-    #correct controller class
     return TrafficControllerRFC2544(trafficgen_class)
+
 
 def create_vswitch(deployment_scenario, vswitch_class):
     """Return a new IVSwitchController for the deployment_scenario.
