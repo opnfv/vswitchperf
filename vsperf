@@ -130,6 +130,7 @@ def parse_arguments():
     group.add_argument('--verbosity', choices=list_logging_levels(),
                        help='debug level')
     group.add_argument('--trafficgen', help='traffic generator to use')
+    group.add_argument('--vswitch', help='vswitch implementation to use')
     group.add_argument('--sysmetrics', help='system metrics logger to use')
     group = parser.add_argument_group('test behavior options')
     group.add_argument('--xunit', action='store_true',
@@ -300,6 +301,16 @@ def main():
                           ' \'%s\'. Exiting...', args['trafficgen'],
                           settings.getValue('TRAFFICGEN_DIR'))
             sys.exit(1)
+
+    # configure vswitch
+    if args['vswitch']:
+        vswitches = Loader().get_vswitches()
+        if args['vswitch'] not in vswitches:
+            logging.error('There are no vswitches matching \'%s\' found in'
+                          ' \'%s\'. Exiting...', args['vswitch'],
+                          settings.getValue('VSWITCH_DIR'))
+            sys.exit(1)
+
 
 
     # generate results directory name
