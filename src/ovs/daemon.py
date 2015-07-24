@@ -44,12 +44,12 @@ class VSwitchd(tasks.Process):
     """
     _ovsdb_pid = None
     _logfile = _LOG_FILE_VSWITCHD
+    _ovsdb_pidfile_path = os.path.join(settings.getValue('LOG_DIR'),
+                                    "ovsdb_pidfile.pid")
 
-
-    _expect = r'EAL: Master l*core \d+ is ready'
     _proc_name = 'ovs-vswitchd'
 
-    def __init__(self, timeout=30, vswitchd_args=None):
+    def __init__(self, timeout=30, vswitchd_args=None, expected_cmd=None):
         """Initialise the wrapper with a specific start timeout and extra
         parameters.
 
@@ -60,8 +60,8 @@ class VSwitchd(tasks.Process):
         """
         self._logger = logging.getLogger(__name__)
         self._timeout = timeout
+        self._expect = expected_cmd;
         vswitchd_args = vswitchd_args or []
-
         self._cmd = ['sudo', '-E', _OVS_VSWITCHD_BIN] + vswitchd_args
 
     # startup/shutdown
@@ -72,6 +72,7 @@ class VSwitchd(tasks.Process):
         :returns: None
         :raises: pexpect.EOF, pexpect.TIMEOUT
         """
+
         self._reset_ovsdb()
         self._start_ovsdb()  # this has to be started first
 
@@ -79,6 +80,7 @@ class VSwitchd(tasks.Process):
             super(VSwitchd, self).start()
             self.relinquish()
         except (pexpect.EOF, pexpect.TIMEOUT) as exc:
+            logging.error("Exception during VSwitch start.")
             self._kill_ovsdb()
             raise exc
 
@@ -125,10 +127,11 @@ class VSwitchd(tasks.Process):
                        self._logger,
                        'Creating ovsdb configuration database...')
 
-        self._ovsdb_pid = tasks.run_background_task(
+        tasks.run_background_task(
             ['sudo', _OVSDB_SERVER_BIN,
              '--remote=punix:%s' % os.path.join(_OVS_VAR_DIR, 'db.sock'),
-             '--remote=db:Open_vSwitch,Open_vSwitch,manager_options'],
+             '--remote=db:Open_vSwitch,Open_vSwitch,manager_options',
+             '--pidfile=' + self._ovsdb_pidfile_path , '--overwrite-pidfile'],
             self._logger,
             'Starting ovsdb-server...')
 
@@ -137,6 +140,19 @@ class VSwitchd(tasks.Process):
 
         :returns: None
         """
-        if self._ovsdb_pid:
-            tasks.run_task(['sudo', 'kill', '-15', str(self._ovsdb_pid)],
+        with open (self._ovsdb_pidfile_path, "r") as pidfile:
+            ovsdb_pid = pidfile.read().strip()
+
+        self._logger.info("Killing ovsdb with pid: " + ovsdb_pid)
+
+        if ovsdb_pid:
+            tasks.run_task(['sudo', 'kill', '-15', str(ovsdb_pid)],
                            self._logger, 'Killing ovsdb-server...')
+
+    @staticmethod
+    def getDbSockPath():
+        """Method returns location of db.sock file
+
+        :returns: path to db.sock file.
+        """
+        return os.path.join(_OVS_VAR_DIR, 'db.sock')

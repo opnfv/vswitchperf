@@ -27,10 +27,13 @@ import locale
 
 from tools import tasks
 from conf import settings
+from tools.module_manager import ModuleManager, KernelModuleInsertMode
 
 _LOGGER = logging.getLogger(__name__)
 RTE_PCI_TOOL = os.path.join(
     settings.getValue('RTE_SDK'), 'tools', 'dpdk_nic_bind.py')
+
+_DPDK_MODULE_MANAGER = ModuleManager(KernelModuleInsertMode.MODPROBE)
 
 #
 # system management
@@ -192,16 +195,8 @@ def _is_module_inserted(module):
 def _insert_modules():
     """Ensure required modules are inserted on system.
     """
-    for module in settings.getValue('SYS_MODULES'):
-        if _is_module_inserted(module):
-            continue
 
-        try:
-            tasks.run_task(['sudo', 'modprobe', module], _LOGGER,
-                           'Inserting module \'%s\'...' % module, True)
-        except subprocess.CalledProcessError:
-            _LOGGER.error('Unable to insert module \'%s\'.', module)
-            raise  # fail catastrophically
+    _DPDK_MODULE_MANAGER.insert_modules(settings.getValue('SYS_MODULES'))
 
     mod_path_prefix = settings.getValue('OVS_DIR')
     _insert_module_group('OVS_MODULES', mod_path_prefix)
@@ -237,18 +232,7 @@ def _remove_modules():
     _remove_module_group('OVS_MODULES')
     _remove_module_group('DPDK_MODULES')
 
-    for module in settings.getValue('SYS_MODULES'):
-        # first check if module is loaded
-        if not _is_module_inserted(module):
-            continue
-
-        try:
-            tasks.run_task(['sudo', 'rmmod', module], _LOGGER,
-                           'Removing module \'%s\'...' % module, True)
-        except subprocess.CalledProcessError:
-            _LOGGER.error('Unable to remove module \'%s\'.', module)
-            continue
-
+    _DPDK_MODULE_MANAGER.remove_modules()
 
 def _remove_module_group(module_group):
     """Ensure all modules in a group are removed from the system.
