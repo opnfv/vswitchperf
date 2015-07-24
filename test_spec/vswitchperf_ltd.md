@@ -1082,7 +1082,13 @@ The starting point for defining the suite of tests for benchmarking the performa
 
   **Description**:
 
-  In some virtual switch architectures, the first packets of a flow will take the system longer to process than subsequent packets in the flow. This test determines the latency for these packets. The test will measure the latency of the packets as they are processed by the flow-setup-path of the DUT. This test will send a single packet to the DUT after a fixed interval of time. The time interval will be equivalent to the amount of time it takes for a flow to time out in the virtual switch. Average packet latency will be determined over 1,000,000 packets.
+  In some virtual switch architectures, the first packets of a flow will take the system longer to process than subsequent packets in the flow. This test determines the latency for these packets. The test will measure the latency of the packets as they are processed by the flow-setup-path of the DUT.
+
+  This test will send a single packet to the DUT after a fixed interval of time. The time interval will be equivalent to the amount of time it takes for a flow to time out in the virtual switch plus 10%. Average packet latency will be determined over 1,000,000 packets.
+
+  Or alternatively:
+
+  This test will send 64,000 packets to the DUT, each belonging to a different flow. The time interval will be equivalent to the amount of time it takes for a flow to time out in the virtual switch. Average packet latency will be determined over the 64,000 packets.
 
   For this test, only unidirectional traffic is required.
 
