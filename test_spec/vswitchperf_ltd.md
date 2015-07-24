@@ -1076,13 +1076,19 @@ The starting point for defining the suite of tests for benchmarking the performa
  - #####Test ID: LTD.PacketLatency.InitialPacketProcessingLatency
   **Title**: Initial Packet Processing Latency
 
-   **Prerequisite Test**: N\A
+  **Prerequisite Test**: N\A
 
   **Priority**:
 
   **Description**:
 
-  In some virtual switch architectures, the first packets of a flow will take the system longer to process than subsequent packets in the flow. This test determines the latency for these packets. The test will measure the latency of the packets as they are processed by the flow-setup-path of the DUT. This test will send a single packet to the DUT after a fixed interval of time. The time interval will be equivalent to the amount of time it takes for a flow to time out in the virtual switch. Average packet latency will be determined over 1,000,000 packets.
+  In some virtual switch architectures, the first packets of a flow will take the system longer to process than subsequent packets in the flow. This test determines the latency for these packets. The test will measure the latency of the packets as they are processed by the flow-setup-path of the DUT. There are two methods for this test, a recommended method and a nalternative method that can be used if it is possible to disable the fastpath of the virtual switch.
+
+  Recommended method: This test will send 64,000 packets to the DUT, each belonging to a different flow. Average packet latency will be determined over the 64,000 packets.
+
+  Alternative method: This test will send a single packet to the DUT after a fixed interval of time. The time interval will be equivalent to the amount of time it takes for a flow to time out in the virtual switch plus 10%. Average packet latency will be determined over 1,000,000 packets.
+
+  This test is intended only for non-learning switches; For learning switches use RFC2889.
 
   For this test, only unidirectional traffic is required.
 
