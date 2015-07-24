@@ -10,6 +10,12 @@ once the community has digested the initial release.
 ## New
 
 * Performance testing with continuous stream
+* Vanilla OVS support added.
+	* Support for non-DPDK OVS build.
+	* Build and installation support through Makefile will be added via
+		next patch(Currently it is possible to manually build ovs and
+		setting it in vsperf configuration files).
+	* PvP scenario is not yet implemented.
 * CentOS7 support
   * Verified on CentOS7
   * Install & Quickstart documentation

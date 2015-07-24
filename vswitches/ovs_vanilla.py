@@ -12,51 +12,58 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""VSPERF VSwitch implementation using DPDK and vhost ports
+"""VSPERF Vanilla OVS implementation
 """
 
+import logging
 from conf import settings
 from vswitches.vswitch import IVSwitch
 from src.ovs import VSwitchd, OFBridge
-from src.dpdk import dpdk
+from tools.module_manager import ModuleManager, KernelModuleInsertMode
 
 VSWITCHD_CONST_ARGS = ['--', '--log-file']
 
-class OvsDpdkVhost(IVSwitch):
-    """VSwitch implementation using DPDK and vhost ports
+class OvsVanilla(IVSwitch):
+    """VSwitch Vanilla implementation
 
-    Generic OVS wrapper functionality in src.ovs is maximally used. This
-    class wraps DPDK system configuration along with DPDK specific OVS
-    parameters
+    This is wrapper for functionality implemented in src.ovs.
 
     The method docstrings document only considerations specific to this
     implementation. For generic information of the nature of the methods,
-    see the interface.
+    see the interface definition.
     """
-    def __init__(self):
-        vswitchd_args = ['--dpdk']
-        vswitchd_args += settings.getValue('VSWITCHD_DPDK_ARGS')
-        vswitchd_args += VSWITCHD_CONST_ARGS
 
+    _logger = logging.getLogger()
+    _ports = settings.getValue('VSWITCH_VANILLA_PHY_PORT_NAMES')
+    _current_id = 0
+
+    def __init__(self):
+        #vswitchd_args = VSWITCHD_CONST_ARGS
+        vswitchd_args = ["unix:%s" % VSwitchd.getDbSockPath()]
+        vswitchd_args += settings.getValue('VSWITCHD_VANILLA_ARGS')
         self._vswitchd = VSwitchd(vswitchd_args=vswitchd_args,
-                            expected_cmd=r'EAL: Master l*core \d+ is ready')
+                                  expected_cmd="db.sock: connected")
         self._bridges = {}
+        self._module_manager = ModuleManager(KernelModuleInsertMode.MODPROBE)
 
     def start(self):
         """See IVswitch for general description
 
-        Activates DPDK kernel modules, ovsdb and vswitchd.
+        Activates kernel modules, ovsdb and vswitchd.
         """
-        dpdk.init()
+        self._module_manager.insert_modules(
+            settings.getValue('VSWITCH_VANILLA_KERNEL_MODULES'))
+        self._logger.info("Starting Vswitchd...")
         self._vswitchd.start()
+        self._logger.info("Vswitchd...Started.")
 
     def stop(self):
         """See IVswitch for general description
 
-        Kills ovsdb and vswitchd and removes DPDK kernel modules.
+        Kills ovsdb and vswitchd and removes kernel modules.
         """
         self._vswitchd.kill()
-        dpdk.cleanup()
+        self._module_manager.remove_modules()
 
     def add_switch(self, switch_name):
         """See IVswitch for general description
@@ -65,8 +72,6 @@ class OvsDpdkVhost(IVSwitch):
         bridge.create()
         bridge.set_db_attribute('Open_vSwitch', '.',
                                 'other_config:max-idle', '60000')
-        bridge.set_db_attribute('Bridge', bridge.br_name,
-                                'datapath_type', 'netdev')
         self._bridges[switch_name] = bridge
 
     def del_switch(self, switch_name):
@@ -77,33 +82,28 @@ class OvsDpdkVhost(IVSwitch):
         bridge.destroy()
 
     def add_phy_port(self, switch_name):
-        """See IVswitch for general description
-
-        Creates a port of type dpdk.
-        The new port is named dpdk<n> where n is an integer starting from 0.
         """
-        bridge = self._bridges[switch_name]
-        dpdk_count = self._get_port_count(bridge, 'type=dpdk')
-        port_name = 'dpdk' + str(dpdk_count)
-        params = ['--', 'set', 'Interface', port_name, 'type=dpdk']
-        of_port = bridge.add_port(port_name, params)
+        Method adds port based on configured VSWITCH_VANILLA_PHY_PORT_NAMES
+        stored in config file.
 
+        See IVswitch for general description
+        """
+        if self._current_id == len(self._ports):
+            self._logger.error("Can't add port! There are only " +
+                               len(self._ports) + " ports " +
+                               "defined in config!")
+            raise
+
+        bridge = self._bridges[switch_name]
+        port_name = self._ports[self._current_id]
+        params = []
+        of_port = bridge.add_port(port_name, params)
+        self._current_id += 1
         return (port_name, of_port)
 
     def add_vport(self, switch_name):
-        """See IVswitch for general description
-
-        Creates a port of type dpdkvhost
-        The new port is named dpdkvhost<n> where n is an integer starting
-        from 0
-        """
-        bridge = self._bridges[switch_name]
-        vhost_count = self._get_port_count(bridge, 'type=dpdkvhost')
-        port_name = 'dpdkvhost' + str(vhost_count)
-        params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhost']
-        of_port = bridge.add_port(port_name, params)
-
-        return (port_name, of_port)
+        """See IVswitch for general description"""
+        raise NotImplementedError("Not implemented for Vanilla OVS.")
 
     def get_ports(self, switch_name):
         """See IVswitch for general description
@@ -130,15 +130,3 @@ class OvsDpdkVhost(IVSwitch):
         flow = flow or {}
         bridge = self._bridges[switch_name]
         bridge.del_flow(flow)
-
-    @staticmethod
-    def _get_port_count(bridge, param):
-        """Returns the number of ports having a certain parameter
-
-        :param bridge: The src.ovs.ofctl.OFBridge on which to operate
-        :param param: The parameter to search for
-        :returns: Count of matches
-        """
-        port_params = [c for (_, (_, c)) in list(bridge.get_ports().items())]
-        param_hits = [i for i in port_params if param in i]
-        return len(param_hits)
