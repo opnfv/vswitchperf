@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da3975d1_d70f742d",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-27T17:38:46Z",
+      "side": 1,
+      "message": "So we conducting a completely new RFC 2544 test where we install 10 flows that pass traffic then add and remove an equal number of flows and measure the throughput in fps? (I just want to be certain...)\nan interesting thing to see is another test where we just have 1 flow and measure the effect of adding 10, 1000, 100,0000 and 10,000,000 flows at a time to allow us to compare performance to our standard tests - maybe that can be a separate test to this, what do you think?",
+      "range": {
+        "startLine": 1163,
+        "startChar": 55,
+        "endLine": 1163,
+        "endChar": 58
+      },
+      "revId": "243008686475b6789b9a59a185dcfa869a97daae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
