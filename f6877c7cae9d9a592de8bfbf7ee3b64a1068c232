@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da3975d1_14405a55",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-27T17:19:18Z",
+      "side": 1,
+      "message": "I think we should specify that one port is send only, whereas the other ports are expected to be receive ports or at least they don\u0027t transmit any traffic",
+      "revId": "f6877c7cae9d9a592de8bfbf7ee3b64a1068c232",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
