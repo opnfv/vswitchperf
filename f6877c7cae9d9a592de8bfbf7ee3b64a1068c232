@@ -16,6 +16,41 @@
       "revId": "f6877c7cae9d9a592de8bfbf7ee3b64a1068c232",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_f73958d9",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-07-27T18:19:32Z",
+      "side": 1,
+      "message": "Good clarification. Also, the test MAY be conducted using different broadcasting ports to uncover any performance differences.",
+      "parentUuid": "da3975d1_14405a55",
+      "revId": "f6877c7cae9d9a592de8bfbf7ee3b64a1068c232",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_d73654e7",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-07-27T18:19:32Z",
+      "side": 1,
+      "message": "So this is Physical -\u003e virtual switch -\u003e 3x physical",
+      "revId": "f6877c7cae9d9a592de8bfbf7ee3b64a1068c232",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
