@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da3975d1_94544a22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-27T17:17:52Z",
+      "side": 1,
+      "message": "sorry it should be \ntest_spec: Adding vm2vm on separate hosts use case scenario",
+      "parentUuid": "da3975d1_54f38273",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "e0cc0e7cdd71ffcb5a51cd735e68a13ce01537d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da3975d1_74ee868d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
