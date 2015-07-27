@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da3975d1_f40b9629",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-27T17:24:31Z",
+      "side": 1,
+      "message": "Maybe a better name is RFC5481 instead of 3393?",
+      "range": {
+        "startLine": 1102,
+        "startChar": 42,
+        "endLine": 1102,
+        "endChar": 49
+      },
+      "revId": "9416909e598875b4681adc659279d26c113e7a14",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_d421b2b5",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-27T17:24:31Z",
+      "side": 1,
+      "message": "the description is missing a little right?\nit just says to send traffic at the 0% loss rate determined by the previous test... surely we should mention that we are measuring RDV as defined by RFC 3393?",
+      "range": {
+        "startLine": 1111,
+        "startChar": 6,
+        "endLine": 1111,
+        "endChar": 9
+      },
+      "revId": "9416909e598875b4681adc659279d26c113e7a14",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
