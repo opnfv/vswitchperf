@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da3975d1_744a0685",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-27T17:16:09Z",
+      "side": 1,
+      "message": "typo: calculating",
+      "range": {
+        "startLine": 12,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 36
+      },
+      "revId": "3822ea74f70d6692e839caa882f7b065a0327dbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_544f0293",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-27T17:16:09Z",
+      "side": 1,
+      "message": "was this reviewed by all these folks? if not please remove those who haven\u0027t reviewed this patch",
+      "range": {
+        "startLine": 20,
+        "startChar": 18,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "3822ea74f70d6692e839caa882f7b065a0327dbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_f45dd649",
+        "filename": "docs/NEWS.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-27T17:16:09Z",
+      "side": 1,
+      "message": "white space at the end of this line",
+      "revId": "3822ea74f70d6692e839caa882f7b065a0327dbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
