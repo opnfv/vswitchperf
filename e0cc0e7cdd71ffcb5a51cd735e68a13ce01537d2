@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da3975d1_54f38273",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-27T16:38:04Z",
+      "side": 1,
+      "message": "the Commit format should be:\n\nTestSpec: Adding vm2vm on separate hosts use case scenario\n\u003cempty line\u003e\ncommit description\n\nhave a look at the existing git log and try to replicate",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "e0cc0e7cdd71ffcb5a51cd735e68a13ce01537d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_74ee868d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-27T16:38:04Z",
+      "side": 1,
+      "message": "Please make sure to add a JIRA issue number and tag",
+      "revId": "e0cc0e7cdd71ffcb5a51cd735e68a13ce01537d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_f401563a",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-27T16:38:04Z",
+      "side": 1,
+      "message": "should add a heading/description here\n - HOST 1(Physical port ? virtual switch ? VNF ? Physical port) ? HOST 2(Physical port ? virtual switch ? VNF ? Physical port)",
+      "revId": "e0cc0e7cdd71ffcb5a51cd735e68a13ce01537d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
