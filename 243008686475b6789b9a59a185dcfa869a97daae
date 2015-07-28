@@ -22,6 +22,30 @@
       "revId": "243008686475b6789b9a59a185dcfa869a97daae",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_975e8c11",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-07-28T00:46:37Z",
+      "side": 1,
+      "message": "It\u0027s ok to test 2544 Throughput with one flow, but there should also be testing with multiple flows (see Sec 12 of RFC 2544).  I like the idea of replacing many flows simultaneously to keep the load equal, while causing a burst of control traffic. Maryam\u0027s test is pretty extreme and also very focused, but for all the testing the Throughput offered load level must be maintained, and the initial packet effects will be profound if too many arrive at once.",
+      "parentUuid": "da3975d1_d70f742d",
+      "range": {
+        "startLine": 1163,
+        "startChar": 55,
+        "endLine": 1163,
+        "endChar": 58
+      },
+      "revId": "243008686475b6789b9a59a185dcfa869a97daae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
