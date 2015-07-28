@@ -16,6 +16,24 @@
       "revId": "7383be888a831bbae818f4eb25bfe047417a9263",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_77d0c853",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1091,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-07-28T09:51:15Z",
+      "side": 1,
+      "message": "Hi Al,\n\nwhile your suggestion is certainly a more realistic scenario it could make the results very dependent on the nature of the background traffic and perhaps harder to repeat (especially say using a different test setup at a different site).\n\nThe latency introduced by the background traffic should be measurable by LTD.PacketDelayVariation.RFC3393.Soak and then this test measures just the latency of the initial packet. \n\nI\u0027m just thinking that by trying to measure two effects at once (initial packet latency *and* normal latency) we end up not measuring either effectively!",
+      "parentUuid": "da3975d1_175cdc24",
+      "revId": "7383be888a831bbae818f4eb25bfe047417a9263",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
