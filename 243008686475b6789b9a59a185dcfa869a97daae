@@ -46,6 +46,42 @@
       "revId": "243008686475b6789b9a59a185dcfa869a97daae",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_77e9e819",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-07-28T09:36:58Z",
+      "side": 1,
+      "message": "The term flow is ambiguous here!\n\nI\u0027ll use \u0027flow-entry\u0027 for an a (OpenFlow?) rule in the vSwitch. \n\nAnd \u0027flow\u0027 for a set of packets in the ingress traffic that has differing header information - and so a different entry in the exact match cache (if the vSwitch has one).\n\nIn that case testing with multiple flow is covered by LTD.Scalability.RFC2544.0PacketLoss. \n\n\"Throughput offered load level must be maintained, and the initial packet effects will be profound if too many arrive at once.\"\n\nI guess some of the problem we face is that we don\u0027t really know how vSwitch\u0027s are built or how they behave. Is the exact match cache flushed each time a flow-entry is added? Which is what Al is alluding to I think.\n\nHowever I do think it will simplify implementation if we can re-use 2544 throughput as much as possible (- ie option b) rather than a) above).",
+      "parentUuid": "da3975d1_975e8c11",
+      "revId": "243008686475b6789b9a59a185dcfa869a97daae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_f795d888",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-07-28T09:36:58Z",
+      "side": 1,
+      "message": "I\u0027m trying to capture the effect of both the number of flows *and* the rate of flow addition/deletion. The test should be repeated with each of the 4 starting number of flows combined with each of the 3 flow change rates. (12 Throughput tests).\n\n\" where we just have 1 flow and measure the effect of adding 10, 1000, 100,0000 and 10,000,000 flows at a time to allow us to compare performance to our standard tests\" should be captured by the set of those combinations where num flows is \u003c 10.\n\nI chose \u003c 10 rather than one as it allows for our standard set of flow tables introduced for the frame-modification tests.\n\nIn PS1 I commented:\n\n\"\"An operator is probably interested in knowing how many flows can be added or removed per second without affecting operations.\n\na) When running at a given tput (say max 0% loss) how fast can flows be added w/o dropping packets or affecting latency unacceptably\n\nb) When adding flows at a particular rate what is the max tput?\n...\na) and b) are basically the different sides of the same coin but b) is the most straightforward case so I\u0027ll redo the test spec in that flavour in the next ...\n\"\"\"\n\nThe original test was stated in terms of a) but that is harder for us to test. Stating the test in terms of b) means that we can leverage good old 2544 Throughput.",
+      "parentUuid": "da3975d1_d70f742d",
+      "revId": "243008686475b6789b9a59a185dcfa869a97daae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
