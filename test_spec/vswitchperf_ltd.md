@@ -306,6 +306,40 @@ The following represents possible deployments which can help to determine the pe
     +-----------------------------------------------------------------------------------------------------------+__|
 </code></pre>
 
+  - HOST 1(Physical port → virtual switch → VNF → virtual switch → Physical port) → HOST 2(Physical port → virtual switch → VNF → virtual switch → Physical port)
+
+<pre><code>
+
+ +--------------------------------------------+                 +------------------------------------------+
+ |   +---------------------------------+      |                 |    +--------------------------------+    |
+ |   |          Application            |      |                 |    |         Application            |    |
+ |   +----------------------------+----+      |                 |    +-------------------------+------+    |
+ |         ^                      |           |                 |           ^                  |           |
+ |         |                      v           |                 |           |                  v           |
+ | +-------+----------+  +------------------+ |                 | +---------+--------+  +----------------+ |
+ | | Logical port 0   |  | Logical port 1   | |                 | | Logical port 0   |  |Logical port 1  | |
+ +-+------------------+--+------------------+-+                 +-+------------------+--+------+---------+-+
+           ^                      |                                         ^                  |
+           |                      |                                         |                  |
+           |                      v                                         |                  v
+ +-+-------+----------+--+------------------+-+                 +-+---------+--------+--+----------------+-+
+ | | Logical port 0   |  |  Logical port 1  | |                 | | Logical port 0   |  | Logical port 1 | |
+ | +------------------+  +----------+-------+ |                 | +------------------+  +------+---------+ |
+ |          ^                       |         |                 |           ^                  |           |
+ |          |                       |         |                 |           |                  |           |
+ |          |       vswitch         v         |                 |           |     vswitch      v           |
+ | +--------+---------+  +------------------+ |                 | +---------+--------+  +----------------+ |
+ | |    phy port      |  |    phy port      | |                 | |  phy port        |  |  phy port      | |
+ +-+--------+---------+--+----------+-------+-+                 +-+---------+--------+--+------+---------+-+
+            ^                       +---------------------------------------+                  |
+            |                                                                                  v
+ +----------+----------------------------------------------------------------------------------+-----------+
+ |                                                                                                         |
+ |                                    traffic generator                                                    |
+ |                                                                                                         |
+ +---------------------------------------------------------------------------------------------------------+
+</code></pre>
+
 **Note:** For tests where the traffic generator and/or measurement receiver are implemented on VM and connected to the virtual switch through vNIC, the issues of shared resources and interactions between the measurement devices and the device under test must be considered.
 
  ####General Methodology:
