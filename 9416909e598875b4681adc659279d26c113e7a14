@@ -49,6 +49,24 @@
     },
     {
       "key": {
+        "uuid": "da3975d1_17f85ce4",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-07-28T09:39:52Z",
+      "side": 1,
+      "message": "I\u0027d vote for the leaving it as it is :)",
+      "parentUuid": "da3975d1_774d6872",
+      "revId": "9416909e598875b4681adc659279d26c113e7a14",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da3975d1_d421b2b5",
         "filename": "test_spec/vswitchperf_ltd.md",
         "patchSetId": 3
@@ -90,6 +108,24 @@
         "endLine": 1111,
         "endChar": 9
       },
+      "revId": "9416909e598875b4681adc659279d26c113e7a14",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_37f3600c",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-07-28T09:39:52Z",
+      "side": 1,
+      "message": "It\u0027s in the \"metrics collected\" section, below.",
+      "parentUuid": "da3975d1_57526414",
       "revId": "9416909e598875b4681adc659279d26c113e7a14",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
