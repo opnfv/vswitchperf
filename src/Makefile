@@ -21,6 +21,8 @@
 
 include mk/master.mk
 
+export VHOST_USER
+
 # specify upstream package as SUBDIRS - common terms as suggest by gnu-make
 SUBDIRS =
 SUBDIRS += l2fwd
