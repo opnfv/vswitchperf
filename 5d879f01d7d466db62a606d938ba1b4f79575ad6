@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da3975d1_b7c75064",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-07-29T13:34:11Z",
+      "side": 1,
+      "message": "I think Al\u0027s comment was missed here: physical-\u003evswitch-\u003e 3 physical",
+      "range": {
+        "startLine": 1089,
+        "startChar": 41,
+        "endLine": 1089,
+        "endChar": 42
+      },
+      "revId": "5d879f01d7d466db62a606d938ba1b4f79575ad6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
