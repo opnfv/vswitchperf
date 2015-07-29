@@ -34,6 +34,24 @@
       "revId": "7383be888a831bbae818f4eb25bfe047417a9263",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_f77b9827",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1091,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-07-29T14:13:20Z",
+      "side": 1,
+      "message": "I appreciate that these are two different sources of latency in packet processing, but are they completely independent? IOW, is the control-plane affected when the data-plane is busy? If control-plane is affected, the initial packet latency goes up (I suppose), but how much? I also suppose we\u0027ll see more variable delay in both categories, too. That\u0027s what I was thinking...",
+      "parentUuid": "da3975d1_77d0c853",
+      "revId": "7383be888a831bbae818f4eb25bfe047417a9263",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
