@@ -13,6 +13,7 @@ once the community has digested the initial release.
   * Verified on CentOS7
   * Install & Quickstart documentation
 
+* Implementation of LTD.Scalability.RFC2544.0PacketLoss testcase
 * Better support for mixing tests types with Deployment Scenarios
 * Re-work based on community feedback of TOIT
   * Framework support for other vSwitches

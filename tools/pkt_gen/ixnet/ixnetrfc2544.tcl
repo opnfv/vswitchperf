@@ -106,9 +106,18 @@ proc startRfc2544Test { testSpec trafficSpec } {
     }
 
     set multipleStreams         [dict get $testSpec multipleStreams]
+    if {($multipleStreams < 0)} {
+        set multipleStreams    0
+    }
+    set numflows               64000
 
     if {$multipleStreams} {
-        set multipleStreams     increment
+        if {($multipleStreams > 65535)} {
+            set numflows       65535
+        } else {
+            set numflows       $multipleStreams
+        }
+        set multipleStreams     incrementValue
     } else {
         set multipleStreams     singleValue
     }
@@ -2818,7 +2827,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -valueType $multipleStreams \
      -activeFieldChoice False \
      -startValue {0} \
-     -countValue {64000}
+     -countValue {$numflows}
     sg_commit
     set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
@@ -4453,7 +4462,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -valueType $multipleStreams \
      -activeFieldChoice False \
      -startValue {0} \
-     -countValue {64000}
+     -countValue {$numflows}
     sg_commit
     set sg_field [lindex [ixNet remapIds $sg_field] 0]
 

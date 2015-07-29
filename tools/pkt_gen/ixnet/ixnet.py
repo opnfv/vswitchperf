@@ -200,16 +200,14 @@ class IxNet(trafficgen.ITrafficGenerator):
         """
         pass
 
-    def send_cont_traffic(self, traffic=None, time=20, framerate=0,
-                          multistream=False):
+    def send_cont_traffic(self, traffic=None, time=20, framerate=0):
         """See ITrafficGenerator for description
         """
-        self.start_cont_traffic(traffic, time, framerate, multistream)
+        self.start_cont_traffic(traffic, time, framerate)
 
         return self.stop_cont_traffic()
 
-    def start_cont_traffic(self, traffic=None, time=20, framerate=0,
-                           multistream=False):
+    def start_cont_traffic(self, traffic=None, time=20, framerate=0):
         """Start transmission.
         """
         self._bidir = traffic['bidir']
@@ -219,7 +217,7 @@ class IxNet(trafficgen.ITrafficGenerator):
             'binary': False,  # don't do binary search and send one stream
             'time': time,
             'framerate': framerate,
-            'multipleStreams': multistream,
+            'multipleStreams': traffic['multistream'],
             'rfc2544TestType': 'throughput',
         }
         self._params['traffic'] = self.traffic_defaults.copy()
@@ -253,16 +251,15 @@ class IxNet(trafficgen.ITrafficGenerator):
         return self._wait_result()
 
     def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                lossrate=0.0, multistream=False):
+                                lossrate=0.0):
         """See ITrafficGenerator for description
         """
-        self.start_rfc2544_throughput(traffic, trials, duration, lossrate,
-                                      multistream)
+        self.start_rfc2544_throughput(traffic, trials, duration, lossrate)
 
         return self.wait_rfc2544_throughput()
 
     def start_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                 lossrate=0.0, multistream=False):
+                                 lossrate=0.0):
         """Start transmission.
         """
         self._bidir = traffic['bidir']
@@ -273,7 +270,7 @@ class IxNet(trafficgen.ITrafficGenerator):
             'trials': trials,
             'duration': duration,
             'lossrate': lossrate,
-            'multipleStreams': multistream,
+            'multipleStreams': traffic['multistream'],
             'rfc2544TestType': 'throughput',
         }
         self._params['traffic'] = self.traffic_defaults.copy()
@@ -385,16 +382,15 @@ class IxNet(trafficgen.ITrafficGenerator):
         return parse_ixnet_rfc_results(parse_result_string(output[0]))
 
     def send_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
-                               lossrate=0.0, multistream=False):
+                               lossrate=0.0):
         """See ITrafficGenerator for description
         """
-        self.start_rfc2544_back2back(traffic, trials, duration, lossrate,
-                                     multistream)
+        self.start_rfc2544_back2back(traffic, trials, duration, lossrate)
 
         return self.wait_rfc2544_back2back()
 
     def start_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
-                                lossrate=0.0, multistream=False):
+                                lossrate=0.0):
         """Start transmission.
         """
         self._bidir = traffic['bidir']
@@ -405,7 +401,7 @@ class IxNet(trafficgen.ITrafficGenerator):
             'trials': trials,
             'duration': duration,
             'lossrate': lossrate,
-            'multipleStreams': multistream,
+            'multipleStreams': traffic['multistream'],
             'rfc2544TestType': 'back2back',
         }
         self._params['traffic'] = self.traffic_defaults.copy()

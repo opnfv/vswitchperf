@@ -47,6 +47,7 @@ class TestCase(object):
         if self._frame_mod:
             self._frame_mod = self._frame_mod.lower()
         self._results_dir = results_dir
+        self._multistream = cfg.get('MultiStream', 0)
 
     def run(self):
         """Run the test
@@ -76,7 +77,9 @@ class TestCase(object):
         with vswitch_ctl:
             if vnf_ctl:
                 vnf_ctl.start()
-                traffic = {'traffic_type': self._traffic_type, 'bidir': self._bidir}
+                traffic = {'traffic_type': self._traffic_type,
+                           'bidir': self._bidir,
+                           'multistream': self._multistream}
                 vswitch = vswitch_ctl.get_vswitch()
                 if self._frame_mod == "vlan":
                     flow = {'table':'2', 'priority':'1000', 'metadata':'2', 'actions': ['push_vlan:0x8100','goto_table:3']}
