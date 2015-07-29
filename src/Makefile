@@ -26,6 +26,7 @@ SUBDIRS =
 SUBDIRS += l2fwd
 SUBDIRS += dpdk
 SUBDIRS += ovs
+SUBDIRS += qemu
 
 # specify package dependency here if needed
 ovs: dpdk
