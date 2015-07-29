@@ -24,6 +24,9 @@ include ../package-list.mk
 
 .PHONY: install force_make
 
+ifndef VHOST_USER
+    VHOST_USER = n
+endif
 WORK_DIR = dpdk
 TAG_DONE_FLAG = $(WORK_DIR)/.$(DPDK_TAG).tag.done
 
@@ -41,8 +44,14 @@ all: force_make
 
 INSTALL_TARGET = force_make
 
+# modify CONFIG_FILE to enable VHOST_USER build and restore original CONFIG_FILE after the build
 force_make: $(TAG_DONE_FLAG)
+	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_VHOST_USER=.\+/CONFIG_RTE_LIBRTE_VHOST_USER=$(VHOST_USER)/g' $(CONFIG_FILE)
+	$(AT)sed -i -e 's/CONFIG_RTE_BUILD_COMBINE_LIBS=./CONFIG_RTE_BUILD_COMBINE_LIBS=y/g' $(CONFIG_FILE)
+	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_VHOST=./CONFIG_RTE_LIBRTE_VHOST=y/g' $(CONFIG_FILE)
+	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_KNI=./CONFIG_RTE_LIBRTE_KNI=n/g' $(CONFIG_FILE)
 	$(AT)cd $(WORK_DIR); make install T=$(DPDK_TARGET) -j
+	$(AT)cd `dirname $(CONFIG_FILE)` && git checkout `basename $(CONFIG_FILE)` && cd -
 	@echo "Make done"
 
 install: $(INSTALL_TARGET)
@@ -70,7 +79,4 @@ $(WORK_DIR):
 
 $(TAG_DONE_FLAG): $(WORK_DIR)
 	$(AT)cd $(WORK_DIR); git checkout $(DPDK_TAG)
-	$(AT)sed -i 's/CONFIG_RTE_BUILD_COMBINE_LIBS=n/CONFIG_RTE_BUILD_COMBINE_LIBS=y/g' $(CONFIG_FILE)
-	$(AT)sed -i 's/CONFIG_RTE_LIBRTE_VHOST=n/CONFIG_RTE_LIBRTE_VHOST=y/g' $(CONFIG_FILE)
-	$(AT)sed -i 's/CONFIG_RTE_LIBRTE_KNI=y /CONFIG_RTE_LIBRTE_KNI=n/g' $(CONFIG_FILE)
 	$(AT)touch $@
