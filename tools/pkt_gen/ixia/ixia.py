@@ -228,8 +228,7 @@ class Ixia(trafficgen.ITrafficGenerator):
 
         #TODO - implement Burst results setting via TrafficgenResults.
 
-    def send_cont_traffic(self, traffic=None, time=20, framerate=100,
-                          multistream=False):
+    def send_cont_traffic(self, traffic=None, time=20, framerate=100):
         """See ITrafficGenerator for description
         """
         flow = {
@@ -237,15 +236,14 @@ class Ixia(trafficgen.ITrafficGenerator):
             'time': time,
             'type': 'contPacket',
             'framerate': framerate,
-            'multipleStreams': multistream,
+            'multipleStreams': traffic['multistream'],
         }
 
         result = self._send_traffic(flow, traffic)
 
         return Ixia._create_result(result)
 
-    def start_cont_traffic(self, traffic=None, time=20, framerate=100,
-                           multistream=False):
+    def start_cont_traffic(self, traffic=None, time=20, framerate=100):
         """See ITrafficGenerator for description
         """
         return self.send_cont_traffic(traffic, 0, framerate)
@@ -256,7 +254,7 @@ class Ixia(trafficgen.ITrafficGenerator):
         return self.run_tcl('stopTraffic')
 
     def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                lossrate=0.0, multistream=False):
+                                lossrate=0.0):
         """See ITrafficGenerator for description
         """
         params = {}
@@ -265,7 +263,7 @@ class Ixia(trafficgen.ITrafficGenerator):
             'trials': trials,
             'duration': duration,
             'lossrate': lossrate,
-            'multipleStreams': multistream,
+            'multipleStreams': traffic['multistream'],
         }
         params['traffic'] = self.traffic_defaults.copy()
 
