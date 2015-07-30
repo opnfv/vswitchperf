@@ -252,7 +252,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -destMacRetryCount 1 \
      -maxTrafficGenerationQueries 500 \
      -enableStaggeredTransmit False \
-     -learningFrameSize 64 \
+     -learningFrameSize $frameSize \
      -useTxRxSync True \
      -enableDestMacRetry True \
      -enableMulticastScalingFactor False \
@@ -7772,7 +7772,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -tolerance 0 \
          -frameLossUnit {0} \
          -staggeredStart False \
-         -framesizeList {64} \
+         -framesizeList $frameSize \
          -frameSizeMode custom \
          -rateSelect percentMaxRate \
          -percentMaxRate 100 \
@@ -7843,7 +7843,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -enableFastConvergence $fastConvergence \
          -fastConvergenceDuration $convergenceDuration \
          -fastConvergenceThreshold 10 \
-         -framesizeFixedValue 128 \
+         -framesizeFixedValue $frameSize \
          -gap 3 \
          -unchangedInitial False \
          -generateTrackingOptionAggregationFiles False \
@@ -7856,7 +7856,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -imixData {{{{64}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 40}}{{128}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 30}}{{256}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 30}}}} \
          -imixEnabled False \
          -imixTemplates none \
-         -framesizeImixList {64} \
+         -framesizeImixList $frameSize \
          -imixTrafficType {UNCHNAGED} \
          -mapType {oneToOne} \
          -supportedTrafficTypes {mac,ipv4,ipv6,ipmix}
@@ -7865,8 +7865,8 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -learnNumFrames 10 \
          -learnRate 100 \
          -learnWaitTime 1000 \
-         -learnFrameSize 64 \
-         -fastPathLearnFrameSize 64 \
+         -learnFrameSize $frameSize \
+         -fastPathLearnFrameSize $frameSize \
          -learnWaitTimeBeforeTransmit 0 \
          -learnSendMacOnly False \
          -learnSendRouterSolicitation False \
@@ -7945,7 +7945,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -tolerance 0 \
          -frameLossUnit {0} \
          -staggeredStart False \
-         -framesizeList {64} \
+         -framesizeList $frameSize \
          -frameSizeMode custom \
          -rateSelect percentMaxRate \
          -percentMaxRate 100 \
@@ -7997,7 +7997,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -imixData {{{{64}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 40}}{{128}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 30}}{{256}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 30}}}} \
          -imixEnabled False \
          -imixTemplates none \
-         -framesizeImixList {64} \
+         -framesizeImixList $frameSize \
          -imixTrafficType {UNCHNAGED} \
          -ipRatioMode fixed \
          -ipv4RatioList {10,25,50,75,90} \

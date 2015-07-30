@@ -56,7 +56,9 @@ def parse_arguments():
         """
         Parse and split the '--test-params' argument.
 
-        This expects either 'x=y' or 'x' (implicit true) values.
+        This expects either 'x=y', 'x=y,z' or 'x' (implicit true)
+        values. For multiple overrides use a ; separated list for
+        e.g. --test-params 'x=z; y=a,b'
         """
         def __call__(self, parser, namespace, values, option_string=None):
             results = {}
@@ -137,6 +139,7 @@ def parse_arguments():
     group.add_argument('--trafficgen', help='traffic generator to use')
     group.add_argument('--vswitch', help='vswitch implementation to use')
     group.add_argument('--vnf', help='vnf to use')
+    group.add_argument('--duration', help='traffic transmit duration')
     group.add_argument('--sysmetrics', help='system metrics logger to use')
     group = parser.add_argument_group('test behavior options')
     group.add_argument('--xunit', action='store_true',
@@ -148,7 +151,9 @@ def parse_arguments():
     group.add_argument('--conf-file', action=_ValidateFileAction,
                        help='settings file')
     group.add_argument('--test-params', action=_SplitTestParamsAction,
-                       help='csv list of test parameters: key=val;...')
+                       help='csv list of test parameters: key=val; e.g.'
+                       'including pkt_sizes=x,y; duration=x; '
+                       'rfc2544_trials=x ...')
 
     args = vars(parser.parse_args())
 
@@ -323,6 +328,13 @@ def main():
             logging.error('there are no vnfs matching \'%s\' found in'
                           ' \'%s\'. exiting...', args['vnf'],
                           settings.getValue('vnf_dir'))
+            sys.exit(1)
+
+    if args['duration']:
+        if args['duration'].isdigit() and int(args['duration']) > 0:
+            settings.setValue('duration', args['duration'])
+        else:
+            logging.error('The selected Duration is not a number')
             sys.exit(1)
 
     # generate results directory name
