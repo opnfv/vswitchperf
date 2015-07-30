@@ -96,6 +96,24 @@ includes measuring the following performance metrics:
   meaning to different groups of people. In this document we will
   simply use the term packet delay variation. The preferred form for this
   metric is the PDV form of delay variation defined in `RFC5481
+  <https://www.rfc-editor.org/rfc/rfc5481.txt>`__. The most relevant 
+  measurement of PDV considers the delay variation of a single user flow,
+  as this will be relevant to the size of end-system buffers to compensate
+  for delay variation. The measurement system's ability to store the 
+  delays of individual packets in the flow of interest is a key factor 
+  that determines the specific measurement method. At the outset, it is 
+  ideal to view the complete PDV distribution. Systems that can capture
+  and store packets and their delays have the freedom to calculate the 
+  reference minimum delay and to determine various quantiles of the PDV
+  distribution accurately (in post-measurement processing routines). 
+  Systems without storage must apply algorithms to calculate delay and
+  statistical measurements on the fly. For example, a system may store 
+  temporary estimates of the mimimum delay and the set of (100) packets 
+  with the longest delays during measurement (to calculate a high quantile,
+  and update these sets with new values periodically. 
+  In some cases, a limited number of delay histogram bins will be 
+  available, and the bin limits will need to be set using results from
+  repeated experiments. See section 8 of `RFC5481
   <https://www.rfc-editor.org/rfc/rfc5481.txt>`__.
 - **Packet loss** (within a configured waiting time at the receiver): All
   packets sent to the DUT should be accounted for.
