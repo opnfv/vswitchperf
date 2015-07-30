@@ -49,6 +49,12 @@ class Settings(object):
         # we can assume all uppercase keys are valid settings
         super(Settings, self).__setattr__(name, value)
 
+    def setValue(self, name, value):
+        """Set a value
+        """
+        if name is not None and value is not None:
+            super(Settings, self).__setattr__(name, value)
+
     def load_from_file(self, path):
         """Update ``settings`` with values found in module at ``path``.
         """
