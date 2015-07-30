@@ -22,11 +22,26 @@
 include ../mk/master.mk
 include ../package-list.mk
 
+WORK_DIR = ovs
+TAG_DONE_FLAG = $(WORK_DIR)/.$(OVS_TAG).done
+CONFIG_CMD =
+CONFIG_CMD += ./configure
+
+# If WITH_LINUX is defined, OVS is built without DPDK but with kernel
+# module
+# By default, OVS is built with DPDK
+
+# WITH_LINUX is the Linux kernel build directory used for building
+# OVS kernel module as documented in OVS --with-linux switch
+ifneq ($(WITH_LINUX),) # Building with Linux kernel
+CONFIG_CMD += --with-linux=$(WITH_LINUX)
+
+else # Building with DPDK
+
 # DPDK_DIR is the top directory for dpdk source tree
 # it can be passed in from Makefile command
 # if it is not set, try to read it in from environment
 # if it is still not set, then set it using relative path
-
 DPDK_DIR ?= $(shell echo $$DPDK_DIR)
 ifeq ($(DPDK_DIR),)
 DPDK_DIR = ../../dpdk/dpdk
@@ -35,19 +50,14 @@ endif
 ifeq ($(DPDK_TARGET),)
 DPDK_TARGET = x86_64-native-linuxapp-gcc
 endif
+CONFIG_CMD += --with-dpdk=$(DPDK_DIR)/$(DPDK_TARGET)
 
+endif # Kernel vs. DPDK
 
 .PHONY: install force_install config force_make
 
 # install depends on make
 force_install: force_make
-
-WORK_DIR = ovs
-TAG_DONE_FLAG = $(WORK_DIR)/.$(OVS_TAG).done
-CONFIG_CMD =
-CONFIG_CMD += ./configure
-CONFIG_CMD += --with-dpdk=$(DPDK_DIR)/$(DPDK_TARGET)
-
 
 all: force_make
 	@echo "Finished making $(WORK_DIR) "

@@ -26,10 +26,14 @@ export VHOST_USER
 # specify upstream package as SUBDIRS - common terms as suggest by gnu-make
 SUBDIRS =
 SUBDIRS += l2fwd
+ifeq ($(WITH_LINUX),)
 SUBDIRS += dpdk
+endif
 SUBDIRS += ovs
 
+ifeq ($(WITH_LINUX),)
 # specify package dependency here if needed
 ovs: dpdk
+endif
 
 include mk/make-subsys.mk
