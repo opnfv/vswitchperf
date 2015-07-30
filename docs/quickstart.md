@@ -29,6 +29,13 @@ cd src
 make
 ```
 
+VSPERF can be used with OVS without DPDK support. In this case you have to specify path to the kernel sources by WITH_LINUX parameter:
+
+```bash
+cd src
+make WITH_LINUX=/lib/modules/`uname -r`/build
+```
+
 To delete a src subdirectory and its contents to allow you to re-clone simply use:
 
 ```bash
