@@ -14,12 +14,11 @@
 """TestCase base class
 """
 
-import time
 import csv
 import os
 import logging
 from collections import OrderedDict
-
+from core.results.results_constants import ResultsConstants
 import core.component_factory as component_factory
 from core.loader import Loader
 
@@ -40,7 +39,7 @@ class TestCase(object):
         self.name = cfg['Name']
         self.desc = cfg.get('Description', 'No description given.')
         self._traffic_type = cfg['Traffic Type']
-        self._deployment = cfg['Deployment']
+        self.deployment = cfg['Deployment']
         self._collector = cfg['Collector']
         self._bidir = cfg['biDirectional']
         self._frame_mod = cfg.get('Frame Modification', None)
@@ -61,10 +60,10 @@ class TestCase(object):
             self._traffic_type,
             loader.get_trafficgen_class())
         vnf_ctl = component_factory.create_vnf(
-            self._deployment,
+            self.deployment,
             loader.get_vnf_class())
         vswitch_ctl = component_factory.create_vswitch(
-            self._deployment,
+            self.deployment,
             loader.get_vswitch_class())
         collector_ctl = component_factory.create_collector(
             self._collector,
@@ -94,12 +93,27 @@ class TestCase(object):
         self._logger.debug("Collector Results:")
         self._logger.debug(collector_ctl.get_results())
 
+        output_file = "result_" + self.name + "_" + self.deployment +".csv"
 
-        output_file = "result_" + self.name + "_" + self._deployment +".csv"
-
-        self._write_result_to_file(
-            traffic_ctl.get_results(),
+        TestCase._write_result_to_file(
+            self._append_results(traffic_ctl.get_results()),
             os.path.join(self._results_dir, output_file))
+
+    def _append_results(self, results):
+        """
+        Method appends mandatory Test Case results to list of dictionaries.
+
+        :param results: list of dictionaries which contains results from
+                traffic generator.
+
+        :returns: modified list of dictionaries.
+        """
+        for item in results:
+            item[ResultsConstants.ID] = self.name
+            item[ResultsConstants.DEPLOYMENT] = self.deployment
+
+        return results
+
 
     @staticmethod
     def _write_result_to_file(results, output):
