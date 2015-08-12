@@ -622,6 +622,7 @@ The starting point for defining the suite of tests for benchmarking the performa
     - Selected vSwitch, version number or commit id used.
       - vSwitch launch command line if it has been parameterised.
       - Memory allocation to the vSwitch – which NUMA node it is using, and how many memory channels.
+      - Where the vswitch is built from source: compiler details including versions and the flags that were used to compile the vSwitch.
     - DPDK or any other SW dependency version number or commit id used.
     - Memory allocation to a VM - if it's from Hugpages/elsewhere.
     - VM storage type: snapshot/independent persistent/independent non-persistent.
