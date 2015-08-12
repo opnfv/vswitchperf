@@ -355,7 +355,7 @@ The following represents possible deployments which can help to determine the pe
  - Reordering check: Tests should confirm that packets within a flow are not reordered.
  - Duplex: Unidirectional / Bidirectional. Default: Full duplex with traffic transmitting in both directions, as network traffic generally does not flow in a single direction. By default the data rate of transmitted traffic should be the same in both directions, please note that asymmetric traffic (e.g. downlink-heavy) tests will be mentioned explicitly for the relevant test cases.
  - Number of Flows: Default for non scalability tests is a single flow. For scalability tests the goal is to test with maximum supported flows but where possible will test up to 10 Million flows. Start with a single flow and scale up. By default flows should be added sequentially, tests that add flows simultaneously will explicitly call out their flow addition behaviour. Packets are generated across the flows uniformly with no burstiness.
- - Traffic Types: UDP, SCTP, RTP, GTP and UDP traffic.
+ - Traffic Types: UDP, SCTP, RTP and GTP traffic.
  - Deployment scenarios are:
    - Physical → virtual switch → physical.
    - Physical → virtual switch → VNF → virtual switch → physical.
@@ -1232,18 +1232,18 @@ The starting point for defining the suite of tests for benchmarking the performa
 
   **Description**:
 
-  The aim of this test is to measure how throughput changes as the number of flows in the DUT increases.
+  The aim of this test is to measure how throughput changes as the number of flows in the DUT increases. The test will measure the throughput through the fastpath, as such the flows need to be installed on the DUT before passing traffic.
 
   For each frame size previously defined under [Default Test Parameters](#DefaultParams) and for each of the following number of flows:
 
   - 1,000
-  - 2,000
   - 2,000
   - 4,000
   - 8,000
   - 16,000
   - 32,000
   - 64,000
+  - Max supported number of flows.
 
   The maximum 0% packet loss throughput should be determined in a manner identical to LTD.Throughput.RFC2544.PacketLossRatio.
 
