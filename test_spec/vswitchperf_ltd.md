@@ -827,8 +827,8 @@ The starting point for defining the suite of tests for benchmarking the performa
    - Physical → virtual switch → physical.
 
 <br/>
-  - #####Test ID: LTD.Throughput.RFC2544.Soak
-  **Title**: RFC 2544 X% packet loss Throughput Soak Test
+  - #####Test ID: LTD.Throughput.RFC2889.Soak
+  **Title**: RFC 2889 X% packet loss Throughput Soak Test
 
   **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatio
 
@@ -849,14 +849,14 @@ The starting point for defining the suite of tests for benchmarking the performa
   The following are the metrics collected for this test:
 
    - Throughput stability of the DUT.
-     - This means reporting the number of packets lost per time interval and reporting any time intervals with packet loss. An interval of 60s is suggested.
+     - This means reporting the number of packets lost per time interval and reporting any time intervals with packet loss. The [RFC2889] Forwarding Rate shall be measured in each interval. An interval of 60s is suggested.
    - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
    - The [RFC5481] PDV form of delay variation on the traffic flow, using the 99th percentile.
 
 <br/>
 
-  - #####Test ID: LTD.Throughput.RFC2544.SoakFrameModification
-  **Title**: RFC 2544 Throughput Soak Test with Frame Modification
+  - #####Test ID: LTD.Throughput.RFC2889.SoakFrameModification
+  **Title**: RFC 2889 Throughput Soak Test with Frame Modification
 
   **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatioFrameModification (0% Packet Loss)
 
@@ -886,7 +886,7 @@ The starting point for defining the suite of tests for benchmarking the performa
   The following are the metrics collected for this test:
 
    - Throughput stability of the DUT.
-     - This means reporting the number of packets lost per time interval and reporting any time intervals with packet loss. An interval of 60s is suggested.
+     - This means reporting the number of packets lost per time interval and reporting any time intervals with packet loss. The [RFC2889] Forwarding Rate shall be measured in each interval. An interval of 60s is suggested.
    - CPU and memory utilization may also be collected as part of this test, to determine the vSwitch's performance footprint on the system.
    - The [RFC5481] PDV form of delay variation on the traffic flow, using the 99th percentile.
 
