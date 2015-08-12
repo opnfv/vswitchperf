@@ -30,6 +30,7 @@ ifeq ($(WITH_LINUX),)
 SUBDIRS += dpdk
 endif
 SUBDIRS += ovs
+SUBDIRS += qemu
 
 ifeq ($(WITH_LINUX),)
 # specify package dependency here if needed
