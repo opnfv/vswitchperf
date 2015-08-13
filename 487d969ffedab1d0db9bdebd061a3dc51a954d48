@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_f5da70e8",
+        "filename": "core/component_factory.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-08-13T09:51:13Z",
+      "side": 1,
+      "message": "Bidi should be true by default",
+      "revId": "487d969ffedab1d0db9bdebd061a3dc51a954d48",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
