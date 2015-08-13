@@ -15,10 +15,10 @@ yum -y install https://www.softwarecollections.org/en/scls/rhscl/python33/epel-7
 
 ## System packages
 
-There are a number of packages that must be installed using `yum`. These can be installed like so:
+There are a number of packages that must be installed using `yum`. These packages are listed in packages.txt and can be installed like so:
 
 ```bash
-yum -y --exclude=python33-mod_wsgi* install python33-* pciutils
+yum -y --exclude=python33-mod_wsgi* install $(cat packages.txt)
 ```
 
 ---

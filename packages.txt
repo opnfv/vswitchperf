@@ -1,1 +1,8 @@
+python33-*
 pciutils
+gcc
+zlib
+zlib-devel
+glib2-devel
+pixman-devel
+socat
