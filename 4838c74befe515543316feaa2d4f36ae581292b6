@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_f524b0c7",
+        "filename": "test_spec/vswitchperf_ltd.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-08-13T13:11:30Z",
+      "side": 1,
+      "message": "Hi Al\nI\u0027m a little confused :( this is an RFC2544 test? so IXIA will be stopping traffic transmission and measuring the throughput doesn\u0027t it?\nI think for the back to back test it will do the same? so only for the soak tests we\u0027ll have to report the Max Forwarding Rate (RFC2889)... Have I missed something",
+      "revId": "4838c74befe515543316feaa2d4f36ae581292b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
