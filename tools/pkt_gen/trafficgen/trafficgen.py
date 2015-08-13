@@ -101,8 +101,7 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def send_cont_traffic(self, traffic=None, time=20, framerate=0,
-                          multistream=False):
+    def send_cont_traffic(self, traffic=None, time=20, framerate=0):
         """Send a continuous flow of traffic.
 
         Send packets at ``framerate``, using ``traffic`` configuration,
@@ -127,8 +126,7 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def start_cont_traffic(self, traffic=None, time=20, framerate=0,
-                           multistream=False):
+    def start_cont_traffic(self, traffic=None, time=20, framerate=0):
         """Non-blocking version of 'send_cont_traffic'.
 
         Start transmission and immediately return. Do not wait for
@@ -142,7 +140,7 @@ class ITrafficGenerator(object):
         raise NotImplementedError('Please call an implementation.')
 
     def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                lossrate=0.0, multistream=False):
+                                lossrate=0.0):
         """Send traffic per RFC2544 throughput test specifications.
 
         Send packets at a variable rate, using ``traffic``
@@ -170,7 +168,7 @@ class ITrafficGenerator(object):
         raise NotImplementedError('Please call an implementation.')
 
     def start_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                 lossrate=0.0, multistream=False):
+                                 lossrate=0.0):
         """Non-blocking version of 'send_rfc2544_throughput'.
 
         Start transmission and immediately return. Do not wait for
@@ -184,7 +182,7 @@ class ITrafficGenerator(object):
         raise NotImplementedError('Please call an implementation.')
 
     def send_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
-                               lossrate=0.0, multistream=False):
+                               lossrate=0.0):
         """Send traffic per RFC2544 back2back test specifications.
 
         Send packets at a fixed rate, using ``traffic``
@@ -207,7 +205,7 @@ class ITrafficGenerator(object):
         raise NotImplementedError('Please call an implementation.')
 
     def start_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
-                                lossrate=0.0, multistream=False):
+                                lossrate=0.0):
         """Non-blocking version of 'send_rfc2544_back2back'.
 
         Start transmission and immediately return. Do not wait for
