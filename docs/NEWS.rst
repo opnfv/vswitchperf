@@ -4,6 +4,9 @@ New
 ---
 - Backport and enhancement of reporting
 - PVP deployment scenario testing using vhost-cuse as guest access method
+- Implementation of LTD.Scalability.RFC2544.0PacketLoss testcase
+- Support for background load generation with command line tools like stress
+  and stress-ng
 
 July 2015
 =========
@@ -51,6 +54,5 @@ New
 Missing
 -------
 
--  Report generation is currently disabled
 -  xmlunit output is currently disabled
 -  VNF support.
