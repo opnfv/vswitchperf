@@ -3,6 +3,9 @@
 ## New
 
 * Backport and enhancement of reporting
+* Implementation of LTD.Scalability.RFC2544.0PacketLoss testcase
+* Support for background load generation with command line tools like stress
+    and stress-ng
 
 
 #July 2015
@@ -36,7 +39,6 @@ once the community has digested the initial release.
   * Verified on CentOS7
   * Install & Quickstart documentation
 
-* Implementation of LTD.Scalability.RFC2544.0PacketLoss testcase
 * Better support for mixing tests types with Deployment Scenarios
 * Re-work based on community feedback of TOIT
   * Framework support for other vSwitches

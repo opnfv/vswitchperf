@@ -1,4 +1,4 @@
-# Installing toit
+# Installing vswitchperf
 
 The test suite requires Python 3.3 and relies on a number of other packages. These need to be installed for the test suite to function.
 To install Python 3.3 in CentOS 7, an additional repository, Software Collections (see https://www.softwarecollections.org/en/scls/rhscl/python33) should be enabled.
@@ -13,12 +13,21 @@ yum -y install scl-utils
 yum -y install https://www.softwarecollections.org/en/scls/rhscl/python33/epel-7-x86_64/download/rhscl-python33-epel-7-x86_64.noarch.rpm
 ```
 
+## Optional installation of stress tool. It is required for load tests.
+## Enable Repoforge (for stress)
+
+```bash
+yum -y install http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm
+```
+
 ## System packages
 
 There are a number of packages that must be installed using `yum`. These packages are listed in packages.txt and can be installed like so:
 
 ```bash
 yum -y --exclude=python33-mod_wsgi* install $(cat packages.txt)
+## Optional installation of stress tool
+yum -y install stress
 ```
 
 ---
@@ -56,6 +65,20 @@ If you're behind a proxy, you'll likely want to configure this before running an
 ```bash
 export http_proxy=proxy.mycompany.com:123
 export https_proxy=proxy.mycompany.com:123
+```
+
+---
+
+## Optional installation of stress-ng from the sources
+
+Stress-ng can be downloaded from its git repository and compiled and installed from the sources.
+Please note that installation must be performed with root priviledges.
+```
+cd ~
+git clone git://kernel.ubuntu.com/cking/stress-ng.git
+cd stress-ng/
+make
+make install
 ```
 
 ---
