@@ -44,6 +44,15 @@ class TestCase(object):
         self._collector = cfg['Collector']
         self._bidir = cfg['biDirectional']
         self._frame_mod = cfg.get('Frame Modification', None)
+
+        # check if test requires background load and which generator it uses
+        self._load_cfg = cfg.get('Load', None)
+        if self._load_cfg and 'tool' in self._load_cfg:
+            self._loadgen = self._load_cfg['tool']
+        else:
+            # background load is not requested, so use dummy implementation
+            self._loadgen = "Dummy"
+
         if self._frame_mod:
             self._frame_mod = self._frame_mod.lower()
         self._results_dir = results_dir
@@ -71,12 +80,15 @@ class TestCase(object):
         collector_ctl = component_factory.create_collector(
             self._collector,
             loader.get_collector_class())
-
+        loadgen = component_factory.create_loadgen(
+            self._loadgen,
+            self._load_cfg)
 
         self._logger.debug("Setup:")
         collector_ctl.log_cpu_stats()
-        with vswitch_ctl:
+        with vswitch_ctl, loadgen:
             with vnf_ctl:
+                vnf_ctl.start()
                 traffic = {'traffic_type': self._traffic_type,
                            'bidir': self._bidir,
                            'multistream': self._multistream}
