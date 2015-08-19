@@ -1,3 +1,10 @@
+#August 2015
+
+## New
+
+* Backport and enhancement of reporting
+
+
 #July 2015
 
 ## New
@@ -40,6 +47,5 @@ once the community has digested the initial release.
 
 ## Missing
 
-* Report generation is currently disabled
 * xmlunit output is  currently disabled
 * VNF support.

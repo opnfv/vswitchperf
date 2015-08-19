@@ -32,6 +32,7 @@ sys.dont_write_bytecode = True
 from conf import settings
 from core.loader import Loader
 from testcases import TestCase
+from tools.report import report
 from tools import tasks
 from tools.collectors import collector
 from tools.pkt_gen import trafficgen
@@ -373,7 +374,7 @@ def main():
         exit()
 
     # create results directory
-    if not os.path.exists(results_dir):
+    if not os.path.exists(results_path):
         logger.info("Creating result directory: "  + results_path)
         os.makedirs(results_path)
 
@@ -397,8 +398,16 @@ def main():
 
     #remove directory if no result files were created.
     if os.path.exists(results_path):
-        if os.listdir(results_path) == []:
+        files_list = os.listdir(results_path)
+        if files_list == []:
             shutil.rmtree(results_path)
+        else:
+            for file in files_list:
+                # generate report from all csv files
+                if file[-3:] == 'csv':
+                    results_csv = os.path.join(results_path, file)
+                    if os.path.isfile(results_csv) and os.access(results_csv, os.R_OK):
+                        report.generate(testcases, results_csv)
 
 if __name__ == "__main__":
     main()
