@@ -155,6 +155,30 @@ For all available options, check out the help dialog:
 
     ./vsperf --help
 
+
+GOTCHAs:
+--------
+
+OVS with DPDK and QEMU
+~~~~~~~~~~~~~~~~~~~~~~~
+If you encounter the following error: "before (last 100 chars):
+'-path=/dev/hugepages,share=on: unable to map backing store for
+hugepages: Cannot allocate memory\r\n\r\n" with the PVP deployment
+scenario, check the amount of hugepages on your system:
+
+.. code:: bash
+
+    cat /proc/meminfo | grep HugePages
+
+
+By default the vswitchd is launched with 1Gb of memory, to  change
+this, modify --socket-mem parameter in conf/02_vswitch.conf to allocate
+an appropriate amount of memory:
+
+.. code:: bash
+
+    VSWITCHD_DPDK_ARGS = ['-c', '0x4', '-n', '4', '--socket-mem 1024,0']
+
 --------------
 
 .. |Alt text| image:: images/TCLServerProperties.png
