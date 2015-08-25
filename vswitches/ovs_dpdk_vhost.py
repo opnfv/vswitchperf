@@ -73,7 +73,16 @@ class OvsDpdkVhost(IVSwitch):
         bridge = OFBridge(switch_name)
         bridge.create()
         bridge.set_db_attribute('Open_vSwitch', '.',
-                                'other_config:max-idle', '60000')
+                                'other_config:max-idle',
+                                settings.getValue('VSWITCH_FLOW_TIMEOUT'))
+
+        if settings.getValue('VSWITCH_AFFINITIZATION_ON') == 1:
+            # Sets the PMD core mask to VSWITCH_PMD_CPU_MASK
+            # for CPU core affinitization
+            bridge.set_db_attribute('Open_vSwitch', '.',
+                                    'other_config:pmd-cpu-mask',
+                                    settings.getValue('VSWITCH_PMD_CPU_MASK'))
+
         bridge.set_db_attribute('Bridge', bridge.br_name,
                                 'datapath_type', 'netdev')
         self._bridges[switch_name] = bridge
