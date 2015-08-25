@@ -88,10 +88,6 @@ class VswitchControllerP2P(IVswitchController):
             # ovs-discuss 2015-06-30.
             flow = {'table':'3', 'priority':'1', 'actions': ['drop']}
             self._vswitch.add_flow(BRIDGE_NAME, flow)
-
-            flow = add_ports_to_flow(_FLOW_TEMPLATE, phy2_number, phy1_number)
-            self._vswitch.add_flow(BRIDGE_NAME, flow)
-
         except:
             self._vswitch.stop()
             raise
