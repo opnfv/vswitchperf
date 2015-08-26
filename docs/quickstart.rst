@@ -155,6 +155,55 @@ For all available options, check out the help dialog:
 
     ./vsperf --help
 
+Executing PVP tests
+-------------------
+To run tests using vhost-user as guest access method:
+
+1. Set VHOST_METHOD and VNF of your settings file to:
+
+  .. code-block:: console
+
+   VHOST_METHOD='user'
+   VNF = 'QemuDpdkVhost'
+
+2. Recompile src for VHOST USER testing
+
+  .. code-block:: console
+
+     cd src
+     make cleanse
+     make VHOST_USER=y
+
+3. Run test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file <path_to_settings_py>
+
+To run tests using vhost-cuse as guest access method:
+
+1. Set VHOST_METHOD and VNF of your settings file to:
+
+  .. code-block:: console
+
+     VHOST_METHOD='cuse'
+     VNF = 'QemuDpdkVhostCuse'
+
+2. Recompile src for VHOST USER testing
+
+  .. code-block:: console
+
+     cd src
+     make cleanse
+     make VHOST_USER=n
+
+3. Run test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file <path_to_settings_py>
+
+
 
 GOTCHAs:
 --------

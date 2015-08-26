@@ -22,6 +22,7 @@ from src.ovs import VSwitchd, OFBridge
 from src.dpdk import dpdk
 
 _VSWITCHD_CONST_ARGS = ['--', '--log-file']
+_VHOST_METHOD = settings.getValue('VHOST_METHOD')
 
 class OvsDpdkVhost(IVSwitch):
     """VSwitch implementation using DPDK and vhost ports
@@ -42,8 +43,9 @@ class OvsDpdkVhost(IVSwitch):
         vswitchd_args += settings.getValue('VSWITCHD_DPDK_ARGS')
         vswitchd_args += _VSWITCHD_CONST_ARGS
 
-        self._logger.info("Inserting VHOST modules into kernel...")
-        dpdk.insert_vhost_modules()
+        if _VHOST_METHOD == "cuse":
+            self._logger.info("Inserting VHOST modules into kernel...")
+            dpdk.insert_vhost_modules()
 
         self._vswitchd = VSwitchd(vswitchd_args=vswitchd_args,
                                   expected_cmd=
@@ -117,8 +119,7 @@ class OvsDpdkVhost(IVSwitch):
         """
         bridge = self._bridges[switch_name]
         # Changed dpdkvhost to dpdkvhostuser to be able to run in Qemu 2.2
-        vhost_method = settings.getValue('VHOST_METHOD')
-        if vhost_method == "cuse":
+        if _VHOST_METHOD == "cuse":
             vhost_count = self._get_port_count(bridge, 'type=dpdkvhostcuse')
             port_name = 'dpdkvhostcuse' + str(vhost_count)
             params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostcuse']
