@@ -21,6 +21,9 @@ from core.vswitch_controller_pvp import VswitchControllerPVP
 from core.vnf_controller_p2p import VnfControllerP2P
 from core.vnf_controller_pvp import VnfControllerPVP
 from core.collector_controller import CollectorController
+from tools.load_gen.stress.stress import Stress
+from tools.load_gen.stress_ng.stress_ng import StressNg
+from tools.load_gen.dummy.dummy import DummyLoadGen
 
 
 def __init__():
@@ -97,4 +100,23 @@ def create_collector(collector, collector_class):
     collector = collector.lower()
     if "cpu" in collector or "memory" in collector:
         return CollectorController(collector_class)
+
+def create_loadgen(loadgen_type, loadgen_cfg):
+    """Return a new ILoadGenerator for the loadgen type.
+
+    The returned load generator has the given loadgen type and loadgen
+    generator class.
+
+    :param loadgen_type: Name of loadgen type
+    :param loadgen_class: Reference to load generator class to be used.
+    :return: A new ILoadGenerator class
+    """
+    loadgen_type = loadgen_type.lower()
+    if loadgen_type.find("dummy") >= 0:
+        return DummyLoadGen(loadgen_cfg)
+    elif loadgen_type.find("stress-ng") >= 0:
+        return StressNg(loadgen_cfg)
+    elif loadgen_type.find("stress") >= 0:
+        return Stress(loadgen_cfg)
+
 

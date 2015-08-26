@@ -1,5 +1,5 @@
-Installing toit
-===============
+Installing vswitchperf
+======================
 
 The test suite requires Python 3.3 and relies on a number of other
 packages. These need to be installed for the test suite to function. To
@@ -18,6 +18,14 @@ Enable Software Collections (SCL)
    yum -y install scl-utils
    yum -y install https://www.softwarecollections.org/en/scls/rhscl/python33/epel-7-x86_64/download/rhscl-python33-epel-7-x86_64.noarch.rpm
 
+(Optional) Enable Repoforge (for stress)
+----------------------------------------
+Allows optional installation of stress tool, which is required by load tests.
+
+  .. code-block:: console
+
+   yum -y install http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm
+
 System packages
 -----------------
 There are a number of packages that must be installed using `yum`. These can be installed like so:
@@ -26,6 +34,11 @@ There are a number of packages that must be installed using `yum`. These can be 
 
    yum -y --exclude=python33-mod_wsgi* install python33-* pciutils
 
+Optional installation of stress tool
+
+  .. code-block:: console
+
+   yum -y install stress
 
 Python 3 Packages
 -----------------
