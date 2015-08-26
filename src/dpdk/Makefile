@@ -52,9 +52,6 @@ force_make: $(TAG_DONE_FLAG)
 	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_KNI=./CONFIG_RTE_LIBRTE_KNI=n/g' $(CONFIG_FILE)
 	$(AT)cd $(WORK_DIR); make install T=$(DPDK_TARGET) -j
 	$(AT)cd `dirname $(CONFIG_FILE)` && git checkout `basename $(CONFIG_FILE)` && cd -
-ifeq ($(VHOST_USER),n)
-	$(AT)cd $(WORK_DIR)/lib/librte_vhost/eventfd_link; make
-endif
 	@echo "Make done"
 
 install: $(INSTALL_TARGET)
