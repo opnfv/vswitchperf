@@ -126,7 +126,6 @@ def parse_arguments():
                         help='list all system vnfs and exit')
     parser.add_argument('--list-settings', action='store_true',
                         help='list effective settings configuration and exit')
-    parser.add_argument('test', nargs='*', help='test specification(s)')
 
     group = parser.add_argument_group('test selection options')
     group.add_argument('-f', '--test-spec', help='test specification file')
@@ -134,6 +133,8 @@ def parse_arguments():
     group.add_argument('-t', '--tests', help='Comma-separated list of terms \
             indicating tests to run. e.g. "RFC2544,!p2p" - run all tests whose\
             name contains RFC2544 less those containing "p2p"')
+    group.add_argument('--test', help='Comma-separated list of exact test\
+            names to run. Overrides --tests.')
     group.add_argument('--verbosity', choices=list_logging_levels(),
                        help='debug level')
     group.add_argument('--trafficgen', help='traffic generator to use')
@@ -353,9 +354,6 @@ def main():
                              cfg.get('Name', '<Name not set>'))
             raise
 
-    # TODO(BOM) Apply filter to select requested tests
-    all_tests = apply_filter(all_tests, args['tests'])
-
     # if required, handle list-* operations
 
     if args['list']:
@@ -385,14 +383,26 @@ def main():
         print(str(settings))
         exit()
 
+    # select requested tests
+    if args['test']:
+        exact_names = args['test'].split(',')
+        # --test => exact matches only
+        all_tests = [test for test in all_tests if test.name in exact_names]
+    else:
+        # --tests => apply filter to select requested tests
+        all_tests = apply_filter(all_tests, args['tests'])
+
+    if not all_tests:
+        logger.error("No tests matched --test or --tests options. Done.")
+        sys.exit(1)
+
     # create results directory
     if not os.path.exists(results_path):
         logger.info("Creating result directory: "  + results_path)
         os.makedirs(results_path)
 
-    suite = unittest.TestSuite()
-
     # run tests
+    suite = unittest.TestSuite()
     for test in all_tests:
         try:
             test.run()
