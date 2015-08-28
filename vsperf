@@ -126,7 +126,8 @@ def parse_arguments():
                         help='list all system vnfs and exit')
     parser.add_argument('--list-settings', action='store_true',
                         help='list effective settings configuration and exit')
-    parser.add_argument('test', nargs='*', help='test specification(s)')
+    parser.add_argument('exact_test_name', nargs='*', help='Exact names of\
+            tests to run. No positional args and no --tests arg runs all tests.')
 
     group = parser.add_argument_group('test selection options')
     group.add_argument('-f', '--test-spec', help='test specification file')
@@ -353,9 +354,6 @@ def main():
                              cfg.get('Name', '<Name not set>'))
             raise
 
-    # TODO(BOM) Apply filter to select requested tests
-    all_tests = apply_filter(all_tests, args['tests'])
-
     # if required, handle list-* operations
 
     if args['list']:
@@ -385,15 +383,34 @@ def main():
         print(str(settings))
         exit()
 
+    # select requested tests
+    if args['exact_test_name'] and args['tests']:
+        logger.error("Cannot specify tests with both positional args and --test.")
+        sys.exit(1)
+
+    if args['exact_test_name']:
+        exact_names = args['exact_test_name']
+        # positional args => exact matches only
+        selected_tests = [test for test in all_tests if test.name in exact_names]
+    elif args['tests']:
+        # --tests => apply filter to select requested tests
+        selected_tests = apply_filter(all_tests, args['tests'])
+    else:
+        # Default - run all tests
+        selected_tests = all_tests
+
+    if not selected_tests:
+        logger.error("No tests matched --test option or positional args. Done.")
+        sys.exit(1)
+
     # create results directory
     if not os.path.exists(results_path):
         logger.info("Creating result directory: "  + results_path)
         os.makedirs(results_path)
 
-    suite = unittest.TestSuite()
-
     # run tests
-    for test in all_tests:
+    suite = unittest.TestSuite()
+    for test in selected_tests:
         try:
             test.run()
             suite.addTest(MockTestCase('', True, test.name))
