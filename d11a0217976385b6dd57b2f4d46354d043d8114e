@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a288981_f5502760",
+        "filename": "docs/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-08-31T17:01:52Z",
+      "side": 1,
+      "message": "considers?",
+      "range": {
+        "startLine": 100,
+        "startChar": 22,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "d11a0217976385b6dd57b2f4d46354d043d8114e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a288981_d54d2bc6",
+        "filename": "docs/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-08-31T17:01:52Z",
+      "side": 1,
+      "message": "\"calculate\" delay measurements on the fly",
+      "revId": "d11a0217976385b6dd57b2f4d46354d043d8114e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
