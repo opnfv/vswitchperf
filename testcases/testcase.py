@@ -88,7 +88,6 @@ class TestCase(object):
         collector_ctl.log_cpu_stats()
         with vswitch_ctl, loadgen:
             with vnf_ctl:
-                vnf_ctl.start()
                 traffic = {'traffic_type': self._traffic_type,
                            'bidir': self._bidir,
                            'multistream': self._multistream}
