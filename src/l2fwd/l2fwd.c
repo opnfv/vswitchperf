@@ -38,20 +38,28 @@
 #include <linux/rtnetlink.h>
 #include <linux/prefetch.h>
 #include <linux/log2.h>
+#include <linux/gfp.h>
+#include <linux/slab.h>
+
+#include <linux/ip.h>
+#include <linux/in.h>
+#include <linux/icmp.h>
+#include <linux/inetdevice.h>
+
 
 static char *net1 = "eth1";
 module_param(net1, charp, 0);
-MODULE_PARM_DESC(net1, "The first net device name (default is eth1)");
+MODULE_PARM_DESC(net1, "The first net device name and optional DNAT parameters (default is eth1)");
 
 static char *net2 = "eth2";
 module_param(net2, charp, 0);
-MODULE_PARM_DESC(net2, "The second net device name (default is eth2)");
+MODULE_PARM_DESC(net2, "The second net device name and optional DNAT parameters (default is eth2)");
 
 static bool print = false;
 module_param(print, bool, 0);
 MODULE_PARM_DESC(print, "Log forwarding statistics (default is false)");
 
-static int stats_interval = 10000;
+static int stats_interval = 10;
 module_param(stats_interval, int, 0);
 MODULE_PARM_DESC(print, "Forwarding statistics packet interval (default is 10000)");
 
@@ -62,10 +70,31 @@ MODULE_PARM_DESC(terminate, "Free skb instead of forwarding");
 static struct net_device *dev1, *dev2;
 int count;
 
+static struct
+{
+    uint eth1 : 1;
+    uint eth2 : 1;
+} dnat_enabled;
+
+static uint octet0[4];
+static uint mac0[6];
+static u8 s_octet0[4];
+static u8 s_mac0[6];
+
+static uint octet1[4];
+static uint mac1[6];
+static u8 s_octet1[4];
+static u8 s_mac1[6];
 static rx_handler_result_t netdev_frame_hook(struct sk_buff **pskb)
 {
     struct sk_buff *skb = *pskb;
     struct net_device *dev;
+    char *data = skb->data;
+    struct ethhdr *eh = (struct ethhdr *)skb_mac_header(skb);
+    struct iphdr *ih = (struct iphdr *)skb_network_header(skb);
+    struct icmphdr *icmph = icmp_hdr(skb);
+
+    rx_handler_result_t retval = RX_HANDLER_CONSUMED;
 
     if (unlikely(skb->pkt_type == PACKET_LOOPBACK))
         return RX_HANDLER_PASS;
@@ -81,32 +110,210 @@ static rx_handler_result_t netdev_frame_hook(struct sk_buff **pskb)
         }
     else
         {
+
+            u32 *daddr = &(ih->daddr);
+            u32 *saddr = &(ih->saddr);
+            unsigned short proto = ntohs(eh->h_proto);
+
+            uint use_dnat = dev == dev1 ? dnat_enabled.eth1:dnat_enabled.eth2;
+
+            if (unlikely(proto != ETH_P_IP ))
+                return RX_HANDLER_PASS;
+
+#ifdef DEBUG
+            printk("use_dnat %d proto %x ETH_P_IP %x Dest MAC - IP %d.%d.%d.%d MAC %x:%x:%x:%x:%x:%x\n",use_dnat,proto,ETH_P_IP,(u8)daddr[0],(u8)daddr[1],(u8)daddr[2],(u8)daddr[3],eh->h_dest[0],eh->h_dest[1],eh->h_dest[2],eh->h_dest[3],eh->h_dest[4],eh->h_dest[5]);
+#endif
+            if ( (use_dnat == 1) && (proto == ETH_P_IP) )
+                {
+                    unsigned int *t_addr = dev == dev1 ? &octet0[0]:&octet1[0];
+                    u8 *s_addr = dev == dev1 ? &s_octet0[0]:&s_octet1[0];
+
+
+                    ((u8 *)daddr)[0] = (u8)t_addr[0];
+                    ((u8 *)daddr)[1] = (u8)t_addr[1];
+                    ((u8 *)daddr)[2] = (u8)t_addr[2];
+                    ((u8 *)daddr)[3] = (u8)t_addr[3];
+
+                    t_addr = dev == dev1 ? &mac0[0]:&mac1[0];
+
+                    eh->h_dest[0] = (unsigned char)t_addr[0];
+                    eh->h_dest[1] = (unsigned char)t_addr[1];
+                    eh->h_dest[2] = (unsigned char)t_addr[2];
+                    eh->h_dest[3] = (unsigned char)t_addr[3];
+                    eh->h_dest[4] = (unsigned char)t_addr[4];
+                    eh->h_dest[5] = (unsigned char)t_addr[5];
+
+#ifdef DEBUG
+                    printk("After DNAT: Dest MAC - IP %d.%d.%d.%d MAC %x:%x:%x:%x:%x:%x\n",daddr[0],daddr[1],daddr[2],daddr[3],eh->h_dest[0],eh->h_dest[1],eh->h_dest[2],eh->h_dest[3],eh->h_dest[4],eh->h_dest[5]);
+#endif
+
+                    eh->h_source[0] = (unsigned char)dev->dev_addr[0];
+                    eh->h_source[1] = (unsigned char)dev->dev_addr[1];
+                    eh->h_source[2] = (unsigned char)dev->dev_addr[2];
+                    eh->h_source[3] = (unsigned char)dev->dev_addr[3];
+                    eh->h_source[4] = (unsigned char)dev->dev_addr[4];
+                    eh->h_source[5] = (unsigned char)dev->dev_addr[5];
+
+                    ((u8 *)saddr)[0] = s_addr[0];
+                    ((u8 *)saddr)[1] = s_addr[1];
+                    ((u8 *)saddr)[2] = s_addr[2];
+                    ((u8 *)saddr)[3] = s_addr[3];
+
+                    skb->ip_summed = CHECKSUM_COMPLETE;
+                    skb->csum = skb_checksum_complete(skb);
+                    ih->check = 0;
+                    ih->check = ip_fast_csum((unsigned char *)ih, ih->ihl);
+
+#ifdef DEBUG
+                    printk("After DNAT: Source MAC - IP %d.%d.%d.%d MAC %u:%u:%u:%u:%u:%u\n",saddr[0],saddr[1],saddr[2],saddr[3],eh->h_source[0],eh->h_source[1],eh->h_source[2],eh->h_source[3],eh->h_source[4],eh->h_source[5]);
+#endif
+                }
+
             skb->dev = dev;
             skb_push(skb, ETH_HLEN);
             dev_queue_xmit(skb);
         }
 
-    return RX_HANDLER_CONSUMED;
+    return retval;
 }
 
 static int __init l2fwd_init_module(void)
 {
     int err = -1;
+    char *t_ptr;
+    int fCount;
+    char *dnat_fmt_suffix = " %3d.%3d.%3d.%3d %2x:%2x:%2x:%2x:%2x:%2x";
+    char *dnat_fmt;
+    char name_fmt_str[IFNAMSIZ+1];
+    char t_name[IFNAMSIZ+1];
 
-    dev1 = dev_get_by_name(&init_net, net1);
+
+
+    sprintf(name_fmt_str,"%%%ds",IFNAMSIZ);
+    dnat_fmt = (char *)kmalloc(strlen(name_fmt_str)+strlen(dnat_fmt_suffix)+1,GFP_KERNEL);
+    sprintf(dnat_fmt,"%s%s",name_fmt_str,dnat_fmt_suffix);
+
+    t_ptr=net1;
+    while(*t_ptr != '\0') *t_ptr == ',' ? *t_ptr++ = ' ':*t_ptr++;
+
+    fCount = sscanf(net1,dnat_fmt,t_name,&octet0[0],&octet0[1],&octet0[2],
+                                         &octet0[3],&mac0[0],&mac0[1],
+                                         &mac0[2],&mac0[3],&mac0[4],&mac0[5]);
+
+    dev1 = dev_get_by_name(&init_net, t_name);
     if (!dev1)
         {
-            printk("can't get device %s\n", net1);
+            printk("can't get device %s\n", t_name);
             err = -ENODEV;
             goto out;
         }
+    if (fCount >1 && fCount <11 )
+        {
+            printk("Both DNAT IP and Mac Address must be provided\n");
+            err = -EINVAL;
+            goto out;
+        }
+    else if (fCount==11 )
+        {
+            struct in_device *in_dev = rcu_dereference(dev1->ip_ptr);
+            __be32 ifaddr = 0;
+            struct in_ifaddr *ifap;
 
-    dev2 = dev_get_by_name(&init_net, net2);
+            dnat_enabled.eth1 = 1;
+            // in_dev has a list of IP addresses (because an interface can have multiple)
+            for (ifap = in_dev->ifa_list; ifap != NULL;
+                    ifap = ifap->ifa_next)
+                {
+                    ifaddr = ifap->ifa_address; // is the IPv4 address
+                }
+            if (ifaddr == 0)
+                {
+                    printk("%s interface ip address list is null!\n",t_name);
+                    err = -ENODEV;
+                    goto out;
+                }
+
+            s_octet0[0] = ((u8 *)&ifaddr)[0];
+            s_octet0[1] = ((u8 *)&ifaddr)[1];
+            s_octet0[2] = ((u8 *)&ifaddr)[2];
+            s_octet0[3] = ((u8 *)&ifaddr)[3];
+
+            s_mac0[0] = dev1->dev_addr[0];
+            s_mac0[1] = dev1->dev_addr[1];
+            s_mac0[2] = dev1->dev_addr[2];
+            s_mac0[3] = dev1->dev_addr[3];
+            s_mac0[4] = dev1->dev_addr[4];
+            s_mac0[5] = dev1->dev_addr[5];
+
+#ifdef DEBUG
+            printk("DNAT Enabled for %s IP %d.%d.%d.%d MAC %x:%x:%x:%x:%x:%x\n",t_name,octet0[0],octet0[1],octet0[2],octet0[3],mac0[0],mac0[1],mac0[2],mac0[3],mac0[4],mac0[5]);
+            printk("SNAT IP %d.%d.%d.%d SNAT MAC  %x:%x:%x:%x:%x:%x\n",s_octet0[0],s_octet0[1],s_octet0[2],s_octet0[3],s_mac0[0],s_mac0[1],s_mac0[2],s_mac0[3],s_mac0[4],mac0[5]);
+        }
+    else if (fCount==1 )
+        {
+            printk("Pure Level 2 forward enabled for %s\n",t_name);
+#endif
+        }
+
+
+    t_ptr=net2;
+    while(*t_ptr != '\0') *t_ptr == ',' ? *t_ptr++ = ' ':*t_ptr++;
+
+    fCount = sscanf(net2,dnat_fmt,t_name,&octet1[0],&octet1[1],&octet1[2],&octet1[3],&mac1[0],&mac1[1],&mac1[2],&mac1[3],&mac1[4],&mac1[5]);
+
+    dev2 = dev_get_by_name(&init_net, t_name);
     if (!dev2)
         {
-            printk("can't get device %s\n", net2);
+            printk("can't get device %s\n", t_name);
             err = -ENODEV;
             goto out_dev1;
+        }
+    if (fCount >1 && fCount <11 )
+        {
+            printk("Both DNAT IP and Mac Address must be provided\n");
+            err = -EINVAL;
+            goto out;
+        }
+    else if (fCount==11 )
+        {
+            struct in_device *in_dev = rcu_dereference(dev2->ip_ptr);
+            __be32 ifaddr = 0;
+            struct in_ifaddr *ifap;
+            // dev has a list of IP addresses (because an interface can have multiple)
+            dnat_enabled.eth2 = 1;
+            for (ifap = in_dev->ifa_list; ifap != NULL;
+                    ifap = ifap->ifa_next)
+                {
+                    ifaddr = ifap->ifa_address; // is the IPv4 address
+                }
+            if (ifaddr == 0)
+                {
+                    printk("%s interface ip address list is null!\n",t_name);
+                    err = -ENODEV;
+                    goto out;
+                }
+            /* ifa_local: ifa_address is the remote point in ppp */
+
+            s_octet1[0] = ((u8 *)&ifaddr)[0];
+            s_octet1[1] = ((u8 *)&ifaddr)[1];
+            s_octet1[2] = ((u8 *)&ifaddr)[2];
+            s_octet1[3] = ((u8 *)&ifaddr)[3];
+
+            s_mac1[0] = dev2->dev_addr[0];
+            s_mac1[1] = dev2->dev_addr[1];
+            s_mac1[2] = dev2->dev_addr[2];
+            s_mac1[3] = dev2->dev_addr[3];
+            s_mac1[4] = dev2->dev_addr[4];
+            s_mac1[5] = dev2->dev_addr[5];
+
+#ifdef NEVER
+            printk("DNAT Enabled for %s IP %d.%d.%d.%d MAC %x:%x:%x:%x:%x:%x\n",t_name,octet1[0],octet1[1],octet1[2],octet1[3],mac1[0],mac1[1],mac1[2],mac1[3],mac1[4],mac1[5]);
+            printk("SNAT IP %d.%d.%d.%d SNAT MAC  %x:%x:%x:%x:%x:%x\n",s_octet1[0],s_octet1[1],s_octet1[2],s_octet1[3],s_mac1[0],s_mac1[1],s_mac1[2],s_mac1[3],s_mac1[4],mac1[5]);
+        }
+    else if (fCount==1 )
+        {
+            printk("Level 2 forward enabled for %s\n",t_name);
+#endif
         }
 
     rtnl_lock();
@@ -125,6 +332,7 @@ static int __init l2fwd_init_module(void)
             netdev_rx_handler_unregister(dev1);
             goto out_dev2;
         }
+
     dev_set_promiscuity(dev2, 1);
 
     rtnl_unlock();
@@ -162,6 +370,6 @@ static void __exit l2fwd_exit_module(void)
 module_init(l2fwd_init_module);
 module_exit(l2fwd_exit_module);
 
-MODULE_DESCRIPTION("Huawei L2 Forwarding module");
+MODULE_DESCRIPTION("Huawei L2 Forwarding module with DNAT");
 MODULE_LICENSE("GPL");
-MODULE_VERSION("0.1");
+MODULE_VERSION("1.0");
