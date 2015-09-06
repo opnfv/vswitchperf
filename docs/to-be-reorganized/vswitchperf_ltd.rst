@@ -272,9 +272,9 @@ Physical port → vSwitch → VNF → vSwitch → VNF → vSwitch → physical p
     |   +--------------+          +--------------+   |  |
     |   |   phy ports  | vSwitch  |   phy ports  |   |  |
     +---+--------------+----------+--------------+---+ _|
-            ^       :                 ^       :
+            ^       ^                 :       :
             |       |                 |       |
-            :       v                 :       v
+            :       :                 v       v
     +--------------------------------------------------+
     |                                                  |
     |                traffic generator                 |
@@ -397,41 +397,51 @@ virtual switch → Physical port)
 
   .. code-block:: console
 
+                                                       _
+    +----------------------+  +----------------------+  |
+    |   Guest 1            |  |   Guest 2            |  |
+    |   +---------------+  |  |   +---------------+  |  |
+    |   |  Application  |  |  |   |  Application  |  |  |
+    |   +---------------+  |  |   +---------------+  |  |
+    |       ^       |      |  |       ^       |      |  |
+    |       |       v      |  |       |       v      |  |  Guests
+    |   +---------------+  |  |   +---------------+  |  |
+    |   | logical ports |  |  |   | logical ports |  |  |
+    |   |   0       1   |  |  |   |   0       1   |  |  |
+    +---+---------------+--+  +---+---------------+--+ _|
+            ^       :                 ^       :
+            |       |                 |       |
+            :       v                 :       v        _
+    +---+---------------+--+  +---+---------------+--+  |
+    |   |   0       1   |  |  |   |   3       4   |  |  |
+    |   | logical ports |  |  |   | logical ports |  |  |
+    |   +---------------+  |  |   +---------------+  |  |
+    |       ^       |      |  |       ^       |      |  |  Hosts
+    |       |       v      |  |       |       v      |  |
+    |   +--------------+   |  |   +--------------+   |  |
+    |   |   phy ports  |   |  |   |   phy ports  |   |  |
+    +---+--------------+---+  +---+--------------+---+ _|
+            ^       :                 :       :
+            |       +-----------------+       |
+            :                                 v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+
 
-    +--------------------------------------------+   +------------------------------------------+
-    |   +---------------------------------+      |   |    +--------------------------------+    |
-    |   |          Application            |      |   |    |         Application            |    |
-    |   +----------------------------+----+      |   |    +-------------------------+------+    |
-    |         ^                      |           |   |           ^                  |           |
-    |         |                      v           |   |           |                  v           |
-    | +------------------+  +------------------+ |   | +------------------+  +----------------+ |
-    | | Logical port 0   |  | Logical port 1   | |   | | Logical port 0   |  | Logical port 1 | |
-    +-+------------------+--+------------------+-+   +-+------------------+--+----------------+-+
-              ^                      |                          ^                  |
-              |                      |                          |                  |
-              |                      v                          |                  v
-    +-+------------------+--+------------------+-+   +-+------------------+--+----------------+-+
-    | | Logical port 0   |  |  Logical port 1  | |   | | Logical port 0   |  | Logical port 1 | |
-    | +------------------+  +------------------+ |   | +------------------+  +----------------+ |
-    |          ^                       |         |   |          ^                  |            |
-    |          |                       |         |   |          |                  |            |
-    |          |       vswitch         v         |   |          |     vswitch      v            |
-    | +--------+---------+  +------------------+ |   | +------------------+  +----------------+ |
-    | |    phy port      |  |    phy port      | |   | |  phy port        |  |  phy port      | |
-    +-+------------------+--+------------------+-+   +-+------------------+--+----------------+-+
-               ^                       |                        ^                  |
-               |                       |                        |                  |
-               |                        ------------------------                   v
-    +-------------------------------------------------------------------------------------------+
-    |                                                                                           |
-    |                                    traffic generator                                      |
-    |                                                                                           |
-    +-------------------------------------------------------------------------------------------+
+
 
 **Note:** For tests where the traffic generator and/or measurement
 receiver are implemented on VM and connected to the virtual switch
 through vNIC, the issues of shared resources and interactions between
 the measurement devices and the device under test must be considered.
+
+**Note:** Some RFC 2889 tests require a full-mesh sending and receiving
+pattern involving more than two ports. This possibility is illustrated in the
+Physical port → vSwitch → VNF → vSwitch → VNF → vSwitch → physical port
+diagram above (with 2 sending and 2 receiving ports, though all ports
+could be used bi-directionally).
 
 2.2.3 General Methodology:
 --------------------------
