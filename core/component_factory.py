@@ -20,7 +20,6 @@ from core.vswitch_controller_p2p import VswitchControllerP2P
 from core.vswitch_controller_pvp import VswitchControllerPVP
 from core.vnf_controller_p2p import VnfControllerP2P
 from core.vnf_controller_pvp import VnfControllerPVP
-from core.collector_controller import CollectorController
 from tools.load_gen.stress.stress import Stress
 from tools.load_gen.stress_ng.stress_ng import StressNg
 from tools.load_gen.dummy.dummy import DummyLoadGen
@@ -86,20 +85,15 @@ def create_vnf(deployment_scenario, vnf_class):
     elif deployment_scenario.find("pvp") >= 0:
         return VnfControllerPVP(vnf_class)
 
-def create_collector(collector, collector_class):
-    """Return a new CollectorController of the given class
+def create_collector(collector_class, result_dir, test_name):
+    """Return a new Collector of the given class
 
-    Supported collector type strings:
-    'cpu'
-    'memory':
-
-    :param collector: Collector type string
     :param collector_class: The collector class to be used.
+    :param result_dir: Directory with test results
+    :param test_name: Test to be run
     :return: A new CollectorController.
     """
-    collector = collector.lower()
-    if "cpu" in collector or "memory" in collector:
-        return CollectorController(collector_class)
+    return collector_class(result_dir, test_name)
 
 def create_loadgen(loadgen_type, loadgen_cfg):
     """Return a new ILoadGenerator for the loadgen type.

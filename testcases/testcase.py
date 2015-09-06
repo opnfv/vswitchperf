@@ -22,6 +22,7 @@ from collections import OrderedDict
 from core.results.results_constants import ResultsConstants
 import core.component_factory as component_factory
 from core.loader import Loader
+from tools.report import report
 
 class TestCase(object):
     """TestCase base class
@@ -41,7 +42,6 @@ class TestCase(object):
         self.desc = cfg.get('Description', 'No description given.')
         self._traffic_type = cfg['Traffic Type']
         self.deployment = cfg['Deployment']
-        self._collector = cfg['Collector']
         self._bidir = cfg['biDirectional']
         self._frame_mod = cfg.get('Frame Modification', None)
 
@@ -77,17 +77,16 @@ class TestCase(object):
             self.deployment,
             loader.get_vswitch_class(),
             self._bidir)
-        collector_ctl = component_factory.create_collector(
-            self._collector,
-            loader.get_collector_class())
+        collector = component_factory.create_collector(
+            loader.get_collector_class(),
+            self._results_dir, self.name)
         loadgen = component_factory.create_loadgen(
             self._loadgen,
             self._load_cfg)
 
         self._logger.debug("Setup:")
-        collector_ctl.log_cpu_stats()
         with vswitch_ctl, loadgen:
-            with vnf_ctl:
+            with vnf_ctl, collector:
                 traffic = {'traffic_type': self._traffic_type,
                            'bidir': self._bidir,
                            'multistream': self._multistream}
@@ -177,13 +176,15 @@ class TestCase(object):
         traffic_ctl.print_results()
 
         self._logger.debug("Collector Results:")
-        self._logger.debug(collector_ctl.get_results())
+        collector.print_results()
 
-        output_file = "result_" + self.name + "_" + self.deployment +".csv"
+        output_file = os.path.join(self._results_dir, "result_" + self.name +
+                                   "_" + self.deployment + ".csv")
 
-        TestCase._write_result_to_file(
-            self._append_results(traffic_ctl.get_results()),
-            os.path.join(self._results_dir, output_file))
+        tc_results = self._append_results(traffic_ctl.get_results())
+        TestCase._write_result_to_file(tc_results, output_file)
+
+        report.generate(output_file, tc_results, collector.get_results())
 
     def _append_results(self, results):
         """
