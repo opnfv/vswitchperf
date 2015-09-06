@@ -465,7 +465,8 @@ tests:
 
 -  Reference application: Simple forwarding or Open Source VNF.
 -  Frame size (bytes): 64, 128, 256, 512, 1024, 1280, 1518, 2K, 4k OR
-   Packet size based on use-case (e.g. RTP 64B, 256B).
+   Packet size based on use-case (e.g. RTP 64B, 256B) OR Mix of packet sizes as
+   maintained by the Functest project <https://wiki.opnfv.org/traffic_profile_management>.
 -  Reordering check: Tests should confirm that packets within a flow are
    not reordered.
 -  Duplex: Unidirectional / Bidirectional. Default: Full duplex with
