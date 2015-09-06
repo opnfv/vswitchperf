@@ -1468,6 +1468,14 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRate
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
 
+    **Deployment scenario**:
+
+    -  Physical → virtual switch → physical. Note: Full mesh tests with
+       multiple ingress and egress ports are a key aspect of RFC 2889
+       benchmarks, and scenarios with both 2 and 4 ports should be tested.
+       In any case, the number of ports used must be reported.
+
+
 Test ID: LTD.Throughput.RFC2889.ForwardPressure
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     **Title**: RFC2889 Forward Pressure Test
