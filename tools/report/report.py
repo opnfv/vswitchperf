@@ -21,10 +21,8 @@ Generate reports in format defined by X.
 import sys
 import os
 import jinja2
-import csv
 import logging
 
-from collections import OrderedDict
 from core.results.results_constants import ResultsConstants
 from conf import settings
 from tools import systeminfo
@@ -60,27 +58,7 @@ def _get_env():
     return env
 
 
-def _get_results(results_file):
-    """Get results from tests.
-
-    Get test results from a CSV file and return it as a list
-    of dictionaries for each row of data.
-
-    :param results_file: Path of the CSV results file
-
-    :returns: List of test results
-    """
-    with open(results_file, 'r') as csvfile:
-        reader = csv.reader(csvfile, delimiter=',')
-        result = []
-        res_head = next(reader)
-        for res_row in reader:
-            result.append(OrderedDict(zip(list(res_head), list(res_row))))
-
-    return result
-
-
-def generate(testcases, input_file):
+def generate(input_file, tc_results, tc_stats):
     """Generate actual report.
 
     Generate a Markdown-formatted file using results of tests and some
@@ -98,9 +76,9 @@ def generate(testcases, input_file):
 
     tests = []
     try:
-        for result in _get_results(input_file):
+        for result in tc_results:
             test_config = {}
-            for tc_conf in testcases:
+            for tc_conf in settings.getValue('PERFORMANCE_TESTS'):
                 if tc_conf['Name'] == result[ResultsConstants.ID]:
                     test_config = tc_conf
                     break
@@ -119,6 +97,7 @@ def generate(testcases, input_file):
                 'conf': test_config,
                 'result': result,
                 'env': _get_env(),
+                'stats': tc_stats
             })
 
         template_vars = {
@@ -131,12 +110,13 @@ def generate(testcases, input_file):
             logging.info('Test report written to "%s"', output_file)
 
     except KeyError:
-        logging.info("Report: Ignoring file (Wrongly defined columns): %s", (input_file))
+        logging.info("Report: Ignoring file (Wrongly defined columns): %s",
+                     (input_file))
         raise
     return output_file
 
 
 if __name__ == '__main__':
     settings.load_from_dir('conf')
-    OUT = generate(sys.argv[1])
+    OUT = generate(sys.argv[1], '', '')
     print('Test report written to "%s"...' % OUT)

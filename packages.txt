@@ -6,3 +6,4 @@ zlib-devel
 glib2-devel
 pixman-devel
 socat
+sysstat
