@@ -15,24 +15,49 @@
 """Abstract "system metrics logger" model.
 """
 
-CMD_PREFIX = 'metricscmd : '
-
 class ICollector(object):
     """This is an abstract class for system metrics loggers.
     """
 
-    def log_mem_stats(self):
-        """Log memory statistics.
+    def start(self):
+        """Starts data collection. This method must be non-blocking.
+        It means, that collector must be executed as a background process.
 
         Where implemented, this function should raise an exception on
         failure.
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def log_cpu_stats(self):
-        """Log cpu statistics.
+    def stop(self):
+        """Stops data collection.
 
         Where implemented, this function should raise an exception on
         failure.
         """
         raise NotImplementedError('Please call an implementation.')
+
+    def get_results(self):
+        """Returns collected results.
+
+        Where implemented, this function should raise an exception on
+        failure.
+        """
+        raise NotImplementedError('Please call an implementation.')
+
+    def print_results(self):
+        """Logs collected results.
+
+        Where implemented, this function should raise an exception on
+        failure.
+        """
+        raise NotImplementedError('Please call an implementation.')
+
+    def __enter__(self):
+        """Starts up collection of statistics
+        """
+        self.start()
+
+    def __exit__(self, type_, value, traceback):
+        """Stops collection of statistics
+        """
+        self.stop()
