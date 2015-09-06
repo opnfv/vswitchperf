@@ -32,12 +32,8 @@ sys.dont_write_bytecode = True
 from conf import settings
 from core.loader import Loader
 from testcases import TestCase
-from tools.report import report
 from tools import tasks
-from tools.collectors import collector
 from tools.pkt_gen import trafficgen
-from vswitches import vswitch
-from vnfs import vnf
 
 VERBOSITY_LEVELS = {
     'debug': logging.DEBUG,
@@ -173,9 +169,6 @@ def configure_logging(level):
     log_file_traffic_gen = os.path.join(
         settings.getValue('LOG_DIR'),
         settings.getValue('LOG_FILE_TRAFFIC_GEN'))
-    log_file_sys_metrics = os.path.join(
-        settings.getValue('LOG_DIR'),
-        settings.getValue('LOG_FILE_SYS_METRICS'))
 
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
@@ -200,11 +193,6 @@ def configure_logging(level):
         def filter(self, record):
             return record.getMessage().startswith(trafficgen.CMD_PREFIX)
 
-    class SystemMetricsCommandFilter(logging.Filter):
-        """Filter out strings beginning with 'gencmd :'"""
-        def filter(self, record):
-            return record.getMessage().startswith(collector.CMD_PREFIX)
-
     cmd_logger = logging.FileHandler(filename=log_file_host_cmds)
     cmd_logger.setLevel(logging.DEBUG)
     cmd_logger.addFilter(CommandFilter())
@@ -214,11 +202,6 @@ def configure_logging(level):
     gen_logger.setLevel(logging.DEBUG)
     gen_logger.addFilter(TrafficGenCommandFilter())
     logger.addHandler(gen_logger)
-
-    metrics_logger = logging.FileHandler(filename=log_file_sys_metrics)
-    metrics_logger.setLevel(logging.DEBUG)
-    metrics_logger.addFilter(SystemMetricsCommandFilter())
-    logger.addHandler(metrics_logger)
 
 
 def apply_filter(tests, tc_filter):
@@ -432,13 +415,6 @@ def main():
         files_list = os.listdir(results_path)
         if files_list == []:
             shutil.rmtree(results_path)
-        else:
-            for file in files_list:
-                # generate report from all csv files
-                if file[-3:] == 'csv':
-                    results_csv = os.path.join(results_path, file)
-                    if os.path.isfile(results_csv) and os.access(results_csv, os.R_OK):
-                        report.generate(testcases, results_csv)
 
 if __name__ == "__main__":
     main()

@@ -433,6 +433,11 @@ receiver are implemented on VM and connected to the virtual switch
 through vNIC, the issues of shared resources and interactions between
 the measurement devices and the device under test must be considered.
 
+**Note:** When Deployment Scenarios are used in RFC 2889 address learning
+or cache capacity testing, an additional port from the vSwitch must be
+connected to the test device. This port is used to listen for flooded
+frames. 
+
 2.2.3 General Methodology:
 --------------------------
 To establish the baseline performance of the virtual switch, tests would
@@ -1533,8 +1538,8 @@ Test ID: LTD.Throughput.RFC2889.AddressCachingCapacity
 
     **Deployment scenario**:
 
-    -  Physical → virtual switch → physical.
-
+    -  Physical → virtual switch → 2 x physical (one receiving, one listening).
+                  
 Test ID: LTD.Throughput.RFC2889.AddressLearningRate
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     **Title**: RFC2889 Address Learning Rate Test
@@ -1557,7 +1562,7 @@ Test ID: LTD.Throughput.RFC2889.AddressLearningRate
     learning rate can be obtained.
 
     **Expected Result**: It may be worthwhile to report the behaviour when
-    operating beyond address capacity - some DUTS may be more friendly to
+    operating beyond address capacity - some DUTs may be more friendly to
     new addresses than others.
 
     **Metrics collected**:
@@ -1568,7 +1573,7 @@ Test ID: LTD.Throughput.RFC2889.AddressLearningRate
 
     **Deployment scenario**:
 
-    -  Physical → virtual switch → physical.
+    -  Physical → virtual switch → 2 x physical (one receiving, one listening).
 
 Test ID: LTD.Throughput.RFC2889.ErrorFramesFiltering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
