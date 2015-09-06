@@ -88,11 +88,26 @@ A detailed summary of the main results for each test is outlined below.
 
 The following are the metrics obtained during this test:
 
-|              Metric            |             Result             |
+|             Metric             |             Result             |
 | ------------------------------ | ------------------------------ |
 {%- for item, value in test.result.items() %}
 | {{ "%-30s | %30s |"|format(item,value)}}
 {%- endfor %}
+
+##### Statistics collected
+
+The following system statistics were collected during testcase execution:
+{% for process in test.stats %}
+| --------------------------------------------------------------- |
+| Process: {{ "%-54s |"|format('_'.join(process.split('_')[:-1])) }}
+| ------------------------------ | ------------------------------ |
+|           Statistic            |             Value              |
+| ------------------------------ | ------------------------------ |
+{%- for item, value in test.stats[process].items() %}
+| {{ "%-30s | %30s |"|format(item,value)}}
+{%- endfor %}
+
+{% endfor %}
 
 ##### Anomalies
 

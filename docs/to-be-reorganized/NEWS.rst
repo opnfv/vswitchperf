@@ -1,3 +1,9 @@
+September 2015
+==============
+New
+---
+- Implementation of system statistics based upon pidstat command line tool.
+
 August 2015
 ===========
 New
