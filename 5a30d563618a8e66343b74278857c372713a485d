@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a2585a7_90ee9ab3",
+        "filename": "vsperf",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-09-07T14:18:24Z",
+      "side": 1,
+      "message": "I don\u0027t understand... :) \nexact_test_name mentions no positional args? but I thought we are going to use test names as positional args?\n\nTBH I would simply stick with the suggestion to use -t or --test with the exact test name and then with the filter option for filtering multiple tests, I think it\u0027s more intuitive and the cost of change is much smaller... it\u0027s hard to see/understand the intention otherwise",
+      "revId": "5a30d563618a8e66343b74278857c372713a485d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
