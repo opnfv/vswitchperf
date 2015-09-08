@@ -16,6 +16,24 @@
       "revId": "5a30d563618a8e66343b74278857c372713a485d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a2585a7_9319047c",
+        "filename": "vsperf",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-09-08T09:58:29Z",
+      "side": 1,
+      "message": "After offline discussion. I\u0027ll add an example into the cli help here.",
+      "parentUuid": "5a2585a7_90ee9ab3",
+      "revId": "5a30d563618a8e66343b74278857c372713a485d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
