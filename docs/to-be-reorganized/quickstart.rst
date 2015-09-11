@@ -16,7 +16,7 @@ The vSwitch must support Open Flow 1.3 or greater.
 Installation
 ------------
 
-Follow the `installation instructions <installation.md>`__ to install.
+Follow the `installation instructions <installation.html>`__ to install.
 
 IXIA Setup
 ----------
