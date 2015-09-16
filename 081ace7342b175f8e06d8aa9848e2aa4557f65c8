@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_d4f532cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-09-16T22:42:13Z",
+      "side": 1,
+      "message": "where do I find the recommendation on what the subfolder names should be?",
+      "revId": "081ace7342b175f8e06d8aa9848e2aa4557f65c8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
