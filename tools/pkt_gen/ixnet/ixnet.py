@@ -350,10 +350,11 @@ class IxNet(trafficgen.ITrafficGenerator):
                 for row in reader:
                     #Replace null entries added by Ixia with 0s.
                     row = [entry if len(entry) > 0 else '0' for entry in row]
-                    # calculate tx fps by (rx fps * (tx % / rx %))
-                    tx_fps = float(row[5]) * (float(row[4]) / float(row[3]))
-                    # calculate tx mbps by (rx mbps * (tx % / rx %))
-                    tx_mbps = float(row[6]) * (float(row[4]) / float(row[3]))
+
+                    # tx_fps and tx_mps cannot be reliably calculated
+                    # as the DUT may be modifying the frame size
+                    tx_fps = 'Unknown'
+                    tx_mbps = 'Unknown'
 
                     if bool(results.get(ResultsConstants.THROUGHPUT_RX_FPS)) \
                                                                 == False:
