@@ -18,12 +18,11 @@
 import logging
 
 from core.vswitch_controller import IVswitchController
-from vswitches.utils import add_ports_to_flow
+from conf import settings
 
 _FLOW_TEMPLATE = {
     'idle_timeout': '0'
 }
-BRIDGE_NAME = 'br0'
 
 class VswitchControllerP2P(IVswitchController):
     """VSwitch controller for P2P deployment scenario.
@@ -53,41 +52,42 @@ class VswitchControllerP2P(IVswitchController):
         try:
             self._vswitch.start()
 
-            self._vswitch.add_switch(BRIDGE_NAME)
+            bridge = settings.getValue('VSWITCH_BRIDGE_NAME')
+            self._vswitch.add_switch(bridge)
 
-            (_, phy1_number) = self._vswitch.add_phy_port(BRIDGE_NAME)
-            (_, phy2_number) = self._vswitch.add_phy_port(BRIDGE_NAME)
+            (_, _) = self._vswitch.add_phy_port(bridge)
+            (_, _) = self._vswitch.add_phy_port(bridge)
 
-            self._vswitch.del_flow(BRIDGE_NAME)
+            self._vswitch.del_flow(bridge)
 
             # table#0 - flows designed to force 5 & 13 tuple matches go here
             flow = {'table':'0', 'priority':'1', 'actions': ['goto_table:1']}
-            self._vswitch.add_flow(BRIDGE_NAME, flow)
+            self._vswitch.add_flow(bridge, flow)
 
             # table#1 - flows to route packets between ports goes here. The
             # chosen port is communicated to subsequent tables by setting the
             # metadata value to the egress port number
             flow = {'table':'1', 'priority':'1', 'in_port':'1',
                     'actions': ['write_actions(output:2)', 'write_metadata:2',
-                        'goto_table:2']}
-            self._vswitch.add_flow(BRIDGE_NAME, flow)
+                                'goto_table:2']}
+            self._vswitch.add_flow(bridge, flow)
             flow = {'table':'1', 'priority':'1', 'in_port':'2',
                     'actions': ['write_actions(output:1)', 'write_metadata:1',
-                        'goto_table:2']}
-            self._vswitch.add_flow(BRIDGE_NAME, flow)
+                                'goto_table:2']}
+            self._vswitch.add_flow(bridge, flow)
 
             # Frame modification table. Frame modification flow rules are
             # isolated in this table so that they can be turned on or off
             # without affecting the routing or tuple-matching flow rules.
             flow = {'table':'2', 'priority':'1', 'actions': ['goto_table:3']}
-            self._vswitch.add_flow(BRIDGE_NAME, flow)
+            self._vswitch.add_flow(bridge, flow)
 
             # Egress table
             # (TODO) Billy O'Mahony - the drop action here actually required in
             # order to egress the packet. This is the subject of a thread on
             # ovs-discuss 2015-06-30.
             flow = {'table':'3', 'priority':'1', 'actions': ['drop']}
-            self._vswitch.add_flow(BRIDGE_NAME, flow)
+            self._vswitch.add_flow(bridge, flow)
         except:
             self._vswitch.stop()
             raise
@@ -113,4 +113,4 @@ class VswitchControllerP2P(IVswitchController):
         """See IVswitchController for description
         """
         self._logger.debug('get_ports_info  using ' + str(self._vswitch_class))
-        return self._vswitch.get_ports(BRIDGE_NAME)
+        return self._vswitch.get_ports(settings.getValue('VSWITCH_BRIDGE_NAME'))

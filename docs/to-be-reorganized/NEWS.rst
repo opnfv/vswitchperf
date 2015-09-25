@@ -3,6 +3,8 @@ September 2015
 New
 ---
 - Implementation of system statistics based upon pidstat command line tool.
+- Support of PVVP deployment scenario using bhost-cuse and vhost user access
+  methods
 
 August 2015
 ===========
