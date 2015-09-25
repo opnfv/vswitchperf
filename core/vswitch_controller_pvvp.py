@@ -25,8 +25,8 @@ _FLOW_TEMPLATE = {
     'idle_timeout': '0'
 }
 
-class VswitchControllerPVP(IVswitchController):
-    """VSwitch controller for PVP deployment scenario.
+class VswitchControllerPVVP(IVswitchController):
+    """VSwitch controller for PVVP deployment scenario.
 
     Attributes:
         _vswitch_class: The vSwitch class to be used.
@@ -35,19 +35,19 @@ class VswitchControllerPVP(IVswitchController):
             constructor.
     """
     def __init__(self, vswitch_class, bidir=False):
-        """Initializes up the prerequisites for the PVP deployment scenario.
+        """Initializes up the prerequisites for the PVVP deployment scenario.
 
         :vswitch_class: the vSwitch class to be used.
         """
         self._logger = logging.getLogger(__name__)
         self._vswitch_class = vswitch_class
         self._vswitch = vswitch_class()
-        self._deployment_scenario = "PVP"
+        self._deployment_scenario = "PVVP"
         self._bidir = bidir
         self._logger.debug('Creation using ' + str(self._vswitch_class))
 
     def setup(self):
-        """ Sets up the switch for pvp
+        """ Sets up the switch for PVVP
         """
         self._logger.debug('Setup using ' + str(self._vswitch_class))
 
@@ -61,22 +61,30 @@ class VswitchControllerPVP(IVswitchController):
             (_, phy2_number) = self._vswitch.add_phy_port(bridge)
             (_, vport1_number) = self._vswitch.add_vport(bridge)
             (_, vport2_number) = self._vswitch.add_vport(bridge)
+            (_, vport3_number) = self._vswitch.add_vport(bridge)
+            (_, vport4_number) = self._vswitch.add_vport(bridge)
 
             self._vswitch.del_flow(bridge)
             flow1 = add_ports_to_flow(_FLOW_TEMPLATE, phy1_number,
                                       vport1_number)
             flow2 = add_ports_to_flow(_FLOW_TEMPLATE, vport2_number,
+                                      vport3_number)
+            flow3 = add_ports_to_flow(_FLOW_TEMPLATE, vport4_number,
                                       phy2_number)
             self._vswitch.add_flow(bridge, flow1)
             self._vswitch.add_flow(bridge, flow2)
+            self._vswitch.add_flow(bridge, flow3)
 
             if self._bidir:
-                flow3 = add_ports_to_flow(_FLOW_TEMPLATE, phy2_number,
+                flow4 = add_ports_to_flow(_FLOW_TEMPLATE, phy2_number,
+                                          vport4_number)
+                flow5 = add_ports_to_flow(_FLOW_TEMPLATE, vport3_number,
                                           vport2_number)
-                flow4 = add_ports_to_flow(_FLOW_TEMPLATE, vport1_number,
+                flow6 = add_ports_to_flow(_FLOW_TEMPLATE, vport1_number,
                                           phy1_number)
-                self._vswitch.add_flow(bridge, flow3)
                 self._vswitch.add_flow(bridge, flow4)
+                self._vswitch.add_flow(bridge, flow5)
+                self._vswitch.add_flow(bridge, flow6)
 
         except:
             self._vswitch.stop()

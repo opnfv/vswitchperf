@@ -16,55 +16,56 @@
 Interface for VNF.
 """
 
+import time
+from tools import tasks
 
-class IVnf(object):
+class IVnf(tasks.Process):
 
     """
     Interface for VNF.
     """
 
-    def __init__(self, memory, cpus,
-                 monitor_path, shared_path_host,
-                 shared_path_guest, guest_prompt):
+    _number_vnfs = 0
+
+    def __init__(self):
         """
         Initialization method.
 
         Purpose of this method is to initialize all
         common Vnf data, no services should be started by
         this call (use ``start`` method instead).
-
-        :param memory:   Virtual RAM size in megabytes.
-        :param cpus:     Number of Processors.
-        :param monitor_path: Configure monitor to given path.
-        :param shared_path_host: HOST path to shared location.
-        :param shared_path_guest: GUEST path to shared location.
-        :param guest_prompt: preconfigured command prompt which is used
-                           in execute_and_wait & wait methods
-                           to detect if particular call is finished.
         """
-        raise NotImplementedError()
+        self._number = IVnf._number_vnfs
+        IVnf._number_vnfs = IVnf._number_vnfs + 1
+        self._log_prefix = 'vnf_%d_cmd : ' % self._number
 
     def start(self):
         """
         Starts VNF instance.
+
+        This is a blocking function
         """
-        raise NotImplementedError()
+        super(IVnf, self).start()
 
     def stop(self):
         """
         Stops VNF instance.
         """
-        raise NotImplementedError()
+        self._logger.info('Killing VNF...')
 
-    def execute(self, command, delay=30):
+        # force termination of VNF and wait for it to terminate; It will avoid
+        # sporadic reboot of host. (caused by hugepages or DPDK ports)
+        super(IVnf, self).kill(signal='-9', sleep=10)
+
+    def execute(self, cmd, delay=0):
         """
-        execute ``command`` with given ``delay``.
+        execute ``cmd`` with given ``delay``.
 
         This method makes asynchronous call to guest system
         and waits given ``delay`` before returning. Can be
         used with ``wait`` method to create synchronous call.
 
-        :param command: Command to execute on guest system.
+        :param cmd: Command to execute on guest system.
         :param delay: Delay (in seconds) to wait after sending
                       command before returning. Please note that
                       this value can be floating point which
@@ -72,17 +73,19 @@ class IVnf(object):
 
         :returns: None.
         """
-        raise NotImplementedError()
+        self._logger.debug('%s%s', self._log_prefix, cmd)
+        self._child.sendline(cmd)
+        time.sleep(delay)
 
-    def wait(self, guest_prompt, timeout=30):
+    def wait(self, prompt='', timeout=30):
         """
-        wait for ``guest_prompt`` on guest system for given ``timeout``.
+        wait for ``prompt`` on guest system for given ``timeout``.
 
         This method ends based on two conditions:
-        * ``guest_prompt`` has been detected
+        * ``prompt`` has been detected
         * ``timeout`` has been reached.
 
-        :param guest_prompt: method end condition. If ``guest_prompt``
+        :param prompt: method end condition. If ``prompt``
                              won't be detected during given timeout,
                              method will return False.
         :param timeout: Time to wait for prompt (in seconds).
@@ -92,28 +95,29 @@ class IVnf(object):
         :returns: True if result_cmd has been detected before
                   timeout has been reached, False otherwise.
         """
-        raise NotImplementedError()
+        self._child.expect(prompt, timeout=timeout)
 
-    def execute_and_wait(self, command, timeout=30, guest_prompt=None):
+    def execute_and_wait(self, cmd, timeout=30, prompt=''):
         """
-        execute ``command`` with given ``timeout``.
+        execute ``cmd`` with given ``timeout``.
 
         This method makes synchronous call to guest system
-        and waits till ``command`` execution is finished
-        (based on ``guest_prompt value) or ''timeout'' has
+        and waits till ``cmd`` execution is finished
+        (based on ``prompt value) or ''timeout'' has
         been reached.
 
-        :param command: Command to execute on guest system.
+        :param cmd: Command to execute on guest system.
         :param timeout: Timeout till the end of execution is not
                         detected.
-        :param guest_prompt: method end condition. If ``guest_prompt``
+        :param prompt: method end condition. If ``prompt``
                              won't be detected during given timeout,
                              method will return False. If no argument
                              or None value will be passed, default
-                             ``guest_prompt`` passed in __init__
+                             ``prompt`` passed in __init__
                              method will be used.
 
         :returns: True if end of execution has been detected
                   before timeout has been reached, False otherwise.
         """
-        raise NotImplementedError()
+        self.execute(cmd)
+        self.wait(prompt=prompt, timeout=timeout)

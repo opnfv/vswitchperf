@@ -16,5 +16,4 @@
 """
 import core.component_factory
 from core.traffic_controller import (ITrafficController)
-from core.vnf_controller import (IVnfController)
 from core.vswitch_controller import (IVswitchController)

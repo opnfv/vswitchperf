@@ -241,14 +241,17 @@ class Process(object):
             self.kill()
             raise exc
 
-    def kill(self):
+    def kill(self, signal='-15', sleep=2):
         """Kill process instance if it is alive.
+
+        :param signal: signal to be sent to the process
+        :param sleep: delay in seconds after signal is sent
         """
         if self._child and self._child.isalive():
-            run_task(['sudo', 'kill', '-15', str(self._child.pid)],
+            run_task(['sudo', 'kill', signal, str(self._child.pid)],
                      self._logger)
             self._logger.debug('Wait for process to terminate')
-            time.sleep(2)
+            time.sleep(sleep)
 
             if self.is_relinquished():
                 self._relinquish_thread.join()

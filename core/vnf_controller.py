@@ -14,35 +14,66 @@
 """ VNF Controller interface
 """
 
-class IVnfController(object):
-    """Abstract class which defines a VNF controller
+import logging
 
-    Used to set-up and control a VNF provider for a particular
-    deployment scenario.
+class VnfController(object):
+    """VNF controller class
+
+    Used to set-up and control VNFs for specified scenario
+
+    Attributes:
+        _vnf_class: A class object representing the VNF to be used.
+        _deployment_scenario: A string describing the scenario to set-up in the
+            constructor.
+        _vnfs: A list of vnfs controlled by the controller.
     """
+
+    def __init__(self, deployment_scenario, vnf_class):
+        """Sets up the VNF infrastructure for the PVP deployment scenario.
+
+        :param vnf_class: The VNF class to be used.
+        """
+        self._logger = logging.getLogger(__name__)
+        self._vnf_class = vnf_class
+        self._deployment_scenario = deployment_scenario.upper()
+        if self._deployment_scenario == 'P2P':
+            self._vnfs = []
+        if self._deployment_scenario == 'PVP':
+            self._vnfs = [vnf_class()]
+        elif self._deployment_scenario == 'PVVP':
+            self._vnfs = [vnf_class(), vnf_class()]
+        self._logger.debug('__init__ ' + str(len(self._vnfs)) +
+                           ' VNF[s] with ' + ' '.join(map(str, self._vnfs)))
 
     def get_vnfs(self):
         """Returns a list of vnfs controlled by this controller.
         """
-        raise NotImplementedError(
-            "The VnfController does not implement",
-            "the \"get_vnfs\" function.")
+        self._logger.debug('get_vnfs ' + str(len(self._vnfs)) +
+                           ' VNF[s] with ' + ' '.join(map(str, self._vnfs)))
+        return self._vnfs
 
-    #TODO: Decide on contextmanager or __enter/exit__ strategy <MH 2015-05-01>
     def start(self):
         """Boots all VNFs set-up by __init__.
 
         This is a blocking function.
         """
-        raise NotImplementedError(
-            "The VnfController does not implement",
-            "the \"start\" function.")
+        self._logger.debug('start ' + str(len(self._vnfs)) +
+                           ' VNF[s] with ' + ' '.join(map(str, self._vnfs)))
+        for vnf in self._vnfs:
+            vnf.start()
 
     def stop(self):
         """Stops all VNFs set-up by __init__.
 
         This is a blocking function.
         """
-        raise NotImplementedError(
-            "The VnfController does not implement",
-            "the \"stop\" function.")
+        self._logger.debug('stop ' + str(len(self._vnfs)) +
+                           ' VNF[s] with ' + ' '.join(map(str, self._vnfs)))
+        for vnf in self._vnfs:
+            vnf.stop()
+
+    def __enter__(self):
+        self.start()
+
+    def __exit__(self, type_, value, traceback):
+        self.stop()
