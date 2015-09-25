@@ -138,10 +138,12 @@ class LoaderServant(object):
         result = {}
 
         for _, mod in LoaderServant._load_all_modules(path):
-            # find all system metric loggers defined in the module
+            # find all classes derived from given interface, but suppress
+            # interface itself and any abstract class starting with iface name
             gens = dict((k, v) for (k, v) in list(mod.__dict__.items())
                         if type(v) == type and
-                        issubclass(v, interface) and k != interface.__name__)
+                        issubclass(v, interface) and
+                        not k.startswith(interface.__name__))
             if gens:
                 for (genname, gen) in list(gens.items()):
                     result[genname] = gen

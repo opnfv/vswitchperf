@@ -18,8 +18,8 @@
 from core.traffic_controller_rfc2544 import TrafficControllerRFC2544
 from core.vswitch_controller_p2p import VswitchControllerP2P
 from core.vswitch_controller_pvp import VswitchControllerPVP
-from core.vnf_controller_p2p import VnfControllerP2P
-from core.vnf_controller_pvp import VnfControllerPVP
+from core.vswitch_controller_pvvp import VswitchControllerPVVP
+from core.vnf_controller import VnfController
 from tools.load_gen.stress.stress import Stress
 from tools.load_gen.stress_ng.stress_ng import StressNg
 from tools.load_gen.dummy.dummy import DummyLoadGen
@@ -58,16 +58,16 @@ def create_vswitch(deployment_scenario, vswitch_class, bidir=True):
     :param vswitch_class: Reference to vSwitch class to be used.
     :return: IVSwitchController for the deployment_scenario
     """
-    #TODO - full mapping from all deployment_scenarios to
-    #correct controller class
     deployment_scenario = deployment_scenario.lower()
     if deployment_scenario.find("p2p") >= 0:
         return VswitchControllerP2P(vswitch_class)
     elif deployment_scenario.find("pvp") >= 0:
         return VswitchControllerPVP(vswitch_class, bidir)
+    elif deployment_scenario.find("pvvp") >= 0:
+        return VswitchControllerPVVP(vswitch_class, bidir)
 
 def create_vnf(deployment_scenario, vnf_class):
-    """Return a new IVnfController for the deployment_scenario.
+    """Return a new VnfController for the deployment_scenario.
 
     The returned controller is configured with the given VNF class.
 
@@ -75,15 +75,9 @@ def create_vnf(deployment_scenario, vnf_class):
 
     :param deployment_scenario: The deployment scenario name
     :param vswitch_class: Reference to vSwitch class to be used.
-    :return: IVnfController for the deployment_scenario
+    :return: VnfController for the deployment_scenario
     """
-    #TODO - full mapping from all deployment_scenarios to
-    #correct controller class
-    deployment_scenario = deployment_scenario.lower()
-    if deployment_scenario.find("p2p") >= 0:
-        return VnfControllerP2P(None)
-    elif deployment_scenario.find("pvp") >= 0:
-        return VnfControllerPVP(vnf_class)
+    return VnfController(deployment_scenario, vnf_class)
 
 def create_collector(collector_class, result_dir, test_name):
     """Return a new Collector of the given class

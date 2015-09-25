@@ -63,8 +63,8 @@ to specify path to the kernel sources by WITH\_LINUX parameter:
      cd src
      make WITH_LINUX=/lib/modules/`uname -r`/build
 
-To build DPDK and OVS for PVP testing with vhost_user as the guest access
-method, use:
+To build DPDK and OVS for PVP and PVVP testing with vhost_user as the guest
+access method, use:
 
   .. code-block:: console
 
@@ -155,8 +155,8 @@ For all available options, check out the help dialog:
 
     ./vsperf --help
 
-Executing PVP tests
--------------------
+Executing PVP and PVVP tests
+----------------------------
 To run tests using vhost-user as guest access method:
 
 1. Set VHOST_METHOD and VNF of your settings file to:
@@ -212,8 +212,8 @@ OVS with DPDK and QEMU
 ~~~~~~~~~~~~~~~~~~~~~~~
 If you encounter the following error: "before (last 100 chars):
 '-path=/dev/hugepages,share=on: unable to map backing store for
-hugepages: Cannot allocate memory\r\n\r\n" with the PVP deployment
-scenario, check the amount of hugepages on your system:
+hugepages: Cannot allocate memory\r\n\r\n" with the PVP or PVVP
+deployment scenario, check the amount of hugepages on your system:
 
 .. code:: bash
 

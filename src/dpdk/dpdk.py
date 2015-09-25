@@ -302,7 +302,7 @@ def _unbind_nics_get_driver():
     for line in _output.decode(_my_encoding).split('\n'):
         for nic in settings.getValue('WHITELIST_NICS'):
             if nic in line:
-                _driver_list.append((line.split("unused=",1)[1]))
+                _driver_list.append((line.split("unused=", 1)[1]))
     return _driver_list
 
 def _unbind_nics():
@@ -325,10 +325,10 @@ def _unbind_nics():
         try:
             if nic_drivers[i] != '':
                 tasks.run_task(['sudo', RTE_PCI_TOOL, '--bind',
-                            nic_drivers[i], nic],
-                           _LOGGER, 'Binding NIC %s...' %
-                           nic,
-                           True)
+                                nic_drivers[i], nic],
+                               _LOGGER, 'Binding NIC %s...' %
+                               nic,
+                               True)
         except subprocess.CalledProcessError:
             _LOGGER.error('Unable to bind NICs %s to drivers %s',
                           str(settings.getValue('WHITELIST_NICS')),
@@ -336,23 +336,23 @@ def _unbind_nics():
 
 
 def _copy_dpdk_for_guest():
-    """Copy dpdk code to GUEST_SHARE_DIR for use by guests.
+    """Copy dpdk code to GUEST_SHARE_DIR[s] for use by guests.
     """
-    guest_share_dir = os.path.join(
-        settings.getValue('GUEST_SHARE_DIR'), 'DPDK')
+    for guest_dir in settings.getValue('GUEST_SHARE_DIR'):
+        guest_share_dir = os.path.join(guest_dir, 'DPDK')
 
-    if not os.path.exists(guest_share_dir):
-        os.makedirs(guest_share_dir)
+        if not os.path.exists(guest_share_dir):
+            os.makedirs(guest_share_dir)
 
-    try:
-        tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
-                        os.path.join(settings.getValue('RTE_SDK'), ''),
-                        guest_share_dir],
-                       _LOGGER,
-                       'Copying DPDK to shared directory...',
-                       True)
-    except subprocess.CalledProcessError:
-        _LOGGER.error('Unable to copy DPDK to shared directory')
+        try:
+            tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
+                            os.path.join(settings.getValue('RTE_SDK'), ''),
+                            guest_share_dir],
+                           _LOGGER,
+                           'Copying DPDK to shared directory...',
+                           True)
+        except subprocess.CalledProcessError:
+            _LOGGER.error('Unable to copy DPDK to shared directory')
 
 
 #

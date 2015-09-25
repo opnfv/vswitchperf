@@ -34,6 +34,8 @@ _OVS_OFCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
 
 _OVS_VAR_DIR = '/usr/local/var/run/openvswitch/'
 
+_OVS_BRIDGE_NAME = settings.getValue('VSWITCH_BRIDGE_NAME')
+
 class OFBase(object):
     """Add/remove/show datapaths using ``ovs-ofctl``.
     """
@@ -63,7 +65,7 @@ class OFBase(object):
 
     # datapath management
 
-    def add_br(self, br_name='br0'):
+    def add_br(self, br_name=_OVS_BRIDGE_NAME):
         """Add datapath.
 
         :param br_name: Name of bridge
@@ -75,7 +77,7 @@ class OFBase(object):
 
         return OFBridge(br_name, self.timeout)
 
-    def del_br(self, br_name='br0'):
+    def del_br(self, br_name=_OVS_BRIDGE_NAME):
         """Delete datapath.
 
         :param br_name: Name of bridge
@@ -89,7 +91,7 @@ class OFBase(object):
 class OFBridge(OFBase):
     """Control a bridge instance using ``ovs-vsctl`` and ``ovs-ofctl``.
     """
-    def __init__(self, br_name='br0', timeout=10):
+    def __init__(self, br_name=_OVS_BRIDGE_NAME, timeout=10):
         """Initialise bridge.
 
         :param br_name: Bridge name
@@ -126,7 +128,8 @@ class OFBridge(OFBase):
 
         :return: None
         """
-        cmd = ['sudo', _OVS_OFCTL_BIN, '-O', 'OpenFlow13', '--timeout', str(self.timeout)] + args
+        cmd = ['sudo', _OVS_OFCTL_BIN, '-O', 'OpenFlow13', '--timeout',
+               str(self.timeout)] + args
         return tasks.run_task(
             cmd, self.logger, 'Running ovs-ofctl...', check_error)
 
