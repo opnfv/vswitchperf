@@ -19,28 +19,15 @@
 # Contributors:
 #   Aihua Li, Huawei Technologies.
 
-SUBBUILDS = src_cuse src_vanilla
-.PHONY: vhost subbuilds $(SUBBUILDS)
-
-all: vhost subbuilds
-
-subbuilds: $(SUBBUILDS)
-$(SUBBUILDS): vhost
-	$(AT)mkdir -p ../$@/mk
-	$(AT)cp -rf mk/* ../$@/mk
-	$(AT)cp -rf package-list.mk ../$@/
-	$(AT)cp Makefile.$@ ../$@/Makefile
-	$(AT)$(MAKE) -C ../$@
-
-vhost:
-export VHOST_USER
 include mk/master.mk
+
+export VHOST_USER
+export WITH_LINUX
+
+# specify upstream package as SUBDIRS - common terms as suggest by gnu-make
 SUBDIRS =
-SUBDIRS += l2fwd
-SUBDIRS += dpdk
 SUBDIRS += ovs
 SUBDIRS += qemu
-ovs: dpdk
-WITH_LINUX =
-VHOST_USER = y
+WITH_LINUX=/lib/modules/`uname -r`/build
+VHOST_USER = n
 include mk/make-subsys.mk
