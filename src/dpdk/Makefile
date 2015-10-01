@@ -29,6 +29,8 @@ ifndef VHOST_USER
 endif
 WORK_DIR = dpdk
 TAG_DONE_FLAG = $(WORK_DIR)/.$(DPDK_TAG).tag.done
+DPDK_VANILLA = ../../src_vanilla/dpdk
+DPDK_CUSE = ../../src_cuse/dpdk
 
 # the name has been changed from version to version
 ifeq ($(DPDK_TAG),v1.6.0r0)
@@ -52,6 +54,7 @@ force_make: $(TAG_DONE_FLAG)
 	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_KNI=./CONFIG_RTE_LIBRTE_KNI=n/g' $(CONFIG_FILE)
 	$(AT)cd $(WORK_DIR); make install T=$(DPDK_TARGET) -j
 	$(AT)cd `dirname $(CONFIG_FILE)` && git checkout `basename $(CONFIG_FILE)` && cd -
+	$(AT)echo "VHOST_USER = $(VHOST_USER)"
 ifeq ($(VHOST_USER),n)
 	$(AT)cd $(WORK_DIR)/lib/librte_vhost/eventfd_link; make
 endif
@@ -65,6 +68,8 @@ install: $(INSTALL_TARGET)
 clean: cleanse
 clobber:
 	$(AT)rm -rf $(WORK_DIR)
+	$(AT)rm -rf $(DPDK_VANILLA)
+	$(AT)rm -rf $(DPDK_CUSE)
 
 # cleanse is for developer who would like to keep the
 # clone git repo, saving time to fetch again from url
@@ -79,6 +84,10 @@ sanity:
 
 $(WORK_DIR):
 	$(AT)git clone $(DPDK_URL)
+	$(AT)mkdir -p $(DPDK_VANILLA)
+	$(AT)cp -rf ./* $(DPDK_VANILLA)
+	$(AT)mkdir -p $(DPDK_CUSE)
+	$(AT)cp -rf ./* $(DPDK_CUSE)
 
 $(TAG_DONE_FLAG): $(WORK_DIR)
 	$(AT)cd $(WORK_DIR); git checkout $(DPDK_TAG)

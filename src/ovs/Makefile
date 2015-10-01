@@ -26,6 +26,8 @@ WORK_DIR = ovs
 TAG_DONE_FLAG = $(WORK_DIR)/.$(OVS_TAG).done
 CONFIG_CMD =
 CONFIG_CMD += ./configure
+OVS_VANILLA = ../../src_vanilla/ovs
+OVS_CUSE = ../../src_cuse/ovs
 
 # If WITH_LINUX is defined, OVS is built without DPDK but with kernel
 # module
@@ -69,6 +71,7 @@ config $(WORK_DIR)/Makefile: $(WORK_DIR)/configure
 INSTALL_TARGET = force_install force_make
 
 force_make: $(WORK_DIR)/Makefile
+	$(AT)echo "WITH_LINUX = $(WITH_LINUX)"
 	$(AT)$(MAKE) -C $(WORK_DIR) $(MORE_MAKE_FLAGS)
 	@echo "Make done"
 
@@ -82,6 +85,8 @@ install: $(INSTALL_TARGET)
 clean:
 clobber:
 	$(AT)rm -rf $(WORK_DIR)
+	$(AT)rm -rf $(OVS_VANILLA)
+	$(AT)rm -rf $(OVS_CUSE)
 
 # cleanse is for developer who would like to keep the
 # clone git repo, saving time to fetch again from url
@@ -105,6 +110,10 @@ boot $(WORK_DIR)/configure: $(TAG_DONE_FLAG)
 
 $(WORK_DIR):
 	$(AT)git clone $(OVS_URL)
+	$(AT)mkdir -p $(OVS_VANILLA)
+	$(AT)cp -rf ./* $(OVS_VANILLA)
+	$(AT)mkdir -p $(OVS_CUSE)
+	$(AT)cp -rf ./* $(OVS_CUSE)
 
 $(TAG_DONE_FLAG): $(WORK_DIR)
 	$(AT)cd ovs; git checkout $(OVS_TAG)
