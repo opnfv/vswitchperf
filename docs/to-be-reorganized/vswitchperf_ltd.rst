@@ -1659,7 +1659,9 @@ Test ID: LTD.Throughput.RFC2889.BroadcastFrameForwarding
 
     **Deployment scenario**:
 
-    -  Physical → virtual switch 3x physical.
+    -  Physical → virtual switch 3x physical. In the Broadcast rate testing,
+    four test ports are required. One of the ports is connected to the test
+    device, so it can send broadcast frames and listen for miss-routed frames.
 
 2.3.2 Packet Latency tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
