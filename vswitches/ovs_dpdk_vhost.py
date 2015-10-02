@@ -158,6 +158,12 @@ class OvsDpdkVhost(IVSwitch):
         bridge = self._bridges[switch_name]
         bridge.del_flow(flow)
 
+    def dump_flows(self, switch_name):
+        """See IVswitch for general description
+        """
+        bridge = self._bridges[switch_name]
+        bridge.dump_flows()
+
     @staticmethod
     def _get_port_count(bridge, param):
         """Returns the number of ports having a certain parameter
