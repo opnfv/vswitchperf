@@ -49,7 +49,7 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
         packet_sizes_cli = get_test_param('pkt_sizes')
         if packet_sizes_cli:
             self._packet_sizes = [int(x.strip())
-                for x in packet_sizes_cli.split(',')]
+                                  for x in packet_sizes_cli.split(',')]
         else:
             self._packet_sizes = settings.getValue('TRAFFICGEN_PKT_SIZES')
 
@@ -91,7 +91,13 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
                            str(self._traffic_gen_class))
 
         for packet_size in self._packet_sizes:
-            traffic['l2'] = {'framesize': packet_size}
+            # Merge framesize witht the default traffic definition
+            if 'l2' in traffic:
+                traffic['l2'] = dict(traffic['l2'],
+                                     **{'framesize': packet_size})
+            else:
+                traffic['l2'] = {'framesize': packet_size}
+
             if traffic['traffic_type'] == 'back2back':
                 result = self._traffic_gen_class.send_rfc2544_back2back(
                     traffic, trials=self._trials,

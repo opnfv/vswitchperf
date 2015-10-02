@@ -121,3 +121,13 @@ class IVnf(tasks.Process):
         """
         self.execute(cmd)
         self.wait(prompt=prompt, timeout=timeout)
+
+    @staticmethod
+    def reset_vnf_counter():
+        """
+        Reset internal VNF counters
+
+        This method is static
+        """
+        IVnf._number_vnfs = 0
+
