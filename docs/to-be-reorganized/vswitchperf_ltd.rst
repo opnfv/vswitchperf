@@ -1759,7 +1759,9 @@ Test ID: LTD.Scalability.RFC2544.0PacketLoss
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     **Title**: RFC 2544 0% loss Scalability throughput test
 
-    **Prerequisite Test**:
+    **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatio, IF the
+    delta Throughput between the single-flow RFC2544 test and this test with
+    a variable number of flows is desired.
 
     **Priority**:
 
@@ -1800,7 +1802,9 @@ Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     **Title**: RFC 2544 0% loss Memory Bandwidth Scalability test
 
-    **Prerequisite Tests**:
+    **Prerequisite Tests**: LTD.Throughput.RFC2544.PacketLossRatio, IF the
+    delta Throughput between an undisturbed RFC2544 test and this test with
+    the Throughput affected by cache and memory bandwidth contention is desired.
 
     **Priority**:
 
