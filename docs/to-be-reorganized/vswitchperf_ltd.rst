@@ -1757,7 +1757,7 @@ Test ID: LTD.Scalability.RFC2544.0PacketLoss
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     **Title**: RFC 2544 0% loss Scalability throughput test
 
-    **Prerequisite Test**:
+    **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatio
 
     **Priority**:
 
@@ -1798,7 +1798,7 @@ Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     **Title**: RFC 2544 0% loss Memory Bandwidth Scalability test
 
-    **Prerequisite Tests**:
+    **Prerequisite Tests**: LTD.Throughput.RFC2544.PacketLossRatio
 
     **Priority**:
 

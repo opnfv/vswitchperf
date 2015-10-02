@@ -112,3 +112,10 @@ class IVSwitch(object):
         For flow==None, all flows are deleted
         """
         raise NotImplementedError()
+
+    def dump_flows(self, switch_name):
+        """Dump flows from the logical switch
+
+        :param switch_name: The switch on which to operate
+        """
+        raise NotImplementedError()
