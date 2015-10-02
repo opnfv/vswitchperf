@@ -1701,7 +1701,17 @@ Test ID: LTD.Scalability.RFC2544.0PacketLoss
     -  64,000
     -  Max supported number of flows.
 
-    The maximum 0% packet loss throughput should be determined in a manner
+    This test will be conducted under two conditions following the
+    establishment of all flows as required by RFC 2544, regarding the flow
+    expiration time-out:
+
+    1) The time-out never expires during each trial.
+
+    2) The time-out expires for all flows periodically. This would require a
+    short time-out compared with flow re-appearance for a small number of
+    flows, and may not be possible for all flow conditions.
+
+    The maximum 0% packet loss Throughput should be determined in a manner
     identical to LTD.Throughput.RFC2544.PacketLossRatio.
 
     **Expected Result**:
