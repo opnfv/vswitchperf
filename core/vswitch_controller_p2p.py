@@ -114,3 +114,8 @@ class VswitchControllerP2P(IVswitchController):
         """
         self._logger.debug('get_ports_info  using ' + str(self._vswitch_class))
         return self._vswitch.get_ports(settings.getValue('VSWITCH_BRIDGE_NAME'))
+
+    def dump_vswitch_flows(self):
+        """See IVswitchController for description
+        """
+        self._vswitch.dump_flows(settings.getValue('VSWITCH_BRIDGE_NAME'))

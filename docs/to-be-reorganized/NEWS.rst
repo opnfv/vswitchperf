@@ -1,3 +1,9 @@
+October 2015
+==============
+New
+---
+- Support of PVP and PVVP deployment scenarios using Vanilla OVS
+
 September 2015
 ==============
 New
@@ -63,4 +69,3 @@ Missing
 -------
 
 -  xmlunit output is currently disabled
--  VNF support.

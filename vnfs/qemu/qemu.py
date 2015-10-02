@@ -41,13 +41,7 @@ class IVnfQemu(IVnf):
 
     def __init__(self):
         """
-        :param timeout: Time to wait for login prompt. If set to
-            0 do not wait.
-        :param number: Number of QEMU instance, used when multiple QEMU
-            instances are started at once.
-        :param args: Arguments to pass to QEMU.
-
-        :returns: None
+        Initialisation function.
         """
         super(IVnfQemu, self).__init__()
         self._logger = logging.getLogger(__name__)
@@ -67,9 +61,6 @@ class IVnfQemu(IVnf):
                      '-cpu', 'host',
                      '-drive', 'if=scsi,file=' +
                      S.getValue('GUEST_IMAGE')[self._number],
-                     '-drive',
-                     'if=scsi,file=fat:rw:%s,snapshot=off' %
-                     S.getValue('GUEST_SHARE_DIR')[self._number],
                      '-boot', 'c', '--enable-kvm',
                      '-monitor', 'unix:%s,server,nowait' % self._monitor,
                      '-object',
@@ -104,7 +95,8 @@ class IVnfQemu(IVnf):
         Start QEMU instance, login and prepare for commands.
         """
         super(IVnfQemu, self).start()
-        self._affinitize()
+        if S.getValue('VNF_AFFINITIZATION_ON'):
+            self._affinitize()
 
         if self._timeout:
             self._login()

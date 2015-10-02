@@ -15,6 +15,7 @@
 """
 
 import logging
+from vnfs.vnf.vnf import IVnf
 
 class VnfController(object):
     """VNF controller class
@@ -33,6 +34,10 @@ class VnfController(object):
 
         :param vnf_class: The VNF class to be used.
         """
+        # reset VNF ID counter for each testcase
+        IVnf.reset_vnf_counter()
+
+        # setup controller with requested number of VNFs
         self._logger = logging.getLogger(__name__)
         self._vnf_class = vnf_class
         self._deployment_scenario = deployment_scenario.upper()
