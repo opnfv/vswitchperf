@@ -1812,17 +1812,20 @@ Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
     random data to random addresses in unused physical memory. The random
     nature of the data and addresses is intended to consume cache, exercise
     main memory access (as opposed to cache) and exercise all memory buses
-    equally. Furthermore: - the ratio of reads to writes should be recorded.
-    A ratio of 1:1 SHOULD be used. - the reads and writes MUST be of
-    cache-line size and be cache-line aligned. - in NUMA architectures
-    memory access SHOULD be local to the core's node. Whether only local
-    memory or a mix of local and remote memory is used MUST be recorded. -
-    the memory bandwidth (reads plus writes) used per-core MUST be recorded;
-    the test MUST be run with a per-core memory bandwidth equal to half the
-    maximum system memory bandwidth divided by the number of cores. The test
-    MAY be run with other values for the per-core memory bandwidth. - the
-    test MAY also be run with the memory intensive application running on
-    all cores.
+    equally. Furthermore: 
+
+    - the ratio of reads to writes should be recorded. A ratio of 1:1 
+      SHOULD be used. 
+    - the reads and writes MUST be of cache-line size and be cache-line aligned.
+    - in NUMA architectures memory access SHOULD be local to the core's node. 
+      Whether only local memory or a mix of local and remote memory is used 
+      MUST be recorded. 
+    - the memory bandwidth (reads plus writes) used per-core MUST be recorded;
+      the test MUST be run with a per-core memory bandwidth equal to half the
+      maximum system memory bandwidth divided by the number of cores. The test
+      MAY be run with other values for the per-core memory bandwidth. 
+    - the test MAY also be run with the memory intensive application running 
+      on all cores.
 
     Under these conditions the DUT's 0% packet loss throughput is determined
     as per LTD.Throughput.RFC2544.PacketLossRatio.

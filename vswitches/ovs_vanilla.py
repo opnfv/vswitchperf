@@ -20,7 +20,9 @@ from conf import settings
 from vswitches.vswitch import IVSwitch
 from src.ovs import VSwitchd, OFBridge
 from tools.module_manager import ModuleManager, KernelModuleInsertMode
+from tools import tasks
 
+_LOGGER = logging.getLogger(__name__)
 VSWITCHD_CONST_ARGS = ['--', '--log-file']
 
 class OvsVanilla(IVSwitch):
@@ -36,6 +38,7 @@ class OvsVanilla(IVSwitch):
     _logger = logging.getLogger()
     _ports = settings.getValue('VSWITCH_VANILLA_PHY_PORT_NAMES')
     _current_id = 0
+    _vport_id = 0
 
     def __init__(self):
         #vswitchd_args = VSWITCHD_CONST_ARGS
@@ -62,8 +65,17 @@ class OvsVanilla(IVSwitch):
 
         Kills ovsdb and vswitchd and removes kernel modules.
         """
+        # remove all tap interfaces
+        for i in range(self._vport_id):
+            tapx = 'tap' + str(i)
+            tasks.run_task(['sudo', 'ip', 'tuntap', 'del',
+                            tapx, 'mode', 'tap'],
+                           _LOGGER, 'Deleting ' + tapx, False)
+        self._vport_id = 0
+
         self._vswitchd.kill()
         self._module_manager.remove_modules()
+
 
     def add_switch(self, switch_name):
         """See IVswitch for general description
@@ -94,16 +106,47 @@ class OvsVanilla(IVSwitch):
                                "defined in config!")
             raise
 
+        if not self._ports[self._current_id]:
+            self._logger.error("VSWITCH_VANILLA_PHY_PORT_NAMES not set")
+            raise ValueError("Invalid VSWITCH_VANILLA_PHY_PORT_NAMES")
+
         bridge = self._bridges[switch_name]
         port_name = self._ports[self._current_id]
         params = []
+
+        # For PVP only
+        tasks.run_task(['sudo', 'ifconfig', port_name, '0'],
+                       _LOGGER, 'Remove IP', False)
+
         of_port = bridge.add_port(port_name, params)
         self._current_id += 1
         return (port_name, of_port)
 
     def add_vport(self, switch_name):
-        """See IVswitch for general description"""
-        raise NotImplementedError("Not implemented for Vanilla OVS.")
+        """
+        Method adds virtual port into OVS vanilla
+
+        See IVswitch for general description
+        """
+        # Create tap devices for the VM
+        tap_name = 'tap' + str(self._vport_id)
+        self._vport_id += 1
+
+        tasks.run_task(['sudo', 'ip', 'tuntap', 'del',
+                        tap_name, 'mode', 'tap'],
+                       _LOGGER, 'Creating tap device...', False)
+
+        tasks.run_task(['sudo', 'ip', 'tuntap', 'add',
+                        tap_name, 'mode', 'tap'],
+                       _LOGGER, 'Creating tap device...', False)
+
+        tasks.run_task(['sudo', 'ifconfig', tap_name, '0'],
+                       _LOGGER, 'Bring up ' + tap_name, False)
+
+        bridge = self._bridges[switch_name]
+        of_port = bridge.add_port(tap_name, [])
+        return (tap_name, of_port)
+
 
     def get_ports(self, switch_name):
         """See IVswitch for general description
@@ -130,3 +173,9 @@ class OvsVanilla(IVSwitch):
         flow = flow or {}
         bridge = self._bridges[switch_name]
         bridge.del_flow(flow)
+
+    def dump_flows(self, switch_name):
+        """See IVswitch for general description
+        """
+        bridge = self._bridges[switch_name]
+        bridge.dump_flows()
