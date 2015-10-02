@@ -23,7 +23,7 @@ from core.results.results_constants import ResultsConstants
 import core.component_factory as component_factory
 from core.loader import Loader
 from tools.report import report
-from conf import settings
+from conf import settings as S
 
 class TestCase(object):
     """TestCase base class
@@ -92,12 +92,25 @@ class TestCase(object):
                            'bidir': self._bidir,
                            'multistream': self._multistream}
 
+                # OVS Vanilla requires guest VM MAC address and IPs
+                # to work
+                if (self.deployment in ["pvp", "pvvp"] and
+                        S.getValue('VSWITCH') == "OvsVanilla"):
+
+                    traffic['l2'] = {'srcmac': S.getValue('GUEST_NET2_MAC')[0],
+                                     'dstmac': S.getValue('GUEST_NET1_MAC')[0]}
+
+                    traffic['l3'] = {'srcip':
+                                     S.getValue('VANILLA_TGEN_PORT1_IP'),
+                                     'dstip':
+                                     S.getValue('VANILLA_TGEN_PORT2_IP')}
+
                 vswitch = vswitch_ctl.get_vswitch()
                 # TODO BOM 15-08-07 the frame mod code assumes that the
                 # physical ports are ports 1 & 2. The actual numbers
                 # need to be retrived from the vSwitch and the metadata value
                 # updated accordingly.
-                bridge = settings.getValue('VSWITCH_BRIDGE_NAME')
+                bridge = S.getValue('VSWITCH_BRIDGE_NAME')
                 if self._frame_mod == "vlan":
                     # 0x8100 => VLAN ethertype
                     self._logger.debug(" ****   VLAN   ***** ")
@@ -177,6 +190,9 @@ class TestCase(object):
 
                 with traffic_ctl:
                     traffic_ctl.send_traffic(traffic)
+
+                # dump vswitch flows before they are affected by VNF termination
+                vswitch_ctl.dump_vswitch_flows()
 
         self._logger.debug("Traffic Results:")
         traffic_ctl.print_results()
