@@ -702,7 +702,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -frEncapsulation ::ixNet::OBJ-null \
      -incrementPerVcVlanMode noIncrement \
      -incrementVlanMode noIncrement \
-     -mac "00:00:00:00:00:01" \
+     -mac $srcMac \
      -macRangeMode normal \
      -numberOfVcs 1 \
      -siteId 0 \
@@ -1082,7 +1082,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -frEncapsulation ::ixNet::OBJ-null \
      -incrementPerVcVlanMode noIncrement \
      -incrementVlanMode noIncrement \
-     -mac "00:01:00:05:08:00" \
+     -mac $dstMac \
      -macRangeMode normal \
      -numberOfVcs 1 \
      -siteId 0 \
@@ -2046,14 +2046,14 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.srcIp-27"
     ixNet setMultiAttrs $sg_field \
-     -singleValue {1.1.1.1} \
+     -singleValue $srcIp \
      -seed {1} \
      -optionalEnabled True \
      -fullMesh False \
      -valueList {{0.0.0.0}} \
      -stepValue {0.0.0.0} \
      -fixedBits {0.0.0.0} \
-     -fieldValue {1.1.1.1} \
+     -fieldValue $srcIp \
      -auto False \
      -randomMask {0.0.0.0} \
      -trackingEnabled False \
@@ -2069,14 +2069,14 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.dstIp-28"
     ixNet setMultiAttrs $sg_field \
-     -singleValue {90.90.90.90} \
+     -singleValue $dstIp \
      -seed {1} \
      -optionalEnabled True \
      -fullMesh False \
      -valueList {{0.0.0.0}} \
      -stepValue {0.0.0.0} \
      -fixedBits {0.0.0.0} \
-     -fieldValue {90.90.90.90} \
+     -fieldValue $dstIp \
      -auto False \
      -randomMask {0.0.0.0} \
      -trackingEnabled False \
@@ -3681,7 +3681,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.srcIp-27"
     ixNet setMultiAttrs $sg_field \
-     -singleValue {1.1.1.1} \
+     -singleValue $srcIp \
      -seed {1} \
      -optionalEnabled True \
      -fullMesh False \
@@ -3704,14 +3704,14 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.dstIp-28"
     ixNet setMultiAttrs $sg_field \
-     -singleValue {90.90.90.90} \
+     -singleValue $dstIp \
      -seed {1} \
      -optionalEnabled True \
      -fullMesh False \
      -valueList {{0.0.0.0}} \
      -stepValue {0.0.0.0} \
      -fixedBits {0.0.0.0} \
-     -fieldValue {90.90.90.90} \
+     -fieldValue $dstIp \
      -auto False \
      -randomMask {0.0.0.0} \
      -trackingEnabled False \

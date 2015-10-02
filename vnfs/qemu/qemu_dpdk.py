@@ -25,16 +25,13 @@ class IVnfQemuDpdk(IVnfQemu):
 
     def __init__(self):
         """
-        :param timeout: Time to wait for login prompt. If set to
-            0 do not wait.
-        :param number: Number of QEMU instance, used when multiple QEMU
-            instances are started at once.
-        :param args: Arguments to pass to QEMU.
-
-        :returns: None
+        Initialisation function.
         """
         super(IVnfQemuDpdk, self).__init__()
-        self._cmd += []
+        self._cmd += ['-drive',
+                      'if=scsi,file=fat:rw:%s,snapshot=off' %
+                      S.getValue('GUEST_SHARE_DIR')[self._number],
+                     ]
 
     def _modify_dpdk_makefile(self):
         """
