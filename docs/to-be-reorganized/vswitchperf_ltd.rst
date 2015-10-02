@@ -1781,6 +1781,10 @@ Test ID: LTD.Scalability.RFC2544.0PacketLoss
     -  64,000
     -  Max supported number of flows.
 
+    The tester must be cautious to ensure that all flows are learned before
+    running Throughput testing, and no flows can be allowed to time-out
+    during the test.
+
     The maximum 0% packet loss throughput should be determined in a manner
     identical to LTD.Throughput.RFC2544.PacketLossRatio.
 
