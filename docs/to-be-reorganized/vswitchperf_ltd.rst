@@ -1501,90 +1501,6 @@ Test ID: LTD.Throughput.RFC2889.ForwardPressure
 
     -  Physical → virtual switch → physical.
 
-Test ID: LTD.Throughput.RFC2889.AddressCachingCapacity
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    **Title**: RFC2889 Address Caching Capacity Test
-
-    **Prerequisite Test**: N/A
-
-    **Priority**:
-
-    **Description**:
-
-    Please note this test is only applicable to switches that are capable of
-    MAC learning. The aim of this test is to determine the address caching
-    capacity of the DUT for a constant load (fixed length frames at a fixed
-    interval time). The selected frame sizes are those previously defined
-    under `Default Test Parameters <#DefaultParams>`__.
-
-    In order to run this test the aging time, that is the maximum time the
-    DUT will keep a learned address in its flow table, and a set of initial
-    addresses, whose value should be >= 1 and <= the max number supported by
-    the implementation must be known. Please note that if the aging time is
-    configurable it must be longer than the time necessary to produce frames
-    from the external source at the specified rate. If the aging time is
-    fixed the frame rate must be brought down to a value that the external
-    source can produce in a time that is less than the aging time.
-
-    Learning Frames should be sent from an external source to the DUT to
-    install a number of flows. The Learning Frames must have a fixed
-    destination address and must vary the source address of the frames. The
-    DUT should install flows in its flow table based on the varying source
-    addresses. Frames should then be transmitted from an external source at
-    a suitable frame rate to see if the DUT has properly learned all of the
-    addresses. If there is no frame loss and no flooding, the number of
-    addresses sent to the DUT should be increased and the test is repeated
-    until the max number of cached addresses supported by the DUT
-    determined.
-
-    **Expected Result**:
-
-    **Metrics collected**:
-
-    The following are the metrics collected for this test:
-
-    -  Number of cached addresses supported by the DUT.
-    -  CPU and memory utilization may also be collected as part of this
-       test, to determine the vSwitch's performance footprint on the system.
-
-    **Deployment scenario**:
-
-    -  Physical → virtual switch → 2 x physical (one receiving, one listening).
-
-Test ID: LTD.Throughput.RFC2889.AddressLearningRate
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    **Title**: RFC2889 Address Learning Rate Test
-
-    **Prerequisite Test**: LTD.Memory.RFC2889.AddressCachingCapacity
-
-    **Priority**:
-
-    **Description**:
-
-    Please note this test is only applicable to switches that are capable of
-    MAC learning. The aim of this test is to determine the rate of address
-    learning of the DUT for a constant load (fixed length frames at a fixed
-    interval time). The selected frame sizes are those previously defined
-    under `Default Test Parameters <#DefaultParams>`__, traffic should be
-    sent with each IPv4/IPv6 address incremented by one. The rate at which
-    the DUT learns a new address should be measured. The maximum caching
-    capacity from LTD.Memory.RFC2889.AddressCachingCapacity should be taken
-    into consideration as the maximum number of addresses for which the
-    learning rate can be obtained.
-
-    **Expected Result**: It may be worthwhile to report the behaviour when
-    operating beyond address capacity - some DUTs may be more friendly to
-    new addresses than others.
-
-    **Metrics collected**:
-
-    The following are the metrics collected for this test:
-
-    -  The address learning rate of the DUT.
-
-    **Deployment scenario**:
-
-    -  Physical → virtual switch → 2 x physical (one receiving, one listening).
 
 Test ID: LTD.Throughput.RFC2889.ErrorFramesFiltering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1835,6 +1751,97 @@ Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
 
     -  The DUT's 0% packet loss throughput in the presence of cache sharing and memory bandwidth between processes.
 
+2.3.4 Activation tests
+~~~~~~~~~~~~~~~~~~~~~~~~
+The general aim of these tests is to understand the capacity of the
+and speed with which the vswitch can accomodate new flows.
+
+Test ID: LTD.Activation.RFC2889.AddressCachingCapacity
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    **Title**: RFC2889 Address Caching Capacity Test
+
+    **Prerequisite Test**: N/A
+
+    **Priority**:
+
+    **Description**:
+
+    Please note this test is only applicable to switches that are capable of
+    MAC learning. The aim of this test is to determine the address caching
+    capacity of the DUT for a constant load (fixed length frames at a fixed
+    interval time). The selected frame sizes are those previously defined
+    under `Default Test Parameters <#DefaultParams>`__.
+
+    In order to run this test the aging time, that is the maximum time the
+    DUT will keep a learned address in its flow table, and a set of initial
+    addresses, whose value should be >= 1 and <= the max number supported by
+    the implementation must be known. Please note that if the aging time is
+    configurable it must be longer than the time necessary to produce frames
+    from the external source at the specified rate. If the aging time is
+    fixed the frame rate must be brought down to a value that the external
+    source can produce in a time that is less than the aging time.
+
+    Learning Frames should be sent from an external source to the DUT to
+    install a number of flows. The Learning Frames must have a fixed
+    destination address and must vary the source address of the frames. The
+    DUT should install flows in its flow table based on the varying source
+    addresses. Frames should then be transmitted from an external source at
+    a suitable frame rate to see if the DUT has properly learned all of the
+    addresses. If there is no frame loss and no flooding, the number of
+    addresses sent to the DUT should be increased and the test is repeated
+    until the max number of cached addresses supported by the DUT
+    determined.
+
+    **Expected Result**:
+
+    **Metrics collected**:
+
+    The following are the metrics collected for this test:
+
+    -  Number of cached addresses supported by the DUT.
+    -  CPU and memory utilization may also be collected as part of this
+       test, to determine the vSwitch's performance footprint on the system.
+
+    **Deployment scenario**:
+
+    -  Physical → virtual switch → 2 x physical (one receiving, one listening).
+
+Test ID: LTD.Activation.RFC2889.AddressLearningRate
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    **Title**: RFC2889 Address Learning Rate Test
+
+    **Prerequisite Test**: LTD.Memory.RFC2889.AddressCachingCapacity
+
+    **Priority**:
+
+    **Description**:
+
+    Please note this test is only applicable to switches that are capable of
+    MAC learning. The aim of this test is to determine the rate of address
+    learning of the DUT for a constant load (fixed length frames at a fixed
+    interval time). The selected frame sizes are those previously defined
+    under `Default Test Parameters <#DefaultParams>`__, traffic should be
+    sent with each IPv4/IPv6 address incremented by one. The rate at which
+    the DUT learns a new address should be measured. The maximum caching
+    capacity from LTD.Memory.RFC2889.AddressCachingCapacity should be taken
+    into consideration as the maximum number of addresses for which the
+    learning rate can be obtained.
+
+    **Expected Result**: It may be worthwhile to report the behaviour when
+    operating beyond address capacity - some DUTs may be more friendly to
+    new addresses than others.
+
+    **Metrics collected**:
+
+    The following are the metrics collected for this test:
+
+    -  The address learning rate of the DUT.
+
+    **Deployment scenario**:
+
+    -  Physical → virtual switch → 2 x physical (one receiving, one listening).
+
+
 2.3.5 Coupling between control path and datapath Tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The following tests aim to determine how tightly coupled the datapath
@@ -1888,7 +1895,7 @@ Test ID: LTD.CPDPCouplingFlowAddition
 
     -  Physical → virtual switch → physical.
 
-2.3.4 CPU and memory consumption
+2.3.6 CPU and memory consumption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The following tests will profile a virtual switch's CPU and memory
 utilization under various loads and circumstances. The following
@@ -1927,7 +1934,7 @@ Test ID: LTD.CPU.RFC2544.0PacketLoss
     -  The configuration of the stress tool (for example the command line
        parameters used to start it.)
 
-2.3.9 Summary List of Tests
+2.3.7 Summary List of Tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1. Throughput tests
 
@@ -1941,8 +1948,6 @@ Test ID: LTD.CPU.RFC2544.0PacketLoss
   - Test ID: LTD.Throughput.RFC6201.ResetTime
   - Test ID: LTD.Throughput.RFC2889.MaxForwardingRate
   - Test ID: LTD.Throughput.RFC2889.ForwardPressure
-  - Test ID: LTD.Throughput.RFC2889.AddressCachingCapacity
-  - Test ID: LTD.Throughput.RFC2889.AddressLearningRate
   - Test ID: LTD.Throughput.RFC2889.ErrorFramesFiltering
   - Test ID: LTD.Throughput.RFC2889.BroadcastFrameForwarding
 
@@ -1956,10 +1961,15 @@ Test ID: LTD.CPU.RFC2544.0PacketLoss
   - Test ID: LTD.Scalability.RFC2544.0PacketLoss
   - Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
 
-4. Coupling between control path and datapath Tests
+4. Acivation tests
+
+  - Test ID: LTD.Activation.RFC2889.AddressCachingCapacity
+  - Test ID: LTD.Activation.RFC2889.AddressLearningRate
+
+5. Coupling between control path and datapath Tests
 
   - Test ID: LTD.CPDPCouplingFlowAddition
 
-5. CPU and memory consumption
+6. CPU and memory consumption
 
   - Test ID: LTD.CPU.RFC2544.0PacketLoss
