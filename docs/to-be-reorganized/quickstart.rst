@@ -203,7 +203,45 @@ To run tests using vhost-cuse as guest access method:
 
      ./vsperf --conf-file <path_to_settings_py>
 
+Executing PVP tests using Vanilla OVS
+-------------------------------------
+To run tests using Vanilla OVS:
 
+1. Set the following variables:
+
+  .. code-block:: console
+
+   VSWITCH = 'OvsVanilla'
+   VNF = 'QemuVirtioNet'
+
+   VANILLA_TGEN_PORT1_IP = n.n.n.n
+   VANILLA_TGEN_PORT1_MAC = nn:nn:nn:nn:nn:nn
+
+   VANILLA_TGEN_PORT2_IP = n.n.n.n
+   VANILLA_TGEN_PORT2_MAC = nn:nn:nn:nn:nn:nn
+
+   VANILLA_BRIDGE_IP = n.n.n.n
+
+   or use --test-param
+
+   ./vsperf --conf-file user_settings.py
+            --test-param "vanilla_tgen_tx_ip=n.n.n.n;
+                          vanilla_tgen_tx_mac=nn:nn:nn:nn:nn:nn"
+
+
+2. Recompile src for Vanilla OVS testing
+
+  .. code-block:: console
+
+     cd src
+     make cleanse
+     make WITH_LINUX=/lib/modules/`uname -r`/build
+
+3. Run test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file <path_to_settings_py>
 
 GOTCHAs:
 --------

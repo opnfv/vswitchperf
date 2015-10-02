@@ -49,3 +49,10 @@ class IVswitchController(object):
         raise NotImplementedError(
             "The VswitchController does not implement the \"get_ports_info\" "
             "function.")
+
+    def dump_vswitch_flows(self):
+        """ Dumps flows from vswitch
+        """
+        raise NotImplementedError(
+            "The VswitchController does not implement the "
+            "\"dump_vswitch_flows\" function.")
