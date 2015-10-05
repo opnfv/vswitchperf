@@ -53,6 +53,7 @@ ifeq ($(DPDK_TARGET),)
 DPDK_TARGET = x86_64-native-linuxapp-gcc
 endif
 CONFIG_CMD += --with-dpdk=$(DPDK_DIR)/$(DPDK_TARGET)
+CONFIG_CMD += CFLAGS="-g -O2 -Wno-cast-align"
 
 endif # Kernel vs. DPDK
 
