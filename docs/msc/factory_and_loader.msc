@@ -1,0 +1,17 @@
+
+msc {
+
+hscale = "1.5";
+
+ #Entities
+  app, loader, component_factory, traffic_ctlr;
+
+  #Arcs
+  app => loader [label = "get_trafficgen_class()"];
+  loader note loader [label = "searches TRAFFICGEN_DIR for classes implementing ITraffic and matching name configured as TRAFFICGEN"];
+  app << loader [label = "TrafficGenClass"];
+  app => component_factory [label = "create_traffic(traffic_type, TrafficGenClass"];
+  component_factory note component_factory [label = "Component Factory maps from a traffic_type (string) to a TrafficController class"];
+  component_factory => traffic_ctlr [label = "create()"];
+  app << component_factory [label= "traffic_ctlr"];
+ }

@@ -1,0 +1,47 @@
+msc {
+  #Options
+  hscale = "2.0";
+
+  #Entities
+  vsperf, testcase, vnf_ctl, vnf, vswitch_ctl, vswitch, traffic_ctl, traffic_gen, load_gen;
+
+  #Arcs
+  vsperf note vsperf [ label = "$ ./vsperf pvp_tput" ];
+  vsperf note vsperf [ label = " foreach test specified" ];
+  vsperf => testcase [ label="run()" ];
+  --- [ label = " skipping details of finding and creating correct subclasses of IVSwitch, ITrafficGenerator etc." ];
+  testcase => vswitch_ctl [ label="create(vswitch_class" ];
+  vswitch_ctl note vswitch_ctl [ label="vswitch_ctl is instance of VswitchControllerPvp"];
+  testcase => vnf_ctl [ label="create(vnf_class)" ];
+  vnf_ctl note vnf_ctl [ label="vnf_ctl is instance of VnfControllerPvp"];
+  testcase => traffic_ctl [ label="create()" ];
+  traffic_ctl note traffic_ctl [ label="traffic_ctl is instance of TrafficControllerRFC2544"];
+  |||;
+  testcase note testcase [ label="Python context management protocol __enter__, __exit__ is used to start/stop controllers"];
+  testcase => vswitch_ctl [ label="__enter__()"];
+  vswitch_ctl => vswitch [ label ="create()"];
+  vswitch note vswitch [label="vswitch is instance of OvsDpdkVhost"];
+  vswitch_ctl => vswitch [ label="add_phy_port()" ];
+  vswitch_ctl => vswitch [ label="add_vport()" ];
+  vswitch_ctl => vswitch [ label="add_flow()" ];
+  --- [ label = " skipping full details of switch configuration " ];
+  |||;
+  testcase => vnf_ctl [ label="__enter__()"];
+  vnf_ctl => vnf [ label="create()"];
+  |||;
+  testcase => load_gen [ label="create/start()" ];
+  load_gen note load_gen [ label="loadgen simulates system load using 'stress' tool "];
+  |||;
+  testcase => traffic_ctl [ label="send_traffic(traffic)" ];
+  traffic_ctl note traffic_ctl [ label="'traffic' specifies the 'Traffic Type' from 01_testcases.conf as well as other traffic details" ];
+  traffic_ctl => traffic_gen [label="send_rfc2544_throughput()"];
+  traffic_gen note traffic_gen [label="The implementation is dependent on the vendor specific Traffic Gen used"];
+  |||;
+  traffic_ctl << traffic_gen [label="returns results as str:value pairs"];
+  testcase << traffic_ctl;
+  testcase => traffic_ctl [label="get_results()"];
+  testcase => testcase [label="write_result_to_file()"];
+  |||;
+  |||;
+}
+   
