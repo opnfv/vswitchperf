@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_9563271a",
+        "filename": "docs/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1651
+      },
+      "writtenOn": "2015-10-08T14:55:19Z",
+      "side": 1,
+      "message": "IVnf is 3rd in the bullet list, above, and 2nd in this list. Woudl be a pinch easier to read if the order was consistent.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 4
+      },
+      "revId": "df2dc7593fa787450609b58677788d72d246735a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
