@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "da6255ed_155e1746",
+        "filename": "docs/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-10-08T15:29:50Z",
+      "side": 1,
+      "message": "Suggest longer title: Configuration Procedure and Precedence  (because the file name structure allows ordered config file processing, while --conf-file has true precedence over every NN_name.conf file).",
+      "revId": "df2dc7593fa787450609b58677788d72d246735a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_1525f7c1",
+        "filename": "docs/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-10-08T15:29:50Z",
+      "side": 1,
+      "message": "I realize this is documenting \"what is, not what could be\" but there seems to be a need for a control port, for flow control traffic (OpenFlow for example).\n\nBUT, maybe it\u0027s just not clear to me (yet) how the vSwitch Controller expresses connectivity...",
+      "revId": "df2dc7593fa787450609b58677788d72d246735a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da6255ed_9563271a",
         "filename": "docs/vswitchperf_design.rst",
         "patchSetId": 1
