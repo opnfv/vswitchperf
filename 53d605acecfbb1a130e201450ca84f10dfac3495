@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_c81c626d",
+        "filename": "core/traffic_controller_rfc2544.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1651
+      },
+      "writtenOn": "2015-10-08T16:07:43Z",
+      "side": 1,
+      "message": "\"with\" :-)",
+      "range": {
+        "startLine": 94,
+        "startChar": 30,
+        "endLine": 94,
+        "endChar": 35
+      },
+      "revId": "53d605acecfbb1a130e201450ca84f10dfac3495",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
