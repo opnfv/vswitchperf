@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "da6255ed_6831f6a1",
+        "filename": "docs/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-10-08T21:48:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da6255ed_155e1746",
+      "revId": "df2dc7593fa787450609b58677788d72d246735a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da6255ed_1525f7c1",
         "filename": "docs/vswitchperf_design.rst",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2015-10-08T15:29:50Z",
       "side": 1,
       "message": "I realize this is documenting \"what is, not what could be\" but there seems to be a need for a control port, for flow control traffic (OpenFlow for example).\n\nBUT, maybe it\u0027s just not clear to me (yet) how the vSwitch Controller expresses connectivity...",
+      "revId": "df2dc7593fa787450609b58677788d72d246735a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_68d8d653",
+        "filename": "docs/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-10-08T21:48:02Z",
+      "side": 1,
+      "message": "Hi Al,\n\nthe confusion is probably in the terminology. When we say vSwitchController we don\u0027t mean in the OpenFlow sense. (This naming clash never occurred to me until now!). We just mean it in the sense of something that controls the vSwitch. Effectively in VSPERF the main job of the vSwitch Controller is to set up the the switch\u0027s flows in order to acheive the P2P/PVP/PVVP topology. \n\nSo the vSwitchController ends up calling add_xxx_port and add_flow in IVSwitch - or rather in something that implements IVSwitch. Currently that \u0027thing\u0027 is either Vanilla OVS or DPDK OVS. But could in future be another type of vSwitch.",
+      "parentUuid": "da6255ed_1525f7c1",
       "revId": "df2dc7593fa787450609b58677788d72d246735a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -70,6 +106,24 @@
         "endLine": 105,
         "endChar": 4
       },
+      "revId": "df2dc7593fa787450609b58677788d72d246735a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_882c2a4c",
+        "filename": "docs/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-10-08T21:48:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da6255ed_9563271a",
       "revId": "df2dc7593fa787450609b58677788d72d246735a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
