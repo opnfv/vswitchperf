@@ -1,0 +1,30 @@
+
+# mscgen file
+msc {
+  #Options
+  hscale = "1.5";
+
+  #Entities
+  testcase, traffic_ctlr, traffic_gen, traffic_defaults, HwSwTrafficGen;
+
+  #Arcs
+  HwSwTrafficGen note HwSwTrafficGen [ label = "Ixia, Spirent, Xena, Moongen, etc."];
+  testcase => traffic_ctlr [ label = "create(traffic_gen_class)" ];
+  traffic_ctlr => traffic_gen [label = "create()"];
+  traffic_ctlr => traffic_gen [label = "connect()"];
+  testcase => traffic_ctlr [ label = "send_traffic(traffic)" ];
+  --- [ label = "foreach packet_size in configuration"];
+  traffic_ctlr note traffic_ctlr [ label = "invokes send_rfc2544_back2back/tput or send_cont based on traffic['traffic_type']; Also fetches duration/trials from config" ];
+  traffic_ctlr => traffic_gen [ label = "send_rfc2544_tput(traffic, ...)" ];
+  traffic_gen -> traffic_gen [ label = "start_rfc2544_tput(traffic)" ];
+  traffic_gen => traffic_defaults [ label = "default_traffic_params = read()" ];
+  traffic_gen note traffic_gen [ label = "merge traffic with default_traffic_params)" ];
+  traffic_gen note traffic_gen [ label = "Actual test starts here. Details of interactions between traffic_gen class actual traffic generator (HwSwTrafficGen) are hidden to vsperf"];
+  traffic_gen <=> HwSwTrafficGen [ label = "..."];
+  traffic_gen => traffic_gen [ label = "wait_rfc2544_throughput()"];
+  traffic_ctlr << traffic_gen [ label = "results (string/value pairs)"];  
+  traffic_ctlr note traffic_ctlr [ label = "store_results()" ];
+  --- [ label = "end foreach"];  
+  testcase => traffic_ctlr [label = "get_results()"];
+  testcase => testcase [label = "write_results_to_file"];
+}
