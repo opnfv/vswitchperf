@@ -104,7 +104,7 @@ def generate(input_file, tc_results, tc_stats):
             'tests': tests,
         }
 
-        output_text = template.render(template_vars)
+        output_text = template.render(template_vars) #pylint: disable=no-member
         with open(output_file, 'w') as file_:
             file_.write(output_text)
             logging.info('Test report written to "%s"', output_file)
