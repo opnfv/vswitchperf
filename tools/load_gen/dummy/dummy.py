@@ -26,6 +26,6 @@ class DummyLoadGen(ILoadGenerator):
         """Start stress load if it was requested"""
         pass
 
-    def kill(self):
+    def kill(self, signal='-15', sleep=2):
         """Kill stress load if it is active"""
         pass
