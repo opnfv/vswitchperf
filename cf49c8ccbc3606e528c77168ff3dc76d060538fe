@@ -16,6 +16,24 @@
       "revId": "cf49c8ccbc3606e528c77168ff3dc76d060538fe",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_462bc330",
+        "filename": "docs/to-be-reorganized/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-10-12T16:00:28Z",
+      "side": 1,
+      "message": "I think it\u0027s important to mention the full-mesh aspect that is unique to 2889. But this is also a minimum deployment scenario, just like many of the others.  For example, I can \nmeasure RFC 2544 with multiple passes through the vSwitch when there \"minimal\" VNFs in the path, and derive a look at the logical port performance compared to physical.\n\nAnother point, maybe we should reference the PVP terminology in a future release?",
+      "parentUuid": "da6255ed_c668d389",
+      "revId": "cf49c8ccbc3606e528c77168ff3dc76d060538fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
