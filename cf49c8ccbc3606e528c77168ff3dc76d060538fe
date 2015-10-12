@@ -34,6 +34,24 @@
       "revId": "cf49c8ccbc3606e528c77168ff3dc76d060538fe",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_061dcb0f",
+        "filename": "docs/to-be-reorganized/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-10-12T16:25:07Z",
+      "side": 1,
+      "message": "Mea-culpa, I was under the impression that *all* tests had at least one deployment scenario, but checking the LTD I see that\u0027s not the case.  \n\nNevertheless, RFC2889 full mesh was mostly intended for switches (alone), so like other 2889 tests, I still think we should add this Scenario.",
+      "parentUuid": "da6255ed_462bc330",
+      "revId": "cf49c8ccbc3606e528c77168ff3dc76d060538fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
