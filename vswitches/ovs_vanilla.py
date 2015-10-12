@@ -42,7 +42,7 @@ class OvsVanilla(IVSwitch):
 
     def __init__(self):
         #vswitchd_args = VSWITCHD_CONST_ARGS
-        vswitchd_args = ["unix:%s" % VSwitchd.getDbSockPath()]
+        vswitchd_args = ["unix:%s" % VSwitchd.get_db_sock_path()]
         vswitchd_args += settings.getValue('VSWITCHD_VANILLA_ARGS')
         self._vswitchd = VSwitchd(vswitchd_args=vswitchd_args,
                                   expected_cmd="db.sock: connected")

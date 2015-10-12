@@ -318,9 +318,8 @@ def _unbind_nics():
     except subprocess.CalledProcessError:
         _LOGGER.error('Unable to unbind NICs %s',
                       str(settings.getValue('WHITELIST_NICS')))
-    '''Rebind NICs to their original drivers
-       using the Intel DPDK ``dpdk_nic_bind.py`` tool.
-    '''
+    # Rebind NICs to their original drivers
+    # using the Intel DPDK ``dpdk_nic_bind.py`` tool.
     for i, nic in enumerate(settings.getValue('WHITELIST_NICS')):
         try:
             if nic_drivers[i] != '':
