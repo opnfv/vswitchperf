@@ -18,6 +18,7 @@
 import logging
 import subprocess
 import copy
+import time
 from tools import tasks
 from tools import systeminfo
 from tools.load_gen.load_gen import ILoadGenerator
@@ -111,13 +112,13 @@ class Stress(ILoadGenerator):
         if self._running:
             super(Stress, self).start()
 
-    def kill(self):
+    def kill(self, signal='-15', sleep=2):
         """
         Kill stress load if it is active
         """
         if self._running and self._child and self._child.isalive():
-            tasks.run_task(['sudo', 'pkill', self._proc_name],
-                           self._logger)
+            tasks.run_task(['sudo', 'pkill', signal, self._proc_name], self._logger)
+        time.sleep(sleep)
 
         self._logger.info(
             'Log available at %s', self._logfile)

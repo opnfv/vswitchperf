@@ -243,6 +243,18 @@ To run tests using Vanilla OVS:
 
      ./vsperf --conf-file <path_to_settings_py>
 
+Code change verification by pylint
+----------------------------------
+Every developer participating in VSPERF project should run
+pylint before his python code is submitted for review. Project
+specific configuration for pylint is available at 'pylint.rc'.
+
+Example of manual pylint invocation:
+
+  .. code-block:: console
+
+          pylint --rcfile ./pylint.rc ./vsperf
+
 GOTCHAs:
 --------
 

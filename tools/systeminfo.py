@@ -146,7 +146,7 @@ def get_pids(proc_names_list):
 
     try:
         pids = subprocess.check_output(['pidof'] + proc_names_list)
-    except:
+    except subprocess.CalledProcessError:
         # such process isn't running
         return None
 

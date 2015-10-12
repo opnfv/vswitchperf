@@ -48,8 +48,7 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
         self._packet_sizes = None
         packet_sizes_cli = get_test_param('pkt_sizes')
         if packet_sizes_cli:
-            self._packet_sizes = [int(x.strip())
-                                  for x in packet_sizes_cli.split(',')]
+            self._packet_sizes = [int(x.strip()) for x in packet_sizes_cli.split(',')]
         else:
             self._packet_sizes = settings.getValue('TRAFFICGEN_PKT_SIZES')
 
