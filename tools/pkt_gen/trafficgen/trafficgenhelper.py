@@ -39,6 +39,7 @@ TRAFFIC_DEFAULTS = {
         'priority': 0,
         'cfi': 0,
     },
+    'imixprofile': 'none'
 }
 
 #TODO remove namedtuples and implement results through IResult interface found

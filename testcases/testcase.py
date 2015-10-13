@@ -45,6 +45,7 @@ class TestCase(object):
         self.deployment = cfg['Deployment']
         self._bidir = cfg['biDirectional']
         self._frame_mod = cfg.get('Frame Modification', None)
+        self._imix_profile = cfg.get('imixProfile', "none")
 
         # check if test requires background load and which generator it uses
         self._load_cfg = cfg.get('Load', None)
@@ -91,6 +92,8 @@ class TestCase(object):
                 traffic = {'traffic_type': self._traffic_type,
                            'bidir': self._bidir,
                            'multistream': self._multistream}
+                if self._imix_profile != "none":
+                    traffic['imixprofile'] = self._imix_profile
 
                 # OVS Vanilla requires guest VM MAC address and IPs
                 # to work

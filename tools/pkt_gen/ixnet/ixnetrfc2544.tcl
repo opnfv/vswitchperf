@@ -131,6 +131,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
     set trafficSpec_l2          [dict get $trafficSpec l2]
     set trafficSpec_l3          [dict get $trafficSpec l3]
     set trafficSpec_vlan        [dict get $trafficSpec vlan]
+    set imixProfile             [dict get $trafficSpec imixprofile]
 
     set frameSize               [dict get $trafficSpec_l2 framesize]
     set srcMac                  [dict get $trafficSpec_l2 srcmac]
@@ -149,6 +150,20 @@ proc startRfc2544Test { testSpec trafficSpec } {
                   increased to 68 for this test"
         }
     }
+
+    set trafficItemsType "fixed"
+    set forceRegen False
+    if { $imixProfile != "none" } {
+        if { $rfc2544TestType != "back2back" } {
+            set frameSize "IMIX"
+            set trafficItemsType "presetDistribution"
+            set forceRegen True
+        } else {
+            puts "WARNING: Test type is back2back, that's why the packet size \
+                  is NOT set to IMIX even imixProfile is set"
+        }
+    }
+
     # constants
 
     set VERSION [package require IxTclNetwork]
@@ -1299,8 +1314,8 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -randomMin 64 \
      -randomMax 1518 \
      -quadGaussian {} \
-     -type fixed \
-     -presetDistribution cisco \
+     -type $trafficItemsType \
+     -presetDistribution $imixProfile \
      -incrementStep 1 \
      -incrementTo 1518
     ixNet setMultiAttrs $sg_configElement/frameRate \
@@ -2937,8 +2952,8 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -randomMin 64 \
      -randomMax 1518 \
      -quadGaussian {} \
-     -type fixed \
-     -presetDistribution cisco \
+     -type $trafficItemsType \
+     -presetDistribution $imixProfile \
      -incrementStep 1 \
      -incrementTo 1518
     ixNet setMultiAttrs $sg_highLevelStream/frameRate \
@@ -7777,7 +7792,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -rateSelect percentMaxRate \
          -percentMaxRate 100 \
          -resolution 0.01 \
-         -forceRegenerate False \
+         -forceRegenerate $forceRegen \
          -reportSequenceError False \
          -ipv4rate 50 \
          -ipv6rate 50 \
@@ -7855,7 +7870,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -imixDelete {0} \
          -imixData {{{{64}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 40}}{{128}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 30}}{{256}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 30}}}} \
          -imixEnabled False \
-         -imixTemplates none \
+         -imixTemplates $imixProfile \
          -framesizeImixList $frameSize \
          -imixTrafficType {UNCHNAGED} \
          -mapType {oneToOne} \
@@ -7950,7 +7965,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -rateSelect percentMaxRate \
          -percentMaxRate 100 \
          -resolution 0.01 \
-         -forceRegenerate False \
+         -forceRegenerate $forceRegen \
          -reportSequenceError False \
          -ipv4rate 50 \
          -ipv6rate 50 \
@@ -7996,7 +8011,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -imixDelete {0} \
          -imixData {{{{64}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 40}}{{128}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 30}}{{256}{{TOS S:0 S:0 S:0 S:0 S:0} S:0}{1 30}}}} \
          -imixEnabled False \
-         -imixTemplates none \
+         -imixTemplates $imixProfile \
          -framesizeImixList $frameSize \
          -imixTrafficType {UNCHNAGED} \
          -ipRatioMode fixed \
