@@ -47,7 +47,7 @@ def create_traffic(traffic_type, trafficgen_class):
     return TrafficControllerRFC2544(trafficgen_class)
 
 
-def create_vswitch(deployment_scenario, vswitch_class, bidir=True):
+def create_vswitch(deployment_scenario, vswitch_class, traffic):
     """Return a new IVSwitchController for the deployment_scenario.
 
     The returned controller is configured with the given vSwitch class.
@@ -56,15 +56,16 @@ def create_vswitch(deployment_scenario, vswitch_class, bidir=True):
 
     :param deployment_scenario: The deployment scenario name
     :param vswitch_class: Reference to vSwitch class to be used.
+    :param traffic: Dictionary with traffic specific details
     :return: IVSwitchController for the deployment_scenario
     """
     deployment_scenario = deployment_scenario.lower()
     if deployment_scenario.find("p2p") >= 0:
-        return VswitchControllerP2P(vswitch_class)
+        return VswitchControllerP2P(vswitch_class, traffic)
     elif deployment_scenario.find("pvp") >= 0:
-        return VswitchControllerPVP(vswitch_class, bidir)
+        return VswitchControllerPVP(vswitch_class, traffic)
     elif deployment_scenario.find("pvvp") >= 0:
-        return VswitchControllerPVVP(vswitch_class, bidir)
+        return VswitchControllerPVVP(vswitch_class, traffic)
 
 def create_vnf(deployment_scenario, vnf_class):
     """Return a new VnfController for the deployment_scenario.

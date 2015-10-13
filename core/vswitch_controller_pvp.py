@@ -34,7 +34,7 @@ class VswitchControllerPVP(IVswitchController):
         _deployment_scenario: A string describing the scenario to set-up in the
             constructor.
     """
-    def __init__(self, vswitch_class, bidir=False):
+    def __init__(self, vswitch_class, traffic):
         """Initializes up the prerequisites for the PVP deployment scenario.
 
         :vswitch_class: the vSwitch class to be used.
@@ -43,7 +43,7 @@ class VswitchControllerPVP(IVswitchController):
         self._vswitch_class = vswitch_class
         self._vswitch = vswitch_class()
         self._deployment_scenario = "PVP"
-        self._bidir = bidir
+        self._traffic = traffic.copy()
         self._logger.debug('Creation using ' + str(self._vswitch_class))
 
     def setup(self):
@@ -63,17 +63,24 @@ class VswitchControllerPVP(IVswitchController):
             (_, vport2_number) = self._vswitch.add_vport(bridge)
 
             self._vswitch.del_flow(bridge)
-            flow1 = add_ports_to_flow(_FLOW_TEMPLATE, phy1_number,
+
+            # configure flows according to the TC definition
+            flow_template = _FLOW_TEMPLATE.copy()
+            if self._traffic['flow_type'] == 'IP':
+                flow_template.update({'dl_type':'0x0800', 'nw_src':self._traffic['l3']['srcip'],
+                                      'nw_dst':self._traffic['l3']['dstip']})
+
+            flow1 = add_ports_to_flow(flow_template, phy1_number,
                                       vport1_number)
-            flow2 = add_ports_to_flow(_FLOW_TEMPLATE, vport2_number,
+            flow2 = add_ports_to_flow(flow_template, vport2_number,
                                       phy2_number)
             self._vswitch.add_flow(bridge, flow1)
             self._vswitch.add_flow(bridge, flow2)
 
-            if self._bidir:
-                flow3 = add_ports_to_flow(_FLOW_TEMPLATE, phy2_number,
+            if self._traffic['bidir']:
+                flow3 = add_ports_to_flow(flow_template, phy2_number,
                                           vport2_number)
-                flow4 = add_ports_to_flow(_FLOW_TEMPLATE, vport1_number,
+                flow4 = add_ports_to_flow(flow_template, vport1_number,
                                           phy1_number)
                 self._vswitch.add_flow(bridge, flow3)
                 self._vswitch.add_flow(bridge, flow4)
