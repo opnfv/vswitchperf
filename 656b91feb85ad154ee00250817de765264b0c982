@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_c1bafd09",
+        "filename": "docs/to-be-reorganized/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-10-13T12:50:48Z",
+      "side": 1,
+      "message": "For P2P fully meshed we should state the number of physical ports required. \n\nFully meshed with 2 ports is just the same as bi-di - afaict. Using many ports is operationally difficult and for NFV functions probably unlikely (I\u0027d imagine it\u0027s more efficient to add higher b/w ports rather that more ports)\n\nSo I\u0027d suggest that we recommend carrying out the test with both 2 \u0026 4 ports for the test and that in any case the number of ports used is reported. \n\nDoes that sound reasonable?",
+      "revId": "656b91feb85ad154ee00250817de765264b0c982",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
