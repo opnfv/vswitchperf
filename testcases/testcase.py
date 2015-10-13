@@ -24,6 +24,7 @@ import core.component_factory as component_factory
 from core.loader import Loader
 from tools.report import report
 from conf import settings as S
+from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
 
 class TestCase(object):
     """TestCase base class
@@ -41,9 +42,7 @@ class TestCase(object):
         self._logger = logging.getLogger(__name__)
         self.name = cfg['Name']
         self.desc = cfg.get('Description', 'No description given.')
-        self._traffic_type = cfg['Traffic Type']
         self.deployment = cfg['Deployment']
-        self._bidir = cfg['biDirectional']
         self._frame_mod = cfg.get('Frame Modification', None)
 
         # check if test requires background load and which generator it uses
@@ -57,7 +56,13 @@ class TestCase(object):
         if self._frame_mod:
             self._frame_mod = self._frame_mod.lower()
         self._results_dir = results_dir
-        self._multistream = cfg.get('MultiStream', 0)
+
+        # set traffic details, so they can be passed to vswitch and traffic ctls
+        self._traffic = TRAFFIC_DEFAULTS.copy()
+        self._traffic.update({'traffic_type': cfg['Traffic Type'],
+                              'flow_type': cfg.get('Flow Type', 'port'),
+                              'bidir': cfg['biDirectional'],
+                              'multistream': cfg.get('MultiStream', 0)})
 
     def run(self):
         """Run the test
@@ -66,10 +71,18 @@ class TestCase(object):
         """
         self._logger.debug(self.name)
 
+        # OVS Vanilla requires guest VM MAC address and IPs
+        # to work
+        if (self.deployment in ["pvp", "pvvp"] and S.getValue('VSWITCH') == "OvsVanilla"):
+            self._traffic['l2'] = {'srcmac': S.getValue('GUEST_NET2_MAC')[0],
+                                   'dstmac': S.getValue('GUEST_NET1_MAC')[0]}
+            self._traffic['l3'] = {'srcip': S.getValue('VANILLA_TGEN_PORT1_IP'),
+                                   'dstip': S.getValue('VANILLA_TGEN_PORT2_IP')}
+
         self._logger.debug("Controllers:")
         loader = Loader()
         traffic_ctl = component_factory.create_traffic(
-            self._traffic_type,
+            self._traffic['traffic_type'],
             loader.get_trafficgen_class())
         vnf_ctl = component_factory.create_vnf(
             self.deployment,
@@ -77,7 +90,7 @@ class TestCase(object):
         vswitch_ctl = component_factory.create_vswitch(
             self.deployment,
             loader.get_vswitch_class(),
-            self._bidir)
+            self._traffic)
         collector = component_factory.create_collector(
             loader.get_collector_class(),
             self._results_dir, self.name)
@@ -88,23 +101,6 @@ class TestCase(object):
         self._logger.debug("Setup:")
         with vswitch_ctl, loadgen:
             with vnf_ctl, collector:
-                traffic = {'traffic_type': self._traffic_type,
-                           'bidir': self._bidir,
-                           'multistream': self._multistream}
-
-                # OVS Vanilla requires guest VM MAC address and IPs
-                # to work
-                if (self.deployment in ["pvp", "pvvp"] and
-                        S.getValue('VSWITCH') == "OvsVanilla"):
-
-                    traffic['l2'] = {'srcmac': S.getValue('GUEST_NET2_MAC')[0],
-                                     'dstmac': S.getValue('GUEST_NET1_MAC')[0]}
-
-                    traffic['l3'] = {'srcip':
-                                     S.getValue('VANILLA_TGEN_PORT1_IP'),
-                                     'dstip':
-                                     S.getValue('VANILLA_TGEN_PORT2_IP')}
-
                 vswitch = vswitch_ctl.get_vswitch()
                 # TODO BOM 15-08-07 the frame mod code assumes that the
                 # physical ports are ports 1 & 2. The actual numbers
@@ -189,7 +185,7 @@ class TestCase(object):
                     pass
 
                 with traffic_ctl:
-                    traffic_ctl.send_traffic(traffic)
+                    traffic_ctl.send_traffic(self._traffic)
 
                 # dump vswitch flows before they are affected by VNF termination
                 vswitch_ctl.dump_vswitch_flows()

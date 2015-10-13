@@ -33,7 +33,7 @@ class VswitchControllerP2P(IVswitchController):
         _deployment_scenario: A string describing the scenario to set-up in the
             constructor.
     """
-    def __init__(self, vswitch_class):
+    def __init__(self, vswitch_class, traffic):
         """Initializes up the prerequisites for the P2P deployment scenario.
 
         :vswitch_class: the vSwitch class to be used.
@@ -43,6 +43,7 @@ class VswitchControllerP2P(IVswitchController):
         self._vswitch = vswitch_class()
         self._deployment_scenario = "P2P"
         self._logger.debug('Creation using ' + str(self._vswitch_class))
+        self._traffic = traffic.copy()
 
     def setup(self):
         """Sets up the switch for p2p.
@@ -67,13 +68,22 @@ class VswitchControllerP2P(IVswitchController):
             # table#1 - flows to route packets between ports goes here. The
             # chosen port is communicated to subsequent tables by setting the
             # metadata value to the egress port number
-            flow = {'table':'1', 'priority':'1', 'in_port':'1',
-                    'actions': ['write_actions(output:2)', 'write_metadata:2',
-                                'goto_table:2']}
+
+            # configure flows according to the TC definition
+            flow_template = _FLOW_TEMPLATE.copy()
+            if self._traffic['flow_type'] == 'IP':
+                flow_template.update({'dl_type':'0x0800', 'nw_src':self._traffic['l3']['srcip'],
+                                      'nw_dst':self._traffic['l3']['dstip']})
+
+            flow = flow_template.copy()
+            flow.update({'table':'1', 'priority':'1', 'in_port':'1',
+                         'actions': ['write_actions(output:2)', 'write_metadata:2',
+                                     'goto_table:2']})
             self._vswitch.add_flow(bridge, flow)
-            flow = {'table':'1', 'priority':'1', 'in_port':'2',
-                    'actions': ['write_actions(output:1)', 'write_metadata:1',
-                                'goto_table:2']}
+            flow = flow_template.copy()
+            flow.update({'table':'1', 'priority':'1', 'in_port':'2',
+                         'actions': ['write_actions(output:1)', 'write_metadata:1',
+                                     'goto_table:2']})
             self._vswitch.add_flow(bridge, flow)
 
             # Frame modification table. Frame modification flow rules are
