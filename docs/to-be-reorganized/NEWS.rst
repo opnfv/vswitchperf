@@ -3,6 +3,7 @@ October 2015
 New
 ---
 - Support of PVP and PVVP deployment scenarios using Vanilla OVS
+- Enable IMIX testing for RFC2544 ThroughPut testcases
 
 September 2015
 ==============
