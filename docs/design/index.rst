@@ -3,13 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. image:: ../etc/opnfv-logo.png
+.. image:: etc/opnfv-logo.png
   :height: 40
   :width: 200
   :alt: OPNFV
   :align: left
 
-Example Documentation table of contents
+vswitchperf Design
 =======================================
 
 Contents:
@@ -18,10 +18,7 @@ Contents:
    :numbered:
    :maxdepth: 4
 
-   quickstart.rst
-   NEWS.rst
-   vswitchperf_ltd.rst
-   installation.rst
+   vswitchperf_design.rst
 
 Indices and tables
 ==================
