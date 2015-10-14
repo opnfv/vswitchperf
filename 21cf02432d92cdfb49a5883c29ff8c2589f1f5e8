@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_7cee5824",
+        "filename": "conf/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1651
+      },
+      "writtenOn": "2015-10-14T14:37:11Z",
+      "side": 1,
+      "message": "I am having trouble finding online docs for the imix values that are shown here. Are \"cisco\" and \"tolly\" specific to those vendors? I can\u0027t find \"rprQuar\" and \"rprTri\" via web search. I\u0027m not sure what the difference is between \"imix\" and \"standardImix\". Can you point to docs or fuller explanation of these choices? Specifically I\u0027m trying to understand how a traffic generator would support these choices.",
+      "range": {
+        "startLine": 65,
+        "startChar": 3,
+        "endLine": 65,
+        "endChar": 14
+      },
+      "revId": "21cf02432d92cdfb49a5883c29ff8c2589f1f5e8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_5c7cb472",
+        "filename": "conf/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1651
+      },
+      "writtenOn": "2015-10-14T14:37:11Z",
+      "side": 1,
+      "message": "\"ignored\"",
+      "range": {
+        "startLine": 72,
+        "startChar": 58,
+        "endLine": 72,
+        "endChar": 65
+      },
+      "revId": "21cf02432d92cdfb49a5883c29ff8c2589f1f5e8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
