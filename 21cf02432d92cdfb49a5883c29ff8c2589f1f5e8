@@ -45,6 +45,23 @@
       "revId": "21cf02432d92cdfb49a5883c29ff8c2589f1f5e8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_dcbd4404",
+        "filename": "tools/pkt_gen/ixnet/ixnetrfc2544.tcl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1314,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-10-14T14:51:49Z",
+      "side": 1,
+      "message": "This is a good start, although we\u0027ll need to configure \"custom\" packet size and percentage distributions, as found on the Functest Wiki.\n\nSee: https://gerrit.opnfv.org/gerrit/#/c/2245/\nand JIRA-100 (which is now merged)",
+      "revId": "21cf02432d92cdfb49a5883c29ff8c2589f1f5e8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
