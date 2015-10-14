@@ -21,6 +21,7 @@ Contents:
    quickstart.rst
    NEWS.rst
    vswitchperf_ltd.rst
+   vswitchperf_design.rst
    installation.rst
 
 Indices and tables
