@@ -69,11 +69,17 @@ class OvsDpdkVhost(IVSwitch):
         dpdk.cleanup()
         dpdk.remove_vhost_modules()
 
-    def add_switch(self, switch_name):
+    def add_switch(self, switch_name, params=None):
         """See IVswitch for general description
         """
         bridge = OFBridge(switch_name)
-        bridge.create()
+        if params is None:
+            bridge.create(['--', 'set', 'bridge', switch_name,
+                           'datapath_type=netdev'])
+        else:
+            bridge.create(['--', 'set', 'bridge', switch_name,
+                                       'datapath_type=netdev'] + params)
+
         bridge.set_db_attribute('Open_vSwitch', '.',
                                 'other_config:max-idle',
                                 settings.getValue('VSWITCH_FLOW_TIMEOUT'))
@@ -85,8 +91,6 @@ class OvsDpdkVhost(IVSwitch):
                                     'other_config:pmd-cpu-mask',
                                     settings.getValue('VSWITCH_PMD_CPU_MASK'))
 
-        bridge.set_db_attribute('Bridge', bridge.br_name,
-                                'datapath_type', 'netdev')
         self._bridges[switch_name] = bridge
 
     def del_switch(self, switch_name):
