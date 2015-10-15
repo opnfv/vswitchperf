@@ -10,7 +10,7 @@
 <?rfc inline="yes"?>
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
-<rfc category="info" docName="draft-vsperf-bmwg-vswitch-opnfv-00"
+<rfc category="info" docName="draft-vsperf-bmwg-vswitch-opnfv-01"
      ipr="trust200902">
   <front>
     <title abbrev="Benchmarking vSwitches">Benchmarking Virtual Switches in
@@ -94,7 +94,7 @@
       </address>
     </author>
 
-    <date day="3" month="July" year="2015"/>
+    <date day="14" month="October" year="2015"/>
 
     <abstract>
       <t>This memo describes the progress of the Open Platform for NFV (OPNFV)
@@ -134,8 +134,8 @@
       project on virtual switch performance characterization, "VSWITCHPERF".
       This project intends to build on the current and completed work of the
       Benchmarking Methodology Working Group in IETF, by referencing existing
-      literature. For example, currently the most referenced RFC is <xref
-      target="RFC2544"/> (which depends on <xref target="RFC1242"/>) and
+      literature. For example, currently the most often referenced RFC is
+      <xref target="RFC2544"/> (which depends on <xref target="RFC1242"/>) and
       foundation of the benchmarking work in OPNFV is common and strong.</t>
 
       <t>See
@@ -303,7 +303,7 @@
         the parameters the vSwitch uses to match for a flow. The recommended
         flow classification parameters for any vSwitch performance tests are:
         the input port, the source IP address, the destination IP address and
-        the ethernet protocol type field. It is essential to increase the flow
+        the Ethernet protocol type field. It is essential to increase the flow
         timeout time on a vSwitch before conducting any performance tests that
         do not measure the flow setup time. Normally the first packet of a
         particular stream will install the flow in the virtual switch which
@@ -407,7 +407,7 @@
       <t>The overall specification in preparation is referred to as a Level
       Test Design (LTD) document, which will contain a suite of performance
       tests. The base performance tests in the LTD are based on the
-      pre-existing specifications developed by BMWG to test the performance of
+      per-existing specifications developed by BMWG to test the performance of
       physical switches. These specifications include:</t>
 
       <t><list style="symbols">
@@ -423,7 +423,11 @@
           Statement</t>
         </list></t>
 
-      <t/>
+      <t>Some of the above/newer RFCs are being applied in benchmarking for
+      the first time, and represent a development challenge for test equipment
+      developers. Fortunately, many members of the testing system community
+      has engaged on the VSPERF project, including an open source test
+      system.</t>
 
       <t>In addition to this, the LTD also re-uses the terminology defined
       by:</t>
@@ -505,6 +509,10 @@
 
           <t>Noisy Neighbour Tests, to understand the effects of resource
           sharing on the performance of a virtual switch.</t>
+
+          <t>Tests derived from examination of ETSI NFV Draft GS IFA003
+          requirements <xref target="IFA003"/> on characterization of
+          acceleration technologies applied to vswitches.</t>
         </list>The flexibility of deployment of a virtual switch within a
       network means that the BMWG IETF existing literature needs to be used to
       characterize the performance of a switch in various deployment
@@ -702,6 +710,9 @@
  |                    vSwitch                     | |
  +------------------------------------------------+_|]]></artwork>
         </figure></t>
+
+      <t>A set of Deployment Scenario figures is available on the VSPERF Test
+      Methodology Wiki page <xref target="TestTopo"/>. </t>
     </section>
 
     <section title="3x3 Matrix Coverage">
@@ -709,24 +720,26 @@
       "3x3" matrix (introduced in <xref target="I-D.ietf-bmwg-virtual-net"/>).
       Because the LTD specification ID names are quite long, this section is
       organized into lists for each occupied cell of the matrix (not all are
-      occupied, also the matrix has grown to 3x4 to accommodate scale
-      metrics).</t>
+      occupied, also the matrix has grown to 3x4 to accommodate scale metrics
+      when displaying the coverage of many metrics/benchmarks).</t>
 
       <t>The tests listed below assess the activation of paths in the data
       plane, rather than the control plane.</t>
 
-      <t>(Editor's Note: a complete list of tests is available here:
-      https://wiki.opnfv.org/wiki/vswitchperf_test_spec_review )</t>
+      <t>A complete list of tests with short summaries is available on the
+      VSPERF "LTD Test Spec Overview" Wiki page <xref target="LTDoverV"/>.</t>
 
       <section title="Speed of Activation">
         <t><list style="symbols">
-            <t>Throughput.RFC2889.AddressLearningRate</t>
-
-            <t>Throughput.RFC2889.AddressCachingCapacity</t>
+            <t>Activation.RFC2889.AddressLearningRate</t>
 
             <t>PacketLatency.InitialPacketProcessingLatency</t>
+          </list></t>
+      </section>
 
-            <t/>
+      <section title="Accuracy of Activation section">
+        <t><list style="symbols">
+            <t>CPDP.Coupling.Flow.Addition</t>
           </list></t>
       </section>
 
@@ -740,9 +753,7 @@
 
       <section title="Scale of Activation">
         <t><list style="symbols">
-            <t>Throughput.RFC2889.AddressCachingCapacity</t>
-
-            <t/>
+            <t>Activation.RFC2889.AddressCachingCapacity</t>
           </list></t>
       </section>
 
@@ -750,17 +761,17 @@
         <t><list style="symbols">
             <t>Throughput.RFC2544.PacketLossRate</t>
 
+            <t>CPU.RFC2544.0PacketLoss</t>
+
             <t>Throughput.RFC2544.PacketLossRateFrameModification</t>
 
             <t>Throughput.RFC2544.BackToBackFrames</t>
 
-            <t>Throughput.RFC2889.ForwardingRate</t>
+            <t>Throughput.RFC2889.MaxForwardingRate</t>
 
             <t>Throughput.RFC2889.ForwardPressure</t>
 
             <t>Throughput.RFC2889.BroadcastFrameForwarding</t>
-
-            <t>RFC2889 Broadcast Frame Latency test</t>
           </list></t>
       </section>
 
@@ -768,17 +779,25 @@
         <t><list style="symbols">
             <t>Throughput.RFC2889.ErrorFramesFiltering</t>
 
-            <t/>
+            <t>Throughput.RFC2544.Profile</t>
           </list></t>
       </section>
 
       <section title="Reliability of Operation">
         <t><list style="symbols">
-            <t>Throughput.RFC2544.Soak</t>
+            <t>Throughput.RFC2889.Soak</t>
 
-            <t>Throughput.RFC2544.SoakFrameModification</t>
+            <t>Throughput.RFC2889.SoakFrameModification</t>
 
-            <t/>
+            <t>PacketDelayVariation.RFC3393.Soak</t>
+          </list></t>
+      </section>
+
+      <section title="Scalability of Operation">
+        <t><list style="symbols">
+            <t>Scalability.RFC2544.0PacketLoss</t>
+
+            <t>MemoryBandwidth.RFC2544.0PacketLoss.Scalability</t>
           </list></t>
       </section>
 
@@ -790,11 +809,11 @@
 |               |             |            |               |             |
 |------------------------------------------------------------------------|
 |               |             |            |               |             |
-|  Activation   |      X      |            |       X       |      X      |
+|  Activation   |      X      |     X      |       X       |      X      |
 |               |             |            |               |             |
 |------------------------------------------------------------------------|
 |               |             |            |               |             |
-|  Operation    |      X      |      X     |       X       |             |
+|  Operation    |      X      |      X     |       X       |      X      |
 |               |             |            |               |             |
 |------------------------------------------------------------------------|
 |               |             |            |               |             |
@@ -902,6 +921,44 @@
       <?rfc include='reference.RFC.6390'?>
 
       <?rfc include='reference.I-D.ietf-bmwg-virtual-net'?>
+
+      <reference anchor="TestTopo">
+        <front>
+          <title>Test Topologies
+          https://wiki.opnfv.org/vsperf/test_methodology</title>
+
+          <author>
+            <organization/>
+          </author>
+
+          <date/>
+        </front>
+      </reference>
+
+      <reference anchor="LTDoverV">
+        <front>
+          <title>LTD Test Spec Overview
+          https://wiki.opnfv.org/wiki/vswitchperf_test_spec_review </title>
+
+          <author>
+            <organization/>
+          </author>
+
+          <date/>
+        </front>
+      </reference>
+
+      <reference anchor="IFA003">
+        <front>
+          <title>https://docbox.etsi.org/ISG/NFV/Open/Drafts/IFA003_Acceleration_-_vSwitch_Spec/</title>
+
+          <author>
+            <organization/>
+          </author>
+
+          <date/>
+        </front>
+      </reference>
     </references>
   </back>
 </rfc>
