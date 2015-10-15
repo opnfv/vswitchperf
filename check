@@ -1,0 +1,143 @@
+#!/bin/bash
+
+# Copyright 2015 Intel Corporation.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# VSPERF code checker
+
+PYLINT="pylint"
+PYLINT_RC='pylintrc'
+PYLINT_RATING_GATE="10"
+FILE_REGEX="(vsperf|.*\.py)"
+FIND_OPTIONS="-regextype posix-egrep -iregex (./)?$FILE_REGEX"
+FILE_LIST="/tmp/vsperf_check_list.txt"
+
+# print usage if requested
+function usage() {
+    cat <<EOM
+Usage: $0 [TARGET]...
+
+Performs code check for defined TARGETs. Target can be file or directory.
+In case that directory is specified, then it will be searched recursively
+for all python files.
+If TARGET is not specified, then all python files from current VSPERF
+repository will be checked.
+Files listed in EXCLUDE_MODULES defined in conf/00_common.conf will be skipped.
+File will pass check if its pylint rating is greater or equal to $PYLINT_RATING_GATE.
+Otherwise gained pylint rating will be displayed.
+
+
+    -h, --help                  Script usage
+    -m, --modified              Script will check python files, which have
+                                been modified within current repository.
+Examples:
+    ./check
+
+    Check all python files in current VSPERF repository except EXCLUDE_MODULES
+
+    ./check vsperf
+
+    Check just one file.
+
+    ./check -m
+
+    Check all modified files in current VSPERF repository
+
+    ./check vnfs/qemu core tools/pkt_gen
+
+    Check all python files in given directories
+
+EOM
+}
+
+# compare pylint result with predefined gate
+function rating_is_ok() {
+    # bc is not part of basic Centos installation
+    # so let us do integer comparison only
+    int_rating=`echo $1 | sed -e 's/\..*$//'`
+    [ $int_rating -ge $PYLINT_RATING_GATE ]
+}
+
+##### MAIN #####
+# check if help is requested
+if [ "x$1" == "x-h" -o "x$1" == "x--help" ] ; then
+    usage
+    exit 0
+fi
+
+# check if pylint is available
+if ! which $PYLINT &>/dev/null ; then
+    echo "$PYLINT is not available, thus check can't be executed"
+    exit 1
+fi
+
+# check if we were run within vsperf directory
+if [ ! -x ./vsperf 2> /dev/null ] ; then
+    echo "`basename $0` must be run from vsperf root directory"
+    exit 2
+fi
+
+# get list of excluded modules
+EXCLUDED_MODULES=`grep "^ *EXCLUDE_MODULES" conf/00_common.conf | tr '"' "'"`
+
+# get list of files to be checked
+rm $FILE_LIST &> /dev/null
+if [ "x$1" == "x-m" -o "x$1" == "x--modified" ] ; then
+    # check of modified files requested
+    git status --porcelain | cut -b4- | egrep -i "^${FILE_REGEX}$" > $FILE_LIST
+elif [ "x$*" == "x" ] ; then
+    # list is empty, check all python files
+    find . -type f $FIND_OPTIONS > $FILE_LIST
+else
+    for item in $* ; do
+        if [ -d $item ] ; then
+            find $item -type f $FIND_OPTIONS >> $FILE_LIST
+        elif [ -f $item ] ; then
+            echo $item >> $FILE_LIST
+        else
+            echo "$item doesn't exist, thus check was aborted"
+            exit 3
+        fi
+    done
+fi
+
+# check if there is anything to check
+if [ -s $FILE_LIST ] ; then
+    for pyfile in `cat $FILE_LIST | sort` ; do
+        # get base name
+        pyfile_basename="'"`basename $pyfile .py`"'"
+        # and check if it should be excluded or not
+        if ( echo $EXCLUDED_MODULES | grep -w $pyfile_basename > /dev/null ) ; then
+            printf "%-70s \e[32m%-6s\e[0m\n" $pyfile "EXCLUDED"
+            continue
+        fi
+        # run pylint and extract final rating
+        rating=`$PYLINT --rcfile $PYLINT_RC $pyfile 2>/dev/null | tail -n3 | grep rated | sed -e 's/^.*rated at \([0-9.]*\).*$/\1/'`
+        # evaluate and display aquired rating
+        if rating_is_ok $rating ; then
+            printf "%-70s \e[32m%-6s\e[0m\n" $pyfile "OK"
+        else
+            printf "%-70s \e[31m%-6s\e[0m\n" $pyfile $rating
+        fi
+    done
+else
+    echo "Nothing to check."
+    exit 4
+fi
+
+# clean up
+rm $FILE_LIST &> /dev/null
+
+exit 0
+##### MAIN end #####
