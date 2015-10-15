@@ -211,15 +211,14 @@ class Ixia(trafficgen.ITrafficGenerator):
 
         return result
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, time=20,
-                           framerate=100):
+    def send_burst_traffic(self, traffic=None, numpkts=100, time=20):
         """See ITrafficGenerator for description
         """
         flow = {
             'numpkts': numpkts,
             'time': time,
             'type': 'stopStream',
-            'framerate': framerate,
+            'framerate': traffic['frame_rate'],
         }
 
         result = self._send_traffic(flow, traffic)
@@ -228,14 +227,14 @@ class Ixia(trafficgen.ITrafficGenerator):
 
         #TODO - implement Burst results setting via TrafficgenResults.
 
-    def send_cont_traffic(self, traffic=None, time=20, framerate=100):
+    def send_cont_traffic(self, traffic=None, time=20, multistream=False):
         """See ITrafficGenerator for description
         """
         flow = {
             'numpkts': 100,
             'time': time,
             'type': 'contPacket',
-            'framerate': framerate,
+            'framerate': traffic['frame_rate'],
             'multipleStreams': traffic['multistream'],
         }
 
@@ -243,10 +242,10 @@ class Ixia(trafficgen.ITrafficGenerator):
 
         return Ixia._create_result(result)
 
-    def start_cont_traffic(self, traffic=None, time=20, framerate=100):
+    def start_cont_traffic(self, traffic=None, time=20):
         """See ITrafficGenerator for description
         """
-        return self.send_cont_traffic(traffic, 0, framerate)
+        return self.send_cont_traffic(traffic, 0)
 
     def stop_cont_traffic(self):
         """See ITrafficGenerator for description
@@ -254,7 +253,7 @@ class Ixia(trafficgen.ITrafficGenerator):
         return self.run_tcl('stopTraffic')
 
     def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                lossrate=0.0):
+                                lossrate=0.0, multistream=False):
         """See ITrafficGenerator for description
         """
         params = {}
