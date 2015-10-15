@@ -79,8 +79,7 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def send_burst_traffic(self, traffic=None, numpkts=100,
-                           time=20, framerate=100):
+    def send_burst_traffic(self, traffic=None, numpkts=100, time=20):
         """Send a burst of traffic.
 
         Send a ``numpkts`` packets of traffic, using ``traffic``
@@ -89,7 +88,6 @@ class ITrafficGenerator(object):
         Attributes:
         :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN tags
         :param numpkts: Number of packets to send
-        :param framerate: Expected framerate
         :param time: Time to wait to receive packets
 
         :returns: dictionary of strings with following data:
@@ -101,15 +99,14 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def send_cont_traffic(self, traffic=None, time=20, framerate=0):
+    def send_cont_traffic(self, traffic=None, time=20, multistream=False):
         """Send a continuous flow of traffic.
 
-        Send packets at ``framerate``, using ``traffic`` configuration,
+        Send packets at given framerate, using ``traffic`` configuration,
         until timeout ``time`` occurs.
 
         :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN tags
         :param time: Time to wait to receive packets (secs)
-        :param framerate: Expected framerate
         :param multistream: Enable multistream output by overriding the
                         UDP port number in ``traffic`` with values
                         from 1 to 64,000
@@ -126,7 +123,7 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def start_cont_traffic(self, traffic=None, time=20, framerate=0):
+    def start_cont_traffic(self, traffic=None, time=20):
         """Non-blocking version of 'send_cont_traffic'.
 
         Start transmission and immediately return. Do not wait for
@@ -140,7 +137,7 @@ class ITrafficGenerator(object):
         raise NotImplementedError('Please call an implementation.')
 
     def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                lossrate=0.0):
+                                lossrate=0.0, multistream=False):
         """Send traffic per RFC2544 throughput test specifications.
 
         Send packets at a variable rate, using ``traffic``

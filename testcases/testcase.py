@@ -25,6 +25,7 @@ from core.loader import Loader
 from tools.report import report
 from conf import settings as S
 from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
+from conf import get_test_param
 
 class TestCase(object):
     """TestCase base class
@@ -44,6 +45,9 @@ class TestCase(object):
         self.desc = cfg.get('Description', 'No description given.')
         self.deployment = cfg['Deployment']
         self._frame_mod = cfg.get('Frame Modification', None)
+        framerate = get_test_param('iload', None)
+        if framerate == None:
+            framerate = cfg.get('iLoad', 100)
 
         # check if test requires background load and which generator it uses
         self._load_cfg = cfg.get('Load', None)
@@ -62,7 +66,8 @@ class TestCase(object):
         self._traffic.update({'traffic_type': cfg['Traffic Type'],
                               'flow_type': cfg.get('Flow Type', 'port'),
                               'bidir': cfg['biDirectional'],
-                              'multistream': cfg.get('MultiStream', 0)})
+                              'multistream': cfg.get('MultiStream', 0),
+                              'frame_rate': int(framerate)})
 
     def run(self):
         """Run the test
