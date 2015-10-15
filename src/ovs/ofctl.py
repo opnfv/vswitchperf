@@ -65,15 +65,18 @@ class OFBase(object):
 
     # datapath management
 
-    def add_br(self, br_name=_OVS_BRIDGE_NAME):
+    def add_br(self, br_name=_OVS_BRIDGE_NAME, params=None):
         """Add datapath.
 
         :param br_name: Name of bridge
 
         :return: Instance of :class OFBridge:
         """
+        if params is None:
+            params = []
+
         self.logger.debug('add bridge')
-        self.run_vsctl(['add-br', br_name])
+        self.run_vsctl(['add-br', br_name]+params)
 
         return OFBridge(br_name, self.timeout)
 
@@ -133,11 +136,14 @@ class OFBridge(OFBase):
         return tasks.run_task(
             cmd, self.logger, 'Running ovs-ofctl...', check_error)
 
-    def create(self):
+    def create(self, params=None):
         """Create bridge.
         """
+        if params is None:
+            params = []
+
         self.logger.debug('create bridge')
-        self.add_br(self.br_name)
+        self.add_br(self.br_name, params=params)
 
     def destroy(self):
         """Destroy bridge.
