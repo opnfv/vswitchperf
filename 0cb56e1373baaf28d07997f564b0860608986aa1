@@ -33,6 +33,24 @@
       "revId": "0cb56e1373baaf28d07997f564b0860608986aa1",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_77f31374",
+        "filename": "docs/to-be-reorganized/vswitchperf_ltd.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1786,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-10-15T16:56:42Z",
+      "side": 1,
+      "message": "Ok, I think I can write the alternative case. Something like:\n\nThis test will be conducted under two conditions following the establishment of all flows as required by RFC 2544, regarding the flow expiration time-out:\n\n1) The time-out never expires during each trial.\n\n2) The time-out expires for all flows periodically. This would require a short time-out compared with flow re-appearance for a small number of flows, and may not be possible for all flow conditions.",
+      "parentUuid": "da6255ed_575a4f84",
+      "revId": "0cb56e1373baaf28d07997f564b0860608986aa1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
