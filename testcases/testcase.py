@@ -24,6 +24,7 @@ import core.component_factory as component_factory
 from core.loader import Loader
 from tools.report import report
 from conf import settings as S
+from conf import get_test_param
 
 class TestCase(object):
     """TestCase base class
@@ -45,6 +46,10 @@ class TestCase(object):
         self.deployment = cfg['Deployment']
         self._bidir = cfg['biDirectional']
         self._frame_mod = cfg.get('Frame Modification', None)
+        self._framerate = get_test_param('iload', None)
+        if self._framerate == None:
+            self._framerate = cfg.get('iLoad', 100)
+        self._framerate = int(self._framerate)
 
         # check if test requires background load and which generator it uses
         self._load_cfg = cfg.get('Load', None)
@@ -90,7 +95,8 @@ class TestCase(object):
             with vnf_ctl, collector:
                 traffic = {'traffic_type': self._traffic_type,
                            'bidir': self._bidir,
-                           'multistream': self._multistream}
+                           'multistream': self._multistream,
+                           'frame_rate': self._framerate}
 
                 # OVS Vanilla requires guest VM MAC address and IPs
                 # to work

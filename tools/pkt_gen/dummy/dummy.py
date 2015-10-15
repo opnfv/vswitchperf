@@ -104,7 +104,7 @@ class Dummy(trafficgen.ITrafficGenerator):
         """
         pass
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, time=20, framerate=100):
+    def send_burst_traffic(self, traffic=None, numpkts=100, time=20):
         """
         Send a burst of traffic.
         """
@@ -133,8 +133,7 @@ class Dummy(trafficgen.ITrafficGenerator):
 
         return trafficgen.BurstResult(*results)
 
-    def send_cont_traffic(self, traffic=None, time=20, framerate=0,
-                          multistream=False):
+    def send_cont_traffic(self, traffic=None, time=20, multistream=False):
         """
         Send a continuous flow of traffic.
         """
@@ -146,7 +145,7 @@ class Dummy(trafficgen.ITrafficGenerator):
 
         results = get_user_traffic(
             'continuous',
-            '%dmS, %dmpps, multistream %s' % (time, framerate,
+            '%dmS, %dmpps, multistream %s' % (time, traffic['frame_rate'],
                                               multistream), traffic_,
             ('frames tx', 'frames rx', 'min latency', 'max latency',
              'avg latency'))
