@@ -36,10 +36,12 @@ class IVSwitch(object):
         """
         raise NotImplementedError()
 
-    def add_switch(self, switch_name):
+    def add_switch(self, switch_name, params):
         """Create a new logical switch with no ports
 
         :param switch_name: The name of the new logical switch
+        :param params: Optional parameters to configure switch
+
         :returns: None
         """
         raise NotImplementedError()

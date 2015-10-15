@@ -77,11 +77,11 @@ class OvsVanilla(IVSwitch):
         self._module_manager.remove_modules()
 
 
-    def add_switch(self, switch_name):
+    def add_switch(self, switch_name, params=None):
         """See IVswitch for general description
         """
         bridge = OFBridge(switch_name)
-        bridge.create()
+        bridge.create(params)
         bridge.set_db_attribute('Open_vSwitch', '.',
                                 'other_config:max-idle', '60000')
         self._bridges[switch_name] = bridge
