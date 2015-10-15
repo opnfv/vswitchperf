@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_1702973e",
+        "filename": "docs/to-be-reorganized/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-00.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-10-15T17:00:51Z",
+      "side": 1,
+      "message": "Did we not need to rename this to remove the project name? I can\u0027t remember exactly what Scott Bradner said.",
+      "revId": "828e481bedbdd75c15f12c67c572bb79c862e9fd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_f7fee337",
+        "filename": "docs/to-be-reorganized/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-00.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-10-15T17:00:51Z",
+      "side": 1,
+      "message": "is it not pre-existing? or do we mean per existing?",
+      "revId": "828e481bedbdd75c15f12c67c572bb79c862e9fd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_d7fbdf45",
+        "filename": "docs/to-be-reorganized/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-00.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-10-15T17:00:51Z",
+      "side": 1,
+      "message": "many members [have] engaged?",
+      "range": {
+        "startLine": 429,
+        "startChar": 8,
+        "endLine": 429,
+        "endChar": 9
+      },
+      "revId": "828e481bedbdd75c15f12c67c572bb79c862e9fd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
