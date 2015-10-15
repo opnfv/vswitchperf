@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_b773cb14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-10-15T16:44:08Z",
+      "side": 1,
+      "message": "typo scalability",
+      "revId": "0cb56e1373baaf28d07997f564b0860608986aa1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_575a4f84",
+        "filename": "docs/to-be-reorganized/vswitchperf_ltd.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1786,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-10-15T16:44:08Z",
+      "side": 1,
+      "message": "I think we should test both: with flows pre-exisiting on the switch and with flows being learned on the switch. Both would show values of interest",
+      "revId": "0cb56e1373baaf28d07997f564b0860608986aa1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
