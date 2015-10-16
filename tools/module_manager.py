@@ -19,34 +19,21 @@ import subprocess
 import logging
 from tools import tasks
 
-class KernelModuleInsertMode(object):
-    """Module manager type of insert definition.
-    """
-    MODPROBE = 1
-    INSMOD = 2 #NOT IMPLEMENTED
-
 class ModuleManager(object):
     """Simple module manager which acts as system wrapper for Kernel Modules.
     """
 
     _logger = logging.getLogger(__name__)
 
-    def __init__(self, insert_mode=KernelModuleInsertMode.MODPROBE):
-        """Initializes data and sets insert mode.
-
-        :param insert_mode: insert mode defines how modules are going to
-                            be inserted in system.
+    def __init__(self):
+        """Initializes data
         """
         self._modules = None
-        self._insert_mode = insert_mode
 
     def insert_modules(self, modules):
-        """Method inserts list of modules using defined insert mode.
-
-        :param modules: list of modules to be inserted. Each element on
-                        list should represent format which is expected
-                        by KernelModuleInsertMode (e.g. for MODPROBE it
-                        would be module name).
+        """Method inserts list of modules. In case that module name ends
+        with .ko suffix then insmod will be used for its insertion. Otherwise
+        modprobe will be called.
 
         :returns: None
         """
@@ -56,13 +43,12 @@ class ModuleManager(object):
                 continue
 
             try:
-                if self._insert_mode == KernelModuleInsertMode.MODPROBE:
-                    tasks.run_task(['sudo', 'modprobe', module], self._logger,
-                                   'Inserting module \'%s\'...' % module, True)
+                if module.endswith('.ko'):
+                    tasks.run_task(['sudo', 'insmod', module], self._logger,
+                                   'Insmod module \'%s\'...' % module, True)
                 else:
-                    self._logger.error(
-                        "Kernel module insert mode NOT IMPLEMENTED.")
-                    raise
+                    tasks.run_task(['sudo', 'modprobe', module], self._logger,
+                                   'Modprobe module \'%s\'...' % module, True)
 
             except subprocess.CalledProcessError:
                 self._logger.error('Unable to insert module \'%s\'.', module)
@@ -77,6 +63,8 @@ class ModuleManager(object):
                 continue
 
             try:
+                # rmmod supports both simple module name and full module path
+                # with .ko suffix
                 tasks.run_task(['sudo', 'rmmod', module], self._logger,
                                'Removing module \'%s\'...' % module, True)
             except subprocess.CalledProcessError:
@@ -87,11 +75,15 @@ class ModuleManager(object):
     def is_module_inserted(module):
         """Check if a module is inserted on system.
         """
+        # get module base name, i.e strip path and .ko suffix if possible
+        module_base_name = module.split('.')[0].split('/').pop()
+
+        # get list of modules from kernel
         with open('/proc/modules') as mod_file:
             loaded_mods = mod_file.readlines()
 
         # first check if module is loaded
         for line in loaded_mods:
-            if line.startswith(module):
+            if line.startswith(module_base_name):
                 return True
         return False

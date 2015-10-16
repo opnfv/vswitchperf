@@ -19,7 +19,7 @@ import logging
 from conf import settings
 from vswitches.vswitch import IVSwitch
 from src.ovs import VSwitchd, OFBridge
-from tools.module_manager import ModuleManager, KernelModuleInsertMode
+from tools.module_manager import ModuleManager
 from tools import tasks
 
 _LOGGER = logging.getLogger(__name__)
@@ -47,7 +47,7 @@ class OvsVanilla(IVSwitch):
         self._vswitchd = VSwitchd(vswitchd_args=vswitchd_args,
                                   expected_cmd="db.sock: connected")
         self._bridges = {}
-        self._module_manager = ModuleManager(KernelModuleInsertMode.MODPROBE)
+        self._module_manager = ModuleManager()
 
     def start(self):
         """See IVswitch for general description
