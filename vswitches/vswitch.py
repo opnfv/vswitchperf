@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -71,6 +71,14 @@ class IVSwitch(object):
         """
         raise NotImplementedError()
 
+    def add_tunnel_port(self, switch_name, remote_ip, tunnel_type, params=None):
+        """Create a new port to the logical switch for tunneling
+
+        :param switch_name: The switch where the port is attached to
+        :returns: (port name, OpenFlow port number)
+        """
+        raise NotImplementedError()
+
     def get_ports(self, switch_name):
         """Return a list of tuples describing the ports of the logical switch
 
@@ -126,5 +134,23 @@ class IVSwitch(object):
         """Dump flows from the logical switch
 
         :param switch_name: The switch on which to operate
+        """
+        raise NotImplementedError()
+
+    def add_route(self, switch_name, network, destination):
+        """Add a route for tunneling routing table
+
+        :param switch_name: The switch on which to operate
+        :param network: Target destination network
+        :param destination: Gateway IP
+        """
+        raise NotImplementedError()
+
+    def set_tunnel_arp(self, ip_addr, mac_addr, switch_name):
+        """Add arp entry for tunneling
+
+        :param ip_addr: IP of bridge
+        :param mac_addr: MAC address of the bridge
+        :param switch_name: Name of the bridge
         """
         raise NotImplementedError()
