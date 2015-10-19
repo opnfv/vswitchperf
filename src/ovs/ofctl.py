@@ -32,8 +32,6 @@ _OVS_VSCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
 _OVS_OFCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
                               'ovs-ofctl')
 
-_OVS_VAR_DIR = '/usr/local/var/run/openvswitch/'
-
 _OVS_BRIDGE_NAME = settings.getValue('VSWITCH_BRIDGE_NAME')
 
 class OFBase(object):

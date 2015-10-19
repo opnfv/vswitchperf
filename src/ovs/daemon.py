@@ -31,8 +31,8 @@ _OVSDB_TOOL_BIN = os.path.join(
 _OVSDB_SERVER_BIN = os.path.join(
     settings.getValue('OVS_DIR'), 'ovsdb', 'ovsdb-server')
 
-_OVS_VAR_DIR = '/usr/local/var/run/openvswitch/'
-_OVS_ETC_DIR = '/usr/local/etc/openvswitch/'
+_OVS_VAR_DIR = settings.getValue('OVS_VAR_DIR')
+_OVS_ETC_DIR = settings.getValue('OVS_ETC_DIR')
 
 _LOG_FILE_VSWITCHD = os.path.join(
     settings.getValue('LOG_DIR'), settings.getValue('LOG_FILE_VSWITCHD'))
