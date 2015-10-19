@@ -286,6 +286,24 @@ def main():
     # than both a settings file and environment variables
     settings.load_from_dict(args)
 
+    # set dpdk and ovs paths accorfing to VNF and VSWITCH
+    if settings.getValue('VSWITCH').endswith('Vanilla'):
+        # settings paths for Vanilla
+        settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_VANILLA')))
+    elif settings.getValue('VSWITCH').endswith('Vhost'):
+        if settings.getValue('VNF').endswith('Cuse'):
+            # settings paths for Cuse
+            settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_CUSE')))
+            settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_CUSE')))
+        else:
+            # settings paths for VhostUser
+            settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_USER')))
+            settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_USER')))
+    else:
+        # default - set to VHOST USER but can be changed during enhancement
+        settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_USER')))
+        settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_USER')))
+
     configure_logging(settings.getValue('VERBOSITY'))
     logger = logging.getLogger()
 
@@ -387,28 +405,6 @@ def main():
     if not selected_tests:
         logger.error("No tests matched --test option or positional args. Done.")
         sys.exit(1)
-
-    # set dpdk, ovs and qemu paths accorfing to VNF and VSWITCH
-    if settings.getValue('VSWITCH').endswith('Vanilla'):
-        # settings paths for Vanilla
-        settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_VANILLA')))
-        settings.setValue('QEMU_DIR', (settings.getValue('QEMU_DIR_VANILLA')))
-    elif settings.getValue('VSWITCH').endswith('Vhost'):
-        if settings.getValue('VNF').endswith('Cuse'):
-            # settings paths for Cuse
-            settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_CUSE')))
-            settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_CUSE')))
-            settings.setValue('QEMU_DIR', (settings.getValue('QEMU_DIR_CUSE')))
-        else:
-            # settings paths for VhostUser
-            settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_USER')))
-            settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_USER')))
-            settings.setValue('QEMU_DIR', (settings.getValue('QEMU_DIR_USER')))
-    else:
-        # default - set to VHOST USER but can be changed during enhancement
-        settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_USER')))
-        settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_USER')))
-        settings.setValue('QEMU_DIR', (settings.getValue('QEMU_DIR_USER')))
 
     # create results directory
     if not os.path.exists(results_path):
