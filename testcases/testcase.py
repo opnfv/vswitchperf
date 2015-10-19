@@ -27,8 +27,8 @@ from core.loader import Loader
 from tools import tasks
 from tools import hugepages
 from tools.report import report
-from conf import settings as S
 from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
+from conf import settings as S
 from conf import get_test_param
 
 class TestCase(object):
@@ -51,8 +51,13 @@ class TestCase(object):
         self.deployment = cfg['Deployment']
         self._frame_mod = cfg.get('Frame Modification', None)
         framerate = get_test_param('iload', None)
-        if framerate == None:
+        if framerate is None:
             framerate = cfg.get('iLoad', 100)
+
+        tunnel_type = None
+        if 'Tunnel Type' in cfg:
+            tunnel_type = cfg['Tunnel Type']
+        tunnel_type = get_test_param('tunnel_type', tunnel_type)
 
         # identify guest loopback method, so it can be added into reports
         self.guest_loopback = []
@@ -93,6 +98,7 @@ class TestCase(object):
         self._traffic.update({'traffic_type': cfg['Traffic Type'],
                               'flow_type': cfg.get('Flow Type', 'port'),
                               'bidir': cfg['biDirectional'],
+                              'tunnel_type': tunnel_type,
                               'multistream': int(multistream),
                               'stream_type': stream_type,
                               'pre_installed_flows' : pre_installed_flows,
@@ -120,6 +126,17 @@ class TestCase(object):
 
         # copy sources of l2 forwarding tools into VM shared dir if needed
         self._copy_fwd_tools_for_guest()
+
+        if self.deployment == "op2p":
+            self._traffic['l2'].update({'srcmac':
+                                   S.getValue('TRAFFICGEN_PORT1_MAC'),
+                                   'dstmac':
+                                   S.getValue('TRAFFICGEN_PORT2_MAC')})
+
+            self._traffic['l3'].update({'srcip':
+                                        S.getValue('TRAFFICGEN_PORT1_IP'),
+                                        'dstip':
+                                        S.getValue('TRAFFICGEN_PORT2_IP')})
 
         self._logger.debug("Controllers:")
         loader = Loader()

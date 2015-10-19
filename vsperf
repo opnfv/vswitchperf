@@ -140,6 +140,7 @@ def parse_arguments():
             name contains RFC2544 less those containing "p2p"')
     group.add_argument('--verbosity', choices=list_logging_levels(),
                        help='debug level')
+    group.add_argument('--run-integration', action='store_true', help='run integration tests')
     group.add_argument('--trafficgen', help='traffic generator to use')
     group.add_argument('--vswitch', help='vswitch implementation to use')
     group.add_argument('--fwdapp', help='packet forwarding application to use')
@@ -290,6 +291,10 @@ def main():
 
     settings.load_from_dir('conf')
 
+    # Load non performance/integration tests
+    if args['run_integration']:
+        settings.load_from_dir('conf/integration')
+
     # load command line parameters first in case there are settings files
     # to be used
     settings.load_from_dict(args)
@@ -393,7 +398,11 @@ def main():
     results_path = os.path.join(settings.getValue('LOG_DIR'), results_dir)
 
     # configure tests
-    testcases = settings.getValue('PERFORMANCE_TESTS')
+    if args['run_integration']:
+        testcases = settings.getValue('INTEGRATION_TESTS')
+    else:
+        testcases = settings.getValue('PERFORMANCE_TESTS')
+
     all_tests = []
     for cfg in testcases:
         try:
