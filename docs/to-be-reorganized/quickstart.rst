@@ -253,7 +253,7 @@ Example of manual pylint invocation:
 
   .. code-block:: console
 
-          pylint --rcfile ./pylint.rc ./vsperf
+          pylint --rcfile ./pylintrc ./vsperf
 
 GOTCHAs:
 --------

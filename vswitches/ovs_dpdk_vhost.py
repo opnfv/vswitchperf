@@ -22,7 +22,6 @@ from src.ovs import VSwitchd, OFBridge
 from src.dpdk import dpdk
 
 _VSWITCHD_CONST_ARGS = ['--', '--log-file']
-_VHOST_METHOD = settings.getValue('VHOST_METHOD')
 
 class OvsDpdkVhost(IVSwitch):
     """VSwitch implementation using DPDK and vhost ports
