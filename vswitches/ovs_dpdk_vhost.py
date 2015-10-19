@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ from vswitches.vswitch import IVSwitch
 from src.ovs import VSwitchd, OFBridge
 from src.dpdk import dpdk
 
-_VSWITCHD_CONST_ARGS = ['--', '--log-file']
+_VSWITCHD_CONST_ARGS = ['--', '--pidfile', '--log-file']
 
 class OvsDpdkVhost(IVSwitch):
     """VSwitch implementation using DPDK and vhost ports
@@ -77,7 +77,7 @@ class OvsDpdkVhost(IVSwitch):
                            'datapath_type=netdev'])
         else:
             bridge.create(['--', 'set', 'bridge', switch_name,
-                                       'datapath_type=netdev'] + params)
+                           'datapath_type=netdev'] + params)
 
         bridge.set_db_attribute('Open_vSwitch', '.',
                                 'other_config:max-idle',
@@ -106,7 +106,7 @@ class OvsDpdkVhost(IVSwitch):
         The new port is named dpdk<n> where n is an integer starting from 0.
         """
         bridge = self._bridges[switch_name]
-        dpdk_count = self._get_port_count(bridge, 'type=dpdk')
+        dpdk_count = self._get_port_count('type=dpdk')
         port_name = 'dpdk' + str(dpdk_count)
         params = ['--', 'set', 'Interface', port_name, 'type=dpdk']
         of_port = bridge.add_port(port_name, params)
@@ -123,16 +123,27 @@ class OvsDpdkVhost(IVSwitch):
         bridge = self._bridges[switch_name]
         # Changed dpdkvhost to dpdkvhostuser to be able to run in Qemu 2.2
         if settings.getValue('VNF').endswith('Cuse'):
-            vhost_count = self._get_port_count(bridge, 'type=dpdkvhostcuse')
+            vhost_count = self._get_port_count('type=dpdkvhostcuse')
             port_name = 'dpdkvhostcuse' + str(vhost_count)
             params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostcuse']
         else:
-            vhost_count = self._get_port_count(bridge, 'type=dpdkvhostuser')
+            vhost_count = self._get_port_count('type=dpdkvhostuser')
             port_name = 'dpdkvhostuser' + str(vhost_count)
             params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostuser']
 
         of_port = bridge.add_port(port_name, params)
 
+        return (port_name, of_port)
+
+    def add_tunnel_port(self, switch_name, remote_ip, tunnel_type='vxlan'):
+        """Creates tunneling port
+        """
+        bridge = self._bridges[switch_name]
+        pcount = str(self._get_port_count('type=' + tunnel_type))
+        port_name = tunnel_type + pcount
+        params = ['--', 'set', 'Interface', port_name, 'type=' + tunnel_type,
+                  'options:remote_ip=' + remote_ip]
+        of_port = bridge.add_port(port_name, params)
         return (port_name, of_port)
 
     def get_ports(self, switch_name):
@@ -167,14 +178,31 @@ class OvsDpdkVhost(IVSwitch):
         bridge = self._bridges[switch_name]
         bridge.dump_flows()
 
-    @staticmethod
-    def _get_port_count(bridge, param):
+    def add_route(self, switch_name, network, destination):
+        """See IVswitch for general description
+        """
+        bridge = self._bridges[switch_name]
+        bridge.add_route(network, destination)
+
+    def set_tunnel_arp(self, ip_addr, mac_addr, switch_name):
+        """See IVswitch for general description
+        """
+        bridge = self._bridges[switch_name]
+        bridge.set_tunnel_arp(ip_addr, mac_addr, switch_name)
+
+    def _get_port_count(self, param):
         """Returns the number of ports having a certain parameter
 
         :param bridge: The src.ovs.ofctl.OFBridge on which to operate
         :param param: The parameter to search for
         :returns: Count of matches
         """
-        port_params = [c for (_, (_, c)) in list(bridge.get_ports().items())]
-        param_hits = [i for i in port_params if param in i]
-        return len(param_hits)
+        cnt = 0
+        for k in self._bridges:
+            pparams = [c for (_, (_, c)) in list(self._bridges[k].get_ports().items())]
+            phits = [i for i in pparams if param in i]
+            cnt += len(phits)
+
+        if cnt is None:
+            cnt = 0
+        return cnt

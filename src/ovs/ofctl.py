@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@ _OVS_VSCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
                               'ovs-vsctl')
 _OVS_OFCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
                               'ovs-ofctl')
+_OVS_APPCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
+                               'ovs-appctl')
 
 _OVS_BRIDGE_NAME = settings.getValue('VSWITCH_BRIDGE_NAME')
 
@@ -61,6 +63,22 @@ class OFBase(object):
         return tasks.run_task(
             cmd, self.logger, 'Running ovs-vsctl...', check_error)
 
+
+    def run_appctl(self, args, check_error=False):
+        """Run ``ovs-appctl`` with supplied arguments.
+
+        :param args: Arguments to pass to ``ovs-appctl``
+        :param check_error: Throw exception on error
+
+        :return: None
+        """
+        cmd = ['sudo', _OVS_APPCTL_BIN,
+               '--timeout',
+               str(self.timeout)] + args
+        return tasks.run_task(
+            cmd, self.logger, 'Running ovs-appctl...', check_error)
+
+
     # datapath management
 
     def add_br(self, br_name=_OVS_BRIDGE_NAME, params=None):
@@ -87,6 +105,32 @@ class OFBase(object):
         """
         self.logger.debug('delete bridge')
         self.run_vsctl(['del-br', br_name])
+
+    # Route and ARP functions
+
+    def add_route(self, network, destination):
+        """Add route to tunneling routing table.
+
+        :param network: Network
+        :param destination: Gateway
+
+        :return: None
+        """
+        self.logger.debug('add ovs/route')
+        self.run_appctl(['ovs/route/add', network, destination])
+
+
+    def set_tunnel_arp(self, ip_addr, mac_addr, br_name=_OVS_BRIDGE_NAME):
+        """Add OVS arp entry for tunneling
+
+        :param ip: IP of bridge
+        :param mac_addr: MAC address of the bridge
+        :param br_name: Name of the bridge
+
+        :return: None
+        """
+        self.logger.debug('tnl/arp/set')
+        self.run_appctl(['tnl/arp/set', br_name, ip_addr, mac_addr])
 
 
 class OFBridge(OFBase):
@@ -308,10 +352,10 @@ def flow_key(flow):
         field_params.append('%(field)s=%(value)s' %
                             {'field': key, 'value': default})
 
-    field_params = ','.join(field_params)
+    field_params_str = ','.join(field_params)
 
     _flow_key_param = {
-        'fields': field_params,
+        'fields': field_params_str,
     }
 
     # no actions == delete key

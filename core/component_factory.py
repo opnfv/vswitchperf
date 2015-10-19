@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ from core.traffic_controller_rfc2544 import TrafficControllerRFC2544
 from core.vswitch_controller_p2p import VswitchControllerP2P
 from core.vswitch_controller_pvp import VswitchControllerPVP
 from core.vswitch_controller_pvvp import VswitchControllerPVVP
+from core.vswitch_controller_op2p import VswitchControllerOP2P
 from core.vnf_controller import VnfController
 from tools.load_gen.stress.stress import Stress
 from tools.load_gen.stress_ng.stress_ng import StressNg
@@ -60,12 +61,14 @@ def create_vswitch(deployment_scenario, vswitch_class, traffic):
     :return: IVSwitchController for the deployment_scenario
     """
     deployment_scenario = deployment_scenario.lower()
-    if deployment_scenario.find("p2p") >= 0:
+    if deployment_scenario.find("p2p") == 0:
         return VswitchControllerP2P(vswitch_class, traffic)
     elif deployment_scenario.find("pvp") >= 0:
         return VswitchControllerPVP(vswitch_class, traffic)
     elif deployment_scenario.find("pvvp") >= 0:
         return VswitchControllerPVVP(vswitch_class, traffic)
+    elif deployment_scenario.find("op2p") >= 0:
+        return VswitchControllerOP2P(vswitch_class, traffic)
 
 def create_vnf(deployment_scenario, vnf_class):
     """Return a new VnfController for the deployment_scenario.
