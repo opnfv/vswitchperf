@@ -8,3 +8,4 @@ VSPERF Installation Guide
 
    installation.rst
    trafficgen.rst
+   integration.rst
