@@ -26,6 +26,7 @@ from os import sys
 import imp
 import fnmatch
 import logging
+from conf import settings
 
 
 class LoaderServant(object):
@@ -166,6 +167,10 @@ class LoaderServant(object):
             # Iterate over each python file
             for filename in fnmatch.filter(filenames, '[!.]*.py'):
                 modname = os.path.splitext(os.path.basename(filename))[0]
+
+                # skip module load if it is excluded by configuration
+                if modname in settings.getValue('EXCLUDE_MODULES'):
+                    continue
 
                 try:
                     if modname in sys.modules:
