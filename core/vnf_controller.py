@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,10 +43,12 @@ class VnfController(object):
         self._deployment_scenario = deployment_scenario.upper()
         if self._deployment_scenario == 'P2P':
             self._vnfs = []
-        if self._deployment_scenario == 'PVP':
+        elif self._deployment_scenario == 'PVP':
             self._vnfs = [vnf_class()]
         elif self._deployment_scenario == 'PVVP':
             self._vnfs = [vnf_class(), vnf_class()]
+        elif self._deployment_scenario == 'OP2P':
+            self._vnfs = []
         self._logger.debug('__init__ ' + str(len(self._vnfs)) +
                            ' VNF[s] with ' + ' '.join(map(str, self._vnfs)))
 
