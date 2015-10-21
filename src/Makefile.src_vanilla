@@ -27,7 +27,6 @@ export WITH_LINUX
 # specify upstream package as SUBDIRS - common terms as suggest by gnu-make
 SUBDIRS =
 SUBDIRS += ovs
-SUBDIRS += qemu
 WITH_LINUX=/lib/modules/`uname -r`/build
 VHOST_USER = n
 include mk/make-subsys.mk

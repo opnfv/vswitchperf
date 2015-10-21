@@ -27,7 +27,6 @@ export VHOST_USER
 SUBDIRS =
 SUBDIRS += dpdk
 SUBDIRS += ovs
-SUBDIRS += qemu
 ovs: dpdk
 WITH_LINUX =
 VHOST_USER = n

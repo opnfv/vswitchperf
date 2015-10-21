@@ -48,6 +48,7 @@ INSTALL_TARGET = force_make
 
 # modify CONFIG_FILE to enable VHOST_USER build and restore original CONFIG_FILE after the build
 force_make: $(TAG_DONE_FLAG)
+	$(AT)cd $(WORK_DIR) && git pull $(DPDK_URL) $(DPDK_TAG)
 	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_VHOST_USER=.\+/CONFIG_RTE_LIBRTE_VHOST_USER=$(VHOST_USER)/g' $(CONFIG_FILE)
 	$(AT)sed -i -e 's/CONFIG_RTE_BUILD_COMBINE_LIBS=./CONFIG_RTE_BUILD_COMBINE_LIBS=y/g' $(CONFIG_FILE)
 	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_VHOST=./CONFIG_RTE_LIBRTE_VHOST=y/g' $(CONFIG_FILE)
@@ -65,15 +66,16 @@ install: $(INSTALL_TARGET)
 	@echo "install done"
 
 # hard way to clean and clobber
-clean: cleanse
+clean:
+	$(AT)cd $(WORK_DIR) && git clean -xfd *.o
 clobber:
 	$(AT)rm -rf $(WORK_DIR)
 	$(AT)rm -rf $(DPDK_VANILLA)
 	$(AT)rm -rf $(DPDK_CUSE)
 
-# cleanse is for developer who would like to keep the
+# distclean is for developer who would like to keep the
 # clone git repo, saving time to fetch again from url
-cleanse:
+distclean:
 	$(AT)cd $(WORK_DIR) && git clean -xfd && git checkout -f
 
 test:

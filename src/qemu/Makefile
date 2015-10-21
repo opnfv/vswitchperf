@@ -45,6 +45,8 @@ config $(WORK_DIR)/Makefile: $(WORK_DIR)/configure
 INSTALL_TARGET = force_install force_make
 
 force_make: $(WORK_DIR)/Makefile
+	$(AT)cd $(WORK_DIR) && git pull $(QEMU_URL) $(QEMU_TAG)
+	$(AT)echo "git pull done"
 	$(AT)$(MAKE) -C $(WORK_DIR) $(MORE_MAKE_FLAGS)
 	@echo "Make done"
 
@@ -55,14 +57,15 @@ install: $(INSTALL_TARGET)
 
 # hard way to clean and clobber
 clean:
+	$(AT)cd $(WORK_DIR) && git clean -xfd *.o
 clobber:
 	$(AT)rm -rf $(WORK_DIR)
 	$(AT)rm -rf $(QEMU_VANILLA)
 	$(AT)rm -rf $(QEMU_CUSE)
 
-# cleanse is for developer who would like to keep the
+# distclean is for developer who would like to keep the
 # clone git repo, saving time to fetch again from url
-cleanse:
+distclean:
 	$(AT)cd $(WORK_DIR) && git clean -xfd && git checkout -f
 
 test:
