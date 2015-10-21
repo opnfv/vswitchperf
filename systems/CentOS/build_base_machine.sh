@@ -18,31 +18,61 @@
 #
 # Contributors:
 #   Aihua Li, Huawei Technologies.
+#   Martin Klozik, Intel Corporation.
 
 # Synchronize package index files
 yum -y update
 
-# this sould be installed if running from parent
-yum -y install redhat-lsb
+# Install required packages
+yum -y install $(echo "
 
-# Make and Compilers
-yum -y install make
-yum -y install automake
-yum -y install gcc
-yum -y install libxml2
+# Make, Compilers and devel
+make
+gcc
+gcc-c++
+libxml2
+glibc.i686
+kernel-devel
 
 # tools
-yum -y install curl
-yum -y install autoconf libtool
+wget
+git
+scl-utils
+vim
+curl
+autoconf
+libtool
+automake
+pciutils
+cifs-utils
+sysstat
 
-yum -y install libpcap-devel
-yum -y install libnet
+# libs
+libpcap-devel
+libnet
+fuse
+fuse-libs
+fuse-devel
+zlib
+zlib-devel
+glib2-devel
+pixman-devel
+socat
 
 # install gvim
-yum -y install vim-X11
+vim-X11
 
-# install git-review tool, it is not as intuitive as expected
-yum -y install epel-release
-wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-rpm -Uvh epel-release-7*.rpm
-yum -y install git-review
+# install epel release required for git-review
+epel-release
+" | grep -v ^#)
+
+# install SCL for python33
+wget https://www.softwarecollections.org/en/scls/rhscl/python33/epel-7-x86_64/download/rhscl-python33-epel-7-x86_64.noarch.rpm
+rpm -i rhscl-python33-epel-7-x86_64.noarch.rpm
+
+# install python33 packages and git-review tool
+yum -y install $(echo "
+python33
+python33-python-tkinter
+git-review
+" | grep -v ^#)

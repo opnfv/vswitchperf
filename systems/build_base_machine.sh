@@ -20,6 +20,13 @@
 #
 # Contributors:
 #   Aihua Li, Huawei Technologies.
+#   Abdul Halim, Intel Corporation.
+#   Martin Klozik, Intel Corporation.
+
+ROOT_UID=0
+SUDO=""
+
+export VSPERFENV_DIR="$HOME/vsperfenv"
 
 # function to emit error message before quitting
 function die() {
@@ -28,12 +35,46 @@ function die() {
 }
 
 # determine this machine's distro-version
+# replacing 'lsb_release' tool to detect OS distro name with using systemd distribution release file /etc/os-release
+# 'lsb_release' is not available by default on Fedora.
 
-distro=`lsb_release -i  | cut -f 2`
-distro_dir=$distro
+. /etc/os-release
 
-if [ -d "$distro_dir" ] && [ -e $distro_dir/build_base_machine.sh ]; then
-   $distro_dir/build_base_machine.sh
+# check if root
+if [ "$UID" -ne "$ROOT_UID" ]
+then
+    # installation must be run via sudo
+    SUDO="sudo -E"
+fi
+
+# Get distro name from variables imported; Special case for 'Fedora 22' - we need to get versions as well
+if [ "$NAME" == 'Fedora' -a $VERSION_ID -gt 21 ]
+then
+    distro_dir="$NAME$VERSION_ID"
 else
-   die "$distro_dir is not yet supported"
+    distro_dir=`echo "$NAME" | cut -d ' ' -f1`
+fi
+
+# build base system
+if [ -d "$distro_dir" ] && [ -e $distro_dir/build_base_machine.sh ]; then
+    $SUDO $distro_dir/build_base_machine.sh
+else
+    die "$distro_dir is not yet supported"
+fi
+
+if [ -d "$distro_dir" ] && [ -e $distro_dir/prepare_python_env.sh ] ; then
+    $distro_dir/prepare_python_env.sh
+else
+    die "$distro_dir is not yet supported"
+fi
+
+if [ ! -d /lib/modules/`uname -r`/build ] ; then
+    die "Kernel devel is not available for active kernel. It can be caused by recent kernel update. Please reboot and run $0 again."
+fi
+
+# download and compile DPDK, OVS and QEMU
+if [ -f ../src/Makefile ] ; then
+    cd ../src
+    make
+    cd -
 fi
