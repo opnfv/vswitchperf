@@ -22,7 +22,7 @@
 SUBBUILDS = src_cuse src_vanilla
 .PHONY: vhost subbuilds $(SUBBUILDS)
 
-all: vhost subbuilds
+all clean distclean: vhost subbuilds
 
 subbuilds: $(SUBBUILDS)
 $(SUBBUILDS): vhost
@@ -30,7 +30,7 @@ $(SUBBUILDS): vhost
 	$(AT)cp -rf mk/* ../$@/mk
 	$(AT)cp -rf package-list.mk ../$@/
 	$(AT)cp Makefile.$@ ../$@/Makefile
-	$(AT)$(MAKE) -C ../$@
+	$(AT)$(MAKE) -C ../$@ $(MAKECMDGOALS)
 
 vhost:
 export VHOST_USER
