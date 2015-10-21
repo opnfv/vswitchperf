@@ -21,7 +21,7 @@
 
 .PHONY: $(SUBDIRS)
 
-all clean cleanse clobber install uninstall test sanity: $(SUBDIRS)
+all clean distclean clobber install uninstall test sanity: $(SUBDIRS)
 	$(AT)echo "finished making $@"
 
 $(SUBDIRS):

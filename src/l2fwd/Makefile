@@ -34,7 +34,7 @@ clean:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
 	rm -f l2fwd*deb
 
-cleanse: clean
+distclean: clean
 
 clobber: clean
 
