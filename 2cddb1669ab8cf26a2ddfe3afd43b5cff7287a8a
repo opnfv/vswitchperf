@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_71cafaa2",
+        "filename": "src/ovs/ofctl.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 313
+      },
+      "writtenOn": "2015-10-22T19:43:27Z",
+      "side": 1,
+      "message": "Why not just set the default for params and just pass it through? If the caller has set the value it will get propagated, if not it will be the empty set.",
+      "range": {
+        "startLine": 76,
+        "startChar": 21,
+        "endLine": 76,
+        "endChar": 23
+      },
+      "revId": "2cddb1669ab8cf26a2ddfe3afd43b5cff7287a8a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_51cff6b0",
+        "filename": "vswitches/ovs_dpdk_vhost.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 313
+      },
+      "writtenOn": "2015-10-22T19:43:27Z",
+      "side": 1,
+      "message": "Do we need to check for None or the empty set we assign in the other case?",
+      "range": {
+        "startLine": 76,
+        "startChar": 25,
+        "endLine": 76,
+        "endChar": 26
+      },
+      "revId": "2cddb1669ab8cf26a2ddfe3afd43b5cff7287a8a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
