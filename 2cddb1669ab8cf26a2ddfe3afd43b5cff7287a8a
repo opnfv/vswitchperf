@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da6255ed_113cde2e",
+        "filename": "src/ovs/ofctl.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 841
+      },
+      "writtenOn": "2015-10-23T08:34:58Z",
+      "side": 1,
+      "message": "I had to change params\u003d[] parameter to params\u003dNone to be able to pass the pylint test and get a score of 10. \n\nThe pylint error was Dangerous default value [] as argument (dangerous-default-value).\n\nI think the reason for this is to avoid unexpected behavior like this:\n\ndef sample(params\u003d[])\n  params.append(\u0027a\u0027)\n  print(params)\n\nsample()\noutput:\n[\u0027a\u0027]\n\nsample()\noutput:\n[\u0027a\u0027, \u0027a\u0027]",
+      "parentUuid": "da6255ed_71cafaa2",
+      "range": {
+        "startLine": 76,
+        "startChar": 21,
+        "endLine": 76,
+        "endChar": 23
+      },
+      "revId": "2cddb1669ab8cf26a2ddfe3afd43b5cff7287a8a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da6255ed_51cff6b0",
         "filename": "vswitches/ovs_dpdk_vhost.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-22T19:43:27Z",
       "side": 1,
       "message": "Do we need to check for None or the empty set we assign in the other case?",
+      "range": {
+        "startLine": 76,
+        "startChar": 25,
+        "endLine": 76,
+        "endChar": 26
+      },
+      "revId": "2cddb1669ab8cf26a2ddfe3afd43b5cff7287a8a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_f1482ace",
+        "filename": "vswitches/ovs_dpdk_vhost.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 841
+      },
+      "writtenOn": "2015-10-23T08:34:58Z",
+      "side": 1,
+      "message": "I think that we don\u0027t have to if we are just passing the variable to another function call. We have to check for None if an operation is performed on params.",
+      "parentUuid": "da6255ed_51cff6b0",
       "range": {
         "startLine": 76,
         "startChar": 25,
