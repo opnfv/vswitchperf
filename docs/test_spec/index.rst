@@ -9,7 +9,7 @@
   :alt: OPNFV
   :align: left
 
-Example Documentation table of contents
+VSPERF Test Specification
 =======================================
 
 Contents:
@@ -19,9 +19,11 @@ Contents:
    :maxdepth: 4
 
    quickstart.rst
+   installation.rst
    NEWS.rst
    vswitchperf_ltd.rst
-   installation.rst
+   vswitchperf_design.rst
+
 
 Indices and tables
 ==================
