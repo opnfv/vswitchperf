@@ -280,4 +280,4 @@ an appropriate amount of memory:
 
 --------------
 
-.. |Alt text| image:: images/TCLServerProperties.png
+.. |Alt text| image:: ../images/TCLServerProperties.png
