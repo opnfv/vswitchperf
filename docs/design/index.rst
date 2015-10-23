@@ -9,7 +9,7 @@
   :alt: OPNFV
   :align: left
 
-Example Documentation table of contents
+Table of Contents
 =======================================
 
 Contents:
@@ -18,10 +18,8 @@ Contents:
    :numbered:
    :maxdepth: 4
 
-   quickstart.rst
-   NEWS.rst
-   vswitchperf_ltd.rst
-   installation.rst
+   vswitchperf_design.rst
+
 
 Indices and tables
 ==================
