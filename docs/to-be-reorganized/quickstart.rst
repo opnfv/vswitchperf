@@ -4,9 +4,13 @@ Getting Started with 'vsperf'
 Hardware Requirements
 ---------------------
 
-VSPERF requires the following hardware to run tests: IXIA traffic
-generator (IxNetwork), a machine that runs the IXIA client software and
-a CentOS Linux release 7.1.1503 (Core) host.
+VSPERF requires one of the following traffic generators to run tests:
+
+- IXIA traffic generator (IxNetwork hardware) and a machine that runs the IXIA client software
+- Spirent traffic generator (TestCenter hardware chassis or TestCenter virtual in a VM) and a
+VM to run the Spirent Virtual Deployment Service image, formerly known as "Spirent LabServer".
+
+Both test configurations, above, also require a CentOS Linux release 7.1.1503 (Core) host.
 
 vSwitch Requirements
 --------------------
@@ -40,6 +44,55 @@ need it for the 10\_custom.conf file).
 |Alt text|
 
 Hit Ok and start the TCL server application
+
+Spirent Setup
+-------------
+
+Spirent installation files and instructions are available on the
+Spirent support website at:
+
+http://support.spirent.com
+
+Select a version of Spirent TestCenter software to utilize. This example
+will use Spirent TestCenter v4.57 as an example. Substitute the appropriate
+version in place of 'v4.57' in the examples, below.
+
+On the CentOS 7 System
+~~~~~~~~~~~~~~~~~~~~~~
+
+Download and install the following:
+
+Spirent TestCenter Application, v4.57 for 64-bit Linux Client
+
+Spirent Virtual Deployment Service (VDS)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Spirent VDS is required for both TestCenter hardware and virtual
+chassis in the vsperf environment. For installation, select the version
+that matches the Spirent TestCenter Application version. For v4.57,
+the matching VDS version is 1.0.55. Download either the ova (VMware)
+or qcow2 (QEMU) image and create a VM with it. Initialize the VM
+according to Spirent installation instructions.
+
+Using Spirent TestCenter Virtual (STCv)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+STCv is available in both ova (VMware) and qcow2 (QEMU) formats. For
+VMware, download:
+
+Spirent TestCenter Virtual Machine for VMware, v4.57 for Hypervisor - VMware ESX.ESXi
+
+Virtual test port performance is affected by the hypervisor configuration. For
+best practice results in deploying STCv, the following is suggested:
+
+- Create a single VM with two test ports rather than two VMs with one port each
+- Set STCv in DPDK mode
+- Give STCv 2*n + 1 cores, where n = the number of ports. For vsperf, cores = 5.
+- Turning off hyperthreading and pinning these cores will improve performance
+- Give STCv 2 GB of RAM
+
+To get the highest performance and accuracy, Spirent TestCenter hardware is
+recommended. vsperf can run with either stype test ports.
 
 Cloning and building src dependencies
 -------------------------------------
