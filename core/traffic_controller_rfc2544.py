@@ -48,7 +48,8 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
         self._packet_sizes = None
         packet_sizes_cli = get_test_param('pkt_sizes')
         if packet_sizes_cli:
-            self._packet_sizes = [int(x.strip()) for x in packet_sizes_cli.split(',')]
+            self._packet_sizes = [int(x.strip())
+                                  for x in packet_sizes_cli.split(',')]
         else:
             self._packet_sizes = settings.getValue('TRAFFICGEN_PKT_SIZES')
 
@@ -70,13 +71,13 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
         :param result_dict: Dictionary containing results from trafficgen
         :param packet_size: Packet size value.
 
-        :returns: dictionary of results with addictional entries.
+        :returns: dictionary of results with additional entries.
         """
 
         ret_value = result_dict
 
-        #TODO Old TOIT controller had knowledge about scenario beeing
-        #executed, should new controller also fill Configuration & ID,
+        # TODO Old TOIT controller had knowledge about scenario beeing
+        # executed, should new controller also fill Configuration & ID,
         # or this should be passed to TestCase?
         ret_value[ResultsConstants.TYPE] = 'rfc2544'
         ret_value[ResultsConstants.PACKET_SIZE] = str(packet_size)
@@ -150,7 +151,6 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
             for(key, value) in list(item.items()):
                 logging.info("         Key: " + str(key) +
                              ", Value: " + str(value))
-
 
     def get_results(self):
         """IResult interface implementation.
