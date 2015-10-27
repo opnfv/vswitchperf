@@ -3,7 +3,7 @@
 # Top level scripts to build basic setup for the host
 #
 
-# Copyright 2015 OPNFV
+# Copyright 2015 OPNFV, Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,10 +34,7 @@ function die() {
     exit 1
 }
 
-# determine this machine's distro-version
-# replacing 'lsb_release' tool to detect OS distro name with using systemd distribution release file /etc/os-release
-# 'lsb_release' is not available by default on Fedora.
-
+# Detect OS name and version from systemd based os-release file
 . /etc/os-release
 
 # check if root
@@ -47,22 +44,22 @@ then
     SUDO="sudo -E"
 fi
 
-# Get distro name from variables imported; Special case for 'Fedora 22' - we need to get versions as well
-if [ "$NAME" == 'Fedora' -a $VERSION_ID -gt 21 ]
-then
-    distro_dir="$NAME$VERSION_ID"
+# If there is version specific dir available then set distro_dir to that
+if [ -d "$NAME/$VERSION_ID" ]; then
+    distro_dir="$NAME/$VERSION_ID"
 else
-    distro_dir=`echo "$NAME" | cut -d ' ' -f1`
+    # Fallback - Default distro_dir = OS name
+    distro_dir="$NAME"
 fi
 
-# build base system
-if [ -d "$distro_dir" ] && [ -e $distro_dir/build_base_machine.sh ]; then
+# build base system using OS specific scripts
+if [ -d "$distro_dir" ] && [ -e "$distro_dir/build_base_machine.sh" ]; then
     $SUDO $distro_dir/build_base_machine.sh
 else
     die "$distro_dir is not yet supported"
 fi
 
-if [ -d "$distro_dir" ] && [ -e $distro_dir/prepare_python_env.sh ] ; then
+if [ -d "$distro_dir" ] && [ -e "$distro_dir/prepare_python_env.sh" ] ; then
     $distro_dir/prepare_python_env.sh
 else
     die "$distro_dir is not yet supported"
