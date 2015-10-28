@@ -1244,9 +1244,9 @@ Test ID: LTD.Throughput.RFC2544.BackToBackFrames
 
     -  Physical → virtual switch → physical.
 
-Test ID: LTD.Throughput.RFC2889.Soak
+Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    **Title**: RFC 2889 X% packet loss Throughput Soak Test
+    **Title**: RFC 2889 X% packet loss Max Forwarding Rate Soak Test
 
     **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatio
 
@@ -1254,11 +1254,11 @@ Test ID: LTD.Throughput.RFC2889.Soak
 
     **Description**:
 
-    The aim of this test is to understand the Throughput stability over an
-    extended test duration in order to uncover any outliers. To allow for an
-    extended test duration, the test should ideally run for 24 hours or, if
-    this is not possible, for at least 6 hours. For this test, each frame
-    size must be sent at the highest Throughput with X% packet loss, as
+    The aim of this test is to understand the Max Forwarding Rate stability
+    over an extended test duration in order to uncover any outliers. To allow
+    for an extended test duration, the test should ideally run for 24 hours
+    or, if this is not possible, for at least 6 hours. For this test, each frame
+    size must be sent at the highest Throughput rate with X% packet loss, as
     determined in the prerequisite test. The default loss percentages to be
     tested are: - X = 0% - X = 10^-7%
 
@@ -1270,7 +1270,7 @@ Test ID: LTD.Throughput.RFC2889.Soak
 
     The following are the metrics collected for this test:
 
-    -  Throughput stability of the DUT.
+    -  Max Forwarding Rate stability of the DUT.
 
        -  This means reporting the number of packets lost per time interval
           and reporting any time intervals with packet loss. The
@@ -1284,9 +1284,9 @@ Test ID: LTD.Throughput.RFC2889.Soak
        PDV form of delay variation on the traffic flow,
        using the 99th percentile.
 
-Test ID: LTD.Throughput.RFC2889.SoakFrameModification
+Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoakFrameModification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    **Title**: RFC 2889 Throughput Soak Test with Frame Modification
+    **Title**: RFC 2889 Max Forwarding Rate Soak Test with Frame Modification
 
     **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatioFrameModification (0% Packet Loss)
 
@@ -1294,11 +1294,11 @@ Test ID: LTD.Throughput.RFC2889.SoakFrameModification
 
     **Description**:
 
-    The aim of this test is to understand the throughput stability over an
+    The aim of this test is to understand the Max Forwarding Rate stability over an
     extended test duration in order to uncover any outliers. To allow for an
     extended test duration, the test should ideally run for 24 hours or, if
     this is not possible, for at least 6 hour. For this test, each frame
-    size must be sent at the highest Throughput with 0% packet loss, as
+    size must be sent at the highest Throughput rate with 0% packet loss, as
     determined in the prerequisite test.
 
     During this test, the DUT must perform the following operations on the
@@ -1323,7 +1323,7 @@ Test ID: LTD.Throughput.RFC2889.SoakFrameModification
 
     The following are the metrics collected for this test:
 
-    -  Throughput stability of the DUT.
+    -  Max Forwarding Rate stability of the DUT.
 
        -  This means reporting the number of packets lost per time interval
           and reporting any time intervals with packet loss. The
