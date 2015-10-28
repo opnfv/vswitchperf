@@ -96,22 +96,22 @@ includes measuring the following performance metrics:
   meaning to different groups of people. In this document we will
   simply use the term packet delay variation. The preferred form for this
   metric is the PDV form of delay variation defined in `RFC5481
-  <https://www.rfc-editor.org/rfc/rfc5481.txt>`__. The most relevant 
+  <https://www.rfc-editor.org/rfc/rfc5481.txt>`__. The most relevant
   measurement of PDV considers the delay variation of a single user flow,
   as this will be relevant to the size of end-system buffers to compensate
-  for delay variation. The measurement system's ability to store the 
-  delays of individual packets in the flow of interest is a key factor 
-  that determines the specific measurement method. At the outset, it is 
+  for delay variation. The measurement system's ability to store the
+  delays of individual packets in the flow of interest is a key factor
+  that determines the specific measurement method. At the outset, it is
   ideal to view the complete PDV distribution. Systems that can capture
-  and store packets and their delays have the freedom to calculate the 
+  and store packets and their delays have the freedom to calculate the
   reference minimum delay and to determine various quantiles of the PDV
-  distribution accurately (in post-measurement processing routines). 
+  distribution accurately (in post-measurement processing routines).
   Systems without storage must apply algorithms to calculate delay and
-  statistical measurements on the fly. For example, a system may store 
-  temporary estimates of the mimimum delay and the set of (100) packets 
+  statistical measurements on the fly. For example, a system may store
+  temporary estimates of the mimimum delay and the set of (100) packets
   with the longest delays during measurement (to calculate a high quantile,
-  and update these sets with new values periodically. 
-  In some cases, a limited number of delay histogram bins will be 
+  and update these sets with new values periodically.
+  In some cases, a limited number of delay histogram bins will be
   available, and the bin limits will need to be set using results from
   repeated experiments. See section 8 of `RFC5481
   <https://www.rfc-editor.org/rfc/rfc5481.txt>`__.
@@ -124,11 +124,12 @@ includes measuring the following performance metrics:
   they include all required fields, conform to length requirements, pass
   integrity checks, etc.
 - **Availability and capacity** of the DUT i.e. when the DUT is fully “up”
-  and connected:
+  and connected, following measurements should be captured for
+  DUT without any network packet load:
 
-  - Includes power consumption of the CPU (in various power states) and
-    system.
-  - Includes CPU utilization.
+  - Includes average power consumption of the CPUs (in various power states) and
+    system over specified period of time.
+  - Includes average per core CPU utilization over specified period of time.
   - Includes the number of NIC interfaces supported.
   - Includes headroom of VM workload processing cores (i.e. available
     for applications).
@@ -165,9 +166,13 @@ switch, the tests will be broken down into the following categories:
 - **CPU and Memory Consumption Tests** to understand the virtual
   switch’s footprint on the system, this includes:
 
-  * CPU utilization
-  * Cache utilization
-  * Memory footprint
+  * CPU core utilization.
+  * CPU cache utilization.
+  * Memory footprint.
+  * PCI bus utilization.
+  * QPI bus utilization.
+  * Memory lanes utilization.
+  * CPU cycles consumed per packet.
   * Time To Establish Flows Tests.
 
 - **Noisy Neighbour Tests**, to understand the effects of resource
@@ -177,11 +182,11 @@ switch, the tests will be broken down into the following categories:
 the combined results would be insightful, for example Packet/Frame Delay
 and Scalability.
 
-2.2.2 Deployment Scenarios
---------------------------
-The following represents possible deployments which can help to
-determine the performance of both the virtual switch and the datapath
-into the VNF:
+2.2.2 Deployment Test Scenarios
+-------------------------------
+The following represents possible deployment test scenarios which can
+help to determine the performance of both the virtual switch and the
+datapaths to physical ports (to NICs) and to logical ports (to VNFs):
 
 Physical port → vSwitch → physical port
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -281,6 +286,43 @@ Physical port → vSwitch → VNF → vSwitch → VNF → vSwitch → physical p
     |                                                  |
     +--------------------------------------------------+
 
+Physical port → VNF → vSwitch → VNF → physical port
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  .. code-block:: console
+
+                                                        _
+    +----------------------+  +----------------------+   |
+    |   Guest 1            |  |   Guest 2            |   |
+    |+-------------------+ |  | +-------------------+|   |
+    ||     Application   | |  | |     Application   ||   |
+    |+-------------------+ |  | +-------------------+|   |
+    |       ^       |      |  |       ^       |      |   |
+    |       |       v      |  |       |       v      |   |  Guests
+    |+-------------------+ |  | +-------------------+|   |
+    ||   logical ports   | |  | |   logical ports   ||   |
+    || 0               1 | |  | | 0               1 ||   |
+    ++--------------------++  ++--------------------++  _|
+      ^                 :         ^               :
+      |                 |         |               |
+      |                 v         :               |     _
+      | +---------------------------------------+ |      |
+      | |  |            1  | |    2          |  | |      |
+      | |  | logical port  | | logical port  |  | |      |
+      | |  +---------------+ +---------------+  | |      |
+      | |          |                 ^          | |      |  Host
+      | |          L-----------------+          | |      |
+      | |                                       | |      |
+      | |                vSwitch                | |      |
+      | +---------------------------------------+ |     _|
+      |                                           |
+      |                                           |
+      :                                           v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+
 
 Physical port → vSwitch → VNF
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -486,13 +528,17 @@ tests:
    a single flow and scale up. By default flows should be added
    sequentially, tests that add flows simultaneously will explicitly
    call out their flow addition behaviour. Packets are generated across
-   the flows uniformly with no burstiness.
+   the flows uniformly with no burstiness. For multi-core tests should
+   consider the number of packet flows based on vSwitch/VNF multi-thread
+   implementation and behavior.
+
 -  Traffic Types: UDP, SCTP, RTP, GTP and UDP traffic.
 -  Deployment scenarios are:
 -  Physical → virtual switch → physical.
 -  Physical → virtual switch → VNF → virtual switch → physical.
 -  Physical → virtual switch → VNF → virtual switch → VNF → virtual
    switch → physical.
+-  Physical → VNF → virtual switch → VNF → physical.
 -  Physical → virtual switch → VNF.
 -  VNF → virtual switch → Physical.
 -  VNF → virtual switch → VNF.
@@ -708,7 +754,8 @@ test results, including:
 -  BIOS configuration: BIOS should be configured for performance where
    an explicit option exists, sleep states should be disabled, any
    virtualization optimization technologies should be enabled, and
-   hyperthreading should also be enabled.
+   hyperthreading should also be enabled, turbo boost and overclocking
+   should be disabled.
 
 System Validation
 +++++++++++++++++
@@ -832,7 +879,7 @@ frame loss percentage, and maximum data throughput.
 In this document network “throughput” (measured in millions of frames
 per second) is based on RFC 2544, unless otherwise noted. Frame size
 refers to Ethernet frames ranging from smallest frames of 64 bytes to
-largest frames of 4K bytes.
+largest frames of 9K bytes.
 
 Types of tests are:
 
@@ -1033,6 +1080,96 @@ Test ID: LTD.Throughput.RFC2544.PacketLossRatio
        `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__).
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
+
+Test ID: LTD.Throughput.RFC2544.WorstN-BestN
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    **Title**: Modified RFC 2544 X% packet loss ratio Throughput and Latency Test
+
+    **Prerequisite Test**: N/A
+
+    **Priority**:
+
+    **Description**:
+
+    This test determines the DUT's maximum forwarding rate with X% traffic
+    loss for a constant load (fixed length frames at a fixed interval time).
+    The default loss percentages to be tested are: X = 0%, X = 10^-3%
+
+    Modified RFC 2544 throughput benchmarking methodology aims to quantify
+    the throughput measurement variations observed during standard RFC 2544
+    benchmarking measurements of virtual switches and VNFs. The RFC2544
+    binary search algorithm is modified to use more samples per test trial
+    to drive the binary search and yield statistically more meaningful
+    results. This keeps the heart of the RFC2544 methodology, still relying
+    on the binary search of throughput at specified loss tolerance, while
+    providing more useful information about the range of results seen in
+    testing. Instead of using a single traffic trial per iteration step,
+    each traffic trial is repeated N times and the success/failure of the
+    iteration step is based on these N traffic trials. Two types of revised
+    tests are defined - *Worst-of-N* and *Best-of-N*.
+
+    **Worst-of-N**
+
+    *Worst-of-N* indicates the lowest expected maximum throughput for (
+    packet size, loss tolerance) when repeating the test.
+
+    1.  Repeat the same test run N times at a set packet rate, record each
+        result.
+    2.  Take the WORST result (highest packet loss) out of N result samples,
+        called the Worst-of-N sample.
+    3.  If Worst-of-N sample has loss less than the set loss tolerance, then
+        the step is successful - increase the test traffic rate.
+    4.  If Worst-of-N sample has loss greater than the set loss tolerance
+        then the step failed - decrease the test traffic rate.
+    5.  Go to step 1.
+
+    **Best-of-N**
+
+    *Best-of-N* indicates the highest expected maximum throughput for (
+    packet size, loss tolerance) when repeating the test.
+
+    1.  Repeat the same traffic run N times at a set packet rate, record
+        each result.
+    2.  Take the BEST result (least packet loss) out of N result samples,
+        called the Best-of-N sample.
+    3.  If Best-of-N sample has loss less than the set loss tolerance, then
+        the step is successful - increase the test traffic rate.
+    4.  If Best-of-N sample has loss greater than the set loss tolerance,
+        then the step failed - decrease the test traffic rate.
+    5.  Go to step 1.
+
+    Performing both Worst-of-N and Best-of-N benchmark tests yields lower
+    and upper bounds of expected maximum throughput under the operating
+    conditions, giving a very good indication to the user of the
+    deterministic performance range for the tested setup.
+
+    **Expected Result**: At the end of each trial series, the presence or
+    absence of loss determines the modification of offered load for the
+    next trial series, converging on a maximum rate, or
+    `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__ Throughput
+    with X% loss.
+    The Throughput load is re-used in related
+    `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__ tests and other
+    tests.
+
+    **Metrics Collected**:
+
+    The following are the metrics collected for this test:
+
+    -  The maximum forwarding rate in Frames Per Second (FPS) and Mbps of
+       the DUT for each frame size with X% packet loss.
+    -  The average latency of the traffic flow when passing through the DUT
+       (if testing for latency, note that this average is different from the
+       test specified in Section 26.3 of
+       `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__).
+    -  Following may also be collected as part of this test, to determine
+       the vSwitch's performance footprint on the system:
+      -  CPU core utilization.
+      -  CPU cache utilization.
+      -  Memory footprint.
+      -  PCI bus utilization.
+      -  QPI bus utilization.
+      -  CPU cycles consumed per packet.
 
 Test ID: LTD.Throughput.RFC2544.PacketLossRatioFrameModification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1671,6 +1808,48 @@ Test ID: LTD.PacketDelayVariation.RFC3393.Soak
        using the 99th percentile, for each 60s interval during the test.
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
+
+Test ID: LTD.InterPacketDelayVariation.RFC5481
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    **Title**: Inter Packet Delay Variation Test
+
+    **Prerequisite Tests**: LTD.Throughput.RFC2544.PacketLossRatio (0% Packet Loss)
+
+    **Priority**:
+
+    **Description**:
+
+    Background latency streams at low rate of 5 fps per stream is added to
+    the bulk throughput measurement streams as specified by LTD.Throughput.
+    RFC2544.PacketLossRatio and by LTD.Throughput.RFC2544.WorstN-BestN.
+    Captures every packet to calculate per packet latency and latency
+    variation. Presents per packet latency and latency variation results
+    in 50%ile, 90%ile and 100%ile for NDR/PDR and last linear step
+    increase before NDR/PDR. Latency variation calculated per IPDV (Inter-
+    Packet Delay Variation) definition in RFC 5481. Other calculations e.g.
+    PDV (Packet Delay Variation) per RFC5481 and statistics are possible,
+    as all captured packet tx/rx timestamps available for processing.
+    This allows to pick up any anomalies in packet latency and latency variation.
+
+    **Expected Result**:
+
+    **Metrics Collected**:
+
+    The following are the metrics collected for this test:
+
+    -  The inter packet delay variation value for traffic passing through
+       the DUT.
+    -  The `RFC5481 <https://www.rfc-editor.org/rfc/rfc5481.txt>`__
+       IPDV form of delay variation on the traffic flow, using the 50th,
+       90th and 100th percentile, for each 60s interval during the test.
+    -  Following may also be collected as part of this test, to determine
+       the vSwitch's performance footprint on the system:
+      -  CPU core utilization.
+      -  CPU cache utilization.
+      -  Memory footprint.
+      -  PCI bus utilization.
+      -  QPI bus utilization.
+      -  CPU cycles consumed per packet.
 
 2.3.3 Scalability tests
 ~~~~~~~~~~~~~~~~~~~~~~~~
