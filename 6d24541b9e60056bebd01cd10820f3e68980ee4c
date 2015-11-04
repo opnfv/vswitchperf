@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_73044b15",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1816,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-11-04T23:01:31Z",
+      "side": 1,
+      "message": "Suggest to add the PDV test above as a prereq for this test, primarily because it may indicate trivial variation and then there is no need to examine the two-sided IPDV distribution (see more below).",
+      "revId": "6d24541b9e60056bebd01cd10820f3e68980ee4c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_5309472b",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1844,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-11-04T23:01:31Z",
+      "side": 1,
+      "message": "IPDV is a two-sided distribution, with positive and negative variation. the two sides are important to distinguish, especially the negative side which means that the traffic in a flow has become \"more bursty\". Let\u0027s look at some examples (or perhaps you have measurements to share?). In any case, we cannot use the abs(IPDV) usefully, and we may need to construct our own measurement calculations to get the needed info, IMO.",
+      "revId": "6d24541b9e60056bebd01cd10820f3e68980ee4c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
