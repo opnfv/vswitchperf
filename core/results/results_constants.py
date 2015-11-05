@@ -21,6 +21,7 @@ class ResultsConstants(object):
     ID = 'id'
     PACKET_SIZE = 'packet_size'
     DEPLOYMENT = 'deployment'
+    TRAFFIC_TYPE = 'traffic_type'
 
     UNKNOWN_VALUE = "Unknown"
 
@@ -51,6 +52,9 @@ class ResultsConstants(object):
     B2B_FRAMES = 'b2b_frames'
     B2B_FRAME_LOSS_FRAMES = 'b2b_frame_loss_frames'
     B2B_FRAME_LOSS_PERCENT = 'b2b_frame_loss_percent'
+    SCAL_STREAM_COUNT = 'stream_count'
+    SCAL_STREAM_TYPE = 'match_type'
+    SCAL_PRE_INSTALLED_FLOWS = 'pre-installed_flows'
 
     @staticmethod
     def get_traffic_constants():

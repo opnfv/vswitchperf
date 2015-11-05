@@ -29,7 +29,7 @@ TRAFFIC_DEFAULTS = {
         'dstport': 3001,
     },
     'l3': {
-        'proto': 'tcp',
+        'proto': 'udp',
         'srcip': '1.1.1.1',
         'dstip': '90.90.90.90',
     },
