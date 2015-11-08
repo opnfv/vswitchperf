@@ -79,16 +79,16 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, time=20):
+    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
         """Send a burst of traffic.
 
         Send a ``numpkts`` packets of traffic, using ``traffic``
-        configuration, with a timeout of ``time``.
+        configuration, for ``duration`` seconds.
 
         Attributes:
         :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN tags
         :param numpkts: Number of packets to send
-        :param time: Time to wait to receive packets
+        :param duration: Time to wait to receive packets
 
         :returns: dictionary of strings with following data:
             - List of Tx Frames,
@@ -99,16 +99,16 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def send_cont_traffic(self, traffic=None, time=20, multistream=False):
+    def send_cont_traffic(self, traffic=None, duration=20, multistream=False):
         """Send a continuous flow of traffic.
 
         Send packets at given framerate, using ``traffic`` configuration,
-        until timeout ``time`` occurs.
+        for ``duration`` seconds..
 
         :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN tags
-        :param time: Time to wait to receive packets (secs)
+                        from 1 to 64,000
+        :param duration: Duration to transmit traffic.
         :param multistream: Enable multistream output by overriding the
-                        UDP port number in ``traffic`` with values
                         from 1 to 64,000
         :returns: dictionary of strings with following data:
             - Tx Throughput (fps),
@@ -123,7 +123,7 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def start_cont_traffic(self, traffic=None, time=20):
+    def start_cont_traffic(self, traffic=None,  duration=30):
         """Non-blocking version of 'send_cont_traffic'.
 
         Start transmission and immediately return. Do not wait for
@@ -183,8 +183,7 @@ class ITrafficGenerator(object):
         """Send traffic per RFC2544 back2back test specifications.
 
         Send packets at a fixed rate, using ``traffic``
-        configuration, until minimum time at which no packet loss is
-        detected is found.
+        configuration, for duration seconds.
 
         :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN
             tags

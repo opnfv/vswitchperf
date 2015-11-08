@@ -81,15 +81,15 @@ proc startRfc2544Test { testSpec trafficSpec } {
 
     set binary                  [dict get $testSpec binary]
 
+    set duration                [dict get $testSpec duration]
+
     if {$binary} {
         set numTrials           [dict get $testSpec trials]
-        set duration            [dict get $testSpec duration]
         set frameRate           100
         set tolerance           [dict get $testSpec lossrate]
         set loadType            binary
     } else {
         set numTrials           1
-        set duration            [dict get $testSpec time]
         set frameRate           [dict get $testSpec framerate]
         set tolerance           0.0
         set loadType            custom

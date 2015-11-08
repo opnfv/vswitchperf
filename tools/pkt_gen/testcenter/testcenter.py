@@ -45,13 +45,13 @@ class TestCenter(trafficgen.ITrafficGenerator):
         """
         pass
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, time=20, framerate=100):
+    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20, framerate=100):
         """
         Do nothing.
         """
         return None
 
-    def send_cont_traffic(self, traffic=None, time=20, framerate=0,
+    def send_cont_traffic(self, traffic=None, duration=30, framerate=0,
                           multistream=False):
         """
         Do nothing.
