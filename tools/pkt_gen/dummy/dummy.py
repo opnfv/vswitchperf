@@ -104,7 +104,7 @@ class Dummy(trafficgen.ITrafficGenerator):
         """
         pass
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, time=20):
+    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
         """
         Send a burst of traffic.
         """
@@ -116,7 +116,7 @@ class Dummy(trafficgen.ITrafficGenerator):
 
         results = get_user_traffic(
             'burst',
-            '%dpkts, %dmS' % (numpkts, time),
+            '%dpkts, %dmS' % (numpkts, duration),
             traffic_,
             ('frames rx', 'payload errors', 'sequence errors'))
 
@@ -133,7 +133,7 @@ class Dummy(trafficgen.ITrafficGenerator):
 
         return trafficgen.BurstResult(*results)
 
-    def send_cont_traffic(self, traffic=None, time=20, multistream=False):
+    def send_cont_traffic(self, traffic=None, duration=30, multistream=False):
         """
         Send a continuous flow of traffic.
         """
@@ -145,8 +145,8 @@ class Dummy(trafficgen.ITrafficGenerator):
 
         results = get_user_traffic(
             'continuous',
-            '%dmS, %dmpps, multistream %s' % (time, traffic['frame_rate'],
-                                              multistream), traffic_,
+            '%dmpps, multistream %s duration %d' % (traffic['frame_rate'],
+                                              multistream, duration), traffic_,
             ('frames tx', 'frames rx', 'min latency', 'max latency',
              'avg latency'))
 
@@ -154,12 +154,12 @@ class Dummy(trafficgen.ITrafficGenerator):
 
         # builds results by using user-supplied values where possible
         # and guessing remainder using available info
-        result[ResultsConstants.THROUGHPUT_TX_FPS] = float(results[0]) / time
-        result[ResultsConstants.THROUGHPUT_RX_FPS] = float(results[1]) / time
+        result[ResultsConstants.THROUGHPUT_TX_FPS] = float(results[0]) / duration 
+        result[ResultsConstants.THROUGHPUT_RX_FPS] = float(results[1]) / duration
         result[ResultsConstants.THROUGHPUT_TX_MBPS] = (float(results[0]) \
-                                                      * framesize) / time
+                                                      * framesize) / duration
         result[ResultsConstants.THROUGHPUT_RX_MBPS] = (float(results[1]) \
-                                                      * framesize) / time
+                                                      * framesize) / duration
         result[ResultsConstants.THROUGHPUT_TX_PERCENT] = 0.0
         result[ResultsConstants.THROUGHPUT_RX_PERCENT] = 0.0
         result[ResultsConstants.MIN_LATENCY_NS] = float(results[2])
