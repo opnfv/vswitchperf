@@ -211,12 +211,12 @@ class Ixia(trafficgen.ITrafficGenerator):
 
         return result
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, time=20):
+    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
         """See ITrafficGenerator for description
         """
         flow = {
             'numpkts': numpkts,
-            'time': time,
+            'time': duration,
             'type': 'stopStream',
             'framerate': traffic['frame_rate'],
         }
@@ -227,7 +227,7 @@ class Ixia(trafficgen.ITrafficGenerator):
 
         #TODO - implement Burst results setting via TrafficgenResults.
 
-    def send_cont_traffic(self, traffic=None, time=20, multistream=False):
+    def send_cont_traffic(self, traffic=None, time=20, duration=30, multistream=False):
         """See ITrafficGenerator for description
         """
         flow = {
@@ -236,13 +236,14 @@ class Ixia(trafficgen.ITrafficGenerator):
             'type': 'contPacket',
             'framerate': traffic['frame_rate'],
             'multipleStreams': traffic['multistream'],
+            'duration': duration,
         }
 
         result = self._send_traffic(flow, traffic)
 
         return Ixia._create_result(result)
 
-    def start_cont_traffic(self, traffic=None, time=20):
+    def start_cont_traffic(self, traffic=None, time=20, duration=30):
         """See ITrafficGenerator for description
         """
         return self.send_cont_traffic(traffic, 0)
