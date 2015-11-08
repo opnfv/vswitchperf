@@ -123,6 +123,16 @@ access method, use:
 
      make VHOST_USER=y
 
+To build everything: Vanilla OVS, OVS with vhost_user as the guest access
+method and OVS with vhost_cuse access simply:
+  .. code-block:: console
+
+     make
+
+The vhost_user build will reside in src/ovs/
+The vhost_cuse build will reside in vswitchperf/src_cuse
+The Vanilla OVS build will reside in vswitchperf/src_vanilla
+
 To delete a src subdirectory and its contents to allow you to re-clone simply
 use:
 
@@ -132,7 +142,8 @@ use:
 
 Configure the ``./conf/10_custom.conf`` file
 --------------------------------------------
-
+The ``10_custom.conf`` file is the configuration file that overrides
+default configurations in all the other configuration files in ``./conf``
 The supplied ``10_custom.conf`` file must be modified, as it contains
 configuration items for which there are no reasonable default values.
 
@@ -144,8 +155,9 @@ the custom configuration value.
 Using a custom settings file
 ----------------------------
 
-Alternatively a custom settings file can be passed to ``vsperf`` via the
-``--conf-file`` argument.
+If your ``10_custom.conf`` doesn't reside in the ``./conf`` directory
+of if you want to use an alternative configuration file, the file can
+be passed to ``vsperf`` via the ``--conf-file`` argument.
 
   .. code-block:: console
 
@@ -178,7 +190,15 @@ To list the available tests:
 
   .. code-block:: console
 
-    ./vsperf --list-tests
+    ./vsperf --list
+
+To run a single test:
+
+  .. code-block:: console
+
+    ./vsperf $TESTNAME
+
+Where $TESTNAME is the name of the vsperf test you would like to run.
 
 To run a group of tests, for example all tests with a name containing
 'RFC2544':
@@ -200,7 +220,7 @@ Some tests allow for configurable parameters, including test duration
 
     ./vsperf --conf-file user_settings.py
         --tests RFC2544Tput
-        --test-param "rfc2544_duration=10;packet_sizes=128"
+        --test-param "duration=10;pkt_sizes=128"
 
 For all available options, check out the help dialog:
 
@@ -208,7 +228,45 @@ For all available options, check out the help dialog:
 
     ./vsperf --help
 
-Executing PVP and PVVP tests
+Executing Vanilla OVS tests
+----------------------------
+If you have compiled all the variants of OVS in ''src/'' please skip
+step 1.
+
+1. Recompile src for Vanilla OVS testing
+
+  .. code-block:: console
+
+     cd src
+     make cleanse
+     make WITH_LINUX=/lib/modules/`uname -r`/build
+
+2. Update your ''10_custom.conf'' file to use the appropriate variables
+for Vanilla OVS:
+  .. code-block:: console
+
+   VSWITCH = 'OvsVanilla'
+   VSWITCH_VANILLA_PHY_PORT_NAMES = ['$PORT1', '$PORT1']
+
+Where $PORT1 and $PORT2 are the Linux interfaces you'd like to bind
+to the vswitch.
+
+3. Run test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file <path_to_settings_py>
+
+Please note if you don't want to configure Vanilla OVS through the
+configuration file, you can pass it as a CLI argument; BUT you must
+set the ports.
+
+  .. code-block:: console
+
+    ./vsperf --vswitch OvsVanilla
+
+
+    Executing PVP and PVVP tests
 ----------------------------
 To run tests using vhost-user as guest access method:
 
