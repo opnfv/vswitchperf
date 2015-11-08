@@ -213,14 +213,14 @@ proc sendTraffic { flowSpec trafficSpec } {
     # Parameters:
     #   flowSpec - a dict detailing how the packet should be sent. Should be
     #     of format:
-    #         {type, numpkts, time, framerate}
+    #         {type, numpkts, duration, framerate}
     #   trafficSpec - a dict describing the packet to be sent. Should be
     #     of format:
     #         { l2, vlan, l3}
     #     where each item is in turn a dict detailing the configuration of each
     #     layer of the packet
     # Returns:
-    #   Output from Rx end of Ixia if time != 0, else 0
+    #   Output from Rx end of Ixia if duration != 0, else 0
 
     ##################################################
     ################# Initialisation #################
@@ -238,7 +238,7 @@ proc sendTraffic { flowSpec trafficSpec } {
 
     set streamType              [dict get $flowSpec type]
     set numPkts                 [dict get $flowSpec numpkts]
-    set time                    [expr {[dict get $flowSpec time] * 1000}]
+    set duration                [expr {[dict get $flowSpec duration] * 1000}]
     set frameRate               [dict get $flowSpec framerate]
 
     # traffic spec
@@ -427,18 +427,18 @@ proc sendTraffic { flowSpec trafficSpec } {
     logMsg "Starting transmit on port $::port1"
     ixStartPortTransmit $::chassis $::card $::port1
 
-    # If time=0 is passed, exit after starting transmit
+    # If duration=0 is passed, exit after starting transmit
 
-    if {$time == 0} {
+    if {$duration == 0} {
         logMsg "Sending traffic until interrupted"
         return
     }
 
-    logMsg "Waiting for $time ms"
+    logMsg "Waiting for $duration ms"
 
-    # Wait for time - 1 second to get traffic rate
+    # Wait for duration - 1 second to get traffic rate
 
-    after [expr "$time - 1"]
+    after [expr "$duration - 1"]
 
     # Get result
 
@@ -668,7 +668,7 @@ proc rfcThroughputTest { testSpec trafficSpec } {
     for {set i 0} {$i < 20} {incr i} {
         dict set flowSpec type                        "contPacket"
         dict set flowSpec numpkts                     100 ;# this can be bypassed
-        dict set flowSpec time                        $duration
+        dict set flowSpec duration                    $duration
         dict set flowSpec framerate                   $percentRate
 
         set flowStats [sendTraffic $flowSpec $trafficSpec]
