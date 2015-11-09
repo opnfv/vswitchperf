@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_09c4c090",
+        "filename": "src/package-list.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 313
+      },
+      "writtenOn": "2015-11-09T19:34:12Z",
+      "side": 1,
+      "message": "Why did we change the DPDK tag to a specific version but not the OVS? Doesn\u0027t OVS also tag released versions? Do we really want to catch the latest, possibly broken, code from master or keep OVS and DPDK in sync?",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "dfdcd6caf429dd101b0a0c2e81a65000b79d9604",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
