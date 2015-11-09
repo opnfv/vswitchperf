@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a5c5d37_661dab73",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-11-09T11:46:19Z",
+      "side": 1,
+      "message": "Hi Miroslav,\n\nI presume (having benefited from your presentation) that the direct link from the TG to the Guest means that SRIOV is being used - or some other such direct-to-guest technology.\n\nIf so, it would be very helpful if that was stated explicity in a note of the diagram.\n\nCheers,\n/Billy",
+      "revId": "6d24541b9e60056bebd01cd10820f3e68980ee4c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_4612a763",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-11-09T11:46:19Z",
+      "side": 1,
+      "message": "again maybe mention using a direct-to-guest tech such as SR-IOV.",
+      "revId": "6d24541b9e60056bebd01cd10820f3e68980ee4c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_a6028309",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-11-09T11:46:19Z",
+      "side": 1,
+      "message": "If I\u0027m understanding correctly then for DUT where packet loss \u0027comes on\u0027 very gradually and lumpily (ie where pkt loss tends to cluster) as load increases then by running these two tests we should be able to a two repeatable figures which would bracket an very variable traditional max-throughput figure.\n\nA welcome additional test if so.",
+      "revId": "6d24541b9e60056bebd01cd10820f3e68980ee4c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_73044b15",
         "filename": "docs/test_spec/vswitchperf_ltd.rst",
         "patchSetId": 2
