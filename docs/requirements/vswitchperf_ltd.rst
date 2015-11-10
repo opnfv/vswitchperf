@@ -136,11 +136,14 @@ includes measuring the following performance metrics:
   they include all required fields, conform to length requirements, pass
   integrity checks, etc.
 - **Availability and capacity** of the DUT i.e. when the DUT is fully “up”
-  and connected:
+  and connected, following measurements should be captured for
+  DUT without any network packet load:
 
-  - Includes power consumption of the CPU (in various power states) and
-    system.
-  - Includes CPU utilization.
+  - Includes average power consumption of the CPUs (in various power states) and
+    system over specified period of time. Time period should not be less
+    than 60 seconds.
+  - Includes average per core CPU utilization over specified period of time.
+    Time period should not be less than 60 seconds.
   - Includes the number of NIC interfaces supported.
   - Includes headroom of VM workload processing cores (i.e. available
     for applications).
@@ -182,9 +185,12 @@ Test Categories
 - **CPU and Memory Consumption Tests** to understand the virtual
   switch’s footprint on the system, this includes:
 
-  * CPU utilization
-  * Cache utilization
-  * Memory footprint
+  * CPU core utilization.
+  * CPU cache utilization.
+  * Memory footprint.
+  * System bus (QPI, PCI, ..) utilization.
+  * Memory lanes utilization.
+  * CPU cycles consumed per packet.
   * Time To Establish Flows Tests.
 
 - **Noisy Neighbour Tests**, to understand the effects of resource
@@ -198,9 +204,9 @@ and Scalability.
 
 Deployment Scenarios
 --------------------------
-The following represents possible deployments which can help to
-determine the performance of both the virtual switch and the datapath
-into the VNF:
+The following represents possible deployment test scenarios which can
+help to determine the performance of both the virtual switch and the
+datapaths to physical ports (to NICs) and to logical ports (to VNFs):
 
 .. 3.2.2.2.1
 
@@ -808,7 +814,8 @@ test results, including:
 -  BIOS configuration: BIOS should be configured for performance where
    an explicit option exists, sleep states should be disabled, any
    virtualization optimization technologies should be enabled, and
-   hyperthreading should also be enabled.
+   hyperthreading should also be enabled, turbo boost and overclocking
+   should be disabled.
 
 **System Validation:**
 
@@ -938,7 +945,7 @@ frame loss percentage, and maximum data throughput.
 In this document network “throughput” (measured in millions of frames
 per second) is based on RFC 2544, unless otherwise noted. Frame size
 refers to Ethernet frames ranging from smallest frames of 64 bytes to
-largest frames of 4K bytes.
+largest frames of 9K bytes.
 
 Types of tests are:
 
