@@ -281,6 +281,48 @@ Physical port → vSwitch → VNF → vSwitch → VNF → vSwitch → physical p
     |                                                  |
     +--------------------------------------------------+
 
+Physical port → VNF → vSwitch → VNF → physical port
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  .. code-block:: console
+
+                                                        _
+    +----------------------+  +----------------------+   |
+    |   Guest 1            |  |   Guest 2            |   |
+    |+-------------------+ |  | +-------------------+|   |
+    ||     Application   | |  | |     Application   ||   |
+    |+-------------------+ |  | +-------------------+|   |
+    |       ^       |      |  |       ^       |      |   |  Guests
+    |       |       v      |  |       |       v      |   |
+    |+-------------------+ |  | +-------------------+|   |
+    ||   logical ports   | |  | |   logical ports   ||   |
+    ||  0              1 | |  | | 0              1  ||   |
+    ++--------------------++  ++--------------------++  _|
+        ^              :          ^              :
+    (PCI passthrough)  |          |     (PCI passthrough)
+        |              v          :              |      _
+    +--------++------------+-+------------++---------+   |
+    |   |    ||        0   | |    1       ||     |   |   |
+    |   |    ||logical port| |logical port||     |   |   |
+    |   |    |+------------+ +------------+|     |   |   |
+    |   |    |     |                 ^     |     |   |   |
+    |   |    |     L-----------------+     |     |   |   |
+    |   |    |                             |     |   |   |  Host
+    |   |    |           vSwitch           |     |   |   |
+    |   |    +-----------------------------+     |   |   |
+    |   |                                        |   |   |
+    |   |                                        v   |   |
+    | +--------------+              +--------------+ |   |
+    | | phy port/VF  |              | phy port/VF  | |   |
+    +-+--------------+--------------+--------------+-+  _|
+        ^                                        :
+        |                                        |
+        :                                        v
+    +--------------------------------------------------+
+    |                                                  |
+    |                traffic generator                 |
+    |                                                  |
+    +--------------------------------------------------+
 
 Physical port → vSwitch → VNF
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -486,13 +528,17 @@ tests:
    a single flow and scale up. By default flows should be added
    sequentially, tests that add flows simultaneously will explicitly
    call out their flow addition behaviour. Packets are generated across
-   the flows uniformly with no burstiness.
+   the flows uniformly with no burstiness. For multi-core tests should
+   consider the number of packet flows based on vSwitch/VNF multi-thread
+   implementation and behavior.
+
 -  Traffic Types: UDP, SCTP, RTP, GTP and UDP traffic.
 -  Deployment scenarios are:
 -  Physical → virtual switch → physical.
 -  Physical → virtual switch → VNF → virtual switch → physical.
 -  Physical → virtual switch → VNF → virtual switch → VNF → virtual
    switch → physical.
+-  Physical → VNF → virtual switch → VNF → physical.
 -  Physical → virtual switch → VNF.
 -  VNF → virtual switch → Physical.
 -  VNF → virtual switch → VNF.
