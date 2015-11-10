@@ -1034,6 +1034,96 @@ Test ID: LTD.Throughput.RFC2544.PacketLossRatio
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
 
+Test ID: LTD.Throughput.RFC2544.WorstN-BestN
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    **Title**: Modified RFC 2544 X% packet loss ratio Throughput and Latency Test
+
+    **Prerequisite Test**: N/A
+
+    **Priority**:
+
+    **Description**:
+
+    This test determines the DUT's maximum forwarding rate with X% traffic
+    loss for a constant load (fixed length frames at a fixed interval time).
+    The default loss percentages to be tested are: X = 0%, X = 10^-3%
+
+    Modified RFC 2544 throughput benchmarking methodology aims to quantify
+    the throughput measurement variations observed during standard RFC 2544
+    benchmarking measurements of virtual switches and VNFs. The RFC2544
+    binary search algorithm is modified to use more samples per test trial
+    to drive the binary search and yield statistically more meaningful
+    results. This keeps the heart of the RFC2544 methodology, still relying
+    on the binary search of throughput at specified loss tolerance, while
+    providing more useful information about the range of results seen in
+    testing. Instead of using a single traffic trial per iteration step,
+    each traffic trial is repeated N times and the success/failure of the
+    iteration step is based on these N traffic trials. Two types of revised
+    tests are defined - *Worst-of-N* and *Best-of-N*.
+
+    **Worst-of-N**
+
+    *Worst-of-N* indicates the lowest expected maximum throughput for (
+    packet size, loss tolerance) when repeating the test.
+
+    1.  Repeat the same test run N times at a set packet rate, record each
+        result.
+    2.  Take the WORST result (highest packet loss) out of N result samples,
+        called the Worst-of-N sample.
+    3.  If Worst-of-N sample has loss less than the set loss tolerance, then
+        the step is successful - increase the test traffic rate.
+    4.  If Worst-of-N sample has loss greater than the set loss tolerance
+        then the step failed - decrease the test traffic rate.
+    5.  Go to step 1.
+
+    **Best-of-N**
+
+    *Best-of-N* indicates the highest expected maximum throughput for (
+    packet size, loss tolerance) when repeating the test.
+
+    1.  Repeat the same traffic run N times at a set packet rate, record
+        each result.
+    2.  Take the BEST result (least packet loss) out of N result samples,
+        called the Best-of-N sample.
+    3.  If Best-of-N sample has loss less than the set loss tolerance, then
+        the step is successful - increase the test traffic rate.
+    4.  If Best-of-N sample has loss greater than the set loss tolerance,
+        then the step failed - decrease the test traffic rate.
+    5.  Go to step 1.
+
+    Performing both Worst-of-N and Best-of-N benchmark tests yields lower
+    and upper bounds of expected maximum throughput under the operating
+    conditions, giving a very good indication to the user of the
+    deterministic performance range for the tested setup.
+
+    **Expected Result**: At the end of each trial series, the presence or
+    absence of loss determines the modification of offered load for the
+    next trial series, converging on a maximum rate, or
+    `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__ Throughput
+    with X% loss.
+    The Throughput load is re-used in related
+    `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__ tests and other
+    tests.
+
+    **Metrics Collected**:
+
+    The following are the metrics collected for this test:
+
+    -  The maximum forwarding rate in Frames Per Second (FPS) and Mbps of
+       the DUT for each frame size with X% packet loss.
+    -  The average latency of the traffic flow when passing through the DUT
+       (if testing for latency, note that this average is different from the
+       test specified in Section 26.3 of
+       `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__).
+    -  Following may also be collected as part of this test, to determine
+       the vSwitch's performance footprint on the system:
+      -  CPU core utilization.
+      -  CPU cache utilization.
+      -  Memory footprint.
+      -  PCI bus utilization.
+      -  QPI bus utilization.
+      -  CPU cycles consumed per packet.
+
 Test ID: LTD.Throughput.RFC2544.PacketLossRatioFrameModification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     **Title**: RFC 2544 X% packet loss Throughput and Latency Test with
@@ -1671,6 +1761,48 @@ Test ID: LTD.PacketDelayVariation.RFC3393.Soak
        using the 99th percentile, for each 60s interval during the test.
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
+
+Test ID: LTD.InterPacketDelayVariation.RFC5481
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    **Title**: Inter Packet Delay Variation Test
+
+    **Prerequisite Tests**: LTD.Throughput.RFC2544.PacketLossRatio (0% Packet Loss)
+
+    **Priority**:
+
+    **Description**:
+
+    Background latency streams at low rate of 5 fps per stream is added to
+    the bulk throughput measurement streams as specified by LTD.Throughput.
+    RFC2544.PacketLossRatio and by LTD.Throughput.RFC2544.WorstN-BestN.
+    Captures every packet to calculate per packet latency and latency
+    variation. Presents per packet latency and latency variation results
+    in 50%ile, 90%ile and 100%ile for NDR/PDR and last linear step
+    increase before NDR/PDR. Latency variation calculated per IPDV (Inter-
+    Packet Delay Variation) definition in RFC 5481. Other calculations e.g.
+    PDV (Packet Delay Variation) per RFC5481 and statistics are possible,
+    as all captured packet tx/rx timestamps available for processing.
+    This allows to pick up any anomalies in packet latency and latency variation.
+
+    **Expected Result**:
+
+    **Metrics Collected**:
+
+    The following are the metrics collected for this test:
+
+    -  The inter packet delay variation value for traffic passing through
+       the DUT.
+    -  The `RFC5481 <https://www.rfc-editor.org/rfc/rfc5481.txt>`__
+       IPDV form of delay variation on the traffic flow, using the 50th,
+       90th and 100th percentile, for each 60s interval during the test.
+    -  Following may also be collected as part of this test, to determine
+       the vSwitch's performance footprint on the system:
+      -  CPU core utilization.
+      -  CPU cache utilization.
+      -  Memory footprint.
+      -  PCI bus utilization.
+      -  QPI bus utilization.
+      -  CPU cycles consumed per packet.
 
 2.3.3 Scalability tests
 ~~~~~~~~~~~~~~~~~~~~~~~~
