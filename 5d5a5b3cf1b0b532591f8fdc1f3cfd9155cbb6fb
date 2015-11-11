@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_c47d6fb3",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-11-11T00:49:42Z",
+      "side": 1,
+      "message": "Where did 10^-3percent ( \u003d 10^-5 loss ratio) come from?",
+      "revId": "5d5a5b3cf1b0b532591f8fdc1f3cfd9155cbb6fb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_844f7792",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-11-11T00:49:42Z",
+      "side": 1,
+      "message": "I imagined this working differently, but there may be no right way, just an easy way to explain and which users of our results find most useful.\n\nNeed to think about this some more, because I don\u0027t think we\u0027re \"there\" yet with this version...",
+      "revId": "5d5a5b3cf1b0b532591f8fdc1f3cfd9155cbb6fb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_a44a7b81",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1775,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-11-11T00:49:42Z",
+      "side": 1,
+      "message": "There is a problem with measuring delay variation at such low packet rates -- most streams that are sensitive to delay variation are much more closely-spaced, therefore the events that cause delay variation may affect more packets in the real user streams.\n\nI think we have other methods to do the delay variation measurements, and perhaps we should list the possibilities\nwhich include enhancing vendor test systems.",
+      "revId": "5d5a5b3cf1b0b532591f8fdc1f3cfd9155cbb6fb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
