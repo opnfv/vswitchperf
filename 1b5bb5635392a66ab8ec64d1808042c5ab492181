@@ -16,6 +16,24 @@
       "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_7f09aa94",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-11-12T11:16:20Z",
+      "side": 1,
+      "message": "Generally this patch looks good to me. \n\nAl does raise a point about how to calculate this figure - presumably the difficulty is with the measurement system knowing when the test starts and stops? However, surely not an insurmountable problem. \n\nFor longer tests the error margin on this should fall quite a lot in any case even if the accuracy of determining start and stop time are relatively crude.",
+      "parentUuid": "9a5c5d37_846897f6",
+      "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
