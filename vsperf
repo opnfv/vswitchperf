@@ -34,6 +34,7 @@ from core.loader import Loader
 from testcases import TestCase
 from tools import tasks
 from tools.pkt_gen import trafficgen
+from tools.opnfvdashboard import opnfvdashboard
 
 VERBOSITY_LEVELS = {
     'debug': logging.DEBUG,
@@ -153,6 +154,7 @@ def parse_arguments():
                        help='csv list of test parameters: key=val; e.g.'
                        'including pkt_sizes=x,y; duration=x; '
                        'rfc2544_trials=x ...')
+    group.add_argument('--opnfvpod', help='name of POD in opnfv')
 
     args = vars(parser.parse_args())
 
@@ -427,6 +429,20 @@ def main():
         xmlrunner.XMLTestRunner(
             output=settings.getValue('XUNIT_DIR'), outsuffix="",
             verbosity=0).run(suite)
+
+    if args['opnfvpod']:
+        pod_name = args['opnfvpod']
+        installer_name = settings.getValue('OPNFV_INSTALLER')
+
+        int_data = {'cuse': False,
+                    'vanilla': False,
+                    'pod': pod_name,
+                    'installer': installer_name}
+        if settings.getValue('VSWITCH').endswith('Vanilla'):
+            int_data['vanilla'] = True
+        if settings.getValue('VNF').endswith('Cuse'):
+            int_data['cuse'] = True
+        opnfvdashboard.results2opnfv_dashboard(results_path, int_data)
 
     #remove directory if no result files were created.
     if os.path.exists(results_path):
