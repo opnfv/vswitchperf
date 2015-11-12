@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_3f033275",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-11-12T11:29:15Z",
+      "side": 1,
+      "message": "All the other tests use \"default loss percentages to be tested are: - X \u003d 0% - X \u003d 10^-7%\"",
+      "parentUuid": "9a5c5d37_c47d6fb3",
+      "revId": "5d5a5b3cf1b0b532591f8fdc1f3cfd9155cbb6fb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_844f7792",
         "filename": "docs/test_spec/vswitchperf_ltd.rst",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_1ff86e7b",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-11-12T11:29:15Z",
+      "side": 1,
+      "message": "If I\u0027m understanding correctly then for DUT where packet loss \u0027comes on\u0027 very gradually and lumpily (ie where pkt loss tends to cluster) as load increases then by running these two tests we should be able to a two repeatable figures which would bracket an very variable traditional max-throughput figure.\n\nIs that the logic behind these best/worst-of-n tests?",
+      "parentUuid": "9a5c5d37_844f7792",
+      "revId": "5d5a5b3cf1b0b532591f8fdc1f3cfd9155cbb6fb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_a44a7b81",
         "filename": "docs/test_spec/vswitchperf_ltd.rst",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-11-11T00:49:42Z",
       "side": 1,
       "message": "There is a problem with measuring delay variation at such low packet rates -- most streams that are sensitive to delay variation are much more closely-spaced, therefore the events that cause delay variation may affect more packets in the real user streams.\n\nI think we have other methods to do the delay variation measurements, and perhaps we should list the possibilities\nwhich include enhancing vendor test systems.",
+      "revId": "5d5a5b3cf1b0b532591f8fdc1f3cfd9155cbb6fb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_9f045e7f",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1775,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2015-11-12T11:29:15Z",
+      "side": 1,
+      "message": "Hi Miroslav, I tend to agree with Al, the absence of \" any anomalies in packet latency and latency variation\" at such low rates would not give much reassurance to any potential user of the vSwitch.",
+      "parentUuid": "9a5c5d37_a44a7b81",
       "revId": "5d5a5b3cf1b0b532591f8fdc1f3cfd9155cbb6fb",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
