@@ -1,3 +1,9 @@
+November 2015
+==============
+New
+---
+- Support of opnfv_test_dashboard
+
 October 2015
 ==============
 New
