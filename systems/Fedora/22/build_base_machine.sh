@@ -33,6 +33,9 @@ kernel-devel
 fuse-libs
 fuse
 fuse-devel
+kernel-modules-extra
+pixman-devel
+openssl-devel
 
 # tools
 curl
@@ -64,3 +67,6 @@ abrt-addon-python3
 # install git-review tool
 git-review
 " | grep -v ^#)
+
+# Create hugepage dirs
+mkdir -p /dev/hugepages
