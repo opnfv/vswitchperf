@@ -88,6 +88,24 @@
       "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_dc51bfd9",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 2471
+      },
+      "writtenOn": "2015-11-18T17:12:45Z",
+      "side": 1,
+      "message": "Collecting the metrics could impact the performance, thus the data should be collected during a separate traffic run. AD: Black box .. you are right I should rather use term gray-box testing in case the DUT includes not only the vSwitch/VNF but the HW as well.",
+      "parentUuid": "9a5c5d37_9c3c6795",
+      "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
