@@ -34,6 +34,42 @@
       "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_5f6dc603",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 2471
+      },
+      "writtenOn": "2015-11-18T13:10:45Z",
+      "side": 1,
+      "message": "measurable within the vSwitch,\ncalculated for black-box testing",
+      "parentUuid": "9a5c5d37_846897f6",
+      "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_9f31fe0d",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 2471
+      },
+      "writtenOn": "2015-11-18T13:10:45Z",
+      "side": 1,
+      "message": "for blackbox calculation is the procedure following:\n1. start the traffic\n2. capture ktime\n3. capture scheduler counter\n4. wait X seconds\n5. capture ktime\n6. capture scheduler counters\n7. stop the traffic\n\nFrom that we can get an average cpu time per core or per process. If we have pps value from TG then it\u0027s quite simple to calculate average count of cycles per process/core(if we use cpu pinning for dataplane processes) or per whole host if the CPU frequency is not changing over time.",
+      "parentUuid": "9a5c5d37_7f09aa94",
+      "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
