@@ -70,6 +70,24 @@
       "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_9c3c6795",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-11-18T15:49:01Z",
+      "side": 1,
+      "message": "Thanks Miroslav. So if I understand this correctly, the calculation is still dependent on the System under test (supporting parts of the DUT) to give needed measurements. \nIt\u0027s fine for this one (and all of this list) to be collected,\nbut we need to make it clear that these are auxilliary metrics and not benchmarks (black box, externally observed).",
+      "parentUuid": "9a5c5d37_9f31fe0d",
+      "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
