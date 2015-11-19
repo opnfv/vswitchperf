@@ -17,11 +17,13 @@
 import csv
 import os
 import logging
+import subprocess
 from collections import OrderedDict
 
 from core.results.results_constants import ResultsConstants
 import core.component_factory as component_factory
 from core.loader import Loader
+from tools import tasks
 from tools.report import report
 from conf import settings as S
 from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
@@ -49,6 +51,18 @@ class TestCase(object):
         if framerate == None:
             framerate = cfg.get('iLoad', 100)
 
+        # identify guest loopback method, so it can be added into reports
+        self.guest_loopback = []
+        if self.deployment in ['pvp', 'pvvp']:
+            guest_loopback = get_test_param('guest_loopback', None)
+            if guest_loopback:
+                self.guest_loopback.append(guest_loopback)
+            else:
+                if self.deployment == 'pvp':
+                    self.guest_loopback.append(S.getValue('GUEST_LOOPBACK')[0])
+                else:
+                    self.guest_loopback = S.getValue('GUEST_LOOPBACK').copy()
+
         # check if test requires background load and which generator it uses
         self._load_cfg = cfg.get('Load', None)
         if self._load_cfg and 'tool' in self._load_cfg:
@@ -69,6 +83,13 @@ class TestCase(object):
                               'multistream': cfg.get('MultiStream', 0),
                               'frame_rate': int(framerate)})
 
+        # OVS Vanilla requires guest VM MAC address and IPs to work
+        if 'linux_bridge' in self.guest_loopback:
+            self._traffic['l2'] = {'srcmac': S.getValue('GUEST_NET2_MAC')[0],
+                                   'dstmac': S.getValue('GUEST_NET1_MAC')[0]}
+            self._traffic['l3'] = {'srcip': S.getValue('VANILLA_TGEN_PORT1_IP'),
+                                   'dstip': S.getValue('VANILLA_TGEN_PORT2_IP')}
+
     def run(self):
         """Run the test
 
@@ -76,13 +97,9 @@ class TestCase(object):
         """
         self._logger.debug(self.name)
 
-        # OVS Vanilla requires guest VM MAC address and IPs
-        # to work
-        if (self.deployment in ["pvp", "pvvp"] and S.getValue('VSWITCH') == "OvsVanilla"):
-            self._traffic['l2'] = {'srcmac': S.getValue('GUEST_NET2_MAC')[0],
-                                   'dstmac': S.getValue('GUEST_NET1_MAC')[0]}
-            self._traffic['l3'] = {'srcip': S.getValue('VANILLA_TGEN_PORT1_IP'),
-                                   'dstip': S.getValue('VANILLA_TGEN_PORT2_IP')}
+        # copy sources of l2 forwarding tools into VM shared dir if needed
+        if 'testpmd' in self.guest_loopback or 'l2fwd' in self.guest_loopback:
+            self._copy_fwd_tools_for_guest()
 
         self._logger.debug("Controllers:")
         loader = Loader()
@@ -223,6 +240,35 @@ class TestCase(object):
             item[ResultsConstants.DEPLOYMENT] = self.deployment
 
         return results
+
+    def _copy_fwd_tools_for_guest(self):
+        """Copy dpdk and l2fwd code to GUEST_SHARE_DIR[s] for use by guests.
+        """
+        counter = 0
+        # method is executed only for pvp and pvvp, so let's count number of 'v'
+        while counter < self.deployment.count('v'):
+            guest_dir = S.getValue('GUEST_SHARE_DIR')[counter]
+
+            if not os.path.exists(guest_dir):
+                os.makedirs(guest_dir)
+
+            try:
+                tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
+                                os.path.join(S.getValue('RTE_SDK'), ''),
+                                os.path.join(guest_dir, 'DPDK')],
+                               self._logger,
+                               'Copying DPDK to shared directory...',
+                               True)
+                tasks.run_task(['rsync', '-a', '-r', '-l',
+                                os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/'),
+                                os.path.join(guest_dir, 'l2fwd')],
+                               self._logger,
+                               'Copying l2fwd to shared directory...',
+                               True)
+            except subprocess.CalledProcessError:
+                self._logger.error('Unable to copy DPDK and l2fwd to shared directory')
+
+            counter += 1
 
 
     @staticmethod
