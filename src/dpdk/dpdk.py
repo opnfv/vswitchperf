@@ -52,7 +52,6 @@ def init():
     _insert_modules()
     _remove_vhost_net()
     _bind_nics()
-    _copy_dpdk_for_guest()
 
 
 def cleanup():
@@ -333,25 +332,6 @@ def _unbind_nics():
                           str(settings.getValue('WHITELIST_NICS')),
                           nic_drivers)
 
-
-def _copy_dpdk_for_guest():
-    """Copy dpdk code to GUEST_SHARE_DIR[s] for use by guests.
-    """
-    for guest_dir in settings.getValue('GUEST_SHARE_DIR'):
-        guest_share_dir = os.path.join(guest_dir, 'DPDK')
-
-        if not os.path.exists(guest_share_dir):
-            os.makedirs(guest_share_dir)
-
-        try:
-            tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
-                            os.path.join(settings.getValue('RTE_SDK'), ''),
-                            guest_share_dir],
-                           _LOGGER,
-                           'Copying DPDK to shared directory...',
-                           True)
-        except subprocess.CalledProcessError:
-            _LOGGER.error('Unable to copy DPDK to shared directory')
 
 
 #

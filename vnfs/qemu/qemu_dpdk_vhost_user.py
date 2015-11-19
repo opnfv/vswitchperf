@@ -18,9 +18,9 @@
 import logging
 
 from conf import settings as S
-from vnfs.qemu.qemu_dpdk import IVnfQemuDpdk
+from vnfs.qemu.qemu import IVnfQemu
 
-class QemuDpdkVhostUser(IVnfQemuDpdk):
+class QemuDpdkVhostUser(IVnfQemu):
     """
     Control an instance of QEMU with vHost user guest communication.
     """
