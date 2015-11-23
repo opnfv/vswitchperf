@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_c89b3971",
+        "filename": "systems/Fedora/21/build_base_machine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2373
+      },
+      "writtenOn": "2015-11-23T15:42:09Z",
+      "side": 1,
+      "message": "this scripts is called from root \u0027systems/build_base_machine.sh\u0027 as $SUDO $distro_dir/build_base_machine.sh therefore it is in fact being executed with sudo privilege",
+      "parentUuid": "9a5c5d37_28f9b5c8",
+      "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_08f6f1d7",
         "filename": "systems/Ubuntu/14.04/prepare_python_env.sh",
         "patchSetId": 1
@@ -36,6 +54,24 @@
         "endLine": 26,
         "endChar": 14
       },
+      "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_e8c39d36",
+        "filename": "systems/Ubuntu/14.04/prepare_python_env.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 2373
+      },
+      "writtenOn": "2015-11-23T15:42:09Z",
+      "side": 1,
+      "message": "Mark originally replaced it with `which virtualvenv` that returns absolute path as \u0027/usr/bin/virtualenv\u0027 not version specific one. The default \u0027virtualenv\u0027 could be any version depends on the distros. It installed python2.7 packages on F20 by default and vsperf couldn\u0027t run. The patch Mark sent to the team afterwards he replaced it with \u0027virtualenv-3.3 \"$VSPERFENV_DIR\"\u0027 and that works. I think there are other alternatives available to this for selecting virtualenv3.x",
+      "parentUuid": "9a5c5d37_08f6f1d7",
       "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
