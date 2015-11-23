@@ -66,7 +66,7 @@ abrt-addon-python3
 
 # install git-review tool
 git-review
-" | grep -v ^#)
+" | grep -v ^#) || exit 1
 
 # Create hugepage dirs
 mkdir -p /dev/hugepages

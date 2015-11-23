@@ -54,13 +54,13 @@ fi
 
 # build base system using OS specific scripts
 if [ -d "$distro_dir" ] && [ -e "$distro_dir/build_base_machine.sh" ]; then
-    $SUDO $distro_dir/build_base_machine.sh
+    $SUDO $distro_dir/build_base_machine.sh || die "$distro_dir/build_base_machine.sh failed"
 else
     die "$distro_dir is not yet supported"
 fi
 
 if [ -d "$distro_dir" ] && [ -e "$distro_dir/prepare_python_env.sh" ] ; then
-    $distro_dir/prepare_python_env.sh
+    $distro_dir/prepare_python_env.sh || die "prepare_python_env.sh failed"
 else
     die "$distro_dir is not yet supported"
 fi
@@ -72,6 +72,8 @@ fi
 # download and compile DPDK, OVS and QEMU
 if [ -f ../src/Makefile ] ; then
     cd ../src
-    make
+    make || die "Make failed"
     cd -
+else
+    die "Make failed; No Makefile"
 fi

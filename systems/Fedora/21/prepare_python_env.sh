@@ -23,7 +23,7 @@ fi
 
 # enable virtual environment in a subshell, so QEMU build can use python 2.7
 
-(virtualenv-3.4 "$VSPERFENV_DIR"
-source "$VSPERFENV_DIR"/bin/activate
-pip install -r ../requirements.txt
-pip install pylint)
+(virtualenv-3.4 "$VSPERFENV_DIR" || exit 1
+source "$VSPERFENV_DIR"/bin/activate || exit 1
+pip install -r ../requirements.txt || exit 1
+pip install pylint || exit 1)
