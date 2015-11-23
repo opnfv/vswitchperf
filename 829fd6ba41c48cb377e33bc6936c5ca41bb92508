@@ -129,6 +129,24 @@
       "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_283f7527",
+        "filename": "systems/Ubuntu/14.04/prepare_python_env.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-11-23T16:29:22Z",
+      "side": 1,
+      "message": "Ok excellent, Thanks for clarifying. Do you think it\u0027s worth updating the installation guide with this info in a separate patch?",
+      "parentUuid": "9a5c5d37_8830a157",
+      "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
