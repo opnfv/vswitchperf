@@ -147,6 +147,24 @@
       "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_88654147",
+        "filename": "systems/Ubuntu/14.04/prepare_python_env.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 2373
+      },
+      "writtenOn": "2015-11-23T16:48:18Z",
+      "side": 1,
+      "message": "Sure we can include this in installation guide if required. But it should be seamless as long as the scripts run successfully. We can then assumed that all dependent packages are installed. If someone want to set up vsperf manually then this can be highlighted definitely.",
+      "parentUuid": "9a5c5d37_283f7527",
+      "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
