@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_68fe8d6d",
+        "filename": "systems/Fedora/21/build_base_machine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-11-23T16:01:37Z",
+      "side": 1,
+      "message": "Cool, :) thanks for clarifying",
+      "parentUuid": "9a5c5d37_c89b3971",
+      "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_08f6f1d7",
         "filename": "systems/Ubuntu/14.04/prepare_python_env.sh",
         "patchSetId": 1
@@ -72,6 +90,24 @@
       "side": 1,
       "message": "Mark originally replaced it with `which virtualvenv` that returns absolute path as \u0027/usr/bin/virtualenv\u0027 not version specific one. The default \u0027virtualenv\u0027 could be any version depends on the distros. It installed python2.7 packages on F20 by default and vsperf couldn\u0027t run. The patch Mark sent to the team afterwards he replaced it with \u0027virtualenv-3.3 \"$VSPERFENV_DIR\"\u0027 and that works. I think there are other alternatives available to this for selecting virtualenv3.x",
       "parentUuid": "9a5c5d37_08f6f1d7",
+      "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_8809c197",
+        "filename": "systems/Ubuntu/14.04/prepare_python_env.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-11-23T16:01:37Z",
+      "side": 1,
+      "message": "So are we dependent on version 3.4? I assumed \u0027/usr/bin/virtualenv\u0027 was a softlink that pointed to the latest installed on the system. is this not the case?",
+      "parentUuid": "9a5c5d37_e8c39d36",
       "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
