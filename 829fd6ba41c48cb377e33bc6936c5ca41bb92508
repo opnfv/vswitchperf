@@ -111,6 +111,24 @@
       "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_8830a157",
+        "filename": "systems/Ubuntu/14.04/prepare_python_env.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 2373
+      },
+      "writtenOn": "2015-11-23T16:22:36Z",
+      "side": 1,
+      "message": "We need virtualenv3.x for all python3 packages to be installed correctly. The \u0027x\u0027 could be different based on distros; i.e on F21 and F22 the virtualenv installed by python3 is virtualenv3.4 and on F20 it is virtualenv3.3. It works fine as \u0027prepare_python_env.sh\u0027 very specific to one distro only. That is the reason we have distro specific scripts dir as package names and versions could differ.",
+      "parentUuid": "9a5c5d37_8809c197",
+      "revId": "829fd6ba41c48cb377e33bc6936c5ca41bb92508",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
