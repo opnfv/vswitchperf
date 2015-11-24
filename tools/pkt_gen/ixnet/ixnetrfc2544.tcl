@@ -271,7 +271,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -destMacRetryDelay 5 \
      -largeErrorThreshhold 2 \
      -refreshLearnedInfoBeforeApply False \
-     -enableMinFrameSize False \
+     -enableMinFrameSize True \
      -macChangeOnFly False \
      -waitTime 1 \
      -enableInstantaneousStatsSupport False \
@@ -7773,7 +7773,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -inputParameters {{}}
         ixNet setMultiAttrs $sg_rfc2544throughput/testConfig \
          -protocolItem {} \
-         -enableMinFrameSize False \
+         -enableMinFrameSize True \
          -framesize $frameSize \
          -reportTputRateUnit mbps \
          -duration $duration \
@@ -7988,7 +7988,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -customLoadUnit percentMaxRate \
          -randomLoadUnit percentMaxRate \
          -incrementLoadUnit percentMaxRate \
-         -binaryResolution 100 \
+         -binaryResolution 1000 \
          -binaryBackoff 50 \
          -binaryTolerance $tolerance \
          -initialIncrementLoadRate 100 \
@@ -7999,7 +7999,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -countRandomLoadRate 1 \
          -numFrames {100000} \
          -loadRate 100 \
-         -enableMinFrameSize False \
+         -enableMinFrameSize True \
          -gap 3 \
          -generateTrackingOptionAggregationFiles False \
          -sendFullyMeshed False \

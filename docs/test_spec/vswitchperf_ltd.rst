@@ -1268,7 +1268,9 @@ Test ID: LTD.Throughput.RFC2544.BackToBackFrames
     If the number of received frames equals the number of frames that were
     transmitted, the burst size should be increased and traffic is sent to
     the DUT again. The value measured is the back-to-back value, that is the
-    maximum burst size the DUT can handle without any frame loss.
+    maximum burst size the DUT can handle without any frame loss. Please note
+    a trial must run for a minimum of 2 seconds and should be repeated 50
+    times (at a minimum).
 
     **Expected Result**:
 
@@ -1280,9 +1282,9 @@ Test ID: LTD.Throughput.RFC2544.BackToBackFrames
 
     The following are the metrics collected for this test:
 
-    -  The back-to-back value, which is the the number of frames in the
-       longest burst that the DUT will handle without the loss of any
-       frames.
+    -  The average back-to-back value across the trials, which is
+       the number of frames in the longest burst that the DUT will
+       handle without the loss of any frames.
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
 
