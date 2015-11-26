@@ -154,13 +154,13 @@ class Dummy(trafficgen.ITrafficGenerator):
 
         # builds results by using user-supplied values where possible
         # and guessing remainder using available info
-        result[ResultsConstants.THROUGHPUT_TX_FPS] = float(results[0]) / duration
+        result[ResultsConstants.TX_RATE_FPS] = float(results[0]) / duration
         result[ResultsConstants.THROUGHPUT_RX_FPS] = float(results[1]) / duration
-        result[ResultsConstants.THROUGHPUT_TX_MBPS] = (float(results[0]) \
+        result[ResultsConstants.TX_RATE_MBPS] = (float(results[0]) \
                                                       * framesize) / duration
         result[ResultsConstants.THROUGHPUT_RX_MBPS] = (float(results[1]) \
                                                       * framesize) / duration
-        result[ResultsConstants.THROUGHPUT_TX_PERCENT] = 0.0
+        result[ResultsConstants.TX_RATE_PERCENT] = 0.0
         result[ResultsConstants.THROUGHPUT_RX_PERCENT] = 0.0
         result[ResultsConstants.MIN_LATENCY_NS] = float(results[2])
         result[ResultsConstants.MAX_LATENCY_NS] = float(results[3])
@@ -192,15 +192,15 @@ class Dummy(trafficgen.ITrafficGenerator):
 
         # builds results by using user-supplied values where possible
         # and guessing remainder using available info
-        result[ResultsConstants.THROUGHPUT_TX_FPS] = float(results[0]) \
+        result[ResultsConstants.TX_RATE_FPS] = float(results[0]) \
                                                      / duration
         result[ResultsConstants.THROUGHPUT_RX_FPS] = float(results[1]) \
                                                      / duration
-        result[ResultsConstants.THROUGHPUT_TX_MBPS] = (float(results[0]) \
+        result[ResultsConstants.TX_RATE_MBPS] = (float(results[0]) \
                                                       * framesize) / duration
         result[ResultsConstants.THROUGHPUT_RX_MBPS] = (float(results[1]) \
                                                       * framesize) / duration
-        result[ResultsConstants.THROUGHPUT_TX_PERCENT] = 0.0
+        result[ResultsConstants.TX_RATE_PERCENT] = 0.0
         result[ResultsConstants.THROUGHPUT_RX_PERCENT] = 0.0
         result[ResultsConstants.MIN_LATENCY_NS] = float(results[2])
         result[ResultsConstants.MAX_LATENCY_NS] = float(results[3])

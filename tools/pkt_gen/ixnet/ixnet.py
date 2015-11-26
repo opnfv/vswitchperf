@@ -363,11 +363,11 @@ class IxNet(trafficgen.ITrafficGenerator):
                         prev_percent_rx = \
                         float(results.get(ResultsConstants.THROUGHPUT_RX_FPS))
                     if float(row[5]) >= prev_percent_rx:
-                        results[ResultsConstants.THROUGHPUT_TX_FPS] = tx_fps
+                        results[ResultsConstants.TX_RATE_FPS] = tx_fps
                         results[ResultsConstants.THROUGHPUT_RX_FPS] = row[5]
-                        results[ResultsConstants.THROUGHPUT_TX_MBPS] = tx_mbps
+                        results[ResultsConstants.TX_RATE_MBPS] = tx_mbps
                         results[ResultsConstants.THROUGHPUT_RX_MBPS] = row[6]
-                        results[ResultsConstants.THROUGHPUT_TX_PERCENT] = row[3]
+                        results[ResultsConstants.TX_RATE_PERCENT] = row[3]
                         results[ResultsConstants.THROUGHPUT_RX_PERCENT] = row[4]
                         results[ResultsConstants.MIN_LATENCY_NS] = row[11]
                         results[ResultsConstants.MAX_LATENCY_NS] = row[12]
