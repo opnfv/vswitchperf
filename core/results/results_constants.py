@@ -27,11 +27,11 @@ class ResultsConstants(object):
 
     #Traffic Constants
     #RFC2544 Throughput & Continuous
-    THROUGHPUT_TX_FPS = 'throughput_tx_fps'
+    TX_RATE_FPS = 'tx_rate_fps'
     THROUGHPUT_RX_FPS = 'throughput_rx_fps'
-    THROUGHPUT_TX_MBPS = 'throughput_tx_mbps'
+    TX_RATE_MBPS = 'tx_rate_mbps'
     THROUGHPUT_RX_MBPS = 'throughput_rx_mbps'
-    THROUGHPUT_TX_PERCENT = 'throughput_tx_percent'
+    TX_RATE_PERCENT = 'tx_rate_percent'
     THROUGHPUT_RX_PERCENT = 'throughput_rx_percent'
     MIN_LATENCY_NS = 'min_latency_ns'
     MAX_LATENCY_NS = 'max_latency_ns'
@@ -67,11 +67,11 @@ class ResultsConstants(object):
                 ResultsConstants.ID,
                 ResultsConstants.PACKET_SIZE,
                 ResultsConstants.DEPLOYMENT,
-                ResultsConstants.THROUGHPUT_TX_FPS,
+                ResultsConstants.TX_RATE_FPS,
                 ResultsConstants.THROUGHPUT_RX_FPS,
-                ResultsConstants.THROUGHPUT_TX_MBPS,
+                ResultsConstants.TX_RATE_MBPS,
                 ResultsConstants.THROUGHPUT_RX_MBPS,
-                ResultsConstants.THROUGHPUT_TX_PERCENT,
+                ResultsConstants.TX_RATE_PERCENT,
                 ResultsConstants.THROUGHPUT_RX_PERCENT,
                 ResultsConstants.MIN_LATENCY_NS,
                 ResultsConstants.MAX_LATENCY_NS,

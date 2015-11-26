@@ -294,10 +294,10 @@ class Ixia(trafficgen.ITrafficGenerator):
         # addition, IxExplorer does not support latency or % line rate
         # metrics so we have to return dummy values for these metrics
         result_dict[ResultsConstants.THROUGHPUT_RX_FPS] = result[4]
-        result_dict[ResultsConstants.THROUGHPUT_TX_FPS] = result[5]
+        result_dict[ResultsConstants.TX_RATE_FPS] = result[5]
         result_dict[ResultsConstants.THROUGHPUT_RX_MBPS] = result[6]
-        result_dict[ResultsConstants.THROUGHPUT_TX_MBPS] = result[7]
-        result_dict[ResultsConstants.THROUGHPUT_TX_PERCENT] = \
+        result_dict[ResultsConstants.TX_RATE_MBPS] = result[7]
+        result_dict[ResultsConstants.TX_RATE_PERCENT] = \
                                             ResultsConstants.UNKNOWN_VALUE
         result_dict[ResultsConstants.THROUGHPUT_RX_PERCENT] = \
                                             ResultsConstants.UNKNOWN_VALUE
