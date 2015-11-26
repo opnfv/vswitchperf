@@ -140,11 +140,11 @@ class TestCenter(trafficgen.ITrafficGenerator):
             csvreader = csv.DictReader(csvfile)
             for row in csvreader:
                 print("Row: %s" % row)
-                result[ResultsConstants.THROUGHPUT_TX_FPS] = 0.0
+                result[ResultsConstants.TX_RATE_FPS] = 0.0
                 result[ResultsConstants.THROUGHPUT_RX_FPS] = 0.0
-                result[ResultsConstants.THROUGHPUT_TX_MBPS] = 0.0
+                result[ResultsConstants.TX_RATE_MBPS] = 0.0
                 result[ResultsConstants.THROUGHPUT_RX_MBPS] = 0.0
-                result[ResultsConstants.THROUGHPUT_TX_PERCENT] = float(row["OfferedLoad(%)"])
+                result[ResultsConstants.TX_RATE_PERCENT] = float(row["OfferedLoad(%)"])
                 result[ResultsConstants.THROUGHPUT_RX_PERCENT] = float(row["Throughput(%)"])
                 result[ResultsConstants.MIN_LATENCY_NS] = float(row["MinimumLatency(us)"]) * 1000
                 result[ResultsConstants.MAX_LATENCY_NS] = float(row["MaximumLatency(us)"]) * 1000
