@@ -21,6 +21,7 @@ class ResultsConstants(object):
     ID = 'id'
     PACKET_SIZE = 'packet_size'
     DEPLOYMENT = 'deployment'
+    GUEST_LOOPBACK = 'guest_loopback_app'
 
     UNKNOWN_VALUE = "Unknown"
 
