@@ -1,9 +1,8 @@
-CHARACTERIZE VSWITCH PERFORMANCE FOR TELCO NFV USE CASES LEVEL TEST DESIGN
-==========================================================================
 
-.. contents:: Table of Contents
+.. 3.1
 
-1. Introduction
+===============
+Introduction
 ===============
 
 The objective of the OPNFV project titled
@@ -19,8 +18,10 @@ the `Document identifier <#DocId>`__ and the `Scope <#Scope>`__.
 
 This document is currently in draft form.
 
-1.1. Document identifier
-------------------------
+.. 3.1.1
+
+Document identifier
+=========================
 
 The document id will be used to uniquely
 identify versions of the LTD. The format for the document id will be:
@@ -29,8 +30,10 @@ status is one of: draft, reviewed, corrected or final. The document id
 for this version of the LTD is:
 OPNFV\_vswitchperf\_LTD\_ver\_1.6\_Jan\_15\_DRAFT.
 
-1.2. Scope
-----------
+.. 3.1.2
+
+Scope
+==========
 
 The main purpose of this project is to specify a suite of
 performance tests in order to objectively measure the current packet
@@ -46,8 +49,10 @@ Continuous Integration Test Framework and/or the Platform Functionality
 Test Framework - if a vSwitch becomes a standard component of an OPNFV
 release.
 
-1.3. References
----------------
+.. 3.1.3
+
+References
+===============
 
 *  `RFC 1242 Benchmarking Terminology for Network Interconnection
    Devices <http://www.ietf.org/rfc/rfc1242.txt>`__
@@ -66,17 +71,24 @@ release.
 *  `RFC 6201 Device Reset
    Characterization <http://tools.ietf.org/html/rfc6201>`__
 
-2. Details of the Level Test Design
+.. 3.2
+
+===================================
+Details of the Level Test Design
 ===================================
 
-This section describes the features to be tested (`cf. 2.1
-<#FeaturesToBeTested>`__), the test approach (`cf. 2.2 <#Approach>`__);
-it also identifies the sets of test cases or scenarios (`cf. 2.3
-<#TestIdentification>`__) along with the pass/fail criteria (`cf. 2.4
-<#PassFail>`__) and the test deliverables (`cf. 2.5 <#TestDeliverables>`__).
+This section describes the features to be tested (
+:ref:_FeaturesToBeTested), the test approach (:ref:_Approach);
+it also identifies the sets of test cases or scenarios (
+:ref:_TestIdentification) along with the pass/fail criteria and
+the test deliverables.
 
-2.1. Features to be tested
---------------------------
+.. 3.2.1
+
+.. _FeaturesToBeTested:
+
+Features to be tested
+==========================
 
 Characterizing virtual switches (i.e. Device Under Test (DUT) in this document)
 includes measuring the following performance metrics:
@@ -133,14 +145,18 @@ includes measuring the following performance metrics:
   - Includes headroom of VM workload processing cores (i.e. available
     for applications).
 
+.. 3.2.2
 
-2.2. Approach
+.. _Approach:
+
+Approach
 ==============
 
 In order to determine the packet transfer characteristics of a virtual
 switch, the tests will be broken down into the following categories:
 
-2.2.1 Test Categories
+.. 3.2.2.1
+Test Categories
 ----------------------
 - **Throughput Tests** to measure the maximum forwarding rate (in
   frames per second or fps) and bit rate (in Mbps) for a constant load
@@ -177,11 +193,15 @@ switch, the tests will be broken down into the following categories:
 the combined results would be insightful, for example Packet/Frame Delay
 and Scalability.
 
-2.2.2 Deployment Scenarios
+.. 3.2.2.2
+
+Deployment Scenarios
 --------------------------
 The following represents possible deployments which can help to
 determine the performance of both the virtual switch and the datapath
 into the VNF:
+
+.. 3.2.2.2.1
 
 Physical port → vSwitch → physical port
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -204,9 +224,10 @@ Physical port → vSwitch → physical port
        |                                                  |
        +--------------------------------------------------+
 
+.. 3.2.2.2.2
 
 Physical port → vSwitch → VNF → vSwitch → physical port
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   .. code-block:: console
 
                                                              _
@@ -242,9 +263,10 @@ Physical port → vSwitch → VNF → vSwitch → physical port
        |                                                  |
        +--------------------------------------------------+
 
+.. 3.2.2.2.3
 
 Physical port → vSwitch → VNF → vSwitch → VNF → vSwitch → physical port
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: console
 
@@ -281,8 +303,10 @@ Physical port → vSwitch → VNF → vSwitch → VNF → vSwitch → physical p
     |                                                  |
     +--------------------------------------------------+
 
+.. 3.2.2.2.4
+
 Physical port → VNF → vSwitch → VNF → physical port
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: console
 
@@ -324,8 +348,10 @@ Physical port → VNF → vSwitch → VNF → physical port
     |                                                  |
     +--------------------------------------------------+
 
+.. 3.2.2.2.5
+
 Physical port → vSwitch → VNF
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: console
 
@@ -362,8 +388,10 @@ Physical port → vSwitch → VNF
     |                                                  |
     +--------------------------------------------------+
 
+.. 3.2.2.2.6
+
 VNF → vSwitch → physical port
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: console
 
@@ -400,8 +428,10 @@ VNF → vSwitch → physical port
     |                                                  |
     +--------------------------------------------------+
 
+.. 3.2.2.2.7
+
 VNF → vSwitch → VNF → vSwitch
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: console
 
@@ -430,12 +460,10 @@ VNF → vSwitch → VNF → vSwitch
     |                     vswitch                           |  |
     +-------------------------------------------------------+ _|
 
-HOST 1(Physical port → virtual switch → VNF → virtual switch →
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Physical port) → HOST 2(Physical port → virtual switch → VNF →
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-virtual switch → Physical port)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. 3.2.2.2.8
+
+HOST 1(Physical port → virtual switch → VNF → virtual switch → Physical port) → HOST 2(Physical port → virtual switch → VNF → virtual switch → Physical port)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: console
 
@@ -490,7 +518,9 @@ or cache capacity testing, an additional port from the vSwitch must be
 connected to the test device. This port is used to listen for flooded
 frames.
 
-2.2.3 General Methodology:
+.. 3.2.2.3
+
+General Methodology:
 --------------------------
 To establish the baseline performance of the virtual switch, tests would
 initially be run with a simple workload in the VNF (the recommended
@@ -504,7 +534,9 @@ the context of higher level Telco NFV use cases, and prove that its
 underlying characteristics and behaviour can be measured and validated.
 Suitable real Telco workload VNFs are yet to be identified.
 
-2.2.3.1 Default Test Parameters
+.. 3.2.2.3.1
+
+Default Test Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following list identifies the default parameters for suite of
@@ -551,7 +583,9 @@ configurations should ensure that traffic traverses the installed flows
 through the virtual switch, i.e. flows are installed and have an appropriate
 time out that doesn't expire before packet transmission starts.
 
-2.2.3.2 Flow Classification
+.. 3.2.2.3.2
+
+Flow Classification
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Virtual switches classify packets into flows by processing and matching
@@ -571,7 +605,9 @@ particular flow will install the flow in the vSwitch which adds an
 additional latency, subsequent packets of the same flow are not subject
 to this latency if the flow is already installed on the vSwitch.
 
-2.2.3.3 Test Priority
+.. 3.2.2.3.3
+
+Test Priority
 ~~~~~~~~~~~~~~~~~~~~~
 
 Tests will be assigned a priority in order to determine which tests
@@ -583,16 +619,20 @@ immediately. - High: Must be implemented in the next release. - Medium:
 May be implemented after the release. - Low: May or may not be
 implemented at all.
 
-2.2.3.4 SUT Setup
-~~~~~~~~~~~~~~~~~
+.. 3.2.2.3.4
+
+SUT Setup
+~~~~~~~~~~~~~~~~~~
 
 The SUT should be configured to its "default" state. The
 SUT's configuration or set-up must not change between tests in any way
 other than what is required to do the test. All supported protocols must
 be configured and enabled for each test set up.
 
-2.2.3.4.1 Port Configuration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. 3.2.2.3.5
+
+Port Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The DUT should be configured with n ports where
 n is a multiple of 2. Half of the ports on the DUT should be used as
@@ -606,74 +646,82 @@ output a packet to port 2 followed by a packet to port 3. The traffic
 stream directed at port 1 should also output a packet to port 2 followed
 by a packet to port 3.
 
-2.2.3.4.2 Frame Formats
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. 3.2.2.3.6
 
-Frame formats Layer 2 (data link layer) protocols
-++++++++++++++++++++++++++++++++++++++++++++++++++
+Frame Formats
+~~~~~~~~~~~~~~~~~~~~~
+
+**Frame formats Layer 2 (data link layer) protocols**
+
 -  Ethernet II
 
-  .. code-block:: console
+.. code-block:: console
 
-     +---------------------+--------------------+-----------+
-     |   Ethernet Header   |       Payload      | Check Sum |
-     +---------------------+--------------------+-----------+
-     |_____________________|____________________|___________|
-           14 Bytes            46 - 1500 Bytes      4 Bytes
+     +---------------------------+-----------+
+     | Ethernet Header | Payload | Check Sum |
+     +-----------------+---------+-----------+
+     |_________________|_________|___________|
+           14 Bytes     46 - 1500   4 Bytes
+                          Bytes
 
-Layer 3 (network layer) protocols
-++++++++++++++++++++++++++++++++++
+
+**Layer 3 (network layer) protocols**
 
 -  IPv4
 
-  .. code-block:: console
+.. code-block:: console
 
-     +---------------------+--------------------+--------------------+-----------+
-     |   Ethernet Header   |      IP Header     |       Payload      | Check Sum |
-     +---------------------+--------------------+--------------------+-----------+
-     |_____________________|____________________|____________________|___________|
-           14 Bytes            20 bytes             26 - 1480 Bytes      4 Bytes
+     +-----------------+-----------+---------+-----------+
+     | Ethernet Header | IP Header | Payload | Checksum  |
+     +-----------------+-----------+---------+-----------+
+     |_________________|___________|_________|___________|
+           14 Bytes       20 bytes  26 - 1480   4 Bytes
+                                      Bytes
 
 -  IPv6
 
-  .. code-block:: console
+.. code-block:: console
 
-     +---------------------+--------------------+--------------------+-----------+
-     |   Ethernet Header   |      IP Header     |       Payload      | Check Sum |
-     +---------------------+--------------------+--------------------+-----------+
-     |_____________________|____________________|____________________|___________|
-           14 Bytes            40 bytes             26 - 1460 Bytes      4 Bytes
+     +-----------------+-----------+---------+-----------+
+     | Ethernet Header | IP Header | Payload | Checksum  |
+     +-----------------+-----------+---------+-----------+
+     |_________________|___________|_________|___________|
+           14 Bytes       40 bytes  26 - 1460   4 Bytes
+                                      Bytes
 
-Layer 4 (transport layer) protocols
-++++++++++++++++++++++++++++++++++++
+**Layer 4 (transport layer) protocols**
+
   - TCP
   - UDP
   - SCTP
 
-  .. code-block:: console
+.. code-block:: console
 
-     +---------------------+--------------------+-----------------+--------------------+-----------+
-     |   Ethernet Header   |      IP Header     | Layer 4 Header  |       Payload      | Check Sum |
-     +---------------------+--------------------+-----------------+--------------------+-----------+
-     |_____________________|____________________|_________________|____________________|___________|
-           14 Bytes            40 bytes               20 Bytes       6 - 1460 Bytes      4 Bytes
+     +-----------------+-----------+-----------------+---------+-----------+
+     | Ethernet Header | IP Header | Layer 4 Header  | Payload | Checksum  |
+     +-----------------+-----------+-----------------+---------+-----------+
+     |_________________|___________|_________________|_________|___________|
+           14 Bytes      40 bytes      20 Bytes       6 - 1460   4 Bytes
+                                                       Bytes
 
-Layer 5 (application layer) protocols
-+++++++++++++++++++++++++++++++++++++
+
+**Layer 5 (application layer) protocols**
+
   - RTP
   - GTP
 
-  .. code-block:: console
+.. code-block:: console
 
-     +---------------------+--------------------+-----------------+--------------------+-----------+
-     |   Ethernet Header   |      IP Header     | Layer 4 Header  |       Payload      | Check Sum |
-     +---------------------+--------------------+-----------------+--------------------+-----------+
-     |_____________________|____________________|_________________|____________________|___________|
-           14 Bytes            20 bytes               20 Bytes         Min 6 Bytes       4 Bytes
+     +-----------------+-----------+-----------------+---------+-----------+
+     | Ethernet Header | IP Header | Layer 4 Header  | Payload | Checksum  |
+     +-----------------+-----------+-----------------+---------+-----------+
+     |_________________|___________|_________________|_________|___________|
+           14 Bytes      20 bytes     20 Bytes        >= 6 Bytes   4 Bytes
 
+.. 3.2.2.3.7
 
-2.2.3.4.3 Packet Throughput
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Packet Throughput
+~~~~~~~~~~~~~~~~~~~~~~~~~
 There is a difference between an Ethernet frame,
 an IP packet, and a UDP datagram. In the seven-layer OSI model of
 computer networking, packet refers to a data unit at layer 3 (network
@@ -704,8 +752,10 @@ Therefore, Maximum Frame Rate (64B Frames)
 = 10,000,000,000 / 672
 = 14,880,952.38 frame per second (fps)
 
-2.2.3.4.4 System isolation and validation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. 3.2.2.3.8
+
+System isolation and validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A key consideration when conducting any sort of benchmark is trying to
 ensure the consistency and repeatability of test results between runs.
@@ -716,8 +766,8 @@ their effects. In addition, this section will outline some system tests
 to validate the platform and the VNF before conducting any vSwitch
 benchmarking tests.
 
-System Isolation
-++++++++++++++++
+**System Isolation:**
+
 When conducting a benchmarking test on any SUT, it is essential to limit
 (and if reasonable, eliminate) any noise that may interfere with the
 accuracy of the metrics collected by the test. This noise may be
@@ -756,8 +806,8 @@ test results, including:
    virtualization optimization technologies should be enabled, and
    hyperthreading should also be enabled.
 
-System Validation
-+++++++++++++++++
+**System Validation:**
+
 System validation is broken down into two sub-categories: Platform
 validation and VNF validation. The validation test itself involves
 verifying the forwarding capability and stability for the sub-system
@@ -824,8 +874,8 @@ points to understand the overhead introduced by the virtual switch.
        +--------------------------------------------------+
 
 
-Methodology to benchmark Platform/VNF forwarding capability
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+**Methodology to benchmark Platform/VNF forwarding capability**
+
 
 The recommended methodology for the platform/VNF validation and
 benchmark is: - Run `RFC2889 <https://www.rfc-editor.org/rfc/rfc2289.txt>`__
@@ -850,8 +900,10 @@ platform should be configured for every test after this
 (# of vCPUs, vNICs, Memory, affinitization…) is how it should be
 configured for every test that uses a VNF after this.
 
-2.2.4 RFCs for testing virtual switch performance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. 3.2.2.4
+
+RFCs for testing virtual switch performance
+--------------------------------------------------
 
 The starting point for defining the suite of tests for benchmarking the
 performance of a virtual switch is to take existing RFCs and standards
@@ -861,16 +913,20 @@ a fair comparison between the performance of virtual and physical
 switches. This section outlines the RFCs that are used by this
 specification.
 
+.. 3.2.2.4.1
+
 RFC 1242 Benchmarking Terminology for Network Interconnection
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Devices RFC 1242 defines the terminology that is used in describing
 performance benchmarking tests and their results. Definitions and
 discussions covered include: Back-to-back, bridge, bridge/router,
 constant load, data link frame size, frame loss rate, inter frame gap,
 latency, and many more.
 
+.. 3.2.2.4.2
+
 RFC 2544 Benchmarking Methodology for Network Interconnect Devices
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 RFC 2544 outlines a benchmarking methodology for network Interconnect
 Devices. The methodology results in performance metrics such as latency,
 frame loss percentage, and maximum data throughput.
@@ -906,7 +962,8 @@ Types of tests are:
    condition.
 
 6. Reset to characterize speed of recovery from device or software
-   reset. This type of test has been updated by `RFC6201 <https://www.rfc-editor.org/rfc/rfc6201.txt>`__ as such,
+   reset. This type of test has been updated by `RFC6201
+   <https://www.rfc-editor.org/rfc/rfc6201.txt>`__ as such,
    the methodology defined by this specification will be that of RFC 6201.
 
 Although not included in the defined RFC 2544 standard, another crucial
@@ -914,45 +971,59 @@ measurement in Ethernet networking is packet delay variation. The
 definition set out by this specification comes from
 `RFC5481 <https://www.rfc-editor.org/rfc/rfc5481.txt>`__.
 
+.. 3.2.2.4.3
+
 RFC 2285 Benchmarking Terminology for LAN Switching Devices
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 RFC 2285 defines the terminology that is used to describe the
 terminology for benchmarking a LAN switching device. It extends RFC
 1242 and defines: DUTs, SUTs, Traffic orientation and distribution,
 bursts, loads, forwarding rates, etc.
 
+.. 3.2.2.4.4
+
 RFC 2889 Benchmarking Methodology for LAN Switching
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 RFC 2889 outlines a benchmarking methodology for LAN switching, it
 extends RFC 2544. The outlined methodology gathers performance
 metrics for forwarding, congestion control, latency, address handling
 and finally filtering.
 
+.. 3.2.2.4.5
+
 RFC 3918 Methodology for IP Multicast Benchmarking
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 RFC 3918 outlines a methodology for IP Multicast benchmarking.
 
+.. 3.2.2.4.6
+
 RFC 4737 Packet Reordering Metrics
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 RFC 4737 describes metrics for identifying and counting re-ordered
 packets within a stream, and metrics to measure the extent each
 packet has been re-ordered.
 
+.. 3.2.2.4.7
+
 RFC 5481 Packet Delay Variation Applicability Statement
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 RFC 5481 defined two common, but different forms of delay variation
 metrics, and compares the metrics over a range of networking
 circumstances and tasks. The most suitable form for vSwitch
 benchmarking is the "PDV" form.
 
+.. 3.2.2.4.8
+
 RFC 6201 Device Reset Characterization
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 RFC 6201 extends the methodology for characterizing the speed of
 recovery of the DUT from device or software reset described in RFC
 2544.
 
-2.2.5 Details of the Test Report
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. 3.2.2.5
+
+Details of the Test Report
+---------------------------------
 
 There are a number of parameters related to the system, DUT and tests
 that can affect the repeatability of a test results and should be
@@ -1024,17 +1095,26 @@ it is recommended that the test report includes the following information:
 **Note**: Tests that require additional parameters to be recorded will
 explicitly specify this.
 
-2.3. Test identification
-------------------------
-2.3.1 Throughput tests
-~~~~~~~~~~~~~~~~~~~~~~
+.. _TestIdentification:
+
+.. 3.2.3
+
+Test identification
+=========================
+
+.. 3.2.3.1
+
+Throughput tests
+----------------------
 The following tests aim to determine the maximum forwarding rate that
 can be achieved with a virtual switch. The list is not exhaustive but
 should indicate the type of tests that should be required. It is
 expected that more will be added.
 
+.. 3.2.3.1.1
+
 Test ID: LTD.Throughput.RFC2544.PacketLossRatio
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC 2544 X% packet loss ratio Throughput and Latency Test
 
     **Prerequisite Test**: N/A
@@ -1062,7 +1142,8 @@ Test ID: LTD.Throughput.RFC2544.PacketLossRatio
     **Expected Result**: At the end of each trial, the presence or absence
     of loss determines the modification of offered load for the next trial,
     converging on a maximum rate, or
-    `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__ Throughput with X% loss.
+    `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__ Throughput with X%
+    loss.
     The Throughput load is re-used in related
     `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__ tests and other
     tests.
@@ -1080,8 +1161,10 @@ Test ID: LTD.Throughput.RFC2544.PacketLossRatio
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
 
+.. 3.2.3.1.2
+
 Test ID: LTD.Throughput.RFC2544.PacketLossRatioFrameModification
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC 2544 X% packet loss Throughput and Latency Test with
     packet modification
 
@@ -1148,8 +1231,10 @@ Test ID: LTD.Throughput.RFC2544.PacketLossRatioFrameModification
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
 
+.. 3.2.3.1.3
+
 Test ID: LTD.Throughput.RFC2544.Profile
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC 2544 Throughput and Latency Profile
 
     **Prerequisite Test**: N/A
@@ -1201,8 +1286,10 @@ Test ID: LTD.Throughput.RFC2544.Profile
        when the offered load is above Maximum Throughput MUST be recorded
        and reported with the results.
 
+.. 3.2.3.1.4
+
 Test ID: LTD.Throughput.RFC2544.SystemRecoveryTime
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC 2544 System Recovery Time Test
 
     **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatio
@@ -1251,8 +1338,10 @@ Test ID: LTD.Throughput.RFC2544.SystemRecoveryTime
 
     -  Physical → virtual switch → physical.
 
+.. 3.2.3.1.5
+
 Test ID: LTD.Throughput.RFC2544.BackToBackFrames
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC2544 Back To Back Frames Test
 
     **Prerequisite Test**: N
@@ -1292,8 +1381,10 @@ Test ID: LTD.Throughput.RFC2544.BackToBackFrames
 
     -  Physical → virtual switch → physical.
 
+.. 3.2.3.1.6
+
 Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC 2889 X% packet loss Max Forwarding Rate Soak Test
 
     **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatio
@@ -1332,11 +1423,14 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
        PDV form of delay variation on the traffic flow,
        using the 99th percentile.
 
+.. 3.2.3.1.7
+
 Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoakFrameModification
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC 2889 Max Forwarding Rate Soak Test with Frame Modification
 
-    **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatioFrameModification (0% Packet Loss)
+    **Prerequisite Test**:
+    LTD.Throughput.RFC2544.PacketLossRatioFrameModification (0% Packet Loss)
 
     **Priority**:
 
@@ -1381,11 +1475,14 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoakFrameModification
 
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
-    -  The `RFC5481 <https://www.rfc-editor.org/rfc/rfc5481.txt>`__ PDV form of delay variation on the traffic flow,
-       using the 99th percentile.
+    -  The `RFC5481 <https://www.rfc-editor.org/rfc/rfc5481.txt>`__
+       PDV form of delay variation on the traffic flow, using the 99th
+       percentile.
+
+.. 3.2.3.1.8
 
 Test ID: LTD.Throughput.RFC6201.ResetTime
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC 6201 Reset Time Test
 
     **Prerequisite Test**: N/A
@@ -1411,9 +1508,12 @@ Test ID: LTD.Throughput.RFC6201.ResetTime
     flows are passing through the DUT, the DUT should be reset and the Reset
     time measured. The Reset time is the total time that a device is
     determined to be out of operation and includes the time to perform the
-    reset and the time to recover from it (cf. `RFC6201 <https://www.rfc-editor.org/rfc/rfc6201.txt>`__).
+    reset and the time to recover from it (cf. `RFC6201
+    <https://www.rfc-editor.org/rfc/rfc6201.txt>`__).
 
-    `RFC6201 <https://www.rfc-editor.org/rfc/rfc6201.txt>`__ defines two methods to measure the Reset time:
+    `RFC6201 <https://www.rfc-editor.org/rfc/rfc6201.txt>`__ defines two methods
+    to measure the Reset time:
+
       - Frame-Loss Method: which requires the monitoring of the number of
         lost frames and calculates the Reset time based on the number of
         frames lost and the offered rate according to the following
@@ -1433,37 +1533,47 @@ Test ID: LTD.Throughput.RFC6201.ResetTime
         is received after the reset. The Reset time is the difference between
         these two timestamps.
 
-    According to `RFC6201 <https://www.rfc-editor.org/rfc/rfc6201.txt>`__ the choice of method depends on the test
-    tool's capability; the Frame-Loss method SHOULD be used if the test tool
-    supports: - Counting the number of lost frames per stream. -
-    Transmitting test frame despite the physical link status.
+    According to `RFC6201 <https://www.rfc-editor.org/rfc/rfc6201.txt>`__ the
+    choice of method depends on the test tool's capability; the Frame-Loss
+    method SHOULD be used if the test tool supports:
 
-    whereas the Timestamp method SHOULD be used if the test tool supports: -
-    Timestamping each frame. - Monitoring received frame's timestamp. -
-    Transmitting frames only if the physical link status is up.
+     * Counting the number of lost frames per stream.
+     * Transmitting test frame despite the physical link status.
+
+    whereas the Timestamp method SHOULD be used if the test tool supports:
+     * Timestamping each frame.
+     * Monitoring received frame's timestamp.
+     * Transmitting frames only if the physical link status is up.
 
     **Expected Result**:
 
     **Metrics collected**
 
-    The following are the metrics collected for this test: - Average Reset
-    Time over the number of trials performed.
+    The following are the metrics collected for this test:
 
-    Results of this test should include the following information: - The
-    reset method used. - Throughput in Fps and Mbps. - Average Frame Loss
-    over the number of trials performed. - Average Reset Time in
-    milliseconds over the number of trials performed. - Number of trials
-    performed. - Protocol: IPv4, IPv6, MPLS, etc. - Frame Size in Octets -
-    Port Media: Ethernet, Gigabit Ethernet (GbE), etc. - Port Speed: 10
-    Gbps, 40 Gbps etc. - Interface Encapsulation: Ethernet, Ethernet VLAN,
-    etc.
+     * Average Reset Time over the number of trials performed.
+
+    Results of this test should include the following information:
+
+     * The reset method used.
+     * Throughput in Fps and Mbps.
+     * Average Frame Loss over the number of trials performed.
+     * Average Reset Time in milliseconds over the number of trials performed.
+     * Number of trials performed.
+     * Protocol: IPv4, IPv6, MPLS, etc.
+     * Frame Size in Octets
+     * Port Media: Ethernet, Gigabit Ethernet (GbE), etc.
+     * Port Speed: 10 Gbps, 40 Gbps etc.
+     * Interface Encapsulation: Ethernet, Ethernet VLAN, etc.
 
     **Deployment scenario**:
 
-    -  Physical → virtual switch → physical.
+    * Physical → virtual switch → physical.
+
+.. 3.2.3.1.9
 
 Test ID: LTD.Throughput.RFC2889.MaxForwardingRate
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC2889 Forwarding Rate Test
 
     **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatio
@@ -1499,14 +1609,13 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRate
     ends.
 
     **Expected Result**: According to
-    `RFC2889 <https://www.rfc-editor.org/rfc/rfc2289.txt>`__ The Max Forwarding Rate
-    is the highest forwarding rate of a DUT taken from an iterative set of
-    forwarding rate measurements. The iterative set of forwarding rate
-    measurements are made by setting the intended load transmitted from an
-    external source and measuring the offered load (i.e what the DUT is
-    capable of forwarding). If the Throughput == the Maximum Offered Load,
-    it follows that Max Forwarding Rate is equal to the Maximum Offered
-    Load.
+    `RFC2889 <https://www.rfc-editor.org/rfc/rfc2289.txt>`__ The Max Forwarding
+    Rate is the highest forwarding rate of a DUT taken from an iterative set of
+    forwarding rate measurements. The iterative set of forwarding rate measurements
+    are made by setting the intended load transmitted from an external source and
+    measuring the offered load (i.e what the DUT is capable of forwarding). If the
+    Throughput == the Maximum Offered Load, it follows that Max Forwarding Rate is
+    equal to the Maximum Offered Load.
 
     **Metrics Collected**:
 
@@ -1523,9 +1632,10 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRate
        benchmarks, and scenarios with both 2 and 4 ports should be tested.
        In any case, the number of ports used must be reported.
 
+.. 3.2.3.1.10
 
 Test ID: LTD.Throughput.RFC2889.ForwardPressure
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC2889 Forward Pressure Test
 
     **Prerequisite Test**: LTD.Throughput.RFC2889.MaxForwardingRate
@@ -1557,9 +1667,10 @@ Test ID: LTD.Throughput.RFC2889.ForwardPressure
 
     -  Physical → virtual switch → physical.
 
+.. 3.2.3.1.11
 
 Test ID: LTD.Throughput.RFC2889.ErrorFramesFiltering
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC2889 Error Frames Filtering Test
 
     **Prerequisite Test**: N/A
@@ -1592,8 +1703,10 @@ Test ID: LTD.Throughput.RFC2889.ErrorFramesFiltering
 
     -  Physical → virtual switch → physical.
 
+.. 3.2.3.1.12
+
 Test ID: LTD.Throughput.RFC2889.BroadcastFrameForwarding
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC2889 Broadcast Frame Forwarding Test
 
     **Prerequisite Test**: N
@@ -1632,18 +1745,22 @@ Test ID: LTD.Throughput.RFC2889.BroadcastFrameForwarding
     **Deployment scenario**:
 
     -  Physical → virtual switch 3x physical. In the Broadcast rate testing,
-    four test ports are required. One of the ports is connected to the test
-    device, so it can send broadcast frames and listen for miss-routed frames.
+       four test ports are required. One of the ports is connected to the test
+       device, so it can send broadcast frames and listen for miss-routed frames.
 
-2.3.2 Packet Latency tests
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. 3.2.3.2
+
+Packet Latency tests
+---------------------------
 These tests will measure the store and forward latency as well as the packet
 delay variation for various packet types through the virtual switch. The
 following list is not exhaustive but should indicate the type of tests
 that should be required. It is expected that more will be added.
 
+.. 3.2.3.2.1
+
 Test ID: LTD.PacketLatency.InitialPacketProcessingLatency
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: Initial Packet Processing Latency
 
     **Prerequisite Test**: N/A
@@ -1689,8 +1806,10 @@ Test ID: LTD.PacketLatency.InitialPacketProcessingLatency
 
     -  Physical → Virtual Switch → Physical.
 
+.. 3.2.3.2.2
+
 Test ID: LTD.PacketDelayVariation.RFC3393.Soak
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: Packet Delay Variation Soak Test
 
     **Prerequisite Tests**: LTD.Throughput.RFC2544.PacketLossRatio (0% Packet Loss)
@@ -1720,15 +1839,19 @@ Test ID: LTD.PacketDelayVariation.RFC3393.Soak
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
 
-2.3.3 Scalability tests
-~~~~~~~~~~~~~~~~~~~~~~~~
+.. 3.2.3.3
+
+Scalability tests
+------------------------
 The general aim of these tests is to understand the impact of large flow
 table size and flow lookups on throughput. The following list is not
 exhaustive but should indicate the type of tests that should be required.
 It is expected that more will be added.
 
+.. 3.2.3.3.1
+
 Test ID: LTD.Scalability.RFC2544.0PacketLoss
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC 2544 0% loss Scalability throughput test
 
     **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatio, IF the
@@ -1780,8 +1903,10 @@ Test ID: LTD.Scalability.RFC2544.0PacketLoss
        specified number of flows and the specified frame size, with zero
        packet loss.
 
+.. 3.2.3.3.2
+
 Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC 2544 0% loss Memory Bandwidth Scalability test
 
     **Prerequisite Tests**: LTD.Throughput.RFC2544.PacketLossRatio, IF the
@@ -1824,15 +1949,20 @@ Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
 
     The following are the metrics collected for this test:
 
-    -  The DUT's 0% packet loss throughput in the presence of cache sharing and memory bandwidth between processes.
+    -  The DUT's 0% packet loss throughput in the presence of cache sharing and
+       memory bandwidth between processes.
 
-2.3.4 Activation tests
-~~~~~~~~~~~~~~~~~~~~~~~~
+.. 3.2.3.4
+
+Activation tests
+-----------------------
 The general aim of these tests is to understand the capacity of the
-and speed with which the vswitch can accomodate new flows.
+and speed with which the vswitch can accommodate new flows.
+
+.. 3.2.3.4.1
 
 Test ID: LTD.Activation.RFC2889.AddressCachingCapacity
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC2889 Address Caching Capacity Test
 
     **Prerequisite Test**: N/A
@@ -1881,8 +2011,10 @@ Test ID: LTD.Activation.RFC2889.AddressCachingCapacity
 
     -  Physical → virtual switch → 2 x physical (one receiving, one listening).
 
+.. 3.2.3.4.2
+
 Test ID: LTD.Activation.RFC2889.AddressLearningRate
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC2889 Address Learning Rate Test
 
     **Prerequisite Test**: LTD.Memory.RFC2889.AddressCachingCapacity
@@ -1916,16 +2048,19 @@ Test ID: LTD.Activation.RFC2889.AddressLearningRate
 
     -  Physical → virtual switch → 2 x physical (one receiving, one listening).
 
+.. 3.2.3.5
 
-2.3.5 Coupling between control path and datapath Tests
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Coupling between control path and datapath Tests
+-------------------------------------------------------
 The following tests aim to determine how tightly coupled the datapath
 and the control path are within a virtual switch. The following list
 is not exhaustive but should indicate the type of tests that should be
 required. It is expected that more will be added.
 
+.. 3.2.3.5.1
+
 Test ID: LTD.CPDPCouplingFlowAddition
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: Control Path and Datapath Coupling
 
     **Prerequisite Test**:
@@ -1970,15 +2105,19 @@ Test ID: LTD.CPDPCouplingFlowAddition
 
     -  Physical → virtual switch → physical.
 
-2.3.6 CPU and memory consumption
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. 3.2.3.6
+
+CPU and memory consumption
+---------------------------------
 The following tests will profile a virtual switch's CPU and memory
 utilization under various loads and circumstances. The following
 list is not exhaustive but should indicate the type of tests that
 should be required. It is expected that more will be added.
 
+.. 3.2.3.6.1
+
 Test ID: LTD.CPU.RFC2544.0PacketLoss
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC 2544 0% Loss Compute Test
 
     **Prerequisite Test**:
@@ -2009,8 +2148,10 @@ Test ID: LTD.CPU.RFC2544.0PacketLoss
     -  The configuration of the stress tool (for example the command line
        parameters used to start it.)
 
-2.3.7 Summary List of Tests
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. 3.2.3.7
+
+Summary List of Tests
+----------------------------
 1. Throughput tests
 
   - Test ID: LTD.Throughput.RFC2544.PacketLossRatio
