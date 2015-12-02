@@ -1,13 +1,9 @@
-=============
+**************
 VSPERF Design
-=============
+**************
 
 .. toctree::
    :numbered:
-   :maxdepth: 4
+   :maxdepth: 3
 
    vswitchperf_design.rst
-
-Revision: _sha1_
-
-Build date: |today|
