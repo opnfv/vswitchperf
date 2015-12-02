@@ -1,3 +1,7 @@
+======================
+VSPERF Design Document
+======================
+
 Intended Audience
 =================
 
@@ -38,7 +42,7 @@ Typical Test Sequence
 
 This is a typical flow of control for a test.
 
-.. image:: ../images/vsperf.png
+.. image:: vsperf.png
 
 
 Configuration
@@ -156,7 +160,7 @@ Similarly the Traffic Controllers can be used to co-ordinate basic operations pr
 Traffic Controller's Role
 -------------------------
 
-.. image:: ../images/traffic_controller.png
+.. image:: traffic_controller.png
 
 
 Loader & Component Factory
@@ -164,7 +168,7 @@ Loader & Component Factory
 
 The working of the Loader package (which is responsible for *finding* arbitrary classes based on configuration data) and the Component Factory which is responsible for *choosing* the correct class for a particular situation - e.g. Deployment Scenario can be seen in this diagram.
 
-.. image:: ../images/factory_and_loader.png
+.. image:: factory_and_loader.png
 
 Routing Tables
 ==============
