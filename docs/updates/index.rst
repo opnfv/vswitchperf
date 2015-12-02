@@ -5,6 +5,7 @@ VSPERF News
 .. toctree::
    :numbered:
    :maxdepth: 4
+   :tocdepth: 4
 
    NEWS.rst
 
