@@ -1,3 +1,7 @@
+======================
+VSPERF Design Document
+======================
+
 Intended Audience
 =================
 
@@ -38,7 +42,7 @@ Typical Test Sequence
 
 This is a typical flow of control for a test.
 
-.. image:: ../images/vsperf.png
+.. image:: vsperf.png
 
 
 Configuration
@@ -156,7 +160,7 @@ Similarly the Traffic Controllers can be used to co-ordinate basic operations pr
 Traffic Controller's Role
 -------------------------
 
-.. image:: ../images/traffic_controller.png
+.. image:: traffic_controller.png
 
 
 Loader & Component Factory
@@ -164,41 +168,43 @@ Loader & Component Factory
 
 The working of the Loader package (which is responsible for *finding* arbitrary classes based on configuration data) and the Component Factory which is responsible for *choosing* the correct class for a particular situation - e.g. Deployment Scenario can be seen in this diagram.
 
-.. image:: ../images/factory_and_loader.png
+.. image:: factory_and_loader.png
 
 Routing Tables
 ==============
 
 Vsperf uses a standard set of routing tables in order to allow tests to easily mix and match Deployment Scenarios (PVP, P2P topology), Tuple Matching and Frame Modification requirements.
 
-::
+.. code-block:: console
 
-                    +--------------+
-                    |              |
-                    | Table 0      |  table#0 - Match table. Flows designed to force 5 & 10 tuple matches go here.
-                    |              |
-                    +--------------+
-                          |
-                          |
-                          v
-                    +--------------+  table#1 - Routing table. Flows to route packets between ports goes here.
-                    |              |  The chosen port is communicated to subsequent tables by setting the
-                    | Table 1      |  metadata value to the egress port number. Generally this table
-                    |              |  is set-up by by the vSwitchController.
-                    +--------------+
-                          |
-                          |
-                          v
-                    +--------------+  table#2 - Frame modification table. Frame modification flow rules are
-                    |              |  isolated in this table so that they can be turned on or off
-                    | Table 2      |  without affecting the routing or tuple-matching flow rules.
-                    |              |  This allows the frame modification and tuple matching required by the
-                    +--------------+  tests in the VSWITCH PERFORMANCE FOR TELCO NFV test specification
-                          |           to be independent of the Deployment Scenario set up by the vSwitchController.
-                          |
-                          v
-                    +--------------+
-                    |              |
-                    | Table 3      |  table#3 - Egress table. Egress packets on the ports setup in Table 1.
-                    |              |
-                    +--------------+
+      +--------------+
+      |              |
+      | Table 0      |  table#0 - Match table. Flows designed to force 5 & 10 tuple matches go here.
+      |              |
+      +--------------+
+             |
+             |
+             v
+      +--------------+  table#1 - Routing table. Flows to route packets between ports goes here.
+      |              |  The chosen port is communicated to subsequent tables by setting the
+      | Table 1      |  metadata value to the egress port number. Generally this table
+      |              |  is set-up by by the vSwitchController.
+      +--------------+
+             |
+             |
+             v
+      +--------------+  table#2 - Frame modification table. Frame modification flow rules are
+      |              |  isolated in this table so that they can be turned on or off
+      | Table 2      |  without affecting the routing or tuple-matching flow rules.
+      |              |  This allows the frame modification and tuple matching required by the
+      +--------------+  tests in the VSWITCH PERFORMANCE FOR TELCO NFV test specification
+             |           to be independent of the Deployment Scenario set up by the vSwitchController.
+             |
+             v
+      +--------------+
+      |              |
+      | Table 3      |  table#3 - Egress table. Egress packets on the ports setup in Table 1.
+      |              |
+      +--------------+
+
+
