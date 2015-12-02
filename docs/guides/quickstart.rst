@@ -354,6 +354,34 @@ To run tests using Vanilla OVS:
 
      ./vsperf --conf-file <path_to_settings_py>
 
+Selection of loopback application for PVP and PVVP tests
+--------------------------------------------------------
+To select loopback application, which will perform traffic forwarding
+inside VM, following configuration parameter should be configured:
+
+  .. code-block:: console
+
+     GUEST_LOOPBACK = ['testpmd', 'testpmd']
+
+     or use --test-param
+
+     ./vsperf --conf-file user_settings.py
+              --test-param "guest_loopback=testpmd"
+
+Supported loopback applications are:
+
+  .. code-block:: console
+
+     'testpmd'       - testpmd from dpdk will be built and used
+     'l2fwd'         - l2fwd module provided by Huawei will be built and used
+     'linux_bridge'  - linux bridge will be configured
+     'buildin'       - nothing will be configured by vsperf; VM image must
+                       ensure traffic forwarding between its interfaces
+
+Guest loopback application must be configured, otherwise traffic
+will not be forwarded by VM and testcases with PVP and PVVP deployments
+will fail. Guest loopback application is set to 'testpmd' by default.
+
 Code change verification by pylint
 ----------------------------------
 Every developer participating in VSPERF project should run
