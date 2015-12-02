@@ -805,7 +805,7 @@ platform should be configured for every test after this
 configured for every test that uses a VNF after this.
 
 2.2.4 RFCs for testing virtual switch performance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The starting point for defining the suite of tests for benchmarking the
 performance of a virtual switch is to take existing RFCs and standards
@@ -1245,7 +1245,7 @@ Test ID: LTD.Throughput.RFC2544.BackToBackFrames
     -  Physical → virtual switch → physical.
 
 Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     **Title**: RFC 2889 X% packet loss Max Forwarding Rate Soak Test
 
     **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatio
@@ -1285,7 +1285,7 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
        using the 99th percentile.
 
 Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoakFrameModification
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     **Title**: RFC 2889 Max Forwarding Rate Soak Test with Frame Modification
 
     **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatioFrameModification (0% Packet Loss)
@@ -1584,8 +1584,8 @@ Test ID: LTD.Throughput.RFC2889.BroadcastFrameForwarding
     **Deployment scenario**:
 
     -  Physical → virtual switch 3x physical. In the Broadcast rate testing,
-    four test ports are required. One of the ports is connected to the test
-    device, so it can send broadcast frames and listen for miss-routed frames.
+       four test ports are required. One of the ports is connected to the test
+       device, so it can send broadcast frames and listen for miss-routed frames.
 
 2.3.2 Packet Latency tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
