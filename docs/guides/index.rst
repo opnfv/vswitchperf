@@ -8,6 +8,7 @@ VSPERF Guides and Installation
 
    quickstart.rst
    installation.rst
+   trafficgen.rst
 
 Revision: _sha1_
 
