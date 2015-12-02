@@ -1,3 +1,4 @@
+==========================================================================
 CHARACTERIZE VSWITCH PERFORMANCE FOR TELCO NFV USE CASES LEVEL TEST DESIGN
 ==========================================================================
 
@@ -69,11 +70,13 @@ release.
 2. Details of the Level Test Design
 ===================================
 
-This section describes the features to be tested (`cf. 2.1
-<#FeaturesToBeTested>`__), the test approach (`cf. 2.2 <#Approach>`__);
-it also identifies the sets of test cases or scenarios (`cf. 2.3
-<#TestIdentification>`__) along with the pass/fail criteria (`cf. 2.4
-<#PassFail>`__) and the test deliverables (`cf. 2.5 <#TestDeliverables>`__).
+This section describes the features to be tested (
+:ref:_FeaturesToBeTested), the test approach (:ref:_Approach);
+it also identifies the sets of test cases or scenarios (
+:ref:_TestIdentification) along with the pass/fail criteria and
+the test deliverables.
+
+.. _FeaturesToBeTested:
 
 2.1. Features to be tested
 --------------------------
@@ -133,6 +136,7 @@ includes measuring the following performance metrics:
   - Includes headroom of VM workload processing cores (i.e. available
     for applications).
 
+.. _Approach:
 
 2.2. Approach
 ==============
@@ -851,7 +855,7 @@ platform should be configured for every test after this
 configured for every test that uses a VNF after this.
 
 2.2.4 RFCs for testing virtual switch performance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The starting point for defining the suite of tests for benchmarking the
 performance of a virtual switch is to take existing RFCs and standards
@@ -1023,7 +1027,7 @@ it is recommended that the test report includes the following information:
 
 **Note**: Tests that require additional parameters to be recorded will
 explicitly specify this.
-
+.. _TestIdentification:
 2.3. Test identification
 ------------------------
 2.3.1 Throughput tests
@@ -1291,7 +1295,7 @@ Test ID: LTD.Throughput.RFC2544.BackToBackFrames
     -  Physical → virtual switch → physical.
 
 Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     **Title**: RFC 2889 X% packet loss Max Forwarding Rate Soak Test
 
     **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatio
@@ -1331,7 +1335,7 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
        using the 99th percentile.
 
 Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoakFrameModification
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     **Title**: RFC 2889 Max Forwarding Rate Soak Test with Frame Modification
 
     **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatioFrameModification (0% Packet Loss)
@@ -1431,34 +1435,42 @@ Test ID: LTD.Throughput.RFC6201.ResetTime
         is received after the reset. The Reset time is the difference between
         these two timestamps.
 
-    According to `RFC6201 <https://www.rfc-editor.org/rfc/rfc6201.txt>`__ the choice of method depends on the test
-    tool's capability; the Frame-Loss method SHOULD be used if the test tool
-    supports: - Counting the number of lost frames per stream. -
-    Transmitting test frame despite the physical link status.
+    According to `RFC6201 <https://www.rfc-editor.org/rfc/rfc6201.txt>`__ the
+    choice of method depends on the test tool's capability; the Frame-Loss
+    method SHOULD be used if the test tool supports: 
 
-    whereas the Timestamp method SHOULD be used if the test tool supports: -
-    Timestamping each frame. - Monitoring received frame's timestamp. -
-    Transmitting frames only if the physical link status is up.
+     * Counting the number of lost frames per stream.
+     * Transmitting test frame despite the physical link status.
+
+    whereas the Timestamp method SHOULD be used if the test tool supports:
+     * Timestamping each frame.
+     * Monitoring received frame's timestamp.
+     * Transmitting frames only if the physical link status is up.
 
     **Expected Result**:
 
     **Metrics collected**
 
-    The following are the metrics collected for this test: - Average Reset
-    Time over the number of trials performed.
+    The following are the metrics collected for this test:
 
-    Results of this test should include the following information: - The
-    reset method used. - Throughput in Fps and Mbps. - Average Frame Loss
-    over the number of trials performed. - Average Reset Time in
-    milliseconds over the number of trials performed. - Number of trials
-    performed. - Protocol: IPv4, IPv6, MPLS, etc. - Frame Size in Octets -
-    Port Media: Ethernet, Gigabit Ethernet (GbE), etc. - Port Speed: 10
-    Gbps, 40 Gbps etc. - Interface Encapsulation: Ethernet, Ethernet VLAN,
-    etc.
+     * Average Reset Time over the number of trials performed.
+
+    Results of this test should include the following information:
+
+     * The reset method used.
+     * Throughput in Fps and Mbps.
+     * Average Frame Loss over the number of trials performed.
+     * Average Reset Time in milliseconds over the number of trials performed.
+     * Number of trials performed.
+     * Protocol: IPv4, IPv6, MPLS, etc.
+     * Frame Size in Octets
+     * Port Media: Ethernet, Gigabit Ethernet (GbE), etc.
+     * Port Speed: 10 Gbps, 40 Gbps etc.
+     * Interface Encapsulation: Ethernet, Ethernet VLAN, etc.
 
     **Deployment scenario**:
 
-    -  Physical → virtual switch → physical.
+    * Physical → virtual switch → physical.
 
 Test ID: LTD.Throughput.RFC2889.MaxForwardingRate
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1630,8 +1642,8 @@ Test ID: LTD.Throughput.RFC2889.BroadcastFrameForwarding
     **Deployment scenario**:
 
     -  Physical → virtual switch 3x physical. In the Broadcast rate testing,
-    four test ports are required. One of the ports is connected to the test
-    device, so it can send broadcast frames and listen for miss-routed frames.
+       four test ports are required. One of the ports is connected to the test
+       device, so it can send broadcast frames and listen for miss-routed frames.
 
 2.3.2 Packet Latency tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
