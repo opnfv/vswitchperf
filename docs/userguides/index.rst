@@ -1,6 +1,6 @@
-==============================
+******************************
 VSPERF Guides and Installation
-==============================
+******************************
 
 .. toctree::
    :numbered:
@@ -8,7 +8,4 @@ VSPERF Guides and Installation
 
    quickstart.rst
    installation.rst
-
-Revision: _sha1_
-
-Build date: |today|
+   trafficgen.rst
