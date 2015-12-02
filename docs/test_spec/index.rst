@@ -6,11 +6,7 @@ VSPERF Test Specification
    :numbered:
    :maxdepth: 4
 
-   quickstart.rst
-   installation.rst
-   NEWS.rst
    vswitchperf_ltd.rst
-   vswitchperf_design.rst
 
 Revision: _sha1_
 
