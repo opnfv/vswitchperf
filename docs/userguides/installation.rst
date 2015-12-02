@@ -1,12 +1,11 @@
+======================
 Installing vswitchperf
 ======================
 
 The test suite requires Python 3.3 and relies on a number of other
 packages. These need to be installed for the test suite to function. To
 install Python 3.3 in CentOS 7, an additional repository, Software
-Collections (see
-https://www.softwarecollections.org/en/scls/rhscl/python33) should be
-enabled.
+Collections (`a link`_) should be enabled.
 
 Installation of required packages and preparation of Python 3 virtual
 environment is performed by systems/build_base_machine.sh. It should be
@@ -46,3 +45,5 @@ running any of the above. For example:
 
     export http_proxy=proxy.mycompany.com:123
     export https_proxy=proxy.mycompany.com:123
+
+.. _a link: http://www.softwarecollections.org/en/scls/rhscl/python33/
