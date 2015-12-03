@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_ec2ba892",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-12-03T12:45:38Z",
+      "side": 1,
+      "message": "Finding a section number in the unformatted text is also painful, and the reference mechanism doesn\u0027t help the translation between formatted and unformatted text, unless it contains a hard-coded section number (and we\u0027re right back where we started, AFAICT). We don\u0027t even see the TOC in the unformatted text to help with the mapping. WYSIWYG review in gerrit is really what we need, so we add occasional document anchors instead - just look below, 160 lines were skipped up to the beginning of section 2.2.2, and I know that because the section number is included.",
+      "parentUuid": "9a5c5d37_ec7de8b2",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 2
+      },
+      "revId": "58ac350f05f817ccaddffd9f314b441145647bb4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_ac17f0a2",
         "filename": "docs/test_spec/vswitchperf_ltd.rst",
         "patchSetId": 7
