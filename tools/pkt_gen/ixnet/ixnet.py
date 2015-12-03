@@ -218,6 +218,7 @@ class IxNet(trafficgen.ITrafficGenerator):
             'duration': duration,
             'framerate': traffic['frame_rate'],
             'multipleStreams': traffic['multistream'],
+            'streamType': traffic['stream_type'],
             'rfc2544TestType': 'throughput',
         }
         self._params['traffic'] = self.traffic_defaults.copy()
@@ -271,6 +272,7 @@ class IxNet(trafficgen.ITrafficGenerator):
             'duration': duration,
             'lossrate': lossrate,
             'multipleStreams': traffic['multistream'],
+            'streamType': traffic['stream_type'],
             'rfc2544TestType': 'throughput',
         }
         self._params['traffic'] = self.traffic_defaults.copy()
@@ -403,6 +405,7 @@ class IxNet(trafficgen.ITrafficGenerator):
             'duration': duration,
             'lossrate': lossrate,
             'multipleStreams': traffic['multistream'],
+            'streamType': traffic['stream_type'],
             'rfc2544TestType': 'back2back',
         }
         self._params['traffic'] = self.traffic_defaults.copy()

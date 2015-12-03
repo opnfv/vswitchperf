@@ -63,6 +63,15 @@ class TestCase(object):
                 else:
                     self.guest_loopback = S.getValue('GUEST_LOOPBACK').copy()
 
+        # read configuration of streams; CLI parameter takes precedence to
+        # testcase definition
+        multistream = cfg.get('MultiStream', 0)
+        multistream = get_test_param('multistream', multistream)
+        stream_type = cfg.get('Stream Type', 'L4')
+        stream_type = get_test_param('stream_type', stream_type)
+        pre_installed_flows = False # placeholder for VSPERF-83 implementation
+
+
         # check if test requires background load and which generator it uses
         self._load_cfg = cfg.get('Load', None)
         if self._load_cfg and 'tool' in self._load_cfg:
@@ -80,7 +89,9 @@ class TestCase(object):
         self._traffic.update({'traffic_type': cfg['Traffic Type'],
                               'flow_type': cfg.get('Flow Type', 'port'),
                               'bidir': cfg['biDirectional'],
-                              'multistream': cfg.get('MultiStream', 0),
+                              'multistream': int(multistream),
+                              'stream_type': stream_type,
+                              'pre_installed_flows' : pre_installed_flows,
                               'frame_rate': int(framerate)})
 
         # OVS Vanilla requires guest VM MAC address and IPs to work
@@ -238,6 +249,11 @@ class TestCase(object):
         for item in results:
             item[ResultsConstants.ID] = self.name
             item[ResultsConstants.DEPLOYMENT] = self.deployment
+            item[ResultsConstants.TRAFFIC_TYPE] = self._traffic['l3']['proto']
+            if self._traffic['multistream']:
+                item[ResultsConstants.SCAL_STREAM_COUNT] = self._traffic['multistream']
+                item[ResultsConstants.SCAL_STREAM_TYPE] = self._traffic['stream_type']
+                item[ResultsConstants.SCAL_PRE_INSTALLED_FLOWS] = self._traffic['pre_installed_flows']
             if len(self.guest_loopback):
                 item[ResultsConstants.GUEST_LOOPBACK] = ' '.join(self.guest_loopback)
 
