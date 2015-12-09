@@ -145,7 +145,8 @@ def get_pids(proc_names_list):
     """
 
     try:
-        pids = subprocess.check_output(['pidof'] + proc_names_list)
+        pids = subprocess.check_output(['sudo', 'LC_ALL=' + settings.getValue('DEFAULT_CMD_LOCALE'), 'pidof']
+                                       + proc_names_list)
     except subprocess.CalledProcessError:
         # such process isn't running
         return None

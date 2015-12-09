@@ -29,7 +29,6 @@ from conf import settings
 
 
 CMD_PREFIX = 'cmd : '
-_MY_ENCODING = locale.getdefaultlocale()[1]
 
 def _get_stdout():
     """Get stdout value for ``subprocess`` calls.
@@ -68,6 +67,7 @@ def run_task(cmd, logger, msg=None, check_error=False):
 
     stdout = []
     stderr = []
+    my_encoding = locale.getdefaultlocale()[1]
 
     if msg:
         logger.info(msg)
@@ -86,11 +86,11 @@ def run_task(cmd, logger, msg=None, check_error=False):
                 if file_d == proc.stdout.fileno():
                     line = proc.stdout.readline()
                     if settings.getValue('VERBOSITY') == 'debug':
-                        sys.stdout.write(line.decode(_MY_ENCODING))
+                        sys.stdout.write(line.decode(my_encoding))
                     stdout.append(line)
                 if file_d == proc.stderr.fileno():
                     line = proc.stderr.readline()
-                    sys.stderr.write(line.decode(_MY_ENCODING))
+                    sys.stderr.write(line.decode(my_encoding))
                     stderr.append(line)
 
             if proc.poll() is not None:
@@ -102,8 +102,8 @@ def run_task(cmd, logger, msg=None, check_error=False):
             ex = subprocess.CalledProcessError(proc.returncode, cmd, stderr)
             handle_error(ex)
 
-    return ('\n'.join(sout.decode(_MY_ENCODING).strip() for sout in stdout),
-            ('\n'.join(sout.decode(_MY_ENCODING).strip() for sout in stderr)))
+    return ('\n'.join(sout.decode(my_encoding).strip() for sout in stdout),
+            ('\n'.join(sout.decode(my_encoding).strip() for sout in stderr)))
 
 def run_background_task(cmd, logger, msg):
     """Run task in background and log when started.
