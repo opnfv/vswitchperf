@@ -127,7 +127,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
             verbose = True
             print("Arguments used to call test: %s" % args)
 
-        subprocess.check_call(args)
+        subprocess.check_call(map(os.path.expanduser, args))
 
         file = os.path.join(settings.getValue("TRAFFICGEN_STC_RESULTS_DIR"),
                             settings.getValue("TRAFFICGEN_STC_CSV_RESULTS_FILE_PREFIX") + ".csv")
