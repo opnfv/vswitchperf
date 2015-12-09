@@ -96,16 +96,19 @@ Other Configuration
 VM, vSwitch, Traffic Generator Independence
 ===========================================
 
-VSPERF supports different vSwithes, Traffic Generators and VNFs by using
-standard object-oriented polymorphism:
+VSPERF supports different vSwithes, Traffic Generators, VNFs
+and Forwarding Applications by using standard object-oriented polymorphism:
 
   * Support for vSwitches is implemented by a class inheriting from IVSwitch.
   * Support for Traffic Generators is implemented by a class inheriting from
     ITrafficGenerator.
   * Support for VNF is implemented by a class inheriting from IVNF.
+  * Support for Forwarding Applications is implemented by a class inheriting
+    from IPktFwd.
 
 By dealing only with the abstract interfaces the core framework can support
-many implementations of different vSwitches, Traffic Generators and VNFs.
+many implementations of different vSwitches, Traffic Generators, VNFs
+and Forwarding Applications.
 
 IVSwitch
 --------
@@ -163,12 +166,22 @@ IVnf
       wait(guest_prompt)
       execute_and_wait (command)
 
+IPktFwd
+--------
+
+  .. code-block:: python
+
+    class IPktFwd:
+        start()
+        stop()
+
+
 Controllers
 -----------
 
-Controllers are used in conjunction with abstract interfaces as way of
-decoupling the control of vSwtiches, VNFs and TrafficGenerators from other
-components.
+Controllers are used in conjunction with abstract interfaces as way
+of decoupling the control of vSwtiches, VNFs, TrafficGenerators
+and Forwarding Applications from other components.
 
 The controlled classes provide basic primitive operations. The Controllers
 sequence and co-ordinate these primitive operation in to useful actions. For

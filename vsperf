@@ -120,6 +120,8 @@ def parse_arguments():
                         help='list all system metrics loggers and exit')
     parser.add_argument('--list-vswitches', action='store_true',
                         help='list all system vswitches and exit')
+    parser.add_argument('--list-fwdapps', action='store_true',
+                        help='list all system forwarding applications and exit')
     parser.add_argument('--list-vnfs', action='store_true',
                         help='list all system vnfs and exit')
     parser.add_argument('--list-settings', action='store_true',
@@ -139,6 +141,7 @@ def parse_arguments():
                        help='debug level')
     group.add_argument('--trafficgen', help='traffic generator to use')
     group.add_argument('--vswitch', help='vswitch implementation to use')
+    group.add_argument('--fwdapp', help='packet forwarding application to use')
     group.add_argument('--vnf', help='vnf to use')
     group.add_argument('--duration', help='traffic transmit duration')
     group.add_argument('--sysmetrics', help='system metrics logger to use')
@@ -300,6 +303,7 @@ def main():
     # than both a settings file and environment variables
     settings.load_from_dict(args)
 
+    vswitch_none =  False
     # set dpdk and ovs paths accorfing to VNF and VSWITCH
     if settings.getValue('VSWITCH').endswith('Vanilla'):
         # settings paths for Vanilla
@@ -317,6 +321,8 @@ def main():
         # default - set to VHOST USER but can be changed during enhancement
         settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_USER')))
         settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_USER')))
+        if 'none' == settings.getValue('VSWITCH').strip().lower():
+            vswitch_none = True
 
     configure_logging(settings.getValue('VERBOSITY'))
     logger = logging.getLogger()
@@ -336,11 +342,25 @@ def main():
 
     # configure vswitch
     if args['vswitch']:
-        vswitches = Loader().get_vswitches()
-        if args['vswitch'] not in vswitches:
-            logging.error('There are no vswitches matching \'%s\' found in'
-                          ' \'%s\'. Exiting...', args['vswitch'],
-                          settings.getValue('VSWITCH_DIR'))
+        vswitch_none =  'none' == args['vswitch'].strip().lower()
+        if vswitch_none:
+            settings.setValue('VSWITCH', 'none')
+        else:
+            vswitches = Loader().get_vswitches()
+            if args['vswitch'] not in vswitches:
+                logging.error('There are no vswitches matching \'%s\' found in'
+                              ' \'%s\'. Exiting...', args['vswitch'],
+                              settings.getValue('VSWITCH_DIR'))
+                sys.exit(1)
+
+    if args['fwdapp']:
+        settings.setValue('PKTFWD', args['fwdapp'])
+        fwdapps = Loader().get_pktfwds()
+        if args['fwdapp'] not in fwdapps:
+            logging.error('There are no forwarding application'
+                          ' matching \'%s\' found in'
+                          ' \'%s\'. Exiting...', args['fwdapp'],
+                          settings.getValue('PKTFWD_DIR'))
             sys.exit(1)
 
     if args['vnf']:
@@ -395,6 +415,10 @@ def main():
         print(Loader().get_vswitches_printable())
         exit()
 
+    if args['list_fwdapps']:
+        print(Loader().get_pktfwds_printable())
+        exit()
+
     if args['list_vnfs']:
         print(Loader().get_vnfs_printable())
         exit()
@@ -432,6 +456,11 @@ def main():
     suite = unittest.TestSuite()
     for test in selected_tests:
         try:
+            if vswitch_none:
+                if test.deployment.lower() != 'p2p':
+                    logging.error('\'none\' vswitch option supported only'
+                                  ' for p2p deployment.')
+                    sys.exit(1)
             test.run()
             suite.addTest(MockTestCase('', True, test.name))
         #pylint: disable=broad-except
