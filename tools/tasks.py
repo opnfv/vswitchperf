@@ -75,8 +75,9 @@ def run_task(cmd, logger, msg=None, check_error=False):
     logger.debug('%s%s', CMD_PREFIX, ' '.join(cmd))
 
     try:
-        proc = subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=0)
+        proc = subprocess.Popen(map(os.path.expanduser, cmd),
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, bufsize=0)
 
         while True:
             reads = [proc.stdout.fileno(), proc.stderr.fileno()]
@@ -121,7 +122,7 @@ def run_background_task(cmd, logger, msg):
     logger.info(msg)
     logger.debug('%s%s', CMD_PREFIX, ' '.join(cmd))
 
-    proc = subprocess.Popen(cmd, stdout=_get_stdout(), bufsize=0)
+    proc = subprocess.Popen(map(os.path.expanduser, cmd), stdout=_get_stdout(), bufsize=0)
 
     return proc.pid
 
