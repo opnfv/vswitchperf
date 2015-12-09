@@ -74,7 +74,8 @@ class Pidstat(collector.ICollector):
         pids = systeminfo.get_pids(monitor)
         if pids:
             with open(self._log, 'w') as logfile:
-                cmd = ['sudo', 'pidstat', settings.getValue('PIDSTAT_OPTIONS'),
+                cmd = ['sudo', 'LC_ALL=' + settings.getValue('DEFAULT_CMD_LOCALE'),
+                       'pidstat', settings.getValue('PIDSTAT_OPTIONS'),
                        '-p', ','.join(pids),
                        str(settings.getValue('PIDSTAT_SAMPLE_INTERVAL'))]
                 self._logger.debug('%s', ' '.join(cmd))

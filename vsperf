@@ -26,6 +26,7 @@ import datetime
 import shutil
 import unittest
 import xmlrunner
+import locale
 
 sys.dont_write_bytecode = True
 
@@ -237,6 +238,17 @@ def apply_filter(tests, tc_filter):
     return result
 
 
+def check_and_set_locale():
+    """ Function will check locale settings. In case, that it isn't configured
+    properly, then default values specified by DEFAULT_LOCALE will be used.
+    """
+
+    system_locale = locale.getdefaultlocale()
+    if None in system_locale:
+        os.environ['LC_ALL'] = settings.getValue('DEFAULT_LOCALE')
+        logging.warning("Locale was not properly configured. Default values were set. Old locale: %s, New locale: %s",
+                        system_locale, locale.getdefaultlocale())
+
 class MockTestCase(unittest.TestCase):
     """Allow use of xmlrunner to generate Jenkins compatible output without
     using xmlrunner to actually run tests.
@@ -308,6 +320,9 @@ def main():
 
     configure_logging(settings.getValue('VERBOSITY'))
     logger = logging.getLogger()
+
+    # check and fix locale
+    check_and_set_locale()
 
     # configure trafficgens
 

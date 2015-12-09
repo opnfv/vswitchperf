@@ -163,7 +163,7 @@ class IVnfQemu(IVnf):
 
         self._logger.info('Affinitizing guest...')
 
-        cur_locale = locale.getlocale()[1]
+        cur_locale = locale.getdefaultlocale()[1]
         proc = subprocess.Popen(
             ('echo', 'info cpus'), stdout=subprocess.PIPE)
         output = subprocess.check_output(
