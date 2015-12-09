@@ -20,6 +20,7 @@ from core.vswitch_controller_p2p import VswitchControllerP2P
 from core.vswitch_controller_pvp import VswitchControllerPVP
 from core.vswitch_controller_pvvp import VswitchControllerPVVP
 from core.vnf_controller import VnfController
+from core.pktfwd_controller import PktFwdController
 from tools.load_gen.stress.stress import Stress
 from tools.load_gen.stress_ng.stress_ng import StressNg
 from tools.load_gen.dummy.dummy import DummyLoadGen
@@ -108,4 +109,13 @@ def create_loadgen(loadgen_type, loadgen_cfg):
     elif loadgen_type.find("stress") >= 0:
         return Stress(loadgen_cfg)
 
+def create_pktfwd(pktfwd_class):
+    """Return a new packet forwarder controller
 
+    The returned controller is configured with the given
+    packet forwarder class.
+
+    :param pktfwd_class: Reference to packet forwarder class to be used.
+    :return: packet forwarder controller
+    """
+    return PktFwdController(pktfwd_class)
