@@ -103,6 +103,9 @@ class TestCase(object):
             self._traffic['l3'].update({'srcip': S.getValue('VANILLA_TGEN_PORT1_IP'),
                                         'dstip': S.getValue('VANILLA_TGEN_PORT2_IP')})
 
+        # Packet Forwarding mode
+        self._vswitch_none = 'none' == S.getValue('VSWITCH').strip().lower()
+
     def run(self):
         """Run the test
 
@@ -121,10 +124,16 @@ class TestCase(object):
         vnf_ctl = component_factory.create_vnf(
             self.deployment,
             loader.get_vnf_class())
-        vswitch_ctl = component_factory.create_vswitch(
-            self.deployment,
-            loader.get_vswitch_class(),
-            self._traffic)
+
+        if self._vswitch_none:
+            vswitch_ctl = component_factory.create_pktfwd(
+                loader.get_pktfwd_class())
+        else:
+            vswitch_ctl = component_factory.create_vswitch(
+                self.deployment,
+                loader.get_vswitch_class(),
+                self._traffic)
+
         collector = component_factory.create_collector(
             loader.get_collector_class(),
             self._results_dir, self.name)
@@ -135,94 +144,15 @@ class TestCase(object):
         self._logger.debug("Setup:")
         with vswitch_ctl, loadgen:
             with vnf_ctl, collector:
-                vswitch = vswitch_ctl.get_vswitch()
-                # TODO BOM 15-08-07 the frame mod code assumes that the
-                # physical ports are ports 1 & 2. The actual numbers
-                # need to be retrived from the vSwitch and the metadata value
-                # updated accordingly.
-                bridge = S.getValue('VSWITCH_BRIDGE_NAME')
-                if self._frame_mod == "vlan":
-                    # 0x8100 => VLAN ethertype
-                    self._logger.debug(" ****   VLAN   ***** ")
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'2',
-                            'actions': ['push_vlan:0x8100', 'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'1',
-                            'actions': ['push_vlan:0x8100', 'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                elif self._frame_mod == "mpls":
-                    # 0x8847 => MPLS unicast ethertype
-                    self._logger.debug(" ****   MPLS  ***** ")
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'2',
-                            'actions': ['push_mpls:0x8847', 'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'1',
-                            'actions': ['push_mpls:0x8847', 'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                elif self._frame_mod == "mac":
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'2',
-                            'actions': ['mod_dl_src:22:22:22:22:22:22',
-                                        'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'1',
-                            'actions': ['mod_dl_src:11:11:11:11:11:11',
-                                        'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                elif self._frame_mod == "dscp":
-                    # DSCP 184d == 0x4E<<2 => 'Expedited Forwarding'
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'2',
-                            'dl_type':'0x0800',
-                            'actions': ['mod_nw_tos:184', 'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'1',
-                            'dl_type':'0x0800',
-                            'actions': ['mod_nw_tos:184', 'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                elif self._frame_mod == "ttl":
-                    # 251 and 241 are the highest prime numbers < 255
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'2',
-                            'dl_type':'0x0800',
-                            'actions': ['mod_nw_ttl:251', 'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'1',
-                            'dl_type':'0x0800',
-                            'actions': ['mod_nw_ttl:241', 'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                elif self._frame_mod == "ip_addr":
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'2',
-                            'dl_type':'0x0800',
-                            'actions': ['mod_nw_src:10.10.10.10',
-                                        'mod_nw_dst:20.20.20.20',
-                                        'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'1',
-                            'dl_type':'0x0800',
-                            'actions': ['mod_nw_src:20.20.20.20',
-                                        'mod_nw_dst:10.10.10.10',
-                                        'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                elif self._frame_mod == "ip_port":
-                    # TODO BOM 15-08-27 The traffic generated is assumed
-                    # to be UDP (nw_proto 17d) which is the default case but
-                    # we will need to pick up the actual traffic params in use.
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'2',
-                            'dl_type':'0x0800', 'nw_proto':'17',
-                            'actions': ['mod_tp_src:44444',
-                                        'mod_tp_dst:44444', 'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                    flow = {'table':'2', 'priority':'1000', 'metadata':'1',
-                            'dl_type':'0x0800', 'nw_proto':'17',
-                            'actions': ['mod_tp_src:44444',
-                                        'mod_tp_dst:44444', 'goto_table:3']}
-                    vswitch.add_flow(bridge, flow)
-                else:
-                    pass
+                if not self._vswitch_none:
+                    self._add_flows(vswitch_ctl)
 
                 with traffic_ctl:
                     traffic_ctl.send_traffic(self._traffic)
 
                 # dump vswitch flows before they are affected by VNF termination
-                vswitch_ctl.dump_vswitch_flows()
+                if not self._vswitch_none:
+                    vswitch_ctl.dump_vswitch_flows()
 
         self._logger.debug("Traffic Results:")
         traffic_ctl.print_results()
@@ -332,3 +262,92 @@ class TestCase(object):
                 result[key] = ''
 
         return list(result.keys())
+
+
+    def _add_flows(vswitch_ctl):
+        """Add flows to the vswitch
+
+        :param vswitch_ctl vswitch controller
+        """
+        vswitch = vswitch_ctl.get_vswitch()
+        # TODO BOM 15-08-07 the frame mod code assumes that the
+        # physical ports are ports 1 & 2. The actual numbers
+        # need to be retrived from the vSwitch and the metadata value
+        # updated accordingly.
+        bridge = S.getValue('VSWITCH_BRIDGE_NAME')
+        if self._frame_mod == "vlan":
+            # 0x8100 => VLAN ethertype
+            self._logger.debug(" ****   VLAN   ***** ")
+            flow = {'table':'2', 'priority':'1000', 'metadata':'2',
+                    'actions': ['push_vlan:0x8100', 'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+            flow = {'table':'2', 'priority':'1000', 'metadata':'1',
+                    'actions': ['push_vlan:0x8100', 'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+        elif self._frame_mod == "mpls":
+            # 0x8847 => MPLS unicast ethertype
+            self._logger.debug(" ****   MPLS  ***** ")
+            flow = {'table':'2', 'priority':'1000', 'metadata':'2',
+                    'actions': ['push_mpls:0x8847', 'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+            flow = {'table':'2', 'priority':'1000', 'metadata':'1',
+                    'actions': ['push_mpls:0x8847', 'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+        elif self._frame_mod == "mac":
+            flow = {'table':'2', 'priority':'1000', 'metadata':'2',
+                    'actions': ['mod_dl_src:22:22:22:22:22:22',
+                                'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+            flow = {'table':'2', 'priority':'1000', 'metadata':'1',
+                    'actions': ['mod_dl_src:11:11:11:11:11:11',
+                                'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+        elif self._frame_mod == "dscp":
+            # DSCP 184d == 0x4E<<2 => 'Expedited Forwarding'
+            flow = {'table':'2', 'priority':'1000', 'metadata':'2',
+                    'dl_type':'0x0800',
+                    'actions': ['mod_nw_tos:184', 'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+            flow = {'table':'2', 'priority':'1000', 'metadata':'1',
+                    'dl_type':'0x0800',
+                    'actions': ['mod_nw_tos:184', 'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+        elif self._frame_mod == "ttl":
+            # 251 and 241 are the highest prime numbers < 255
+            flow = {'table':'2', 'priority':'1000', 'metadata':'2',
+                    'dl_type':'0x0800',
+                    'actions': ['mod_nw_ttl:251', 'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+            flow = {'table':'2', 'priority':'1000', 'metadata':'1',
+                    'dl_type':'0x0800',
+                    'actions': ['mod_nw_ttl:241', 'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+        elif self._frame_mod == "ip_addr":
+            flow = {'table':'2', 'priority':'1000', 'metadata':'2',
+                    'dl_type':'0x0800',
+                    'actions': ['mod_nw_src:10.10.10.10',
+                                'mod_nw_dst:20.20.20.20',
+                                'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+            flow = {'table':'2', 'priority':'1000', 'metadata':'1',
+                    'dl_type':'0x0800',
+                    'actions': ['mod_nw_src:20.20.20.20',
+                                'mod_nw_dst:10.10.10.10',
+                                'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+        elif self._frame_mod == "ip_port":
+            # TODO BOM 15-08-27 The traffic generated is assumed
+            # to be UDP (nw_proto 17d) which is the default case but
+            # we will need to pick up the actual traffic params in use.
+            flow = {'table':'2', 'priority':'1000', 'metadata':'2',
+                    'dl_type':'0x0800', 'nw_proto':'17',
+                    'actions': ['mod_tp_src:44444',
+                                'mod_tp_dst:44444', 'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+            flow = {'table':'2', 'priority':'1000', 'metadata':'1',
+                    'dl_type':'0x0800', 'nw_proto':'17',
+                    'actions': ['mod_tp_src:44444',
+                                'mod_tp_dst:44444', 'goto_table:3']}
+            vswitch.add_flow(bridge, flow)
+        else:
+            pass
