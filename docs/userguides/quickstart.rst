@@ -343,6 +343,52 @@ Guest loopback application must be configured, otherwise traffic
 will not be forwarded by VM and testcases with PVP and PVVP deployments
 will fail. Guest loopback application is set to 'testpmd' by default.
 
+Executing Packet Forwarding tests
+-----------------------------------
+
+To select application, which will perform packet forwarding,
+following configuration parameter should be configured:
+
+  .. code-block:: console
+
+     VSWITCH = 'none'
+     PKTFWD = 'TestPMD'
+
+     or use --vswitch and --fwdapp
+
+     ./vsperf --conf-file user_settings.py
+              --vswitch none
+              --fwdapp TestPMD
+
+Supported Packet Forwarding applications are:
+
+  .. code-block:: console
+
+     'testpmd'       - testpmd from dpdk
+
+
+1. Update your ''10_custom.conf'' file to use the appropriate variables
+for selected Packet Forwarder:
+  .. code-block:: console
+
+   # testpmd configuration
+   TESTPMD_ARGS = []
+   # packet forwarding mode: io|mac|mac_retry|macswap|flowgen|rxonly|txonly|csum|icmpecho
+   TESTPMD_FWD_MODE = 'csum'
+   # checksum calculation layer: ip|udp|tcp|sctp|outer-ip
+   TESTPMD_CSUM_LAYER = 'ip'
+   # checksum calculation place: hw (hardware) | sw (software)
+   TESTPMD_CSUM_CALC = 'sw'
+   # recognize tunnel headers: on|off
+   TESTPMD_CSUM_PARSE_TUNNEL = 'off'
+
+2. Run test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file <path_to_settings_py>
+
+
 Code change verification by pylint
 ----------------------------------
 Every developer participating in VSPERF project should run

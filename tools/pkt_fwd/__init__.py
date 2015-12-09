@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,12 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""A collection of functions for automating the DPDK setup and teardown.
-
-These automation tasks include mounting/unmounting hugepages, inserting
-and removing drivers and binding/unbinding NICs.
 """
-
-from src.dpdk.dpdk import *
-from src.dpdk.testpmd_proc import TestPMDProcess
-
+Packet forwarders package which contain:
+- All relevant implementations of packet forwarders.
+- Interface definition stored in "pkt_fwd"
+"""

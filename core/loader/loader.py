@@ -21,6 +21,7 @@ from tools.pkt_gen.trafficgen import ITrafficGenerator
 from tools.collectors.collector import ICollector
 from vswitches.vswitch import IVSwitch
 from vnfs.vnf.vnf import IVnf
+from tools.pkt_fwd.pkt_fwd import IPktFwd
 
 class Loader(object):
     """Loader class - main object context holder.
@@ -56,6 +57,11 @@ class Loader(object):
             settings.getValue('VNF_DIR'),
             settings.getValue('VNF'),
             IVnf)
+
+        self._pktfwd_loader = LoaderServant(
+            settings.getValue('PKTFWD_DIR'),
+            settings.getValue('PKTFWD'),
+            IPktFwd)
 
     def get_trafficgen(self):
         """Returns a new instance configured traffic generator.
@@ -109,7 +115,7 @@ class Loader(object):
 
         :return: Dictionary of collectors.
             - key: name of the class which implements ICollector,
-            - value: Type of traffic generator which implements ICollector.
+            - value: Type of collector which implements ICollector.
         """
         return self._metrics_loader.get_classes()
 
@@ -140,7 +146,7 @@ class Loader(object):
 
         :return: Dictionary of vswitches.
             - key: name of the class which implements IVSwitch,
-            - value: Type of traffic generator which implements IVSwitch.
+            - value: Type of vswitch which implements IVSwitch.
         """
         return self._vswitch_loader.get_classes()
 
@@ -182,3 +188,33 @@ class Loader(object):
         """
         return self._vnf_loader.get_classes_printable()
 
+    def get_pktfwd(self):
+        """Returns instance of currently configured packet forwarder implementation.
+
+        :return: IPktFwd implementation if available, None otherwise.
+        """
+        return self._pktfwd_loader.get_class()()
+
+    def get_pktfwd_class(self):
+        """Returns type of currently configured packet forwarder implementation.
+
+        :return: Type of IPktFwd implementation if available.
+            None otherwise.
+        """
+        return self._pktfwd_loader.get_class()
+
+    def get_pktfwds(self):
+        """Returns dictionary of all available packet forwarders.
+
+        :return: Dictionary of packet forwarders.
+            - key: name of the class which implements IPktFwd,
+            - value: Type of packet forwarder which implements IPktFwd.
+        """
+        return self._pktfwd_loader.get_classes()
+
+    def get_pktfwds_printable(self):
+        """Returns all available packet forwarders in printable format.
+
+        :return: String containing printable list of packet forwarders.
+        """
+        return self._pktfwd_loader.get_classes_printable()
