@@ -296,7 +296,7 @@ def _unbind_nics_get_driver():
        after unbinding them from DPDK.
     """
     _driver_list = []
-    _output = subprocess.check_output([RTE_PCI_TOOL, '--status'])
+    _output = subprocess.check_output([os.path.expanduser(RTE_PCI_TOOL), '--status'])
     _my_encoding = locale.getdefaultlocale()[1]
     for line in _output.decode(_my_encoding).split('\n'):
         for nic in settings.getValue('WHITELIST_NICS'):
