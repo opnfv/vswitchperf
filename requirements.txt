@@ -2,3 +2,4 @@ pexpect==3.3
 tox==1.8.1
 jinja2==2.7.3
 xmlrunner==1.7.7
+requests==2.8.1
