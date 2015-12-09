@@ -39,9 +39,12 @@ def _push_results(reader, int_data):
     """
     the method encodes results and sends them into opnfv dashboard
     """
-    db_url = "http://213.77.62.197"
+    db_url = int_data['db_url']
     url = db_url + "/results"
     casename = ""
+    version_ovs = ""
+    version_dpdk = ""
+    version = ""
     allowed_pkt = ["64", "128", "512", "1024", "1518"]
     details = {"64": '', "128": '', "512": '', "1024": '', "1518": ''}
 
@@ -56,16 +59,31 @@ def _push_results(reader, int_data):
         else:
             details[row_reader['packet_size']] = row_reader['throughput_rx_fps']
 
+    # Create version field
+    with open(int_data['pkg_list'], 'r') as pkg_file:
+        for line in pkg_file:
+            if "OVS_TAG" in line:
+                version_ovs = line.replace(' ', '')
+                version_ovs = version_ovs.replace('OVS_TAG?=', '')
+            if "DPDK_TAG" in line:
+                if int_data['vanilla'] == False:
+                    version_dpdk = line.replace(' ', '')
+                    version_dpdk = version_dpdk.replace('DPDK_TAG?=', '')
+                else:
+                    version_dpdk = "not used"
+    version = "OVS " + version_ovs.replace('\n', '') + " DPDK " + version_dpdk.replace('\n', '')
+
     # Build body
     body = {"project_name": "vsperf",
             "case_name": casename,
             "pod_name": int_data['pod'],
             "installer": int_data['installer'],
-            "version": "OVS 2.4",
+            "version": version,
             "details": details}
 
     myData = requests.post(url, json=body)
     logging.info("Results for %s sent to opnfv, http response: %s", casename, myData)
+    logging.debug("opnfv url: %s", db_url)
     logging.debug("the body sent to opnfv")
     logging.debug(body)
 

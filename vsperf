@@ -448,11 +448,15 @@ def main():
     if args['opnfvpod']:
         pod_name = args['opnfvpod']
         installer_name = settings.getValue('OPNFV_INSTALLER')
+        opnfv_url = settings.getValue('OPNFV_URL')
+        pkg_list = settings.getValue('PACKAGE_LIST')
 
         int_data = {'cuse': False,
                     'vanilla': False,
                     'pod': pod_name,
-                    'installer': installer_name}
+                    'installer': installer_name,
+                    'pkg_list': pkg_list,
+                    'db_url': opnfv_url}
         if settings.getValue('VSWITCH').endswith('Vanilla'):
             int_data['vanilla'] = True
         if settings.getValue('VNF').endswith('Cuse'):
