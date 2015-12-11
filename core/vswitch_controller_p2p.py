@@ -16,6 +16,7 @@
 """
 
 import logging
+import netaddr
 
 from core.vswitch_controller import IVswitchController
 from conf import settings
@@ -23,6 +24,9 @@ from conf import settings
 _FLOW_TEMPLATE = {
     'idle_timeout': '0'
 }
+
+_PROTO_TCP = 6
+_PROTO_UDP = 17
 
 class VswitchControllerP2P(IVswitchController):
     """VSwitch controller for P2P deployment scenario.
@@ -79,12 +83,12 @@ class VswitchControllerP2P(IVswitchController):
             flow.update({'table':'1', 'priority':'1', 'in_port':'1',
                          'actions': ['write_actions(output:2)', 'write_metadata:2',
                                      'goto_table:2']})
-            self._vswitch.add_flow(bridge, flow)
+            self.process_flow_template(bridge, flow)
             flow = flow_template.copy()
             flow.update({'table':'1', 'priority':'1', 'in_port':'2',
                          'actions': ['write_actions(output:1)', 'write_metadata:1',
                                      'goto_table:2']})
-            self._vswitch.add_flow(bridge, flow)
+            self.process_flow_template(bridge, flow)
 
             # Frame modification table. Frame modification flow rules are
             # isolated in this table so that they can be turned on or off
@@ -129,3 +133,44 @@ class VswitchControllerP2P(IVswitchController):
         """See IVswitchController for description
         """
         self._vswitch.dump_flows(settings.getValue('VSWITCH_BRIDGE_NAME'))
+
+    def process_flow_template(self, bridge, flow_template):
+        """Method adds flows into the vswitch based on given flow template
+           and configuration of multistream feature.
+        """
+        if ('pre_installed_flows' in self._traffic and
+                self._traffic['pre_installed_flows'].lower() == 'yes' and
+                'multistream' in self._traffic and self._traffic['multistream'] > 0 and
+                'stream_type' in self._traffic):
+            # multistream feature is enabled and flows should be inserted into OVS
+            # so generate flows based on template and multistream configuration
+            if self._traffic['stream_type'] == 'L2':
+                # iterate through destimation MAC address
+                dst_mac_value = netaddr.EUI(self._traffic['l2']['dstmac']).value
+                for i in range(int(self._traffic['multistream'])):
+                    tmp_mac = netaddr.EUI(dst_mac_value + i)
+                    tmp_mac.dialect = netaddr.mac_unix_expanded
+                    flow_template.update({'dl_dst':tmp_mac})
+                    # optimize flow insertion by usage of cache
+                    self._vswitch.add_flow(bridge, flow_template, cache='on')
+            elif self._traffic['stream_type'] == 'L3':
+                # iterate through destimation IP address
+                dst_ip_value = netaddr.IPAddress(self._traffic['l3']['dstip']).value
+                for i in range(int(self._traffic['multistream'])):
+                    tmp_ip = netaddr.IPAddress(dst_ip_value + i)
+                    flow_template.update({'dl_type':'0x800', 'nw_dst':tmp_ip})
+                    # optimize flow insertion by usage of cache
+                    self._vswitch.add_flow(bridge, flow_template, cache='on')
+            elif self._traffic['stream_type'] == 'L4':
+                # read transport protocol from configuration and iterate through its destination port
+                proto = _PROTO_TCP if self._traffic['l3']['proto'].lower() == 'tcp' else _PROTO_UDP
+                for i in range(int(self._traffic['multistream'])):
+                    flow_template.update({'dl_type':'0x800', 'nw_proto':proto, 'tp_dst':i})
+                    # optimize flow insertion by usage of cache
+                    self._vswitch.add_flow(bridge, flow_template, cache='on')
+            else:
+                self._logger.error('Stream type is set to uknown value %s', self._traffic['stream_type'])
+            # insert cached flows into the OVS
+            self._vswitch.add_flow(bridge, [], cache='flush')
+        else:
+            self._vswitch.add_flow(bridge, flow_template)
