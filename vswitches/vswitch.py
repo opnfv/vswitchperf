@@ -89,11 +89,18 @@ class IVSwitch(object):
         """
         raise NotImplementedError()
 
-    def add_flow(self, switch_name, flow):
+    def add_flow(self, switch_name, flow, cache='off'):
         """Add a flow rule to the logical switch
 
         :param switch_name: The switch on which to operate
         :param flow: Flow description as a dictionary
+        :param cache: Optional. Specifies if flow should be inserted
+            to the switch or cached to increase performance during manipulation
+            with large number of flows.
+            Values:
+                'off'   - cache is off and flow is inserted directly to the switch
+                'on'    - cache is on and flow is inserted into the cache
+                'flush' - cache content will be inserted into the switch
 
         Example flow dictionary:
             flow = {

@@ -148,11 +148,11 @@ class OvsDpdkVhost(IVSwitch):
         bridge = self._bridges[switch_name]
         bridge.del_port(port_name)
 
-    def add_flow(self, switch_name, flow):
+    def add_flow(self, switch_name, flow, cache='off'):
         """See IVswitch for general description
         """
         bridge = self._bridges[switch_name]
-        bridge.add_flow(flow)
+        bridge.add_flow(flow, cache=cache)
 
     def del_flow(self, switch_name, flow=None):
         """See IVswitch for general description
