@@ -37,6 +37,9 @@ function die() {
 # Detect OS name and version from systemd based os-release file
 . /etc/os-release
 
+# Get OS name (the First word from $NAME in /etc/os-release)
+OS_NAME=`echo "$NAME" | cut -d ' ' -f1`
+
 # check if root
 if [ "$UID" -ne "$ROOT_UID" ]
 then
@@ -45,11 +48,11 @@ then
 fi
 
 # If there is version specific dir available then set distro_dir to that
-if [ -d "$NAME/$VERSION_ID" ]; then
-    distro_dir="$NAME/$VERSION_ID"
+if [ -d "$OS_NAME/$VERSION_ID" ]; then
+    distro_dir="$OS_NAME/$VERSION_ID"
 else
     # Fallback - Default distro_dir = OS name
-    distro_dir="$NAME"
+    distro_dir="$OS_NAME"
 fi
 
 # build base system using OS specific scripts
