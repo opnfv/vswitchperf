@@ -70,7 +70,8 @@ class TestCase(object):
         multistream = get_test_param('multistream', multistream)
         stream_type = cfg.get('Stream Type', 'L4')
         stream_type = get_test_param('stream_type', stream_type)
-        pre_installed_flows = False # placeholder for VSPERF-83 implementation
+        pre_installed_flows = cfg.get('Pre-installed Flows', 'No')
+        pre_installed_flows = get_test_param('pre-installed_flows', pre_installed_flows)
 
 
         # check if test requires background load and which generator it uses

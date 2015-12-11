@@ -34,6 +34,8 @@ _OVS_OFCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
 
 _OVS_BRIDGE_NAME = settings.getValue('VSWITCH_BRIDGE_NAME')
 
+_CACHE_FILE_NAME = '/tmp/vsperf_flows_cache'
+
 class OFBase(object):
     """Add/remove/show datapaths using ``ovs-ofctl``.
     """
@@ -103,6 +105,7 @@ class OFBridge(OFBase):
         super(OFBridge, self).__init__(timeout)
         self.br_name = br_name
         self._ports = {}
+        self._cache_file = None
 
     # context manager
 
@@ -121,7 +124,7 @@ class OFBridge(OFBase):
 
     # helpers
 
-    def run_ofctl(self, args, check_error=False):
+    def run_ofctl(self, args, check_error=False, timeout=None):
         """Run ``ovs-ofctl`` with supplied arguments.
 
         :param args: Arguments to pass to ``ovs-ofctl``
@@ -129,8 +132,9 @@ class OFBridge(OFBase):
 
         :return: None
         """
+        tmp_timeout = self.timeout if timeout == None else timeout
         cmd = ['sudo', _OVS_OFCTL_BIN, '-O', 'OpenFlow13', '--timeout',
-               str(self.timeout)] + args
+               str(tmp_timeout)] + args
         return tasks.run_task(
             cmd, self.logger, 'Running ovs-ofctl...', check_error)
 
@@ -233,7 +237,7 @@ class OFBridge(OFBase):
 
     # flow mangement
 
-    def add_flow(self, flow):
+    def add_flow(self, flow, cache='off'):
         """Add flow to bridge.
 
         :param flow: Flow description as a dictionary
@@ -241,14 +245,32 @@ class OFBridge(OFBase):
 
         :return: None
         """
+        # insert flows from cache into OVS if needed
+        if cache == 'flush':
+            if self._cache_file == None:
+                self.logger.error('flow cache flush called, but nothing is cached')
+                return
+            self.logger.debug('flows cached in %s will be added to the bridge', _CACHE_FILE_NAME)
+            self._cache_file.close()
+            self._cache_file = None
+            self.run_ofctl(['add-flows', self.br_name, _CACHE_FILE_NAME], timeout=600)
+            return
+
         if not flow.get('actions'):
             self.logger.error('add flow requires actions')
             return
 
-        self.logger.debug('add flow')
         _flow_key = flow_key(flow)
         self.logger.debug('key : %s', _flow_key)
-        self.run_ofctl(['add-flow', self.br_name, _flow_key])
+
+        # insert flow to the cache or OVS
+        if cache == 'on':
+            # create and open cache file if needed
+            if self._cache_file == None:
+                self._cache_file = open(_CACHE_FILE_NAME, 'w')
+            self._cache_file.write(_flow_key + '\n')
+        else:
+            self.run_ofctl(['add-flow', self.br_name, _flow_key])
 
     def del_flow(self, flow):
         """Delete flow from bridge.
@@ -274,7 +296,7 @@ class OFBridge(OFBase):
         """Dump all flows from bridge.
         """
         self.logger.debug('dump flows')
-        self.run_ofctl(['dump-flows', self.br_name])
+        self.run_ofctl(['dump-flows', self.br_name], timeout=120)
 
 #
 # helper functions
