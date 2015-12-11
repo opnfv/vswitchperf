@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_0f5264dd",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-12-11T09:57:25Z",
+      "side": 1,
+      "message": "Can you update the patch with this please?",
+      "parentUuid": "9a5c5d37_b6f3bf72",
+      "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_846897f6",
         "filename": "docs/test_spec/vswitchperf_ltd.rst",
         "patchSetId": 2
@@ -174,6 +192,24 @@
       "side": 1,
       "message": "ccpp metric (clock cycles per packet) is very useful when you start to compare different CPU models with different clock rates, cache sizes, prefetching efficiency, etc. RE: QPI bus, can we call it \"System bus\" ? With this term we can cover all buses in the system: QPI bus, PCI/PMC bus, ...  RE: tools available: perf, Intel pcm, pmu-tools",
       "parentUuid": "9a5c5d37_880ae1d0",
+      "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_ef5ef0e8",
+        "filename": "docs/test_spec/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2015-12-11T09:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5c5d37_5602433f",
       "revId": "1b5bb5635392a66ab8ec64d1808042c5ab492181",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
