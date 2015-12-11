@@ -55,3 +55,8 @@ target/
 # SublimeText
 *.sublime-project
 *.sublime-workspace
+
+*~
+.*.sw?
+/output/
+/releng/
