@@ -25,6 +25,63 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_95777e02",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 31
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-12-15T22:31:47Z",
+      "side": 1,
+      "message": "The Title is interpreted as a Heading, Level 1. So, it throws off the numbering in the HTML formatted version.\n\nHowever, this looks like the syntax example I found, except that the first Character of the Title should be a space:\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n CHARACTERIZE...\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n(looking at http://docutils.sourceforge.net/docs/user/rst/quickstart.html )",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 5
+      },
+      "revId": "929a28d0f2a101430a6aebded0d7037cbfb5ab20",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_150dce90",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 31
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-12-15T22:31:47Z",
+      "side": 1,
+      "message": "Underline for level 2 heading should be like 2.1 above, with a single underline (--- not \u003d\u003d\u003d)",
+      "revId": "929a28d0f2a101430a6aebded0d7037cbfb5ab20",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_357fb2e2",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 31
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2015-12-15T22:31:47Z",
+      "side": 1,
+      "message": "2.2.1 need to have the 3rd level underline treatment, it currently seems to have level 2 underline (I\u0027m searching for the correct underline.  \nI think it should be ~~~~~~\n\n2.2.1 Test Categories\n\n~~~~~~~~~~~~~~~~~~~~~\n\nBut apparently, we define these section level indicators through use !?!",
+      "revId": "929a28d0f2a101430a6aebded0d7037cbfb5ab20",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_d1bbcbc2",
         "filename": "docs/requirements/vswitchperf_ltd.rst",
         "patchSetId": 31
