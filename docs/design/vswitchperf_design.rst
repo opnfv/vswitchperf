@@ -17,30 +17,30 @@ Example Command Lines
 
 List all the cli options:
 
-  .. code-block:: console
+.. code-block:: console
 
    $ ./vsperf -h
 
 Run all tests that have ``tput`` in their name - ``p2p_tput``, ``pvp_tput`` etc.:
 
-  .. code-block:: console
+.. code-block:: console
 
-   $ ./vsperf  --tests 'tput'
+   $ ./vsperf --tests 'tput'
 
-As above but override default configuration with settings in 'my_settings.py'.
+As above but override default configuration with settings in '10_custom.conf'.
 This is useful as modifying configuration directly in the configuration files
 in ``conf/NN_*.py`` shows up as changes under git source control:
 
-  .. code-block:: console
+.. code-block:: console
 
-   $ ./vsperf  --conf-file my_settings.py --tests 'tput'
+   $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf --tests 'tput'
 
 Override specific test parameters. Useful for shortening the duration of tests
 for development purposes:
 
-  .. code-block:: console
+.. code-block:: console
 
-   $ ./vsperf --test-params 'rfc2544_duration=10;rfc2544_trials=1;packet_sizes=64' --tests 'pvp_tput'
+   $ ./vsperf --test-params 'duration=10;rfc2544_trials=1;pkt_sizes=64' --tests 'pvp_tput'
 
 Typical Test Sequence
 =====================
@@ -60,7 +60,7 @@ settings.
 Settings are not passed from component to component. Rather they are available
 globally to all components once they import the conf package.
 
-  .. code-block:: python
+.. code-block:: python
 
    from conf import settings
    ...
@@ -69,7 +69,7 @@ globally to all components once they import the conf package.
 Settings files (``*.conf``) are valid python code so can be set to complex
 types such as lists and dictionaries as well as scalar types:
 
-  .. code-block:: python
+.. code-block:: python
 
    first_packet_size = settings.getValue('PACKET_SIZE_LIST')[0]
 
@@ -110,7 +110,7 @@ many implementations of different vSwitches, Traffic Generators and VNFs.
 IVSwitch
 --------
 
-  .. code-block:: python
+.. code-block:: python
 
     class IVSwitch:
       start(self)
@@ -127,7 +127,7 @@ IVSwitch
 ITrafficGenerator
 -----------------
 
-  .. code-block:: python
+.. code-block:: python
 
     class ITrafficGenerator:
       connect()
@@ -152,7 +152,7 @@ Note ``send_xxx()`` blocks whereas ``start_xxx()`` does not and must be followed
 IVnf
 ----
 
-  .. code-block:: python
+.. code-block:: python
 
     class IVnf:
       start(memory, cpus,
