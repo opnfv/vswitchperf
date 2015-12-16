@@ -51,8 +51,17 @@ class IVnfQemu(IVnf):
             S.getValue('LOG_FILE_QEMU')) + str(self._number)
         self._timeout = S.getValue('GUEST_TIMEOUT')[self._number]
         self._monitor = '%s/vm%dmonitor' % ('/tmp', self._number)
-        self._net1 = S.getValue('VANILLA_NIC1_NAME')[self._number]
-        self._net2 = S.getValue('VANILLA_NIC2_NAME')[self._number]
+        self._net1 = get_test_param('guest_nic1_name', None)
+        if self._net1 == None:
+            self._net1 = S.getValue('GUEST_NIC1_NAME')[self._number]
+        else:
+            self._net1 = self._net1.split(',')[self._number]
+        self._net2 = get_test_param('guest_nic2_name', None)
+        if self._net2 == None:
+            self._net2 = S.getValue('GUEST_NIC2_NAME')[self._number]
+        else:
+            self._net2 = self._net2.split(',')[self._number]
+
 
         name = 'Client%d' % self._number
         vnc = ':%d' % self._number
@@ -62,7 +71,7 @@ class IVnfQemu(IVnf):
                      '-m', S.getValue('GUEST_MEMORY')[self._number],
                      '-smp', str(S.getValue('GUEST_SMP')[self._number]),
                      '-cpu', 'host',
-                     '-drive', 'if=ide,file=' +
+                     '-drive', 'if=scsi,file=' +
                      S.getValue('GUEST_IMAGE')[self._number],
                      '-boot', 'c', '--enable-kvm',
                      '-monitor', 'unix:%s,server,nowait' % self._monitor,
@@ -74,7 +83,7 @@ class IVnfQemu(IVnf):
                      '-nographic', '-vnc', str(vnc), '-name', name,
                      '-snapshot', '-net none', '-no-reboot',
                      '-drive',
-                     'if=ide,file=fat:rw:%s,snapshot=off' %
+                     'if=scsi,file=fat:rw:%s,snapshot=off' %
                      S.getValue('GUEST_SHARE_DIR')[self._number],
                     ]
         self._configure_logging()
@@ -237,9 +246,22 @@ class IVnfQemu(IVnf):
         """
         Disable firewall in VM
         """
-        # Disable services (F16)
-        self.execute_and_wait('systemctl status iptables.service')
-        self.execute_and_wait('systemctl stop iptables.service')
+        for iptables in ['iptables', 'ip6tables']:
+            # filter table
+            for chain in ['INPUT', 'FORWARD', 'OUTPUT']:
+                self.execute_and_wait("{} -t filter -P {} ACCEPT".format(iptables, chain))
+            # mangle table
+            for chain in ['PREROUTING', 'INPUT', 'FORWARD', 'OUTPUT', 'POSTROUTING']:
+                self.execute_and_wait("{} -t mangle -P {} ACCEPT".format(iptables, chain))
+            # nat table
+            for chain in ['PREROUTING', 'INPUT', 'OUTPUT', 'POSTROUTING']:
+                self.execute_and_wait("{} -t nat -P {} ACCEPT".format(iptables, chain))
+
+            # flush rules and delete chains created by user
+            for table in ['filter', 'mangle', 'nat']:
+                self.execute_and_wait("{} -t {} -F".format(iptables, table))
+                self.execute_and_wait("{} -t {} -X".format(iptables, table))
+
 
     def _configure_testpmd(self):
         """
@@ -313,12 +335,11 @@ class IVnfQemu(IVnf):
         Configure VM to perform L2 forwarding between NICs by linux bridge
         """
         self._configure_disable_firewall()
-        nic1_name = get_test_param('vanilla_nic1_name', self._net1)
-        self.execute('ifconfig ' + nic1_name + ' ' +
+
+        self.execute('ifconfig ' + self._net1 + ' ' +
                      S.getValue('VANILLA_NIC1_IP_CIDR')[self._number])
 
-        nic2_name = get_test_param('vanilla_nic2_name', self._net2)
-        self.execute('ifconfig ' + nic2_name + ' ' +
+        self.execute('ifconfig ' + self._net2 + ' ' +
                      S.getValue('VANILLA_NIC2_IP_CIDR')[self._number])
 
         # configure linux bridge
