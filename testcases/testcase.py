@@ -18,6 +18,7 @@ import csv
 import os
 import logging
 import subprocess
+import copy
 from collections import OrderedDict
 
 from core.results.results_constants import ResultsConstants
@@ -85,7 +86,7 @@ class TestCase(object):
         self._results_dir = results_dir
 
         # set traffic details, so they can be passed to vswitch and traffic ctls
-        self._traffic = TRAFFIC_DEFAULTS.copy()
+        self._traffic = copy.deepcopy(TRAFFIC_DEFAULTS)
         self._traffic.update({'traffic_type': cfg['Traffic Type'],
                               'flow_type': cfg.get('Flow Type', 'port'),
                               'bidir': cfg['biDirectional'],
@@ -96,10 +97,10 @@ class TestCase(object):
 
         # OVS Vanilla requires guest VM MAC address and IPs to work
         if 'linux_bridge' in self.guest_loopback:
-            self._traffic['l2'] = {'srcmac': S.getValue('GUEST_NET2_MAC')[0],
-                                   'dstmac': S.getValue('GUEST_NET1_MAC')[0]}
-            self._traffic['l3'] = {'srcip': S.getValue('VANILLA_TGEN_PORT1_IP'),
-                                   'dstip': S.getValue('VANILLA_TGEN_PORT2_IP')}
+            self._traffic['l2'].update({'srcmac': S.getValue('GUEST_NET2_MAC')[0],
+                                        'dstmac': S.getValue('GUEST_NET1_MAC')[0]})
+            self._traffic['l3'].update({'srcip': S.getValue('VANILLA_TGEN_PORT1_IP'),
+                                        'dstip': S.getValue('VANILLA_TGEN_PORT2_IP')})
 
     def run(self):
         """Run the test
@@ -109,8 +110,7 @@ class TestCase(object):
         self._logger.debug(self.name)
 
         # copy sources of l2 forwarding tools into VM shared dir if needed
-        if 'testpmd' in self.guest_loopback or 'l2fwd' in self.guest_loopback:
-            self._copy_fwd_tools_for_guest()
+        self._copy_fwd_tools_for_guest()
 
         self._logger.debug("Controllers:")
         loader = Loader()
@@ -267,24 +267,27 @@ class TestCase(object):
         while counter < self.deployment.count('v'):
             guest_dir = S.getValue('GUEST_SHARE_DIR')[counter]
 
+            # create shared dir if it doesn't exist
             if not os.path.exists(guest_dir):
                 os.makedirs(guest_dir)
 
-            try:
-                tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
-                                os.path.join(S.getValue('RTE_SDK'), ''),
-                                os.path.join(guest_dir, 'DPDK')],
-                               self._logger,
-                               'Copying DPDK to shared directory...',
-                               True)
-                tasks.run_task(['rsync', '-a', '-r', '-l',
-                                os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/'),
-                                os.path.join(guest_dir, 'l2fwd')],
-                               self._logger,
-                               'Copying l2fwd to shared directory...',
-                               True)
-            except subprocess.CalledProcessError:
-                self._logger.error('Unable to copy DPDK and l2fwd to shared directory')
+            # copy sources into shared dir only if neccessary
+            if 'testpmd' in self.guest_loopback or 'l2fwd' in self.guest_loopback:
+                try:
+                    tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
+                                    os.path.join(S.getValue('RTE_SDK'), ''),
+                                    os.path.join(guest_dir, 'DPDK')],
+                                   self._logger,
+                                   'Copying DPDK to shared directory...',
+                                   True)
+                    tasks.run_task(['rsync', '-a', '-r', '-l',
+                                    os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/'),
+                                    os.path.join(guest_dir, 'l2fwd')],
+                                   self._logger,
+                                   'Copying l2fwd to shared directory...',
+                                   True)
+                except subprocess.CalledProcessError:
+                    self._logger.error('Unable to copy DPDK and l2fwd to shared directory')
 
             counter += 1
 
