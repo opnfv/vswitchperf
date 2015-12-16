@@ -13,9 +13,9 @@ VSPERF supports the following traffic generators:
 
 To see the list of traffic gens from the cli:
 
-  .. code-block:: console
+.. code-block:: console
 
-    ./vsperf --list-trafficgens
+    $ ./vsperf --list-trafficgens
 
 This guide provides the details of how to install
 and configure the various traffic generators.
@@ -26,7 +26,7 @@ The traffic default configuration can be found in
 tools/pkt_gen/trafficgen/trafficgenhelper.py, and is configured as
 follows:
 
-  .. code-block:: console
+.. code-block:: console
 
     TRAFFIC_DEFAULTS = {
         'l2': {
@@ -53,23 +53,23 @@ The framesize paramter can be overridden from the configuration
 files by adding the following to your custom configuration file
 ``10_custom.conf``:
 
-  .. code-block:: console
+.. code-block:: console
 
     TRAFFICGEN_PKT_SIZES = (64, 128,)
 
 OR from the commandline:
 
-  .. code-block:: console
+.. code-block:: console
 
-    ./vsperf --test-param "pkt_sizes=x,y" $TESTNAME
+    $ ./vsperf --test-param "pkt_sizes=x,y" $TESTNAME
 
 You can also modify the traffic transmission duration and the number
 of trials run by the traffic generator by extending the example
 commandline above to:
 
-  .. code-block:: console
+.. code-block:: console
 
-    ./vsperf --test-param "pkt_sizes=x,y;duration=10;rfc2455_trials=3" $TESTNAME
+    $ ./vsperf --test-param "pkt_sizes=x,y;duration=10;rfc2455_trials=3" $TESTNAME
 
 Dummy Setup
 ------------
@@ -77,22 +77,22 @@ To select the Dummy generator please add the following to your
 custom configuration file ``10_custom.conf``.
 
 
-  .. code-block:: console
+.. code-block:: console
 
      TRAFFICGEN = 'Dummy'
 
 OR run ``vsperf`` with the ``--trafficgen`` argument
 
-  .. code-block:: console
+.. code-block:: console
 
-    ./vsperf --trafficgen Dummy $TESTNAME
+    $ ./vsperf --trafficgen Dummy $TESTNAME
 
 Where $TESTNAME is the name of the vsperf test you would like to run.
 This will setup the vSwitch and the VNF (if one is part of your test)
 print the traffic configuration and prompt you to transmit traffic
 when the setup is complete.
 
-  .. code-block:: console
+.. code-block:: console
 
     Please send 'continuous' traffic with the following stream config:
     30mS, 90mpps, multistream False
@@ -128,7 +128,7 @@ When your traffic gen has completed traffic transmission and provided
 the results please input these at the vsperf prompt. vsperf will try
 to verify the input:
 
-  .. code-block:: console
+.. code-block:: console
 
     Is '$input_value' correct?
 
