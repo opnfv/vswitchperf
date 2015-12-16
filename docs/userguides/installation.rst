@@ -17,21 +17,26 @@ Execution of installation script:
 
 .. code:: bash
 
-    cd systems
-    ./build_base_machine.sh
+    $ cd systems
+    $ ./build_base_machine.sh
 
 Please note: you don't need to go into any of the systems subdirectories,
 simply run the top level build_base_machine.sh, your OS will be detected
 automatically.
+
+build_base_machine.sh will install all the vsperf dependencies in terms of
+system packages and Python modules, it will also use `virtualenv`_ to create a
+vsperf virtual environment that's isolated from the default Python env. This
+environment will reside in a directory called vsperfenv in $HOME.
 
 You will need to activate the virtual environment every time you start a
 new shell session. To activate, simple run:
 
 .. code:: bash
 
-    scl enable python33 bash
-    cd $HOME/vsperfenv
-    source bin/activate
+    $ scl enable python33 bash
+    $ cd $HOME/vsperfenv
+    $ source bin/activate
 
 --------------
 
@@ -47,3 +52,4 @@ running any of the above. For example:
     export https_proxy=proxy.mycompany.com:123
 
 .. _a link: http://www.softwarecollections.org/en/scls/rhscl/python33/
+.. _virtualenv: https://virtualenv.readthedocs.org/en/latest/
