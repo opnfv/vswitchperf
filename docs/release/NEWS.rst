@@ -1,31 +1,23 @@
-===========
-VSPERF NEWS
-===========
-
 November 2015
 ==============
-New
----
+
 - Support of opnfv_test_dashboard
 
 October 2015
 ==============
-New
----
+
 - Support of PVP and PVVP deployment scenarios using Vanilla OVS
 
 September 2015
 ==============
-New
----
+
 - Implementation of system statistics based upon pidstat command line tool.
 - Support of PVVP deployment scenario using bhost-cuse and vhost user access
   methods
 
 August 2015
 ===========
-New
----
+
 - Backport and enhancement of reporting
 - PVP deployment scenario testing using vhost-cuse as guest access method
 - Implementation of LTD.Scalability.RFC2544.0PacketLoss testcase
@@ -34,8 +26,7 @@ New
 
 July 2015
 =========
-New
----
+
 - PVP deployment scenario testing using vhost-user as guest access method
   - Verified on CentOS7 and Fedora 20
   - Requires QEMU 2.2.0 and DPDK 2.0
@@ -50,9 +41,6 @@ LTD.Throughput.RFC2544.PacketLossRatio test - both described in the
 OPNFV vswitchperf 'CHARACTERIZE VSWITCH PERFORMANCE FOR TELCO NFV USE
 CASES LEVEL TEST DESIGN'. The intention is that more test cases will
 follow once the community has digested the initial release.
-
-New
----
 
 -  Performance testing with continuous stream
 -  Vanilla OVS support added.
