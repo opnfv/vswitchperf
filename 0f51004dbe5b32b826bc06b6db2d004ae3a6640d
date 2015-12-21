@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_7449a3cf",
+        "filename": "docs/userguides/trafficgen.rst",
+        "patchSetId": 39
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2015-12-21T09:43:19Z",
+      "side": 1,
+      "message": "There is relative link to the version of IxNetwork, which doesn\u0027t expand itself in RST. As a quick fix it can be set to exact IxNetwork version.\n\n-- copy\u0026paste form generated HTML doc: --\n1.3.4.2. On the IXIA client software System\nFind the IxNetwork TCL server app (start -\u003e All Programs -\u003e IXIA -\u003e IxNetwork -\u003e IxNetwork_$(VER_NUM) -\u003e IxNetwork TCL Server)\n---",
+      "revId": "0f51004dbe5b32b826bc06b6db2d004ae3a6640d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
