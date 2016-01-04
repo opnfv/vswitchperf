@@ -21,10 +21,10 @@ Platform and VNF level testing and validation.
    :maxdepth: 3
    :numbered: 5
 
-   User Guides <http://artifacts.opnfv.org/vsperf/docs/userguides/index.html>
-   Design <http://artifacts.opnfv.org/vswitchperf/docs/designindex.html>
-   Test Specification <http://artifacts.opnfv.org/vswitchperf/docs/requirements/index.html>
-   Release Information <http://artifacts.opnfv.org/vswitchperf/docs/release/index.html>
+   http://artifacts.opnfv.org/vsperf/docs/userguides/index.html
+   http://artifacts.opnfv.org/vswitchperf/docs/designindex.html
+   http://artifacts.opnfv.org/vswitchperf/docs/requirements/index.html
+   http://artifacts.opnfv.org/vswitchperf/docs/release/index.html
 
 
 Indices
