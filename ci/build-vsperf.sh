@@ -111,7 +111,7 @@ function execute_vsperf() {
             ;;
         *)
             echo "$VSPERF_BIN --opnfvpod="$OPNFV_POD" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
-            $VSPERF_BIN --opnfvpod="$OPNFV_POD" --vswitch OvsVanilla --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
+            $VSPERF_BIN --opnfvpod="$OPNFV_POD" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
             ;;
     esac
     # let's go back to CI dir
