@@ -18,7 +18,7 @@
 import logging
 from conf import settings
 from vswitches.vswitch import IVSwitch
-from src.ovs import VSwitchd, OFBridge
+from src.ovs import VSwitchd, OFBridge, DPCtl
 from tools.module_manager import ModuleManager
 from tools import tasks
 
@@ -74,6 +74,9 @@ class OvsVanilla(IVSwitch):
         self._vport_id = 0
 
         self._vswitchd.kill()
+        dpctl = DPCtl()
+        dpctl.del_dp()
+
         self._module_manager.remove_modules()
 
 
