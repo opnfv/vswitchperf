@@ -58,5 +58,6 @@ target/
 
 *~
 .*.sw?
-/output/
+/docs_build/
+/docs_output/
 /releng/
