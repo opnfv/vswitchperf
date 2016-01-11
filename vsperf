@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import locale
 sys.dont_write_bytecode = True
 
 from conf import settings
+from conf import get_test_param
 from core.loader import Loader
 from testcases import TestCase
 from tools import tasks
@@ -357,6 +358,14 @@ def main():
         else:
             logging.error('The selected Duration is not a number')
             sys.exit(1)
+
+    # update global settings
+    guest_loopback = get_test_param('guest_loopback', None)
+    if guest_loopback:
+        tmp_gl = []
+        for i in range(len(settings.getValue('GUEST_LOOPBACK'))):
+            tmp_gl.append(guest_loopback)
+        settings.setValue('GUEST_LOOPBACK', tmp_gl)
 
     # generate results directory name
     date = datetime.datetime.fromtimestamp(time.time())

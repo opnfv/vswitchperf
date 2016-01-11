@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@ import jinja2
 import logging
 
 from core.results.results_constants import ResultsConstants
-from conf import settings
+from conf import settings as S
 from tools import systeminfo
 
 _TEMPLATE_FILE = 'report.jinja'
 _ROOT_DIR = os.path.normpath(os.path.dirname(os.path.realpath(__file__)))
 
 
-def _get_env():
+def _get_env(result):
     """
     Get system configuration.
 
@@ -53,7 +53,17 @@ def _get_env():
         'cpu_cores': systeminfo.get_cpu_cores(),
         'memory' : systeminfo.get_memory(),
         'platform': systeminfo.get_platform(),
+        'vsperf': systeminfo.get_version('vswitchperf'),
+        'traffic_gen': systeminfo.get_version(S.getValue('TRAFFICGEN')),
+        'vswitch': systeminfo.get_version(S.getValue('VSWITCH')),
+        'dpdk': systeminfo.get_version('dpdk'),
     }
+
+    if result[ResultsConstants.DEPLOYMENT].count('v'):
+        env.update({'vnf': systeminfo.get_version(S.getValue('VNF')),
+                    'guest_image': S.getValue('GUEST_IMAGE'),
+                    'loopback_app': list(map(systeminfo.get_version, S.getValue('GUEST_LOOPBACK'))),
+                   })
 
     return env
 
@@ -78,27 +88,26 @@ def generate(input_file, tc_results, tc_stats):
     try:
         for result in tc_results:
             test_config = {}
-            for tc_conf in settings.getValue('PERFORMANCE_TESTS'):
+            for tc_conf in S.getValue('PERFORMANCE_TESTS'):
                 if tc_conf['Name'] == result[ResultsConstants.ID]:
                     test_config = tc_conf
                     break
 
-            # remove id and deployment from results but store their values
-            tc_id = result[ResultsConstants.ID]
-            tc_deployment = result[ResultsConstants.DEPLOYMENT]
-            del result[ResultsConstants.ID]
-            del result[ResultsConstants.DEPLOYMENT]
-
             # pass test results, env details and configuration to template
             tests.append({
-                'ID': tc_id.upper(),
-                'id': tc_id,
-                'deployment': tc_deployment,
+                'ID': result[ResultsConstants.ID].upper(),
+                'id': result[ResultsConstants.ID],
+                'deployment': result[ResultsConstants.DEPLOYMENT],
                 'conf': test_config,
                 'result': result,
-                'env': _get_env(),
+                'env': _get_env(result),
                 'stats': tc_stats
             })
+
+            # remove id and deployment from results before rendering
+            # but after _get_env() is called; tests dict has its shallow copy
+            del result[ResultsConstants.ID]
+            del result[ResultsConstants.DEPLOYMENT]
 
         template_vars = {
             'tests': tests,
@@ -117,6 +126,6 @@ def generate(input_file, tc_results, tc_stats):
 
 
 if __name__ == '__main__':
-    settings.load_from_dir('conf')
+    S.load_from_dir('conf')
     OUT = generate(sys.argv[1], '', '')
     print('Test report written to "%s"...' % OUT)

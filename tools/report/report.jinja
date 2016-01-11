@@ -61,7 +61,16 @@ Below is the environment that the test was performed in:
 - CPU cores: {{tests[0].env.cpu_cores}}
 - Memory: {{tests[0].env.memory}}
 - Virtual Switch Set-up: {{tests[0].deployment}}
-- IxNetwork: {{tests[0].env.ixnetwork_ver}}
+- vswitchperf: GIT tag: {{tests[0].env.vsperf['git_tag']}}
+- Traffic Generator: {{tests[0].env.traffic_gen['name']}}, Version: {{tests[0].env.traffic_gen['version']}}, GIT tag: {{tests[0].env.traffic_gen['git_tag']}}
+- vSwitch: {{tests[0].env.vswitch['name']}}, Version: {{tests[0].env.vswitch['version']}}, GIT tag: {{tests[0].env.vswitch['git_tag']}}
+- DPDK Version: {{tests[0].env.dpdk['version']}}, GIT tag: {{tests[0].env.dpdk['git_tag']}}
+{%- if 'vnf' in tests[0].env %}
+- VNF: {{tests[0].env.vnf['name']}}, Version: {{tests[0].env.vnf['version']}}, GIT tag: {{tests[0].env.vnf['git_tag']}}
+- VM images: {% for guest_image in tests[0].env.guest_image %}{{guest_image}}  {% endfor %}
+- VM loopback apps: {% for loopback_app in tests[0].env.loopback_app %}{{loopback_app['name']}}, Version: {{loopback_app['version']}}, GIT tag: {{loopback_app['git_tag']}}
+                    {% endfor %}
+{%- endif %}
 
 For each test, a summary of the key test results is provided.
 {% for test in tests %}

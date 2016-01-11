@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -200,7 +200,8 @@ class IVnfQemu(IVnf):
         """
         # set guest loopback application based on VNF configuration
         # cli option take precedence to config file values
-        guest_loopback = get_test_param('guest_loopback', S.getValue('GUEST_LOOPBACK')[self._number])
+        guest_loopback = S.getValue('GUEST_LOOPBACK')[self._number]
+
         if guest_loopback == 'testpmd':
             self._login()
             self._configure_testpmd()
