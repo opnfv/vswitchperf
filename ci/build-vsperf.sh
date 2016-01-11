@@ -48,6 +48,30 @@ TESTPARAM_DAILY='--test-params pkt_sizes=64,128,512,1024,1518'
 # functions
 #
 
+# terminate vsperf and all its utilities
+# it is expected that vsperf is the only python3 app
+# and no other ovs or qemu instances are running
+# at CI machine
+# parameters:
+#   none
+function terminate_vsperf() {
+    sudo pkill stress &> /dev/null
+    sudo pkill python3 &> /dev/null
+    sudo killall -9 qemu-system-x86_64 &> /dev/null
+
+    # sometimes qemu resists to terminate, so wait a bit and kill it again
+    if pgrep qemu-system-x86_64 &> /dev/null ; then
+        sleep 5
+        sudo killall -9 qemu-system-x86_64 &> /dev/null
+        sleep 5
+    fi
+
+    sudo pkill ovs-vswitchd &> /dev/null
+    sleep 1
+    sudo pkill ovsdb-server &> /dev/null
+    sleep 1
+}
+
 # check and print testcase execution status
 # parameters:
 #   $1 - directory with results
@@ -153,8 +177,11 @@ case $1 in
         echo "VSPERF daily job"
         echo "================"
 
+        terminate_vsperf
         execute_vsperf OVS_with_DPDK_and_vHost_User $1
+        terminate_vsperf
         execute_vsperf OVS_vanilla $1
+        terminate_vsperf
 
         exit $EXIT
         ;;
