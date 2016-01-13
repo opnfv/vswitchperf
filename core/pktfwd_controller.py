@@ -17,9 +17,6 @@
 
 import logging
 
-from conf import settings
-
-
 class PktFwdController(object):
     """Packet forwarder controller for P2P deployment scenario.
 
@@ -66,3 +63,10 @@ class PktFwdController(object):
         :return: The controlled IPktFwd
         """
         return self._pktfwd
+
+    def dump_vswitch_flows(self):
+        """ Dumps flows from vswitch
+        """
+        raise NotImplementedError(
+            "The PktFwdController does not implement the "
+            "\"dump_vswitch_flows\" function.")

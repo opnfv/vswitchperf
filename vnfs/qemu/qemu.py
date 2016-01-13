@@ -83,7 +83,7 @@ class IVnfQemu(IVnf):
                      '-nographic', '-vnc', str(vnc), '-name', name,
                      '-snapshot', '-net none', '-no-reboot',
                      '-drive',
-                     'if=scsi,type=raw,file=fat:rw:%s,snapshot=off' %
+                     'if=scsi,format=raw,file=fat:rw:%s,snapshot=off' %
                      S.getValue('GUEST_SHARE_DIR')[self._number],
                     ]
         self._configure_logging()
