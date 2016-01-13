@@ -343,6 +343,54 @@ Guest loopback application must be configured, otherwise traffic
 will not be forwarded by VM and testcases with PVP and PVVP deployments
 will fail. Guest loopback application is set to 'testpmd' by default.
 
+VSPERF modes of operation
+-------------------------
+VSPERF can be run in different modes. By default it will configure vSwitch,
+traffic generator and VNF. However it can be used just for configuration
+and execution of traffic generator. Another option is execution of all
+components except traffic generator itself.
+
+Mode of operation is driven by configuration parameter -m or --mode
+
+.. code-block:: console
+
+    -m MODE, --mode MODE  vsperf mode of operation;
+        Values:
+            "normal" - execute vSwitch, VNF and traffic generator
+            "trafficgen" - execute only traffic generator
+            "trafficgen-off" - execute vSwitch and VNF
+
+In case, that VSPERF is executed in "trafficgen" mode, then configuration
+of traffic generator should be configured through --test-param option.
+Supported CLI options useful for traffic generator configuration are:
+
+.. code-block:: console
+
+    'traffic_type'  - One of the supported traffic types. E.g. rfc2544,
+                      back2back or continuous
+                      Default value is "rfc2544".
+    'bidirectional' - Specifies if generated traffic will be full-duplex (true)
+                      or half-duplex (false)
+                      Default value is "false".
+    'iload'         - Defines desired percentage of frame rate used during
+                      continuous stream tests.
+                      Default value is 100.
+    'multistream'   - Defines number of flows simulated by traffic generator.
+                      Value 0 disables MultiStream feature
+                      Default value is 0.
+    'stream_type'   - Stream Type is an extension of the "MultiStream" feature.
+                      If MultiStream is disabled, then Stream Type will be
+                      ignored. Stream Type defines ISO OSI network layer used
+                      for simulation of multiple streams.
+                      Default value is "L4".
+
+Example of execution of VSPERF in "trafficgen" mode:
+
+.. code-block:: console
+
+    ./vsperf -m trafficgen --trafficgen IxNet --conf-file vsperf.conf
+        --test-params "traffic_type=continuous;bidirectional=True;iload=60"
+
 Code change verification by pylint
 ----------------------------------
 Every developer participating in VSPERF project should run
