@@ -27,6 +27,7 @@ import shutil
 import unittest
 import xmlrunner
 import locale
+import copy
 
 sys.dont_write_bytecode = True
 
@@ -37,6 +38,9 @@ from testcases import TestCase
 from tools import tasks
 from tools.pkt_gen import trafficgen
 from tools.opnfvdashboard import opnfvdashboard
+from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
+from conf import get_test_param
+import core.component_factory as component_factory
 
 VERBOSITY_LEVELS = {
     'debug': logging.DEBUG,
@@ -131,6 +135,11 @@ def parse_arguments():
             To run all tests omit both positional args and --tests arg.')
 
     group = parser.add_argument_group('test selection options')
+    group.add_argument('-m', '--mode', help='vsperf mode of operation;\
+            Values: "normal" - execute vSwitch, VNF and traffic generator;\
+            "trafficgen" - execute only traffic generator; "trafficgen-off" \
+            - execute vSwitch and VNF', default='normal')
+
     group.add_argument('-f', '--test-spec', help='test specification file')
     group.add_argument('-d', '--test-dir', help='directory containing tests')
     group.add_argument('-t', '--tests', help='Comma-separated list of terms \
@@ -326,7 +335,6 @@ def main():
     check_and_set_locale()
 
     # configure trafficgens
-
     if args['trafficgen']:
         trafficgens = Loader().get_trafficgens()
         if args['trafficgen'] not in trafficgens:
@@ -367,110 +375,132 @@ def main():
             tmp_gl.append(guest_loopback)
         settings.setValue('GUEST_LOOPBACK', tmp_gl)
 
+    settings.setValue('mode', args['mode'])
+
     # generate results directory name
     date = datetime.datetime.fromtimestamp(time.time())
     results_dir = "results_" + date.strftime('%Y-%m-%d_%H-%M-%S')
     results_path = os.path.join(settings.getValue('LOG_DIR'), results_dir)
-
-    # configure tests
-    testcases = settings.getValue('PERFORMANCE_TESTS')
-    all_tests = []
-    for cfg in testcases:
-        try:
-            all_tests.append(TestCase(cfg, results_path))
-        except (Exception) as _:
-            logger.exception("Failed to create test: %s",
-                             cfg.get('Name', '<Name not set>'))
-            raise
-
-    # if required, handle list-* operations
-
-    if args['list']:
-        print("Available Tests:")
-        print("======")
-        for test in all_tests:
-            print('* %-18s%s' % ('%s:' % test.name, test.desc))
-        exit()
-
-    if args['list_trafficgens']:
-        print(Loader().get_trafficgens_printable())
-        exit()
-
-    if args['list_collectors']:
-        print(Loader().get_collectors_printable())
-        exit()
-
-    if args['list_vswitches']:
-        print(Loader().get_vswitches_printable())
-        exit()
-
-    if args['list_vnfs']:
-        print(Loader().get_vnfs_printable())
-        exit()
-
-    if args['list_settings']:
-        print(str(settings))
-        exit()
-
-    # select requested tests
-    if args['exact_test_name'] and args['tests']:
-        logger.error("Cannot specify tests with both positional args and --test.")
-        sys.exit(1)
-
-    if args['exact_test_name']:
-        exact_names = args['exact_test_name']
-        # positional args => exact matches only
-        selected_tests = [test for test in all_tests if test.name in exact_names]
-    elif args['tests']:
-        # --tests => apply filter to select requested tests
-        selected_tests = apply_filter(all_tests, args['tests'])
-    else:
-        # Default - run all tests
-        selected_tests = all_tests
-
-    if not selected_tests:
-        logger.error("No tests matched --test option or positional args. Done.")
-        sys.exit(1)
 
     # create results directory
     if not os.path.exists(results_path):
         logger.info("Creating result directory: "  + results_path)
         os.makedirs(results_path)
 
-    # run tests
-    suite = unittest.TestSuite()
-    for test in selected_tests:
-        try:
-            test.run()
-            suite.addTest(MockTestCase('', True, test.name))
-        #pylint: disable=broad-except
-        except (Exception) as ex:
-            logger.exception("Failed to run test: %s", test.name)
-            suite.addTest(MockTestCase(str(ex), False, test.name))
-            logger.info("Continuing with next test...")
+    if settings.getValue('mode') == 'trafficgen':
+        # execute only traffic generator
+        logging.debug("Executing traffic generator:")
+        loader = Loader()
+        # set traffic details, so they can be passed to traffic ctl
+        traffic = copy.deepcopy(TRAFFIC_DEFAULTS)
+        traffic.update({'traffic_type': get_test_param('traffic_type', 'rfc2544'),
+                        'bidir': get_test_param('bidirectional', False),
+                        'multistream': int(get_test_param('multistream', 0)),
+                        'stream_type': get_test_param('stream_type', 'L4'),
+                        'frame_rate': int(get_test_param('iload', 100))})
 
-    if settings.getValue('XUNIT'):
-        xmlrunner.XMLTestRunner(
-            output=settings.getValue('XUNIT_DIR'), outsuffix="",
-            verbosity=0).run(suite)
+        traffic_ctl = component_factory.create_traffic(
+            traffic['traffic_type'],
+            loader.get_trafficgen_class())
+        with traffic_ctl:
+            traffic_ctl.send_traffic(traffic)
+        logging.debug("Traffic Results:")
+        traffic_ctl.print_results()
+    else:
+        # configure tests
+        testcases = settings.getValue('PERFORMANCE_TESTS')
+        all_tests = []
+        for cfg in testcases:
+            try:
+                all_tests.append(TestCase(cfg, results_path))
+            except (Exception) as _:
+                logger.exception("Failed to create test: %s",
+                                 cfg.get('Name', '<Name not set>'))
+                raise
 
-    if args['opnfvpod']:
-        pod_name = args['opnfvpod']
-        installer_name = settings.getValue('OPNFV_INSTALLER')
-        opnfv_url = settings.getValue('OPNFV_URL')
-        pkg_list = settings.getValue('PACKAGE_LIST')
+        # if required, handle list-* operations
 
-        int_data = {'cuse': False,
-                    'vanilla': False,
-                    'pod': pod_name,
-                    'installer': installer_name,
-                    'pkg_list': pkg_list,
-                    'db_url': opnfv_url}
-        if settings.getValue('VSWITCH').endswith('Vanilla'):
-            int_data['vanilla'] = True
-        if settings.getValue('VNF').endswith('Cuse'):
-            int_data['cuse'] = True
-        opnfvdashboard.results2opnfv_dashboard(results_path, int_data)
+        if args['list']:
+            print("Available Tests:")
+            print("======")
+            for test in all_tests:
+                print('* %-18s%s' % ('%s:' % test.name, test.desc))
+            exit()
+
+        if args['list_trafficgens']:
+            print(Loader().get_trafficgens_printable())
+            exit()
+
+        if args['list_collectors']:
+            print(Loader().get_collectors_printable())
+            exit()
+
+        if args['list_vswitches']:
+            print(Loader().get_vswitches_printable())
+            exit()
+
+        if args['list_vnfs']:
+            print(Loader().get_vnfs_printable())
+            exit()
+
+        if args['list_settings']:
+            print(str(settings))
+            exit()
+
+        # select requested tests
+        if args['exact_test_name'] and args['tests']:
+            logger.error("Cannot specify tests with both positional args and --test.")
+            sys.exit(1)
+
+        if args['exact_test_name']:
+            exact_names = args['exact_test_name']
+            # positional args => exact matches only
+            selected_tests = [test for test in all_tests if test.name in exact_names]
+        elif args['tests']:
+            # --tests => apply filter to select requested tests
+            selected_tests = apply_filter(all_tests, args['tests'])
+        else:
+            # Default - run all tests
+            selected_tests = all_tests
+
+        if not selected_tests:
+            logger.error("No tests matched --test option or positional args. Done.")
+            sys.exit(1)
+
+        # run tests
+        suite = unittest.TestSuite()
+        for test in selected_tests:
+            try:
+                test.run()
+                suite.addTest(MockTestCase('', True, test.name))
+            #pylint: disable=broad-except
+            except (Exception) as ex:
+                logger.exception("Failed to run test: %s", test.name)
+                suite.addTest(MockTestCase(str(ex), False, test.name))
+                logger.info("Continuing with next test...")
+
+        if settings.getValue('XUNIT'):
+            xmlrunner.XMLTestRunner(
+                output=settings.getValue('XUNIT_DIR'), outsuffix="",
+                verbosity=0).run(suite)
+
+        if args['opnfvpod']:
+            pod_name = args['opnfvpod']
+            installer_name = settings.getValue('OPNFV_INSTALLER')
+            opnfv_url = settings.getValue('OPNFV_URL')
+            pkg_list = settings.getValue('PACKAGE_LIST')
+
+            int_data = {'cuse': False,
+                        'vanilla': False,
+                        'pod': pod_name,
+                        'installer': installer_name,
+                        'pkg_list': pkg_list,
+                        'db_url': opnfv_url}
+            if settings.getValue('VSWITCH').endswith('Vanilla'):
+                int_data['vanilla'] = True
+            if settings.getValue('VNF').endswith('Cuse'):
+                int_data['cuse'] = True
+            opnfvdashboard.results2opnfv_dashboard(results_path, int_data)
 
     #remove directory if no result files were created.
     if os.path.exists(results_path):

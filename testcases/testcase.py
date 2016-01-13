@@ -19,6 +19,7 @@ import os
 import logging
 import subprocess
 import copy
+import time
 from collections import OrderedDict
 
 from core.results.results_constants import ResultsConstants
@@ -43,14 +44,22 @@ class TestCase(object):
             values.
         :param results_dir: Where the csv formatted results are written.
         """
+        # set test parameters; CLI options take precedence to testcase settings
         self._logger = logging.getLogger(__name__)
         self.name = cfg['Name']
         self.desc = cfg.get('Description', 'No description given.')
+
+        bidirectional = cfg.get('biDirectional', False)
+        bidirectional = get_test_param('bidirectional', bidirectional)
+
+        traffic_type = cfg.get('Traffic Type', 'rfc2544')
+        traffic_type = get_test_param('traffic_type', traffic_type)
+
+        framerate = cfg.get('iLoad', 100)
+        framerate = get_test_param('iload', framerate)
+
         self.deployment = cfg['Deployment']
         self._frame_mod = cfg.get('Frame Modification', None)
-        framerate = get_test_param('iload', None)
-        if framerate == None:
-            framerate = cfg.get('iLoad', 100)
 
         # identify guest loopback method, so it can be added into reports
         self.guest_loopback = []
@@ -72,7 +81,6 @@ class TestCase(object):
         stream_type = get_test_param('stream_type', stream_type)
         pre_installed_flows = False # placeholder for VSPERF-83 implementation
 
-
         # check if test requires background load and which generator it uses
         self._load_cfg = cfg.get('Load', None)
         if self._load_cfg and 'tool' in self._load_cfg:
@@ -87,9 +95,9 @@ class TestCase(object):
 
         # set traffic details, so they can be passed to vswitch and traffic ctls
         self._traffic = copy.deepcopy(TRAFFIC_DEFAULTS)
-        self._traffic.update({'traffic_type': cfg['Traffic Type'],
+        self._traffic.update({'traffic_type': traffic_type,
                               'flow_type': cfg.get('Flow Type', 'port'),
-                              'bidir': cfg['biDirectional'],
+                              'bidir': bidirectional,
                               'multistream': int(multistream),
                               'stream_type': stream_type,
                               'pre_installed_flows' : pre_installed_flows,
@@ -217,25 +225,32 @@ class TestCase(object):
                 else:
                     pass
 
-                with traffic_ctl:
-                    traffic_ctl.send_traffic(self._traffic)
+                # run traffic generator if requested, otherwise wait for manual termination
+                if S.getValue('mode') == 'trafficgen-off':
+                    time.sleep(2)
+                    self._logger.debug("All is set. Please run traffic generator manually.")
+                    input(os.linesep + "Press Enter to terminate vswitchperf..." + os.linesep + os.linesep)
+                else:
+                    with traffic_ctl:
+                        traffic_ctl.send_traffic(self._traffic)
 
-                # dump vswitch flows before they are affected by VNF termination
-                vswitch_ctl.dump_vswitch_flows()
-
-        self._logger.debug("Traffic Results:")
-        traffic_ctl.print_results()
+                    # dump vswitch flows before they are affected by VNF termination
+                    vswitch_ctl.dump_vswitch_flows()
 
         self._logger.debug("Collector Results:")
         collector.print_results()
 
-        output_file = os.path.join(self._results_dir, "result_" + self.name +
-                                   "_" + self.deployment + ".csv")
+        if S.getValue('mode') != 'trafficgen-off':
+            self._logger.debug("Traffic Results:")
+            traffic_ctl.print_results()
 
-        tc_results = self._append_results(traffic_ctl.get_results())
-        TestCase._write_result_to_file(tc_results, output_file)
+            output_file = os.path.join(self._results_dir, "result_" + self.name +
+                                       "_" + self.deployment + ".csv")
 
-        report.generate(output_file, tc_results, collector.get_results())
+            tc_results = self._append_results(traffic_ctl.get_results())
+            TestCase._write_result_to_file(tc_results, output_file)
+
+            report.generate(output_file, tc_results, collector.get_results())
 
     def _append_results(self, results):
         """
