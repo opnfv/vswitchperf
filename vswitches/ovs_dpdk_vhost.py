@@ -135,15 +135,20 @@ class OvsDpdkVhost(IVSwitch):
 
         return (port_name, of_port)
 
-    def add_tunnel_port(self, switch_name, remote_ip, tunnel_type='vxlan'):
+    def add_tunnel_port(self, switch_name, remote_ip, tunnel_type='vxlan', params=None):
         """Creates tunneling port
         """
         bridge = self._bridges[switch_name]
         pcount = str(self._get_port_count('type=' + tunnel_type))
         port_name = tunnel_type + pcount
-        params = ['--', 'set', 'Interface', port_name, 'type=' + tunnel_type,
-                  'options:remote_ip=' + remote_ip]
-        of_port = bridge.add_port(port_name, params)
+        local_params = ['--', 'set', 'Interface', port_name,
+                        'type=' + tunnel_type,
+                        'options:remote_ip=' + remote_ip]
+
+        if params is not None:
+            local_params = local_params + params
+
+        of_port = bridge.add_port(port_name, local_params)
         return (port_name, of_port)
 
     def get_ports(self, switch_name):
