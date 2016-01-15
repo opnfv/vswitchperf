@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ class IVnfQemu(IVnf):
                      '-nographic', '-vnc', str(vnc), '-name', name,
                      '-snapshot', '-net none', '-no-reboot',
                      '-drive',
-                     'if=scsi,file=fat:rw:%s,snapshot=off' %
+                     'if=scsi,type=raw,file=fat:rw:%s,snapshot=off' %
                      S.getValue('GUEST_SHARE_DIR')[self._number],
                     ]
         self._configure_logging()
