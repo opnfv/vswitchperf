@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ from core.results.results_constants import ResultsConstants
 import core.component_factory as component_factory
 from core.loader import Loader
 from tools import tasks
+from tools import hugepages
 from tools.report import report
 from conf import settings as S
 from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
@@ -43,6 +44,7 @@ class TestCase(object):
             values.
         :param results_dir: Where the csv formatted results are written.
         """
+        self._hugepages_mounted = False
         self._logger = logging.getLogger(__name__)
         self.name = cfg['Name']
         self.desc = cfg.get('Description', 'No description given.')
@@ -108,6 +110,9 @@ class TestCase(object):
         All setup and teardown through controllers is included.
         """
         self._logger.debug(self.name)
+
+        # mount hugepages if needed
+        self._mount_hugepages()
 
         # copy sources of l2 forwarding tools into VM shared dir if needed
         self._copy_fwd_tools_for_guest()
@@ -223,6 +228,9 @@ class TestCase(object):
                 # dump vswitch flows before they are affected by VNF termination
                 vswitch_ctl.dump_vswitch_flows()
 
+        # umount hugepages if mounted
+        self._umount_hugepages()
+
         self._logger.debug("Traffic Results:")
         traffic_ctl.print_results()
 
@@ -291,6 +299,21 @@ class TestCase(object):
 
             counter += 1
 
+    def _mount_hugepages(self):
+        """Mount hugepages if usage of DPDK or Qemu is detected
+        """
+        # hugepages are needed by DPDK and Qemu
+        if not self._hugepages_mounted and \
+            (self.deployment.count('v') or S.getValue('VSWITCH').lower().count('dpdk')):
+            hugepages.mount_hugepages()
+            self._hugepages_mounted = True
+
+    def _umount_hugepages(self):
+        """Umount hugepages if they were mounted before
+        """
+        if self._hugepages_mounted:
+            hugepages.umount_hugepages()
+            self._hugepages_mounted = False
 
     @staticmethod
     def _write_result_to_file(results, output):
