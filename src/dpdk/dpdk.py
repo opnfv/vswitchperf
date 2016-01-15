@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ DPDK.
 from sys import platform as _platform
 
 import os
-import re
 import subprocess
 import logging
 import locale
@@ -48,7 +47,6 @@ def init():
         _LOGGER.error('Not running on a compatible Linux version. Exiting...')
         return
 
-    _mount_hugepages()
     _insert_modules()
     _remove_vhost_net()
     _bind_nics()
@@ -63,7 +61,6 @@ def cleanup():
 
     _unbind_nics()
     _remove_modules()
-    _umount_hugepages()
     _vhost_user_cleanup()
 
 
@@ -100,79 +97,6 @@ def _is_linux():
     OS or distro.
     """
     return _platform.startswith('linux') and os.path.isdir('/proc')
-
-#
-# hugepage management
-#
-
-
-def _is_hugepage_available():
-    """Check if hugepages are available on the system.
-    """
-    hugepage_re = re.compile(r'^HugePages_Free:\s+(?P<num_hp>\d+)$')
-
-    # read in meminfo
-    with open('/proc/meminfo') as mem_file:
-        mem_info = mem_file.readlines()
-
-    # first check if module is loaded
-    for line in mem_info:
-        result = hugepage_re.match(line)
-        if not result:
-            continue
-
-        num_huge = result.group('num_hp')
-        if not num_huge:
-            _LOGGER.info('No free hugepages.')
-        else:
-            _LOGGER.info('Found \'%s\' free hugepage(s).', num_huge)
-        return True
-
-    return False
-
-
-def _is_hugepage_mounted():
-    """Check if hugepages are mounted.
-    """
-    output = subprocess.check_output(['mount'], shell=True)
-    my_encoding = locale.getdefaultlocale()[1]
-    for line in output.decode(my_encoding).split('\n'):
-        if 'hugetlbfs' in line:
-            return True
-
-    return False
-
-
-def _mount_hugepages():
-    """Ensure hugepages are mounted.
-    """
-    if not _is_hugepage_available():
-        return
-
-    if _is_hugepage_mounted():
-        return
-
-    if not os.path.exists(settings.getValue('HUGEPAGE_DIR')):
-        os.makedirs(settings.getValue('HUGEPAGE_DIR'))
-    try:
-        tasks.run_task(['sudo', 'mount', '-t', 'hugetlbfs', 'nodev',
-                        settings.getValue('HUGEPAGE_DIR')],
-                       _LOGGER, 'Mounting hugepages...', True)
-    except subprocess.CalledProcessError:
-        _LOGGER.error('Unable to mount hugepages.')
-
-
-def _umount_hugepages():
-    """Ensure hugepages are unmounted.
-    """
-    if not _is_hugepage_mounted():
-        return
-
-    try:
-        tasks.run_task(['sudo', 'umount', settings.getValue('HUGEPAGE_DIR')],
-                       _LOGGER, 'Unmounting hugepages...', True)
-    except subprocess.CalledProcessError:
-        _LOGGER.error('Unable to umount hugepages.')
 
 #
 # module management
