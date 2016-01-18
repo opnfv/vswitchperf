@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -153,7 +153,10 @@ class IxNet(trafficgen.ITrafficGenerator):
 
     Currently only the RFC2544 tests are implemented.
     """
-    _script = os.path.join(os.path.dirname(__file__), 'ixnetrfc2544.tcl')
+    if settings.getValue('IXNET_TCL_SCRIPT') == '':
+        _script = os.path.join(os.path.dirname(__file__), 'ixnetrfc2544.tcl')
+    else:
+        _script = os.path.join(os.path.dirname(__file__), settings.getValue('IXNET_TCL_SCRIPT'))
     _tclsh = tkinter.Tcl()
     _cfg = None
     _logger = logging.getLogger(__name__)
@@ -359,7 +362,7 @@ class IxNet(trafficgen.ITrafficGenerator):
                     tx_mbps = 'Unknown'
 
                     if bool(results.get(ResultsConstants.THROUGHPUT_RX_FPS)) \
-                                                                == False:
+                                                                is False:
                         prev_percent_rx = 0.0
                     else:
                         prev_percent_rx = \
