@@ -379,14 +379,16 @@ def main():
 
     # configure tests
     if args['run_integration']:
+        performance_test = False
         testcases = settings.getValue('INTEGRATION_TESTS')
     else:
+        performance_test = True
         testcases = settings.getValue('PERFORMANCE_TESTS')
 
     all_tests = []
     for cfg in testcases:
         try:
-            all_tests.append(TestCase(cfg, results_path))
+            all_tests.append(TestCase(cfg, results_path, performance_test))
         except (Exception) as _:
             logger.exception("Failed to create test: %s",
                              cfg.get('Name', '<Name not set>'))

@@ -49,6 +49,8 @@ class VnfController(object):
             self._vnfs = [vnf_class(), vnf_class()]
         elif self._deployment_scenario == 'OP2P':
             self._vnfs = []
+        else:
+            self._vnfs = []
         self._logger.debug('__init__ ' + str(len(self._vnfs)) +
                            ' VNF[s] with ' + ' '.join(map(str, self._vnfs)))
 
