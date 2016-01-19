@@ -3,13 +3,13 @@ Installing vswitchperf
 ======================
 
 The test suite requires Python 3.3 and relies on a number of other
-packages. These need to be installed for the test suite to function. To
-install Python 3.3 in CentOS 7, an additional repository, Software
-Collections (`a link`_) should be enabled.
+packages. These need to be installed for the test suite to function.
 
-Installation of required packages and preparation of Python 3 virtual
-environment is performed by systems/build_base_machine.sh. It should be
-executed under user account, which will be used for vsperf execution.
+Installation of required packages, preparation of Python 3 virtual
+environment and compilation of OVS, DPDK and QEMU is performed by
+script **systems/build_base_machine.sh**. It should be executed under
+user account, which will be used for vsperf execution.
+
 Please Note: Password-less sudo access must be configured for given
 user account before script is executed.
 
@@ -21,22 +21,43 @@ Execution of installation script:
     $ ./build_base_machine.sh
 
 Please note: you don't need to go into any of the systems subdirectories,
-simply run the top level build_base_machine.sh, your OS will be detected
+simply run the top level **build_base_machine.sh**, your OS will be detected
 automatically.
 
-build_base_machine.sh will install all the vsperf dependencies in terms of
-system packages and Python modules, it will also use `virtualenv`_ to create a
-vsperf virtual environment that's isolated from the default Python env. This
-environment will reside in a directory called vsperfenv in $HOME.
+Currently supported operating systems are:
+
+    - CentOS 7
+    - Fedora 20
+    - Fedora 21
+    - Fedora 22
+    - Ubuntu 14.04
+
+Script **build_base_machine.sh** will install all the vsperf dependencies
+in terms of system packages, Python 3.x and required Python modules.
+In case of CentOS 7 it will install Python 3.3 from an additional repository
+provided by Software Collections (`a link`_). Installation script will also
+use `virtualenv`_ to create a vsperf virtual environment, which is isolated
+from the default Python environment. This environment will reside
+in a directory called **vsperfenv** in $HOME.
 
 You will need to activate the virtual environment every time you start a
-new shell session. To activate, simple run:
+new shell session. Its activation is specific to your OS:
+
+CentOS 7:
 
 .. code:: bash
 
     $ scl enable python33 bash
     $ cd $HOME/vsperfenv
     $ source bin/activate
+
+Fedora and Ubuntu:
+
+.. code:: bash
+
+    $ cd $HOME/vsperfenv
+    $ source bin/activate
+
 
 --------------
 
