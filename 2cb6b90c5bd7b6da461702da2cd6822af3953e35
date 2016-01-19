@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_321660f2",
+        "filename": "fuel-plugin-vsperf/LICENSE",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-19T21:26:54Z",
+      "side": 1,
+      "message": "Wow that was a long license - I cant judge the content of it!",
+      "revId": "2cb6b90c5bd7b6da461702da2cd6822af3953e35",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
