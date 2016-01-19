@@ -149,6 +149,18 @@ function execute_vsperf() {
     else
         print_results "/${RES_DIR}"
     fi
+
+    # show detailed result figures
+    for md_file in $(grep '\.md"$' $LOG_FILE | cut -d'"' -f2); do
+        # TC resut file header
+        echo -e "\n-------------------------------------------------------------------"
+        echo -e " $md_file"
+        echo -e "-------------------------------------------------------------------\n"
+        # TC details
+        sed -n '/^- Test ID/,/Bidirectional/{/Packet size/b;p;/Bidirectional/q};/Results\/Metrics Collected/,/Statistics collected/{/^$/p;/^|/p}' $md_file
+        # TC results
+        sed -n '/Results\/Metrics Collected/,/Statistics collected/{/^$/p;/^|/p}' $md_file | grep -v "Unknown" | cat -s
+    done
 }
 
 #
