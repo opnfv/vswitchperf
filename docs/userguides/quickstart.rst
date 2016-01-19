@@ -16,7 +16,7 @@ support in VSPERF includes:
 
 If you want to use another traffic generator, please select the Dummy generator
 option as shown in `Traffic generator instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/docs/guides/trafficgen.html>`__
+<http://artifacts.opnfv.org/vswitchperf/docs/userguides/trafficgen.html>`__
 
 Supported OSes include:
 
@@ -36,13 +36,13 @@ VSPERF Installation
 --------------------
 
 Follow the `installation instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/docs/guides/index.html>`__ to
+<http://artifacts.opnfv.org/vswitchperf/docs/userguides/installation.html>`__ to
 install.
 
 Traffic Generator Setup
 -----------------------
 Follow the `Traffic generator instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/docs/guides/trafficgen.html>`__ to
+<http://artifacts.opnfv.org/vswitchperf/docs/userguides/trafficgen.html>`__ to
 install and configure a suitable traffic generator.
 
 Cloning and building src dependencies
@@ -129,6 +129,18 @@ described like so (1 = max priority):
 1. Command line arguments
 2. Environment variables
 3. Configuration file(s)
+
+vloop_vnf
+---------
+vsperf uses a VM called vloop_vnf for looping traffic in the PVP and PVVP
+deployment scenarios. The image can be downloaded from
+`<http://artifacts.opnfv.org/>`__.
+
+.. code-block:: console
+
+    $ wget http://artifacts.opnfv.org/vswitchperf/vloop-vnf-ubuntu-14.04_20151216.qcow2
+
+Alternatively you can use your own QEMU image.
 
 --------------
 
