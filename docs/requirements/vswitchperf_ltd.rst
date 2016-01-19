@@ -13,24 +13,28 @@ Level Test Design (LTD) document is to specify the set of tests to carry
 out in order to objectively measure the current characteristics of a
 virtual switch in the Network Function Virtualization Infrastructure
 (NFVI) as well as the test pass criteria. The detailed test cases will
-be defined in `Section 2 <#DetailsOfTheLevelTestDesign>`__, preceded by
-the `Document identifier <#DocId>`__ and the `Scope <#Scope>`__.
+be defined in details-of-LTD_, preceded by the doc-id_ and the scope_.
 
 This document is currently in draft form.
 
 .. 3.1.1
+
+
+.. _doc-id:
 
 Document identifier
 =========================
 
 The document id will be used to uniquely
 identify versions of the LTD. The format for the document id will be:
-OPNFV\_vswitchperf\_LTD\_ver\_NUM\_MONTH\_YEAR\_STATUS, where by the
+OPNFV\_vswitchperf\_LTD\_REL\_STATUS, where by the
 status is one of: draft, reviewed, corrected or final. The document id
 for this version of the LTD is:
-OPNFV\_vswitchperf\_LTD\_ver\_1.6\_Jan\_15\_DRAFT.
+OPNFV\_vswitchperf\_LTD\_Brahmaputra\_REVIEWED.
 
 .. 3.1.2
+
+.. _scope:
 
 Scope
 ==========
@@ -73,14 +77,16 @@ References
 
 .. 3.2
 
+.. _details-of-LTD:
+
 ===================================
 Details of the Level Test Design
 ===================================
 
 This section describes the features to be tested (
-:ref:_FeaturesToBeTested), the test approach (:ref:_Approach);
+FeaturesToBeTested_), the test approach (Approach_);
 it also identifies the sets of test cases or scenarios (
-:ref:_TestIdentification) along with the pass/fail criteria and
+TestIdentification_) along with the pass/fail criteria and
 the test deliverables.
 
 .. 3.2.1
