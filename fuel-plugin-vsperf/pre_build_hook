@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Add here any the actions which are required before plugin build
+# like packages building, packages downloading from mirrors and so on.
+# The script should return 0 if there were no errors.
+#!/bin/bash
+
+set -eux
+
+VSPERF_REV=${VSPERF_REV:-stable/brahmaputra}
+BUILD_FOR=${BUILD_FOR:-ubuntu}
+DIR="$(dirname `readlink -f $0`)"
+
+INCLUDE_DEPENDENCIES=${INCLUDE_DEPENDENCIES:-true}
+
+function build_pkg {
+  case $1 in
+    ubuntu)
+      cd ${DIR}
+      rm -rf vswitchperf
+      git clone https://gerrit.opnfv.org/gerrit/vswitchperf
+      cd vswitchperf && git checkout ${VSPERF_REV} && cd ..
+      rm -rf vswitchperf/.git
+      tar cfvz ${DIR}/repositories/ubuntu/vswitchperf.tgz vswitchperf
+      rm -rf vswitchperf
+      ;;
+    *) echo "Not supported system"; exit 1;;
+  esac
+}
+
+for system in $BUILD_FOR
+do
+  build_pkg $system
+done
+
+
