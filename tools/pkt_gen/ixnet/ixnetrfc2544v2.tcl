@@ -140,16 +140,38 @@ proc startRfc2544Test { testSpec trafficSpec } {
     set srcPort                 [dict get $trafficSpec_l2 srcport]
     set dstPort                 [dict get $trafficSpec_l2 dstport]
 
+    # Tested protocols: udp, tcp, gre
     set proto                   [dict get $trafficSpec_l3 proto]
     set proto                   [string tolower $proto]
+
     set srcIp                   [dict get $trafficSpec_l3 srcip]
     set dstIp                   [dict get $trafficSpec_l3 dstip]
+
+    set proto_value 17
+    if { [string compare $proto "tcp"] == 0 } {
+        set proto_value 6
+    }
 
     # VXLAN
     set vxlan_enabled           [dict exists $trafficSpec_l3 vni]
     if { $vxlan_enabled } {
         puts "VXLAN is enabled. Setting VXLAN variables"
         set vni                     [dict get $trafficSpec_l3 vni]
+        set inner_srcmac            [dict get $trafficSpec_l3 inner_srcmac]
+        set inner_dstmac            [dict get $trafficSpec_l3 inner_dstmac]
+        set inner_srcip             [dict get $trafficSpec_l3 inner_srcip]
+        set inner_dstip             [dict get $trafficSpec_l3 inner_dstip]
+        set inner_proto             [dict get $trafficSpec_l3 inner_proto]
+        set inner_proto             [string tolower $inner_proto]
+        set inner_srcport           [dict get $trafficSpec_l3 inner_srcport]
+        set inner_dstport           [dict get $trafficSpec_l3 inner_dstport]
+    }
+
+    set gre_enabled              False
+    if { [string compare $proto "gre"] == 0 } {
+        puts "GRE is enabled. Setting GRE variables"
+        set proto_value             47
+        set gre_enabled             True
         set inner_srcmac            [dict get $trafficSpec_l3 inner_srcmac]
         set inner_dstmac            [dict get $trafficSpec_l3 inner_dstmac]
         set inner_srcip             [dict get $trafficSpec_l3 inner_srcip]
@@ -1463,7 +1485,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.protocol-25"
     ixNet setMultiAttrs $sg_field \
-     -singleValue {17} \
+     -singleValue {$proto_value} \
      -seed {1} \
      -optionalEnabled True \
      -fullMesh False \
@@ -1565,14 +1587,21 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -startValue {0} \
      -countValue {1}
 
+    # Suffix for stack names
+    # This variable should be incremented after setting sg_stack like:
+    # set sg_stack $ixNetSG_Stack(2)/stack:"protocolnamehere-$stack_number"
+    # incr stack_number
+
+    set stack_number    3
 
     if { [string compare $proto "udp"] == 0 } {
         # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"
         #
-        set sg_stack $ixNetSG_Stack(2)/stack:"udp-3"
+        set sg_stack $ixNetSG_Stack(2)/stack:"udp-$stack_number"
         sg_commit
         set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
         set ixNetSG_Stack(3) $sg_stack
+        incr stack_number
 
         #
         # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"/field:"udp.header.srcPort-1"
@@ -1657,9 +1686,16 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -activeFieldChoice False \
          -startValue {0} \
          -countValue {1}
-    } else {
+
+    } elseif { [string compare $proto "tcp"] == 0 } {
         # TCP
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.srcPort-1"
+        set sg_stack $ixNetSG_Stack(2)/stack:"tcp-$stack_number"
+        sg_commit
+        set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+        set ixNetSG_Stack(3) $sg_stack
+        incr stack_number
+
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.srcPort-1"
         ixNet setMultiAttrs $sg_field \
             -singleValue $srcPort \
             -seed 1 \
@@ -1677,7 +1713,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 60 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.dstPort-2"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.dstPort-2"
         ixNet setMultiAttrs $sg_field \
             -singleValue $dstPort \
             -seed 1 \
@@ -1695,7 +1731,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 60 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.sequenceNumber-3"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.sequenceNumber-3"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1713,7 +1749,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0x00000000 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.acknowledgementNumber-4"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.acknowledgementNumber-4"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1731,7 +1767,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0x00000000 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.dataOffset-5"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.dataOffset-5"
         ixNet setMultiAttrs $sg_field \
             -singleValue 5 \
             -seed 1 \
@@ -1749,7 +1785,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 5 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.reserved-6"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.reserved-6"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1767,7 +1803,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.ecn.nsBit-7"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.ecn.nsBit-7"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1785,7 +1821,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.ecn.cwrBit-8"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.ecn.cwrBit-8"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1803,7 +1839,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.ecn.ecnEchoBit-9"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.ecn.ecnEchoBit-9"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1821,7 +1857,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.controlBits.urgBit-10"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.urgBit-10"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1839,7 +1875,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.controlBits.ackBit-11"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.ackBit-11"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1857,7 +1893,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.controlBits.pshBit-12"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.pshBit-12"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1875,7 +1911,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.controlBits.rstBit-13"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.rstBit-13"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1893,7 +1929,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.controlBits.synBit-14"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.synBit-14"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1911,7 +1947,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.controlBits.finBit-15"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.finBit-15"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1929,7 +1965,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.window-16"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.window-16"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1947,7 +1983,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0x0000 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.checksum-17"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.checksum-17"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1965,7 +2001,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -startValue 0x0000 \
             -countValue 1
 
-        set sg_field $ixNetSG_Stack(2)/stack:"tcp-3"/field:"tcp.header.urgentPtr-18"
+        set sg_field $ixNetSG_Stack(3)/field:"tcp.header.urgentPtr-18"
         ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \
@@ -1982,82 +2018,291 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -activeFieldChoice false \
             -startValue 0x0000 \
             -countValue 1
+
         sg_commit
         set sg_field [lindex [ixNet remapIds $sg_field] 0]
+
+    } elseif { [string compare $proto "gre"] == 0 } {
+        # GRE
+        set gre_enabled              True
     }
 
-    if { $vxlan_enabled } {
-        # VXLAN START
-        #
-        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"vxlan-4"
-        #
-        set sg_stack $ixNetSG_Stack(2)/stack:"vxlan-4"
+
+    if { $vxlan_enabled || $gre_enabled } {
+        # VXLAN and GRE have similar inner frame data so we set unique fields
+        # for each protocol then set the common fields.
+
+        if { $vxlan_enabled } {
+            # VXLAN START
+            #
+            # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"vxlan-4"
+            #
+            set sg_stack $ixNetSG_Stack(2)/stack:"vxlan-$stack_number"
+            sg_commit
+            set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+            set ixNetSG_Stack(3) $sg_stack
+            incr stack_number
+
+            #
+            # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"vxlan-4"/field:"vxlan.header.flags-1
+            #
+            set sg_field $ixNetSG_Stack(3)/field:"vxlan.header.flags-1"
+            ixNet setMultiAttrs $sg_field \
+            -singleValue 8 \
+            -seed 1 \
+            -optionalEnabled true \
+            -valueList [list 0x08] \
+            -stepValue 0x08 \
+            -fixedBits 0x08 \
+            -fieldValue 8 \
+            -randomMask 0x08 \
+            -startValue 0x08
+
+            #
+            # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"vxlan-4"/field:"vxlan.header.reserved-2
+            #
+            set sg_field $ixNetSG_Stack(3)/field:"vxlan.header.reserved-2"
+            ixNet setMultiAttrs $sg_field \
+            -singleValue 0 \
+            -seed 1 \
+            -optionalEnabled true \
+            -valueList [list 0] \
+            -stepValue 0 \
+            -fixedBits 0 \
+            -fieldValue 0 \
+            -randomMask 0 \
+            -startValue 0
+
+            #
+            # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"vxlan-4"/field:"vxlan.header.vni-3"
+            #
+            set sg_field $ixNetSG_Stack(3)/field:"vxlan.header.vni-3"
+            ixNet setMultiAttrs $sg_field \
+            -singleValue $vni \
+            -seed 1 \
+            -optionalEnabled true \
+            -valueList [list 1234] \
+            -stepValue 1234 \
+            -fixedBits 1234 \
+            -fieldValue $vni \
+            -randomMask 1234 \
+            -startValue 1234
+
+            #
+            # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"vxlan-4"/field:"vxlan.header.reserved8-4"
+            #
+            set sg_field $ixNetSG_Stack(3)/field:"vxlan.header.reserved8-4"
+            ixNet setMultiAttrs $sg_field \
+            -singleValue 0 \
+            -seed 1 \
+            -optionalEnabled true \
+            -valueList [list 0] \
+            -stepValue 0 \
+            -fixedBits 0 \
+            -fieldValue 0 \
+            -randomMask 0 \
+            -startValue 0
+
+        } elseif { $gre_enabled } {
+            puts "Setting GRE attributes"
+            # GRE START
+            #
+            # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"gre-3"
+            #
+            set sg_stack $ixNetSG_Stack(2)/stack:"gre-$stack_number"
+            sg_commit
+            set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+            set ixNetSG_Stack(3) $sg_stack
+            incr stack_number
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.checksumPresent-1"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue "0:No\ Checksum" \
+                -randomMask 0 \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.reserved1-2"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue 0 \
+                -randomMask 0 \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.keyPresent-3"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue "0:No\ Key\ field" \
+                -randomMask 0 \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.sequencePresent-4"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue "0:No\ sequence\ number\ field" \
+                -randomMask 0 \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.reserved2-5"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue 0 \
+                -randomMask 0 \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.version-6"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue 0 \
+                -randomMask 0 \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.protocol-7"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 6558 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0x0] \
+                -stepValue 0x0 \
+                -fixedBits 0x0 \
+                -fieldValue 6558 \
+                -auto true \
+                -randomMask 0x0 \
+                -startValue 0x0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.checksumHolder.withChecksum.checksum-8"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue 0 \
+                -auto true \
+                -randomMask 0 \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.checksumHolder.withChecksum.reserved-9"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue 0 \
+                -randomMask 0 \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.checksumHolder.noChecksum-10"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue 0 \
+                -randomMask 0 \
+                -activeFieldChoice true \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.keyHolder.key-11"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue 0 \
+                -randomMask 0 \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.keyHolder.noKey-12"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue 0 \
+                -randomMask 0 \
+                -activeFieldChoice true \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.sequenceHolder.sequenceNum-13"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue 0 \
+                -randomMask 0 \
+                -startValue 0
+
+            set sg_field $ixNetSG_Stack(3)/field:"gre.header.sequenceHolder.noSequenceNum-14"
+            ixNet setMultiAttrs $sg_field \
+                -singleValue 0 \
+                -seed 1 \
+                -optionalEnabled true \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue 0 \
+                -randomMask 0 \
+                -activeFieldChoice true \
+                -startValue 0
+
+            sg_commit
+            set sg_field [lindex [ixNet remapIds $sg_field] 0]
+
+        }
+
+
+        # Common fields for VXLAN and GRE
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ethernetNoFCS-5"/field:"ethernetNoFCS.header.destinationAddress-1"
+        set sg_stack $ixNetSG_Stack(2)/stack:"ethernetNoFCS-$stack_number"
         sg_commit
         set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
         set ixNetSG_Stack(3) $sg_stack
+        incr stack_number
 
-        #
-        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"vxlan-4"/field:"vxlan.header.flags-1
-        #
-        set sg_field $ixNetSG_Stack(3)/field:"vxlan.header.flags-1"
-        ixNet setMultiAttrs $sg_field \
-        -singleValue 8 \
-        -seed 1 \
-        -optionalEnabled true \
-        -valueList [list 0x08] \
-        -stepValue 0x08 \
-        -fixedBits 0x08 \
-        -fieldValue 8 \
-        -randomMask 0x08 \
-        -startValue 0x08
-
-        #
-        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"vxlan-4"/field:"vxlan.header.reserved-2
-        #
-        set sg_field $ixNetSG_Stack(3)/field:"vxlan.header.reserved-2"
-        ixNet setMultiAttrs $sg_field \
-        -singleValue 0 \
-        -seed 1 \
-        -optionalEnabled true \
-        -valueList [list 0] \
-        -stepValue 0 \
-        -fixedBits 0 \
-        -fieldValue 0 \
-        -randomMask 0 \
-        -startValue 0
-
-        #
-        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"vxlan-4"/field:"vxlan.header.vni-3"
-        #
-        set sg_field $ixNetSG_Stack(3)/field:"vxlan.header.vni-3"
-        ixNet setMultiAttrs $sg_field \
-        -singleValue $vni \
-        -seed 1 \
-        -optionalEnabled true \
-        -valueList [list 1234] \
-        -stepValue 1234 \
-        -fixedBits 1234 \
-        -fieldValue $vni \
-        -randomMask 1234 \
-        -startValue 1234
-
-        #
-        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"vxlan-4"/field:"vxlan.header.reserved8-4"
-        #
-        set sg_field $ixNetSG_Stack(3)/field:"vxlan.header.reserved8-4"
-        ixNet setMultiAttrs $sg_field \
-        -singleValue 0 \
-        -seed 1 \
-        -optionalEnabled true \
-        -valueList [list 0] \
-        -stepValue 0 \
-        -fixedBits 0 \
-        -fieldValue 0 \
-        -randomMask 0 \
-        -startValue 0
-
-        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ethernetNoFCS-5"/field:"ethernetNoFCS.header.destinationAddress-1"
-        set sg_field $ixNetSG_Stack(2)/stack:"ethernetNoFCS-5"/field:"ethernetNoFCS.header.destinationAddress-1"
+        set sg_field $ixNetSG_Stack(3)/field:"ethernetNoFCS.header.destinationAddress-1"
         ixNet setMultiAttrs $sg_field \
         -singleValue $inner_dstmac \
         -seed 1 \
@@ -2069,7 +2314,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
         -randomMask 00:00:00:00:00:00 \
         -startValue 00:00:00:00:00:00
 
-        set sg_field $ixNetSG_Stack(2)/stack:"ethernetNoFCS-5"/field:"ethernetNoFCS.header.sourceAddress-2"
+        set sg_field $ixNetSG_Stack(3)/field:"ethernetNoFCS.header.sourceAddress-2"
         ixNet setMultiAttrs $sg_field \
         -singleValue $inner_srcmac \
         -seed 1 \
@@ -2081,7 +2326,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
         -randomMask 00:00:00:00:00:00 \
         -startValue 00:00:00:00:00:00
 
-        set sg_field $ixNetSG_Stack(2)/stack:"ethernetNoFCS-5"/field:"ethernetNoFCS.header.etherType-3"
+        set sg_field $ixNetSG_Stack(3)/field:"ethernetNoFCS.header.etherType-3"
         ixNet setMultiAttrs $sg_field \
         -singleValue 800 \
         -seed 1 \
@@ -2094,10 +2339,11 @@ proc startRfc2544Test { testSpec trafficSpec } {
         -randomMask 0xFFFF \
         -startValue 0xFFFF
 
-        set sg_stack $ixNetSG_Stack(2)/stack:"ipv4-6"
+        set sg_stack $ixNetSG_Stack(2)/stack:"ipv4-$stack_number"
         sg_commit
         set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
         set ixNetSG_Stack(3) $sg_stack
+        incr stack_number
 
         #
         # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-6"/field:"ipv4.header.version-1"/
@@ -2366,11 +2612,12 @@ proc startRfc2544Test { testSpec trafficSpec } {
         set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
         if { [string compare $inner_proto "udp"] == 0 } {
-            # INNER UDP 
-            set sg_stack $ixNetSG_Stack(2)/stack:"udp-7"
+            # INNER UDP
+            set sg_stack $ixNetSG_Stack(2)/stack:"udp-$stack_number"
             sg_commit
             set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
             set ixNetSG_Stack(3) $sg_stack
+            incr stack_number
 
             set sg_field $ixNetSG_Stack(3)/field:"udp.header.srcPort-1"
             ixNet setMultiAttrs $sg_field \
@@ -2428,7 +2675,13 @@ proc startRfc2544Test { testSpec trafficSpec } {
         } else {
 
             # INNER TCP
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.srcPort-1"
+            set sg_stack $ixNetSG_Stack(2)/stack:"tcp-$stack_number"
+            sg_commit
+            set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+            set ixNetSG_Stack(3) $sg_stack
+            incr stack_number
+
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.srcPort-1"
             ixNet setMultiAttrs $sg_field \
                 -singleValue $inner_srcport \
                 -seed 1 \
@@ -2446,7 +2699,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 60 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.dstPort-2"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.dstPort-2"
             ixNet setMultiAttrs $sg_field \
                 -singleValue $inner_dstport \
                 -seed 1 \
@@ -2464,7 +2717,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 60 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.sequenceNumber-3"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.sequenceNumber-3"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2482,7 +2735,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0x00000000 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.acknowledgementNumber-4"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.acknowledgementNumber-4"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2500,7 +2753,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0x00000000 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.dataOffset-5"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.dataOffset-5"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 5 \
                 -seed 1 \
@@ -2518,7 +2771,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 5 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.reserved-6"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.reserved-6"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2536,7 +2789,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.ecn.nsBit-7"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.ecn.nsBit-7"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2554,7 +2807,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.ecn.cwrBit-8"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.ecn.cwrBit-8"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2572,7 +2825,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.ecn.ecnEchoBit-9"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.ecn.ecnEchoBit-9"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2590,7 +2843,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.controlBits.urgBit-10"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.urgBit-10"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2608,7 +2861,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.controlBits.ackBit-11"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.ackBit-11"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2626,7 +2879,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.controlBits.pshBit-12"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.pshBit-12"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2644,7 +2897,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.controlBits.rstBit-13"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.rstBit-13"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2662,7 +2915,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.controlBits.synBit-14"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.synBit-14"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2680,7 +2933,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.controlBits.finBit-15"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.controlBits.finBit-15"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2698,7 +2951,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.window-16"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.window-16"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2716,7 +2969,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0x0000 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.checksum-17"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.checksum-17"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2734,7 +2987,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -startValue 0x0000 \
                 -countValue 1
 
-            set sg_field $ixNetSG_Stack(2)/stack:"tcp-7"/field:"tcp.header.urgentPtr-18"
+            set sg_field $ixNetSG_Stack(3)/field:"tcp.header.urgentPtr-18"
             ixNet setMultiAttrs $sg_field \
                 -singleValue 0 \
                 -seed 1 \
@@ -2756,8 +3009,13 @@ proc startRfc2544Test { testSpec trafficSpec } {
 
         }
 
+        set sg_stack $ixNetSG_Stack(2)/stack:"fcs-$stack_number"
+        sg_commit
+        set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+        set ixNetSG_Stack(3) $sg_stack
+        incr stack_number
 
-        set sg_field $ixNetSG_Stack(2)/stack:"fcs-8"/field:"ethernet.fcs-1"
+        set sg_field $ixNetSG_Stack(3)/field:"ethernet.fcs-1"
         ixNet setMultiAttrs $sg_field \
         -singleValue 0 \
         -seed 1 \
@@ -2770,7 +3028,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
         -randomMask 0 \
         -startValue 0
 
-        # VXLAN END
+        # VXLAN/GRE END
     } else {
         # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"fcs-4"
         #

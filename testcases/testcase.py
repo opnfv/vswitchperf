@@ -53,14 +53,15 @@ class TestCase(object):
         if framerate is None:
             framerate = cfg.get('iLoad', 100)
 
-        tunnel_type = None
+        self._tunnel_type = None
 
         if self.deployment == 'op2p':
             self._tunnel_operation = cfg['Tunnel Operation']
 
             if 'Tunnel Type' in cfg:
-                tunnel_type = cfg['Tunnel Type']
-                tunnel_type = get_test_param('tunnel_type', tunnel_type)
+                self._tunnel_type = cfg['Tunnel Type']
+                self._tunnel_type = get_test_param('tunnel_type',
+                                                   self._tunnel_type)
 
         # identify guest loopback method, so it can be added into reports
         self.guest_loopback = []
@@ -100,7 +101,7 @@ class TestCase(object):
         self._traffic.update({'traffic_type': cfg['Traffic Type'],
                               'flow_type': cfg.get('Flow Type', 'port'),
                               'bidir': cfg['biDirectional'],
-                              'tunnel_type': tunnel_type,
+                              'tunnel_type': self._tunnel_type,
                               'multistream': int(multistream),
                               'stream_type': stream_type,
                               'pre_installed_flows' : pre_installed_flows,
@@ -135,8 +136,8 @@ class TestCase(object):
                                         S.getValue('TRAFFICGEN_PORT2_IP')})
 
             if self._tunnel_operation == "decapsulation":
-                self._traffic['l2'] = S.getValue('VXLAN_FRAME_L2')
-                self._traffic['l3'] = S.getValue('VXLAN_FRAME_L3')
+                self._traffic['l2'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L2')
+                self._traffic['l3'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L3')
 
         self._logger.debug("Controllers:")
         loader = Loader()
