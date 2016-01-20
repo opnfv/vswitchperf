@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_a9eb06af",
+        "filename": "fuel-plugin-vsperf/LICENSE",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-01-20T13:39:41Z",
+      "side": 1,
+      "message": "Year on the license should probs be updated?",
+      "revId": "b5974fee5e76b0a9d864d8e7db93dc5144c3f2e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_09dfb20e",
+        "filename": "fuel-plugin-vsperf/repositories/centos/.gitkeep",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-01-20T13:39:41Z",
+      "side": 1,
+      "message": "do we need this file?",
+      "revId": "b5974fee5e76b0a9d864d8e7db93dc5144c3f2e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_c9e87ab6",
+        "filename": "fuel-plugin-vsperf/repositories/ubuntu/.gitkeep",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-01-20T13:39:41Z",
+      "side": 1,
+      "message": "do we need this file\u003e",
+      "revId": "b5974fee5e76b0a9d864d8e7db93dc5144c3f2e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
