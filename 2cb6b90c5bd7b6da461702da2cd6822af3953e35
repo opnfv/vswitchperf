@@ -16,6 +16,24 @@
       "revId": "2cb6b90c5bd7b6da461702da2cd6822af3953e35",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_e6cb6d1c",
+        "filename": "fuel-plugin-vsperf/LICENSE",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2016-01-20T10:20:47Z",
+      "side": 1,
+      "message": "Yeah it\u0027s pretty long but I think it\u0027s the standard one created by fuel-plugin-builder template. I will fill out the copyright placeholders though.",
+      "parentUuid": "9a5c5d37_321660f2",
+      "revId": "2cb6b90c5bd7b6da461702da2cd6822af3953e35",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
