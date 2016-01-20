@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_69acee35",
+        "filename": "fuel-plugin-vsperf/LICENSE",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2016-01-20T15:00:51Z",
+      "side": 1,
+      "message": "I think the date just relates to the date the Apache v.2.0 license was drawn up. \n\nIn any case I notice other projects dont\u0027 quote the license; the just refer to it in the copyright section. So I think I\u0027ll update to that method.",
+      "parentUuid": "9a5c5d37_a9eb06af",
+      "revId": "b5974fee5e76b0a9d864d8e7db93dc5144c3f2e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_09dfb20e",
         "filename": "fuel-plugin-vsperf/repositories/centos/.gitkeep",
         "patchSetId": 3
