@@ -20,19 +20,38 @@
 <a name="Introduction"></a>
 ## 1. Introduction
 
-The objective of the OPNFV project titled **"Characterise vSwitch Performance for Telco NFV Use Cases"**, is to evaluate a virtual switch to identify its suitability for a Telco Network Function Virtualization (NFV) environment. As well as this, the project aims to identify any gaps or bottlenecks in order to drive architectural changes to improve virtual switch performance and determinism. The purpose of this document is to summarize the results of the tests carried out on the virtual switch in the Network Function Virtualization Infrastructure (NFVI) and, from these results, provide evaluations and recommendations for the virtual switch. Test results will be outlined in [Details of the Level Test Report](#DetailsoftheLevelTestReport), preceded by the [Document Identifier](#DocId), [Scope](#Scope) and [References](#References).
+The objective of the OPNFV project titled **"Characterise vSwitch Performance
+for Telco NFV Use Cases"**, is to evaluate a virtual switch to identify its
+suitability for a Telco Network Function Virtualization (NFV) environment. As
+well as this, the project aims to identify any gaps or bottlenecks in order to
+drive architectural changes to improve virtual switch performance and
+determinism. The purpose of this document is to summarize the results of the
+tests carried out on the virtual switch in the Network Function Virtualization
+Infrastructure (NFVI) and, from these results, provide evaluations and
+recommendations for the virtual switch. Test results will be outlined in
+[Details of the Level Test Report](#DetailsoftheLevelTestReport), preceded by
+the [Document Identifier](#DocId), [Scope](#Scope) and
+[References](#References).
 
 This document is currently in draft form.
 
 <a name="DocId"></a>
 ### 1.1. Document identifier
 
-The document id will be used to uniquely identify versions of the LTR. The format for the document id will be: `OPNFV_vswitchperf_LTR_ver_NUM_MONTH_YEAR_AUTHOR_STATUS`, where by the AUTHOR field should be replaced with the initials of the author and the status is one of: DRAFT, REVIEWED, CORRECTED or FINAL. The document id for this version of the LTR is: `OPNFV_vswitchperf_LTR_ver_1.1_Jan_15_CN_DRAFT`.
+The document id will be used to uniquely identify versions of the LTR. The
+format for the document id will be:
+`OPNFV_vswitchperf_LTR_ver_NUM_MONTH_YEAR_AUTHOR_STATUS`, where by the AUTHOR
+field should be replaced with the initials of the author and the status is one
+of: DRAFT, REVIEWED, CORRECTED or FINAL. The document id for this version of
+the LTR is: `OPNFV_vswitchperf_LTR_ver_1.1_Jan_15_CN_DRAFT`.
 
 <a name="Scope"></a>
 ### 1.2. Scope
 
-The scope of this report is to detail the results of the tests that have been performed on the virtual switch. This report will also evaluate the results of these tests and, based on these evaluations, provide recommendations on the suitability of the virtual switch for use in a Telco NFV environment.
+The scope of this report is to detail the results of the tests that have been
+performed on the virtual switch. This report will also evaluate the results of
+these tests and, based on these evaluations, provide recommendations on the
+suitability of the virtual switch for use in a Telco NFV environment.
 
 <a name="References"></a>
 ### 1.3. References
@@ -44,7 +63,12 @@ The scope of this report is to detail the results of the tests that have been pe
 <a name="DetailsoftheLevelTestReport"></a>
 ## 2. Details of the Level Test Report
 
-This section provides an overview of the test results ([Section 2.1.](#OveriewOfTestResults)) as well as detailed test results for each test ([Section 2.2.](#DetailedTestResults)). Also included are the rationale used to evaluate each test ([Section 2.3.](#RationaleForDecisions)) and the conclusions and recommendations for each test ([Section 2.4.](#ConclusionsandRecommendations)).
+This section provides an overview of the test results ([Section
+2.1.](#OveriewOfTestResults)) as well as detailed test results for each test
+([Section 2.2.](#DetailedTestResults)). Also included are the rationale used to
+evaluate each test ([Section 2.3.](#RationaleForDecisions)) and the conclusions
+and recommendations for each test ([Section
+2.4.](#ConclusionsandRecommendations)).
 
 <a name="OverviewOfTestResults"></a>
 ### 2.1. Overview of test results
@@ -55,7 +79,8 @@ Below is the environment that the test was performed in:
 
 - OS: {{tests[0].env.os}}
 - Kernel Version: {{tests[0].env.kernel}}
-- NIC(s): {{tests[0].env.nic}}
+- NIC(s):{% for nic in tests[0].env.nics %}
+    - {{nic}}{% endfor %}
 - Board: {{tests[0].env.platform}}
 - CPU: {{tests[0].env.cpu}}
 - CPU cores: {{tests[0].env.cpu_cores}}
@@ -67,9 +92,10 @@ Below is the environment that the test was performed in:
 - DPDK Version: {{tests[0].env.dpdk['version']}}, GIT tag: {{tests[0].env.dpdk['git_tag']}}
 {%- if 'vnf' in tests[0].env %}
 - VNF: {{tests[0].env.vnf['name']}}, Version: {{tests[0].env.vnf['version']}}, GIT tag: {{tests[0].env.vnf['git_tag']}}
-- VM images: {% for guest_image in tests[0].env.guest_image %}{{guest_image}}  {% endfor %}
-- VM loopback apps: {% for loopback_app in tests[0].env.loopback_app %}{{loopback_app['name']}}, Version: {{loopback_app['version']}}, GIT tag: {{loopback_app['git_tag']}}
-                    {% endfor %}
+- VM images:{% for guest_image in tests[0].env.guest_image %}
+    - {{guest_image}}{% endfor %}
+- VM loopback apps:{% for loopback_app in tests[0].env.loopback_app %}
+    - {{loopback_app['name']}}, Version: {{loopback_app['version']}}, GIT tag: {{loopback_app['git_tag']}}{% endfor %}
 {%- endif %}
 
 For each test, a summary of the key test results is provided.
