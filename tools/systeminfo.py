@@ -65,7 +65,7 @@ def get_cpu():
 def get_nic():
     """Get NIC(s) information.
 
-    :returns: Return NIC(s) information as a string
+    :returns: Return NIC(s) information as a list
     """
     nics = []
     output = subprocess.check_output('lspci', shell=True)
@@ -74,7 +74,7 @@ def get_nic():
         for nic_pciid in S.getValue('WHITELIST_NICS'):
             if line.startswith(nic_pciid):
                 nics.append(''.join(line.split(':')[2:]).strip())
-    return ', '.join(nics).strip()
+    return nics
 
 def get_platform():
     """Get platform information.

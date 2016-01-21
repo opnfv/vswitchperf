@@ -1,0 +1,175 @@
+==========================================================================
+CHARACTERIZE VSWITCH PERFORMANCE FOR TELCO NFV USE CASES LEVEL TEST REPORT
+==========================================================================
+
+Introduction
+============
+The objective of the OPNFV project titled **"Characterise vSwitch Performance
+for Telco NFV Use Cases"**, is to evaluate a virtual switch to identify its
+suitability for a Telco Network Function Virtualization (NFV) environment. As
+well as this, the project aims to identify any gaps or bottlenecks in order to
+drive architectural changes to improve virtual switch performance and
+determinism. The purpose of this document is to summarize the results of the
+tests carried out on the virtual switch in the Network Function Virtualization
+Infrastructure (NFVI) and, from these results, provide evaluations and
+recommendations for the virtual switch. Test results will be outlined in
+details-of-LTR_, preceded by the document-identifier_ and the scope_ and
+references_).
+
+This document is currently in draft form.
+
+.. _document-identifier:
+
+Document identifier
+-------------------
+The document id will be used to uniquely identify versions of the LTR. The
+format for the document id will be:
+OPNFV\_vswitchperf\_LTR\_rel\_STATUS, the status is one of: DRAFT, REVIEWED,
+CORRECTED or FINAL. The document id for this version of the LTR is:
+OPNFV\_vswitchperf\_LTR\_Brahmaputra\_DRAFT.
+
+.. _scope:
+
+Scope
+-----
+The scope of this report is to detail the results of the tests that have been
+performed on the virtual switch. This report will also evaluate the results of
+these tests and, based on these evaluations, provide recommendations on the
+suitability of the virtual switch for use in a Telco NFV environment.
+
+.. _references:
+
+References
+----------
+`OPNFV_vswitchperf_LTD_Brahmaputra_REVIEWED
+<http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltd.html>`__
+
+.. details-of-LTR:
+
+Details of the Level Test Report
+================================
+This section provides a test-results-overview_ as well as
+detailed-test-results_. Also included are the rationale_ and the conclusions_.
+
+.. _test-results-overview:
+
+Overview of test results
+------------------------
+Test Environment
+~~~~~~~~~~~~~~~~
+Below is the environment that the test was performed in:
+
+* OS: {{tests[0].env.os}}
+* Kernel Version: {{tests[0].env.kernel}}
+* NIC(s):{% for nic in tests[0].env.nics %}
+    * {{nic}}{% endfor %}
+* Board: {{tests[0].env.platform}}
+* CPU: {{tests[0].env.cpu}}
+* CPU cores: {{tests[0].env.cpu_cores}}
+* Memory: {{tests[0].env.memory}}
+* Virtual Switch Set-up: {{tests[0].deployment}}
+* vswitchperf: GIT tag: {{tests[0].env.vsperf['git_tag']}}
+* Traffic Generator: {{tests[0].env.traffic_gen['name']}}, Version: {{tests[0].env.traffic_gen['version']}}, GIT tag: {{tests[0].env.traffic_gen['git_tag']}}
+* vSwitch: {{tests[0].env.vswitch['name']}}, Version: {{tests[0].env.vswitch['version']}}, GIT tag: {{tests[0].env.vswitch['git_tag']}}
+* DPDK Version: {{tests[0].env.dpdk['version']}}, GIT tag: {{tests[0].env.dpdk['git_tag']}}
+{%- if 'vnf' in tests[0].env %}
+* VNF: {{tests[0].env.vnf['name']}}, Version: {{tests[0].env.vnf['version']}}, GIT tag: {{tests[0].env.vnf['git_tag']}}
+* VM images:{% for guest_image in tests[0].env.guest_image %}
+    * {{guest_image}}{% endfor %}
+* VM loopback apps:{% for loopback_app in tests[0].env.loopback_app %}
+    * {{loopback_app['name']}}, Version: {{loopback_app['version']}}, GIT tag: {{loopback_app['git_tag']}}{% endfor %}
+{%- endif %}
+
+For each test, a summary of the key test results is provided.
+{% for test in tests %}
+Test ID: {{ test.ID }}
+~~~~~~~~~~~~~~~~~~~~~~~
+Below are test details:
+
+* Test ID: {{ "%s"|format(test.id) }}
+* Description: {{ "%s"|format(test.conf['Description']) }}
+* Deployment: {{ "%s"|format(test.deployment) }}
+* Traffic type: {{ "%s"|format(test.result['type']) }}
+* Packet size: {{ "%s"|format(test.result['packet_size']) }}
+* Bidirectional : {{ "%s"|format(test.conf['biDirectional']) }}
+{% endfor %}
+
+.. _detailed-test-results:
+
+Detailed test results
+======================
+A detailed summary of the main results for each test is outlined below.
+{% for test in tests %}
+Test ID: {{ test.ID }}
+----------------------
+Results/Metrics Collected
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following are the metrics obtained during this test:
+
+========================== ==================================
+        Metric                          Result
+========================== ==================================
+{%- for item, value in test.result.items() %}
+{{ "%-30s %30s"|format(item,value)}}
+{%- endfor %}
+========================== ==================================
+
+Statistics collected
+~~~~~~~~~~~~~~~~~~~~
+
+The following system statistics were collected during testcase execution:
+
+{% for process in test.stats %}
+
+========================== ==================================
+Process: {{ '_'.join(process.split('_')[:-1]) }}
+-------------------------------------------------------------
+      Statistic                        Value
+========================== ==================================
+{%- for item, value in test.stats[process].items() %}
+{{ "%-30s %30s"|format(item,value)}}
+{%- endfor %}
+========================== ==================================
+
+{%- endfor %}
+
+
+Anomalies
+~~~~~~~~~~
+No anomalies were detected during the course of this test.
+
+Testing Activities/Events
+~~~~~~~~~~~~~~~~~~~~~~~~~
+There were no significant testing activities for this test.
+{% endfor %}
+
+.. _rationale:
+
+Rationale for decisions
+=======================
+TODO.
+
+.. _conclusions:
+
+Conclusions and recommendations
+===============================
+TODO.
+
+General
+========
+
+Glossary
+--------
+- NFV - Network Function Virtualization
+- Mbps - 1,000,000bps
+
+Document change procedures and history
+--------------------------------------
+=============================================== ================= =============
+             Document ID                            Author        Date Modified
+=============================================== ================= =============
+`OPNFV_vswitchperf_LTR_ver_1.0_Jan_15_CN_DRAFT` Christopher Nolan 23/01/2015
+`OPNFV_vswitchperf_LTR_ver_1.1_Jan_15_CN_DRAFT` Christopher Nolan 28/01/2015
+=============================================== ================= =============
+
