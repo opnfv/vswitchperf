@@ -59,33 +59,14 @@ on, such as DPDK and OVS. To clone and build simply:
     $ cd src
     $ make
 
-VSPERF can be used with stock OVS (without DPDK support). In this case you have
-to specify path to the kernel sources when building OVS in src by specifying
-WITH\_LINUX parameter:
+VSPERF can be used with stock OVS (without DPDK support). When build
+is finished, the libraries are stored in src_vanilla directory.
 
-.. code-block:: console
-
-     $ cd src
-     $ make WITH_LINUX=/lib/modules/`uname -r`/build
-
-To build DPDK and OVS in the src directory for PVP and PVVP testing with
-vhost_user as the guest access method, use:
-
-.. code-block:: console
-
-     $ make VHOST_USER=y
-
-To build all options in src:
+The 'make' builds all options in src:
 
 * Vanilla OVS
 * OVS with vhost_user as the guest access method (with DPDK support)
 * OVS with vhost_cuse s the guest access method (with DPDK support)
-
-simply call 'make' in the src directory :
-
-.. code-block:: console
-
-     $ make
 
 The vhost_user build will reside in src/ovs/
 The vhost_cuse build will reside in vswitchperf/src_cuse
@@ -200,16 +181,14 @@ For all available options, check out the help dialog:
 
 Executing Vanilla OVS tests
 ----------------------------
-If you have compiled all the variants of OVS in ''src/'' please skip
-step 1.
 
-1. Recompile src for Vanilla OVS testing
+1. If needed, recompile src for all OVS variants
 
 .. code-block:: console
 
      $ cd src
-     $ make cleanse
-     $ make WITH_LINUX=/lib/modules/`uname -r`/build
+     $ make distclean
+     $ make
 
 2. Update your ''10_custom.conf'' file to use the appropriate variables
 for Vanilla OVS:
@@ -248,13 +227,13 @@ To run tests using vhost-user as guest access method:
    VHOST_METHOD='user'
    VNF = 'QemuDpdkVhost'
 
-2. Recompile src for VHOST USER testing
+2. If needed, recompile src for all OVS variants
 
 .. code-block:: console
 
      $ cd src
-     $ make cleanse
-     $ make VHOST_USER=y
+     $ make distclean
+     $ make
 
 3. Run test:
 
@@ -271,13 +250,13 @@ To run tests using vhost-cuse as guest access method:
      VHOST_METHOD='cuse'
      VNF = 'QemuDpdkVhostCuse'
 
-2. Recompile src for VHOST USER testing
+2. If needed, recompile src for all OVS variants
 
 .. code-block:: console
 
      $ cd src
-     $ make cleanse
-     $ make VHOST_USER=n
+     $ make distclean
+     $ make
 
 3. Run test:
 
@@ -311,13 +290,13 @@ To run tests using Vanilla OVS:
                           vanilla_tgen_tx_mac=nn:nn:nn:nn:nn:nn"
 
 
-2. Recompile src for Vanilla OVS testing
+2. If needed, recompile src for all OVS variants
 
 .. code-block:: console
 
      $ cd src
-     $ make cleanse
-     $ make WITH_LINUX=/lib/modules/`uname -r`/build
+     $ make distclean
+     $ make
 
 3. Run test:
 
