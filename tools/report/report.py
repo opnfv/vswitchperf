@@ -27,7 +27,7 @@ from core.results.results_constants import ResultsConstants
 from conf import settings as S
 from tools import systeminfo
 
-_TEMPLATE_FILE = 'report.jinja'
+_TEMPLATE_FILES = ['report.jinja', 'report_rst.jinja']
 _ROOT_DIR = os.path.normpath(os.path.dirname(os.path.realpath(__file__)))
 
 
@@ -48,7 +48,7 @@ def _get_env(result):
     env = {
         'os': systeminfo.get_os(),
         'kernel': systeminfo.get_kernel(),
-        'nic': systeminfo.get_nic(),
+        'nics': systeminfo.get_nic(),
         'cpu': systeminfo.get_cpu(),
         'cpu_cores': systeminfo.get_cpu_cores(),
         'memory' : systeminfo.get_memory(),
@@ -78,11 +78,10 @@ def generate(input_file, tc_results, tc_stats):
 
     :returns: Path to generated report
     """
-    output_file = '.'.join([os.path.splitext(input_file)[0], 'md'])
-
+    output_files = [('.'.join([os.path.splitext(input_file)[0], 'md'])),
+                    ('.'.join([os.path.splitext(input_file)[0], 'rst']))]
     template_loader = jinja2.FileSystemLoader(searchpath=_ROOT_DIR)
     template_env = jinja2.Environment(loader=template_loader)
-    template = template_env.get_template(_TEMPLATE_FILE)
 
     tests = []
     try:
@@ -112,17 +111,20 @@ def generate(input_file, tc_results, tc_stats):
         template_vars = {
             'tests': tests,
         }
-
-        output_text = template.render(template_vars) #pylint: disable=no-member
-        with open(output_file, 'w') as file_:
-            file_.write(output_text)
-            logging.info('Test report written to "%s"', output_file)
+        i = 0
+        for output_file in output_files:
+            template = template_env.get_template(_TEMPLATE_FILES[i])
+            output_text = template.render(template_vars) #pylint: disable=no-member
+            with open(output_file, 'w') as file_:
+                file_.write(output_text)
+                logging.info('Test report written to "%s"', output_file)
+            i += 1
 
     except KeyError:
         logging.info("Report: Ignoring file (Wrongly defined columns): %s",
                      (input_file))
         raise
-    return output_file
+    return output_files
 
 
 if __name__ == '__main__':
