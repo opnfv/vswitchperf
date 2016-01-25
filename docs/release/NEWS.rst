@@ -1,3 +1,41 @@
+OPNFV Brahmaputra Release
+=========================
+Supports both OVS and OVS with DPDK.
+
+Available tests:
+
+* phy2phy_tput:     LTD.Throughput.RFC2544.PacketLossRatio
+* back2back:        LTD.Throughput.RFC2544.BackToBackFrames
+* phy2phy_tput_mod_vlan:LTD.Throughput.RFC2544.PacketLossRatioFrameModification
+* phy2phy_cont:     Phy2Phy Continuous Stream
+* pvp_cont:         PVP Continuous Stream
+* pvvp_cont:        PVVP Continuous Stream
+* phy2phy_scalability:LTD.Scalability.RFC2544.0PacketLoss
+* pvp_tput:         LTD.Throughput.RFC2544.PacketLossRatio
+* pvp_back2back:    LTD.Throughput.RFC2544.BackToBackFrames
+* pvvp_tput:        LTD.Throughput.RFC2544.PacketLossRatio
+* pvvp_back2back:   LTD.Throughput.RFC2544.BackToBackFrames
+* phy2phy_cpu_load: LTD.CPU.RFC2544.0PacketLoss
+* phy2phy_mem_load: LTD.Memory.RFC2544.0PacketLoss
+
+Supported deployment scenarios:
+
+* Physical port -> vSwitch -> Physical port.
+* Physical port -> vSwitch -> VNF -> vSwitch -> Physical port.
+* Physical port -> vSwitch -> VNF -> vSwitch -> VNF -> vSwitch -> Physical port.
+
+Loopback applications in the Guest can be:
+
+* DPDK testpmd.
+* Linux Bridge.
+* l2fwd Kernel Module.
+
+Supported traffic generators:
+
+* Ixia: IxOS and IxNet.
+* Spirent.
+* Dummy.
+
 November 2015
 ==============
 
