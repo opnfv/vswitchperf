@@ -12,6 +12,15 @@ deployment scenarios and so on.
 Usage
 =====
 
+Example Connectivity to DUT
+---------------------------
+
+Establish connectivity to the VSPERF DUT Linux host, such as the DUT in Pod 3,
+by following the steps in `Testbed POD3
+<https://wiki.opnfv.org/get_started/pod_3_-_characterize_vswitch_performance>`__
+
+The steps cover booking the DUT and establishing the VSPERF environment.
+
 Example Command Lines
 ---------------------
 
@@ -226,8 +235,8 @@ Frame Modification requirements.
              |
              |
              v
-      +--------------+  table#1 - Routing table. Flows to route packets between
-      |              |  ports goes here.
+      +--------------+  table#1 - Routing table. Flow entries to forward
+      |              |  packets between ports goes here.
       | Table 1      |  The chosen port is communicated to subsequent tables by
       |              |  setting the metadata value to the egress port number.
       |              |  Generally this table is set-up by by the
