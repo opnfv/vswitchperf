@@ -3,12 +3,7 @@
 ======
 VSPERF
 ======
-Welcome to VSPERF's documentation !
-
-.. _VSPERF: https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases
-.. _REPO: https://gerrit.opnfv.org/gerrit/#/q/vswitchperf
-
-VSPERF_ is an OPNFV testing project.
+VSPERF is an OPNFV testing project.
 
 VSPERF will develop a generic and architecture agnostic vSwitch testing
 framework and associated tests, that will serve as a basis for validating the
@@ -17,14 +12,22 @@ environment. The output of this project will be utilized by the OPNFV
 Performance and Test group and its associated projects, as part of OPNFV
 Platform and VNF level testing and validation.
 
+Project Wiki:
+https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases
+
+Project Repository: https://gerrit.opnfv.org/gerrit/#/q/vswitchperf
+
+Continuous Integration https://build.opnfv.org/ci/view/vswitchperf/
+
 .. toctree::
    :maxdepth: 3
    :numbered: 5
 
-   http://artifacts.opnfv.org/vswitchperf/docs/userguides/index.html
-   http://artifacts.opnfv.org/vswitchperf/docs/design/index.html
-   http://artifacts.opnfv.org/vswitchperf/docs/requirements/index.html
-   http://artifacts.opnfv.org/vswitchperf/docs/release/index.html
+   ./configguide/index.rst
+   ./userguide/index.rst
+   ./design/index.rst
+   ./requirements/index.rst
+   ./release/index.rst
 
 
 Indices

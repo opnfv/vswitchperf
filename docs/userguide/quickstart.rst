@@ -2,8 +2,8 @@
 Getting Started with 'vsperf'
 =============================
 
-Requirements
--------------
+General
+-------
 
 VSPERF requires a traffic generators to run tests, automated traffic gen
 support in VSPERF includes:
@@ -16,33 +16,19 @@ support in VSPERF includes:
 
 If you want to use another traffic generator, please select the Dummy generator
 option as shown in `Traffic generator instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/userguides/trafficgen.html>`__
-
-Supported OSes include:
-
-* CentOS Linux release 7.1.1503 (Core) host.
-* Fedora 21 and 22.
-* Ubuntu 14.04
-
-vSwitch Requirements
---------------------
-
-The vSwitch must support Open Flow 1.3 or greater. VSPERF supports both:
-
-* OVS
-* OVS with DPDK
+<http://artifacts.opnfv.org/vswitchperf/docs/configguide/trafficgen.html>`__
 
 VSPERF Installation
 --------------------
-
-Follow the `installation instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/userguides/installation.html>`__ to
+To see the supported Operating Systems, vSwitches and system requirements,
+please follow the `installation instructions
+<http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html>`__ to
 install.
 
 Traffic Generator Setup
 -----------------------
 Follow the `Traffic generator instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/userguides/trafficgen.html>`__ to
+<http://artifacts.opnfv.org/vswitchperf/docs/configguide/trafficgen.html>`__ to
 install and configure a suitable traffic generator.
 
 Cloning and building src dependencies
@@ -121,9 +107,18 @@ deployment scenarios. The image can be downloaded from
 
     $ wget http://artifacts.opnfv.org/vswitchperf/vloop-vnf-ubuntu-14.04_20151216.qcow2
 
+vloop_vnf forwards traffic through a VM using one of:
+* DPDK testpmd
+* Linux Bridge
+* l2fwd kernel Module.
+
 Alternatively you can use your own QEMU image.
 
---------------
+l2fwd Kernel Module
+-------------------
+A Kernel Module that provides OSI Layer 2 Ipv4 termination or forwarding with
+support for Destination Network Address Translation (DNAT) for both the MAC and
+IP addresses. l2fwd can be found in <vswitchperf_dir>/src/l2fwd
 
 Executing tests
 ---------------

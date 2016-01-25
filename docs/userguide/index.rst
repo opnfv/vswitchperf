@@ -1,5 +1,5 @@
 ******************************
-VSPERF Guides and Installation
+VSPERF User Guide
 ******************************
 
 .. toctree::
@@ -7,5 +7,3 @@ VSPERF Guides and Installation
    :maxdepth: 3
 
    quickstart.rst
-   installation.rst
-   trafficgen.rst
