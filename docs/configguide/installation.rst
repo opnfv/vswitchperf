@@ -2,6 +2,40 @@
 Installing vswitchperf
 ======================
 
+Supported Operating Systems
+---------------------------
+
+* CentOS 7
+* Fedora 20
+* Fedora 21
+* Fedora 22
+* Ubuntu 14.04
+
+Supported vSwitches
+-------------------
+The vSwitch must support Open Flow 1.3 or greater.
+
+* OVS (built from source).
+* OVS with DPDK (built from source).
+
+Supported Hypervisors
+---------------------
+
+* Qemu version 2.3.
+
+Available VNFs
+--------------
+A simple VNF that forwards traffic through a VM, using:
+
+* DPDK testpmd
+* Linux Brigde
+* custom l2fwd module
+
+The VM image can be downloaded from:
+http://artifacts.opnfv.org/vswitchperf/vloop-vnf-ubuntu-14.04_20151216.qcow2
+
+Other Requirements
+------------------
 The test suite requires Python 3.3 and relies on a number of other
 packages. These need to be installed for the test suite to function.
 
@@ -10,7 +44,7 @@ environment and compilation of OVS, DPDK and QEMU is performed by
 script **systems/build_base_machine.sh**. It should be executed under
 user account, which will be used for vsperf execution.
 
-Please Note: Password-less sudo access must be configured for given
+**Please Note**: Password-less sudo access must be configured for given
 user account before script is executed.
 
 Execution of installation script:
@@ -20,17 +54,9 @@ Execution of installation script:
     $ cd systems
     $ ./build_base_machine.sh
 
-Please note: you don't need to go into any of the systems subdirectories,
+**Please Note**: you don't need to go into any of the systems subdirectories,
 simply run the top level **build_base_machine.sh**, your OS will be detected
 automatically.
-
-Currently supported operating systems are:
-
-    - CentOS 7
-    - Fedora 20
-    - Fedora 21
-    - Fedora 22
-    - Ubuntu 14.04
 
 Script **build_base_machine.sh** will install all the vsperf dependencies
 in terms of system packages, Python 3.x and required Python modules.
@@ -43,7 +69,8 @@ in a directory called **vsperfenv** in $HOME.
 You will need to activate the virtual environment every time you start a
 new shell session. Its activation is specific to your OS:
 
-CentOS 7:
+CentOS 7
+========
 
 .. code:: bash
 
@@ -51,15 +78,13 @@ CentOS 7:
     $ cd $HOME/vsperfenv
     $ source bin/activate
 
-Fedora and Ubuntu:
+Fedora and Ubuntu
+=================
 
 .. code:: bash
 
     $ cd $HOME/vsperfenv
     $ source bin/activate
-
-
---------------
 
 Working Behind a Proxy
 ======================
