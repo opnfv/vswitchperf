@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_54d5ba41",
+        "filename": "docs/userguides/integration.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-01-25T15:33:59Z",
+      "side": 1,
+      "message": "Hi Dino,\nit would be good to highlight all the hard-coded addresses, etc. in 02_vswitch.conf - these sorts of things have \"gotcha\" potential...",
+      "revId": "bbd74481b6e717b3109a39e2e3422a30219bc43b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
