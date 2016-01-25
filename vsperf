@@ -27,6 +27,8 @@ import shutil
 import unittest
 import xmlrunner
 import locale
+import glob
+import subprocess
 
 sys.dont_write_bytecode = True
 
@@ -46,6 +48,10 @@ VERBOSITY_LEVELS = {
     'critical': logging.CRITICAL
 }
 
+_TEMPLATE_RST = {'head'  : 'tools/report/report_head.rst',
+                 'foot'  : 'tools/report/report_foot.rst',
+                 'final' : 'test_report.rst'
+                }
 
 def parse_arguments():
     """
@@ -250,6 +256,25 @@ def check_and_set_locale():
         logging.warning("Locale was not properly configured. Default values were set. Old locale: %s, New locale: %s",
                         system_locale, locale.getdefaultlocale())
 
+def generate_final_report(path):
+    """ Function will check if partial test results are available
+    and generates final report in rst format.
+    """
+
+    # check if there are any results in rst format
+    rst_results = glob.glob(os.path.join(path, 'result*rst'))
+    if len(rst_results):
+        try:
+            test_report = os.path.join(path, _TEMPLATE_RST['final'])
+            retval = subprocess.call('cat {} {} {} > {}'.format(_TEMPLATE_RST['head'], ' '.join(rst_results),
+                                                                _TEMPLATE_RST['foot'], test_report), shell=True)
+            if retval == 0 and os.path.isfile(test_report):
+                logging.info('Overall test report written to "%s"', test_report)
+            else:
+                logging.error('Generatrion of overall test report has failed.')
+        except subprocess.CalledProcessError:
+            logging.error('Generatrion of overall test report has failed.')
+
 class MockTestCase(unittest.TestCase):
     """Allow use of xmlrunner to generate Jenkins compatible output without
     using xmlrunner to actually run tests.
@@ -448,6 +473,9 @@ def main():
             logger.exception("Failed to run test: %s", test.name)
             suite.addTest(MockTestCase(str(ex), False, test.name))
             logger.info("Continuing with next test...")
+
+    # generate final rst report with results of all executed TCs
+    generate_final_report(results_path)
 
     if settings.getValue('XUNIT'):
         xmlrunner.XMLTestRunner(
