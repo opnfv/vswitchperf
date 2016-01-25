@@ -251,7 +251,9 @@ class TestCase(object):
         """
         # hugepages are needed by DPDK and Qemu
         if not self._hugepages_mounted and \
-            (self.deployment.count('v') or S.getValue('VSWITCH').lower().count('dpdk')):
+            (self.deployment.count('v') or \
+             S.getValue('VSWITCH').lower().count('dpdk') or \
+             self._vswitch_none):
             hugepages.mount_hugepages()
             self._hugepages_mounted = True
 
