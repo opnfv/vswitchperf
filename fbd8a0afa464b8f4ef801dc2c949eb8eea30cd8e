@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_34e7dee6",
+        "filename": "docs/userguide/quickstart.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-01-25T16:27:44Z",
+      "side": 1,
+      "message": "I doubt OSI is needed to describe Layer 2 :-)",
+      "revId": "fbd8a0afa464b8f4ef801dc2c949eb8eea30cd8e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
