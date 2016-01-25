@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_d9fe8338",
+        "filename": "docs/userguides/quickstart.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-01-25T13:36:36Z",
+      "side": 1,
+      "message": "How does the user know if the recompile step is needed?  (There\u0027s probably a common symptom that could be added here.)",
+      "revId": "e840131eef8e493a1b0a4bd4ed2885c958b481f9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
