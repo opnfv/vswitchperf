@@ -142,13 +142,14 @@ proc startRfc2544Test { testSpec trafficSpec } {
     # extract nested dictionaries
     set trafficSpec_l2          [dict get $trafficSpec l2]
     set trafficSpec_l3          [dict get $trafficSpec l3]
+    set trafficSpec_l4          [dict get $trafficSpec l4]
     set trafficSpec_vlan        [dict get $trafficSpec vlan]
 
     set frameSize               [dict get $trafficSpec_l2 framesize]
     set srcMac                  [dict get $trafficSpec_l2 srcmac]
     set dstMac                  [dict get $trafficSpec_l2 dstmac]
-    set srcPort                 [dict get $trafficSpec_l2 srcport]
-    set dstPort                 [dict get $trafficSpec_l2 dstport]
+    set srcPort                 [dict get $trafficSpec_l4 srcport]
+    set dstPort                 [dict get $trafficSpec_l4 dstport]
 
     set proto                   [dict get $trafficSpec_l3 proto]
     set srcIp                   [dict get $trafficSpec_l3 srcip]
