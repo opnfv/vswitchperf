@@ -25,13 +25,15 @@ TRAFFIC_DEFAULTS = {
         'framesize': 64,
         'srcmac': '00:00:00:00:00:00',
         'dstmac': '00:00:00:00:00:00',
-        'srcport': 3000,
-        'dstport': 3001,
     },
     'l3': {
         'proto': 'udp',
         'srcip': '1.1.1.1',
         'dstip': '90.90.90.90',
+    },
+    'l4': {
+        'srcport': 3000,
+        'dstport': 3001,
     },
     'vlan': {
         'enabled': False,
