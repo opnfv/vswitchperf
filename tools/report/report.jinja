@@ -89,7 +89,9 @@ Below is the environment that the test was performed in:
 - vswitchperf: GIT tag: {{tests[0].env.vsperf['git_tag']}}
 - Traffic Generator: {{tests[0].env.traffic_gen['name']}}, Version: {{tests[0].env.traffic_gen['version']}}, GIT tag: {{tests[0].env.traffic_gen['git_tag']}}
 - vSwitch: {{tests[0].env.vswitch['name']}}, Version: {{tests[0].env.vswitch['version']}}, GIT tag: {{tests[0].env.vswitch['git_tag']}}
+{%- if 'dpdk' in tests[0].env %}
 - DPDK Version: {{tests[0].env.dpdk['version']}}, GIT tag: {{tests[0].env.dpdk['git_tag']}}
+{%- endif %}
 {%- if 'vnf' in tests[0].env %}
 - VNF: {{tests[0].env.vnf['name']}}, Version: {{tests[0].env.vnf['version']}}, GIT tag: {{tests[0].env.vnf['git_tag']}}
 - VM images:{% for guest_image in tests[0].env.guest_image %}
