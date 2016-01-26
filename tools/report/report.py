@@ -56,8 +56,10 @@ def _get_env(result):
         'vsperf': systeminfo.get_version('vswitchperf'),
         'traffic_gen': systeminfo.get_version(S.getValue('TRAFFICGEN')),
         'vswitch': systeminfo.get_version(S.getValue('VSWITCH')),
-        'dpdk': systeminfo.get_version('dpdk'),
     }
+
+    if S.getValue('VSWITCH').lower().count('dpdk'):
+        env.update({'dpdk': systeminfo.get_version('dpdk')})
 
     if result[ResultsConstants.DEPLOYMENT].count('v'):
         env.update({'vnf': systeminfo.get_version(S.getValue('VNF')),
