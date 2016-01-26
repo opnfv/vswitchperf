@@ -1,7 +1,7 @@
 #!/usr/bin/env tclsh
 
 # Copyright (c) 2014, Ixia
-# Copyright (c) 2015, Intel Corporation
+# Copyright (c) 2015-2016, Intel Corporation
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -246,17 +246,23 @@ proc sendTraffic { flowSpec trafficSpec } {
     # extract nested dictionaries
     set trafficSpec_l2          [dict get $trafficSpec l2]
     set trafficSpec_l3          [dict get $trafficSpec l3]
+    set trafficSpec_l4          [dict get $trafficSpec l4]
     set trafficSpec_vlan        [dict get $trafficSpec vlan]
 
     set frameSize               [dict get $trafficSpec_l2 framesize]
     set srcMac                  [dict get $trafficSpec_l2 srcmac]
     set dstMac                  [dict get $trafficSpec_l2 dstmac]
-    set srcPort                 [dict get $trafficSpec_l2 srcport]
-    set dstPort                 [dict get $trafficSpec_l2 dstport]
+    set srcPort                 [dict get $trafficSpec_l4 srcport]
+    set dstPort                 [dict get $trafficSpec_l4 dstport]
 
     set proto                   [dict get $trafficSpec_l3 proto]
     set srcIp                   [dict get $trafficSpec_l3 srcip]
     set dstIp                   [dict get $trafficSpec_l3 dstip]
+
+    if {[dict exists $trafficSpec_l3 protocolpadbytes]} {
+        set protocolPad             [dict get $trafficSpec_l4 protocolpad]
+        set protocolPadBytes        [dict get $trafficSpec_l4 protocolpadbytes]
+    }
 
     set vlanEnabled             [dict get $trafficSpec_vlan enabled]
     if {$vlanEnabled == 1 } {
@@ -306,6 +312,10 @@ proc sendTraffic { flowSpec trafficSpec } {
         protocol config -enable802dot1qTag            vlanSingle
     }
 
+    if {[info exists protocolPad]} {
+        protocol config -enableProtocolPad                $protocolPad
+    }
+
     ip setDefault
     ip config -ipProtocol                             ipV4Protocol[string totitle $proto]
     ip config -checksum                               "f6 75"
@@ -326,6 +336,26 @@ proc sendTraffic { flowSpec trafficSpec } {
     "$proto" config -checksum                         "25 81"
     if {["$proto" set $::chassis $::card $::port1]} {
         errorMsg "Error calling $proto set $::chassis $::card $::port"
+    }
+
+    if {[info exists protocolPad]} {
+        protocolPad setDefault
+        # VxLAN header with VNI 99 (0x63)
+        # Inner SRC 01:02:03:04:05:06
+        # Inner DST 06:05:04:03:02:01
+        # IP SRC 192.168.0.2
+        # IP DST 192.168.240.9
+        # SRC port 3000 (0x0BB8)
+        # DST port 3001 (0x0BB9)
+        # length 26
+        # UDP Checksum 0x2E93
+
+        # From encap case capture
+        protocolPad config -dataBytes "$protocolPadBytes"
+        if {[protocolPad set $::chassis $::card $::port1]} {
+            errorMsg "Error calling protocolPad set $::chassis $::card $::port"
+            set retCode $::TCL_ERROR
+        }
     }
 
     if {$vlanEnabled == 1 } {
@@ -392,8 +422,14 @@ proc sendTraffic { flowSpec trafficSpec } {
         udp setDefault
         udp config -sourcePort                            $srcPort
         udp config -destPort                              $dstPort
+        set packetSize               [dict get $trafficSpec_l3 packetsize]
+        stream config -framesize                          $packetSize
         if {[udp set $::chassis $::card $::port1]} {
             errorMsg "Error setting udp on port $::chassis.$::card.$::port1"
+        }
+        errorMsg "frameSize: $frameSize, packetSize: $packetSize, srcMac: $srcMac, dstMac: $dstMac, srcPort: $srcPort, dstPort: $dstPort"
+        if {[info exists protocolPad]} {
+            errorMsg "protocolPad: $protocolPad, protocolPadBytes: $protocolPadBytes"
         }
     }
 
