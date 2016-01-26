@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_8ebafadf",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-01-26T21:40:39Z",
+      "side": 1,
+      "message": "I agree with Christian\u0027s suggestion at Line 119, and suggest a similar fix here:  The **connect** function is called...",
+      "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_ee472e1c",
         "filename": "docs/design/trafficgen_integration_guide.rst",
         "patchSetId": 1
