@@ -95,3 +95,47 @@ To run OVS NATIVE tunnel tests (VXLAN/GRE/GENEVE):
      ./vsperf --conf-file user_settings.py --run-integration --test-param 'tunnel_type=vxlan' overlay_p2p_tput
 
 
+Executing VXLAN decapsulation tests
+------------------------------------
+
+To run VXLAN decapsulation tests:
+
+1. Set the variables used in "Executing Tunnel encapsulation tests"
+
+2. Set IXNET_TCL_SCRIPT, VXLAN_FRAME_L2, VLXAN_FRAME_L3 and DUT_NIC1_MAC of your settings file to:
+
+  .. code-block:: console
+
+   IXNET_TCL_SCRIPT='ixnetrfc2544v2.tcl'
+
+   VXLAN_FRAME_L2 = {'srcmac':
+                     '01:02:03:04:05:06',
+                     'dstmac':
+                     '<DUT's NIC1 MAC>',
+                     'srcport': 4789,
+                     'dstport': 4789}
+
+   VXLAN_FRAME_L3 = {'proto': 'udp',
+                     'packetsize': 64,
+                     'srcip': '1.1.1.1',
+                     'dstip': '192.168.240.1',
+                     'vni': VXLAN_VNI,
+                     'inner_srcmac': '01:02:03:04:05:06',
+                     'inner_dstmac': '06:05:04:03:02:01',
+                     'inner_srcip': '192.168.0.10',
+                     'inner_dstip': '192.168.240.9',
+                     'inner_proto': 'udp',
+                     'inner_srcport': 3000,
+                     'inner_dstport': 3001,
+                    }
+
+    # The receiving NIC of VXLAN traffic
+    DUT_NIC1_MAC = '<mac address>'
+
+3. Run test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file user_settings.py --run-integration overlay_p2p_decap_cont
+
+

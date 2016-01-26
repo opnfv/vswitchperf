@@ -37,7 +37,7 @@ class TestCase(object):
 
     In this basic form runs RFC2544 throughput test
     """
-    def __init__(self, cfg, results_dir):
+    def __init__(self, cfg, results_dir, performance_test=True):
         """Pull out fields from test config
 
         :param cfg: A dictionary of string-value pairs describing the test
@@ -63,11 +63,17 @@ class TestCase(object):
 
         self.deployment = cfg['Deployment']
         self._frame_mod = cfg.get('Frame Modification', None)
+        self._performance_test = performance_test
 
         tunnel_type = None
-        if 'Tunnel Type' in cfg:
-            tunnel_type = cfg['Tunnel Type']
-        tunnel_type = get_test_param('tunnel_type', tunnel_type)
+        self._tunnel_operation = None
+
+        if self.deployment == 'op2p':
+            self._tunnel_operation = cfg['Tunnel Operation']
+
+            if 'Tunnel Type' in cfg:
+                tunnel_type = cfg['Tunnel Type']
+                tunnel_type = get_test_param('tunnel_type', tunnel_type)
 
         # identify guest loopback method, so it can be added into reports
         self.guest_loopback = []
@@ -138,14 +144,18 @@ class TestCase(object):
 
         if self.deployment == "op2p":
             self._traffic['l2'].update({'srcmac':
-                                   S.getValue('TRAFFICGEN_PORT1_MAC'),
-                                   'dstmac':
-                                   S.getValue('TRAFFICGEN_PORT2_MAC')})
+                                        S.getValue('TRAFFICGEN_PORT1_MAC'),
+                                        'dstmac':
+                                        S.getValue('TRAFFICGEN_PORT2_MAC')})
 
             self._traffic['l3'].update({'srcip':
                                         S.getValue('TRAFFICGEN_PORT1_IP'),
                                         'dstip':
                                         S.getValue('TRAFFICGEN_PORT2_IP')})
+
+            if self._tunnel_operation == "decapsulation":
+                self._traffic['l2'] = S.getValue('VXLAN_FRAME_L2')
+                self._traffic['l3'] = S.getValue('VXLAN_FRAME_L3')
 
         self._logger.debug("Controllers:")
         loader = Loader()
@@ -163,7 +173,8 @@ class TestCase(object):
             vswitch_ctl = component_factory.create_vswitch(
                 self.deployment,
                 loader.get_vswitch_class(),
-                self._traffic)
+                self._traffic,
+                self._tunnel_operation)
 
         collector = component_factory.create_collector(
             loader.get_collector_class(),
@@ -207,7 +218,7 @@ class TestCase(object):
             tc_results = self._append_results(traffic_ctl.get_results())
             TestCase._write_result_to_file(tc_results, output_file)
 
-            report.generate(output_file, tc_results, collector.get_results())
+            report.generate(output_file, tc_results, collector.get_results(), self._performance_test)
 
     def _append_results(self, results):
         """
