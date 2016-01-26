@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_fa248dc7",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-01-26T16:04:41Z",
+      "side": 1,
+      "message": "Suggest \"- Send fixed size packets at different rates, using\"\n\n(also insert \"fixed size\" in items below)",
+      "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
