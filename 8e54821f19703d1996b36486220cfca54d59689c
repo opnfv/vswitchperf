@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_a4c0372b",
+        "filename": "conf/integration/03_traffic.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-01-27T15:03:08Z",
+      "side": 1,
+      "message": "6081 is the well-known UDP port for GENEVE, but should it appear in the L2 list here? IOW, are these the L2 Outer header values? \n(long URL below which may get broken)\n\nhttps://www.google.com/search?q\u003dgeneve+overlay\u0026biw\u003d1297\u0026bih\u003d731\u0026tbm\u003disch\u0026imgil\u003dQb2wzhyj4_0PLM%253A%253BNYekKnxM9kIaoM%253Bhttps%25253A%25252F%25252Fwww.vmguru.com%25252F2015%25252F10%25252Ffuture-virtual-networking-vmworld-part-2%25252F\u0026source\u003diu\u0026pf\u003dm\u0026fir\u003dQb2wzhyj4_0PLM%253A%252CNYekKnxM9kIaoM%252C_\u0026usg\u003d__SSlXQceBUR5NnMbJPta8OI_be9k%3D\u0026ved\u003d0ahUKEwjirJWLnsrKAhVkuYMKHfcDBUQQyjcITw\u0026ei\u003dfdioVqL6L-TyjgT3h5SgBA#imgrc\u003dVh7Tb0B3pFJgVM%3A",
+      "revId": "8e54821f19703d1996b36486220cfca54d59689c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
