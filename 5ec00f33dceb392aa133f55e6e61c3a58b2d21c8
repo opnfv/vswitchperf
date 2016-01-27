@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_249e8757",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-01-27T15:02:21Z",
+      "side": 1,
+      "message": "Ok, let us be strict - I\u0027ll change it to required.",
+      "parentUuid": "5a4e6583_848f7b23",
+      "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_8ebafadf",
         "filename": "docs/design/trafficgen_integration_guide.rst",
         "patchSetId": 1
