@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_11dbcfee",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-01-27T12:46:08Z",
+      "side": 1,
+      "message": "There isn\u0027t any technical requirement to place it inside separate directory. On the other hand it is better to do it to have the code well organized. Thus I thought that strict \"requirement\" might sound a bit harsh and I chose to recommend it instead.\n\nIf you still prefer \"required\" to \"recommended\", I\u0027ll change it.",
+      "parentUuid": "5a4e6583_ce8fd274",
+      "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_8ebafadf",
         "filename": "docs/design/trafficgen_integration_guide.rst",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2016-01-26T21:40:39Z",
       "side": 1,
       "message": "I agree with Christian\u0027s suggestion at Line 119, and suggest a similar fix here:  The **connect** function is called...",
+      "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_91bc5f6e",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-01-27T12:46:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4e6583_8ebafadf",
       "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_245c4725",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-01-27T12:46:08Z",
+      "side": 1,
+      "message": "Let me remove the first sentence and modify the second one:\n\nThe **disconnect** function should perform clean up of any connection specific actions called from the **connect** function.\n\nWhat do you think?",
+      "parentUuid": "5a4e6583_ee472e1c",
+      "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_fa248dc7",
         "filename": "docs/design/trafficgen_integration_guide.rst",
         "patchSetId": 1
@@ -76,6 +130,24 @@
       "writtenOn": "2016-01-26T16:04:41Z",
       "side": 1,
       "message": "Suggest \"- Send fixed size packets at different rates, using\"\n\n(also insert \"fixed size\" in items below)",
+      "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_d1577725",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-01-27T12:46:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4e6583_fa248dc7",
       "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
