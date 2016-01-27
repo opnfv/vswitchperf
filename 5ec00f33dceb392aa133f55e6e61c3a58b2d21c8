@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_848f7b23",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-01-27T14:30:55Z",
+      "side": 1,
+      "message": "I think it makes sense to only because\n1. Keeping the code organized is important\n2. There is a implementation below that seems to suggest its required.\n\nHowever, we could compromise and say highly recommended. I would agree with that as well.",
+      "parentUuid": "5a4e6583_11dbcfee",
+      "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_8ebafadf",
         "filename": "docs/design/trafficgen_integration_guide.rst",
         "patchSetId": 1
@@ -131,6 +149,24 @@
       "side": 1,
       "message": "Yes, that works for me.",
       "parentUuid": "5a4e6583_245c4725",
+      "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_047cab1f",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-01-27T14:30:55Z",
+      "side": 1,
+      "message": "This sounds good to me as well.",
+      "parentUuid": "5a4e6583_24b9e7e9",
       "revId": "5ec00f33dceb392aa133f55e6e61c3a58b2d21c8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
