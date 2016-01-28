@@ -2,13 +2,14 @@
 
 Rationale for decisions
 =======================
-TODO.
+The tests conducted do not have pass/fail/conditional-pass criteria. The test
+is simply conducted and the results are reported.
 
 .. _conclusions:
 
 Conclusions and recommendations
 ===============================
-TODO.
+The test results are stable. The vsperf CI jobs that were used to obtain the results can be found at https://build.opnfv.org/ci/view/vswitchperf/.
 
 General
 ========
