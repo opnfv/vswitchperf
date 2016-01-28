@@ -53,7 +53,7 @@ force_make: $(TAG_DONE_FLAG)
 	$(AT)sed -i -e 's/CONFIG_RTE_BUILD_COMBINE_LIBS=./CONFIG_RTE_BUILD_COMBINE_LIBS=y/g' $(CONFIG_FILE)
 	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_VHOST=./CONFIG_RTE_LIBRTE_VHOST=y/g' $(CONFIG_FILE)
 	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_KNI=./CONFIG_RTE_LIBRTE_KNI=n/g' $(CONFIG_FILE)
-	$(AT)cd $(WORK_DIR); make install T=$(DPDK_TARGET) -j
+	$(AT)cd $(WORK_DIR); make install T=$(DPDK_TARGET) -j DESTDIR=$(WORK_DIR)
 	$(AT)cd `dirname $(CONFIG_FILE)` && git checkout `basename $(CONFIG_FILE)` && cd -
 	$(AT)echo "VHOST_USER = $(VHOST_USER)"
 ifeq ($(VHOST_USER),n)
