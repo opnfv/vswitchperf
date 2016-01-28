@@ -52,6 +52,24 @@
       "revId": "8e54821f19703d1996b36486220cfca54d59689c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_d88f9474",
+        "filename": "conf/integration/03_traffic.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 841
+      },
+      "writtenOn": "2016-01-28T15:27:16Z",
+      "side": 1,
+      "message": "Hi Al,\nThat would be the fields dstport/srcport. \n\nI\u0027ve made a change in https://gerrit.opnfv.org/gerrit/#/c/7097/8/conf/integration/03_traffic.conf  moving srcport/dstport to an L4 variable. \nIs it better or should i just use INNER_FRAME?",
+      "parentUuid": "5a4e6583_f836d0e6",
+      "revId": "8e54821f19703d1996b36486220cfca54d59689c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
