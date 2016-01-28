@@ -34,6 +34,24 @@
       "revId": "8e54821f19703d1996b36486220cfca54d59689c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_f836d0e6",
+        "filename": "conf/integration/03_traffic.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-01-28T14:50:29Z",
+      "side": 1,
+      "message": "Note in the URL/Picture above that there is an \"outer\" UDP header. The question may be, \"Where do we supply the ports for that header?\"  Would it be part of the GENEVE_FRAME_L3 below?",
+      "parentUuid": "5a4e6583_2202f73e",
+      "revId": "8e54821f19703d1996b36486220cfca54d59689c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
