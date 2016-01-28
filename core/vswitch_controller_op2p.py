@@ -144,12 +144,16 @@ class VswitchControllerOP2P(IVswitchController):
             self._vswitch.add_switch(bridge_ext)
             self._vswitch.add_phy_port(bridge)
             (_, phy2_number) = self._vswitch.add_phy_port(bridge_ext)
-            vxlan_vni = 'options:key=' + settings.getValue('VXLAN_VNI')
-            (_, phy3_number) = self._vswitch.add_tunnel_port(bridge_ext,
-                                                             tgen_ip1,
-                                                             tunnel_type,
-                                                             params=[vxlan_vni])
-
+            if tunnel_type == "vxlan":
+                vxlan_vni = 'options:key=' + settings.getValue('VXLAN_VNI')
+                (_, phy3_number) = self._vswitch.add_tunnel_port(bridge_ext,
+                                                                 tgen_ip1,
+                                                                 tunnel_type,
+                                                                 params=[vxlan_vni])
+            else:
+                (_, phy3_number) = self._vswitch.add_tunnel_port(bridge_ext,
+                                                                 tgen_ip1,
+                                                                 tunnel_type)
             tasks.run_task(['sudo', 'ip', 'addr', 'add',
                             bridge_ext_ip,
                             'dev', bridge_ext],
