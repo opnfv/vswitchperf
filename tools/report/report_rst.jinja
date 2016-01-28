@@ -38,7 +38,7 @@ Below are test details:
 
 {% for test in tests %}
 Test results for packet size: {{ "%s"|format(test.result['packet_size']) }}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 A detailed summary of the main results is outlined below.
 
 Results/Metrics Collected
@@ -72,10 +72,17 @@ Process: {{ '_'.join(process.split('_')[:-1]) }}
 {% endfor %}{% endfor %}
 
 Anomalies
-~~~~~~~~~
+~~~~~~~~~~
 No anomalies were detected during the course of this test.
 
 Testing Activities/Events
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-There were no significant testing activities for this test.
+pidstat is used to collect the process statistics, as such some values such as
+%CPU and %USER maybe > 100% as the values are summed across multiple cores. For
+more info on pidstat please see: http://linux.die.net/man/1/pidstat.
 
+Known issues: Some reported metrics have the value "unkown". These values are
+marked unknown as they are not values retrieved from the external tester
+(traffic generator). They were incorrectly derived in a way that made assumptions
+about packet sizes, as such they have been deprecated from vsperf and marked as
+unknown. They will be resolved in the next release.
