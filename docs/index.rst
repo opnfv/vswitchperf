@@ -12,12 +12,9 @@ environment. The output of this project will be utilized by the OPNFV
 Performance and Test group and its associated projects, as part of OPNFV
 Platform and VNF level testing and validation.
 
-Project Wiki:
-https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases
-
-Project Repository: https://gerrit.opnfv.org/gerrit/#/q/vswitchperf
-
-Continuous Integration https://build.opnfv.org/ci/view/vswitchperf/
+* Project Wiki: https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases
+* Project Repository: https://gerrit.opnfv.org/gerrit/#/q/vswitchperf
+* Continuous Integration https://build.opnfv.org/ci/view/vswitchperf/
 
 .. toctree::
    :maxdepth: 3
