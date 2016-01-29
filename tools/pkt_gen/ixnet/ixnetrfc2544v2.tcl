@@ -152,10 +152,23 @@ proc startRfc2544Test { testSpec trafficSpec } {
     }
 
     # VXLAN
-    set vxlan_enabled           [dict exists $trafficSpec_l4 vni]
+    set vxlan_enabled            [dict exists $trafficSpec_l4 vni]
+    set geneve_enabled           [dict exists $trafficSpec_l4 geneve_vni]
+
     if { $vxlan_enabled } {
         puts "VXLAN is enabled. Setting VXLAN variables"
         set vni                     [dict get $trafficSpec_l4 vni]
+        set inner_srcmac            [dict get $trafficSpec_l4 inner_srcmac]
+        set inner_dstmac            [dict get $trafficSpec_l4 inner_dstmac]
+        set inner_srcip             [dict get $trafficSpec_l4 inner_srcip]
+        set inner_dstip             [dict get $trafficSpec_l4 inner_dstip]
+        set inner_proto             [dict get $trafficSpec_l4 inner_proto]
+        set inner_proto             [string tolower $inner_proto]
+        set inner_srcport           [dict get $trafficSpec_l4 inner_srcport]
+        set inner_dstport           [dict get $trafficSpec_l4 inner_dstport]
+    } elseif { $geneve_enabled } {
+        puts "GENEVE is enabled. Setting GENEVE variables"
+        set geneve_vni              [dict get $trafficSpec_l4 geneve_vni]
         set inner_srcmac            [dict get $trafficSpec_l4 inner_srcmac]
         set inner_dstmac            [dict get $trafficSpec_l4 inner_dstmac]
         set inner_srcip             [dict get $trafficSpec_l4 inner_srcip]
@@ -2024,7 +2037,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
         set gre_enabled              True
     }
 
-    if { $vxlan_enabled || $gre_enabled } {
+    if { $vxlan_enabled || $gre_enabled || $geneve_enabled } {
         # VXLAN and GRE have similar inner frame data so we set unique fields
         # for each protocol then set the common fields.
 
@@ -2089,6 +2102,76 @@ proc startRfc2544Test { testSpec trafficSpec } {
             # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"vxlan-4"/field:"vxlan.header.reserved8-4"
             #
             set sg_field $ixNetSG_Stack(3)/field:"vxlan.header.reserved8-4"
+            ixNet setMultiAttrs $sg_field \
+            -singleValue 0 \
+            -seed 1 \
+            -optionalEnabled true \
+            -valueList [list 0] \
+            -stepValue 0 \
+            -fixedBits 0 \
+            -fieldValue 0 \
+            -randomMask 0 \
+            -startValue 0
+
+        } elseif { $geneve_enabled } {
+            # GENEVE START
+            #
+            set sg_stack $ixNetSG_Stack(2)/stack:"geneve-$stack_number"
+            sg_commit
+            set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+            set ixNetSG_Stack(3) $sg_stack
+            incr stack_number
+
+            set sg_field $ixNetSG_Stack(3)/field:"geneve.header.version-1"
+            ixNet setMultiAttrs $sg_field \
+            -singleValue 0 \
+            -seed 1 \
+            -optionalEnabled true \
+            -valueList [list 0x00] \
+            -stepValue 0x00 \
+            -fixedBits 0x00 \
+            -fieldValue 0 \
+            -randomMask 0x00 \
+            -startValue 0x00
+
+            set sg_field $ixNetSG_Stack(3)/field:"geneve.header.optionsLength-2"
+            ixNet setMultiAttrs $sg_field \
+            -singleValue 0 \
+            -seed 1 \
+            -optionalEnabled true \
+            -valueList [list 0x00] \
+            -stepValue 0x00 \
+            -fixedBits 0x00 \
+            -fieldValue 0 \
+            -randomMask 0x00 \
+            -startValue 0x00
+
+
+            set sg_field $ixNetSG_Stack(3)/field:"geneve.header.flags-3"
+            ixNet setMultiAttrs $sg_field \
+            -singleValue 0 \
+            -seed 1 \
+            -optionalEnabled true \
+            -valueList [list 0x00] \
+            -stepValue 0x00 \
+            -fixedBits 0x00 \
+            -fieldValue 0 \
+            -randomMask 0x00 \
+            -startValue 0x00
+
+            set sg_field $ixNetSG_Stack(3)/field:"geneve.header.protocolType-4"
+            ixNet setMultiAttrs $sg_field \
+            -singleValue 6558 \
+            -seed 1 \
+            -optionalEnabled true \
+            -valueList [list 0x6558] \
+            -stepValue 0x6558 \
+            -fixedBits 0x6558 \
+            -fieldValue 6558 \
+            -randomMask 0x6558 \
+            -startValue 0x6558
+
+            set sg_field $ixNetSG_Stack(3)/field:"geneve.header.vni-5"
             ixNet setMultiAttrs $sg_field \
             -singleValue 0 \
             -seed 1 \

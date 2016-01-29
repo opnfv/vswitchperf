@@ -185,3 +185,72 @@ To run GRE decapsulation tests:
   .. code-block:: console
 
      ./vsperf --conf-file user_settings.py --test-param 'tunnel_type=gre' --run-integration overlay_p2p_decap_cont
+
+
+Executing GENEVE decapsulation tests
+------------------------------------
+
+IxNet 7.3X does not have native support of GENEVE protocol. The
+template, GeneveIxNetTemplate.xml_ClearText.xml, should be imported
+into IxNET for this testcase to work.
+
+To import the template do:
+1. Run the IxNetwork TCL Server
+2. Click on the Traffic menu
+3. Click on the Traffic actions and click Edit Packet Templates
+4. On the Template editor window, click Import.
+   Select the template tools/pkt_gen/ixnet/GeneveIxNetTemplate.xml_ClearText.xml
+   and click import.
+
+
+To run GENEVE decapsulation tests:
+
+1. Set the variables used in "Executing Tunnel encapsulation tests"
+
+2. Set IXNET_TCL_SCRIPT, GENEVE_FRAME_L2, GENEVE_FRAME_L3 and DUT_NIC1_MAC of your settings file to:
+
+  .. code-block:: console
+
+   IXNET_TCL_SCRIPT='ixnetrfc2544v2.tcl'
+
+   GENEVE_FRAME_L2 = {'srcmac':
+                      '01:02:03:04:05:06',
+                      'dstmac':
+                      '<DUT's NIC2 MAC>',
+                      }
+
+   GENEVE_FRAME_L3 = {'proto': 'udp',
+                      'packetsize': 64,
+                      'srcip': '1.1.1.1',
+                      'dstip': '192.168.240.1',
+                      'geneve_vni': 0,
+                      'inner_srcmac': '01:02:03:04:05:06',
+                      'inner_dstmac': '06:05:04:03:02:01',
+                      'inner_srcip': '192.168.0.10',
+                      'inner_dstip': '192.168.240.9',
+                      'inner_proto': 'udp',
+                      'inner_srcport': 3000,
+                      'inner_dstport': 3001,
+                     }
+   GENEVE_FRAME_L4 = {'srcport': 6081,
+                      'dstport': 6081,
+                      'geneve_vni': 0,
+                      'inner_srcmac': '01:02:03:04:05:06',
+                      'inner_dstmac': '06:05:04:03:02:01',
+                      'inner_srcip': '192.168.0.10',
+                      'inner_dstip': '192.168.240.9',
+                      'inner_proto': 'udp',
+                      'inner_srcport': 3000,
+                      'inner_dstport': 3001,
+                     }
+
+
+    # The receiving NIC of GENEVE traffic
+    DUT_NIC1_MAC = '<mac address>'
+
+3. Run test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file user_settings.py --test-param 'tunnel_type=geneve' --run-integration overlay_p2p_decap_cont
+
