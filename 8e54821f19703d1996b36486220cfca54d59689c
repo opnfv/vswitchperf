@@ -88,6 +88,24 @@
       "revId": "8e54821f19703d1996b36486220cfca54d59689c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_93a0def5",
+        "filename": "conf/integration/03_traffic.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 841
+      },
+      "writtenOn": "2016-01-29T08:28:53Z",
+      "side": 1,
+      "message": "Sorry for the confusion. Yes srcport and dstport are used for the outer frame.\n\nThe other ports, inner_srcport and inner_dstport of GENEVE_FRAME_L3 are for the INNER frame. These values are passed to tools/pkt_gen/ixnet/ixnetrfc2544v2.tcl (Line 172) to form the inner packet.",
+      "parentUuid": "5a4e6583_98d35c38",
+      "revId": "8e54821f19703d1996b36486220cfca54d59689c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
