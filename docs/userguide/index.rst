@@ -7,3 +7,4 @@ VSPERF User Guide
    :maxdepth: 3
 
    quickstart.rst
+   newtestcase.rst
