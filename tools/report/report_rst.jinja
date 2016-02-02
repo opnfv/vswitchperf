@@ -35,7 +35,9 @@ Below are test details:
 * Deployment: {{ "%s"|format(tests[0].deployment) }}
 * Traffic type: {{ "%s"|format(tests[0].result['type']) }}
 * Bidirectional : {{ "%s"|format(tests[0].conf['biDirectional']) }}
-
+{%- if tests[0].result['tunnel_type'] %}
+* Tunnel type: {{ "%s"|format(tests[0].result['tunnel_type']) }}
+{%- endif %}
 {% for test in tests %}
 Test results for packet size: {{ "%s"|format(test.result['packet_size']) }}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
