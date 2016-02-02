@@ -9,13 +9,14 @@ VSPERF includes a set of integration tests defined in conf/integration.
 These tests can be run by specifying --run-integration as a parameter to vsperf.
 Current tests in conf/integration are Overlay tests.
 
-
-Executing Tunnel encapsulation tests
-------------------------------------
-
 VSPERF supports VXLAN, GRE and GENEVE tunneling protocols.
 Testing of these protocols is limited to unidirectional traffic and
 P2P (Physical to Physical scenarios).
+
+NOTE: The configuration for overlay tests provided in this guide is for unidirectional traffic only.
+
+Executing Tunnel encapsulation tests
+------------------------------------
 
 The VXLAN OVS DPDK encapsulation tests requires IPs, MAC addresses,
 bridge names and WHITELIST_NICS for DPDK.
@@ -57,19 +58,19 @@ To run VXLAN encapsulation tests:
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --run-integration --test-param 'tunnel_type=vxlan' overlay_p2p_tput
+     ./vsperf --conf-file user_settings.py --run-integration --test-params 'tunnel_type=vxlan' overlay_p2p_tput
 
 To run GRE encapsulation tests:
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --run-integration --test-param 'tunnel_type=gre' overlay_p2p_tput
+     ./vsperf --conf-file user_settings.py --run-integration --test-params 'tunnel_type=gre' overlay_p2p_tput
 
 To run GENEVE encapsulation tests:
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --run-integration --test-param 'tunnel_type=geneve' overlay_p2p_tput
+     ./vsperf --conf-file user_settings.py --run-integration --test-params 'tunnel_type=geneve' overlay_p2p_tput
 
 To run OVS NATIVE tunnel tests (VXLAN/GRE/GENEVE):
 
@@ -96,7 +97,7 @@ To run OVS NATIVE tunnel tests (VXLAN/GRE/GENEVE):
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --run-integration --test-param 'tunnel_type=vxlan' overlay_p2p_tput
+     ./vsperf --conf-file user_settings.py --run-integration --test-params 'tunnel_type=vxlan' overlay_p2p_tput
 
 
 Executing VXLAN decapsulation tests
@@ -106,24 +107,27 @@ To run VXLAN decapsulation tests:
 
 1. Set the variables used in "Executing Tunnel encapsulation tests"
 
-2. Set IXNET_TCL_SCRIPT, VXLAN_FRAME_L2, VLXAN_FRAME_L3 and DUT_NIC1_MAC of your settings file to:
+2. Set dstmac of DUT_NIC2_MAC to the MAC adddress of the 2nd NIC of your DUT
 
   .. code-block:: console
 
-   IXNET_TCL_SCRIPT='ixnetrfc2544v2.tcl'
+   DUT_NIC2_MAC = '<DUT NIC2 MAC>'
 
-   VXLAN_FRAME_L2 = {'srcmac':
-                     '01:02:03:04:05:06',
-                     'dstmac':
-                     '<DUT's NIC1 MAC>',
-                    }
+3. Run test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file user_settings.py --run-integration overlay_p2p_decap_cont
+
+If you want to use different values for your VXLAN frame, you may set:
+
+  .. code-block:: console
 
    VXLAN_FRAME_L3 = {'proto': 'udp',
                      'packetsize': 64,
                      'srcip': '1.1.1.1',
                      'dstip': '192.168.240.1',
                     }
-
    VXLAN_FRAME_L4 = {'srcport': 4789,
                      'dstport': 4789,
                      'vni': VXLAN_VNI,
@@ -136,14 +140,6 @@ To run VXLAN decapsulation tests:
                      'inner_dstport': 3001,
                     }
 
-    # The receiving NIC of VXLAN traffic
-    DUT_NIC1_MAC = '<mac address>'
-
-3. Run test:
-
-  .. code-block:: console
-
-     ./vsperf --conf-file user_settings.py --run-integration overlay_p2p_decap_cont
 
 Executing GRE decapsulation tests
 ---------------------------------
@@ -152,17 +148,21 @@ To run GRE decapsulation tests:
 
 1. Set the variables used in "Executing Tunnel encapsulation tests"
 
-2. Set IXNET_TCL_SCRIPT, GRE_FRAME_L2, GRE_FRAME_L3 and DUT_NIC1_MAC of your settings file to:
+2. Set dstmac of DUT_NIC2_MAC to the MAC adddress of the 2nd NIC of your DUT
+  .. code-block:: console
+
+   DUT_NIC2_MAC = '<DUT NIC2 MAC>'
+
+3. Run test:
 
   .. code-block:: console
 
-   IXNET_TCL_SCRIPT='ixnetrfc2544v2.tcl'
+     ./vsperf --conf-file user_settings.py --test-params 'tunnel_type=gre' --run-integration overlay_p2p_decap_cont
 
-   GRE_FRAME_L2 = {'srcmac':
-                   '01:02:03:04:05:06',
-                   'dstmac':
-                   '<DUT's NIC2 MAC>',
-                  }
+
+If you want to use different values for your GRE frame, you may set:
+
+  .. code-block:: console
 
    GRE_FRAME_L3 = {'proto': 'gre',
                    'packetsize': 64,
@@ -181,15 +181,6 @@ To run GRE decapsulation tests:
                    'inner_dstport': 3001,
                   }
 
-    # The receiving NIC of GRE traffic
-    DUT_NIC1_MAC = '<mac address>'
-
-3. Run test:
-
-  .. code-block:: console
-
-     ./vsperf --conf-file user_settings.py --test-param 'tunnel_type=gre' --run-integration overlay_p2p_decap_cont
-
 
 Executing GENEVE decapsulation tests
 ------------------------------------
@@ -205,23 +196,28 @@ To import the template do:
 4. On the Template editor window, click Import.
    Select the template tools/pkt_gen/ixnet/GeneveIxNetTemplate.xml_ClearText.xml
    and click import.
-
+5. Restart the TCL Server.
 
 To run GENEVE decapsulation tests:
 
 1. Set the variables used in "Executing Tunnel encapsulation tests"
 
-2. Set IXNET_TCL_SCRIPT, GENEVE_FRAME_L2, GENEVE_FRAME_L3 and DUT_NIC1_MAC of your settings file to:
+2. Set dstmac of DUT_NIC2_MAC to the MAC adddress of the 2nd NIC of your DUT
 
   .. code-block:: console
 
-   IXNET_TCL_SCRIPT='ixnetrfc2544v2.tcl'
+  DUT_NIC2_MAC = '<DUT NIC2 MAC>'
 
-   GENEVE_FRAME_L2 = {'srcmac':
-                      '01:02:03:04:05:06',
-                      'dstmac':
-                      '<DUT's NIC2 MAC>',
-                      }
+3. Run test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file user_settings.py --test-params 'tunnel_type=geneve' --run-integration overlay_p2p_decap_cont
+
+
+If you want to use different values for your GENEVE frame, you may set:
+
+  .. code-block:: console
 
    GENEVE_FRAME_L3 = {'proto': 'udp',
                       'packetsize': 64,
@@ -249,12 +245,155 @@ To run GENEVE decapsulation tests:
                      }
 
 
-    # The receiving NIC of GENEVE traffic
-    DUT_NIC1_MAC = '<mac address>'
+Executing Native/Vanilla OVS VXLAN decapsulation tests
+------------------------------------------------------
 
-3. Run test:
+To run VXLAN decapsulation tests:
+
+1. Set the following variables in your user_settings.py file:
+
+VSWITCH_VANILLA_KERNEL_MODULES = ['vport_vxlan',
+                                  os.path.join(OVS_DIR_VANILLA, 'datapath/linux/openvswitch.ko')]
+
+DUT_NIC1_MAC = '<DUT NIC1 MAC ADDRESS>'
+
+TRAFFICGEN_PORT1_IP = '172.16.1.2'
+TRAFFICGEN_PORT2_IP = '192.168.1.11'
+
+VTEP_IP1 = '172.16.1.2/24'
+VTEP_IP2 = '192.168.1.1'
+VTEP_IP2_SUBNET = '192.168.1.0/24'
+TUNNEL_EXTERNAL_BRIDGE_IP = '172.16.1.1/24'
+TUNNEL_INT_BRIDGE_IP = '192.168.1.1'
+
+VXLAN_FRAME_L2 = {'srcmac':
+                  '01:02:03:04:05:06',
+                  'dstmac': DUT_NIC1_MAC}
+
+VXLAN_FRAME_L3 = {'proto': 'udp',
+                  'packetsize': 64,
+                  'srcip': TRAFFICGEN_PORT1_IP,
+                  'dstip': '172.16.1.1',
+                 }
+
+VXLAN_FRAME_L4 = {
+                  'srcport': 40789,
+                  'dstport': 4789,
+                  'protocolpad': 'true',
+                  'vni': 99,
+                  'inner_srcmac': '01:02:03:04:05:06',
+                  'inner_dstmac': '06:05:04:03:02:01',
+                  'inner_srcip': '192.168.1.2',
+                  'inner_dstip': TRAFFICGEN_PORT2_IP,
+                  'inner_proto': 'udp',
+                  'inner_srcport': 3000,
+                  'inner_dstport': 3001,
+                 }
+
+2. Run test:
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --test-param 'tunnel_type=geneve' --run-integration overlay_p2p_decap_cont
+     ./vsperf --conf-file user_settings.py --run-integration --test-params 'tunnel_type=vxlan' overlay_p2p_decap_cont
+
+Executing Native/Vanilla OVS GRE decapsulation tests
+----------------------------------------------------
+
+To run GRE decapsulation tests:
+
+1. Set the following variables in your user_settings.py file:
+
+VSWITCH_VANILLA_KERNEL_MODULES = ['vport_gre',
+                                  os.path.join(OVS_DIR_VANILLA, 'datapath/linux/openvswitch.ko')]
+
+DUT_NIC1_MAC = '<DUT NIC1 MAC ADDRESS>'
+
+TRAFFICGEN_PORT1_IP = '172.16.1.2'
+TRAFFICGEN_PORT2_IP = '192.168.1.11'
+
+VTEP_IP1 = '172.16.1.2/24'
+VTEP_IP2 = '192.168.1.1'
+VTEP_IP2_SUBNET = '192.168.1.0/24'
+TUNNEL_EXTERNAL_BRIDGE_IP = '172.16.1.1/24'
+TUNNEL_INT_BRIDGE_IP = '192.168.1.1'
+
+GRE_FRAME_L2 = {'srcmac':
+                '01:02:03:04:05:06',
+                'dstmac': DUT_NIC1_MAC}
+
+GRE_FRAME_L3 = {'proto': 'udp',
+                'packetsize': 64,
+                'srcip': TRAFFICGEN_PORT1_IP,
+                'dstip': '172.16.1.1',
+               }
+
+GRE_FRAME_L4 = {
+                'srcport': 40789,
+                'dstport': 4789,
+                'protocolpad': 'true',
+                'inner_srcmac': '01:02:03:04:05:06',
+                'inner_dstmac': '06:05:04:03:02:01',
+                'inner_srcip': '192.168.1.2',
+                'inner_dstip': TRAFFICGEN_PORT2_IP,
+                'inner_proto': 'udp',
+                'inner_srcport': 3000,
+                'inner_dstport': 3001,
+               }
+
+2. Run test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file user_settings.py --run-integration --test-params 'tunnel_type=gre' overlay_p2p_decap_cont
+
+Executing Native/Vanilla OVS GENEVE decapsulation tests
+-------------------------------------------------------
+
+To run GENEVE decapsulation tests:
+
+1. Set the following variables in your user_settings.py file:
+
+VSWITCH_VANILLA_KERNEL_MODULES = ['vport_geneve',
+                                  os.path.join(OVS_DIR_VANILLA, 'datapath/linux/openvswitch.ko')]
+
+DUT_NIC1_MAC = '<DUT NIC1 MAC ADDRESS>'
+
+TRAFFICGEN_PORT1_IP = '172.16.1.2'
+TRAFFICGEN_PORT2_IP = '192.168.1.11'
+
+VTEP_IP1 = '172.16.1.2/24'
+VTEP_IP2 = '192.168.1.1'
+VTEP_IP2_SUBNET = '192.168.1.0/24'
+TUNNEL_EXTERNAL_BRIDGE_IP = '172.16.1.1/24'
+TUNNEL_INT_BRIDGE_IP = '192.168.1.1'
+
+GENEVE_FRAME_L2 = {'srcmac':
+                  '01:02:03:04:05:06',
+                  'dstmac': DUT_NIC1_MAC}
+
+GENEVE_FRAME_L3 = {'proto': 'udp',
+                  'packetsize': 64,
+                  'srcip': TRAFFICGEN_PORT1_IP,
+                  'dstip': '172.16.1.1',
+                 }
+
+GENEVE_FRAME_L4 = {
+                  'srcport': 6081,
+                  'dstport': 6081,
+                  'protocolpad': 'true',
+                  'geneve_vni': 0,
+                  'inner_srcmac': '01:02:03:04:05:06',
+                  'inner_dstmac': '06:05:04:03:02:01',
+                  'inner_srcip': '192.168.1.2',
+                  'inner_dstip': TRAFFICGEN_PORT2_IP,
+                  'inner_proto': 'udp',
+                  'inner_srcport': 3000,
+                  'inner_dstport': 3001,
+                 }
+
+2. Run test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file user_settings.py --run-integration --test-params 'tunnel_type=geneve' overlay_p2p_decap_cont
 
