@@ -253,7 +253,8 @@ class TestCase(object):
                 item[ResultsConstants.SCAL_PRE_INSTALLED_FLOWS] = self._traffic['pre_installed_flows']
             if len(self.guest_loopback):
                 item[ResultsConstants.GUEST_LOOPBACK] = ' '.join(self.guest_loopback)
-
+            if self._tunnel_type:
+                item[ResultsConstants.TUNNEL_TYPE] = self._tunnel_type
         return results
 
     def _copy_fwd_tools_for_guest(self):

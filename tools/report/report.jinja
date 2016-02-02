@@ -112,6 +112,9 @@ Below are test details:
 - Traffic type: {{ "%s"|format(test.result['type']) }}
 - Packet size: {{ "%s"|format(test.result['packet_size']) }}
 - Bidirectional : {{ "%s"|format(test.conf['biDirectional']) }}
+{%- if test.result['tunnel_type'] %}
+- Tunnel type: {{ "%s"|format(test.result['tunnel_type']) }}
+{%- endif %}
 {% endfor %}
 
 <a name="DetailedTestResults"></a>

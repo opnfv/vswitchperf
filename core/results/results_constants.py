@@ -23,6 +23,7 @@ class ResultsConstants(object):
     DEPLOYMENT = 'deployment'
     TRAFFIC_TYPE = 'traffic_type'
     GUEST_LOOPBACK = 'guest_loopback_app'
+    TUNNEL_TYPE = 'tunnel_type'
 
     UNKNOWN_VALUE = "Unknown"
 
