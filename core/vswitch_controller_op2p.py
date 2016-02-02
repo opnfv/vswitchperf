@@ -55,7 +55,10 @@ class VswitchControllerOP2P(IVswitchController):
         if self._tunnel_operation == "encapsulation":
             self._setup_encap()
         else:
-            self._setup_decap()
+            if settings.getValue('VSWITCH').endswith('Vanilla'):
+                self._setup_decap_vanilla()
+            else:
+                self._setup_decap()
 
     def _setup_encap(self):
         """ Sets up the switch for overlay P2P encapsulation test
@@ -169,14 +172,80 @@ class VswitchControllerOP2P(IVswitchController):
             self._vswitch.set_tunnel_arp(tgen_ip1,
                                          settings.getValue('TRAFFICGEN_PORT1_MAC'),
                                          bridge)
-            self._vswitch.set_tunnel_arp(bridge_ext_ip.split('/')[0],
-                                         settings.getValue('DUT_NIC1_MAC'),
-                                         bridge_ext)
-
             # Test is unidirectional for now
             self._vswitch.del_flow(bridge_ext)
             flow1 = add_ports_to_flow(_FLOW_TEMPLATE, phy3_number,
                                       phy2_number)
+            self._vswitch.add_flow(bridge_ext, flow1)
+
+        except:
+            self._vswitch.stop()
+            raise
+
+    def _setup_decap_vanilla(self):
+        """ Sets up the switch for overlay P2P decapsulation test
+        """
+        self._logger.debug('Setup decap vanilla ' + str(self._vswitch_class))
+
+        try:
+            self._vswitch.start()
+            bridge = settings.getValue('TUNNEL_INTEGRATION_BRIDGE')
+            bridge_ext = settings.getValue('TUNNEL_EXTERNAL_BRIDGE')
+            bridge_ext_ip = settings.getValue('TUNNEL_EXTERNAL_BRIDGE_IP')
+            tgen_ip1 = settings.getValue('TRAFFICGEN_PORT1_IP')
+            self._vswitch.add_switch(bridge)
+
+            tasks.run_task(['sudo', 'ifconfig', bridge,
+                            settings.getValue('TUNNEL_INT_BRIDGE_IP')],
+                           self._logger, 'Assign ' +
+                           settings.getValue('TUNNEL_INT_BRIDGE_IP') + ' to ' + bridge, False)
+
+            tunnel_type = self._traffic['tunnel_type']
+
+            self._vswitch.add_switch(bridge_ext)
+            self._vswitch.add_phy_port(bridge_ext)
+            (_, phy2_number) = self._vswitch.add_phy_port(bridge)
+
+            if tunnel_type == "vxlan":
+                vxlan_vni = 'options:key=' + settings.getValue('VXLAN_VNI')
+                self._vswitch.add_tunnel_port(bridge, tgen_ip1, tunnel_type,
+                                              params=[vxlan_vni])
+            else:
+                self._vswitch.add_tunnel_port(bridge, tgen_ip1, tunnel_type)
+
+            tasks.run_task(['sudo', 'ip', 'addr', 'add',
+                            bridge_ext_ip,
+                            'dev', bridge_ext],
+                           self._logger, 'Assign ' +
+                           bridge_ext_ip
+                           + ' to ' + bridge_ext)
+
+            tasks.run_task(['sudo', 'ip', 'link', 'set', 'dev', bridge_ext,
+                            'up'],
+                           self._logger,
+                           'Set ' + bridge_ext + ' status to up')
+
+            tg_port2_mac = settings.getValue('TRAFFICGEN_PORT2_MAC')
+            vtep_ip2 = settings.getValue('TRAFFICGEN_PORT2_IP')
+
+            self._vswitch.set_tunnel_arp(vtep_ip2,
+                                         tg_port2_mac,
+                                         bridge_ext)
+
+            self._vswitch.add_route(bridge,
+                                    settings.getValue('VTEP_IP2_SUBNET'),
+                                    bridge)
+
+
+            tasks.run_task(['sudo', 'arp', '-s', vtep_ip2, tg_port2_mac],
+                           self._logger,
+                           'Set ' + bridge_ext + ' status to up')
+
+
+            # Test is unidirectional for now
+            self._vswitch.del_flow(bridge_ext)
+
+            flow1 = add_ports_to_flow(_FLOW_TEMPLATE, phy2_number, 'LOCAL')
             self._vswitch.add_flow(bridge_ext, flow1)
 
         except:
