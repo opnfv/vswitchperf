@@ -375,6 +375,7 @@ class IxNet(trafficgen.ITrafficGenerator):
                         results[ResultsConstants.THROUGHPUT_RX_MBPS] = row[6]
                         results[ResultsConstants.TX_RATE_PERCENT] = row[3]
                         results[ResultsConstants.THROUGHPUT_RX_PERCENT] = row[4]
+                        results[ResultsConstants.FRAME_LOSS_PERCENT] = row[10]
                         results[ResultsConstants.MIN_LATENCY_NS] = row[11]
                         results[ResultsConstants.MAX_LATENCY_NS] = row[12]
                         results[ResultsConstants.AVG_LATENCY_NS] = row[13]
@@ -484,6 +485,7 @@ class IxNet(trafficgen.ITrafficGenerator):
             """
             results = OrderedDict()
             results[ResultsConstants.B2B_FRAMES] = 0
+            results[ResultsConstants.B2B_FRAME_LOSS_PERCENT] = 100
 
             with open(path, 'r') as in_file:
                 reader = csv.reader(in_file, delimiter=',')
@@ -495,6 +497,7 @@ class IxNet(trafficgen.ITrafficGenerator):
                         if int(row[12]) > \
                          int(results[ResultsConstants.B2B_FRAMES]):
                             results[ResultsConstants.B2B_FRAMES] = int(row[12])
+                            results[ResultsConstants.B2B_FRAME_LOSS_PERCENT] = float(row[14])
 
             return results
 

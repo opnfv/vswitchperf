@@ -289,6 +289,10 @@ class Ixia(trafficgen.ITrafficGenerator):
         """
         assert len(result) == 8  # fail-fast if underlying Tcl code changes
 
+        if float(result[0]) == 0:
+            loss_rate = 100
+        else:
+            loss_rate = (float(result[0]) - float(result[1])) / float(result[0]) * 100
         result_dict = OrderedDict()
         # drop the first 4 elements as we don't use/need them. In
         # addition, IxExplorer does not support latency or % line rate
@@ -297,6 +301,7 @@ class Ixia(trafficgen.ITrafficGenerator):
         result_dict[ResultsConstants.TX_RATE_FPS] = result[5]
         result_dict[ResultsConstants.THROUGHPUT_RX_MBPS] = result[6]
         result_dict[ResultsConstants.TX_RATE_MBPS] = result[7]
+        result_dict[ResultsConstants.FRAME_LOSS_PERCENT] = loss_rate
         result_dict[ResultsConstants.TX_RATE_PERCENT] = \
                                             ResultsConstants.UNKNOWN_VALUE
         result_dict[ResultsConstants.THROUGHPUT_RX_PERCENT] = \

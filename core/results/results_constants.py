@@ -37,6 +37,7 @@ class ResultsConstants(object):
     MIN_LATENCY_NS = 'min_latency_ns'
     MAX_LATENCY_NS = 'max_latency_ns'
     AVG_LATENCY_NS = 'avg_latency_ns'
+    FRAME_LOSS_PERCENT = 'frame_loss_percent'
     #Burst traffic
     TX_FRAMES = 'tx_frames'
     RX_FRAMES = 'rx_frames'
@@ -79,4 +80,5 @@ class ResultsConstants(object):
                 ResultsConstants.THROUGHPUT_RX_PERCENT,
                 ResultsConstants.MIN_LATENCY_NS,
                 ResultsConstants.MAX_LATENCY_NS,
-                ResultsConstants.AVG_LATENCY_NS]
+                ResultsConstants.AVG_LATENCY_NS,
+                ResultsConstants.FRAME_LOSS_PERCENT]
