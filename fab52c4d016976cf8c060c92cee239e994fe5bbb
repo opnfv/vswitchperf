@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a4e6583_6bd67ac7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "commit message format: \n\ndocs: adding document on supporting new testcase",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_8bd1b6cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "Can we move this under design? the other doc on adding a traffic gen lives there",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_2bd882ee",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "Just be careful of all the trailing white space\nyou need to wrap all the lines at 71 characters.",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_496ce59c",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "Typo VSPERF* \n\nI think overall this is more about adding a new traffic type to vsperf than a new test case. I would port from the section: Adding additional traffic-type - End of the doc\nto the design doc for adding a new traffic gen. we can come up with a more generic test case example for the testcase situation. for now let\u0027s fix up the table and push it as the start of the how to add a testcase document",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_b5e295d3",
         "filename": "docs/userguide/newtestcase.rst",
         "patchSetId": 1
@@ -13,6 +81,24 @@
       "writtenOn": "2016-02-02T13:45:17Z",
       "side": 1,
       "message": "are more examples appropriate? like rfc 2889?",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_6948c12d",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "Yeah should be",
+      "parentUuid": "5a4e6583_b5e295d3",
       "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -36,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_495505c5",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "We should log a bugfix in vsperf so that then it reads full/half also before fixing this in the comments.",
+      "parentUuid": "5a4e6583_95e799e4",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_75ec1dc8",
         "filename": "docs/userguide/newtestcase.rst",
         "patchSetId": 1
@@ -47,6 +151,24 @@
       "writtenOn": "2016-02-02T13:45:17Z",
       "side": 1,
       "message": "If you set 0, do you then get one flow?  What do you get when you set 1?  maybe the range is 1-65536?",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_2952c9dd",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "Yeah you get whatever the number of default flows is for the deployment. it could be good to add this detail in",
+      "parentUuid": "5a4e6583_75ec1dc8",
       "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -70,6 +192,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_095f0de7",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "we should clarify - it\u0027s related to the intended load from the traffic generator - the tx line rate",
+      "parentUuid": "5a4e6583_55d121fa",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_35cea55b",
         "filename": "docs/userguide/newtestcase.rst",
         "patchSetId": 1
@@ -81,6 +221,24 @@
       "writtenOn": "2016-02-02T13:45:17Z",
       "side": 1,
       "message": "is this target core utilization? just say that...",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_e96391af",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "it is the target core utilization",
+      "parentUuid": "5a4e6583_35cea55b",
       "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -104,6 +262,47 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_c958d5fc",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "5a4e6583_15dba91c",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_a95d99eb",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "it will be under the vswitchperf dir, maybe ``$HOME/vswitchperf/conf/01_testcases.conf`` would be the path",
+      "range": {
+        "startLine": 64,
+        "startChar": 268,
+        "endLine": 64,
+        "endChar": 270
+      },
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_f5d7edeb",
         "filename": "docs/userguide/newtestcase.rst",
         "patchSetId": 1
@@ -115,6 +314,40 @@
       "writtenOn": "2016-02-02T13:45:17Z",
       "side": 1,
       "message": "s/2819/2889/  ?  rfc2819 is not related to benchmarking.",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_696fa193",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "Not sure you need this with the Traffic gen guide that\u0027s under design, maybe referencing that here is better.",
+      "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_8972dd7a",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-04T12:50:40Z",
+      "side": 1,
+      "message": "the path should contain vswitchperf\nit would be good to explain where these config paramters exist",
       "revId": "fab52c4d016976cf8c060c92cee239e994fe5bbb",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
