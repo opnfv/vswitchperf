@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_d29f5e02",
+        "filename": "docs/configguide/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-05T15:59:10Z",
+      "side": 1,
+      "message": "Please note: The other guides were left there in error and have now been removed",
+      "revId": "bb71aacbd42b9fe7349b91abd2bb562c4b7ff1ed",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
