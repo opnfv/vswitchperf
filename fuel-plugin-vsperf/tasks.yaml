@@ -1,0 +1,7 @@
+- role: ['compute']
+  stage: post_deployment/8998
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/vsperf-install.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 720
