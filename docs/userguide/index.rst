@@ -11,4 +11,8 @@ VSPERF User Guide
    :maxdepth: 3
 
    quickstart.rst
+<<<<<<< HEAD
    integration.rst
+=======
+   newtestcase.rst
+>>>>>>> fab52c4... Adding document on supporting new testcase
