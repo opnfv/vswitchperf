@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_8b0e4833",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-02-10T15:37:05Z",
+      "side": 1,
+      "message": "still many instances of trailing white spaces, see the gerrit review for clues.",
+      "revId": "3110cea37dccc33539a4bc91862406b8a3fd4cea",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_e831420c",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-02-10T15:37:05Z",
+      "side": 1,
+      "message": "suggest:\nIn case where you want to consider existing folders, for example Ixia or Spirent\u0027s testcenter (if you represent these organizations), then this step is not required. Otherwise, you create a folder named ``Super`` for your Super traffic-generator.",
+      "revId": "3110cea37dccc33539a4bc91862406b8a3fd4cea",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_682552c1",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-02-10T15:37:05Z",
+      "side": 1,
+      "message": "focuses",
+      "range": {
+        "startLine": 84,
+        "startChar": 323,
+        "endLine": 84,
+        "endChar": 328
+      },
+      "revId": "3110cea37dccc33539a4bc91862406b8a3fd4cea",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_88408e57",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-02-10T15:37:05Z",
+      "side": 1,
+      "message": "- A new traffic-controller class that has to \n                                 ^^^^^^^^^^^",
+      "revId": "3110cea37dccc33539a4bc91862406b8a3fd4cea",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
