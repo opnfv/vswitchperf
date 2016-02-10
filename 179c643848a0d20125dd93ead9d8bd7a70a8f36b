@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_28aaba19",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-02-10T14:21:05Z",
+      "side": 1,
+      "message": "VSPERF needs an F",
+      "revId": "179c643848a0d20125dd93ead9d8bd7a70a8f36b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_08a7fe50",
+        "filename": "docs/userguide/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-02-10T14:21:05Z",
+      "side": 1,
+      "message": "trailing white spaces - see the gerrit display",
+      "revId": "179c643848a0d20125dd93ead9d8bd7a70a8f36b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
