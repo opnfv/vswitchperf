@@ -10,5 +10,13 @@ VSPERF User Guide
    :numbered:
    :maxdepth: 3
 
+<<<<<<< HEAD
    testusage.rst
+=======
+   quickstart.rst
+<<<<<<< HEAD
+>>>>>>> 179c643... Adding document on supporting new testcase
    integration.rst
+=======
+   newtestcase.rst
+>>>>>>> fab52c4... Adding document on supporting new testcase
