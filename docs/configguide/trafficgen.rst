@@ -220,3 +220,19 @@ best practice results in deploying STCv, the following is suggested:
 
 To get the highest performance and accuracy, Spirent TestCenter hardware is
 recommended. vsperf can run with either stype test ports.
+
+Using STC REST Client
+~~~~~~~~~~~~~~~~~~~~~
+The stcrestclient package provides the stchttp.py ReST API wrapper module.
+This allows simple function calls, nearly identical to those provided by
+StcPython.py, to be used to access TestCenter server sessions via the
+STC ReST API. Basic ReST functionality is provided by the resthttp module,
+and may be used for writing ReST clients independent of STC.
+
+- Project page: <https://github.com/Spirent/py-stcrestclient>
+- Package download: <http://pypi.python.org/pypi/stcrestclient>
+
+To use REST interface, follow the instructions in the Project page to
+install the package. Once installed, the scripts named with 'rest' keyword
+can be used. For example: testcenter-rfc2544-rest.py can be used to run
+RFC 2544 tests using the REST interface.
