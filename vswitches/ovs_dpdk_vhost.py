@@ -24,7 +24,7 @@ from src.dpdk import dpdk
 _VSWITCHD_CONST_ARGS = ['--', '--pidfile', '--log-file']
 
 class OvsDpdkVhost(IVSwitch):
-    """VSwitch implementation using DPDK and vhost ports
+    """ Open vSwitch with DPDK support
 
     Generic OVS wrapper functionality in src.ovs is maximally used. This
     class wraps DPDK system configuration along with DPDK specific OVS

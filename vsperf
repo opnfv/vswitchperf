@@ -53,7 +53,8 @@ VERBOSITY_LEVELS = {
 
 _TEMPLATE_RST = {'head'  : 'tools/report/report_head.rst',
                  'foot'  : 'tools/report/report_foot.rst',
-                 'final' : 'test_report.rst'
+                 'final' : 'test_report.rst',
+                 'tmp'   : 'tools/report/report_tmp_caption.rst'
                 }
 
 def parse_arguments():
@@ -279,13 +280,29 @@ def generate_final_report(path):
     rst_results = glob.glob(os.path.join(path, 'result*rst'))
     if len(rst_results):
         try:
-            test_report = os.path.join(path, _TEMPLATE_RST['final'])
-            retval = subprocess.call('cat {} {} {} > {}'.format(_TEMPLATE_RST['head'], ' '.join(rst_results),
-                                                                _TEMPLATE_RST['foot'], test_report), shell=True)
+            test_report = os.path.join(path, '{}_{}'.format(settings.getValue('VSWITCH'), _TEMPLATE_RST['final']))
+            # create report caption directly - it is not worth to execute jinja machinery
+            report_caption = '{}\n{} {}\n{}\n\n'.format(
+                '============================================================',
+                'Performance report for',
+                Loader().get_vswitches()[settings.getValue('VSWITCH')].__doc__.strip().split('\n')[0],
+
+                '============================================================')
+
+            with open(_TEMPLATE_RST['tmp'], 'w') as file_:
+                file_.write(report_caption)
+
+            retval = subprocess.call('cat {} {} {} {} > {}'.format(_TEMPLATE_RST['tmp'], _TEMPLATE_RST['head'],
+                                                                   ' '.join(rst_results), _TEMPLATE_RST['foot'],
+                                                                   test_report), shell=True)
             if retval == 0 and os.path.isfile(test_report):
                 logging.info('Overall test report written to "%s"', test_report)
             else:
                 logging.error('Generatrion of overall test report has failed.')
+
+            # remove temporary file
+            os.remove(_TEMPLATE_RST['tmp'])
+
         except subprocess.CalledProcessError:
             logging.error('Generatrion of overall test report has failed.')
 
