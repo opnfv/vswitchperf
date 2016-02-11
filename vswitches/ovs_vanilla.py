@@ -26,7 +26,7 @@ _LOGGER = logging.getLogger(__name__)
 VSWITCHD_CONST_ARGS = ['--', '--log-file']
 
 class OvsVanilla(IVSwitch):
-    """VSwitch Vanilla implementation
+    """ Open vSwitch
 
     This is wrapper for functionality implemented in src.ovs.
 

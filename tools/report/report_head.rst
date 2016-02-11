@@ -2,10 +2,6 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
-==========================================================================
-CHARACTERIZE VSWITCH PERFORMANCE FOR TELCO NFV USE CASES LEVEL TEST REPORT
-==========================================================================
-
 Introduction
 ============
 The objective of the OPNFV project titled **"Characterise vSwitch Performance

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,15 +21,22 @@
 #   where job_type is one of "verify", "merge", "daily"
 
 #
-# configuration
+# exit codes
 #
 
 EXIT=0
+EXIT_TC_FAILED=1
+EXIT_NO_RESULTS=10
+EXIT_NO_TEST_REPORT_LOG_DIR=11
+
+#
+# configuration
+#
+
 VSPERF_BIN='./vsperf'
-LOG_FILE_USER='/tmp/vsperf_user.log'
-LOG_FILE_VANILLA='/tmp/vsperf_vanilla.log'
-LOG_FILE_PREFIX="/tmp/vsperf_build_"
-OPNFV_POD="intel-pod3"
+LOG_FILE_PREFIX="/tmp/vsperf_build"
+DATE=$(date -u +"%Y-%m-%d_%H-%M-%S")
+BRANCH=${GIT_BRANCH##*/}
 
 # CI job specific configuration
 # VERIFY - run basic set of TCs with default settings
@@ -42,7 +49,32 @@ TESTPARAM_MERGE=""
 TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'
 TESTPARAM_DAILY='--test-params pkt_sizes=64,128,512,1024,1518'
 # check if user config file exists if not then we will use default settings
-[ -f $HOME/vsperf.conf ] && CONF_FILE="--conf-file ${HOME}/vsperf.conf" || CONF_FILE=""
+if [ -f $HOME/vsperf-${BRANCH}.conf ] ; then
+    # branch specific config was found
+    CONF_FILE="--conf-file ${HOME}/vsperf-${BRANCH}.conf"
+else
+    if [ -f $HOME/vsperf.conf ] ; then
+        CONF_FILE="--conf-file ${HOME}/vsperf.conf"
+    else
+        CONF_FILE=""
+    fi
+fi
+
+# Test report related configuration
+TEST_REPORT_PARTIAL="*_test_report.rst"
+TEST_REPORT_DIR="${WORKSPACE}/docs/results"
+TEST_REPORT_INDEX="${TEST_REPORT_DIR}/index.rst"
+TEST_REPORT_LINK_OLD="https://wiki.opnfv.org/wiki/vsperf_results"
+TEST_REPORT_FILE="${WORKSPACE}/docs_output/results/results.pdf"
+TEST_REPORT_TARBALL="vswitchperf_logs_${DATE}.tar.gz"
+
+if [[ "x${BRANCH}" == "xmaster" ]]; then
+    TEST_REPORT_LINK_NEW="https://artifactory.opnfv.org/logs/$PROJECT/$NODE_NAME/$DATE/${TEST_REPORT_TARBALL}"
+else
+    TEST_REPORT_LINK_NEW="https://artifactory.opnfv.org/logs/$PROJECT/$NODE_NAME/$BRANCH/$DATE/${TEST_REPORT_TARBALL}"
+fi
+
+TEST_REPORT_LOG_DIR="${HOME}/opnfv/$PROJECT/results/$BRANCH"
 
 #
 # functions
@@ -90,7 +122,7 @@ function print_results() {
             printf "    %-70s %-6s\n" $RES_FILE "OK"
         else
             printf "    %-70s %-6s\n" $RES_FILE "FAILED"
-            EXIT=1
+            EXIT=$EXIT_TC_FAILED
         fi
     done
 }
@@ -100,9 +132,6 @@ function print_results() {
 #   $1 - vswitch and vnf combination, one of OVS_vanilla, OVS_with_DPDK_and_vHost_Cuse, OVS_with_DPDK_and_vHost_User
 #   $2 - CI job type, one of verify, merge, daily
 function execute_vsperf() {
-    # figure out log file name
-    LOG_FILE="${LOG_FILE_PREFIX}"`date "+%Y%m%d_%H%M%S%N"`".log"
-
     # figure out list of TCs and execution parameters
     case $2 in
         "verify")
@@ -122,32 +151,44 @@ function execute_vsperf() {
 
     # execute testcases
     echo -e "\nExecution of VSPERF for $1"
-    # vsperf must be executed directly from vsperf directory
-    cd ..
+
+    DATE_SUFFIX=$(date -u +"%Y-%m-%d_%H-%M-%S")
+
     case $1 in
         "OVS_vanilla")
-            echo "$VSPERF_BIN --opnfvpod="$OPNFV_POD" --vswitch OvsVanilla --vnf QemuVirtioNet $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE"
-            $VSPERF_BIN --opnfvpod="$OPNFV_POD" --vswitch OvsVanilla --vnf QemuVirtioNet $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
+            # figure out log file name
+            LOG_SUBDIR="OvsVanilla"
+            LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
+
+            echo "$VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsVanilla --vnf QemuVirtioNet $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE"
+            $VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsVanilla --vnf QemuVirtioNet $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
             ;;
         "OVS_with_DPDK_and_vHost_Cuse")
-            echo "$VSPERF_BIN --opnfvpod="$OPNFV_POD" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostCuse $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE"
-            $VSPERF_BIN --opnfvpod="$OPNFV_POD" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostCuse $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
+            # figure out log file name
+            LOG_SUBDIR="OvsDpdkVhostCuse"
+            LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
+
+            echo "$VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostCuse $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE"
+            $VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostCuse $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
             ;;
         *)
-            echo "$VSPERF_BIN --opnfvpod="$OPNFV_POD" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
-            $VSPERF_BIN --opnfvpod="$OPNFV_POD" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
+            # figure out log file name
+            LOG_SUBDIR="OvsDpdkVhost"
+            LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
+
+            echo "$VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
+            $VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
             ;;
     esac
-    # let's go back to CI dir
-    cd -
 
     # evaluation of results
     echo -e "\nResults for $1"
-    RES_DIR=`grep "Creating result directory" $LOG_FILE | cut -d'/' -f2-`
-    if [ "x" == "x${RES_DIR}" ] ; then
+    RES_DIR="/$(grep "Creating result directory" $LOG_FILE | cut -d'/' -f2-)"
+    if [[ "/" == "${RES_DIR}" ]] ; then
         echo "FAILURE: Results are not available."
+        exit $EXIT_NO_RESULTS
     else
-        print_results "/${RES_DIR}"
+        print_results "${RES_DIR}"
     fi
 
     # show detailed result figures
@@ -161,11 +202,93 @@ function execute_vsperf() {
         # TC results
         sed -n '/Results\/Metrics Collected/,/Statistics collected/{/^$/p;/^|/p}' $md_file | grep -v "Unknown" | cat -s
     done
+
+    # add test results into the final doc template
+    for report in ${RES_DIR}/${TEST_REPORT_PARTIAL} ; do
+        # modify link to the artifactory with test report and logs
+        if [ -f $report ] ; then
+            sed -i -e "s,$TEST_REPORT_LINK_OLD,$TEST_REPORT_LINK_NEW," "$report"
+            cp $report $TEST_REPORT_DIR
+            echo "   $(basename $report)" >> $TEST_REPORT_INDEX
+        fi
+    done
+
+    # copy logs into dedicated directory
+    mkdir ${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}
+    [ -f "$LOG_FILE" ] && cp -a "${LOG_FILE}" "${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}" &> /dev/null
+    [ -d "$RES_DIR" ] && cp -ar "$RES_DIR" "${TEST_REPORT_LOG_DIR}/${LOG_SUBDIR}" &> /dev/null
+}
+
+# generates final test_report in PDF and HTML formats
+function generate_report() {
+
+    # prepare final tarball with all logs...
+    tar --exclude "${TEST_REPORT_TARBALL}" -czf "${TEST_REPORT_LOG_DIR}/${TEST_REPORT_TARBALL}" $(find "${TEST_REPORT_LOG_DIR}" -mindepth 1 -maxdepth 1 -type d)
+    # ...and remove original log files
+    find "${TEST_REPORT_LOG_DIR}" -mindepth 1 -maxdepth 1 -type d -exec rm -rf \{\} \;
+
+    # clone releng repository
+    echo "Cloning releng repository..."
+    [ -d releng ] && rm -rf releng
+    git clone https://gerrit.opnfv.org/gerrit/releng &> /dev/null
+
+    # generate final docs with test results
+    echo "Generating test report..."
+    sed -ie 's,python ,python2 ,g' ./releng/utils/docs-build.sh
+    ./releng/utils/docs-build.sh &> /dev/null
+
+    # store PDF with test results into dedicated directory
+    if [ -f $TEST_REPORT_FILE ] ; then
+        cp -a $TEST_REPORT_FILE $TEST_REPORT_LOG_DIR
+        echo "Final test report has been created."
+    else
+        echo "FAILURE: Generation of final test report has failed."
+    fi
+}
+
+# pushes test report and logs collected during test execution into artifactory
+function push_results_to_artifactory() {
+    echo "Pushing results and logs into artifactory..."
+    . ./releng/utils/push-test-logs.sh "$DATE"
+
+    # enter workspace as it could be modified by 3rd party script
+    cd $WORKSPACE
+}
+
+# removes any local changes of repository
+function cleanup() {
+    echo "Cleaning up..."
+    git stash -u
+}
+
+# prepares directory for logs collection and removes old logs
+function initialize_logdir() {
+    if [[ "x$TEST_REPORT_LOG_DIR" == "x" ]] ; then
+        echo "FAILURE: Logging directory is not defined. Logs and report cannot be published!"
+        exit $EXIT_NO_TEST_REPORT_LOG_DIR
+    else
+        # remove TEST_REPORT_LOG_DIR if it exists
+        if [ -e $TEST_REPORT_LOG_DIR ] ; then
+            if [ -f $TEST_REPORT_LOG_DIR ] ; then
+                rm $TEST_REPORT_LOG_DIR
+            else
+                rm -rf ${TEST_REPORT_LOG_DIR}
+            fi
+        fi
+        # create TEST_REPORT_LOG_DIR
+        mkdir -p $TEST_REPORT_LOG_DIR
+    fi
 }
 
 #
 # main
 #
+
+# enter workspace dir
+cd $WORKSPACE
+
+# initialization
+initialize_logdir
 
 # execute job based on passed parameter
 case $1 in
@@ -194,6 +317,12 @@ case $1 in
         terminate_vsperf
         execute_vsperf OVS_vanilla $1
         terminate_vsperf
+
+        generate_report
+
+        push_results_to_artifactory
+
+        cleanup
 
         exit $EXIT
         ;;
