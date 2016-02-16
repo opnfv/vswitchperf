@@ -29,7 +29,7 @@ Platform and VNF level testing and validation.
    ./design/index.rst
    ./requirements/index.rst
    ./release/index.rst
-
+   ./results/index.rst
 
 Indices
 =======
