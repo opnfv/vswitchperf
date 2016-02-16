@@ -2,9 +2,8 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
-=============================
-Getting Started with 'vsperf'
-=============================
+vSwitchPerf test suites userguide
+=================================
 
 General
 -------
@@ -460,4 +459,10 @@ an appropriate amount of memory:
 .. code-block:: console
 
     VSWITCHD_DPDK_ARGS = ['-c', '0x4', '-n', '4', '--socket-mem 1024,0']
+
+More information
+----------------
+
+For more information and details refer to the vSwitchPerf user guide at:
+http://artifacts.opnfv.org/vswitchperf/brahmaputra/userguide/index.html
 

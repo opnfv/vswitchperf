@@ -10,5 +10,5 @@ VSPERF User Guide
    :numbered:
    :maxdepth: 3
 
-   quickstart.rst
+   testusage.rst
    integration.rst
