@@ -13,3 +13,5 @@ VSPERF Design
    vswitchperf_design.rst
 
    trafficgen_integration_guide.rst
+
+   newtestcase.rst
