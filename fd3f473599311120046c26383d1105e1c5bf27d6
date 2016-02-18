@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_8c2095f8",
+        "filename": "tools/pkt_gen/testcenter/README.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-02-18T15:15:18Z",
+      "side": 1,
+      "message": "I know this is a readme file, but are we still supposed to try and follow the 80 column line length rule? Line 11 is sort of annoying to read because you have to scroll way over.",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_0c0dc590",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-02-18T15:15:18Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we keep the parameter names consistent with the super class? It looks like duration was changed to time here. Could be a problem if there are calls to this function with kwarg calls based on the super class.",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_ec1149ad",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-02-18T15:15:18Z",
+      "side": 1,
+      "message": "Same as above.\n\"Shouldn\u0027t we keep the parameter names consistent with the super class? It looks like duration was changed to time here. Could be a problem if there are calls to this function with kwarg calls based on the super class.\"",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
