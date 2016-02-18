@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_acceb158",
+        "filename": "docs/design/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-02-18T14:37:41Z",
+      "side": 1,
+      "message": "Anyone have an opinion on having a reference to the traffic generator guide here? Perhaps, something along the lines of \"For further information please reference the traffic generator guide.\"",
+      "range": {
+        "startLine": 103,
+        "startChar": 42,
+        "endLine": 103,
+        "endChar": 43
+      },
+      "revId": "be96e2f5df063ebd2751cd009f2962c7132f20ec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_8cdbf51a",
+        "filename": "docs/design/newtestcase.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-02-18T14:37:41Z",
+      "side": 1,
+      "message": "Perhaps have a small step to verify the new test case appears to the code. This could be stated somewhere in this doc by running vsperf --list-tests?",
+      "revId": "be96e2f5df063ebd2751cd009f2962c7132f20ec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
