@@ -147,25 +147,25 @@ class Dummy(trafficgen.ITrafficGenerator):
             'continuous',
             '%dmpps, multistream %s duration %d' % (traffic['frame_rate'],
                                                     multistream, duration), traffic_,
-            ('frames tx', 'frames rx', 'min latency', 'max latency',
-             'avg latency'))
+            ('frames tx', 'frames rx', 'tx rate %','rx rate %' ,'min latency',
+             'max latency','avg latency', 'frameloss %'))
 
         framesize = traffic_['l2']['framesize']
 
-        # builds results by using user-supplied values where possible
+        # builds results by using user-supplied values
         # and guessing remainder using available info
         result[ResultsConstants.TX_RATE_FPS] = float(results[0]) / duration
         result[ResultsConstants.THROUGHPUT_RX_FPS] = float(results[1]) / duration
-        result[ResultsConstants.TX_RATE_MBPS] = (float(results[0]) \
-                                                      * framesize) / duration
-        result[ResultsConstants.THROUGHPUT_RX_MBPS] = (float(results[1]) \
-                                                      * framesize) / duration
-        result[ResultsConstants.TX_RATE_PERCENT] = 0.0
-        result[ResultsConstants.THROUGHPUT_RX_PERCENT] = 0.0
-        result[ResultsConstants.MIN_LATENCY_NS] = float(results[2])
-        result[ResultsConstants.MAX_LATENCY_NS] = float(results[3])
-        result[ResultsConstants.AVG_LATENCY_NS] = float(results[4])
-
+        result[ResultsConstants.TX_RATE_MBPS] = (float(results[0]) / duration) \
+                                                 * (framesize * 8 / 1000000)
+        result[ResultsConstants.THROUGHPUT_RX_MBPS] = (float(results[1]) / duration) \
+                                                 * (framesize * 8 / 1000000)
+        result[ResultsConstants.TX_RATE_PERCENT] = float(results[2])
+        result[ResultsConstants.THROUGHPUT_RX_PERCENT] = float(results[3])
+        result[ResultsConstants.MIN_LATENCY_NS] = float(results[4])
+        result[ResultsConstants.MAX_LATENCY_NS] = float(results[5])
+        result[ResultsConstants.AVG_LATENCY_NS] = float(results[6])
+        result[ResultsConstants.FRAME_LOSS_PERCENT] = float(results[7])
         return result
 
     def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
@@ -185,28 +185,27 @@ class Dummy(trafficgen.ITrafficGenerator):
             '%s' % (trials, duration, lossrate,
                     'enabled' if multistream else 'disabled'),
             traffic_,
-            ('frames tx', 'frames rx', 'min latency', 'max latency',
-             'avg latency'))
+             ('frames tx', 'frames rx', 'tx rate %','rx rate %' ,'min latency',
+             'max latency','avg latency', 'frameloss %'))
 
         framesize = traffic_['l2']['framesize']
 
-        # builds results by using user-supplied values where possible
+        # builds results by using user-supplied values
         # and guessing remainder using available info
-        result[ResultsConstants.TX_RATE_FPS] = float(results[0]) \
-                                                     / duration
-        result[ResultsConstants.THROUGHPUT_RX_FPS] = float(results[1]) \
-                                                     / duration
-        result[ResultsConstants.TX_RATE_MBPS] = (float(results[0]) \
-                                                      * framesize) / duration
-        result[ResultsConstants.THROUGHPUT_RX_MBPS] = (float(results[1]) \
-                                                      * framesize) / duration
-        result[ResultsConstants.TX_RATE_PERCENT] = 0.0
-        result[ResultsConstants.THROUGHPUT_RX_PERCENT] = 0.0
-        result[ResultsConstants.MIN_LATENCY_NS] = float(results[2])
-        result[ResultsConstants.MAX_LATENCY_NS] = float(results[3])
-        result[ResultsConstants.AVG_LATENCY_NS] = float(results[4])
-
+        result[ResultsConstants.TX_RATE_FPS] = float(results[0]) / duration
+        result[ResultsConstants.THROUGHPUT_RX_FPS] = float(results[1]) / duration
+        result[ResultsConstants.TX_RATE_MBPS] = (float(results[0]) / duration) \
+                                                 * (framesize * 8 / 1000000)
+        result[ResultsConstants.THROUGHPUT_RX_MBPS] = (float(results[1]) / duration) \
+                                                 * (framesize * 8 / 1000000)
+        result[ResultsConstants.TX_RATE_PERCENT] = float(results[2])
+        result[ResultsConstants.THROUGHPUT_RX_PERCENT] = float(results[3])
+        result[ResultsConstants.MIN_LATENCY_NS] = float(results[4])
+        result[ResultsConstants.MAX_LATENCY_NS] = float(results[5])
+        result[ResultsConstants.AVG_LATENCY_NS] = float(results[6])
+        result[ResultsConstants.FRAME_LOSS_PERCENT] = float(results[7])
         return result
+
 
 if __name__ == '__main__':
     TRAFFIC = {
