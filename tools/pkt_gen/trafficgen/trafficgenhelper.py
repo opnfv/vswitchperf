@@ -63,7 +63,7 @@ def merge_spec(orig, new):
         >>> old = {'foo': 1, 'bar': {'foo': 2, 'bar': 3}}
         >>> new = {'foo': 6, 'bar': {'foo': 7}}
         >>> merge_spec(old, new)
-        {'foo': 3, 'bar': {'foo': 7, 'bar': 3}}
+        {'foo': 6, 'bar': {'foo': 7, 'bar': 3}}
 
     You'll notice that ``bar.bar`` is not removed. This is the desired result.
     """
