@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_23888f70",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-02-19T09:46:57Z",
+      "side": 1,
+      "message": "don\u0027t see where this is used.\n\napart from this, the pod/node name is available as NODE_NAME if this script is executed via jenkins as you used below.",
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_e381574b",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-02-19T09:46:57Z",
+      "side": 1,
+      "message": "why config file is local to machine/user? can\u0027t pod/machine specific config files put into vswitchperf repo?",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 35
+      },
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_a3935fa2",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-02-19T09:46:57Z",
+      "side": 1,
+      "message": "I suppose this is the root dir of the vsperf git clone. If so, you can directly use $WORKSPACE which points to the dir where Jenkins clones the repo on the machine.",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 18
+      },
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_83906396",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-02-19T09:46:57Z",
+      "side": 1,
+      "message": "same here; $WORKSPACE could be used.",
+      "range": {
+        "startLine": 237,
+        "startChar": 4,
+        "endLine": 237,
+        "endChar": 19
+      },
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_638d677b",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-02-19T09:46:57Z",
+      "side": 1,
+      "message": "and here.",
+      "range": {
+        "startLine": 267,
+        "startChar": 4,
+        "endLine": 267,
+        "endChar": 19
+      },
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_43ea6b10",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-02-19T09:46:57Z",
+      "side": 1,
+      "message": "here too.",
+      "range": {
+        "startLine": 275,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 19
+      },
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
