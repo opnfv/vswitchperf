@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_63ee87ee",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-02-19T11:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4e6583_23888f70",
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_e381574b",
         "filename": "ci/build-vsperf.sh",
         "patchSetId": 1
@@ -36,6 +54,24 @@
         "endLine": 55,
         "endChar": 35
       },
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_43bb8be5",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-02-19T11:58:31Z",
+      "side": 1,
+      "message": "It would be good to have a backup of config files. On the other hand config files can contain sensitive data as credentials or trafficgen license numbers/keys. Thus I don\u0027t think we should store them inside the repo with the generic source code.\n\nHow it is done for other OPNFV projects?",
+      "parentUuid": "5a4e6583_e381574b",
       "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_23c08f4f",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-02-19T11:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4e6583_a3935fa2",
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_83906396",
         "filename": "ci/build-vsperf.sh",
         "patchSetId": 1
@@ -82,6 +136,24 @@
         "endLine": 237,
         "endChar": 19
       },
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_03b593ed",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-02-19T11:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4e6583_83906396",
       "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_e3b957ea",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-02-19T11:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4e6583_638d677b",
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_43ea6b10",
         "filename": "ci/build-vsperf.sh",
         "patchSetId": 1
@@ -128,6 +218,24 @@
         "endLine": 275,
         "endChar": 19
       },
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_c3ce5b83",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-02-19T11:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4e6583_43ea6b10",
       "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
