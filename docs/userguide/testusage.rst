@@ -194,7 +194,7 @@ for Vanilla OVS:
 .. code-block:: console
 
    VSWITCH = 'OvsVanilla'
-   VSWITCH_VANILLA_PHY_PORT_NAMES = ['$PORT1', '$PORT1']
+   VSWITCH_VANILLA_PHY_PORT_NAMES = ['$PORT1', '$PORT2']
 
 Where $PORT1 and $PORT2 are the Linux interfaces you'd like to bind
 to the vswitch.
