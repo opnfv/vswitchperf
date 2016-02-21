@@ -199,6 +199,16 @@ class TestCase(object):
                     self._logger.debug("All is set. Please run traffic generator manually.")
                     input(os.linesep + "Press Enter to terminate vswitchperf..." + os.linesep + os.linesep)
                 else:
+                    if S.getValue('mode') == 'trafficgen-pause':
+                        time.sleep(2)
+                        true_vals = ('yes', 'y', 'ye', None)
+                        while True:
+                            choice = input(os.linesep + 'Transmission paused, should'
+                                           ' transmission be resumed? ' + os.linesep).lower()
+                            if not choice or choice not in true_vals:
+                                print('Please respond with \'yes\' or \'y\' ', end='')
+                            else:
+                                break
                     with traffic_ctl:
                         traffic_ctl.send_traffic(self._traffic)
 

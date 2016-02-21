@@ -145,7 +145,8 @@ def parse_arguments():
     group.add_argument('-m', '--mode', help='vsperf mode of operation;\
             Values: "normal" - execute vSwitch, VNF and traffic generator;\
             "trafficgen" - execute only traffic generator; "trafficgen-off" \
-            - execute vSwitch and VNF', default='normal')
+            - execute vSwitch and VNF; trafficgen-pause - execute vSwitch \
+            and VNF but pause before traffic transmission ', default='normal')
 
     group.add_argument('-f', '--test-spec', help='test specification file')
     group.add_argument('-d', '--test-dir', help='directory containing tests')

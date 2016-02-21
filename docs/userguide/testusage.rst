@@ -393,6 +393,7 @@ Mode of operation is driven by configuration parameter -m or --mode
             "normal" - execute vSwitch, VNF and traffic generator
             "trafficgen" - execute only traffic generator
             "trafficgen-off" - execute vSwitch and VNF
+            "trafficgen-pause" - execute vSwitch and VNF but wait before traffic transmission
 
 In case, that VSPERF is executed in "trafficgen" mode, then configuration
 of traffic generator should be configured through --test-param option.
