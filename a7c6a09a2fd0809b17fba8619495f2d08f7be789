@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_b63f1f25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-21T15:25:12Z",
+      "side": 1,
+      "message": "Commit message format should be\n\ndocs: Fixing typo in testusage.rst for port name example.",
+      "revId": "a7c6a09a2fd0809b17fba8619495f2d08f7be789",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
