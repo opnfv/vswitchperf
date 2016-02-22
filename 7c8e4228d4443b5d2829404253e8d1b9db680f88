@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_436866f5",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-02-22T13:17:29Z",
+      "side": 1,
+      "message": "OK, this makes sense.\n\nWe have a new repo where we put stuff that contain sensitive info. The repo is named securedlab and anonymous read is not allowed meaning that only the ones with permission can read the repo. But I don\u0027t think you should change this now. This can be fixed for C-release.",
+      "parentUuid": "5a4e6583_43bb8be5",
+      "revId": "7c8e4228d4443b5d2829404253e8d1b9db680f88",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_a3935fa2",
         "filename": "ci/build-vsperf.sh",
         "patchSetId": 1
