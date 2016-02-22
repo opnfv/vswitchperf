@@ -29,6 +29,7 @@ gcc
 gcc-c++
 libxml2
 glibc.i686
+glib2-devel
 kernel-devel
 fuse-libs
 fuse
@@ -49,6 +50,7 @@ git
 pciutils
 cifs-utils
 socat
+sysstat
 
 # install python packages
 python3
