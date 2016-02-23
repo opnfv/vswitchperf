@@ -81,12 +81,12 @@ class VswitchControllerP2P(IVswitchController):
 
             flow = flow_template.copy()
             flow.update({'table':'1', 'priority':'1', 'in_port':'1',
-                         'actions': ['write_actions(output:2)', 'write_metadata:2',
+                         'actions': ['write_actions(output:2)', 'write_metadata:0x2',
                                      'goto_table:2']})
             self.process_flow_template(bridge, flow)
             flow = flow_template.copy()
             flow.update({'table':'1', 'priority':'1', 'in_port':'2',
-                         'actions': ['write_actions(output:1)', 'write_metadata:1',
+                         'actions': ['write_actions(output:1)', 'write_metadata:0x1',
                                      'goto_table:2']})
             self.process_flow_template(bridge, flow)
 
