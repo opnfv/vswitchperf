@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a486d77_0cb05bf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T13:27:17Z",
+      "side": 1,
+      "message": "should not have a parent, patches should be worked on and submitted against the master branch",
+      "revId": "77d73048c76ca92da902b23f9e8a09a88220803e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_acc70764",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T13:27:17Z",
+      "side": 1,
+      "message": "can you please use your Spirent email",
+      "revId": "77d73048c76ca92da902b23f9e8a09a88220803e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_2ccaf7a1",
         "filename": "docs/design/index.rst",
         "patchSetId": 4
@@ -13,6 +47,40 @@
       "writtenOn": "2016-02-23T11:40:34Z",
       "side": 1,
       "message": "naming should follow the other templates\nnew_testcase_integration_guide.rst",
+      "revId": "77d73048c76ca92da902b23f9e8a09a88220803e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_9719f47b",
+        "filename": "docs/design/newtestcase.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T13:27:17Z",
+      "side": 1,
+      "message": "Can you please port any table changes to 01_testcase.conf as well?",
+      "revId": "77d73048c76ca92da902b23f9e8a09a88220803e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_572b7c82",
+        "filename": "docs/design/newtestcase.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T13:27:17Z",
+      "side": 1,
+      "message": "This still does NOT belong here! and I believe is covered in: https://gerrit.opnfv.org/gerrit/gitweb?p\u003dvswitchperf.git;a\u003dblob;f\u003ddocs/design/trafficgen_integration_guide.rst;h\u003dbea2feffc213c1784f65ca932678a8e64dd5cfc8;hb\u003dHEAD\n\nDo you agree? if not, can you please elaborate why?\nIf there are sections/edits to go into trafficgen_integration_guide.rst can you please udpate that instead",
       "revId": "77d73048c76ca92da902b23f9e8a09a88220803e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
