@@ -16,6 +16,7 @@
 """
 
 from core.traffic_controller_rfc2544 import TrafficControllerRFC2544
+from core.vswitch_controller_clean import VswitchControllerClean
 from core.vswitch_controller_p2p import VswitchControllerP2P
 from core.vswitch_controller_pvp import VswitchControllerPVP
 from core.vswitch_controller_pvvp import VswitchControllerPVVP
@@ -72,6 +73,8 @@ def create_vswitch(deployment_scenario, vswitch_class, traffic,
         return VswitchControllerPVVP(vswitch_class, traffic)
     elif deployment_scenario.find("op2p") >= 0:
         return VswitchControllerOP2P(vswitch_class, traffic, tunnel_operation)
+    elif deployment_scenario.find("clean") >= 0:
+        return VswitchControllerClean(vswitch_class, traffic)
 
 
 def create_vnf(deployment_scenario, vnf_class):

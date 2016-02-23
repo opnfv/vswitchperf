@@ -16,18 +16,17 @@
 
 import csv
 import os
+import time
 import logging
 import subprocess
 import copy
-import time
 from collections import OrderedDict
 
-from core.results.results_constants import ResultsConstants
 import core.component_factory as component_factory
 from core.loader import Loader
+from core.results.results_constants import ResultsConstants
 from tools import tasks
 from tools import hugepages
-from tools.report import report
 from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
 from conf import settings as S
 from conf import get_test_param
@@ -37,7 +36,7 @@ class TestCase(object):
 
     In this basic form runs RFC2544 throughput test
     """
-    def __init__(self, cfg, results_dir, performance_test=True):
+    def __init__(self, cfg, results_dir):
         """Pull out fields from test config
 
         :param cfg: A dictionary of string-value pairs describing the test
@@ -46,11 +45,19 @@ class TestCase(object):
         :param results_dir: Where the csv formatted results are written.
         """
         self._hugepages_mounted = False
+        self._traffic_ctl = None
+        self._vnf_ctl = None
+        self._vswitch_ctl = None
+        self._collector = None
+        self._loadgen = None
+        self._output_file = None
+        self._tc_results = None
 
         # set test parameters; CLI options take precedence to testcase settings
         self._logger = logging.getLogger(__name__)
         self.name = cfg['Name']
         self.desc = cfg.get('Description', 'No description given.')
+        self.test = cfg.get('TestSteps', None)
 
         bidirectional = cfg.get('biDirectional', False)
         bidirectional = get_test_param('bidirectional', bidirectional)
@@ -63,7 +70,6 @@ class TestCase(object):
 
         self.deployment = cfg['Deployment']
         self._frame_mod = cfg.get('Frame Modification', None)
-        self._performance_test = performance_test
 
         self._tunnel_type = None
         self._tunnel_operation = None
@@ -131,10 +137,8 @@ class TestCase(object):
         # Packet Forwarding mode
         self._vswitch_none = 'none' == S.getValue('VSWITCH').strip().lower()
 
-    def run(self):
-        """Run the test
-
-        All setup and teardown through controllers is included.
+    def run_initialize(self):
+        """ Prepare test execution environment
         """
         self._logger.debug(self.name)
 
@@ -163,35 +167,67 @@ class TestCase(object):
 
         self._logger.debug("Controllers:")
         loader = Loader()
-        traffic_ctl = component_factory.create_traffic(
+        self._traffic_ctl = component_factory.create_traffic(
             self._traffic['traffic_type'],
             loader.get_trafficgen_class())
-        vnf_ctl = component_factory.create_vnf(
+
+        self._vnf_ctl = component_factory.create_vnf(
             self.deployment,
             loader.get_vnf_class())
 
         if self._vswitch_none:
-            vswitch_ctl = component_factory.create_pktfwd(
+            self._vswitch_ctl = component_factory.create_pktfwd(
                 loader.get_pktfwd_class())
         else:
-            vswitch_ctl = component_factory.create_vswitch(
+            self._vswitch_ctl = component_factory.create_vswitch(
                 self.deployment,
                 loader.get_vswitch_class(),
                 self._traffic,
                 self._tunnel_operation)
 
-        collector = component_factory.create_collector(
+        self._collector = component_factory.create_collector(
             loader.get_collector_class(),
             self._results_dir, self.name)
-        loadgen = component_factory.create_loadgen(
+        self._loadgen = component_factory.create_loadgen(
             self._loadgen,
             self._load_cfg)
 
+        self._output_file = os.path.join(self._results_dir, "result_" + self.name +
+                                         "_" + self.deployment + ".csv")
+
         self._logger.debug("Setup:")
-        with vswitch_ctl, loadgen:
-            with vnf_ctl, collector:
+
+    def run_finalize(self):
+        """ Tear down test execution environment and record test results
+        """
+        # umount hugepages if mounted
+        self._umount_hugepages()
+
+    def run_report(self):
+        """ Report test results
+        """
+        self._logger.debug("self._collector Results:")
+        self._collector.print_results()
+
+        if S.getValue('mode') != 'trafficgen-off':
+            self._logger.debug("Traffic Results:")
+            self._traffic_ctl.print_results()
+
+            self._tc_results = self._append_results(self._traffic_ctl.get_results())
+            TestCase._write_result_to_file(self._tc_results, self._output_file)
+
+    def run(self):
+        """Run the test
+
+        All setup and teardown through controllers is included.
+        """
+        # prepare test execution environment
+        self.run_initialize()
+
+        with self._vswitch_ctl, self._loadgen:
+            with self._vnf_ctl, self._collector:
                 if not self._vswitch_none:
-                    self._add_flows(vswitch_ctl)
+                    self._add_flows()
 
                 # run traffic generator if requested, otherwise wait for manual termination
                 if S.getValue('mode') == 'trafficgen-off':
@@ -209,30 +245,18 @@ class TestCase(object):
                                 print('Please respond with \'yes\' or \'y\' ', end='')
                             else:
                                 break
-                    with traffic_ctl:
-                        traffic_ctl.send_traffic(self._traffic)
+                    with self._traffic_ctl:
+                        self._traffic_ctl.send_traffic(self._traffic)
 
                     # dump vswitch flows before they are affected by VNF termination
                     if not self._vswitch_none:
-                        vswitch_ctl.dump_vswitch_flows()
+                        self._vswitch_ctl.dump_vswitch_flows()
 
-        # umount hugepages if mounted
-        self._umount_hugepages()
+        # tear down test execution environment and log results
+        self.run_finalize()
 
-        self._logger.debug("Collector Results:")
-        collector.print_results()
-
-        if S.getValue('mode') != 'trafficgen-off':
-            self._logger.debug("Traffic Results:")
-            traffic_ctl.print_results()
-
-            output_file = os.path.join(self._results_dir, "result_" + self.name +
-                                       "_" + self.deployment + ".csv")
-
-            tc_results = self._append_results(traffic_ctl.get_results())
-            TestCase._write_result_to_file(tc_results, output_file)
-
-            report.generate(output_file, tc_results, collector.get_results(), self._performance_test)
+        # report test results
+        self.run_report()
 
     def _append_results(self, results):
         """
@@ -330,7 +354,6 @@ class TestCase(object):
             for result in results:
                 writer.writerow(result)
 
-
     @staticmethod
     def _get_unique_keys(list_of_dicts):
         """Gets unique key values as ordered list of strings in given dicts
@@ -346,13 +369,12 @@ class TestCase(object):
 
         return list(result.keys())
 
-
-    def _add_flows(self, vswitch_ctl):
+    def _add_flows(self):
         """Add flows to the vswitch
 
-        :param vswitch_ctl vswitch controller
+        :param self._vswitch_ctl vswitch controller
         """
-        vswitch = vswitch_ctl.get_vswitch()
+        vswitch = self._vswitch_ctl.get_vswitch()
         # TODO BOM 15-08-07 the frame mod code assumes that the
         # physical ports are ports 1 & 2. The actual numbers
         # need to be retrived from the vSwitch and the metadata value

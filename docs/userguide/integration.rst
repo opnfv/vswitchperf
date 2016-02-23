@@ -6,7 +6,7 @@ Integration tests
 =================
 
 VSPERF includes a set of integration tests defined in conf/integration.
-These tests can be run by specifying --run-integration as a parameter to vsperf.
+These tests can be run by specifying --integration as a parameter to vsperf.
 Current tests in conf/integration are Overlay tests.
 
 
@@ -57,19 +57,19 @@ To run VXLAN encapsulation tests:
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --run-integration --test-param 'tunnel_type=vxlan' overlay_p2p_tput
+     ./vsperf --conf-file user_settings.py --integration --test-param 'tunnel_type=vxlan' overlay_p2p_tput
 
 To run GRE encapsulation tests:
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --run-integration --test-param 'tunnel_type=gre' overlay_p2p_tput
+     ./vsperf --conf-file user_settings.py --integration --test-param 'tunnel_type=gre' overlay_p2p_tput
 
 To run GENEVE encapsulation tests:
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --run-integration --test-param 'tunnel_type=geneve' overlay_p2p_tput
+     ./vsperf --conf-file user_settings.py --integration --test-param 'tunnel_type=geneve' overlay_p2p_tput
 
 To run OVS NATIVE tunnel tests (VXLAN/GRE/GENEVE):
 
@@ -96,7 +96,7 @@ To run OVS NATIVE tunnel tests (VXLAN/GRE/GENEVE):
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --run-integration --test-param 'tunnel_type=vxlan' overlay_p2p_tput
+     ./vsperf --conf-file user_settings.py --integration --test-param 'tunnel_type=vxlan' overlay_p2p_tput
 
 
 Executing VXLAN decapsulation tests
@@ -143,7 +143,7 @@ To run VXLAN decapsulation tests:
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --run-integration overlay_p2p_decap_cont
+     ./vsperf --conf-file user_settings.py --integration overlay_p2p_decap_cont
 
 Executing GRE decapsulation tests
 ---------------------------------
@@ -188,7 +188,7 @@ To run GRE decapsulation tests:
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --test-param 'tunnel_type=gre' --run-integration overlay_p2p_decap_cont
+     ./vsperf --conf-file user_settings.py --test-param 'tunnel_type=gre' --integration overlay_p2p_decap_cont
 
 
 Executing GENEVE decapsulation tests
@@ -256,5 +256,5 @@ To run GENEVE decapsulation tests:
 
   .. code-block:: console
 
-     ./vsperf --conf-file user_settings.py --test-param 'tunnel_type=geneve' --run-integration overlay_p2p_decap_cont
+     ./vsperf --conf-file user_settings.py --test-param 'tunnel_type=geneve' --integration overlay_p2p_decap_cont
 
