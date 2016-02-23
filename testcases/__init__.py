@@ -15,3 +15,5 @@
 """This module contains test definitions.
 """
 from testcases.testcase import (TestCase)
+from testcases.performance import (PerformanceTestCase)
+from testcases.integration import (IntegrationTestCase)

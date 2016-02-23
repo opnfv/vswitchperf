@@ -23,6 +23,7 @@ https://github.com/openstack/neutron/blob/6eac1dc99124ca024d6a69b3abfa3bc69c7356
 import os
 import logging
 import string
+import re
 
 from tools import tasks
 from conf import settings
@@ -389,3 +390,26 @@ def flow_key(flow):
         flow_str = _flow_del_key.substitute(_flow_key_param)
 
     return flow_str
+
+def flow_match(flow_dump, flow_src):
+    """ Compares two flows
+
+    :param flow_dump: string - a string with flow obtained by ovs-ofctl dump-flows
+    :param flow_src: string - a string with flow obtained by call of flow_key()
+
+    :return: boolean
+    """
+    # perform unifications on both source and destination flows
+    flow_dump = flow_dump.replace('actions=', 'action=')
+    flow_src = flow_src.replace('actions=', 'action=')
+
+    # split flow strings into lists of comparable elements
+    flow_dump_list = re.findall(r"[\w.:=()]+", flow_dump)
+    flow_src_list = re.findall(r"[\w.:=()]+", flow_src)
+
+    # check if all items from source flow are present in dump flow
+    flow_src_ctrl = list(flow_src_list)
+    for rule in flow_src_list:
+        if rule in flow_dump_list:
+            flow_src_ctrl.remove(rule)
+    return True if not len(flow_src_ctrl) else False

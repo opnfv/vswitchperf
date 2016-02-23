@@ -70,13 +70,21 @@ def _get_env(result):
     return env
 
 
-def generate(input_file, tc_results, tc_stats, performance_test=True):
+def generate(input_file, tc_results, tc_stats, test_type='performance'):
     """Generate actual report.
 
-    Generate a Markdown-formatted file using results of tests and some
+    Generate a Markdown and RST formatted files using results of tests and some
     parsed system info.
 
     :param input_file: Path to CSV results file
+    :param tc_results: A list of dictionaries with detailed test results.
+        Each dictionary represents test results for one of specified packet
+        sizes.
+    :param tc_stats: System statistics collected during testcase execution.
+        These statistics are overall statistics for all specified packet
+        sizes.
+    :test_type: Specifies type of the testcase. Supported values are
+        'performance' and 'integration'.
 
     :returns: Path to generated report
     """
@@ -89,16 +97,18 @@ def generate(input_file, tc_results, tc_stats, performance_test=True):
     try:
         for result in tc_results:
             test_config = {}
-            if performance_test:
+            if test_type == 'performance':
                 for tc_conf in S.getValue('PERFORMANCE_TESTS'):
                     if tc_conf['Name'] == result[ResultsConstants.ID]:
                         test_config = tc_conf
                         break
-            else:
+            elif test_type == 'integration':
                 for tc_conf in S.getValue('INTEGRATION_TESTS'):
                     if tc_conf['Name'] == result[ResultsConstants.ID]:
                         test_config = tc_conf
                         break
+            else:
+                logging.error("Unsupported test type '%s'. Test details are not known.", test_type)
 
             # pass test results, env details and configuration to template
             tests.append({

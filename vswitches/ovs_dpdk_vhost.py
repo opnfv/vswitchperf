@@ -17,13 +17,11 @@
 
 import logging
 from conf import settings
-from vswitches.vswitch import IVSwitch
-from src.ovs import VSwitchd, OFBridge
+from vswitches.ovs import IVSwitchOvs
+from src.ovs import VSwitchd
 from src.dpdk import dpdk
 
-_VSWITCHD_CONST_ARGS = ['--', '--pidfile', '--log-file']
-
-class OvsDpdkVhost(IVSwitch):
+class OvsDpdkVhost(IVSwitchOvs):
     """ Open vSwitch with DPDK support
 
     Generic OVS wrapper functionality in src.ovs is maximally used. This
@@ -35,21 +33,19 @@ class OvsDpdkVhost(IVSwitch):
     see the interface.
     """
 
-    _logger = logging.getLogger()
-
     def __init__(self):
-        vswitchd_args = ['--dpdk']
-        vswitchd_args += settings.getValue('VSWITCHD_DPDK_ARGS')
-        vswitchd_args += _VSWITCHD_CONST_ARGS
+        super(OvsDpdkVhost, self).__init__()
+        self._logger = logging.getLogger(__name__)
 
+        self._vswitchd_args = ['--dpdk']
+        self._vswitchd_args += settings.getValue('VSWITCHD_DPDK_ARGS')
         if settings.getValue('VNF').endswith('Cuse'):
             self._logger.info("Inserting VHOST Cuse modules into kernel...")
             dpdk.insert_vhost_modules()
 
-        self._vswitchd = VSwitchd(vswitchd_args=vswitchd_args,
+        self._vswitchd = VSwitchd(vswitchd_args=self._vswitchd_args,
                                   expected_cmd=
                                   r'EAL: Master l*core \d+ is ready')
-        self._bridges = {}
 
     def start(self):
         """See IVswitch for general description
@@ -57,47 +53,32 @@ class OvsDpdkVhost(IVSwitch):
         Activates DPDK kernel modules, ovsdb and vswitchd.
         """
         dpdk.init()
-        self._vswitchd.start()
+        super(OvsDpdkVhost, self).start()
 
     def stop(self):
         """See IVswitch for general description
 
         Kills ovsdb and vswitchd and removes DPDK kernel modules.
         """
-        self._vswitchd.kill()
+        super(OvsDpdkVhost, self).stop()
         dpdk.cleanup()
         dpdk.remove_vhost_modules()
 
     def add_switch(self, switch_name, params=None):
         """See IVswitch for general description
         """
-        bridge = OFBridge(switch_name)
-        if params is None:
-            bridge.create(['--', 'set', 'bridge', switch_name,
-                           'datapath_type=netdev'])
-        else:
-            bridge.create(['--', 'set', 'bridge', switch_name,
-                           'datapath_type=netdev'] + params)
+        switch_params = ['--', 'set', 'bridge', switch_name, 'datapath_type=netdev']
+        if params:
+            switch_params = switch_params + params
 
-        bridge.set_db_attribute('Open_vSwitch', '.',
-                                'other_config:max-idle',
-                                settings.getValue('VSWITCH_FLOW_TIMEOUT'))
+        super(OvsDpdkVhost, self).add_switch(switch_name, switch_params)
 
         if settings.getValue('VSWITCH_AFFINITIZATION_ON') == 1:
             # Sets the PMD core mask to VSWITCH_PMD_CPU_MASK
             # for CPU core affinitization
-            bridge.set_db_attribute('Open_vSwitch', '.',
-                                    'other_config:pmd-cpu-mask',
-                                    settings.getValue('VSWITCH_PMD_CPU_MASK'))
-
-        self._bridges[switch_name] = bridge
-
-    def del_switch(self, switch_name):
-        """See IVswitch for general description
-        """
-        bridge = self._bridges[switch_name]
-        self._bridges.pop(switch_name)
-        bridge.destroy()
+            self._bridges[switch_name].set_db_attribute('Open_vSwitch', '.',
+                                                        'other_config:pmd-cpu-mask',
+                                                        settings.getValue('VSWITCH_PMD_CPU_MASK'))
 
     def add_phy_port(self, switch_name):
         """See IVswitch for general description
@@ -134,80 +115,3 @@ class OvsDpdkVhost(IVSwitch):
         of_port = bridge.add_port(port_name, params)
 
         return (port_name, of_port)
-
-    def add_tunnel_port(self, switch_name, remote_ip, tunnel_type='vxlan', params=None):
-        """Creates tunneling port
-        """
-        bridge = self._bridges[switch_name]
-        pcount = str(self._get_port_count('type=' + tunnel_type))
-        port_name = tunnel_type + pcount
-        local_params = ['--', 'set', 'Interface', port_name,
-                        'type=' + tunnel_type,
-                        'options:remote_ip=' + remote_ip]
-
-        if params is not None:
-            local_params = local_params + params
-
-        of_port = bridge.add_port(port_name, local_params)
-        return (port_name, of_port)
-
-    def get_ports(self, switch_name):
-        """See IVswitch for general description
-        """
-        bridge = self._bridges[switch_name]
-        ports = list(bridge.get_ports().items())
-        return [(name, of_port) for (name, (of_port, _)) in ports]
-
-    def del_port(self, switch_name, port_name):
-        """See IVswitch for general description
-        """
-        bridge = self._bridges[switch_name]
-        bridge.del_port(port_name)
-
-    def add_flow(self, switch_name, flow, cache='off'):
-        """See IVswitch for general description
-        """
-        bridge = self._bridges[switch_name]
-        bridge.add_flow(flow, cache=cache)
-
-    def del_flow(self, switch_name, flow=None):
-        """See IVswitch for general description
-        """
-        flow = flow or {}
-        bridge = self._bridges[switch_name]
-        bridge.del_flow(flow)
-
-    def dump_flows(self, switch_name):
-        """See IVswitch for general description
-        """
-        bridge = self._bridges[switch_name]
-        bridge.dump_flows()
-
-    def add_route(self, switch_name, network, destination):
-        """See IVswitch for general description
-        """
-        bridge = self._bridges[switch_name]
-        bridge.add_route(network, destination)
-
-    def set_tunnel_arp(self, ip_addr, mac_addr, switch_name):
-        """See IVswitch for general description
-        """
-        bridge = self._bridges[switch_name]
-        bridge.set_tunnel_arp(ip_addr, mac_addr, switch_name)
-
-    def _get_port_count(self, param):
-        """Returns the number of ports having a certain parameter
-
-        :param bridge: The src.ovs.ofctl.OFBridge on which to operate
-        :param param: The parameter to search for
-        :returns: Count of matches
-        """
-        cnt = 0
-        for k in self._bridges:
-            pparams = [c for (_, (_, c)) in list(self._bridges[k].get_ports().items())]
-            phits = [i for i in pparams if param in i]
-            cnt += len(phits)
-
-        if cnt is None:
-            cnt = 0
-        return cnt

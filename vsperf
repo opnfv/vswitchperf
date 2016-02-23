@@ -36,7 +36,8 @@ sys.dont_write_bytecode = True
 from conf import settings
 from conf import get_test_param
 from core.loader import Loader
-from testcases import TestCase
+from testcases import PerformanceTestCase
+from testcases import IntegrationTestCase
 from tools import tasks
 from tools.pkt_gen import trafficgen
 from tools.opnfvdashboard import opnfvdashboard
@@ -156,7 +157,7 @@ def parse_arguments():
             name contains RFC2544 less those containing "p2p"')
     group.add_argument('--verbosity', choices=list_logging_levels(),
                        help='debug level')
-    group.add_argument('--run-integration', action='store_true', help='run integration tests')
+    group.add_argument('--integration', action='store_true', help='execute integration tests')
     group.add_argument('--trafficgen', help='traffic generator to use')
     group.add_argument('--vswitch', help='vswitch implementation to use')
     group.add_argument('--fwdapp', help='packet forwarding application to use')
@@ -343,11 +344,8 @@ def main():
 
     settings.load_from_dir('conf')
 
-    performance_test = True
-
     # Load non performance/integration tests
-    if args['run_integration']:
-        performance_test = False
+    if args['integration']:
         settings.load_from_dir('conf/integration')
 
     # load command line parameters first in case there are settings files
@@ -472,14 +470,18 @@ def main():
         traffic_ctl.print_results()
     else:
         # configure tests
-        testcases = settings.getValue('PERFORMANCE_TESTS')
-        if args['run_integration']:
+        if args['integration']:
             testcases = settings.getValue('INTEGRATION_TESTS')
+        else:
+            testcases = settings.getValue('PERFORMANCE_TESTS')
 
         all_tests = []
         for cfg in testcases:
             try:
-                all_tests.append(TestCase(cfg, results_path, performance_test))
+                if args['integration']:
+                    all_tests.append(IntegrationTestCase(cfg, results_path))
+                else:
+                    all_tests.append(PerformanceTestCase(cfg, results_path))
             except (Exception) as _:
                 logger.exception("Failed to create test: %s",
                                  cfg.get('Name', '<Name not set>'))
@@ -489,9 +491,9 @@ def main():
 
         if args['list']:
             print("Available Tests:")
-            print("======")
+            print("================")
             for test in all_tests:
-                print('* %-18s%s' % ('%s:' % test.name, test.desc))
+                print('* %-30s %s' % ('%s:' % test.name, test.desc))
             exit()
 
         if args['list_trafficgens']:
