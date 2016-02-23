@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a486d77_0c461b24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "commit message should be of the format:\n\npkt_gen:...",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_ec4a9f26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "commit message should be line wrapped!",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_cc47e31c",
+        "filename": "tools/pkt_gen/testcenter/README.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "copyright is missing",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_ac54a7ca",
+        "filename": "tools/pkt_gen/testcenter/README.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "trailing white space needs to be removed",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_e36752e9",
+        "filename": "tools/pkt_gen/testcenter/README.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "locally on the test system? what system is being referred to here?",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_8c2095f8",
         "filename": "tools/pkt_gen/testcenter/README.txt",
         "patchSetId": 2
@@ -13,6 +98,217 @@
       "writtenOn": "2016-02-18T15:15:18Z",
       "side": 1,
       "message": "I know this is a readme file, but are we still supposed to try and follow the 80 column line length rule? Line 11 is sort of annoying to read because you have to scroll way over.",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_6374829c",
+        "filename": "tools/pkt_gen/testcenter/README.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "In addition to Christian\u0027s comments, this belongs under docs and should be part of the trafficgens rst documentation.\nand watch out for trailing whitespace",
+      "parentUuid": "5a4e6583_8c2095f8",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_c36456e7",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-backtoback.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_03aa6ed4",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-backtoback.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "why does it support python 2.7? do you mean it\u0027s implemented in python 2.7? VSPERF supports Python 3.4... so if possible it would be best to upgrade. we\u0027d need to test out on a CentOS installation with the environment setup",
+      "range": {
+        "startLine": 19,
+        "startChar": 46,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_ecf85fc6",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-backtoback.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "This should be wrapped up in a class? was this tested with the overall vsperf framework or standalone?",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_8c51ebda",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-backtoback.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "I really don\u0027t like imports in the middle of code... can we move it to the top please",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_6c5eafeb",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-backtoback.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "You need to use the logging utility in vsperf, everywhere there is a print",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_4c63f3b1",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-frameloss.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "year needs to be updated",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_ec717f78",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-frameloss.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "Why a separate file? why not update  testcenter-rfc2544-throughput.py",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_ccf5a3cc",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-frameloss.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "should be wrapped up in a class",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_8cffabaa",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-latency.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "Year needs to be updated",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_4c31b3a1",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-latency.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "can latency not be tested as part of RFC2544 throughput/frameloss tests?",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_2c267769",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-latency.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "again a class needs to be used here",
       "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -47,6 +343,57 @@
       "writtenOn": "2016-02-18T15:15:18Z",
       "side": 1,
       "message": "Same as above.\n\"Shouldn\u0027t we keep the parameter names consistent with the super class? It looks like duration was changed to time here. Could be a problem if there are calls to this function with kwarg calls based on the super class.\"",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_4cd89353",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "I\u0027m not sure what version of VSPERF you are working off, but can you rebase and work off master. the THROUGHPUT_TX* params no longer exist",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_ec1f3f08",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "can you please also extend to report frameloss %",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_2cdd5743",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:57:15Z",
+      "side": 1,
+      "message": "why is B2B here but none of the other tests. it would be good to have some consistency",
       "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
