@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_2ccaf7a1",
+        "filename": "docs/design/index.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:40:34Z",
+      "side": 1,
+      "message": "naming should follow the other templates\nnew_testcase_integration_guide.rst",
+      "revId": "77d73048c76ca92da902b23f9e8a09a88220803e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
