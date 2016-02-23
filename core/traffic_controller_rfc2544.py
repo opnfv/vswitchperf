@@ -154,3 +154,16 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
         """IResult interface implementation.
         """
         return self._results
+
+    def validate_send_traffic(self, result, traffic):
+        """Verify that send traffic has succeeded
+        """
+        if len(self._results):
+            if 'b2b_frames' in self._results[-1]:
+                return float(self._results[-1]['b2b_frames']) > 0
+            elif 'throughput_rx_fps' in self._results[-1]:
+                return float(self._results[-1]['throughput_rx_fps']) > 0
+            else:
+                return True
+        else:
+            return False
