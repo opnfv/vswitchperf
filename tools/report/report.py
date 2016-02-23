@@ -70,7 +70,7 @@ def _get_env(result):
     return env
 
 
-def generate(input_file, tc_results, tc_stats, performance_test=True):
+def generate(input_file, tc_results, tc_stats, test_type='performance'):
     """Generate actual report.
 
     Generate a Markdown-formatted file using results of tests and some
@@ -89,7 +89,7 @@ def generate(input_file, tc_results, tc_stats, performance_test=True):
     try:
         for result in tc_results:
             test_config = {}
-            if performance_test:
+            if test_type == 'performance':
                 for tc_conf in S.getValue('PERFORMANCE_TESTS'):
                     if tc_conf['Name'] == result[ResultsConstants.ID]:
                         test_config = tc_conf
