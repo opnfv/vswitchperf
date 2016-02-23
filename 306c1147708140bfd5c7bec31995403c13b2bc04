@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_6c37cfb1",
+        "filename": "systems/Fedora/22/build_base_machine.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-23T11:42:42Z",
+      "side": 1,
+      "message": "is systat alone not enough, so the correct package is selected based on the arch?",
+      "revId": "306c1147708140bfd5c7bec31995403c13b2bc04",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
