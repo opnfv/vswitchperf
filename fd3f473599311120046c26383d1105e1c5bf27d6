@@ -139,6 +139,23 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_4f41a00a",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-backtoback.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-02-24T19:57:24Z",
+      "side": 1,
+      "message": "Small spelling error I think, Communications",
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_03aa6ed4",
         "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-backtoback.py",
         "patchSetId": 2
@@ -156,6 +173,23 @@
         "endLine": 19,
         "endChar": 56
       },
+      "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_2f466424",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest-backtoback.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-02-24T19:57:24Z",
+      "side": 1,
+      "message": "You will need to change this to be python 3 compatible. I think (Exception as e) works. All your exceptions written this way will need to be changed.",
       "revId": "fd3f473599311120046c26383d1105e1c5bf27d6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
