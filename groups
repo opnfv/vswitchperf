@@ -1,4 +1,6 @@
+# UUID                                  	Group Name
+#
 fc3a6d1b01ee1ef316ae2be5c62bb4c54d3f22c0	Non-Interactive Users
-global:Registered-Users	Registered Users
-ldap:cn=opnfv-gerrit-vswitchperf-submitters,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-vswitchperf-submitters
+global:Registered-Users                 	Registered Users
 ldap:cn=opnfv-gerrit-vswitchperf-contributors,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-vswitchperf-contributors
+ldap:cn=opnfv-gerrit-vswitchperf-submitters,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-vswitchperf-submitters
