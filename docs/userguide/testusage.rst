@@ -3,10 +3,10 @@
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
 vSwitchPerf test suites userguide
-=================================
+---------------------------------
 
 General
--------
+^^^^^^^
 
 VSPERF requires a traffic generators to run tests, automated traffic gen
 support in VSPERF includes:
@@ -22,20 +22,22 @@ option as shown in `Traffic generator instructions
 <http://artifacts.opnfv.org/vswitchperf/docs/configguide/trafficgen.html>`__
 
 VSPERF Installation
---------------------
+^^^^^^^^^^^^^^^^^^^
+
 To see the supported Operating Systems, vSwitches and system requirements,
 please follow the `installation instructions
 <http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html>`__ to
 install.
 
 Traffic Generator Setup
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
+
 Follow the `Traffic generator instructions
 <http://artifacts.opnfv.org/vswitchperf/docs/configguide/trafficgen.html>`__ to
 install and configure a suitable traffic generator.
 
 Cloning and building src dependencies
--------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In order to run VSPERF, you will need to download DPDK and OVS. You can
 do this manually and build them in a preferred location, OR you could
@@ -69,7 +71,8 @@ use:
      $ make clobber
 
 Configure the ``./conf/10_custom.conf`` file
---------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 The ``10_custom.conf`` file is the configuration file that overrides
 default configurations in all the other configuration files in ``./conf``
 The supplied ``10_custom.conf`` file **MUST** be modified, as it contains
@@ -81,7 +84,7 @@ contents. Any configuration item mentioned in any .conf file in
 the custom configuration value.
 
 Using a custom settings file
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If your ``10_custom.conf`` doesn't reside in the ``./conf`` directory
 of if you want to use an alternative configuration file, the file can
@@ -101,7 +104,8 @@ described like so (1 = max priority):
 3. Configuration file(s)
 
 vloop_vnf
----------
+^^^^^^^^^
+
 vsperf uses a VM called vloop_vnf for looping traffic in the PVP and PVVP
 deployment scenarios. The image can be downloaded from
 `<http://artifacts.opnfv.org/>`__.
@@ -118,13 +122,14 @@ vloop_vnf forwards traffic through a VM using one of:
 Alternatively you can use your own QEMU image.
 
 l2fwd Kernel Module
--------------------
+^^^^^^^^^^^^^^^^^^^
+
 A Kernel Module that provides OSI Layer 2 Ipv4 termination or forwarding with
 support for Destination Network Address Translation (DNAT) for both the MAC and
 IP addresses. l2fwd can be found in <vswitchperf_dir>/src/l2fwd
 
 Executing tests
----------------
+^^^^^^^^^^^^^^^
 
 Before running any tests make sure you have root permissions by adding
 the following line to /etc/sudoers:
@@ -178,7 +183,7 @@ For all available options, check out the help dialog:
     $ ./vsperf --help
 
 Executing Vanilla OVS tests
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1. If needed, recompile src for all OVS variants
 
@@ -215,7 +220,8 @@ set the ports.
 
 
 Executing PVP and PVVP tests
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 To run tests using vhost-user as guest access method:
 
 1. Set VHOST_METHOD and VNF of your settings file to:
@@ -263,7 +269,8 @@ To run tests using vhost-cuse as guest access method:
      $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
 
 Executing PVP tests using Vanilla OVS
--------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 To run tests using Vanilla OVS:
 
 1. Set the following variables:
@@ -303,7 +310,8 @@ To run tests using Vanilla OVS:
      $ ./vsperf --conf-file<path_to_custom_conf>/10_custom.conf
 
 Selection of loopback application for PVP and PVVP tests
---------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 To select loopback application, which will perform traffic forwarding
 inside VM, following configuration parameter should be configured:
 
@@ -333,7 +341,7 @@ will not be forwarded by VM and testcases with PVP and PVVP deployments
 will fail. Guest loopback application is set to 'testpmd' by default.
 
 Executing Packet Forwarding tests
------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To select application, which will perform packet forwarding,
 following configuration parameter should be configured:
@@ -378,7 +386,8 @@ for selected Packet Forwarder:
      $ ./vsperf --conf-file <path_to_settings_py>
 
 VSPERF modes of operation
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
 VSPERF can be run in different modes. By default it will configure vSwitch,
 traffic generator and VNF. However it can be used just for configuration
 and execution of traffic generator. Another option is execution of all
@@ -427,7 +436,8 @@ Example of execution of VSPERF in "trafficgen" mode:
         --test-params "traffic_type=continuous;bidirectional=True;iload=60"
 
 Code change verification by pylint
-----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Every developer participating in VSPERF project should run
 pylint before his python code is submitted for review. Project
 specific configuration for pylint is available at 'pylint.rc'.
@@ -439,10 +449,11 @@ Example of manual pylint invocation:
           $ pylint --rcfile ./pylintrc ./vsperf
 
 GOTCHAs:
---------
+^^^^^^^^
 
 OVS with DPDK and QEMU
 ~~~~~~~~~~~~~~~~~~~~~~~
+
 If you encounter the following error: "before (last 100 chars):
 '-path=/dev/hugepages,share=on: unable to map backing store for
 hugepages: Cannot allocate memory\r\n\r\n" with the PVP or PVVP
@@ -462,7 +473,7 @@ an appropriate amount of memory:
     VSWITCHD_DPDK_ARGS = ['-c', '0x4', '-n', '4', '--socket-mem 1024,0']
 
 More information
-----------------
+^^^^^^^^^^^^^^^^
 
 For more information and details refer to the vSwitchPerf user guide at:
 http://artifacts.opnfv.org/vswitchperf/brahmaputra/userguide/index.html
