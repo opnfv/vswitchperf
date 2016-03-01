@@ -69,9 +69,9 @@ TEST_REPORT_FILE="${WORKSPACE}/docs_output/results/results.pdf"
 TEST_REPORT_TARBALL="vswitchperf_logs_${DATE}.tar.gz"
 
 if [[ "x${BRANCH}" == "xmaster" ]]; then
-    TEST_REPORT_LINK_NEW="https://artifactory.opnfv.org/logs/$PROJECT/$NODE_NAME/$DATE/${TEST_REPORT_TARBALL}"
+    TEST_REPORT_LINK_NEW="https://artifacts.opnfv.org/logs/$PROJECT/$NODE_NAME/$DATE/${TEST_REPORT_TARBALL}"
 else
-    TEST_REPORT_LINK_NEW="https://artifactory.opnfv.org/logs/$PROJECT/$NODE_NAME/$BRANCH/$DATE/${TEST_REPORT_TARBALL}"
+    TEST_REPORT_LINK_NEW="https://artifacts.opnfv.org/logs/$PROJECT/$NODE_NAME/$BRANCH/$DATE/${TEST_REPORT_TARBALL}"
 fi
 
 TEST_REPORT_LOG_DIR="${HOME}/opnfv/$PROJECT/results/$BRANCH"
