@@ -70,7 +70,7 @@ class IVnfQemu(IVnf):
         self._cmd = ['sudo', '-E', S.getValue('QEMU_BIN'),
                      '-m', S.getValue('GUEST_MEMORY')[self._number],
                      '-smp', str(S.getValue('GUEST_SMP')[self._number]),
-                     '-cpu', 'host',
+                     '-cpu', 'host,migratable=off',
                      '-drive', 'if=scsi,file=' +
                      S.getValue('GUEST_IMAGE')[self._number],
                      '-boot', 'c', '--enable-kvm',

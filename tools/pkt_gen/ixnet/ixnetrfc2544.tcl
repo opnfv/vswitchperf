@@ -1,7 +1,7 @@
 #!/usr/bin/env tclsh
 
 # Copyright (c) 2014, Ixia
-# Copyright (c) 2015, Intel Corporation
+# Copyright (c) 2015-2016, Intel Corporation
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -158,7 +158,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
 
     if {$frameSize < 68 } {
         if {$rfc2544TestType == "back2back"} {
-            puts "WARNING: Packet size too small, packet size will be \
+            puts "INFO: Packet size too small, packet size will be \
                   increased to 68 for this test"
         }
     }
