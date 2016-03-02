@@ -158,7 +158,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
 
     if {$frameSize < 68 } {
         if {$rfc2544TestType == "back2back"} {
-            puts "WARNING: Packet size too small, packet size will be \
+            puts "INFO: Packet size too small, packet size will be \
                   increased to 68 for this test"
         }
     }

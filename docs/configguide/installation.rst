@@ -35,8 +35,20 @@ A simple VNF that forwards traffic through a VM, using:
 * Linux Brigde
 * custom l2fwd module
 
-The VM image can be downloaded from:
-http://artifacts.opnfv.org/vswitchperf/vloop-vnf-ubuntu-14.04_20151216.qcow2
+The official VM image is called vloop-vnf and it is available for free
+download at OPNFV website.
+
+vloop-vnf changelog:
+====================
+
+* `vloop-vnf-ubuntu-14.04_20160303`_
+
+  * snmpd service is disabled by default to avoid error messages during VM boot
+  * security updates applied
+
+* `vloop-vnf-ubuntu-14.04_20151216`_
+
+  * version with development tools required for build of DPDK and l2fwd
 
 Other Requirements
 ------------------
@@ -103,3 +115,5 @@ running any of the above. For example:
 
 .. _a link: http://www.softwarecollections.org/en/scls/rhscl/python33/
 .. _virtualenv: https://virtualenv.readthedocs.org/en/latest/
+.. _vloop-vnf-ubuntu-14.04_20160303: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20160303.qcow2
+.. _vloop-vnf-ubuntu-14.04_20151216: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20151216.qcow2

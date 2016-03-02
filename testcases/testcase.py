@@ -264,9 +264,13 @@ class TestCase(object):
         while counter < self.deployment.count('v'):
             guest_dir = S.getValue('GUEST_SHARE_DIR')[counter]
 
-            # create shared dir if it doesn't exist
-            if not os.path.exists(guest_dir):
-                os.makedirs(guest_dir)
+            # remove shared dir if it exists to avoid issues with file consistency
+            if os.path.exists(guest_dir):
+                tasks.run_task(['rm', '-f', '-r', guest_dir], self._logger,
+                               'Removing content of shared directory...', True)
+
+            # directory to share files between host and guest
+            os.makedirs(guest_dir)
 
             # copy sources into shared dir only if neccessary
             if 'testpmd' in self.guest_loopback or 'l2fwd' in self.guest_loopback:

@@ -24,6 +24,7 @@ include ../package-list.mk
 
 WORK_DIR = qemu
 TAG_DONE_FLAG = $(WORK_DIR)/.$(QEMU_TAG).done
+INSTALL_TARGET = force_make force_install
 CONFIG_CMD =
 CONFIG_CMD += ./configure
 CONFIG_CMD += --target-list="x86_64-softmmu"
@@ -34,15 +35,9 @@ all: force_make
 
 .PHONY: install force_install config force_make
 
-# install depends on make
-force_install: force_make
-	@echo "Finished making $(WORK_DIR) "
-
 config $(WORK_DIR)/Makefile: $(WORK_DIR)/configure
 	$(AT)cd $(WORK_DIR); $(CONFIG_CMD)
 	@echo "Configure done"
-
-INSTALL_TARGET = force_install force_make
 
 force_make: $(WORK_DIR)/Makefile
 	$(AT)cd $(WORK_DIR) && git pull $(QEMU_URL) $(QEMU_TAG)
