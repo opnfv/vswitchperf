@@ -34,7 +34,6 @@ RTE_PCI_TOOL = os.path.join(
     settings.getValue('RTE_SDK'), 'tools', 'dpdk_nic_bind.py')
 
 _DPDK_MODULE_MANAGER = ModuleManager()
-
 #
 # system management
 #
@@ -46,7 +45,6 @@ def init():
     if not _is_linux():
         _LOGGER.error('Not running on a compatible Linux version. Exiting...')
         return
-
     _insert_modules()
     _remove_vhost_net()
     _bind_nics()
@@ -63,30 +61,9 @@ def cleanup():
     _remove_modules()
     _vhost_user_cleanup()
 
-
-#
-# vhost specific modules management
-#
-
-
-def insert_vhost_modules():
-    """Inserts VHOST related kernel modules
-    """
-    mod_path_prefix = os.path.join(settings.getValue('RTE_SDK'),
-                                   'lib',
-                                   'librte_vhost')
-    _insert_module_group('VHOST_MODULE', mod_path_prefix)
-
-
-def remove_vhost_modules():
-    """Removes all VHOST related kernel modules
-    """
-    _remove_module_group('VHOST_MODULE')
-
 #
 # basic compatibility test
 #
-
 
 def _is_linux():
     """Check if running on Linux.
@@ -102,20 +79,6 @@ def _is_linux():
 # module management
 #
 
-
-def _is_module_inserted(module):
-    """Check if a module is inserted on system.
-    """
-    with open('/proc/modules') as mod_file:
-        loaded_mods = mod_file.readlines()
-
-    # first check if module is loaded
-    for line in loaded_mods:
-        if line.startswith(module):
-            return True
-    return False
-
-
 def _insert_modules():
     """Ensure required modules are inserted on system.
     """
@@ -123,80 +86,71 @@ def _insert_modules():
     _DPDK_MODULE_MANAGER.insert_modules(settings.getValue('SYS_MODULES'))
 
     mod_path_prefix = settings.getValue('OVS_DIR')
-    _insert_module_group('OVS_MODULES', mod_path_prefix)
-    mod_path_prefix = os.path.join(settings.getValue('RTE_SDK'),
-                                   settings.getValue('RTE_TARGET'))
-    _insert_module_group('DPDK_MODULES', mod_path_prefix)
-
-
-def _insert_module_group(module_group, group_path_prefix):
-    """Ensure all modules in a group are inserted into the system.
-
-    :param module_group: A name of configuration item containing a list
-    of module names
-    """
-    for module in settings.getValue(module_group):
-        # first check if module is loaded
-        if _is_module_inserted(module[1]):
-            continue
-
-        try:
-            mod_path = os.path.join(group_path_prefix, module[0],
-                                    '%s.ko' % module[1])
-            tasks.run_task(['sudo', 'insmod', mod_path], _LOGGER,
-                           'Inserting module \'%s\'...' % module[1], True)
-        except subprocess.CalledProcessError:
-            _LOGGER.error('Unable to insert module \'%s\'.', module[1])
-            raise  # fail catastrophically
-
+    _DPDK_MODULE_MANAGER.insert_module_group(settings.getValue('OVS_MODULES'),
+                                             mod_path_prefix)
+    if 'vfio-pci' not in settings.getValue('DPDK_MODULES'):
+        mod_path_prefix = os.path.join(settings.getValue('RTE_SDK'),
+                                       settings.getValue('RTE_TARGET'))
+        _DPDK_MODULE_MANAGER.insert_module_group(settings.getValue('DPDK_MODULES'),
+                                                 mod_path_prefix)
+    else:
+        _DPDK_MODULE_MANAGER.insert_modules(settings.getValue('DPDK_MODULES'))
 
 def _remove_modules():
     """Ensure required modules are removed from system.
     """
-    _remove_module_group('OVS_MODULES')
-    _remove_module_group('DPDK_MODULES')
-
     _DPDK_MODULE_MANAGER.remove_modules()
 
-def _remove_module_group(module_group):
-    """Ensure all modules in a group are removed from the system.
+#
+# vhost specific modules management
+#
 
-    :param module_group: A name of configuration item containing a list
-    of module names
+def insert_vhost_modules():
+    """Inserts VHOST related kernel modules
     """
-    for module in settings.getValue(module_group):
-        # first check if module is loaded
-        if not _is_module_inserted(module[1]):
-            continue
+    _DPDK_MODULE_MANAGER.insert_modules(settings.getValue('VHOST_MODULE'))
 
-        try:
-            tasks.run_task(['sudo', 'rmmod', module[1]], _LOGGER,
-                           'Removing module \'%s\'...' % module[1], True)
-        except subprocess.CalledProcessError:
-            _LOGGER.error('Unable to remove module \'%s\'.', module[1])
-            continue
+
+def remove_vhost_modules():
+    """Removes all VHOST related kernel modules
+    """
+    _DPDK_MODULE_MANAGER.remove_module_group(settings.getValue('VHOST_MODULE'))
 
 
 #
-# 'vhost-net' module management
+# 'vhost-net' module cleanup
 #
 
 def _remove_vhost_net():
     """Remove vhost-net driver and file.
     """
-    if _is_module_inserted('vhost_net'):
-        try:
-            tasks.run_task(['sudo', 'rmmod', 'vhost_net'], _LOGGER,
-                           'Removing \'/dev/vhost-net\' directory...', True)
-        except subprocess.CalledProcessError:
-            _LOGGER.error('Unable to remove module \'vhost_net\'.')
-
+    _DPDK_MODULE_MANAGER.remove_module('vhost-net')
     try:
         tasks.run_task(['sudo', 'rm', '-f', '/dev/vhost-net'], _LOGGER,
                        'Removing \'/dev/vhost-net\' directory...', True)
     except subprocess.CalledProcessError:
         _LOGGER.error('Unable to remove directory \'/dev/vhost-net\'.')
 
+#
+# Vhost-user cleanup
+#
+
+def _vhost_user_cleanup():
+    """Remove files created by vhost-user tests.
+    """
+    for sock in settings.getValue('VHOST_USER_SOCKS'):
+        if os.path.exists(sock):
+            try:
+                tasks.run_task(['sudo', 'rm', sock],
+                               _LOGGER,
+                               'Deleting vhost-user socket \'%s\'...' %
+                               sock,
+                               True)
+
+            except subprocess.CalledProcessError:
+                _LOGGER.error('Unable to delete vhost-user socket \'%s\'.',
+                              sock)
+                continue
 #
 # NIC management
 #
@@ -206,7 +160,17 @@ def _bind_nics():
     """Bind NICs using the Intel DPDK ``dpdk_nic_bind.py`` tool.
     """
     try:
-        tasks.run_task(['sudo', RTE_PCI_TOOL, '--bind', 'igb_uio'] +
+        _driver = 'igb_uio'
+        if 'vfio-pci' in settings.getValue('DPDK_MODULES'):
+            _driver = 'vfio-pci'
+            tasks.run_task(['sudo', 'chmod', 'a+x', '/dev/vfio'],
+                           _LOGGER, 'Setting VFIO permissions .. a+x',
+                           True)
+            tasks.run_task(['sudo', 'chmod', '-R', '666', '/dev/vfio/'],
+                           _LOGGER, 'Setting VFIO permissions .. 0666',
+                           True)
+
+        tasks.run_task(['sudo', RTE_PCI_TOOL, '--bind='+_driver] +
                        settings.getValue('WHITELIST_NICS'), _LOGGER,
                        'Binding NICs %s...' %
                        settings.getValue('WHITELIST_NICS'),
@@ -255,30 +219,6 @@ def _unbind_nics():
             _LOGGER.error('Unable to bind NICs %s to drivers %s',
                           str(settings.getValue('WHITELIST_NICS')),
                           nic_drivers)
-
-
-
-#
-# Vhost-user cleanup
-#
-
-def _vhost_user_cleanup():
-    """Remove files created by vhost-user tests.
-    """
-    for sock in settings.getValue('VHOST_USER_SOCKS'):
-        if os.path.exists(sock):
-            try:
-                tasks.run_task(['sudo', 'rm', sock],
-                               _LOGGER,
-                               'Deleting vhost-user socket \'%s\'...' %
-                               sock,
-                               True)
-
-            except subprocess.CalledProcessError:
-                _LOGGER.error('Unable to delete vhost-user socket \'%s\'.',
-                              sock)
-                continue
-
 
 class Dpdk(object):
     """A context manager for the system init/cleanup.
