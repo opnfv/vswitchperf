@@ -309,6 +309,43 @@ To run tests using Vanilla OVS:
 
      $ ./vsperf --conf-file<path_to_custom_conf>/10_custom.conf
 
+Using vfio_pci with DPDK
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To use vfio with DPDK instead of igb_uio edit 'conf/02_vswitch.conf'
+with the following parameters:
+
+.. code-block:: console
+
+    DPDK_MODULES = [
+     ('vfio-pci'),
+    ]
+    SYS_MODULES = ['cuse']
+
+**NOTE:** Please ensure that Intel VT-d is enabled in BIOS.
+
+**NOTE:** Please ensure your boot/grub parameters include
+the following:
+
+.. code-block:: console
+
+    iommu=pt intel_iommu=on
+
+To check that IOMMU is enabled on your platform:
+
+.. code-block:: console
+
+    $ dmesg | grep IOMMU
+    [    0.000000] Intel-IOMMU: enabled
+    [    0.139882] dmar: IOMMU 0: reg_base_addr fbffe000 ver 1:0 cap d2078c106f0466 ecap f020de
+    [    0.139888] dmar: IOMMU 1: reg_base_addr ebffc000 ver 1:0 cap d2078c106f0466 ecap f020de
+    [    0.139893] IOAPIC id 2 under DRHD base  0xfbffe000 IOMMU 0
+    [    0.139894] IOAPIC id 0 under DRHD base  0xebffc000 IOMMU 1
+    [    0.139895] IOAPIC id 1 under DRHD base  0xebffc000 IOMMU 1
+    [    3.335744] IOMMU: dmar0 using Queued invalidation
+    [    3.335746] IOMMU: dmar1 using Queued invalidation
+    ....
+
 Selection of loopback application for PVP and PVVP tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
