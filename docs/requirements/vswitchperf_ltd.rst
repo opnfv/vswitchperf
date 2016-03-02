@@ -2063,6 +2063,163 @@ Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
     -  The DUT's 0% packet loss throughput in the presence of cache sharing and
        memory bandwidth between processes.
 
+.. 3.2.3.3.3
+
+Test ID: LTD.Scalability.VNF.RFC2544.PacketLossRatio
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    **Title**: VNF Scalability RFC 2544 X% packet loss ratio Throughput and
+               Latency Test
+
+    **Prerequisite Test**: N/A
+
+    **Priority**:
+
+    **Description**:
+
+    This test determines the DUT's throughput rate with X% traffic loss for
+    a constant load (fixed length frames at a fixed interval time) when the
+    number of VNFs on the DUT increases. The default loss percentages
+    to be tested are: - X = 0% - X = 10^-7% . The minimum number of
+    VNFs to be tested are 3. <acm> Since our test VNFs are rather light-
+    weight in terms of processing, we are mostly giving a view of multiple
+    passes through the vswitch on logical interfaces. Right? <MT> Yes.
+    In other words, we produce an optimistic count of daisy-chained VNFs, but
+    the cumulative effect of traffic on the vSwitch is "real" (assuming that
+    the vSwitch has some dedicated resources, and we understand the effects on
+    shared resources).
+
+    Flow classification should be conducted with L2, L3 and L4 matching
+    to understand the matching and scaling capability of the vSwitch. The
+    matching fields which were used as part of the test should be reported
+    as part of the benchmark report.
+
+    The vSwitch is responsible for forwarding frames between the VNFs
+
+    The SUT (vSwitch and VNF daisy chain) operation should be validated
+    before running the test. This may be completed by running a burst or
+    continuous stream of traffic through the SUT to ensure proper operation
+    before a test. Please not that the traffic rate should be low enough not to
+    stress the SUT.
+
+    **Note**: Other values can be tested if required by the user.
+
+    **Note**: The same VNF should be used in the "daisy chain" formation.
+    Each addition of a VNF should be conducted in a new test setup (The DUT
+    is brought down, then the DUT is brought up again). (<MT>Could also have a
+    variation where the DUT isn't brought down). <acm> that would save
+    a lot of time between iterations! definitly worth checking if this approach
+    makes a difference in the results (any non-controlled assignments of NUMA node
+    or NIC could produce variation).
+
+    The selected frame sizes are those previously defined under `Default
+    Test Parameters <#DefaultParams>`__. The test can also be used to
+    determine the average latency of the traffic.
+
+    Under the `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__
+    test methodology, the test duration will
+    include a number of trials; each trial should run for a minimum period
+    of 60 seconds. A binary search methodology must be applied for each
+    trial to obtain the final result for Throughput.
+
+    **Expected Result**: At the end of each trial, the presence or absence
+    of loss determines the modification of offered load for the next trial,
+    converging on a maximum rate, or
+    `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__ Throughput with X%
+    loss.
+    The Throughput load is re-used in related
+    `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__ tests and other
+    tests.
+
+    **Metrics Collected**:
+    The following are the metrics collected for this test:
+
+    -  The maximum Throughput in Frames Per Second (FPS) and Mbps of
+       the DUT for each frame size with X% packet loss.
+    -  The average latency of the traffic flow when passing through the DUT
+       and VNFs (if testing for latency, note that this average is different from the
+       test specified in Section 26.3 of
+       `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__).
+    -  CPU and memory utilization may also be collected as part of this
+       test, to determine the vSwitch's performance footprint on the system.
+
+.. 3.2.3.3.4
+
+Test ID: LTD.Scalability.VNF.RFC2544.PacketLossProfile
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     **Title**: VNF Scalability RFC 2544 Throughput and Latency Profile
+
+     **Prerequisite Test**: N/A
+
+     **Priority**:
+
+     **Description**:
+
+     This test reveals how throughput and latency degrades as the number
+     of VNFs increases and offered rate varies in the region of the DUT's
+     maximum forwarding rate as determined by
+     LTD.Throughput.RFC2544.PacketLossRatio (0% Packet Loss).
+     For example it can be used to determine if the degradation of throughput
+     and latency as the number of VNFs and offered rate increases is slow
+     and graceful, or sudden and severe. The minimum number of VNFs to
+     be tested is 3.
+
+     The selected frame sizes are those previously defined under `Default
+     Test Parameters <#DefaultParams>`__.
+
+     The offered traffic rate is described as a percentage delta with respect
+     to the DUT's RFC 2544 Throughput as determined by
+     LTD.Throughput.RFC2544.PacketLoss Ratio (0% Packet Loss case). A delta
+     of 0% is equivalent to an offered traffic rate equal to the RFC 2544
+     Throughput; A delta of +50% indicates an offered rate half-way
+     between the Throughput and line-rate, whereas a delta of
+     -50% indicates an offered rate of half the maximum rate. Therefore the
+     range of the delta figure is natuarlly bounded at -100% (zero offered
+     traffic) and +100% (traffic offered at line rate).
+
+     The following deltas to the maximum forwarding rate should be applied:
+
+     -  -50%, -10%, 0%, +10% & +50%
+
+    **Note**: Other values can be tested if required by the user.
+
+    **Note**: The same VNF should be used in the "daisy chain" formation.
+    Each addition of a VNF should be conducted in a new test setup (The DUT
+    is brought down, then the DUT is brought up again). (<MT>Could also have a
+    variation where the DUT isn't brought down). <acm> that would save
+    a lot of time between iterations! definitley worth checking if this approach
+    makes a difference in the results (any non-controlled assignments of NUMA node
+    or NIC could produce variation).
+
+    Flow classification should be conducted with L2, L3 and L4 matching
+    to understand the matching and scaling capability of the vSwitch. The
+    matching fields which were used as part of the test should be reported
+    as part of the benchmark report.
+
+    The SUT (vSwitch and VNF daisy chain) operation should be validated
+    before running the test. This may be completed by running a burst or
+    continuous stream of traffic through the SUT to ensure proper operation
+    before a test. Please not that the traffic rate should be low enough not to
+    stress the SUT
+
+    **Expected Result**: For each packet size a profile should be produced
+    of how throughput and latency vary with offered rate.
+
+    **Metrics Collected**:
+
+    The following are the metrics collected for this test:
+
+    -  The forwarding rate in Frames Per Second (FPS) and Mbps of the DUT
+        for each delta to the maximum forwarding rate and for each frame
+        size.
+    -  The average latency for each delta to the maximum forwarding rate and
+        for each frame size.
+    -  CPU and memory utilization may also be collected as part of this
+        test, to determine the vSwitch's performance footprint on the system.
+    -  Any failures experienced (for example if the vSwitch crashes, stops
+       processing packets, restarts or becomes unresponsive to commands)
+        when the offered load is above Maximum Throughput MUST be recorded
+        and reported with the results.
+
 .. 3.2.3.4
 
 Activation tests
