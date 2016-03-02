@@ -2227,9 +2227,9 @@ should be required. It is expected that more will be added.
 
 .. 3.2.3.6.1
 
-Test ID: LTD.CPU.RFC2544.0PacketLoss
+Test ID: LTD.Stress.RFC2544.0PacketLoss
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    **Title**: RFC 2544 0% Loss Compute Test
+    **Title**: RFC 2544 0% Loss CPU OR Memory Stress Test
 
     **Prerequisite Test**:
 
@@ -2238,12 +2238,12 @@ Test ID: LTD.CPU.RFC2544.0PacketLoss
     **Description**:
 
     The aim of this test is to understand the overall performance of the
-    system when a CPU intensive application is run on the same DUT as the
-    Virtual Switch. For each frame size, an
+    system when a CPU or Memory intensive application is run on the same DUT as
+    the Virtual Switch. For each frame size, an
     LTD.Throughput.RFC2544.PacketLossRatio (0% Packet Loss) test should be
-    performed. Throughout the entire test a CPU intensive application should
-    be run on all cores on the system not in use by the Virtual Switch. For
-    NUMA system only cores on the same NUMA node are loaded.
+    performed. Throughout the entire test a CPU or Memory intensive application
+    should be run on all cores on the system not in use by the Virtual Switch.
+    For NUMA system only cores on the same NUMA node are loaded.
 
     It is recommended that stress-ng be used for loading the non-Virtual
     Switch cores but any stress tool MAY be used.
@@ -2254,7 +2254,7 @@ Test ID: LTD.CPU.RFC2544.0PacketLoss
 
     The following are the metrics collected for this test:
 
-    -  CPU utilization of the cores running the Virtual Switch.
+    -  Memory and CPU utilization of the cores running the Virtual Switch.
     -  The number of identity of the cores allocated to the Virtual Switch.
     -  The configuration of the stress tool (for example the command line
        parameters used to start it.)
