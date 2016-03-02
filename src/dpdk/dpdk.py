@@ -34,7 +34,6 @@ RTE_PCI_TOOL = os.path.join(
     settings.getValue('RTE_SDK'), 'tools', 'dpdk_nic_bind.py')
 
 _DPDK_MODULE_MANAGER = ModuleManager()
-
 #
 # system management
 #
@@ -46,7 +45,7 @@ def init():
     if not _is_linux():
         _LOGGER.error('Not running on a compatible Linux version. Exiting...')
         return
-
+    _use_vfio = False
     _insert_modules()
     _remove_vhost_net()
     _bind_nics()
@@ -126,8 +125,10 @@ def _insert_modules():
     _insert_module_group('OVS_MODULES', mod_path_prefix)
     mod_path_prefix = os.path.join(settings.getValue('RTE_SDK'),
                                    settings.getValue('RTE_TARGET'))
-    _insert_module_group('DPDK_MODULES', mod_path_prefix)
-
+    if ('vfio-pci' not in settings.getValue('DPDK_MODULES')):
+        _insert_module_group('DPDK_MODULES', mod_path_prefix)
+    else :
+        _DPDK_MODULE_MANAGER.insert_modules(settings.getValue('DPDK_MODULES'))
 
 def _insert_module_group(module_group, group_path_prefix):
     """Ensure all modules in a group are inserted into the system.
@@ -206,7 +207,17 @@ def _bind_nics():
     """Bind NICs using the Intel DPDK ``dpdk_nic_bind.py`` tool.
     """
     try:
-        tasks.run_task(['sudo', RTE_PCI_TOOL, '--bind', 'igb_uio'] +
+        _driver = 'igb_uio'
+        if _is_module_inserted('vfio_pci'):
+            _driver = 'vfio-pci'
+            tasks.run_task(['sudo', 'chmod', 'a+x', '/dev/vfio'],
+                           _LOGGER, 'Setting VFIO permissions .. a+x',
+                           True)
+            tasks.run_task(['sudo', 'chmod', '-R' ,'666', '/dev/vfio/'],
+                           _LOGGER, 'Setting VFIO permissions .. 0666',
+                           True)
+
+        tasks.run_task(['sudo', RTE_PCI_TOOL, '--bind='+_driver] +
                        settings.getValue('WHITELIST_NICS'), _LOGGER,
                        'Binding NICs %s...' %
                        settings.getValue('WHITELIST_NICS'),
