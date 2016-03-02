@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_3b133d5e",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 2083,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-02T19:19:45Z",
+      "side": 1,
+      "message": "Looks like some comment/name info was left in from the etherpad. I don\u0027t believe this was intentional? If it was, just disregard most of my comments :).",
+      "revId": "98b83ab78cfa2d128790f339154e4ae007426d68",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_1b10814d",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 2085,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-02T19:19:45Z",
+      "side": 1,
+      "message": "Again here.",
+      "revId": "98b83ab78cfa2d128790f339154e4ae007426d68",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_9b2b5182",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 2101,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-02T19:19:45Z",
+      "side": 1,
+      "message": "note instead of not. Also maybe just make this an reST **note** since we have notes listed right below this.",
+      "revId": "98b83ab78cfa2d128790f339154e4ae007426d68",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_fb1c856c",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 2109,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-02T19:19:45Z",
+      "side": 1,
+      "message": "Again looks like we just need to remove these etherpad comments.",
+      "revId": "98b83ab78cfa2d128790f339154e4ae007426d68",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_5b5cb925",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 2188,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-02T19:19:45Z",
+      "side": 1,
+      "message": "Etherpad comments",
+      "revId": "98b83ab78cfa2d128790f339154e4ae007426d68",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_db5e6912",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 2201,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-02T19:19:45Z",
+      "side": 1,
+      "message": "again note instead of not.",
+      "revId": "98b83ab78cfa2d128790f339154e4ae007426d68",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
