@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_7b3bf5eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-04T10:53:19Z",
+      "side": 1,
+      "message": "is this meant to be define naming convention?",
+      "revId": "54beee5caca9adb998e05d48861b9a8bf9ff99e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_7b12d563",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-04T10:53:19Z",
+      "side": 1,
+      "message": "Still not where this doc belongs... Please see trafficgen_integration_guide.rst... If there is anything that augments it then add it in there...",
+      "revId": "54beee5caca9adb998e05d48861b9a8bf9ff99e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_fb2ec5a4",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-04T10:53:19Z",
+      "side": 1,
+      "message": "Much better, but trailing whitespace everywhere needs to be removed",
+      "revId": "54beee5caca9adb998e05d48861b9a8bf9ff99e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
