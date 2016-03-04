@@ -2,6 +2,11 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
+OPNFV Colorado Release
+=========================
+* Support for OVS version 2.5 + DPDK 2.2.
+
+
 OPNFV Brahmaputra Release
 =========================
 Supports both OVS and OVS with DPDK.
