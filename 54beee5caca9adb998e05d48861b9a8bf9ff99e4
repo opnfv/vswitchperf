@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_fe4a3354",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2016-03-04T12:38:33Z",
+      "side": 1,
+      "message": "The trafficgen_integration_guide focuses on adding new traffic gen. Whereas, this is about new traffic-type, which could be supported by any existing or new traffic generator(s). To add new traffic type, enhancing the trafficgen file is one of the steps. The other step being the changes in \u0027core\u0027 folder.  Hence, the Subsection-1 of this section refers (rather, ass reader to refer to) trafficgen_integration_guide.",
+      "parentUuid": "1a486d77_7b12d563",
+      "revId": "54beee5caca9adb998e05d48861b9a8bf9ff99e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_fb2ec5a4",
         "filename": "docs/design/new_testcase_integration_guide.tst",
         "patchSetId": 5
@@ -47,6 +65,24 @@
       "writtenOn": "2016-03-04T10:53:19Z",
       "side": 1,
       "message": "Much better, but trailing whitespace everywhere needs to be removed",
+      "revId": "54beee5caca9adb998e05d48861b9a8bf9ff99e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_de47774a",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2016-03-04T12:38:33Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "1a486d77_fb2ec5a4",
       "revId": "54beee5caca9adb998e05d48861b9a8bf9ff99e4",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
