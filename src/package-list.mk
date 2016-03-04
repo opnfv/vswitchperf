@@ -10,7 +10,8 @@ DPDK_TAG ?= v2.2.0
 
 # OVS section
 OVS_URL ?= https://github.com/openvswitch/ovs
-OVS_TAG ?= 02ab4b1a6a173979a51cabd7000a34546d517e60
+#OVS_TAG ?= v2.5.0
+OVS_TAG ?= f3ea2ad27fd076735fdb78286980749bb12fe1ce
 
 # QEMU section
 QEMU_URL ?= https://github.com/qemu/qemu.git
