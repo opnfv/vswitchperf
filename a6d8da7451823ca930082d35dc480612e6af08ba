@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_3eafabe5",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-04T13:52:26Z",
+      "side": 1,
+      "message": "Fair enough, yes",
+      "parentUuid": "1a486d77_5e7387b1",
+      "revId": "a6d8da7451823ca930082d35dc480612e6af08ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_3e68cbb9",
         "filename": "src/dpdk/dpdk.py",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-04T13:13:13Z",
       "side": 1,
       "message": "unused variable",
+      "revId": "a6d8da7451823ca930082d35dc480612e6af08ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_1eacefec",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-04T13:52:26Z",
+      "side": 1,
+      "message": "Yup :)",
+      "parentUuid": "1a486d77_3e68cbb9",
       "revId": "a6d8da7451823ca930082d35dc480612e6af08ba",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_deb53732",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-04T13:52:26Z",
+      "side": 1,
+      "message": "Ok, let me see if I can do anything here and push it up",
+      "parentUuid": "1a486d77_fe6113d4",
+      "revId": "a6d8da7451823ca930082d35dc480612e6af08ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_1e650fe1",
         "filename": "src/dpdk/dpdk.py",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-03-04T13:13:13Z",
       "side": 1,
       "message": "pylint complains about whitespace before :\n\nthere are other minor pylint issues to solve at line 206",
+      "revId": "a6d8da7451823ca930082d35dc480612e6af08ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_feb8f32b",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-04T13:52:26Z",
+      "side": 1,
+      "message": "Cool, I will check it out and fix",
+      "parentUuid": "1a486d77_1e650fe1",
       "revId": "a6d8da7451823ca930082d35dc480612e6af08ba",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
