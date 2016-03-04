@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_5e7387b1",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-04T13:13:13Z",
+      "side": 1,
+      "message": "May be we should recommend modification of custom configuration file instead.",
+      "revId": "a6d8da7451823ca930082d35dc480612e6af08ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_3e68cbb9",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-04T13:13:13Z",
+      "side": 1,
+      "message": "unused variable",
+      "revId": "a6d8da7451823ca930082d35dc480612e6af08ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_fe6113d4",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-04T13:13:13Z",
+      "side": 1,
+      "message": "we should consider refactoring in the future to use consistent approach for module insertion through module manager",
+      "revId": "a6d8da7451823ca930082d35dc480612e6af08ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_1e650fe1",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-04T13:13:13Z",
+      "side": 1,
+      "message": "pylint complains about whitespace before :\n\nthere are other minor pylint issues to solve at line 206",
+      "revId": "a6d8da7451823ca930082d35dc480612e6af08ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
