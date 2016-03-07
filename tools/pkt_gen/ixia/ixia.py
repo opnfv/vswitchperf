@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -227,7 +227,7 @@ class Ixia(trafficgen.ITrafficGenerator):
 
         #TODO - implement Burst results setting via TrafficgenResults.
 
-    def send_cont_traffic(self, traffic=None, duration=30, multistream=False):
+    def send_cont_traffic(self, traffic=None, duration=30):
         """See ITrafficGenerator for description
         """
         flow = {
@@ -252,8 +252,7 @@ class Ixia(trafficgen.ITrafficGenerator):
         """
         return self.run_tcl('stopTraffic')
 
-    def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                lossrate=0.0, multistream=False):
+    def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20, lossrate=0.0):
         """See ITrafficGenerator for description
         """
         params = {}

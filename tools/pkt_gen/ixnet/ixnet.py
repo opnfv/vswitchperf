@@ -204,7 +204,7 @@ class IxNet(trafficgen.ITrafficGenerator):
         """
         pass
 
-    def send_cont_traffic(self, traffic=None, duration=30, multistream=False):
+    def send_cont_traffic(self, traffic=None, duration=30):
         """See ITrafficGenerator for description
         """
         self.start_cont_traffic(traffic, duration)
@@ -256,7 +256,7 @@ class IxNet(trafficgen.ITrafficGenerator):
         return self._wait_result()
 
     def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                lossrate=0.0, multistream=False):
+                                lossrate=0.0):
         """See ITrafficGenerator for description
         """
         self.start_rfc2544_throughput(traffic, trials, duration, lossrate)
