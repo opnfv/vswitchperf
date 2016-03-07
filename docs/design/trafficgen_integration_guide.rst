@@ -162,10 +162,10 @@ Example of synchronous interfaces:
 .. code-block:: python
 
     def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                lossrate=0.0, multistream=False):
+                                lossrate=0.0):
     def send_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
                                lossrate=0.0):
-    def send_cont_traffic(self, traffic=None, duration=20, multistream=False):
+    def send_cont_traffic(self, traffic=None, duration=20):
 
 Example of asynchronous interfaces:
 
@@ -179,17 +179,51 @@ Example of asynchronous interfaces:
                                 lossrate=0.0):
     def wait_rfc2544_back2back(self):
 
-    def start_cont_traffic(self, traffic=None, duration=20, multistream=False):
+    def start_cont_traffic(self, traffic=None, duration=20):
     def stop_cont_traffic(self):
 
 Description of parameters used by **send**, **start**, **wait** and **stop**
 functions:
 
-    * param **trials**: Number of trials to execute
+    * param **traffic**: A dictionary with detailed definition of traffic
+      pattern. It contains following parameters to be implemented by
+      traffic generator.
+
+      Note: Traffic dictionary has also virtual switch related parameters,
+      which are not listed below.
+
+      Note: There are parameters specific to testing of tunnelling protocols,
+      which are discussed in detail at `integration tests userguide`_
+
+      * param **traffic_type**: One of the supported traffic types,
+        e.g. **rfc2544**, **continuous** or **back2back**.
+      * param **frame_rate**: Defines desired percentage of frame
+        rate used during continuous stream tests.
+      * param **bidir**: Specifies if generated traffic will be full-duplex
+        (true) or half-duplex (false).
+      * param **multistream**: Defines number of flows simulated by traffic
+        generator. Value 0 disables MultiStream feature.
+      * param **stream_type**: Stream Type defines ISO OSI network layer
+        used for simulation of multiple streams.
+        Supported values:
+
+        * **L2** - iteration of destination MAC address
+        * **L3** - iteration of destination IP address
+        * **L4** - iteration of destination port of selected transport protocol
+
+      * param **l2**: A dictionary with data link layer details, e.g. **srcmac**,
+        **dstmac** and **framesize**.
+      * param **l3**: A dictionary with network layer details, e.g. **srcip**,
+        **dstip** and **proto**.
+      * param **l3**: A dictionary with transport layer details, e.g. **srcport**,
+        **dstport**.
+      * param **vlan**: A dictionary with vlan specific parameters,
+        e.g. **priority**, **cfi**, **id** and vlan on/off switch **enabled**.
+
+    * param **trials**: Number of trials to execute.
     * param **duration**: Duration of continuous test or per iteration duration
-        in case of RFC2544 throughput or back2back traffic types.
+      in case of RFC2544 throughput or back2back traffic types.
     * param **lossrate**: Acceptable lossrate percentage.
-    * param **multistream**: Enable or disable multistream feature.
 
 Step 6 - passing back results
 =============================
@@ -200,4 +234,6 @@ are defined in **ResultsConstants** implemented in
 **core/results/results_constants.py**. Please check sections for RFC2544
 Throughput & Continuous and for Back2Back. The same key names should
 be used by all traffic generator implementations.
+
+.. _integration tests userguide: http://artifacts.opnfv.org/vswitchperf/docs/userguide/integration.html
 
