@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -133,7 +133,7 @@ class Dummy(trafficgen.ITrafficGenerator):
 
         return trafficgen.BurstResult(*results)
 
-    def send_cont_traffic(self, traffic=None, duration=30, multistream=False):
+    def send_cont_traffic(self, traffic=None, duration=30):
         """
         Send a continuous flow of traffic.
         """
@@ -145,10 +145,11 @@ class Dummy(trafficgen.ITrafficGenerator):
 
         results = get_user_traffic(
             'continuous',
-            '%dmpps, multistream %s duration %d' % (traffic['frame_rate'],
-                                                    multistream, duration), traffic_,
-            ('frames tx', 'frames rx', 'tx rate %','rx rate %' ,'min latency',
-             'max latency','avg latency', 'frameloss %'))
+            '%dmpps, multistream %s, duration %d' % (traffic['frame_rate'],
+                                                    traffic['multistream'],
+                                                    duration), traffic_,
+            ('frames tx', 'frames rx', 'tx rate %', 'rx rate %', 'min latency',
+             'max latency', 'avg latency', 'frameloss %'))
 
         framesize = traffic_['l2']['framesize']
 
@@ -169,7 +170,7 @@ class Dummy(trafficgen.ITrafficGenerator):
         return result
 
     def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                lossrate=0.0, multistream=False):
+                                lossrate=0.0):
         """
         Send traffic per RFC2544 throughput test specifications.
         """
@@ -182,11 +183,10 @@ class Dummy(trafficgen.ITrafficGenerator):
         results = get_user_traffic(
             'throughput',
             '%d trials, %d seconds iterations, %f packet loss, multistream '
-            '%s' % (trials, duration, lossrate,
-                    'enabled' if multistream else 'disabled'),
+            '%s' % (trials, duration, lossrate, traffic['multistream']),
             traffic_,
-             ('frames tx', 'frames rx', 'tx rate %','rx rate %' ,'min latency',
-             'max latency','avg latency', 'frameloss %'))
+            ('frames tx', 'frames rx', 'tx rate %', 'rx rate %', 'min latency',
+             'max latency', 'avg latency', 'frameloss %'))
 
         framesize = traffic_['l2']['framesize']
 
