@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_1e22afb9",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-03-07T18:31:58Z",
+      "side": 1,
+      "message": "Hi Martin, I have a couple of points to raise:\n(1) Elsewhere, iLoad is another percentage that seems to overlap with frame_rate. (Sridhar\u0027s patch, I think)\n(2) Is the Reference rate the Line rate of a Physical interface? This will always be an odd number of frames, and change with frame size. \n(3) With a MIX of sizes, this is a complicated percentage to calculate.",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 201,
+        "endChar": 49
+      },
+      "revId": "1da934efb6f92d3ccc91f3ce44390e509c8a1cb3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
