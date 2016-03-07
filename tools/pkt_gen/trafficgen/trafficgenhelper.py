@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,14 @@ from collections import namedtuple
 
 CMD_PREFIX = 'gencmd : '
 TRAFFIC_DEFAULTS = {
+    'traffic_type' : 'rfc2544',
+    'frame_rate' : 100,
+    'bidir' : False,
+    'multistream' : 0,
+    'stream_type' : 'L4',
+    'pre_installed_flows' : 'No',           # used by vswitch implementation
+    'flow_type' : 'port',                   # used by vswitch implementation
+
     'l2': {
         'framesize': 64,
         'srcmac': '00:00:00:00:00:00',
