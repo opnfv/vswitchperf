@@ -233,8 +233,6 @@ To run GENEVE decapsulation tests:
                       'inner_srcip': '192.168.0.10',
                       'inner_dstip': '192.168.240.9',
                       'inner_proto': 'udp',
-                      'inner_srcport': 3000,
-                      'inner_dstport': 3001,
                      }
    GENEVE_FRAME_L4 = {'srcport': 6081,
                       'dstport': 6081,

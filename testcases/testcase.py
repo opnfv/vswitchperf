@@ -52,13 +52,13 @@ class TestCase(object):
         self.name = cfg['Name']
         self.desc = cfg.get('Description', 'No description given.')
 
-        bidirectional = cfg.get('biDirectional', False)
+        bidirectional = cfg.get('biDirectional', TRAFFIC_DEFAULTS['bidir'])
         bidirectional = get_test_param('bidirectional', bidirectional)
 
-        traffic_type = cfg.get('Traffic Type', 'rfc2544')
+        traffic_type = cfg.get('Traffic Type', TRAFFIC_DEFAULTS['traffic_type'])
         traffic_type = get_test_param('traffic_type', traffic_type)
 
-        framerate = cfg.get('iLoad', 100)
+        framerate = cfg.get('iLoad', TRAFFIC_DEFAULTS['frame_rate'])
         framerate = get_test_param('iload', framerate)
 
         self.deployment = cfg['Deployment']
@@ -91,11 +91,11 @@ class TestCase(object):
 
         # read configuration of streams; CLI parameter takes precedence to
         # testcase definition
-        multistream = cfg.get('MultiStream', 0)
+        multistream = cfg.get('MultiStream', TRAFFIC_DEFAULTS['multistream'])
         multistream = get_test_param('multistream', multistream)
-        stream_type = cfg.get('Stream Type', 'L4')
+        stream_type = cfg.get('Stream Type', TRAFFIC_DEFAULTS['stream_type'])
         stream_type = get_test_param('stream_type', stream_type)
-        pre_installed_flows = cfg.get('Pre-installed Flows', 'No')
+        pre_installed_flows = cfg.get('Pre-installed Flows', TRAFFIC_DEFAULTS['pre_installed_flows'])
         pre_installed_flows = get_test_param('pre-installed_flows', pre_installed_flows)
 
         # check if test requires background load and which generator it uses
@@ -113,7 +113,7 @@ class TestCase(object):
         # set traffic details, so they can be passed to vswitch and traffic ctls
         self._traffic = copy.deepcopy(TRAFFIC_DEFAULTS)
         self._traffic.update({'traffic_type': traffic_type,
-                              'flow_type': cfg.get('Flow Type', 'port'),
+                              'flow_type': cfg.get('Flow Type', TRAFFIC_DEFAULTS['flow_type']),
                               'bidir': bidirectional,
                               'tunnel_type': self._tunnel_type,
                               'multistream': int(multistream),

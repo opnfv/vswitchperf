@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ class ITrafficGenerator(object):
         configuration, for ``duration`` seconds.
 
         Attributes:
-        :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN tags
+        :param traffic: Detailed "traffic" spec, see design docs for details
         :param numpkts: Number of packets to send
         :param duration: Time to wait to receive packets
 
@@ -99,17 +99,14 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def send_cont_traffic(self, traffic=None, duration=20, multistream=False):
+    def send_cont_traffic(self, traffic=None, duration=20):
         """Send a continuous flow of traffic.
 
         Send packets at given framerate, using ``traffic`` configuration,
         for ``duration`` seconds..
 
-        :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN tags
-                        from 1 to 64,000
+        :param traffic: Detailed "traffic" spec, see design docs for details
         :param duration: Duration to transmit traffic.
-        :param multistream: Enable multistream output by overriding the
-                        from 1 to 64,000
         :returns: dictionary of strings with following data:
             - Tx Throughput (fps),
             - Rx Throughput (fps),
@@ -137,20 +134,17 @@ class ITrafficGenerator(object):
         raise NotImplementedError('Please call an implementation.')
 
     def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
-                                lossrate=0.0, multistream=False):
+                                lossrate=0.0):
         """Send traffic per RFC2544 throughput test specifications.
 
         Send packets at a variable rate, using ``traffic``
         configuration, until minimum rate at which no packet loss is
         detected is found.
 
-        :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN tags
+        :param traffic: Detailed "traffic" spec, see design docs for details
         :param trials: Number of trials to execute
         :param duration: Per iteration duration
         :param lossrate: Acceptable lossrate percentage
-        :param multistream: Enable multistream output by overriding the
-                        UDP port number in ``traffic`` with values
-                        from 1 to 64,000
         :returns: dictionary of strings with following data:
             - Tx Throughput (fps),
             - Rx Throughput (fps),
@@ -185,13 +179,10 @@ class ITrafficGenerator(object):
         Send packets at a fixed rate, using ``traffic``
         configuration, for duration seconds.
 
-        :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN
-            tags
+        :param traffic: Detailed "traffic" spec, see design docs for details
         :param trials: Number of trials to execute
         :param duration: Per iteration duration
         :param lossrate: Acceptable loss percentage
-        :param multistream: Enable multistream output by overriding the
-            UDP port number in ``traffic`` with values from 1 to 64,000
 
         :returns: Named tuple of Rx Throughput (fps), Rx Throughput (mbps),
             Tx Rate (% linerate), Rx Rate (% linerate), Tx Count (frames),
