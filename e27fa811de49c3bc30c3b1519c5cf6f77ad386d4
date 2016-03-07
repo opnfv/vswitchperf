@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_deee57b4",
+        "filename": "conf/integration/03_traffic.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 841
+      },
+      "writtenOn": "2016-03-07T11:31:01Z",
+      "side": 1,
+      "message": "We\u0027ve provided default values for the INNER FRAME to minimize configuration requirements.",
+      "parentUuid": "1a486d77_1e106f4d",
+      "revId": "e27fa811de49c3bc30c3b1519c5cf6f77ad386d4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_7e20839b",
         "filename": "conf/integration/03_traffic.conf",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-04T10:57:52Z",
       "side": 1,
       "message": "Does this only work with IxExplorer? what about IxNet",
+      "revId": "e27fa811de49c3bc30c3b1519c5cf6f77ad386d4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_be2b9bea",
+        "filename": "conf/integration/03_traffic.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 841
+      },
+      "writtenOn": "2016-03-07T11:31:01Z",
+      "side": 1,
+      "message": "VXLAN also works in IxExplorer. The primary testing environment is IxNet.",
+      "parentUuid": "1a486d77_7e20839b",
       "revId": "e27fa811de49c3bc30c3b1519c5cf6f77ad386d4",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_9e30df57",
+        "filename": "conf/integration/03_traffic.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 841
+      },
+      "writtenOn": "2016-03-07T11:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a486d77_9e2b3f82",
+      "revId": "e27fa811de49c3bc30c3b1519c5cf6f77ad386d4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_fe1c736c",
         "filename": "conf/integration/03_traffic.conf",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_7e352345",
+        "filename": "conf/integration/03_traffic.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 841
+      },
+      "writtenOn": "2016-03-07T11:31:01Z",
+      "side": 1,
+      "message": "The user my override the VXLAN_FRAME_L3 variable if needed. This is documented in integration.rst.",
+      "parentUuid": "1a486d77_fe1c736c",
+      "revId": "e27fa811de49c3bc30c3b1519c5cf6f77ad386d4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_de19b77a",
         "filename": "conf/integration/03_traffic.conf",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2016-03-04T10:57:52Z",
       "side": 1,
       "message": "All params should be configurable throughout all this file.",
+      "revId": "e27fa811de49c3bc30c3b1519c5cf6f77ad386d4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_5e3a6737",
+        "filename": "conf/integration/03_traffic.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 841
+      },
+      "writtenOn": "2016-03-07T11:31:01Z",
+      "side": 1,
+      "message": "When Martin executed this test, he had to copy and paste  (without modification) configuration data from integration.rst.  We decided to set default values for the the INNER FRAME to minimize configuration effort. The default values should work in our test environment.\n\nIf needed, the user my override the VXLAN_FRAME_* variables. This is documented in integration.rst.",
+      "parentUuid": "1a486d77_de19b77a",
       "revId": "e27fa811de49c3bc30c3b1519c5cf6f77ad386d4",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
