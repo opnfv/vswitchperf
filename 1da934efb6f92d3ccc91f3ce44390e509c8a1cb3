@@ -40,6 +40,24 @@
       "revId": "1da934efb6f92d3ccc91f3ce44390e509c8a1cb3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_a904877e",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-03-08T14:55:19Z",
+      "side": 1,
+      "message": "Hi Martin, thanks for your reply.  Since we will be using other traffic generators eventually, it\u0027s good to highlight when we are relying on Traffic Gen internal calculations because they may vary or may need to be added for other Traffic Gens.  (and differences of internal calculations may cause variation in the results)",
+      "parentUuid": "1a486d77_89878b61",
+      "revId": "1da934efb6f92d3ccc91f3ce44390e509c8a1cb3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
