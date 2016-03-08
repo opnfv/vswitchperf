@@ -22,6 +22,24 @@
       "revId": "1da934efb6f92d3ccc91f3ce44390e509c8a1cb3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_89878b61",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-08T10:59:56Z",
+      "side": 1,
+      "message": "Hi Al,\n\nthank your for our comments. Let me try to address them.\n\nad 1) It is different name for the same feature. iLoad is a label visible in vsperf user interface. However it internally sets value of  frame_rate. Patch which has introduced modification of frame_rate from the command line was\n\nhttps://gerrit.opnfv.org/gerrit/#/c/2587/\n\nThis help describes low level methods and interfaces, so I think it is ok to have discrepancy between \"official UI parameter\" and internal low level \"parameter name\". However, I\u0027ll update frame_rate description here to state, that iLoad/iload is used to modify frame_rate value by user.\n\nad 2) iLoad/frame_rate value is used by IxNetwork to configure \"% Line Rate\", which according to IxNetwork help \"specifies the physical line rate\". \n\nad 3) These calculations are done internally by IxNetwork. We can check documentation if there are some doubts.\n\nBy the way, this patch has not brought any new features, It just describes, what is already available in vsperf for some time.",
+      "parentUuid": "1a486d77_1e22afb9",
+      "revId": "1da934efb6f92d3ccc91f3ce44390e509c8a1cb3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
