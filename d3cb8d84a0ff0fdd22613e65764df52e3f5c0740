@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_69b0cfdd",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-08T13:54:20Z",
+      "side": 1,
+      "message": "I was wrong - just one final update to remove this commented line of code",
+      "revId": "d3cb8d84a0ff0fdd22613e65764df52e3f5c0740",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
