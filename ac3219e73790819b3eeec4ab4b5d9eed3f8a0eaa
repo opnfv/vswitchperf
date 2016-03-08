@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_c9ed83f1",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-08T13:03:57Z",
+      "side": 1,
+      "message": "Could use os functions to do this more agnostic\nos.path.splitext(os.path.basename(module))[0]",
+      "revId": "ac3219e73790819b3eeec4ab4b5d9eed3f8a0eaa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_09e4bb0b",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-08T13:03:57Z",
+      "side": 1,
+      "message": "Could use os functions to do this more agnostic\nos.path.splitext(os.path.basename(module))[0]",
+      "revId": "ac3219e73790819b3eeec4ab4b5d9eed3f8a0eaa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_e9f03fcb",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-08T13:03:57Z",
+      "side": 1,
+      "message": "Could use os functions to do this more agnostic\nos.path.splitext(os.path.basename(module))[0]",
+      "revId": "ac3219e73790819b3eeec4ab4b5d9eed3f8a0eaa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
