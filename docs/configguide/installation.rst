@@ -13,6 +13,7 @@ Supported Operating Systems
 * Fedora 20
 * Fedora 21
 * Fedora 22
+* RedHat 7.2
 * Ubuntu 14.04
 
 Supported vSwitches
@@ -65,10 +66,11 @@ automatically.
 Script **build_base_machine.sh** will install all the vsperf dependencies
 in terms of system packages, Python 3.x and required Python modules.
 In case of CentOS 7 it will install Python 3.3 from an additional repository
-provided by Software Collections (`a link`_). Installation script will also
-use `virtualenv`_ to create a vsperf virtual environment, which is isolated
-from the default Python environment. This environment will reside
-in a directory called **vsperfenv** in $HOME.
+provided by Software Collections (`a link`_). In case of RedHat 7 it will
+install Python 3.4 as an alternate installation in /usr/local/bin. Installation
+script will also use `virtualenv`_ to create a vsperf virtual environment,
+which is isolated from the default Python environment. This environment will
+reside in a directory called **vsperfenv** in $HOME.
 
 You will need to activate the virtual environment every time you start a
 new shell session. Its activation is specific to your OS:
@@ -82,8 +84,8 @@ CentOS 7
     $ cd $HOME/vsperfenv
     $ source bin/activate
 
-Fedora and Ubuntu
-=================
+Fedora, RedHat and Ubuntu
+=========================
 
 .. code:: bash
 
