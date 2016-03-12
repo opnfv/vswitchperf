@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_94f31b0a",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:07:07Z",
+      "side": 1,
+      "message": "the naming is completely misleading and would be confusing for a newb to vsperf. it is not a new testcase you are adding... the main integration work happens in the traffic generator, all you are passing to the testcase is a new parameter... which is why I still think this belongs as an enhancement to the traffic gen guide. In addition there is A LOT of overlap with the traffic gen integration guide, it will be a nightmare to maintain 2 files that say the same thing - Please do your best to integrate this work there.\n\nan example of adding a new testcase would be adding a scalability test. or adding a noisey neighbour test.",
+      "parentUuid": "1a486d77_fe4a3354",
+      "revId": "54beee5caca9adb998e05d48861b9a8bf9ff99e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_fb2ec5a4",
         "filename": "docs/design/new_testcase_integration_guide.tst",
         "patchSetId": 5
