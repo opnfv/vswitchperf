@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a486d77_d49bd3c7",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "I would add this to the packages installed in systems, what do you think? All the other vsperf dependencies are installed in that way",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_f45ecf11",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "this**",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_d4e9931b",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "I don\u0027t see where this gets invoked from testcenter.py? or have I missed something",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_54afe3e3",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "did you migrate to python 3.4? you shouldn\u0027t need this import",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_0a65c9e0",
         "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
         "patchSetId": 4
@@ -13,6 +81,143 @@
       "writtenOn": "2016-03-10T15:51:48Z",
       "side": 1,
       "message": "Since this is raising an exception should we log it as an error or exception level instead of debug? Just a thought.",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_34ac67ed",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "Agreed",
+      "parentUuid": "1a486d77_0a65c9e0",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_74aadfd5",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "is this question meant to be here? or has it been resolved?",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_94a55b06",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "is this documented somewhere outside of the code?",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_349347a5",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "can you please wrap this in a relevant class and break it up into functions rather than one massive main function? or justify why it\u0027s implemented in this way?",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_b4a057f5",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "we use pep08 so variable names should be all lowercase with words separated by underscores throughout",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_14904b94",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "you aren\u0027t retrieving any values from the configuration settings, why? I don\u0027t understand why we need all this variables at this point? they should all be available from the calling class and the configuration",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_b4873761",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "again, is this still open? or is it resolved?",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_947c3b74",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "please remove commented code",
       "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -87,6 +292,23 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_7481bf49",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "commented code",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_4aaaa1d5",
         "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
         "patchSetId": 4
@@ -115,6 +337,40 @@
       "writtenOn": "2016-03-10T15:51:48Z",
       "side": 1,
       "message": "Again here for error level versus debug. Errors are easier to find that DEBUG messages. There are a lot of debug messages seen when running VSPerf.",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_5496c395",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "why do you need the main function?",
+      "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_f48c8f81",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-12T10:01:09Z",
+      "side": 1,
+      "message": "function params don\u0027t conform with ITrafficGenerator, please see https://gerrit.opnfv.org/gerrit/gitweb?p\u003dvswitchperf.git;a\u003dblob;f\u003dtools/pkt_gen/trafficgen/trafficgen.py;h\u003d3953bbb1aa7574d5ce7acd270db94da984e6b7fc;hb\u003dHEAD\n\nand make sure all function signatures match throughout the file",
       "revId": "e53bc3407e4670e6eb16b741bfc563fab3a912ca",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
