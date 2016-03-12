@@ -10,7 +10,7 @@
 <?rfc inline="yes"?>
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
-<rfc category="info" docName="draft-vsperf-bmwg-vswitch-opnfv-01"
+<rfc category="info" docName="draft-vsperf-bmwg-vswitch-opnfv-02"
      ipr="trust200902">
   <front>
     <title abbrev="Benchmarking vSwitches">Benchmarking Virtual Switches in
@@ -94,7 +94,7 @@
       </address>
     </author>
 
-    <date day="14" month="October" year="2015"/>
+    <date day="12" month="March" year="2016"/>
 
     <abstract>
       <t>This memo describes the progress of the Open Platform for NFV (OPNFV)
@@ -130,12 +130,13 @@
       the goal to transform how internetwork functions are implemented, and
       therefore has garnered much attention.</t>
 
-      <t>This memo describes the progress of the Open Platform for NFV (OPNFV)
-      project on virtual switch performance characterization, "VSWITCHPERF".
-      This project intends to build on the current and completed work of the
-      Benchmarking Methodology Working Group in IETF, by referencing existing
-      literature. For example, currently the most often referenced RFC is
-      <xref target="RFC2544"/> (which depends on <xref target="RFC1242"/>) and
+      <t>This memo summarizes the progress of the Open Platform for NFV
+      (OPNFV) project on virtual switch performance characterization,
+      "VSWITCHPERF", through the Brahmaputra (second) release. This project
+      intends to build on the current and completed work of the Benchmarking
+      Methodology Working Group in IETF, by referencing existing literature.
+      For example, currently the most often referenced RFC is <xref
+      target="RFC2544"/> (which depends on <xref target="RFC1242"/>) and
       foundation of the benchmarking work in OPNFV is common and strong.</t>
 
       <t>See
@@ -151,19 +152,25 @@
       isochronous media streams is one example.</t>
 
       <t>Note also that the move to NFV Infrastructure has resulted in many
-      new benchmarking initiatives across the industry, and the authors are
+      new benchmarking initiatives across the industry. The authors are
       currently doing their best to maintain alignment with many other
-      projects, and this Internet Draft is evidence of the efforts.</t>
+      projects, and this Internet Draft is one part of the efforts. We
+      acknowledge the early work in <xref
+      target="I-D.huang-bmwg-virtual-network-performance"/>, and useful
+      discussion with the authors.</t>
     </section>
 
     <section title="Scope">
-      <t>The primary purpose and scope of the memo is to inform BMWG of
-      work-in-progress that builds on the body of extensive literature and
-      experience. Additionally, once the initial information conveyed here is
-      received, this memo may be expanded to include more detail and
-      commentary from both BMWG and OPNFV communities, under BMWG's chartered
-      work to characterize the NFV Infrastructure (a virtual switch is an
-      important aspect of that infrastructure).</t>
+      <t>The primary purpose and scope of the memo is to inform the industry
+      of work-in-progress that builds on the body of extensive BMWG literature
+      and experience, and describe the extensions needed for benchmarking
+      virtual switches. Inital feedback indicates that many of these
+      extensions may be applicable beyond the current scope (to hardware
+      switches in the NFV Infrastructure and to virtual routers, for example).
+      as Additionally, this memo serves as a vehicle to include more detail
+      and commentary from BMWG and other Open Source communities, under BMWG's
+      chartered work to characterize the NFV Infrastructure (a virtual switch
+      is an important aspect of that infrastructure).</t>
     </section>
 
     <section title="Benchmarking Considerations">
@@ -474,7 +481,7 @@
       <t><list style="symbols">
           <t>Throughput Tests to measure the maximum forwarding rate (in
           frames per second or fps) and bit rate (in Mbps) for a constant load
-          (as defined by RFC1242) without traffic loss.</t>
+          (as defined by <xref target="RFC1242"/>) without traffic loss.</t>
 
           <t>Packet and Frame Delay Distribution Tests to measure average, min
           and max packet and frame delay for constant loads.</t>
@@ -501,6 +508,16 @@
           switch&rsquo;s footprint on the system, usually conducted as
           auxiliary measurements with benchmarks above. They include: CPU
           utilization, Cache utilization and Memory footprint.</t>
+
+          <t>The so-called "Soak" tests, where the selected test is conducted
+          over a long period of time (with default of 24 hours). The purpose
+          of soak tests is to capture transient changes in performance which
+          may occur due to infrequent processes or the low probability
+          coincidence of two or more processes. The performance must be
+          evaluated periodically during continuous testing, and this results
+          in use of <xref target="RFC2889"/> Frame Rate metrics instead of
+          <xref target="RFC2544"/> Throughput (which requires stopping traffic
+          to allow time for all traffic to exit internal queues).</t>
         </list></t>
 
       <t>Future/planned test specs include:<list style="symbols">
@@ -712,7 +729,7 @@
         </figure></t>
 
       <t>A set of Deployment Scenario figures is available on the VSPERF Test
-      Methodology Wiki page <xref target="TestTopo"/>. </t>
+      Methodology Wiki page <xref target="TestTopo"/>.</t>
     </section>
 
     <section title="3x3 Matrix Coverage">
@@ -860,6 +877,8 @@
 
       <?rfc include="reference.RFC.2119"?>
 
+      <?rfc ?>
+
       <?rfc include="reference.RFC.2330"?>
 
       <?rfc include='reference.RFC.2544'?>
@@ -922,6 +941,8 @@
 
       <?rfc include='reference.I-D.ietf-bmwg-virtual-net'?>
 
+      <?rfc include='reference.I-D.huang-bmwg-virtual-network-performance'?>
+
       <reference anchor="TestTopo">
         <front>
           <title>Test Topologies
@@ -938,7 +959,7 @@
       <reference anchor="LTDoverV">
         <front>
           <title>LTD Test Spec Overview
-          https://wiki.opnfv.org/wiki/vswitchperf_test_spec_review </title>
+          https://wiki.opnfv.org/wiki/vswitchperf_test_spec_review</title>
 
           <author>
             <organization/>
