@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_b40a97d0",
+        "filename": "systems/Red/7.2/build_base_machine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-13T10:11:36Z",
+      "side": 1,
+      "message": "and Red Hat?",
+      "revId": "187efc8386edebfc28a6121c0c512ba7140003df",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_d40513c3",
+        "filename": "systems/Red/7.2/build_base_machine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-13T10:11:36Z",
+      "side": 1,
+      "message": "don\u0027t forget to add yourself",
+      "revId": "187efc8386edebfc28a6121c0c512ba7140003df",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
