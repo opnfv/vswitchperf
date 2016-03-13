@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_1455ebc5",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-13T09:48:48Z",
+      "side": 1,
+      "message": "\u003e \u003e (1 comment)\n \u003e Maryam, I understand the concern. Let me explain. In this guide, we\n\nI\u0027m glad it\u0027s understood.\n\n \u003e have clearly defined what we mean by \"adding\" a testcase. What you\n \u003e are referring is the \u0027option1\u0027 - where you just modify the\n \u003e parameters. In the second option, it is about the supporting \"newer\n \u003e values\" to the parameters. For example, today if you give value\n \u003e rfc2889 to the traffic type - a new testcase is not ADDED/SUPPORTED\n \u003e - it won\u0027t work by just passing this value as it is \u0027unsupported\u0027\n \u003e Hence, this document is focusing on the second option (supporting\n \u003e newer values to existing configurable parameters), specifically the\n \u003e traffic type. I foresee this document to grow, where \n\nThis belongs is the traffic gen guide. at the end of the day, you just change a parameter for the testcase. there is 0 modifications to the testcase class. can be covered there.\n \u003e we add new\n \u003e workload generation or frame modification supports.\n \u003e \n \u003e Finally, I have acknowledged the overlapping parts - which are\n \u003e provided only in the summary form. Apart from that, I don\u0027t see any\n \u003e other overlaps.\n\nLet me be very clear. This patch is not describing adding a \"testcase\", it describes adding a new traffic type... it belongs in the other guide. I will not be merging till it is moved. As I previously mentioned adding a new test case means adding a new Testcase class or extending the current testcase in some way, for scalability or noisey neighbour test see https://gerrit.opnfv.org/gerrit/#/c/11063/2/testcases/integration.py... you are simply modifying a testcase parameter here.",
+      "revId": "e7d5da52871dd4f93db5cb2b07fd7fe2049632ff",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_f4512fd9",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-13T09:48:48Z",
+      "side": 1,
+      "message": "I\u0027m happy to leave this section here",
+      "revId": "e7d5da52871dd4f93db5cb2b07fd7fe2049632ff",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_d45e33e9",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-13T09:48:48Z",
+      "side": 1,
+      "message": "The traffic gen guide is where this belongs.",
+      "revId": "e7d5da52871dd4f93db5cb2b07fd7fe2049632ff",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_b463b7b0",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-13T09:48:48Z",
+      "side": 1,
+      "message": "Move to the traffic gen guide",
+      "revId": "e7d5da52871dd4f93db5cb2b07fd7fe2049632ff",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_9458bbfb",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-13T09:48:48Z",
+      "side": 1,
+      "message": "The traffic gen guide is where this belongs.",
+      "revId": "e7d5da52871dd4f93db5cb2b07fd7fe2049632ff",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_745d3fe9",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-13T09:48:48Z",
+      "side": 1,
+      "message": "The traffic gen guide is where this belongs.",
+      "revId": "e7d5da52871dd4f93db5cb2b07fd7fe2049632ff",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_5472437d",
+        "filename": "docs/design/new_testcase_integration_guide.tst",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-13T09:48:48Z",
+      "side": 1,
+      "message": "This is the only section that refers to directly modifying a testcase setting and can move this and the next section to the traffic gen guide. as Final modifications to enable a new traffic type",
+      "revId": "e7d5da52871dd4f93db5cb2b07fd7fe2049632ff",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
