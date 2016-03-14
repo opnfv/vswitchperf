@@ -37,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_37c10981",
+        "filename": "docs/requirements/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-01.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-14T22:15:35Z",
+      "side": 1,
+      "message": "24 is the ideal time for the soak tests. I think we say something like at least 6 hours in those tests... but I\u0027m not picky on this point :)",
+      "revId": "8bf88e2e08bf980c045e4517efcd736df25fe4cd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_74177f52",
         "filename": "docs/requirements/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-01.xml",
         "patchSetId": 1
@@ -66,6 +83,23 @@
       "side": 1,
       "message": "It\u0027s a blank reference, which the XMLmind Editor I use can\u0027t seem to delete on it\u0027s own.  It doesn\u0027t affect the formatted output though, so I\u0027m lazy about deleting these with a different text editor...",
       "parentUuid": "1a486d77_74177f52",
+      "revId": "8bf88e2e08bf980c045e4517efcd736df25fe4cd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_17be0d00",
+        "filename": "docs/requirements/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-01.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-14T22:15:35Z",
+      "side": 1,
+      "message": "should we include the test spec itself: http://artifacts.opnfv.org/vswitchperf/docs/requirements/index.html",
       "revId": "8bf88e2e08bf980c045e4517efcd736df25fe4cd",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
