@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_9412fb60",
+        "filename": "docs/requirements/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-01.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-14T16:17:00Z",
+      "side": 1,
+      "message": "as Additionally - is it a typo?",
+      "revId": "8bf88e2e08bf980c045e4517efcd736df25fe4cd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_74177f52",
+        "filename": "docs/requirements/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-01.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-14T16:17:00Z",
+      "side": 1,
+      "message": "is it a temporary line to be deleted?",
+      "revId": "8bf88e2e08bf980c045e4517efcd736df25fe4cd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
