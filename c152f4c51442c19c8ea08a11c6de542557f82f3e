@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_f44a4fab",
+        "filename": "systems/Red/7.2/build_base_machine.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-14T14:30:37Z",
+      "side": 1,
+      "message": "For CentOS we use python3.3 installed from software collection. Isn\u0027t it possible to install python from SCL also in RHEL?",
+      "revId": "c152f4c51442c19c8ea08a11c6de542557f82f3e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
