@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_34090732",
+        "filename": "docs/requirements/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-01.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-03-14T16:52:57Z",
+      "side": 1,
+      "message": "Yes, thanks Martin!",
+      "parentUuid": "1a486d77_9412fb60",
+      "revId": "8bf88e2e08bf980c045e4517efcd736df25fe4cd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_74177f52",
         "filename": "docs/requirements/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-01.xml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-14T16:17:00Z",
       "side": 1,
       "message": "is it a temporary line to be deleted?",
+      "revId": "8bf88e2e08bf980c045e4517efcd736df25fe4cd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_b704d915",
+        "filename": "docs/requirements/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-01.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-03-14T16:52:57Z",
+      "side": 1,
+      "message": "It\u0027s a blank reference, which the XMLmind Editor I use can\u0027t seem to delete on it\u0027s own.  It doesn\u0027t affect the formatted output though, so I\u0027m lazy about deleting these with a different text editor...",
+      "parentUuid": "1a486d77_74177f52",
       "revId": "8bf88e2e08bf980c045e4517efcd736df25fe4cd",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
