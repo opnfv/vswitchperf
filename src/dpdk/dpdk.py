@@ -111,13 +111,14 @@ def insert_vhost_modules():
     mod_path_prefix = os.path.join(settings.getValue('RTE_SDK'),
                                    'lib',
                                    'librte_vhost')
-    _DPDK_MODULE_MANAGER.insert_module_group('VHOST_MODULE', mod_path_prefix)
+    _DPDK_MODULE_MANAGER.insert_module_group(settings.getValue('VHOST_MODULE'), mod_path_prefix)
 
 
 def remove_vhost_modules():
     """Removes all VHOST related kernel modules
     """
-    _DPDK_MODULE_MANAGER.remove_module_group(settings.getValue('VHOST_MODULE'))
+    # all modules are removed automatically by _remove_modules() method
+    pass
 
 
 #
