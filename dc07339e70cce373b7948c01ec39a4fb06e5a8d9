@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_f77db1b2",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-15T17:27:58Z",
+      "side": 1,
+      "message": "I\u0027m thinking about additional refactoring to get rid of both insert_vhost_modules and remove_vhost_modules. The idea is to enhance __init__ method to accept optional parameter, which will drive all vhost specific actions.\n\nI suggest to solve it as separate JIRA ticket.",
+      "revId": "dc07339e70cce373b7948c01ec39a4fb06e5a8d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_d74ab582",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-15T17:27:58Z",
+      "side": 1,
+      "message": "It seems, that this code is obsoleted. It should be checked if vhost-net module is still used by vHost scenarios.\n\nI suggest to raise a separate JIRA ticket to solve it together with refactoring above.",
+      "revId": "dc07339e70cce373b7948c01ec39a4fb06e5a8d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
