@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_d78f5522",
+        "filename": "docs/userguide/integration.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-15T07:41:01Z",
+      "side": 1,
+      "message": "This document has been reformatted as part of Dino\u0027s decapsulation patch. Including line wrap of all vsperf execution examples. So it is already addressed elsewhere.",
+      "parentUuid": "1a486d77_1755edc5",
+      "revId": "dd9e39b97d831a6dbc205808a0fc7e74a3ffd98d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_b763b9b0",
         "filename": "testcases/integration.py",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-14T22:22:47Z",
       "side": 1,
       "message": "line wrap",
+      "revId": "dd9e39b97d831a6dbc205808a0fc7e74a3ffd98d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_b794d937",
+        "filename": "testcases/integration.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-15T07:41:01Z",
+      "side": 1,
+      "message": "It\u0027s 107 chars long, i.e. \u003e80 but \u003c120.\n\nAt OPNFV wiki, the preferred line length is discussed several times, where max lengths of 80 and 120 are suggested (although it seems, that 80 is recommended for python code). At the beginning VSPERF code was wrapped to 80, but with combination of 4 spaces for indent it lead to too many line wraps. So it was sometimes hard to read the code and function definitions.\nThus I\u0027ve loosen a rule a bit, while defining pylintrc and set max allowed line length to 120 chars. So far I can see, it is more reasonable line length, which helped code readability.\n\nOf course it can be reverted if it will be requested.",
+      "parentUuid": "1a486d77_b763b9b0",
       "revId": "dd9e39b97d831a6dbc205808a0fc7e74a3ffd98d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
