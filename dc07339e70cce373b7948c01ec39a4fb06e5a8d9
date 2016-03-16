@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_b2d86754",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-16T14:40:26Z",
+      "side": 1,
+      "message": "In case of module groups, the path to the module is passed through \"path_preffix\" and specific subdirectory (suffix) within this prefix is passed as first item in the tuple stored in module_group.\n\nThis code only collects all these data into exact module name with the full path and inserts it through ismod.\n\nThis method is used to insert DPDK drivers (igb_uio) and vhost module drivers, which are stored within dpdk directory.\n\n\u0027DPDK_MODULES\u0027: [(\u0027kmod\u0027, \u0027igb_uio\u0027)],\n\n\u0027VHOST_MODULE\u0027: [(\u0027eventfd_link\u0027, \u0027eventfd_link\u0027)],\n\nInsertion of both groups above was successfully tested.\n\nOpenvswitch module is inserted by standard insert_modules method, it means it is listed inside VSWITCH_VANILLA_KERNEL_MODULES with its full path. It has been also successfully tested.",
+      "parentUuid": "1a486d77_d22c034d",
+      "revId": "dc07339e70cce373b7948c01ec39a4fb06e5a8d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_92268b67",
         "filename": "tools/module_manager.py",
         "patchSetId": 1
@@ -82,6 +100,24 @@
       "writtenOn": "2016-03-16T13:50:45Z",
       "side": 1,
       "message": "I think you could be removing a whole tree of dependencies here... We have the exact list of modules we inserted... can\u0027t we just remove them if they are dependant on the module we are trying to remove and are in the module list?",
+      "revId": "dc07339e70cce373b7948c01ec39a4fb06e5a8d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_12f17bcd",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-16T14:40:26Z",
+      "side": 1,
+      "message": "Yes, this is potentially dangerous and there is already an error report under investigation. It is more likely, that this part will be abandoned.\n\nThe idea was to free all modules hooked to the module we are about to remove. In another words, to avoid failure of module removal, caused by \"module in use\" situation.\n\nAlso modprobe has some means to remove module together with its children (if they are unused), but it didn\u0027t worked for me. Thus I tried to do it manually.",
+      "parentUuid": "1a486d77_92268b67",
       "revId": "dc07339e70cce373b7948c01ec39a4fb06e5a8d9",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
