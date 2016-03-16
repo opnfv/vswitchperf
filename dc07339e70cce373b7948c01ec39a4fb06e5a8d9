@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_12adfb88",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-16T15:14:33Z",
+      "side": 1,
+      "message": "sorry to be pedantic :D \nI understand how the path is being built up... \nbut I see in insert_module we extract the module_base_name which I assume is stripping away the path to the module? so this is why I\u0027m finding it hard to see that the module is being insmodded from the full path\nBut if you say it works, I believe you :D",
+      "parentUuid": "1a486d77_b2d86754",
+      "revId": "dc07339e70cce373b7948c01ec39a4fb06e5a8d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_92268b67",
         "filename": "tools/module_manager.py",
         "patchSetId": 1
