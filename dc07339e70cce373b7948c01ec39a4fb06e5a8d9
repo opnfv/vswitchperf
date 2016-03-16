@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_f2ffffa8",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-16T13:46:41Z",
+      "side": 1,
+      "message": "sounds good",
+      "parentUuid": "1a486d77_f77db1b2",
+      "revId": "dc07339e70cce373b7948c01ec39a4fb06e5a8d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_d74ab582",
         "filename": "src/dpdk/dpdk.py",
         "patchSetId": 1
@@ -30,6 +48,23 @@
       "writtenOn": "2016-03-15T17:27:58Z",
       "side": 1,
       "message": "It seems, that this code is obsoleted. It should be checked if vhost-net module is still used by vHost scenarios.\n\nI suggest to raise a separate JIRA ticket to solve it together with refactoring above.",
+      "revId": "dc07339e70cce373b7948c01ec39a4fb06e5a8d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_d22c034d",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-03-16T13:46:41Z",
+      "side": 1,
+      "message": "Does this work with the path? if you are insmodding the module basename??\n\nbest way to test is with vanilla OVS",
       "revId": "dc07339e70cce373b7948c01ec39a4fb06e5a8d9",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
