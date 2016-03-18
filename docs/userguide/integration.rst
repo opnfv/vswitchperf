@@ -90,7 +90,6 @@ To run OVS NATIVE tunnel tests (VXLAN/GRE/GENEVE):
   .. code-block:: python
 
     VSWITCH = 'OvsVanilla'
-    VSWITCH_VANILLA_PHY_PORT_NAMES = ['nic1name', 'nic2name']
     # Specify vport_* kernel module to test.
     VSWITCH_VANILLA_KERNEL_MODULES = ['vport_vxlan',
                                       'vport_gre',
