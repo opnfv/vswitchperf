@@ -199,7 +199,6 @@ for Vanilla OVS:
 .. code-block:: console
 
    VSWITCH = 'OvsVanilla'
-   VSWITCH_VANILLA_PHY_PORT_NAMES = ['$PORT1', '$PORT2']
 
 Where $PORT1 and $PORT2 are the Linux interfaces you'd like to bind
 to the vswitch.
@@ -309,6 +308,8 @@ To run tests using Vanilla OVS:
 
      $ ./vsperf --conf-file<path_to_custom_conf>/10_custom.conf
 
+.. _vfio-pci:
+
 Using vfio_pci with DPDK
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -345,6 +346,65 @@ To check that IOMMU is enabled on your platform:
     [    3.335744] IOMMU: dmar0 using Queued invalidation
     [    3.335746] IOMMU: dmar1 using Queued invalidation
     ....
+
+.. _SRIOV-support:
+
+Using SRIOV support
+^^^^^^^^^^^^^^^^^^^
+
+To use virtual functions of NIC with SRIOV support, use extended form
+of NIC PCI slot definition:
+
+.. code-block:: python
+
+    WHITELIST_NICS = ['0000:05:00.0|vf0', '0000:05:00.1|vf3']
+
+Where 'vf' is an indication of virtual function usage and following
+number defines a VF to be used. In case that VF usage is detected,
+then vswitchperf will enable SRIOV support for given card and it will
+detect PCI slot numbers of selected VFs.
+
+So in example above, one VF will be configured for NIC '0000:05:00.0'
+and four VFs will be configured for NIC '0000:05:00.1'. Vswitchperf
+will detect PCI addresses of selected VFs and it will use them during
+test execution.
+
+At the end of vswitchperf execution, SRIOV support will be disabled.
+
+SRIOV support is generic and it can be used in different testing scenarios.
+For example:
+
+* vSwitch tests with DPDK or without DPDK support to verify impact
+  of VF usage on vSwitch performance
+* tests without vSwitch, where traffic is forwared directly
+  between VF interfaces by packet forwarder (e.g. testpmd application)
+* tests without vSwitch, where VM accesses VF interfaces directly
+  by PCI-passthrough_ to measure raw VM throughput performance.
+
+.. _PCI-passthrough:
+
+Using QEMU with PCI passthrough support
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Raw virtual machine throughput performance can be measured by execution of PVP
+test with direct access to NICs by PCI passthrough. To execute VM with direct
+access to PCI devices, enable vfio-pci_. In order to use virtual functions,
+SRIOV-support_ must be enabled.
+
+Execution of test with PCI passthrough with vswitch disabled:
+
+.. code-block:: console
+
+    $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
+               --vswtich none --vnf QemuPciPassthrough pvp_tput
+
+Any of supported guest-loopback-application_ can be used inside VM with
+PCI passthrough support.
+
+Note: Qemu with PCI passthrough support can be used only with PVP test
+deployment.
+
+.. _guest-loopback-application:
 
 Selection of loopback application for PVP and PVVP tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -24,11 +24,12 @@ class PktFwdController(object):
         _pktfwd_class: The packet forwarder class to be used.
         _pktfwd: The packet forwarder object controlled by this controller
     """
-    def __init__(self, pktfwd_class):
+    def __init__(self, deployment, pktfwd_class):
         """Initializes up the prerequisites for the P2P deployment scenario.
 
         :vswitch_class: the vSwitch class to be used.
         """
+        self._deployment = deployment
         self._logger = logging.getLogger(__name__)
         self._pktfwd_class = pktfwd_class
         self._pktfwd = pktfwd_class()
@@ -52,10 +53,12 @@ class PktFwdController(object):
         self._pktfwd.stop()
 
     def __enter__(self):
-        self.setup()
+        if self._deployment.find("p2p") == 0:
+            self.setup()
 
     def __exit__(self, type_, value, traceback):
-        self.stop()
+        if self._deployment.find("p2p") == 0:
+            self.stop()
 
     def get_pktfwd(self):
         """Get the controlled packet forwarder
