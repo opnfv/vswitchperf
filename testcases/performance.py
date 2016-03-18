@@ -25,11 +25,11 @@ class PerformanceTestCase(TestCase):
 
     In this basic form runs RFC2544 throughput test
     """
-    def __init__(self, cfg, results_dir):
+    def __init__(self, cfg):
         """ Testcase initialization
         """
         self._type = 'performance'
-        super(PerformanceTestCase, self).__init__(cfg, results_dir)
+        super(PerformanceTestCase, self).__init__(cfg)
         self._logger = logging.getLogger(__name__)
 
     def run_report(self):

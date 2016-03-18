@@ -66,6 +66,14 @@ class IVnfQemu(IVnf):
         # cli option take precedence to config file values
         self._guest_loopback = S.getValue('GUEST_LOOPBACK')[self._number]
 
+        self._testpmd_fwd_mode = S.getValue('GUEST_TESTPMD_FWD_MODE')
+        # in case of SRIOV we must ensure, that MAC addresses are not swapped
+        if S.getValue('SRIOV_ENABLED') and self._testpmd_fwd_mode.startswith('mac') and \
+           not S.getValue('VNF').endswith('PciPassthrough'):
+
+            self._logger.info("SRIOV detected, forwarding mode of testpmd was changed from '%s' to '%s'",
+                              self._testpmd_fwd_mode, 'io')
+            self._testpmd_fwd_mode = 'io'
 
         name = 'Client%d' % self._number
         vnc = ':%d' % self._number
@@ -306,6 +314,11 @@ class IVnfQemu(IVnf):
         # modify makefile if needed
         self._modify_dpdk_makefile()
 
+        # disable network interfaces, so DPDK can take care of them
+        self.execute_and_wait('ifdown ' + self._net1)
+        self.execute_and_wait('ifdown ' + self._net2)
+
+        # build and insert igb_uio and rebind interfaces to it
         self.execute_and_wait('make RTE_OUTPUT=$RTE_SDK/$RTE_TARGET -C '
                               '$RTE_SDK/lib/librte_eal/linuxapp/igb_uio')
         self.execute_and_wait('modprobe uio')
@@ -313,9 +326,14 @@ class IVnfQemu(IVnf):
                               S.getValue('RTE_TARGET'))
         self.execute_and_wait('./tools/dpdk_nic_bind.py --status')
         self.execute_and_wait(
+            './tools/dpdk_nic_bind.py -u' ' ' +
+            S.getValue('GUEST_NET1_PCI_ADDRESS')[self._number] + ' ' +
+            S.getValue('GUEST_NET2_PCI_ADDRESS')[self._number])
+        self.execute_and_wait(
             './tools/dpdk_nic_bind.py -b igb_uio' ' ' +
             S.getValue('GUEST_NET1_PCI_ADDRESS')[self._number] + ' ' +
             S.getValue('GUEST_NET2_PCI_ADDRESS')[self._number])
+        self.execute_and_wait('./tools/dpdk_nic_bind.py --status')
 
         # build and run 'test-pmd'
         self.execute_and_wait('cd ' + S.getValue('GUEST_OVS_DPDK_DIR') +
@@ -325,9 +343,9 @@ class IVnfQemu(IVnf):
         self.execute_and_wait('./testpmd -c 0x3 -n 4 --socket-mem 512 --'
                               ' --burst=64 -i --txqflags=0xf00 ' +
                               '--disable-hw-vlan', 60, "Done")
-        self.execute('set fwd mac_retry', 1)
+        self.execute('set fwd ' + self._testpmd_fwd_mode, 1)
         self.execute_and_wait('start', 20,
-                              'TX RS bit threshold=0 - TXQ flags=0xf00')
+                              'TX RS bit threshold=.+ - TXQ flags=0xf00')
 
     def _configure_l2fwd(self):
         """

@@ -39,6 +39,7 @@ from core.loader import Loader
 from testcases import PerformanceTestCase
 from testcases import IntegrationTestCase
 from tools import tasks
+from tools import networkcard
 from tools.pkt_gen import trafficgen
 from tools.opnfvdashboard import opnfvdashboard
 from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
@@ -57,6 +58,8 @@ _TEMPLATE_RST = {'head'  : 'tools/report/report_head.rst',
                  'final' : 'test_report.rst',
                  'tmp'   : 'tools/report/report_tmp_caption.rst'
                 }
+
+_LOGGER = logging.getLogger()
 
 def parse_arguments():
     """
@@ -194,18 +197,17 @@ def configure_logging(level):
         settings.getValue('LOG_DIR'),
         settings.getValue('LOG_FILE_TRAFFIC_GEN'))
 
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
+    _LOGGER.setLevel(logging.DEBUG)
 
     stream_logger = logging.StreamHandler(sys.stdout)
     stream_logger.setLevel(VERBOSITY_LEVELS[level])
     stream_logger.setFormatter(logging.Formatter(
-        '[%(levelname)s]  %(asctime)s : (%(name)s) - %(message)s'))
-    logger.addHandler(stream_logger)
+        '[%(levelname)-5s]  %(asctime)s : (%(name)s) - %(message)s'))
+    _LOGGER.addHandler(stream_logger)
 
     file_logger = logging.FileHandler(filename=log_file_default)
     file_logger.setLevel(logging.DEBUG)
-    logger.addHandler(file_logger)
+    _LOGGER.addHandler(file_logger)
 
     class CommandFilter(logging.Filter):
         """Filter out strings beginning with 'cmd :'"""
@@ -220,12 +222,12 @@ def configure_logging(level):
     cmd_logger = logging.FileHandler(filename=log_file_host_cmds)
     cmd_logger.setLevel(logging.DEBUG)
     cmd_logger.addFilter(CommandFilter())
-    logger.addHandler(cmd_logger)
+    _LOGGER.addHandler(cmd_logger)
 
     gen_logger = logging.FileHandler(filename=log_file_traffic_gen)
     gen_logger.setLevel(logging.DEBUG)
     gen_logger.addFilter(TrafficGenCommandFilter())
-    logger.addHandler(gen_logger)
+    _LOGGER.addHandler(gen_logger)
 
 
 def apply_filter(tests, tc_filter):
@@ -267,26 +269,30 @@ def check_and_set_locale():
     system_locale = locale.getdefaultlocale()
     if None in system_locale:
         os.environ['LC_ALL'] = settings.getValue('DEFAULT_LOCALE')
-        logging.warning("Locale was not properly configured. Default values were set. Old locale: %s, New locale: %s",
+        _LOGGER.warning("Locale was not properly configured. Default values were set. Old locale: %s, New locale: %s",
                         system_locale, locale.getdefaultlocale())
 
 
-def generate_final_report(path):
+def generate_final_report():
     """ Function will check if partial test results are available
     and generates final report in rst format.
     """
 
+    path = settings.getValue('RESULTS_PATH')
     # check if there are any results in rst format
     rst_results = glob.glob(os.path.join(path, 'result*rst'))
     if len(rst_results):
         try:
             test_report = os.path.join(path, '{}_{}'.format(settings.getValue('VSWITCH'), _TEMPLATE_RST['final']))
             # create report caption directly - it is not worth to execute jinja machinery
+            if settings.getValue('VSWITCH').lower() != 'none':
+                pkt_processor = Loader().get_vswitches()[settings.getValue('VSWITCH')].__doc__.strip().split('\n')[0]
+            else:
+                pkt_processor = Loader().get_pktfwds()[settings.getValue('PKTFWD')].__doc__.strip().split('\n')[0]
             report_caption = '{}\n{} {}\n{}\n\n'.format(
                 '============================================================',
                 'Performance report for',
-                Loader().get_vswitches()[settings.getValue('VSWITCH')].__doc__.strip().split('\n')[0],
-
+                pkt_processor,
                 '============================================================')
 
             with open(_TEMPLATE_RST['tmp'], 'w') as file_:
@@ -296,15 +302,143 @@ def generate_final_report(path):
                                                                    ' '.join(rst_results), _TEMPLATE_RST['foot'],
                                                                    test_report), shell=True)
             if retval == 0 and os.path.isfile(test_report):
-                logging.info('Overall test report written to "%s"', test_report)
+                _LOGGER.info('Overall test report written to "%s"', test_report)
             else:
-                logging.error('Generatrion of overall test report has failed.')
+                _LOGGER.error('Generatrion of overall test report has failed.')
 
             # remove temporary file
             os.remove(_TEMPLATE_RST['tmp'])
 
         except subprocess.CalledProcessError:
-            logging.error('Generatrion of overall test report has failed.')
+            _LOGGER.error('Generatrion of overall test report has failed.')
+
+
+def enable_sriov(nic_list):
+    """ Enable SRIOV for given enhanced PCI IDs
+
+    :param nic_list: A list of enhanced PCI IDs
+    """
+    # detect if sriov is required
+    sriov_nic = {}
+    for nic in nic_list:
+        if networkcard.is_sriov_nic(nic):
+            tmp_nic = nic.split('|')
+            if tmp_nic[0] in sriov_nic:
+                if int(tmp_nic[1][2:]) > sriov_nic[tmp_nic[0]]:
+                    sriov_nic[tmp_nic[0]] = int(tmp_nic[1][2:])
+            else:
+                sriov_nic.update({tmp_nic[0] : int(tmp_nic[1][2:])})
+
+    # sriov is required for some NICs
+    if len(sriov_nic):
+        for nic in sriov_nic:
+            # check if SRIOV is supported and enough virt interfaces are available
+            if not networkcard.is_sriov_supported(nic) \
+                or networkcard.get_sriov_numvfs(nic) <= sriov_nic[nic]:
+                # if not, enable and set appropriate number of VFs
+                if not networkcard.set_sriov_numvfs(nic, sriov_nic[nic] + 1):
+                    _LOGGER.error("SRIOV cannot be enabled for NIC %s", nic)
+                    raise
+                else:
+                    _LOGGER.debug("SRIOV enabled for NIC %s", nic)
+
+                # WORKAROUND: it has been observed with IXGBE(VF) driver,
+                # that NIC doesn't correclty dispatch traffic to VFs based
+                # on their MAC address. Unbind and bind to the same driver
+                # solves this issue.
+                networkcard.reinit_vfs(nic)
+
+        # After SRIOV is enabled it takes some time until network drivers
+        # properly initialize all cards.
+        # Wait also in case, that SRIOV was already configured as it can be
+        # configured automatically just before vsperf execution.
+        time.sleep(2)
+
+        return True
+
+    return False
+
+
+def disable_sriov(nic_list):
+    """ Disable SRIOV for given PCI IDs
+
+    :param nic_list: A list of enhanced PCI IDs
+    """
+    for nic in nic_list:
+        if networkcard.is_sriov_nic(nic):
+            if not networkcard.set_sriov_numvfs(nic.split('|')[0], 0):
+                _LOGGER.error("SRIOV cannot be disabled for NIC %s", nic)
+                raise
+            else:
+                _LOGGER.debug("SRIOV disabled for NIC %s", nic.split('|')[0])
+
+
+def handle_list_options(args):
+    """ Process --list cli arguments if needed
+
+    :param args: A dictionary with all CLI arguments
+    """
+    if args['list_trafficgens']:
+        print(Loader().get_trafficgens_printable())
+        sys.exit(0)
+
+    if args['list_collectors']:
+        print(Loader().get_collectors_printable())
+        sys.exit(0)
+
+    if args['list_vswitches']:
+        print(Loader().get_vswitches_printable())
+        sys.exit(0)
+
+    if args['list_vnfs']:
+        print(Loader().get_vnfs_printable())
+        sys.exit(0)
+
+    if args['list_fwdapps']:
+        print(Loader().get_pktfwds_printable())
+        sys.exit(0)
+
+    if args['list_settings']:
+        print(str(settings))
+        sys.exit(0)
+
+    if args['list']:
+        # configure tests
+        if args['integration']:
+            testcases = settings.getValue('INTEGRATION_TESTS')
+        else:
+            testcases = settings.getValue('PERFORMANCE_TESTS')
+
+        print("Available Tests:")
+        print("================")
+
+        for test in testcases:
+            print('* %-30s %s' % ('%s:' % test['Name'], test['Description']))
+        sys.exit(0)
+
+
+def vsperf_finalize():
+    """ Clean up before exit
+    """
+    # remove directory if no result files were created
+    try:
+        results_path = settings.getValue('RESULTS_PATH')
+        if os.path.exists(results_path):
+            files_list = os.listdir(results_path)
+            if files_list == []:
+                _LOGGER.info("Removing empty result directory: "  + results_path)
+                shutil.rmtree(results_path)
+    except AttributeError:
+        # skip it if parameter doesn't exist
+        pass
+
+    # disable SRIOV if needed
+    try:
+        if settings.getValue('SRIOV_ENABLED'):
+            disable_sriov(settings.getValue('WHITELIST_NICS_ORIG'))
+    except AttributeError:
+        # skip it if parameter doesn't exist
+        pass
 
 
 class MockTestCase(unittest.TestCase):
@@ -383,8 +517,10 @@ def main():
         if 'none' == settings.getValue('VSWITCH').strip().lower():
             vswitch_none = True
 
+    # if required, handle list-* operations
+    handle_list_options(args)
+
     configure_logging(settings.getValue('VERBOSITY'))
-    logger = logging.getLogger()
 
     # check and fix locale
     check_and_set_locale()
@@ -393,12 +529,12 @@ def main():
     if args['trafficgen']:
         trafficgens = Loader().get_trafficgens()
         if args['trafficgen'] not in trafficgens:
-            logging.error('There are no trafficgens matching \'%s\' found in'
+            _LOGGER.error('There are no trafficgens matching \'%s\' found in'
                           ' \'%s\'. Exiting...', args['trafficgen'],
                           settings.getValue('TRAFFICGEN_DIR'))
             sys.exit(1)
 
-    # configure vswitch
+    # configuration validity checks
     if args['vswitch']:
         vswitch_none = 'none' == args['vswitch'].strip().lower()
         if vswitch_none:
@@ -406,7 +542,7 @@ def main():
         else:
             vswitches = Loader().get_vswitches()
             if args['vswitch'] not in vswitches:
-                logging.error('There are no vswitches matching \'%s\' found in'
+                _LOGGER.error('There are no vswitches matching \'%s\' found in'
                               ' \'%s\'. Exiting...', args['vswitch'],
                               settings.getValue('VSWITCH_DIR'))
                 sys.exit(1)
@@ -415,7 +551,7 @@ def main():
         settings.setValue('PKTFWD', args['fwdapp'])
         fwdapps = Loader().get_pktfwds()
         if args['fwdapp'] not in fwdapps:
-            logging.error('There are no forwarding application'
+            _LOGGER.error('There are no forwarding application'
                           ' matching \'%s\' found in'
                           ' \'%s\'. Exiting...', args['fwdapp'],
                           settings.getValue('PKTFWD_DIR'))
@@ -424,16 +560,45 @@ def main():
     if args['vnf']:
         vnfs = Loader().get_vnfs()
         if args['vnf'] not in vnfs:
-            logging.error('there are no vnfs matching \'%s\' found in'
+            _LOGGER.error('there are no vnfs matching \'%s\' found in'
                           ' \'%s\'. exiting...', args['vnf'],
                           settings.getValue('vnf_dir'))
             sys.exit(1)
+
+    if args['exact_test_name'] and args['tests']:
+        _LOGGER.error("Cannot specify tests with both positional args and --test.")
+        sys.exit(1)
+
+    # sriov handling
+    settings.setValue('SRIOV_ENABLED', enable_sriov(settings.getValue('WHITELIST_NICS')))
+
+    # modify NIC configuration to decode enhanced PCI IDs
+    wl_nics_orig = list(networkcard.check_pci(pci) for pci in settings.getValue('WHITELIST_NICS'))
+    settings.setValue('WHITELIST_NICS_ORIG', wl_nics_orig)
+
+    nic_list = []
+    for nic in wl_nics_orig:
+        tmp_nic = networkcard.get_nic_info(nic)
+        if tmp_nic:
+            nic_list.append({'pci' : tmp_nic,
+                             'type' : 'vf' if networkcard.get_sriov_pf(tmp_nic) else 'pf',
+                             'mac' : networkcard.get_mac(tmp_nic),
+                             'driver' : networkcard.get_driver(tmp_nic),
+                             'device' : networkcard.get_device_name(tmp_nic)})
+        else:
+            _LOGGER.error("Invalid network card PCI ID: '%s'", nic)
+            vsperf_finalize()
+            raise
+
+    settings.setValue('NICS', nic_list)
+    # for backward compatibility
+    settings.setValue('WHITELIST_NICS', list(nic['pci'] for nic in nic_list))
 
     # update global settings
     guest_loopback = get_test_param('guest_loopback', None)
     if guest_loopback:
         tmp_gl = []
-        for i in range(len(settings.getValue('GUEST_LOOPBACK'))):
+        for dummy_i in range(len(settings.getValue('GUEST_LOOPBACK'))):
             tmp_gl.append(guest_loopback)
         settings.setValue('GUEST_LOOPBACK', tmp_gl)
 
@@ -443,15 +608,16 @@ def main():
     date = datetime.datetime.fromtimestamp(time.time())
     results_dir = "results_" + date.strftime('%Y-%m-%d_%H-%M-%S')
     results_path = os.path.join(settings.getValue('LOG_DIR'), results_dir)
+    settings.setValue('RESULTS_PATH', results_path)
 
     # create results directory
     if not os.path.exists(results_path):
-        logger.info("Creating result directory: "  + results_path)
+        _LOGGER.info("Creating result directory: "  + results_path)
         os.makedirs(results_path)
 
     if settings.getValue('mode') == 'trafficgen':
         # execute only traffic generator
-        logging.debug("Executing traffic generator:")
+        _LOGGER.debug("Executing traffic generator:")
         loader = Loader()
         # set traffic details, so they can be passed to traffic ctl
         traffic = copy.deepcopy(TRAFFIC_DEFAULTS)
@@ -466,7 +632,7 @@ def main():
             loader.get_trafficgen_class())
         with traffic_ctl:
             traffic_ctl.send_traffic(traffic)
-        logging.debug("Traffic Results:")
+        _LOGGER.debug("Traffic Results:")
         traffic_ctl.print_results()
     else:
         # configure tests
@@ -479,48 +645,16 @@ def main():
         for cfg in testcases:
             try:
                 if args['integration']:
-                    all_tests.append(IntegrationTestCase(cfg, results_path))
+                    all_tests.append(IntegrationTestCase(cfg))
                 else:
-                    all_tests.append(PerformanceTestCase(cfg, results_path))
+                    all_tests.append(PerformanceTestCase(cfg))
             except (Exception) as _:
-                logger.exception("Failed to create test: %s",
-                                 cfg.get('Name', '<Name not set>'))
+                _LOGGER.exception("Failed to create test: %s",
+                                  cfg.get('Name', '<Name not set>'))
+                vsperf_finalize()
                 raise
 
-        # if required, handle list-* operations
-
-        if args['list']:
-            print("Available Tests:")
-            print("================")
-            for test in all_tests:
-                print('* %-30s %s' % ('%s:' % test.name, test.desc))
-            exit()
-
-        if args['list_trafficgens']:
-            print(Loader().get_trafficgens_printable())
-            exit()
-
-        if args['list_collectors']:
-            print(Loader().get_collectors_printable())
-            exit()
-
-        if args['list_vswitches']:
-            print(Loader().get_vswitches_printable())
-            exit()
-
-        if args['list_vnfs']:
-            print(Loader().get_vnfs_printable())
-            exit()
-
-        if args['list_settings']:
-            print(str(settings))
-            exit()
-
         # select requested tests
-        if args['exact_test_name'] and args['tests']:
-            logger.error("Cannot specify tests with both positional args and --test.")
-            sys.exit(1)
-
         if args['exact_test_name']:
             exact_names = args['exact_test_name']
             # positional args => exact matches only
@@ -533,7 +667,8 @@ def main():
             selected_tests = all_tests
 
         if not selected_tests:
-            logger.error("No tests matched --test option or positional args. Done.")
+            _LOGGER.error("No tests matched --test option or positional args. Done.")
+            vsperf_finalize()
             sys.exit(1)
 
         # run tests
@@ -544,12 +679,12 @@ def main():
                 suite.addTest(MockTestCase('', True, test.name))
             #pylint: disable=broad-except
             except (Exception) as ex:
-                logger.exception("Failed to run test: %s", test.name)
+                _LOGGER.exception("Failed to run test: %s", test.name)
                 suite.addTest(MockTestCase(str(ex), False, test.name))
-                logger.info("Continuing with next test...")
+                _LOGGER.info("Continuing with next test...")
 
         # generate final rst report with results of all executed TCs
-        generate_final_report(results_path)
+        generate_final_report()
 
         if settings.getValue('XUNIT'):
             xmlrunner.XMLTestRunner(
@@ -574,13 +709,9 @@ def main():
                 int_data['cuse'] = True
             opnfvdashboard.results2opnfv_dashboard(results_path, int_data)
 
-    #remove directory if no result files were created.
-    if os.path.exists(results_path):
-        files_list = os.listdir(results_path)
-        if files_list == []:
-            shutil.rmtree(results_path)
+    # cleanup before exit
+    vsperf_finalize()
 
 if __name__ == "__main__":
     main()
-
 

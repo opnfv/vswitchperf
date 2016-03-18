@@ -71,8 +71,9 @@ def get_nic():
     output = subprocess.check_output('lspci', shell=True)
     output = output.decode(locale.getdefaultlocale()[1])
     for line in output.split('\n'):
-        for nic_pciid in S.getValue('WHITELIST_NICS'):
-            if line.startswith(nic_pciid):
+        for nic in S.getValue('NICS'):
+            # lspci shows PCI addresses without domain part, i.e. last 7 chars
+            if line.startswith(nic['pci'][-7:]):
                 nics.append(''.join(line.split(':')[2:]).strip())
     return nics
 

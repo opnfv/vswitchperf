@@ -23,7 +23,6 @@ from sys import platform as _platform
 import os
 import subprocess
 import logging
-import locale
 
 from tools import tasks
 from conf import settings
@@ -34,14 +33,22 @@ RTE_PCI_TOOL = os.path.join(
     settings.getValue('RTE_SDK'), 'tools', 'dpdk_nic_bind.py')
 
 _DPDK_MODULE_MANAGER = ModuleManager()
+
+# declare global NIC variables only as their content might not be known yet
+_NICS = []
+_NICS_PCI = []
+
 #
 # system management
 #
 
-
 def init():
     """Setup system for DPDK.
     """
+    global _NICS
+    global _NICS_PCI
+    _NICS = settings.getValue('NICS')
+    _NICS_PCI = list(nic['pci'] for nic in _NICS)
     if not _is_linux():
         _LOGGER.error('Not running on a compatible Linux version. Exiting...')
         return
@@ -175,54 +182,35 @@ def _bind_nics():
                            True)
 
         tasks.run_task(['sudo', RTE_PCI_TOOL, '--bind=' + _driver] +
-                       settings.getValue('WHITELIST_NICS'), _LOGGER,
-                       'Binding NICs %s...' %
-                       settings.getValue('WHITELIST_NICS'),
+                       _NICS_PCI, _LOGGER,
+                       'Binding NICs %s...' % _NICS_PCI,
                        True)
     except subprocess.CalledProcessError:
-        _LOGGER.error('Unable to bind NICs %s',
-                      str(settings.getValue('WHITELIST_NICS')))
-
-def _unbind_nics_get_driver():
-    """Check what driver the NICs should be bound to
-       after unbinding them from DPDK.
-    """
-    _driver_list = []
-    _output = subprocess.check_output([os.path.expanduser(RTE_PCI_TOOL), '--status'])
-    _my_encoding = locale.getdefaultlocale()[1]
-    for line in _output.decode(_my_encoding).split('\n'):
-        for nic in settings.getValue('WHITELIST_NICS'):
-            if nic in line:
-                _driver_list.append((line.split("unused=", 1)[1]))
-    return _driver_list
+        _LOGGER.error('Unable to bind NICs %s', str(_NICS_PCI))
 
 def _unbind_nics():
     """Unbind NICs using the Intel DPDK ``dpdk_nic_bind.py`` tool.
     """
-    nic_drivers = _unbind_nics_get_driver()
     try:
         tasks.run_task(['sudo', RTE_PCI_TOOL, '--unbind'] +
-                       settings.getValue('WHITELIST_NICS'), _LOGGER,
-                       'Unbinding NICs %s...' %
-                       str(settings.getValue('WHITELIST_NICS')),
+                       _NICS_PCI, _LOGGER,
+                       'Unbinding NICs %s...' % str(_NICS_PCI),
                        True)
     except subprocess.CalledProcessError:
-        _LOGGER.error('Unable to unbind NICs %s',
-                      str(settings.getValue('WHITELIST_NICS')))
+        _LOGGER.error('Unable to unbind NICs %s', str(_NICS_PCI))
     # Rebind NICs to their original drivers
     # using the Intel DPDK ``dpdk_nic_bind.py`` tool.
-    for i, nic in enumerate(settings.getValue('WHITELIST_NICS')):
+    for nic in _NICS:
         try:
-            if nic_drivers[i] != '':
+            if nic['driver']:
                 tasks.run_task(['sudo', RTE_PCI_TOOL, '--bind',
-                                nic_drivers[i], nic],
-                               _LOGGER, 'Binding NIC %s...' %
-                               nic,
+                                nic['driver'], nic['pci']],
+                               _LOGGER, 'Binding NIC %s to %s...' %
+                               (nic['pci'], nic['driver']),
                                True)
         except subprocess.CalledProcessError:
-            _LOGGER.error('Unable to bind NICs %s to drivers %s',
-                          str(settings.getValue('WHITELIST_NICS')),
-                          nic_drivers)
+            _LOGGER.error('Unable to bind NIC %s to driver %s',
+                          nic['pci'], nic['driver'])
 
 class Dpdk(object):
     """A context manager for the system init/cleanup.
