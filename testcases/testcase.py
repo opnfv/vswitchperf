@@ -163,6 +163,14 @@ class TestCase(object):
                 self._traffic['l2'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L2')
                 self._traffic['l3'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L3')
                 self._traffic['l4'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L4')
+        elif S.getValue('NICS')[0]['type'] == 'vf' or S.getValue('NICS')[1]['type'] == 'vf':
+            mac1 = S.getValue('NICS')[0]['mac']
+            mac2 = S.getValue('NICS')[1]['mac']
+            if mac1 and mac2:
+                self._traffic['l2'].update({'srcmac': mac2, 'dstmac': mac1})
+            else:
+                self._logger.debug("MAC addresses can not be read")
+
 
 
         self._logger.debug("Controllers:")
@@ -177,6 +185,7 @@ class TestCase(object):
 
         if self._vswitch_none:
             self._vswitch_ctl = component_factory.create_pktfwd(
+                self.deployment,
                 loader.get_pktfwd_class())
         else:
             self._vswitch_ctl = component_factory.create_vswitch(

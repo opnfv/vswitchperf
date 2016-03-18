@@ -32,7 +32,7 @@ class OvsVanilla(IVSwitchOvs):
     see the interface definition.
     """
 
-    _ports = settings.getValue('VSWITCH_VANILLA_PHY_PORT_NAMES')
+    _ports = list(nic['device'] for nic in settings.getValue('NICS'))
     _current_id = 0
     _vport_id = 0
 
@@ -77,8 +77,7 @@ class OvsVanilla(IVSwitchOvs):
 
     def add_phy_port(self, switch_name):
         """
-        Method adds port based on configured VSWITCH_VANILLA_PHY_PORT_NAMES
-        stored in config file.
+        Method adds port based on detected device names.
 
         See IVswitch for general description
         """
@@ -89,8 +88,8 @@ class OvsVanilla(IVSwitchOvs):
             raise
 
         if not self._ports[self._current_id]:
-            self._logger.error("VSWITCH_VANILLA_PHY_PORT_NAMES not set")
-            raise ValueError("Invalid VSWITCH_VANILLA_PHY_PORT_NAMES")
+            self._logger.error("Can't detect device name for NIC %s", self._current_id)
+            raise ValueError("Invalid device name for %s" % self._current_id)
 
         bridge = self._bridges[switch_name]
         port_name = self._ports[self._current_id]

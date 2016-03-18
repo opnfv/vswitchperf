@@ -42,7 +42,7 @@ class TestPMD(IPktFwd):
         vswitchd_args += _VSWITCHD_CONST_ARGS
         vswitchd_args += settings.getValue('TESTPMD_ARGS')
 
-        self._nports = len(settings.getValue('WHITELIST_NICS'))
+        self._nports = len(settings.getValue('NICS'))
         self._fwdmode = settings.getValue('TESTPMD_FWD_MODE')
         self._csum_layer = settings.getValue('TESTPMD_CSUM_LAYER')
         self._csum_calc = settings.getValue('TESTPMD_CSUM_CALC')
