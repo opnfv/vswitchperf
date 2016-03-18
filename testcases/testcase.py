@@ -36,7 +36,7 @@ class TestCase(object):
 
     In this basic form runs RFC2544 throughput test
     """
-    def __init__(self, cfg, results_dir):
+    def __init__(self, cfg):
         """Pull out fields from test config
 
         :param cfg: A dictionary of string-value pairs describing the test
@@ -114,7 +114,7 @@ class TestCase(object):
 
         if self._frame_mod:
             self._frame_mod = self._frame_mod.lower()
-        self._results_dir = results_dir
+        self._results_dir = S.getValue('RESULTS_PATH')
 
         # set traffic details, so they can be passed to vswitch and traffic ctls
         self._traffic = copy.deepcopy(TRAFFIC_DEFAULTS)
@@ -163,6 +163,14 @@ class TestCase(object):
                 self._traffic['l2'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L2')
                 self._traffic['l3'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L3')
                 self._traffic['l4'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L4')
+        elif S.getValue('NICS')[0]['type'] == 'vf' or S.getValue('NICS')[1]['type'] == 'vf':
+            mac1 = S.getValue('NICS')[0]['mac']
+            mac2 = S.getValue('NICS')[1]['mac']
+            if mac1 and mac2:
+                self._traffic['l2'].update({'srcmac': mac2, 'dstmac': mac1})
+            else:
+                self._logger.debug("MAC addresses can not be read")
+
 
 
         self._logger.debug("Controllers:")
@@ -177,6 +185,7 @@ class TestCase(object):
 
         if self._vswitch_none:
             self._vswitch_ctl = component_factory.create_pktfwd(
+                self.deployment,
                 loader.get_pktfwd_class())
         else:
             self._vswitch_ctl = component_factory.create_vswitch(

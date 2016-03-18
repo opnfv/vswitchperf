@@ -118,13 +118,14 @@ def create_loadgen(loadgen_type, loadgen_cfg):
     elif loadgen_type.find("stress") >= 0:
         return Stress(loadgen_cfg)
 
-def create_pktfwd(pktfwd_class):
+def create_pktfwd(deployment, pktfwd_class):
     """Return a new packet forwarder controller
 
     The returned controller is configured with the given
     packet forwarder class.
 
     :param pktfwd_class: Reference to packet forwarder class to be used.
+    :param deployment: The deployment scenario name
     :return: packet forwarder controller
     """
-    return PktFwdController(pktfwd_class)
+    return PktFwdController(deployment, pktfwd_class)

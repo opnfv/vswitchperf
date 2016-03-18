@@ -28,11 +28,11 @@ class IntegrationTestCase(TestCase):
     """IntegrationTestCase class
     """
 
-    def __init__(self, cfg, results_dir):
+    def __init__(self, cfg):
         """ Testcase initialization
         """
         self._type = 'integration'
-        super(IntegrationTestCase, self).__init__(cfg, results_dir)
+        super(IntegrationTestCase, self).__init__(cfg)
         self._logger = logging.getLogger(__name__)
         self._inttest = None
 

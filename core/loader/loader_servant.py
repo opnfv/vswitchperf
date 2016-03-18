@@ -90,8 +90,8 @@ class LoaderServant(object):
             desc = (mod.__doc__ or 'No description').strip().split('\n')[0]
             results.append((name, desc))
 
-        output = [
-            'Classes derived from: ' + self._interface.__name__ + '\n======\n']
+        header = 'Classes derived from: ' + self._interface.__name__
+        output = [header + '\n' + '=' * len(header) + '\n']
 
         for (name, desc) in results:
             output.append('* %-18s%s' % ('%s:' % name, desc))
