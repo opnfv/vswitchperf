@@ -103,6 +103,24 @@
       "revId": "8bf88e2e08bf980c045e4517efcd736df25fe4cd",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_e847104a",
+        "filename": "docs/requirements/ietf_draft/draft-vsperf-bmwg-vswitch-opnfv-01.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-03-19T15:38:22Z",
+      "side": 1,
+      "message": "Yes, agree completely, and perhaps the Brahmaputra Release site, too.",
+      "parentUuid": "1a486d77_17be0d00",
+      "revId": "8bf88e2e08bf980c045e4517efcd736df25fe4cd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
