@@ -103,6 +103,24 @@
       "revId": "dd9e39b97d831a6dbc205808a0fc7e74a3ffd98d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_48dd0470",
+        "filename": "tools/report/report.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-03-21T09:41:28Z",
+      "side": 1,
+      "message": "Thanks for pointing it out. I\u0027ll add all three missing parameters into docstring.\n\nBy the way, currently this method is not called for integration tests. So I was thinking about removal of test_type specific code. However integration test support is quite new and it might happen, that statistics will be requested for some type of integration testcases. Thus I\u0027ve kept original Dino\u0027s implementation as it was.",
+      "parentUuid": "1a486d77_283768e5",
+      "revId": "dd9e39b97d831a6dbc205808a0fc7e74a3ffd98d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
