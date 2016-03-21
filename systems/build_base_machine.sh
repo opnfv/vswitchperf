@@ -38,7 +38,7 @@ function die() {
 . /etc/os-release
 
 # Get OS name (the First word from $NAME in /etc/os-release)
-OS_NAME=`echo "$NAME" | cut -d ' ' -f1`
+OS_NAME=`echo "$ID"`
 
 # check if root
 if [ "$UID" -ne "$ROOT_UID" ]
