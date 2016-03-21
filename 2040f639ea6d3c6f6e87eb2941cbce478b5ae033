@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_086cac9b",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-21T13:43:27Z",
+      "side": 1,
+      "message": "I should have noticed this earlier. We removed the param vswitch_ctl from the param list. So probably should remove it from the docstring.",
+      "revId": "2040f639ea6d3c6f6e87eb2941cbce478b5ae033",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
