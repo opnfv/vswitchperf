@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_e38cd381",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "Missing docstring",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_c3e9d71b",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "Missing docstring",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_a3eedb20",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "Missing docstring",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_83f3df09",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "Missing docstring",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_03900f94",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "After reading through this code thoroughly I tend to agree with Maryam that this main method should be wrapped into a class for better reusability.",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_63f8e3e5",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "I tend to hate blind exception catchalls. Anyway to break this up? If it doesn\u0027t make sense I understand.",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_23930ba5",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "These if statements appear that they would be better built as if, elifs instead of all ifs. This is a direct compare of a string value so I believe elifs would be better served here to prevent excessive cpu consumption in the logic.",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_a33c9b94",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "not wrapped in args.verbose. Change to info level event?",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_83419f0d",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "not wrapped in args.verbose. Change to info level event?",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_c3d0b755",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "again should these be changed to elifs?",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_03e7ef41",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "This if statements isn\u0027t needed. You can remove it.You are already checking for verbose above.",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_e3e3b331",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "Again unneeded args.verbose if statement",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_43dde76f",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "This is a humongous try catch all. Any way to break it up for easier debugging?",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_23daeb78",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "So one thing I notice in this code is we have many debug statements where a lot of them are wrapped into the args.verbose checks. Any thoughts on changing the debugs that are not wrapped into args.verbose to be info events instead?",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_83cabf9f",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "Do we need this anymore? You have two prints statements in main which are already conformed to python 3 syntax.",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_a3d5bb44",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "These imports are all out of order. Can we re order them per PEP8 specifications?",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_63cfc3b1",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "I know its not implemented yet, but multistream isn\u0027t a param in the parent class. Also since these aren\u0027t even implemented yet should we just defer to the parent class not implemented method exceptions? I am unsure what effect returning a Nonetype will do to a test that attempts to execute this method. It might be confusing over not implemented. This also applies to the send_burst_traffic method. Let me know your thoughts.",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_43c4c791",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "Multistream isn\u0027t a param anymore. Please see Martins checkin for the traffic defaults change where multistream has been added as part of the traffic profile.",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_03becfff",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "Pylint complaining about the hanging indent here.",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_23c1cb80",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "info level event for verbose. Should be debug level event?",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_e3ba9309",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "pylint complaining about hanging indent",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_c33797af",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-22T17:32:51Z",
+      "side": 1,
+      "message": "info level event for verbose. Should be debug level?",
+      "revId": "eeaa4c4eaecdf60f53a2c79b7883c908f21c71b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
