@@ -2050,9 +2050,9 @@ It is expected that more will be added.
 
 .. 3.2.3.3.1
 
-Test ID: LTD.Scalability.RFC2544.0PacketLoss
+Test ID: LTD.Scalability.Flows.RFC2544.0PacketLoss
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    **Title**: RFC 2544 0% loss Scalability throughput test
+    **Title**: RFC 2544 0% loss Flow Scalability throughput test
 
     **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatio, IF the
     delta Throughput between the single-flow RFC2544 test and this test with
@@ -2539,7 +2539,7 @@ Summary List of Tests
 
 3. Scalability tests
 
-  - Test ID: LTD.Scalability.RFC2544.0PacketLoss
+  - Test ID: LTD.Scalability.Flows.RFC2544.0PacketLoss
   - Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
   - LTD.Scalability.VNF.RFC2544.PacketLossProfile
   - LTD.Scalability.VNF.RFC2544.PacketLossRatio
