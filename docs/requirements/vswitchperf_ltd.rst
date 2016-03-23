@@ -2418,6 +2418,9 @@ Test ID: LTD.Stress.RFC2544.0PacketLoss
     -  The configuration of the stress tool (for example the command line
        parameters used to start it.)
 
+    **Note:** Stress in the test ID can be replaced with the name of the
+              component being stressed, when reporting the results:
+              LTD.CPU.RFC2544.0PacketLoss or LTD.Memory.RFC2544.0PacketLoss
 .. 3.2.3.7
 
 Summary List of Tests
@@ -2446,6 +2449,8 @@ Summary List of Tests
 
   - Test ID: LTD.Scalability.RFC2544.0PacketLoss
   - Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
+  - LTD.Scalability.VNF.RFC2544.PacketLossProfile
+  - LTD.Scalability.VNF.RFC2544.PacketLossRatio
 
 4. Acivation tests
 
@@ -2458,4 +2463,4 @@ Summary List of Tests
 
 6. CPU and memory consumption
 
-  - Test ID: LTD.CPU.RFC2544.0PacketLoss
+  - Test ID: LTD.Stress.RFC2544.0PacketLoss
