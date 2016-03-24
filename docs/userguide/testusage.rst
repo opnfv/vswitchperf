@@ -174,7 +174,7 @@ Some tests allow for configurable parameters, including test duration
 
     $ ./vsperf --conf-file user_settings.py
         --tests RFC2544Tput
-        --test-param "duration=10;pkt_sizes=128"
+        --test-params "duration=10;pkt_sizes=128"
 
 For all available options, check out the help dialog:
 
@@ -291,7 +291,7 @@ To run tests using Vanilla OVS:
    or use --test-param
 
    $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
-              --test-param "vanilla_tgen_tx_ip=n.n.n.n;
+              --test-params "vanilla_tgen_tx_ip=n.n.n.n;
                             vanilla_tgen_tx_mac=nn:nn:nn:nn:nn:nn"
 
 
@@ -361,7 +361,7 @@ or use --test-param
 .. code-block:: console
 
         $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
-              --test-param "guest_loopback=testpmd"
+              --test-params "guest_loopback=testpmd"
 
 Supported loopback applications are:
 
@@ -443,7 +443,7 @@ Mode of operation is driven by configuration parameter -m or --mode
             "trafficgen-pause" - execute vSwitch and VNF but wait before traffic transmission
 
 In case, that VSPERF is executed in "trafficgen" mode, then configuration
-of traffic generator should be configured through --test-param option.
+of traffic generator should be configured through --test-params option.
 Supported CLI options useful for traffic generator configuration are:
 
 .. code-block:: console
