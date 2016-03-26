@@ -959,7 +959,15 @@ largest frames of 9K bytes.
 Types of tests are:
 
 1. Throughput test defines the maximum number of frames per second
-   that can be transmitted without any error.
+   that can be transmitted without any error, or 0% loss ratio.
+   In some Throughput tests (and those tests with long duration), 
+   evaluation of an additional frame loss ratio is suggested. The
+   current ratio (10^-7 %) is based on understanding the typical 
+   user-to-user packet loss ratio needed for good application
+   performance and recognizing that a single transfer through a
+   vswitch must contribute a tiny fraction of user-to-user loss.
+   Further, the ratio 10^-7 % also recognizes practical limitations
+   when measuring loss ratio.
 
 2. Latency test measures the time required for a frame to travel from
    the originating device through the network to the destination device.
