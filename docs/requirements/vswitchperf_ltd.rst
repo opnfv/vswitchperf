@@ -1859,6 +1859,81 @@ Test ID: LTD.Throughput.RFC2544.WorstN-BestN
       -  System bus (QPI, PCI, ...) utilization.
       -  CPU cycles consumed per packet.
 
+.. 3.2.3.1.14
+
+Test ID: LTD.Throughput.Overlay.Network.<tech>.RFC2544.PacketLossRatio                                          
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       **Title**: <tech> Overlay Network RFC 2544 X% packet loss ratio Throughput and Latency Test
+
+       NOTE: Throughout this test, four interchangeable overlay technologies are covered by the
+       same test description.  They are: VXLAN, GRE, NVGRE and GENEVE.
+
+      **Prerequisite Test**: N/A
+
+      **Priority**:
+
+      **Description**:
+      This test evaluates standard switch performance benchmarks for the scenario where an
+      Overlay Network is deployed for all paths through the vSwitch. Overlay Technologies covered 
+      (replacing <tech> in the test name) include:
+      - VXLAN
+      - GRE
+      - NVGRE
+      - GENEVE
+
+      Performance will be assessed for each of the following overlay network functions:
+      - Encapsulation only
+      - De-encapsulation only
+      - Both Encapsulation and De-encapsulation
+
+      For each native packet, the DUT must perform the following operations:
+      - Examine the packet and classify its correct overlay net (tunnel) assignment
+      - Encapsulate the packet
+      - Switch the packet to the correct port
+
+       For each encapsulated packet, the DUT must perform the following operations:
+      - Examine the packet and classify its correct native network assignment
+      - De-encapsulate the packet, if required
+      - Switch the packet to the correct port
+
+    The selected frame sizes are those previously defined under `Default
+    Test Parameters <#DefaultParams>`__.
+
+    Thus, each test comprises an overlay technology, a network function,
+    and a packet size *with* overlay network overhead included
+    (but see also the discussion at
+    https://etherpad.opnfv.org/p/vSwitchTestsDrafts ).
+
+    The test can also be used to determine the average latency of the traffic.
+
+    Under the `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__
+    test methodology, the test duration will
+    include a number of trials; each trial should run for a minimum period
+    of 60 seconds. A binary search methodology must be applied for each
+    trial to obtain the final result for Throughput.
+
+    **Expected Result**: At the end of each trial, the presence or absence
+    of loss determines the modification of offered load for the next trial,
+    converging on a maximum rate, or
+    `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__ Throughput with X%
+    loss (where the value of X is typically equal to zero).
+    The Throughput load is re-used in related
+    `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__ tests and other
+    tests.
+
+    **Metrics Collected**:
+    The following are the metrics collected for this test:
+
+    -  The maximum Throughput in Frames Per Second (FPS) and Mbps of
+       the DUT for each frame size with X% packet loss.
+    -  The average latency of the traffic flow when passing through the DUT
+       and VNFs (if testing for latency, note that this average is different from the
+       test specified in Section 26.3 of
+       `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__).
+    -  CPU and memory utilization may also be collected as part of this
+       test, to determine the vSwitch's performance footprint on the system.
+
+
 .. 3.2.3.2
 
 Packet Latency tests
@@ -2436,6 +2511,8 @@ Summary List of Tests
   - Test ID: LTD.Throughput.RFC2889.ForwardPressure
   - Test ID: LTD.Throughput.RFC2889.ErrorFramesFiltering
   - Test ID: LTD.Throughput.RFC2889.BroadcastFrameForwarding
+  - Test ID: LTD.Throughput.RFC2544.WorstN-BestN
+  - Test ID: LTD.Throughput.Overlay.Network.<tech>.RFC2544.PacketLossRatio
 
 2. Packet Latency tests
 
