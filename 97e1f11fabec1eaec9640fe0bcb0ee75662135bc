@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_8d0c2944",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-28T17:21:08Z",
+      "side": 1,
+      "message": "verbose events to debug as discussed?",
+      "revId": "97e1f11fabec1eaec9640fe0bcb0ee75662135bc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_6d09ed30",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-03-28T17:21:08Z",
+      "side": 1,
+      "message": "Are we setting these stats to 0 because they just aren\u0027t available in this implementation?",
+      "revId": "97e1f11fabec1eaec9640fe0bcb0ee75662135bc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
