@@ -16,6 +16,24 @@
       "revId": "6e1623b53b0d5f305c819dc574827d432c6a3c14",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_fbeeb321",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1877,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-03-30T23:49:36Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ve cleaned-up a few trailing white-spaces, too.",
+      "parentUuid": "1a486d77_edc15de5",
+      "revId": "6e1623b53b0d5f305c819dc574827d432c6a3c14",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
