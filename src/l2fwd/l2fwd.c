@@ -67,8 +67,13 @@ static bool terminate = false;
 module_param(terminate, bool, 0);
 MODULE_PARM_DESC(terminate, "Free skb instead of forwarding");
 
+static short burst = 1;
+module_param(burst, short, 0);
+MODULE_PARM_DESC(burst, "Send burst-many packets to output device at once (default is 1)");
+
 static struct net_device *dev1, *dev2;
 int count;
+short burst_count;
 
 static struct
 {
@@ -171,7 +176,24 @@ static rx_handler_result_t netdev_frame_hook(struct sk_buff **pskb)
 
             skb->dev = dev;
             skb_push(skb, ETH_HLEN);
-            dev_queue_xmit(skb);
+            if (burst > 1)
+                {
+                   struct netdev_queue *txq;
+
+                   skb_set_queue_mapping(skb, 0);
+                   txq = skb_get_tx_queue(dev, skb);
+                   if (!netif_xmit_frozen_or_drv_stopped(txq))
+                       {
+                           netdev_start_xmit(skb, dev, txq, --burst_count > 0);
+                           if (!burst_count)
+                               burst_count = burst;
+                       }
+
+                }
+	    else
+                {
+                    dev_queue_xmit(skb);
+                }
         }
 
     return retval;
@@ -187,7 +209,7 @@ static int __init l2fwd_init_module(void)
     char name_fmt_str[IFNAMSIZ+1];
     char t_name[IFNAMSIZ+1];
 
-
+    burst_count = burst;
 
     sprintf(name_fmt_str,"%%%ds",IFNAMSIZ);
     dnat_fmt = (char *)kmalloc(strlen(name_fmt_str)+strlen(dnat_fmt_suffix)+1,GFP_KERNEL);
