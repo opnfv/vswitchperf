@@ -40,6 +40,7 @@
 #include <linux/log2.h>
 #include <linux/gfp.h>
 #include <linux/slab.h>
+#include <linux/version.h>
 
 #include <linux/ip.h>
 #include <linux/in.h>
@@ -67,6 +68,14 @@ static bool terminate = false;
 module_param(terminate, bool, 0);
 MODULE_PARM_DESC(terminate, "Free skb instead of forwarding");
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0)
+#define BURST_MODE
+static short burst = 1;
+module_param(burst, short, 0);
+MODULE_PARM_DESC(burst, "Send burst-many packets to output device at once (default is 1)");
+
+short burst_count;
+#endif
 static struct net_device *dev1, *dev2;
 int count;
 
@@ -171,7 +180,32 @@ static rx_handler_result_t netdev_frame_hook(struct sk_buff **pskb)
 
             skb->dev = dev;
             skb_push(skb, ETH_HLEN);
+#ifdef BURST_MODE
+            if (burst > 1)
+                {
+                   struct netdev_queue *txq = netdev_get_tx_queue(dev, 0);
+                   skb_set_queue_mapping(skb, 0);
+
+                   if (!netif_xmit_frozen_or_stopped(txq))
+                       {
+			   const struct net_device_ops *ops = dev->netdev_ops;
+			   int status = NETDEV_TX_OK;
+                           skb->xmit_more = --burst_count > 0 ? 1 : 0;
+			   status = ops->ndo_start_xmit(skb, dev);
+			   if (status == NETDEV_TX_OK)
+			       txq_trans_update(txq);
+                           if (!burst_count)
+                               burst_count = burst;
+                       }
+
+                }
+	    else
+                {
+                    dev_queue_xmit(skb);
+                }
+#else
             dev_queue_xmit(skb);
+#endif
         }
 
     return retval;
@@ -187,7 +221,9 @@ static int __init l2fwd_init_module(void)
     char name_fmt_str[IFNAMSIZ+1];
     char t_name[IFNAMSIZ+1];
 
-
+#ifdef BURST_MODE
+    burst_count = burst;
+#endif
 
     sprintf(name_fmt_str,"%%%ds",IFNAMSIZ);
     dnat_fmt = (char *)kmalloc(strlen(name_fmt_str)+strlen(dnat_fmt_suffix)+1,GFP_KERNEL);
