@@ -222,3 +222,44 @@ best practice results in deploying STCv, the following is suggested:
 
 To get the highest performance and accuracy, Spirent TestCenter hardware is
 recommended. vsperf can run with either stype test ports.
+
+Xena Networks
+-------------
+
+Installation
+~~~~~~~~~~~~
+
+Xena Networks traffic generator requires certain files and packages to be
+installed. It is assumed the user has access to the Xena2544.exe file which
+must be placed in VSPerf installation location under the tools/pkt_gen/xena
+folder. Contact Xena Networks for the latest version of this file. The user
+can also visit www.xenanetworks/downloads to obtain the file with a valid
+support contract.
+
+To execute the Xena2544.exe file under Linux distributions the mono-complete
+package must be installed. To install this package follow the instructions
+below. Further information can be obtained from
+http://www.mono-project.com/docs/getting-started/install/linux/
+
+.. code-block:: console
+
+    rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
+    yum-config-manager --add-repo http://download.mono-project.com/repo/centos/
+    yum -y install mono-complete
+
+Configuration
+~~~~~~~~~~~~~
+
+Connection information for your Xena Chassis must be supplied inside the
+``10_custom.conf`` file. The following parameters must be set to allow for
+proper connections to the chassis.
+
+.. code-block:: console
+
+    TRAFFICGEN_XENA_IP = ''
+    TRAFFICGEN_XENA_PORT1 = ''
+    TRAFFICGEN_XENA_PORT2 = ''
+    TRAFFICGEN_XENA_USER = ''
+    TRAFFICGEN_XENA_PASSWORD = ''
+    TRAFFICGEN_XENA_MODULE1 = ''
+    TRAFFICGEN_XENA_MODULE2 = ''
