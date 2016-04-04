@@ -62,6 +62,10 @@ class IVnfQemu(IVnf):
         else:
             self._net2 = self._net2.split(',')[self._number]
 
+        # set guest loopback application based on VNF configuration
+        # cli option take precedence to config file values
+        self._guest_loopback = S.getValue('GUEST_LOOPBACK')[self._number]
+
 
         name = 'Client%d' % self._number
         vnc = ':%d' % self._number
@@ -115,6 +119,21 @@ class IVnfQemu(IVnf):
 
         if self._timeout:
             self._config_guest_loopback()
+
+    def stop(self):
+        """
+        Stops VNF instance gracefully first.
+        """
+        # exit testpmd if needed
+        if self._guest_loopback == 'testpmd':
+            self.execute_and_wait('stop', 120, "Done")
+            self.execute_and_wait('quit', 120, "bye")
+
+        # turn off VM
+        self.execute_and_wait('poweroff', 120, "Power down")
+
+        # just for case that graceful shutdown failed
+        super(IVnfQemu, self).stop()
 
     # helper functions
 
@@ -196,24 +215,20 @@ class IVnfQemu(IVnf):
 
     def _config_guest_loopback(self):
         """
-        Configure VM to run VNF (e.g. port forwarding application)
+        Configure VM to run VNF, e.g. port forwarding application based on the configuration
         """
-        # set guest loopback application based on VNF configuration
-        # cli option take precedence to config file values
-        guest_loopback = S.getValue('GUEST_LOOPBACK')[self._number]
-
-        if guest_loopback == 'testpmd':
+        if self._guest_loopback == 'testpmd':
             self._login()
             self._configure_testpmd()
-        elif guest_loopback == 'l2fwd':
+        elif self._guest_loopback == 'l2fwd':
             self._login()
             self._configure_l2fwd()
-        elif guest_loopback == 'linux_bridge':
+        elif self._guest_loopback == 'linux_bridge':
             self._login()
             self._configure_linux_bridge()
-        elif guest_loopback != 'buildin':
+        elif self._guest_loopback != 'buildin':
             self._logger.error('Unsupported guest loopback method "%s" was specified. Option'
-                               ' "buildin" will be used as a fallback.', guest_loopback)
+                               ' "buildin" will be used as a fallback.', self._guest_loopback)
 
     def wait(self, prompt=S.getValue('GUEST_PROMPT'), timeout=30):
         super(IVnfQemu, self).wait(prompt=prompt, timeout=timeout)
