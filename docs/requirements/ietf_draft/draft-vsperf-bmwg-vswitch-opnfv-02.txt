@@ -54,7 +54,7 @@ Status of This Memo
 
 
 Tahhan, et al.         Expires September 22, 2016               [Page 1]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -110,7 +110,7 @@ Table of Contents
 
 
 Tahhan, et al.         Expires September 22, 2016               [Page 2]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -166,7 +166,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016               [Page 3]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -222,7 +222,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016               [Page 4]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -278,7 +278,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016               [Page 5]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -334,7 +334,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016               [Page 6]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -390,7 +390,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016               [Page 7]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -446,7 +446,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016               [Page 8]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -502,7 +502,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016               [Page 9]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -558,7 +558,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 10]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -614,7 +614,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 11]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -670,7 +670,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 12]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -726,7 +726,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 13]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -782,7 +782,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 14]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -838,7 +838,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 15]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -894,7 +894,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 16]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -950,7 +950,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 17]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -1006,7 +1006,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 18]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -1062,7 +1062,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 19]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -1118,7 +1118,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 20]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
@@ -1174,7 +1174,7 @@ Internet-Draft           Benchmarking vSwitches               March 2016
 
 
 Tahhan, et al.         Expires September 22, 2016              [Page 21]
-
+
 Internet-Draft           Benchmarking vSwitches               March 2016
 
 
