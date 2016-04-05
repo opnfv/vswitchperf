@@ -1861,6 +1861,7 @@ Test ID: LTD.Throughput.RFC2544.WorstN-BestN
        `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__).
     -  Following may also be collected as part of this test, to determine
        the vSwitch's performance footprint on the system:
+
       -  CPU core utilization.
       -  CPU cache utilization.
       -  Memory footprint.
@@ -1885,22 +1886,26 @@ Test ID: LTD.Throughput.Overlay.Network.<tech>.RFC2544.PacketLossRatio
       This test evaluates standard switch performance benchmarks for the scenario where an
       Overlay Network is deployed for all paths through the vSwitch. Overlay Technologies covered
       (replacing <tech> in the test name) include:
+
       - VXLAN
       - GRE
       - NVGRE
       - GENEVE
 
       Performance will be assessed for each of the following overlay network functions:
+
       - Encapsulation only
       - De-encapsulation only
       - Both Encapsulation and De-encapsulation
 
       For each native packet, the DUT must perform the following operations:
+
       - Examine the packet and classify its correct overlay net (tunnel) assignment
       - Encapsulate the packet
       - Switch the packet to the correct port
 
-       For each encapsulated packet, the DUT must perform the following operations:
+      For each encapsulated packet, the DUT must perform the following operations:
+
       - Examine the packet and classify its correct native network assignment
       - De-encapsulate the packet, if required
       - Switch the packet to the correct port
@@ -2295,16 +2300,16 @@ Test ID: LTD.Scalability.VNF.RFC2544.PacketLossProfile
     The following are the metrics collected for this test:
 
     -  The forwarding rate in Frames Per Second (FPS) and Mbps of the DUT
-        for each delta to the maximum forwarding rate and for each frame
-        size.
+       for each delta to the maximum forwarding rate and for each frame
+       size.
     -  The average latency for each delta to the maximum forwarding rate and
-        for each frame size.
+       for each frame size.
     -  CPU and memory utilization may also be collected as part of this
-        test, to determine the vSwitch's performance footprint on the system.
+       test, to determine the vSwitch's performance footprint on the system.
     -  Any failures experienced (for example if the vSwitch crashes, stops
        processing packets, restarts or becomes unresponsive to commands)
-        when the offered load is above Maximum Throughput MUST be recorded
-        and reported with the results.
+       when the offered load is above Maximum Throughput MUST be recorded
+       and reported with the results.
 
 .. 3.2.3.4
 
@@ -2471,7 +2476,7 @@ should be required. It is expected that more will be added.
 .. 3.2.3.6.1
 
 Test ID: LTD.Stress.RFC2544.0PacketLoss
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     **Title**: RFC 2544 0% Loss CPU OR Memory Stress Test
 
     **Prerequisite Test**:
@@ -2505,6 +2510,7 @@ Test ID: LTD.Stress.RFC2544.0PacketLoss
     **Note:** Stress in the test ID can be replaced with the name of the
               component being stressed, when reporting the results:
               LTD.CPU.RFC2544.0PacketLoss or LTD.Memory.RFC2544.0PacketLoss
+
 .. 3.2.3.7
 
 Summary List of Tests
