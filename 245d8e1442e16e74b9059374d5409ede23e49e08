@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_f0824d51",
+        "filename": "conf/10_custom.conf",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-04-06T08:51:52Z",
+      "side": 1,
+      "message": "May be XENA options should be mentioned also in conf/03_traffic.conf. Other trafficgens specify at 03_traffic.conf also their options which are meant to be redefined in custom config file. Although benefit of this approach is questionable, it is a common practice.  At least \"#TRAFFICGEN \u003d \u0027Xena\u0027\" should be put to 03_traffic.conf.",
+      "revId": "245d8e1442e16e74b9059374d5409ede23e49e08",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_30b9052f",
+        "filename": "tools/pkt_gen/xena/xena.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-04-06T08:51:52Z",
+      "side": 1,
+      "message": "This import is currently not used. Is it a preparation for the future?",
+      "revId": "245d8e1442e16e74b9059374d5409ede23e49e08",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_b0a5f505",
+        "filename": "tools/pkt_gen/xena/xena.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-04-06T08:51:52Z",
+      "side": 1,
+      "message": "Does it indicate some sort of error? Just wondering if it is worth to drop a note to the log file or put some comment into code with explanation. The same for the rest of try/except cases below.",
+      "revId": "245d8e1442e16e74b9059374d5409ede23e49e08",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_10b6093e",
+        "filename": "tools/pkt_gen/xena/xena.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-04-06T08:51:52Z",
+      "side": 1,
+      "message": "It seems as a typo, i.e. it should be:\n\nsettings.getValue(\u0027TRAFFICGEN_XENA_IP\u0027)\nsettings.getValue(\u0027TRAFFICGEN_XENA_PASSWORD\u0027)",
+      "revId": "245d8e1442e16e74b9059374d5409ede23e49e08",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_90aaf9d2",
+        "filename": "tools/pkt_gen/xena/xena.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-04-06T08:51:52Z",
+      "side": 1,
+      "message": "obsoleted comment",
+      "revId": "245d8e1442e16e74b9059374d5409ede23e49e08",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
