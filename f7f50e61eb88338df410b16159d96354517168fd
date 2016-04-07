@@ -16,6 +16,24 @@
       "revId": "f7f50e61eb88338df410b16159d96354517168fd",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_9387a30f",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-04-07T15:28:19Z",
+      "side": 1,
+      "message": "Doh, I forgot to add this here. I\u0027ll take care of it.",
+      "parentUuid": "1a486d77_33b90f2f",
+      "revId": "f7f50e61eb88338df410b16159d96354517168fd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
