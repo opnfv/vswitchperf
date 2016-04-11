@@ -23,8 +23,6 @@ import argparse
 import logging
 import os
 
-# Load Spirent REST Library
-from stcrestclient import stchttp
 
 logger = logging.getLogger(__name__)
 
@@ -281,6 +279,9 @@ def main():
     user_name = args.test_user_name
 
     try:
+        # Load Spirent REST Library
+        from stcrestclient import stchttp
+
         stc = stchttp.StcHttp(args.lab_server_addr)
         session_id = stc.new_session(user_name, session_name)
         stc.join_session(session_id)
