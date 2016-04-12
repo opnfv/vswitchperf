@@ -122,6 +122,19 @@ class IVnf(tasks.Process):
         self.execute(cmd)
         self.wait(prompt=prompt, timeout=timeout)
 
+    def validate_start(self, dummy_result):
+        """ Validate call of VNF start()
+        """
+        if self._child and self._child.isalive():
+            return True
+        else:
+            return False
+
+    def validate_stop(self, result):
+        """ Validate call of fVNF stop()
+        """
+        return not self.validate_start(result)
+
     @staticmethod
     def reset_vnf_counter():
         """

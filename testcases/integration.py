@@ -17,10 +17,12 @@
 import os
 import time
 import logging
+import copy
 
 from testcases import TestCase
 from conf import settings as S
 from collections import OrderedDict
+from core.loader import Loader
 
 CHECK_PREFIX = 'validate_'
 
@@ -39,7 +41,7 @@ class IntegrationTestCase(TestCase):
     def report_status(self, label, status):
         """ Log status of test step
         """
-        self._logger.debug("%s ... %s", label, 'OK' if status else 'FAILED')
+        self._logger.info("%s ... %s", label, 'OK' if status else 'FAILED')
 
     def run_initialize(self):
         """ Prepare test execution environment
@@ -104,6 +106,8 @@ class IntegrationTestCase(TestCase):
                         if not self.test:
                             self._traffic_ctl.send_traffic(self._traffic)
                         else:
+                            vnf_list = {}
+                            loader = Loader()
                             # execute test based on TestSteps definition
                             if self.test:
                                 step_result = [None] * len(self.test)
@@ -113,6 +117,18 @@ class IntegrationTestCase(TestCase):
                                         test_object = self._vswitch_ctl.get_vswitch()
                                     elif step[0] == 'trafficgen':
                                         test_object = self._traffic_ctl
+                                        # in case of send_traffic method, ensure that specified
+                                        # traffic values are merged with existing self._traffic
+                                        if step[1] == 'send_traffic':
+                                            tmp_traffic = copy.deepcopy(self._traffic)
+                                            tmp_traffic.update(step[2])
+                                            step[2] = tmp_traffic
+                                    elif step[0].startswith('vnf'):
+                                        if not step[0] in vnf_list:
+                                            # initialize new VM and copy data to its shared dir
+                                            vnf_list[step[0]] = loader.get_vnf_class()()
+                                            self._copy_fwd_tools_for_guest(len(vnf_list))
+                                        test_object = vnf_list[step[0]]
                                     else:
                                         self._logger.error("Unsupported test object %s", step[0])
                                         self._inttest = {'status' : False, 'details' : ' '.join(step)}
@@ -130,23 +146,32 @@ class IntegrationTestCase(TestCase):
                                             step_params = eval_step_params(step[2:], step_result)
                                             step_log = '{} {}'.format(' '.join(step[:2]), step_params)
                                             step_result[i] = test_method(*step_params)
-                                            self._logger.debug("Step {} '{}' results '{}'".format(
-                                                i, step_log, step_result[i]))
-                                            time.sleep(2)
+                                            self._logger.debug("Step %s '%s' results '%s'", i,
+                                                               step_log, step_result[i])
+                                            time.sleep(5)
                                             step_ok = test_method_check(step_result[i], *step_params)
                                         except AssertionError:
                                             self._inttest = {'status' : False, 'details' : step_log}
-                                            self._logger.error("Step {} raised assertion error".format(i))
+                                            self._logger.error("Step %s raised assertion error", i)
+                                            # stop vnfs in case of error
+                                            for vnf in vnf_list:
+                                                vnf_list[vnf].stop()
                                             break
                                         except IndexError:
                                             self._inttest = {'status' : False, 'details' : step_log}
-                                            self._logger.error("Step {} result index error {}".format(
-                                                i, ' '.join(step[2:])))
+                                            self._logger.error("Step %s result index error %s", i,
+                                                               ' '.join(step[2:]))
+                                            # stop vnfs in case of error
+                                            for vnf in vnf_list:
+                                                vnf_list[vnf].stop()
                                             break
 
                                     self.report_status("Step {} - '{}'".format(i, step_log), step_ok)
                                     if not step_ok:
                                         self._inttest = {'status' : False, 'details' : step_log}
+                                        # stop vnfs in case of error
+                                        for vnf in vnf_list:
+                                            vnf_list[vnf].stop()
                                         break
 
                     # dump vswitch flows before they are affected by VNF termination

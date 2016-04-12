@@ -27,6 +27,7 @@ from core.loader import Loader
 from core.results.results_constants import ResultsConstants
 from tools import tasks
 from tools import hugepages
+from tools import functions
 from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
 from conf import settings as S
 from conf import get_test_param
@@ -52,6 +53,26 @@ class TestCase(object):
         self._loadgen = None
         self._output_file = None
         self._tc_results = None
+        self.guest_loopback = []
+        self._settings_original = {}
+        self._settings_paths_modified = False
+
+        self._update_settings('VSWITCH', cfg.get('vSwitch', S.getValue('VSWITCH')))
+        self._update_settings('VNF', cfg.get('VNF', S.getValue('VNF')))
+        self._update_settings('TRAFFICGEN', cfg.get('Trafficgen', S.getValue('TRAFFICGEN')))
+        self._update_settings('TEST_PARAMS', cfg.get('Parameters', S.getValue('TEST_PARAMS')))
+
+        # update global settings
+        guest_loopback = get_test_param('guest_loopback', None)
+        if guest_loopback:
+            self._update_settings('GUEST_LOOPBACK', [guest_loopback for dummy in S.getValue('GUEST_LOOPBACK')])
+
+        if 'VSWITCH' in self._settings_original or 'VNF' in self._settings_original:
+            self._settings_original.update({
+                'RTE_SDK' : S.getValue('RTE_SDK'),
+                'OVS_DIR' : S.getValue('OVS_DIR'),
+            })
+            functions.settings_update_paths()
 
         # set test parameters; CLI options take precedence to testcase settings
         self._logger = logging.getLogger(__name__)
@@ -82,18 +103,11 @@ class TestCase(object):
                 self._tunnel_type = get_test_param('tunnel_type',
                                                    self._tunnel_type)
 
-
         # identify guest loopback method, so it can be added into reports
-        self.guest_loopback = []
-        if self.deployment in ['pvp', 'pvvp']:
-            guest_loopback = get_test_param('guest_loopback', None)
-            if guest_loopback:
-                self.guest_loopback.append(guest_loopback)
-            else:
-                if self.deployment == 'pvp':
-                    self.guest_loopback.append(S.getValue('GUEST_LOOPBACK')[0])
-                else:
-                    self.guest_loopback = S.getValue('GUEST_LOOPBACK').copy()
+        if self.deployment == 'pvp':
+            self.guest_loopback.append(S.getValue('GUEST_LOOPBACK')[0])
+        else:
+            self.guest_loopback = S.getValue('GUEST_LOOPBACK').copy()
 
         # read configuration of streams; CLI parameter takes precedence to
         # testcase definition
@@ -127,6 +141,9 @@ class TestCase(object):
                               'pre_installed_flows' : pre_installed_flows,
                               'frame_rate': int(framerate)})
 
+        # Packet Forwarding mode
+        self._vswitch_none = 'none' == S.getValue('VSWITCH').strip().lower()
+
         # OVS Vanilla requires guest VM MAC address and IPs to work
         if 'linux_bridge' in self.guest_loopback:
             self._traffic['l2'].update({'srcmac': S.getValue('GUEST_NET2_MAC')[0],
@@ -134,20 +151,7 @@ class TestCase(object):
             self._traffic['l3'].update({'srcip': S.getValue('VANILLA_TGEN_PORT1_IP'),
                                         'dstip': S.getValue('VANILLA_TGEN_PORT2_IP')})
 
-        # Packet Forwarding mode
-        self._vswitch_none = 'none' == S.getValue('VSWITCH').strip().lower()
-
-    def run_initialize(self):
-        """ Prepare test execution environment
-        """
-        self._logger.debug(self.name)
-
-        # mount hugepages if needed
-        self._mount_hugepages()
-
-        # copy sources of l2 forwarding tools into VM shared dir if needed
-        self._copy_fwd_tools_for_guest()
-
+        # trafficgen configuration required for tests of tunneling protocols
         if self.deployment == "op2p":
             self._traffic['l2'].update({'srcmac':
                                         S.getValue('TRAFFICGEN_PORT1_MAC'),
@@ -171,7 +175,16 @@ class TestCase(object):
             else:
                 self._logger.debug("MAC addresses can not be read")
 
+    def run_initialize(self):
+        """ Prepare test execution environment
+        """
+        self._logger.debug(self.name)
 
+        # mount hugepages if needed
+        self._mount_hugepages()
+
+        # copy sources of l2 forwarding tools into VM shared dir if needed
+        self._copy_fwd_tools_for_all_guests()
 
         self._logger.debug("Controllers:")
         loader = Loader()
@@ -211,6 +224,9 @@ class TestCase(object):
         """
         # umount hugepages if mounted
         self._umount_hugepages()
+
+        # restore original settings
+        S.load_from_dict(self._settings_original)
 
     def run_report(self):
         """ Report test results
@@ -267,6 +283,19 @@ class TestCase(object):
         # report test results
         self.run_report()
 
+    def _update_settings(self, param, value):
+        """ Check value of given configuration parameter
+        In case that new value is different, then testcase
+        specific settings is updated and original value stored
+
+        :param param: Name of parameter inside settings
+        :param value: Disired parameter value
+        """
+        orig_value = S.getValue(param)
+        if orig_value != value:
+            self._settings_original[param] = orig_value
+            S.setValue(param, value)
+
     def _append_results(self, results):
         """
         Method appends mandatory Test Case results to list of dictionaries.
@@ -284,49 +313,54 @@ class TestCase(object):
                 item[ResultsConstants.SCAL_STREAM_COUNT] = self._traffic['multistream']
                 item[ResultsConstants.SCAL_STREAM_TYPE] = self._traffic['stream_type']
                 item[ResultsConstants.SCAL_PRE_INSTALLED_FLOWS] = self._traffic['pre_installed_flows']
-            if len(self.guest_loopback):
+            if self.deployment in ['pvp', 'pvvp'] and len(self.guest_loopback):
                 item[ResultsConstants.GUEST_LOOPBACK] = ' '.join(self.guest_loopback)
             if self._tunnel_type:
                 item[ResultsConstants.TUNNEL_TYPE] = self._tunnel_type
         return results
 
-    def _copy_fwd_tools_for_guest(self):
-        """Copy dpdk and l2fwd code to GUEST_SHARE_DIR[s] for use by guests.
+    def _copy_fwd_tools_for_all_guests(self):
+        """Copy dpdk and l2fwd code to GUEST_SHARE_DIR[s] based on selected deployment.
         """
-        counter = 0
-        # method is executed only for pvp and pvvp, so let's count number of 'v'
-        while counter < self.deployment.count('v'):
-            guest_dir = S.getValue('GUEST_SHARE_DIR')[counter]
-
-            # remove shared dir if it exists to avoid issues with file consistency
-            if os.path.exists(guest_dir):
-                tasks.run_task(['rm', '-f', '-r', guest_dir], self._logger,
-                               'Removing content of shared directory...', True)
-
-            # directory to share files between host and guest
-            os.makedirs(guest_dir)
-
-            # copy sources into shared dir only if neccessary
-            if 'testpmd' in self.guest_loopback or 'l2fwd' in self.guest_loopback:
-                try:
-                    # always use DPDK vhost user version inside VM, so results are not
-                    # affected by different testpmd behavior inside VM
-                    tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
-                                    os.path.join(S.getValue('RTE_SDK_USER'), ''),
-                                    os.path.join(guest_dir, 'DPDK')],
-                                   self._logger,
-                                   'Copying DPDK to shared directory...',
-                                   True)
-                    tasks.run_task(['rsync', '-a', '-r', '-l',
-                                    os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/'),
-                                    os.path.join(guest_dir, 'l2fwd')],
-                                   self._logger,
-                                   'Copying l2fwd to shared directory...',
-                                   True)
-                except subprocess.CalledProcessError:
-                    self._logger.error('Unable to copy DPDK and l2fwd to shared directory')
-
+        # data are copied only for pvp and pvvp, so let's count number of 'v'
+        counter = 1
+        while counter <= self.deployment.count('v'):
+            self._copy_fwd_tools_for_guest(counter)
             counter += 1
+
+    def _copy_fwd_tools_for_guest(self, index):
+        """Copy dpdk and l2fwd code to GUEST_SHARE_DIR of VM
+
+        :param index: Index of VM starting from 1 (i.e. 1st VM has index 1)
+        """
+        guest_dir = S.getValue('GUEST_SHARE_DIR')[index-1]
+
+        # remove shared dir if it exists to avoid issues with file consistency
+        if os.path.exists(guest_dir):
+            tasks.run_task(['rm', '-f', '-r', guest_dir], self._logger,
+                           'Removing content of shared directory...', True)
+
+        # directory to share files between host and guest
+        os.makedirs(guest_dir)
+
+        # copy sources into shared dir only if neccessary
+        if 'testpmd' in self.guest_loopback or 'l2fwd' in self.guest_loopback:
+            try:
+                tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
+                                os.path.join(S.getValue('RTE_SDK'), ''),
+                                os.path.join(guest_dir, 'DPDK')],
+                               self._logger,
+                               'Copying DPDK to shared directory...',
+                               True)
+                tasks.run_task(['rsync', '-a', '-r', '-l',
+                                os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/'),
+                                os.path.join(guest_dir, 'l2fwd')],
+                               self._logger,
+                               'Copying l2fwd to shared directory...',
+                               True)
+            except subprocess.CalledProcessError:
+                self._logger.error('Unable to copy DPDK and l2fwd to shared directory')
+
 
     def _mount_hugepages(self):
         """Mount hugepages if usage of DPDK or Qemu is detected
