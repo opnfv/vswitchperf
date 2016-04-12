@@ -24,13 +24,6 @@ import pexpect
 from conf import settings
 from tools import tasks
 
-_OVS_VSWITCHD_BIN = os.path.join(
-    settings.getValue('OVS_DIR'), 'vswitchd', 'ovs-vswitchd')
-_OVSDB_TOOL_BIN = os.path.join(
-    settings.getValue('OVS_DIR'), 'ovsdb', 'ovsdb-tool')
-_OVSDB_SERVER_BIN = os.path.join(
-    settings.getValue('OVS_DIR'), 'ovsdb', 'ovsdb-server')
-
 _OVS_VAR_DIR = settings.getValue('OVS_VAR_DIR')
 _OVS_ETC_DIR = settings.getValue('OVS_ETC_DIR')
 
@@ -60,7 +53,9 @@ class VSwitchd(tasks.Process):
         self._timeout = timeout
         self._expect = expected_cmd
         vswitchd_args = vswitchd_args or []
-        self._cmd = ['sudo', '-E', _OVS_VSWITCHD_BIN] + vswitchd_args
+        ovs_vswitchd_bin = os.path.join(
+            settings.getValue('OVS_DIR'), 'vswitchd', 'ovs-vswitchd')
+        self._cmd = ['sudo', '-E', ovs_vswitchd_bin] + vswitchd_args
 
     # startup/shutdown
 
@@ -118,15 +113,20 @@ class VSwitchd(tasks.Process):
 
         :returns: None
         """
-        tasks.run_task(['sudo', _OVSDB_TOOL_BIN, 'create',
+        ovsdb_tool_bin = os.path.join(
+            settings.getValue('OVS_DIR'), 'ovsdb', 'ovsdb-tool')
+        tasks.run_task(['sudo', ovsdb_tool_bin, 'create',
                         os.path.join(_OVS_ETC_DIR, 'conf.db'),
                         os.path.join(settings.getValue('OVS_DIR'), 'vswitchd',
                                      'vswitch.ovsschema')],
                        self._logger,
                        'Creating ovsdb configuration database...')
 
+        ovsdb_server_bin = os.path.join(
+            settings.getValue('OVS_DIR'), 'ovsdb', 'ovsdb-server')
+
         tasks.run_background_task(
-            ['sudo', _OVSDB_SERVER_BIN,
+            ['sudo', ovsdb_server_bin,
              '--remote=punix:%s' % os.path.join(_OVS_VAR_DIR, 'db.sock'),
              '--remote=db:Open_vSwitch,Open_vSwitch,manager_options',
              '--pidfile=' + self._ovsdb_pidfile_path, '--overwrite-pidfile'],

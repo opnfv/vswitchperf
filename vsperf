@@ -40,6 +40,7 @@ from testcases import PerformanceTestCase
 from testcases import IntegrationTestCase
 from tools import tasks
 from tools import networkcard
+from tools import functions
 from tools.pkt_gen import trafficgen
 from tools.opnfvdashboard import opnfvdashboard
 from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
@@ -157,7 +158,8 @@ def parse_arguments():
     group.add_argument('-d', '--test-dir', help='directory containing tests')
     group.add_argument('-t', '--tests', help='Comma-separated list of terms \
             indicating tests to run. e.g. "RFC2544,!p2p" - run all tests whose\
-            name contains RFC2544 less those containing "p2p"')
+            name contains RFC2544 less those containing "p2p"; "!back2back" - \
+            run all tests except those containing back2back')
     group.add_argument('--verbosity', choices=list_logging_levels(),
                        help='debug level')
     group.add_argument('--integration', action='store_true', help='execute integration tests')
@@ -244,7 +246,11 @@ def apply_filter(tests, tc_filter):
         e.g. '' - empty string selects all tests.
     :return: A list of the selected Tests.
     """
-    result = []
+    # if negative filter is first we have to start with full list of tests
+    if tc_filter.strip()[0] == '!':
+        result = tests
+    else:
+        result = []
     if tc_filter is None:
         tc_filter = ""
 
@@ -252,11 +258,11 @@ def apply_filter(tests, tc_filter):
         if not term or term[0] != '!':
             # Add matching tests from 'tests' into results
             result.extend([test for test in tests \
-                if test.name.lower().find(term) >= 0])
+                if test['Name'].lower().find(term) >= 0])
         else:
             # Term begins with '!' so we remove matching tests
             result = [test for test in result \
-                if test.name.lower().find(term[1:]) < 0]
+                if test['Name'].lower().find(term[1:]) < 0]
 
     return result
 
@@ -496,26 +502,8 @@ def main():
     # than both a settings file and environment variables
     settings.load_from_dict(args)
 
-    vswitch_none = False
     # set dpdk and ovs paths accorfing to VNF and VSWITCH
-    if settings.getValue('VSWITCH').endswith('Vanilla'):
-        # settings paths for Vanilla
-        settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_VANILLA')))
-    elif settings.getValue('VSWITCH').endswith('Vhost'):
-        if settings.getValue('VNF').endswith('Cuse'):
-            # settings paths for Cuse
-            settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_CUSE')))
-            settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_CUSE')))
-        else:
-            # settings paths for VhostUser
-            settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_USER')))
-            settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_USER')))
-    else:
-        # default - set to VHOST USER but can be changed during enhancement
-        settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_USER')))
-        settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_USER')))
-        if 'none' == settings.getValue('VSWITCH').strip().lower():
-            vswitch_none = True
+    functions.settings_update_paths()
 
     # if required, handle list-* operations
     handle_list_options(args)
@@ -641,46 +629,37 @@ def main():
         else:
             testcases = settings.getValue('PERFORMANCE_TESTS')
 
-        all_tests = []
-        for cfg in testcases:
-            try:
-                if args['integration']:
-                    all_tests.append(IntegrationTestCase(cfg))
-                else:
-                    all_tests.append(PerformanceTestCase(cfg))
-            except (Exception) as _:
-                _LOGGER.exception("Failed to create test: %s",
-                                  cfg.get('Name', '<Name not set>'))
-                vsperf_finalize()
-                raise
-
-        # select requested tests
         if args['exact_test_name']:
             exact_names = args['exact_test_name']
             # positional args => exact matches only
-            selected_tests = [test for test in all_tests if test.name in exact_names]
+            selected_tests = [test for test in testcases if test['Name'] in exact_names]
         elif args['tests']:
             # --tests => apply filter to select requested tests
-            selected_tests = apply_filter(all_tests, args['tests'])
+            selected_tests = apply_filter(testcases, args['tests'])
         else:
             # Default - run all tests
-            selected_tests = all_tests
+            selected_tests = testcases
 
-        if not selected_tests:
-            _LOGGER.error("No tests matched --test option or positional args. Done.")
+        if not len(selected_tests):
+            _LOGGER.error("No tests matched --tests option or positional args. Done.")
             vsperf_finalize()
             sys.exit(1)
 
         # run tests
         suite = unittest.TestSuite()
-        for test in selected_tests:
+        for cfg in selected_tests:
+            test_name = cfg.get('Name', '<Name not set>')
             try:
+                if args['integration']:
+                    test = IntegrationTestCase(cfg)
+                else:
+                    test = PerformanceTestCase(cfg)
                 test.run()
                 suite.addTest(MockTestCase('', True, test.name))
             #pylint: disable=broad-except
             except (Exception) as ex:
-                _LOGGER.exception("Failed to run test: %s", test.name)
-                suite.addTest(MockTestCase(str(ex), False, test.name))
+                _LOGGER.exception("Failed to run test: %s", test_name)
+                suite.addTest(MockTestCase(str(ex), False, test_name))
                 _LOGGER.info("Continuing with next test...")
 
         # generate final rst report with results of all executed TCs
