@@ -251,7 +251,7 @@ class IVnfQemu(IVnf):
 
     def _modify_dpdk_makefile(self):
         """
-        Modifies DPDK makefile in Guest before compilation
+        Modifies DPDK makefile in Guest before compilation if needed
         """
         pass
 
