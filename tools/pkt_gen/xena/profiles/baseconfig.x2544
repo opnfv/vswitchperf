@@ -210,7 +210,7 @@
           "b"
         ],
         "TestType": "Throughput",
-        "Enabled": true,
+        "Enabled": false,
         "DurationType": "Seconds",
         "Duration": 1.0,
         "DurationFrames": 1,
@@ -264,7 +264,7 @@
       "Back2Back": {
         "$type": "XenaCommon.TestConfig.Xena2544.TestTypeOptions.Back2BackTestOptions, Xena2544",
         "RateSweepOptions": {
-          "StartValue": 50.0,
+          "StartValue": 100.0,
           "EndValue": 100.0,
           "StepValue": 50.0
         },
