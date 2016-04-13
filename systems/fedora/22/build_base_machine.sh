@@ -28,7 +28,7 @@ automake
 gcc
 gcc-c++
 libxml2
-glibc.i686
+glibc
 glib2-devel
 kernel-devel
 fuse-libs

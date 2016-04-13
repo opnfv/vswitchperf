@@ -31,7 +31,7 @@ make
 gcc
 gcc-c++
 libxml2
-glibc.i686
+glibc
 kernel-devel
 
 # tools
