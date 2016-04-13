@@ -29,7 +29,7 @@ pkglist=(\
  gcc\
  gcc-c++\
  glib2-devel\
- glibc.i686\
+ glibc\
  kernel-devel\
  openssl-devel\
  pixman-devel\
