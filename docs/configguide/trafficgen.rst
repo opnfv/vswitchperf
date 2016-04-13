@@ -263,6 +263,13 @@ http://www.mono-project.com/docs/getting-started/install/linux/
     yum-config-manager --add-repo http://download.mono-project.com/repo/centos/
     yum -y install mono-complete
 
+To prevent gpg errors on future yum installation of packages the mono-project
+repo should be disabled once installed.
+
+.. code-block:: console
+
+    yum-config-manager --disable download.mono-project.com_repo_centos_
+
 Configuration
 ~~~~~~~~~~~~~
 
