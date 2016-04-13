@@ -56,13 +56,3 @@ class QemuDpdkVhostCuse(IVnfQemu):
                       ',netdev=' + net2 + ',csum=off,gso=off,' +
                       'guest_tso4=off,guest_tso6=off,guest_ecn=off',
                      ]
-
-    # helper functions
-
-    def _modify_dpdk_makefile(self):
-        """
-        Modifies DPDK makefile in Guest before compilation
-        """
-        self.execute_and_wait("sed -i -e 's/CONFIG_RTE_LIBRTE_VHOST_USER=n/" +
-                              "CONFIG_RTE_LIBRTE_VHOST_USER=y/g'" +
-                              "config/common_linuxapp")

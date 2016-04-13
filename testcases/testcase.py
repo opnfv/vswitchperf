@@ -300,8 +300,10 @@ class TestCase(object):
             # copy sources into shared dir only if neccessary
             if 'testpmd' in self.guest_loopback or 'l2fwd' in self.guest_loopback:
                 try:
+                    # always use DPDK vhost user version inside VM, so results are not
+                    # affected by different testpmd behavior inside VM
                     tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
-                                    os.path.join(S.getValue('RTE_SDK'), ''),
+                                    os.path.join(S.getValue('RTE_SDK_USER'), ''),
                                     os.path.join(guest_dir, 'DPDK')],
                                    self._logger,
                                    'Copying DPDK to shared directory...',
