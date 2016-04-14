@@ -20,6 +20,7 @@ import logging
 import locale
 import re
 import subprocess
+import time
 
 from conf import settings as S
 from conf import get_test_param
@@ -139,6 +140,8 @@ class IVnfQemu(IVnf):
 
         # turn off VM
         self.execute_and_wait('poweroff', 120, "Power down")
+        # VM OS is off, but wait until qemu shutdowns
+        time.sleep(2)
 
         # just for case that graceful shutdown failed
         super(IVnfQemu, self).stop()
@@ -257,14 +260,15 @@ class IVnfQemu(IVnf):
         Mount shared directory and copy DPDK and l2fwd sources
         """
         # mount shared directory
-        self.execute_and_wait('umount ' + S.getValue('OVS_DPDK_SHARE'))
+        self.execute_and_wait('umount /dev/sdb1')
         self.execute_and_wait('rm -rf ' + S.getValue('GUEST_OVS_DPDK_DIR'))
         self.execute_and_wait('mkdir -p ' + S.getValue('OVS_DPDK_SHARE'))
-        self.execute_and_wait('mount -o iocharset=utf8 /dev/sdb1 ' +
+        self.execute_and_wait('mount -o ro,iocharset=utf8 /dev/sdb1 ' +
                               S.getValue('OVS_DPDK_SHARE'))
         self.execute_and_wait('mkdir -p ' + S.getValue('GUEST_OVS_DPDK_DIR'))
         self.execute_and_wait('cp -ra ' + os.path.join(S.getValue('OVS_DPDK_SHARE'), dirname) +
                               ' ' + S.getValue('GUEST_OVS_DPDK_DIR'))
+        self.execute_and_wait('umount /dev/sdb1')
 
     def _configure_disable_firewall(self):
         """
