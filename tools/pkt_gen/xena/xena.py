@@ -182,7 +182,7 @@ class Xena(ITrafficGenerator):
                 flows=self._params['traffic']['multistream'],
                 multistream_layer=self._params['traffic']['stream_type'])
             # set duplex mode
-            if bool(self._params['traffic']['bidir']):
+            if self._params['traffic']['bidir'] == "True":
                 j_file.set_topology_mesh()
             else:
                 j_file.set_topology_blocks()

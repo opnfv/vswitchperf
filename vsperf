@@ -610,7 +610,7 @@ def main():
         # set traffic details, so they can be passed to traffic ctl
         traffic = copy.deepcopy(TRAFFIC_DEFAULTS)
         traffic.update({'traffic_type': get_test_param('traffic_type', 'rfc2544'),
-                        'bidir': get_test_param('bidirectional', False),
+                        'bidir': get_test_param('bidirectional', 'False'),
                         'multistream': int(get_test_param('multistream', 0)),
                         'stream_type': get_test_param('stream_type', 'L4'),
                         'frame_rate': int(get_test_param('iload', 100))})
