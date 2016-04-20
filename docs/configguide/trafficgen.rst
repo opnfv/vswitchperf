@@ -112,7 +112,7 @@ when the setup is complete.
         },
         "traffic_type": "continuous",
         "multistream": 0,
-        "bidir": "True",
+        "bidir": "true",
         "vlan": {
             "cfi": 0,
             "priority": 0,

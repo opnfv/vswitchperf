@@ -82,7 +82,7 @@ class VswitchControllerPVVP(IVswitchController):
             self._vswitch.add_flow(bridge, flow2)
             self._vswitch.add_flow(bridge, flow3)
 
-            if self._traffic['bidir']:
+            if bool(self._traffic['bidir']):
                 flow4 = add_ports_to_flow(flow_template, phy2_number,
                                           vport4_number)
                 flow5 = add_ports_to_flow(flow_template, vport3_number,
