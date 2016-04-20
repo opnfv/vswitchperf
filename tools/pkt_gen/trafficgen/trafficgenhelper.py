@@ -23,7 +23,7 @@ CMD_PREFIX = 'gencmd : '
 TRAFFIC_DEFAULTS = {
     'traffic_type' : 'rfc2544',
     'frame_rate' : 100,
-    'bidir' : False,
+    'bidir' : 'False',  # will be passed as string in title format to tgen
     'multistream' : 0,
     'stream_type' : 'L4',
     'pre_installed_flows' : 'No',           # used by vswitch implementation
