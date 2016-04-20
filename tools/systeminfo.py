@@ -182,7 +182,7 @@ def get_version(app_name):
         'dpdk' : os.path.join(S.getValue('RTE_SDK'), 'lib/librte_eal/common/include/rte_version.h'),
         'qemu' : os.path.join(S.getValue('QEMU_DIR'), 'VERSION'),
         'l2fwd' : os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/l2fwd.c'),
-        'ixnet' : os.path.join(S.getValue('TRAFFICGEN_IXNET_LIB_PATH'), 'pkgIndex.tcl')
+        'ixnet' : os.path.join(S.getValue('TRAFFICGEN_IXNET_LIB_PATH'), 'pkgIndex.tcl'),
     }
 
 
@@ -240,6 +240,12 @@ def get_version(app_name):
         app_version = match_line(app_version_file['ixnet'], 'package provide IxTclNetwork')
         if app_version:
             app_version = app_version.split(' ')[3]
+    elif app_name.lower() == 'xena':
+        try:
+            app_version = S.getValue('XENA_VERSION')
+        except AttributeError:
+            # setting was not available after execution
+            app_version = 'N/A'
     elif app_name.lower() == 'dummy':
         # get git tag of file with Dummy implementation
         app_git_tag = get_git_tag(os.path.join(S.getValue('ROOT_DIR'), 'tools/pkt_gen/dummy/dummy.py'))

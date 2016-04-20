@@ -75,6 +75,8 @@ class Xena(ITrafficGenerator):
         """
         # get the test type from the report file
         test_type = root[0][1].get('TestType')
+        # set the version from the report file
+        settings.setValue('XENA_VERSION', root[0][0][1].get('GeneratedBy'))
 
         if test_type == 'Throughput':
             results = OrderedDict()
