@@ -308,6 +308,52 @@ class XenaJSON(object):
         self.json_data['PortHandler']['EntityList'][index]['PortRef'][
             'PortIndex'] = port
 
+    def set_port_ip_v4(self, port, ip_addr, netmask, gateway):
+        """
+        Set the port IP info
+        :param port: port number as int of port to set ip info
+        :param ip_addr: ip address in dot notation format as string
+        :param netmask: cidr number for netmask (ie 24/16/8) as int
+        :param gateway: gateway address in dot notation format
+        :return: None
+        """
+        available_ports = range(len(
+            self.json_data['PortHandler']['EntityList']))
+        if port not in available_ports:
+            raise ValueError("{}{}{}".format(
+                'Port assignment must be an available port ',
+                'number in baseconfig file. Port=', port))
+        self.json_data['PortHandler']['EntityList'][
+            port]["IpV4Address"] = ip_addr
+        self.json_data['PortHandler']['EntityList'][
+            port]["IpV4Gateway"] = gateway
+        self.json_data['PortHandler']['EntityList'][
+            port]["IpV4RoutingPrefix"] = int(netmask)
+
+    def set_port_ip_v6(self, port, ip_addr, netmask, gateway):
+        """
+        Set the port IP info
+        :param port: port number as int of port to set ip info
+        :param ip_addr: ip address as 8 groups of 4 hexadecimal groups separated
+         by a colon.
+        :param netmask: cidr number for netmask (ie 24/16/8) as int
+        :param gateway: gateway address as string in 8 group of 4 hexadecimal
+                        groups separated by a colon.
+        :return: None
+        """
+        available_ports = range(len(
+            self.json_data['PortHandler']['EntityList']))
+        if port not in available_ports:
+            raise ValueError("{}{}{}".format(
+                'Port assignment must be an available port ',
+                'number in baseconfig file. Port=', port))
+        self.json_data['PortHandler']['EntityList'][
+            port]["IpV6Address"] = ip_addr
+        self.json_data['PortHandler']['EntityList'][
+            port]["IpV6Gateway"] = gateway
+        self.json_data['PortHandler']['EntityList'][
+            port]["IpV6RoutingPrefix"] = int(netmask)
+
     def set_test_options(self, packet_sizes, duration, iterations, loss_rate,
                          micro_tpld=False):
         """
@@ -418,6 +464,22 @@ def print_json_report(json_data):
         print("Chassis Password: {}".format(json_data['ChassisManager'][
             'ChassisList'][0]['Password']))
         print("### Port Configuration ###")
+        print("Port 1 IPv4:{}/{} gateway:{}".format(
+            json_data['PortHandler']['EntityList'][0]["IpV4Address"],
+            json_data['PortHandler']['EntityList'][0]["IpV4RoutingPrefix"],
+            json_data['PortHandler']['EntityList'][0]["IpV4Gateway"]))
+        print("Port 1 IPv6:{}/{} gateway:{}".format(
+            json_data['PortHandler']['EntityList'][0]["IpV6Address"],
+            json_data['PortHandler']['EntityList'][0]["IpV6RoutingPrefix"],
+            json_data['PortHandler']['EntityList'][0]["IpV6Gateway"]))
+        print("Port 2 IPv4:{}/{} gateway:{}".format(
+            json_data['PortHandler']['EntityList'][1]["IpV4Address"],
+            json_data['PortHandler']['EntityList'][1]["IpV4RoutingPrefix"],
+            json_data['PortHandler']['EntityList'][1]["IpV4Gateway"]))
+        print("Port 2 IPv6:{}/{} gateway:{}".format(
+            json_data['PortHandler']['EntityList'][1]["IpV6Address"],
+            json_data['PortHandler']['EntityList'][1]["IpV6RoutingPrefix"],
+            json_data['PortHandler']['EntityList'][1]["IpV6Gateway"]))
         print("Port 1: {}/{} group: {}".format(
             json_data['PortHandler']['EntityList'][0]['PortRef']['ModuleIndex'],
             json_data['PortHandler']['EntityList'][0]['PortRef']['PortIndex'],
@@ -512,6 +574,12 @@ if __name__ == "__main__":
     JSON.set_chassis_info('192.168.0.5', 'vsperf')
     JSON.set_port(0, 1, 0)
     JSON.set_port(1, 1, 1)
+    JSON.set_port_ip_v4(0, '192.168.240.10', 32, '192.168.240.1')
+    JSON.set_port_ip_v4(1, '192.168.240.11', 32, '192.168.240.1')
+    JSON.set_port_ip_v6(0, 'a1a1:a2a2:a3a3:a4a4:a5a5:a6a6:a7a7:a8a8', 128,
+                        'a1a1:a2a2:a3a3:a4a4:a5a5:a6a6:a7a7:1111')
+    JSON.set_port_ip_v6(1, 'b1b1:b2b2:b3b3:b4b4:b5b5:b6b6:b7b7:b8b8', 128,
+                        'b1b1:b2b2:b3b3:b4b4:b5b5:b6b6:b7b7:1111')
     JSON.set_header_layer2(dst_mac='dd:dd:dd:dd:dd:dd',
                            src_mac='ee:ee:ee:ee:ee:ee')
     JSON.set_header_vlan(vlan_id=5)

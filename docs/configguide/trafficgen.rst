@@ -14,6 +14,7 @@ VSPERF supports the following traffic generators:
     traffic generator.
   * IXIA (IxNet and IxOS)
   * Spirent TestCenter
+  * Xena Networks
 
 To see the list of traffic gens from the cli:
 

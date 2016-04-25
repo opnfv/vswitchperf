@@ -142,11 +142,17 @@ class Xena(ITrafficGenerator):
                 settings.getValue('TRAFFICGEN_XENA_PASSWORD')
             )
             j_file.set_port(0, settings.getValue('TRAFFICGEN_XENA_MODULE1'),
-                            settings.getValue('TRAFFICGEN_XENA_PORT1')
-                            )
+                            settings.getValue('TRAFFICGEN_XENA_PORT1'))
             j_file.set_port(1, settings.getValue('TRAFFICGEN_XENA_MODULE2'),
-                            settings.getValue('TRAFFICGEN_XENA_PORT2')
-                            )
+                            settings.getValue('TRAFFICGEN_XENA_PORT2'))
+            j_file.set_port_ip_v4(
+                0, settings.getValue("TRAFFICGEN_XENA_PORT0_IP"),
+                settings.getValue("TRAFFICGEN_XENA_PORT0_CIDR"),
+                settings.getValue("TRAFFICGEN_XENA_PORT0_GATEWAY"))
+            j_file.set_port_ip_v4(
+                1, settings.getValue("TRAFFICGEN_XENA_PORT1_IP"),
+                settings.getValue("TRAFFICGEN_XENA_PORT1_CIDR"),
+                settings.getValue("TRAFFICGEN_XENA_PORT1_GATEWAY"))
             j_file.set_test_options(
                 packet_sizes=self._params['traffic']['l2']['framesize'],
                 iterations=trials, loss_rate=loss_rate,
