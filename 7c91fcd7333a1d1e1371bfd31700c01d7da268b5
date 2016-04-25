@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da87b5cf_01d82aee",
+        "filename": "core/vswitch_controller_pvp.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-04-25T14:28:46Z",
+      "side": 1,
+      "message": "I can change it to do a direct string comparison instead of the typecast. Python will take any combination of true false lower/uppercase letters when typecasting to Boolean.\nHowever, I did some speed comparisons and the string compare is faster than the typecast so I\u0027ll change it.\n\ns \u003d \"\"\"\\\nz \u003d \"true\"\nif bool(z):\n    pass\n\"\"\"\n\u003e\u003e\u003e timeit.timeit(stmt\u003ds, number\u003d1000000)\n0.086570398999811\n\nt \u003d \"\"\"\\\nz \u003d \"true\"\nif z \u003d\u003d \"true\":\n    pass\n\"\"\"\n\u003e\u003e\u003e timeit.timeit(stmt\u003dt, number\u003d1000000)\n0.02653607499996724",
+      "parentUuid": "da87b5cf_81651a47",
+      "revId": "7c91fcd7333a1d1e1371bfd31700c01d7da268b5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da87b5cf_215a0e84",
         "filename": "core/vswitch_controller_pvvp.py",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-25T13:20:24Z",
       "side": 1,
       "message": "Does it really work as expected? I suppose, that it will return True for any string, including \u0027false\u0027. We should do something as self._traffic[\u0027bidir\u0027].lower() \u003d\u003d \u0027true\u0027 instead.",
+      "revId": "7c91fcd7333a1d1e1371bfd31700c01d7da268b5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_a1e4deac",
+        "filename": "core/vswitch_controller_pvvp.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-04-25T14:28:46Z",
+      "side": 1,
+      "message": "See other comment.",
+      "parentUuid": "da87b5cf_215a0e84",
       "revId": "7c91fcd7333a1d1e1371bfd31700c01d7da268b5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
