@@ -168,6 +168,14 @@ def get_pid(proc_name_str):
     """
     return get_pids([proc_name_str])
 
+def pid_isalive(pid):
+    """ Checks if given PID is alive
+
+    :param pid: PID of the process
+    :returns: True if given process is running, False otherwise
+    """
+    return os.path.isdir('/proc/' + str(pid))
+
 # This function uses long switch per purpose, so let us suppress pylint warning too-many-branches
 # pylint: disable=R0912
 def get_version(app_name):

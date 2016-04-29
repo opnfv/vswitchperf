@@ -51,11 +51,12 @@ class IVnf(tasks.Process):
         """
         Stops VNF instance.
         """
-        self._logger.info('Killing VNF...')
+        if self.is_running():
+            self._logger.info('Killing VNF...')
 
-        # force termination of VNF and wait for it to terminate; It will avoid
-        # sporadic reboot of host. (caused by hugepages or DPDK ports)
-        super(IVnf, self).kill(signal='-9', sleep=10)
+            # force termination of VNF and wait for it to terminate; It will avoid
+            # sporadic reboot of host. (caused by hugepages or DPDK ports)
+            super(IVnf, self).kill(signal='-9', sleep=10)
 
     def execute(self, cmd, delay=0):
         """

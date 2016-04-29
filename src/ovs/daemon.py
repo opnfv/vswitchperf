@@ -38,6 +38,7 @@ class VSwitchd(tasks.Process):
     _ovsdb_pid = None
     _logfile = _LOG_FILE_VSWITCHD
     _ovsdb_pidfile_path = os.path.join(settings.getValue('LOG_DIR'), "ovsdb_pidfile.pid")
+    _vswitchd_pidfile_path = os.path.join(settings.getValue('LOG_DIR'), "vswitchd_pidfile.pid")
     _proc_name = 'ovs-vswitchd'
 
     def __init__(self, timeout=30, vswitchd_args=None, expected_cmd=None):
@@ -55,7 +56,10 @@ class VSwitchd(tasks.Process):
         vswitchd_args = vswitchd_args or []
         ovs_vswitchd_bin = os.path.join(
             settings.getValue('OVS_DIR'), 'vswitchd', 'ovs-vswitchd')
-        self._cmd = ['sudo', '-E', ovs_vswitchd_bin] + vswitchd_args
+        sep = ['--'] if '--dpdk' in vswitchd_args else []
+        self._cmd = ['sudo', '-E', ovs_vswitchd_bin] + vswitchd_args + sep + \
+                    ['--pidfile=' + self._vswitchd_pidfile_path, '--overwrite-pidfile',
+                     '--log-file=' + self._logfile]
 
     # startup/shutdown
 
@@ -77,15 +81,19 @@ class VSwitchd(tasks.Process):
             self._kill_ovsdb()
             raise exc
 
-    def kill(self, signal='-15', sleep=2):
+    def kill(self, signal='-15', sleep=10):
         """Kill ``ovs-vswitchd`` instance if it is alive.
 
         :returns: None
         """
         self._logger.info('Killing ovs-vswitchd...')
+        with open(self._vswitchd_pidfile_path, "r") as pidfile:
+            vswitchd_pid = pidfile.read().strip()
+            tasks.terminate_task(vswitchd_pid, logger=self._logger)
 
-        self._kill_ovsdb()
+        self._kill_ovsdb()  # ovsdb must be killed after vswitchd
 
+        # just for case, that sudo envelope has not terminated
         super(VSwitchd, self).kill(signal, sleep)
 
     # helper functions
@@ -144,8 +152,7 @@ class VSwitchd(tasks.Process):
         self._logger.info("Killing ovsdb with pid: " + ovsdb_pid)
 
         if ovsdb_pid:
-            tasks.run_task(['sudo', 'kill', '-15', str(ovsdb_pid)],
-                           self._logger, 'Killing ovsdb-server...')
+            tasks.terminate_task(ovsdb_pid, logger=self._logger)
 
     @staticmethod
     def get_db_sock_path():

@@ -15,6 +15,7 @@
 """
 
 import logging
+import pexpect
 from vnfs.vnf.vnf import IVnf
 
 class VnfController(object):
@@ -68,8 +69,12 @@ class VnfController(object):
         """
         self._logger.debug('start ' + str(len(self._vnfs)) +
                            ' VNF[s] with ' + ' '.join(map(str, self._vnfs)))
-        for vnf in self._vnfs:
-            vnf.start()
+        try:
+            for vnf in self._vnfs:
+                vnf.start()
+        except pexpect.TIMEOUT:
+            self.stop()
+            raise
 
     def stop(self):
         """Stops all VNFs set-up by __init__.

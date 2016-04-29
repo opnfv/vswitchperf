@@ -26,6 +26,7 @@ import locale
 import time
 
 from conf import settings
+from tools import systeminfo
 
 
 CMD_PREFIX = 'cmd : '
@@ -150,6 +151,55 @@ def run_interactive_task(cmd, logger, msg):
 
     return child
 
+def terminate_task_subtree(pid, signal='-15', sleep=10, logger=None):
+    """Terminate given process and all its children
+
+    Function will sent given signal to the process. In case
+    that process will not terminate within given sleep interval
+    and signal was not SIGKILL, then process will be killed by SIGKILL.
+    After that function will check if all children of the process
+    are terminated and if not the same terminating procedure is applied
+    on any living child (only one level of children is considered).
+
+    :param pid: Process ID to terminate
+    :param signal: Signal to be sent to the process
+    :param sleep: Maximum delay in seconds after signal is sent
+    :param logger: Logger to write details to
+    """
+    try:
+        output = subprocess.check_output("pgrep -P " + str(pid), shell=True).decode().rstrip('\n')
+    except subprocess.CalledProcessError:
+        output = ""
+
+    terminate_task(pid, signal, sleep, logger)
+
+    # just for case children were kept alive
+    children = output.split('\n')
+    for child in children:
+        terminate_task(child, signal, sleep, logger)
+
+def terminate_task(pid, signal='-15', sleep=10, logger=None):
+    """Terminate process with given pid
+
+    Function will sent given signal to the process. In case
+    that process will not terminate within given sleep interval
+    and signal was not SIGKILL, then process will be killed by SIGKILL.
+
+    :param pid: Process ID to terminate
+    :param signal: Signal to be sent to the process
+    :param sleep: Maximum delay in seconds after signal is sent
+    :param logger: Logger to write details to
+    """
+    if systeminfo.pid_isalive(pid):
+        run_task(['sudo', 'kill', signal, str(pid)], logger)
+        logger.debug('Wait for process %s to terminate after signal %s', pid, signal)
+        for dummy in range(sleep):
+            time.sleep(1)
+            if not systeminfo.pid_isalive(pid):
+                break
+
+        if signal.lstrip('-').upper() not in ('9', 'KILL', 'SIGKILL') and systeminfo.pid_isalive(pid):
+            terminate_task(pid, '-9', sleep, logger)
 
 class Process(object):
     """Control an instance of a long-running process.
@@ -242,17 +292,14 @@ class Process(object):
             self.kill()
             raise exc
 
-    def kill(self, signal='-15', sleep=2):
+    def kill(self, signal='-15', sleep=10):
         """Kill process instance if it is alive.
 
         :param signal: signal to be sent to the process
         :param sleep: delay in seconds after signal is sent
         """
-        if self._child and self._child.isalive():
-            run_task(['sudo', 'kill', signal, str(self._child.pid)],
-                     self._logger)
-            self._logger.debug('Wait for process to terminate')
-            time.sleep(sleep)
+        if self.is_running():
+            terminate_task_subtree(self._child.pid, signal, sleep, self._logger)
 
             if self.is_relinquished():
                 self._relinquish_thread.join()
@@ -275,7 +322,7 @@ class Process(object):
 
         :returns: True if process is running, else False
         """
-        return self._child is not None
+        return self._child and self._child.isalive()
 
     def _affinitize_pid(self, core, pid):
         """Affinitize a process with ``pid`` to ``core``.
@@ -298,7 +345,7 @@ class Process(object):
         """
         self._logger.info('Affinitizing process')
 
-        if self._child and self._child.isalive():
+        if self.is_running():
             self._affinitize_pid(core, self._child.pid)
 
     class ContinueReadPrintLoop(threading.Thread):

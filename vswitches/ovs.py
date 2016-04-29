@@ -21,7 +21,7 @@ from conf import settings
 from vswitches.vswitch import IVSwitch
 from src.ovs import OFBridge, flow_key, flow_match
 
-_VSWITCHD_CONST_ARGS = ['--', '--pidfile', '--log-file']
+_VSWITCHD_CONST_ARGS = []
 
 class IVSwitchOvs(IVSwitch):
     """Open vSwitch base class implementation

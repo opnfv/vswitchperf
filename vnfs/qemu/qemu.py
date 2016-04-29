@@ -21,6 +21,7 @@ import locale
 import re
 import subprocess
 import time
+import pexpect
 
 from conf import settings as S
 from conf import get_test_param
@@ -133,15 +134,24 @@ class IVnfQemu(IVnf):
         """
         Stops VNF instance gracefully first.
         """
-        # exit testpmd if needed
-        if self._guest_loopback == 'testpmd':
-            self.execute_and_wait('stop', 120, "Done")
-            self.execute_and_wait('quit', 120, "bye")
+        try:
+            # exit testpmd if needed
+            if self._guest_loopback == 'testpmd':
+                self.execute_and_wait('stop', 120, "Done")
+                self.execute_and_wait('quit', 120, "bye")
 
-        # turn off VM
-        self.execute_and_wait('poweroff', 120, "Power down")
-        # VM OS is off, but wait until qemu shutdowns
-        time.sleep(2)
+            # turn off VM
+            self.execute_and_wait('poweroff', 120, "Power down")
+
+        except pexpect.TIMEOUT:
+            self.kill()
+
+        # wait until qemu shutdowns
+        self._logger.debug('Wait for QEMU to terminate')
+        for dummy in range(30):
+            time.sleep(1)
+            if not self.is_running():
+                break
 
         # just for case that graceful shutdown failed
         super(IVnfQemu, self).stop()
