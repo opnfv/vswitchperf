@@ -29,7 +29,6 @@ ifndef VHOST_USER
 endif
 WORK_DIR = dpdk
 TAG_DONE_FLAG = $(WORK_DIR)/.$(DPDK_TAG).tag.done
-DPDK_VANILLA = ../../src_vanilla/dpdk
 DPDK_CUSE = ../../src_cuse/dpdk
 
 # the name has been changed from version to version
@@ -70,7 +69,6 @@ clean:
 	$(AT)cd $(WORK_DIR) && git clean -xfd *.o
 clobber:
 	$(AT)rm -rf $(WORK_DIR)
-	$(AT)rm -rf $(DPDK_VANILLA)
 	$(AT)rm -rf $(DPDK_CUSE)
 
 # distclean is for developer who would like to keep the
@@ -86,8 +84,6 @@ sanity:
 
 $(WORK_DIR):
 	$(AT)git clone $(DPDK_URL)
-	$(AT)mkdir -p $(DPDK_VANILLA)
-	$(AT)cp -rf ./* $(DPDK_VANILLA)
 	$(AT)mkdir -p $(DPDK_CUSE)
 	$(AT)cp -rf ./* $(DPDK_CUSE)
 

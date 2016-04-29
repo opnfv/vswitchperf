@@ -28,8 +28,6 @@ INSTALL_TARGET = force_make force_install
 CONFIG_CMD =
 CONFIG_CMD += ./configure
 CONFIG_CMD += --target-list="x86_64-softmmu"
-QEMU_VANILLA = ../../src_vanilla/qemu
-QEMU_CUSE = ../../src_cuse/qemu
 
 all: force_make
 
@@ -55,8 +53,6 @@ clean:
 	$(AT)cd $(WORK_DIR) && git clean -xfd *.o
 clobber:
 	$(AT)rm -rf $(WORK_DIR)
-	$(AT)rm -rf $(QEMU_VANILLA)
-	$(AT)rm -rf $(QEMU_CUSE)
 
 # distclean is for developer who would like to keep the
 # clone git repo, saving time to fetch again from url
@@ -73,10 +69,6 @@ $(WORK_DIR)/configure: $(TAG_DONE_FLAG)
 
 $(WORK_DIR):
 	$(AT)git clone $(QEMU_URL)
-	$(AT)mkdir -p $(QEMU_VANILLA)
-	$(AT)cp -rf ./* $(QEMU_VANILLA)
-	$(AT)mkdir -p $(QEMU_CUSE)
-	$(AT)cp -rf ./* $(QEMU_CUSE)
 
 $(TAG_DONE_FLAG): $(WORK_DIR)
 	$(AT)cd $(WORK_DIR); git checkout $(QEMU_TAG)
