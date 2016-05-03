@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_e873a213",
+        "filename": "src/dpdk/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-05-03T13:58:56Z",
+      "side": 0,
+      "message": "But I believe we are configuring vanilla ovs completely differently to ovs with dpdk (if we aren\u0027t we should be). Vanilla OVS config should not include dpdk configuration. so why are we getting rid of it?\n\nOr is the intention that ONLY OVS gets compiled differently?\n\nIs there any impact on the configuration paths? I believe 00_common.conf needs to be updated also\nhttps://gerrit.opnfv.org/gerrit/gitweb?p\u003dvswitchperf.git;a\u003dblob;f\u003dconf/00_common.conf;h\u003d944619c5791f5848b6a1f2d30ee80eb2803cf228;hb\u003dHEAD#l40",
+      "revId": "eca9105cac5d465dfacf162200e09599c8b98c4b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
