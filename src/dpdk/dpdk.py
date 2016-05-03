@@ -30,7 +30,7 @@ from tools.module_manager import ModuleManager
 
 _LOGGER = logging.getLogger(__name__)
 RTE_PCI_TOOL = os.path.join(
-    settings.getValue('RTE_SDK'), 'tools', 'dpdk_nic_bind.py')
+    settings.getValue('RTE_SDK_USER'), 'tools', 'dpdk_nic_bind.py')
 
 _DPDK_MODULE_MANAGER = ModuleManager()
 
