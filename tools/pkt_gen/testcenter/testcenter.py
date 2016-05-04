@@ -149,10 +149,20 @@ class TestCenter(trafficgen.ITrafficGenerator):
             csvreader = csv.DictReader(csvfile)
             for row in csvreader:
                 self._logger.info("Row: %s", row)
-                result[ResultsConstants.TX_RATE_FPS] = 0.0
-                result[ResultsConstants.THROUGHPUT_RX_FPS] = 0.0
-                result[ResultsConstants.TX_RATE_MBPS] = 0.0
-                result[ResultsConstants.THROUGHPUT_RX_MBPS] = 0.0
+                tx_fps = ((float(row["TxFrameCount"])) /
+                          (float(row["Duration(sec)"])))
+                rx_fps = ((float(row["RxFrameCount"])) /
+                          (float(row["Duration(sec)"])))
+                tx_mbps = ((float(row["TxFrameCount"]) *
+                            float(row["ConfiguredFrameSize"])) /
+                           (float(row["Duration(sec)"]) * 1000000.0))
+                rx_mbps = ((float(row["RxFrameCount"]) *
+                            float(row["ConfiguredFrameSize"])) /
+                           (float(row["Duration(sec)"]) * 1000000.0))
+                result[ResultsConstants.TX_RATE_FPS] = tx_fps
+                result[ResultsConstants.THROUGHPUT_RX_FPS] = rx_fps
+                result[ResultsConstants.TX_RATE_MBPS] = tx_mbps
+                result[ResultsConstants.THROUGHPUT_RX_MBPS] = rx_mbps
                 result[ResultsConstants.TX_RATE_PERCENT] = float(
                     row["OfferedLoad(%)"])
                 result[ResultsConstants.THROUGHPUT_RX_PERCENT] = float(
@@ -260,10 +270,20 @@ class TestCenter(trafficgen.ITrafficGenerator):
             csvreader = csv.DictReader(csvfile)
             for row in csvreader:
                 self._logger.info("Row: %s", row)
-                result[ResultsConstants.TX_RATE_FPS] = 0.0
-                result[ResultsConstants.THROUGHPUT_RX_FPS] = 0.0
-                result[ResultsConstants.TX_RATE_MBPS] = 0.0
-                result[ResultsConstants.THROUGHPUT_RX_MBPS] = 0.0
+                tx_fps = ((float(row["TxFrameCount"])) /
+                          (float(row["Duration(sec)"])))
+                rx_fps = ((float(row["RxFrameCount"])) /
+                          (float(row["Duration(sec)"])))
+                tx_mbps = ((float(row["TxFrameCount"]) *
+                            float(row["ConfiguredFrameSize"])) /
+                           (float(row["Duration(sec)"]) * 1000000.0))
+                rx_mbps = ((float(row["RxFrameCount"]) *
+                            float(row["ConfiguredFrameSize"])) /
+                           (float(row["Duration(sec)"]) * 1000000.0))
+                result[ResultsConstants.TX_RATE_FPS] = tx_fps
+                result[ResultsConstants.THROUGHPUT_RX_FPS] = rx_fps
+                result[ResultsConstants.TX_RATE_MBPS] = tx_mbps
+                result[ResultsConstants.THROUGHPUT_RX_MBPS] = rx_mbps
                 result[ResultsConstants.TX_RATE_PERCENT] = float(
                     row["OfferedLoad(%)"])
                 result[ResultsConstants.THROUGHPUT_RX_PERCENT] = float(
