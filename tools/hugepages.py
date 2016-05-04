@@ -78,7 +78,8 @@ def mount_hugepages():
         return
 
     if not os.path.exists(settings.getValue('HUGEPAGE_DIR')):
-        os.makedirs(settings.getValue('HUGEPAGE_DIR'))
+        tasks.run_task(['sudo', 'mkdir', settings.getValue('HUGEPAGE_DIR')], _LOGGER,
+                       'Creating directory ' + settings.getValue('HUGEPAGE_DIR'), True)
     try:
         tasks.run_task(['sudo', 'mount', '-t', 'hugetlbfs', 'nodev',
                         settings.getValue('HUGEPAGE_DIR')],
