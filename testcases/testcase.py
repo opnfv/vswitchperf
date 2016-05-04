@@ -82,6 +82,10 @@ class TestCase(object):
 
         bidirectional = cfg.get('biDirectional', TRAFFIC_DEFAULTS['bidir'])
         bidirectional = get_test_param('bidirectional', bidirectional)
+        if not isinstance(bidirectional, str):
+            raise TypeError(
+                'Bi-dir value must be of type string in testcase configuration')
+        bidirectional = bidirectional.title()  # Keep things consistent
 
         traffic_type = cfg.get('Traffic Type', TRAFFIC_DEFAULTS['traffic_type'])
         traffic_type = get_test_param('traffic_type', traffic_type)
