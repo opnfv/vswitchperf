@@ -119,3 +119,42 @@ running any of the above. For example:
 .. _virtualenv: https://virtualenv.readthedocs.org/en/latest/
 .. _vloop-vnf-ubuntu-14.04_20160303: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20160303.qcow2
 .. _vloop-vnf-ubuntu-14.04_20151216: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20151216.qcow2
+
+Hugepage Configuration
+----------------------
+
+Systems running vsperf with either dpdk and/or tests with guests must configure
+hugepage amounts to support running these configurations. It is recommended
+to configure 1GB hugepages as the pagesize.
+
+The amount of hugepages needed depends on your configuration files in vsperf.
+Each guest image requires 4096 by default according to the default settings in
+the ``04_vnf.conf`` file.
+
+.. code:: bash
+
+    GUEST_MEMORY = ['4096', '4096']
+
+The dpdk startup parameters also require an amount of hugepages depending on
+your configuration in the ``02_vswitch.conf`` file.
+
+.. code:: bash
+
+    VSWITCHD_DPDK_ARGS = ['-c', '0x4', '-n', '4', '--socket-mem 1024,1024']
+
+With the --socket-mem argument set to use 1 hugepage on the specified sockets as
+seen above, the configuration will need 9 hugepages total to run all tests
+within vsperf if the pagesize is set correctly to 1GB.
+
+Depending on your OS selection configuration of hugepages may vary. Please refer
+to your OS documentation to set hugepages correctly. It is recommended to set
+the required amount of hugepages to be allocated by default on reboots.
+
+Information on hugepage requirements for dpdk can be found at
+http://dpdk.org/doc/guides/linux_gsg/sys_reqs.html
+
+You can review your hugepage amounts by executing the following command
+
+.. code:: bash
+
+    cat /proc/meminfo | grep Huge
