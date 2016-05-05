@@ -16,10 +16,13 @@
 """
 
 import logging
+import subprocess
+import os
+
+from src.ovs import OFBridge
+from src.dpdk import dpdk
 from conf import settings
 from vswitches.ovs import IVSwitchOvs
-from src.ovs import VSwitchd
-from src.dpdk import dpdk
 
 class OvsDpdkVhost(IVSwitchOvs):
     """ Open vSwitch with DPDK support
@@ -36,16 +39,32 @@ class OvsDpdkVhost(IVSwitchOvs):
     def __init__(self):
         super(OvsDpdkVhost, self).__init__()
         self._logger = logging.getLogger(__name__)
+        self._expect = r'EAL: Master l*core \d+ is ready'
 
-        self._vswitchd_args = ['--dpdk']
-        self._vswitchd_args += settings.getValue('VSWITCHD_DPDK_ARGS')
+        vswitchd_args = []
+
+        # legacy DPDK configuration through --dpdk option of vswitchd
+        if self.old_dpdk_config():
+            vswitchd_args = ['--dpdk'] + settings.getValue('VSWITCHD_DPDK_ARGS')
+            if self._vswitchd_args:
+                self._vswitchd_args = vswitchd_args + ['--'] + self._vswitchd_args
+            else:
+                self._vswitchd_args = vswitchd_args
+
         if settings.getValue('VNF').endswith('Cuse'):
             self._logger.info("Inserting VHOST Cuse modules into kernel...")
             dpdk.insert_vhost_modules()
 
-        self._vswitchd = VSwitchd(vswitchd_args=self._vswitchd_args,
-                                  expected_cmd=
-                                  r'EAL: Master l*core \d+ is ready')
+    def configure(self):
+        """ Configure vswitchd DPDK options through ovsdb if needed
+        """
+        dpdk_config = settings.getValue('VSWITCHD_DPDK_CONFIG')
+        if dpdk_config and not self.old_dpdk_config():
+            # enforce calls to ovs-vsctl with --no-wait
+            tmp_br = OFBridge(timeout=-1)
+            for option in dpdk_config:
+                tmp_br.set_db_attribute('Open_vSwitch', '.',
+                                        'other_config:' + option, dpdk_config[option])
 
     def start(self):
         """See IVswitch for general description
@@ -115,3 +134,17 @@ class OvsDpdkVhost(IVSwitchOvs):
         of_port = bridge.add_port(port_name, params)
 
         return (port_name, of_port)
+
+    @staticmethod
+    def old_dpdk_config():
+        """Checks if ovs-vswitchd uses legacy dpdk configuration via --dpdk option
+
+        :returns: True if legacy --dpdk option is supported, otherwise it returns False
+        """
+
+        ovs_vswitchd_bin = os.path.join(settings.getValue('OVS_DIR'), 'vswitchd', 'ovs-vswitchd')
+        try:
+            subprocess.check_output(ovs_vswitchd_bin + r' --help | grep "\-\-dpdk"', shell=True)
+            return True
+        except subprocess.CalledProcessError:
+            return False

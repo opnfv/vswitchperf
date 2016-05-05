@@ -141,6 +141,15 @@ your configuration in the ``02_vswitch.conf`` file.
 .. code:: bash
 
     VSWITCHD_DPDK_ARGS = ['-c', '0x4', '-n', '4', '--socket-mem 1024,1024']
+    VSWITCHD_DPDK_CONFIG = {
+        'dpdk-init' : 'true',
+        'dpdk-lcore-mask' : '0x4',
+        'dpdk-socket-mem' : '1024,1024',
+    }
+
+Note: Option VSWITCHD_DPDK_ARGS is used for vswitchd, which supports --dpdk
+parameter. In recent vswitchd versions, option VSWITCHD_DPDK_CONFIG will be
+used to configure vswitchd via ovs-vsctl calls.
 
 With the --socket-mem argument set to use 1 hugepage on the specified sockets as
 seen above, the configuration will need 9 hugepages total to run all tests

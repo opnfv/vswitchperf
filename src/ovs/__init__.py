@@ -21,6 +21,5 @@ and external setup of vswitchd-external process, kernel modules etc.
 
 """
 
-from src.ovs.daemon import *
 from src.ovs.ofctl import *
 from src.ovs.dpctl import *

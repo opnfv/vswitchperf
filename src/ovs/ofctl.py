@@ -57,12 +57,18 @@ class OFBase(object):
     def run_vsctl(self, args, check_error=False):
         """Run ``ovs-vsctl`` with supplied arguments.
 
+        In case that timeout is set to -1, then ovs-vsctl
+        will be called with --no-wait option.
+
         :param args: Arguments to pass to ``ovs-vsctl``
         :param check_error: Throw exception on error
 
         :return: None
         """
-        cmd = ['sudo', _OVS_VSCTL_BIN, '--timeout', str(self.timeout)] + args
+        if self.timeout == -1:
+            cmd = ['sudo', _OVS_VSCTL_BIN, '--no-wait'] + args
+        else:
+            cmd = ['sudo', _OVS_VSCTL_BIN, '--timeout', str(self.timeout)] + args
         return tasks.run_task(
             cmd, self.logger, 'Running ovs-vsctl...', check_error)
 

@@ -569,6 +569,16 @@ an appropriate amount of memory:
 .. code-block:: console
 
     VSWITCHD_DPDK_ARGS = ['-c', '0x4', '-n', '4', '--socket-mem 1024,0']
+    VSWITCHD_DPDK_CONFIG = {
+        'dpdk-init' : 'true',
+        'dpdk-lcore-mask' : '0x4',
+        'dpdk-socket-mem' : '1024,0',
+    }
+
+Note: Option VSWITCHD_DPDK_ARGS is used for vswitchd, which supports --dpdk
+parameter. In recent vswitchd versions, option VSWITCHD_DPDK_CONFIG will be
+used to configure vswitchd via ovs-vsctl calls.
+
 
 More information
 ^^^^^^^^^^^^^^^^

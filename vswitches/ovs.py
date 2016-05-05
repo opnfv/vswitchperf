@@ -17,40 +17,77 @@
 
 import logging
 import re
+import os
+import pexpect
 from conf import settings
 from vswitches.vswitch import IVSwitch
 from src.ovs import OFBridge, flow_key, flow_match
+from tools import tasks
 
-_VSWITCHD_CONST_ARGS = []
+_OVS_VAR_DIR = settings.getValue('OVS_VAR_DIR')
+_OVS_ETC_DIR = settings.getValue('OVS_ETC_DIR')
 
-class IVSwitchOvs(IVSwitch):
+class IVSwitchOvs(IVSwitch, tasks.Process):
     """Open vSwitch base class implementation
 
     The method docstrings document only considerations specific to this
     implementation. For generic information of the nature of the methods,
     see the interface.
     """
+    _logfile = os.path.join(settings.getValue('LOG_DIR'), settings.getValue('LOG_FILE_VSWITCHD'))
+    _ovsdb_pidfile_path = os.path.join(settings.getValue('LOG_DIR'), "ovsdb_pidfile.pid")
+    _vswitchd_pidfile_path = os.path.join(settings.getValue('LOG_DIR'), "vswitchd_pidfile.pid")
+    _proc_name = 'ovs-vswitchd'
 
     def __init__(self):
         """See IVswitch for general description
         """
-        self._vswitchd = None
         self._logger = logging.getLogger(__name__)
+        self._expect = None
+        self._timeout = 30
         self._bridges = {}
-        self._vswitchd_args = _VSWITCHD_CONST_ARGS
+        self._vswitchd_args = ['--pidfile=' + self._vswitchd_pidfile_path,
+                               '--overwrite-pidfile', '--log-file=' + self._logfile]
+        self._cmd = []
+        self._cmd_template = ['sudo', '-E', os.path.join(settings.getValue('OVS_DIR'),
+                                                         'vswitchd', 'ovs-vswitchd')]
 
     def start(self):
-        """See IVswitch for general description
+        """ Start ``ovsdb-server`` and ``ovs-vswitchd`` instance.
+
+        :raises: pexpect.EOF, pexpect.TIMEOUT
         """
         self._logger.info("Starting vswitchd...")
-        self._vswitchd.start()
+
+        self._cmd = self._cmd_template + self._vswitchd_args
+
+        # DB must be started before vswitchd
+        self._reset_ovsdb()
+        self._start_ovsdb()
+
+        # DB must be up before vswitchd config is altered
+        self.configure()
+
+        try:
+            tasks.Process.start(self)
+            self.relinquish()
+        except (pexpect.EOF, pexpect.TIMEOUT) as exc:
+            logging.error("Exception during VSwitch start.")
+            self._kill_ovsdb()
+            raise exc
+
         self._logger.info("Vswitchd...Started.")
+
+    def configure(self):
+        """ Configure vswitchd through ovsdb if needed
+        """
+        pass
 
     def stop(self):
         """See IVswitch for general description
         """
         self._logger.info("Terminating vswitchd...")
-        self._vswitchd.kill()
+        self.kill()
         self._logger.info("Vswitchd...Terminated.")
 
     def add_switch(self, switch_name, params=None):
@@ -152,6 +189,93 @@ class IVSwitchOvs(IVSwitch):
         if cnt is None:
             cnt = 0
         return cnt
+
+    def kill(self, signal='-15', sleep=10):
+        """Kill ``ovs-vswitchd`` and ``ovs-ovsdb`` instances if they are alive.
+
+        :returns: None
+        """
+        if os.path.isfile(self._vswitchd_pidfile_path):
+            self._logger.info('Killing ovs-vswitchd...')
+            with open(self._vswitchd_pidfile_path, "r") as pidfile:
+                vswitchd_pid = pidfile.read().strip()
+                tasks.terminate_task(vswitchd_pid, logger=self._logger)
+
+        self._kill_ovsdb()  # ovsdb must be killed after vswitchd
+
+        # just for case, that sudo envelope has not been terminated yet
+        tasks.Process.kill(self, signal, sleep)
+
+    # helper functions
+
+    def _reset_ovsdb(self):
+        """Reset system for 'ovsdb'.
+
+        :returns: None
+        """
+        self._logger.info('Resetting system after last run...')
+
+        tasks.run_task(['sudo', 'rm', '-rf', _OVS_VAR_DIR], self._logger)
+        tasks.run_task(['sudo', 'mkdir', '-p', _OVS_VAR_DIR], self._logger)
+        tasks.run_task(['sudo', 'rm', '-rf', _OVS_ETC_DIR], self._logger)
+        tasks.run_task(['sudo', 'mkdir', '-p', _OVS_ETC_DIR], self._logger)
+
+        tasks.run_task(['sudo', 'rm', '-f',
+                        os.path.join(_OVS_ETC_DIR, 'conf.db')],
+                       self._logger)
+
+        self._logger.info('System reset after last run.')
+
+    def _start_ovsdb(self):
+        """Start ``ovsdb-server`` instance.
+
+        :returns: None
+        """
+        ovsdb_tool_bin = os.path.join(
+            settings.getValue('OVS_DIR'), 'ovsdb', 'ovsdb-tool')
+        tasks.run_task(['sudo', ovsdb_tool_bin, 'create',
+                        os.path.join(_OVS_ETC_DIR, 'conf.db'),
+                        os.path.join(settings.getValue('OVS_DIR'), 'vswitchd',
+                                     'vswitch.ovsschema')],
+                       self._logger,
+                       'Creating ovsdb configuration database...')
+
+        ovsdb_server_bin = os.path.join(
+            settings.getValue('OVS_DIR'), 'ovsdb', 'ovsdb-server')
+
+        tasks.run_background_task(
+            ['sudo', ovsdb_server_bin,
+             '--remote=punix:%s' % os.path.join(_OVS_VAR_DIR, 'db.sock'),
+             '--remote=db:Open_vSwitch,Open_vSwitch,manager_options',
+             '--pidfile=' + self._ovsdb_pidfile_path, '--overwrite-pidfile'],
+            self._logger,
+            'Starting ovsdb-server...')
+
+    def _kill_ovsdb(self):
+        """Kill ``ovsdb-server`` instance.
+
+        :returns: None
+        """
+        if os.path.isfile(self._ovsdb_pidfile_path):
+            with open(self._ovsdb_pidfile_path, "r") as pidfile:
+                ovsdb_pid = pidfile.read().strip()
+
+            self._logger.info("Killing ovsdb with pid: " + ovsdb_pid)
+
+            if ovsdb_pid:
+                tasks.terminate_task(ovsdb_pid, logger=self._logger)
+
+    @staticmethod
+    def get_db_sock_path():
+        """Method returns location of db.sock file
+
+        :returns: path to db.sock file.
+        """
+        return os.path.join(_OVS_VAR_DIR, 'db.sock')
+
+    #
+    # validate methods required for integration testcases
+    #
 
     def validate_add_switch(self, result, switch_name, params=None):
         """Validate - Create a new logical switch with no ports

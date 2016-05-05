@@ -18,7 +18,7 @@
 import logging
 from conf import settings
 from vswitches.ovs import IVSwitchOvs
-from src.ovs import VSwitchd, DPCtl
+from src.ovs import DPCtl
 from tools.module_manager import ModuleManager
 from tools import tasks
 
@@ -39,11 +39,9 @@ class OvsVanilla(IVSwitchOvs):
         super(OvsVanilla, self).__init__()
         self._ports = list(nic['device'] for nic in settings.getValue('NICS'))
         self._logger = logging.getLogger(__name__)
-        self._vswitchd_args = ["unix:%s" % VSwitchd.get_db_sock_path()]
+        self._vswitchd_args += ["unix:%s" % self.get_db_sock_path()]
         self._vswitchd_args += settings.getValue('VSWITCHD_VANILLA_ARGS')
-        self._vswitchd = VSwitchd(vswitchd_args=self._vswitchd_args,
-                                  expected_cmd="db.sock: connected")
-        self._bridges = {}
+        self._expect = "db.sock: connected"
         self._module_manager = ModuleManager()
 
     def start(self):
