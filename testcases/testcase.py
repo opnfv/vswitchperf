@@ -351,7 +351,7 @@ class TestCase(object):
         if 'testpmd' in self.guest_loopback or 'l2fwd' in self.guest_loopback:
             try:
                 tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
-                                os.path.join(S.getValue('RTE_SDK'), ''),
+                                os.path.join(S.getValue('RTE_SDK_USER'), ''),
                                 os.path.join(guest_dir, 'DPDK')],
                                self._logger,
                                'Copying DPDK to shared directory...',
