@@ -3,8 +3,9 @@
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
 OPNFV Colorado Release
-=========================
+======================
 * Support for OVS version 2.5 + DPDK 2.2.
+* Support for DPDK v16.04
 * Support for Xena traffic generator.
 * Support for Integration tests for OVS with DPDK including:
   * Physical ports.

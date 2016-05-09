@@ -138,7 +138,7 @@ class IVnfQemu(IVnf):
             # exit testpmd if needed
             if self._guest_loopback == 'testpmd':
                 self.execute_and_wait('stop', 120, "Done")
-                self.execute_and_wait('quit', 120, "bye")
+                self.execute_and_wait('quit', 120, "[bB]ye")
 
             # turn off VM
             self.execute_and_wait('poweroff', 120, "Power down")
@@ -276,7 +276,7 @@ class IVnfQemu(IVnf):
         self.execute_and_wait('mount -o ro,iocharset=utf8 /dev/sdb1 ' +
                               S.getValue('OVS_DPDK_SHARE'))
         self.execute_and_wait('mkdir -p ' + S.getValue('GUEST_OVS_DPDK_DIR'))
-        self.execute_and_wait('cp -ra ' + os.path.join(S.getValue('OVS_DPDK_SHARE'), dirname) +
+        self.execute_and_wait('cp -r ' + os.path.join(S.getValue('OVS_DPDK_SHARE'), dirname) +
                               ' ' + S.getValue('GUEST_OVS_DPDK_DIR'))
         self.execute_and_wait('umount /dev/sdb1')
 
