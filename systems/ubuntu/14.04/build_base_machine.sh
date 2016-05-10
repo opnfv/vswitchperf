@@ -61,6 +61,7 @@ cifs-utils
 socat
 libpixman-1-0
 libpixman-1-dev
+sysstat
 
 # Java runtime environment: Required for Ixia TclClient
 default-jre
