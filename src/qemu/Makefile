@@ -27,7 +27,7 @@ TAG_DONE_FLAG = $(WORK_DIR)/.$(QEMU_TAG).done
 INSTALL_TARGET = force_make force_install
 CONFIG_CMD =
 CONFIG_CMD += ./configure
-CONFIG_CMD += --target-list="x86_64-softmmu"
+CONFIG_CMD += --target-list="x86_64-softmmu" --python="/usr/bin/python"
 
 all: force_make
 
