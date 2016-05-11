@@ -45,6 +45,7 @@ class TestCase(object):
             values.
         :param results_dir: Where the csv formatted results are written.
         """
+        self._testcase_start_time = time.time()
         self._hugepages_mounted = False
         self._traffic_ctl = None
         self._vnf_ctl = None
@@ -56,6 +57,7 @@ class TestCase(object):
         self.guest_loopback = []
         self._settings_original = {}
         self._settings_paths_modified = False
+        self._testcast_run_time = 0.0
 
         self._update_settings('VSWITCH', cfg.get('vSwitch', S.getValue('VSWITCH')))
         self._update_settings('VNF', cfg.get('VNF', S.getValue('VNF')))
@@ -284,6 +286,8 @@ class TestCase(object):
         # tear down test execution environment and log results
         self.run_finalize()
 
+        self._testcase_run_time = time.gmtime(time.time() - self._testcase_start_time)
+        logging.info("Testcase execution time: " + time.strftime("%H:%M:%S", self._testcase_run_time))
         # report test results
         self.run_report()
 
@@ -313,6 +317,7 @@ class TestCase(object):
             item[ResultsConstants.ID] = self.name
             item[ResultsConstants.DEPLOYMENT] = self.deployment
             item[ResultsConstants.TRAFFIC_TYPE] = self._traffic['l3']['proto']
+            item[ResultsConstants.TEST_RUN_TIME] = time.strftime("%H:%M:%S", self._testcase_run_time)
             if self._traffic['multistream']:
                 item[ResultsConstants.SCAL_STREAM_COUNT] = self._traffic['multistream']
                 item[ResultsConstants.SCAL_STREAM_TYPE] = self._traffic['stream_type']

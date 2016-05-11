@@ -59,6 +59,8 @@ class ResultsConstants(object):
     SCAL_STREAM_TYPE = 'match_type'
     SCAL_PRE_INSTALLED_FLOWS = 'pre-installed_flows'
 
+    TEST_RUN_TIME = "test_execution_time"
+
     @staticmethod
     def get_traffic_constants():
         """Method returns all Constants used to store results.
