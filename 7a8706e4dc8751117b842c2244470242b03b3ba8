@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_b48f2c23",
+        "filename": "docs/release/NEWS.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-05-11T14:45:50Z",
+      "side": 1,
+      "message": "The NEWS is just for the VSPERF tool (so LTD updates would not be mentioned here?).",
+      "revId": "7a8706e4dc8751117b842c2244470242b03b3ba8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
