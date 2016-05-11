@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_31d1eefb",
+        "filename": "src/package-list.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-05-11T08:37:17Z",
+      "side": 1,
+      "message": "Do you plan to remove this comment or rephrase it to stand as a comment for tag listed below?",
+      "revId": "735ed7f9a121dca2d7302388befc47e18d412d59",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
