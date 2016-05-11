@@ -104,6 +104,29 @@ Fedora, RedHat and Ubuntu
     $ cd $HOME/vsperfenv
     $ source bin/activate
 
+Gotcha
+^^^^^^
+.. code:: bash
+   $ source bin/activate
+   Badly placed ()'s.
+
+Check what type of shell you are using
+
+.. code:: bash
+   echo $shell
+   /bin/tcsh
+
+See what scripts are available in $HOME/vsperfenv/bin
+
+.. code:: bash
+   $ ls bin/
+   activate          activate.csh      activate.fish     activate_this.py
+
+source the appropriate script
+
+.. code:: bash
+   $ source bin/activate.csh
+
 Working Behind a Proxy
 ======================
 
