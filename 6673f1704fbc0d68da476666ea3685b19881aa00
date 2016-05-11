@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_140058a9",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-05-11T13:53:16Z",
+      "side": 1,
+      "message": "I would prefer to initialize it to None to explicitly point out that value is invalid, unless there are some plans for future usage of value 0.0. As we use time.strftime to process this variable, then both 0.0 and None will have the same effect - an exception will be raised. In case we want to really pass a meaningful 0, we would had to create appropriate time_struct, which is an overkill.",
+      "revId": "6673f1704fbc0d68da476666ea3685b19881aa00",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_d4d8b055",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-05-11T13:53:16Z",
+      "side": 1,
+      "message": "If there are not any plans to perform any further calculations on this variable, then we can assign to it directly output of strftime. In that case we can use this var directly in reports and initialize it in constructor to \u002700:00:00\u0027.",
+      "revId": "6673f1704fbc0d68da476666ea3685b19881aa00",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
