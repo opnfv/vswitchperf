@@ -18,6 +18,7 @@
 import logging
 import re
 import os
+import time
 import pexpect
 from conf import settings
 from vswitches.vswitch import IVSwitch
@@ -65,7 +66,9 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         self._reset_ovsdb()
         self._start_ovsdb()
 
-        # DB must be up before vswitchd config is altered
+        # DB must be up before vswitchd config is altered or vswitchd started
+        time.sleep(3)
+
         self.configure()
 
         try:
