@@ -5,7 +5,17 @@
 OPNFV Colorado Release
 =========================
 * Support for OVS version 2.5 + DPDK 2.2.
-
+* Support for Xena traffic generator.
+* Support for Integration tests for OVS with DPDK including:
+  * Physical ports.
+  * Virtual ports (vhost user and vhost cuse).
+  * Flow addition and removal tests.
+  * Overlay (VXLAN, GRE and NVGRE) encapsulation and decapsulation tests.
+* Supporting configuration of OVS with DPDK through the OVS DB as well as the
+  legacy commandline arguments.
+* Support for VM loopback (SR-IOV) benchmarking.
+* Support for platform baseline benchmarking without a vswitch using testpmd.
+* Support for Spirent Test Center REST APIs.
 
 OPNFV Brahmaputra Release
 =========================
