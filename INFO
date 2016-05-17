@@ -11,12 +11,9 @@ Repository: vswitchperf
 
 Commiters:
 maryam.tahhan@intel.com
-chenjinzhou@huawei.com
-randy.wang@huawei.com
-challa@noironetworks.com
-tgraf@noironetworks.com
 Eugene.Snider@huawei.com
 acmorton@att.com
 
 Link to TSC approval of the project: http://meetbot.opnfv.org/meetings/opnfv-meeting/
 Link(s) to approval of additional submitters:
+Link(s) to removal of submitters: http://ircbot.wl.linuxfoundation.org/meetings/opnfv-meeting/2016/opnfv-meeting.2016-05-17-13.59.html
