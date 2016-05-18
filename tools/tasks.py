@@ -86,17 +86,24 @@ def run_task(cmd, logger, msg=None, check_error=False):
 
             for file_d in ret[0]:
                 if file_d == proc.stdout.fileno():
-                    line = proc.stdout.readline()
-                    if settings.getValue('VERBOSITY') == 'debug':
-                        sys.stdout.write(line.decode(my_encoding))
-                    stdout.append(line)
+                    while True:
+                        line = proc.stdout.readline()
+                        if not line:
+                            break
+                        if settings.getValue('VERBOSITY') == 'debug':
+                            sys.stdout.write(line.decode(my_encoding))
+                        stdout.append(line)
                 if file_d == proc.stderr.fileno():
-                    line = proc.stderr.readline()
-                    sys.stderr.write(line.decode(my_encoding))
-                    stderr.append(line)
+                    while True:
+                        line = proc.stderr.readline()
+                        if not line:
+                            break
+                        sys.stderr.write(line.decode(my_encoding))
+                        stderr.append(line)
 
             if proc.poll() is not None:
                 break
+
     except OSError as ex:
         handle_error(ex)
     else:
