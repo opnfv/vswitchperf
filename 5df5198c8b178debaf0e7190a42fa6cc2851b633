@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_0ee7dc41",
+        "filename": "fuel-plugin-vsperf/vagrant/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2016-05-20T09:07:29Z",
+      "side": 1,
+      "message": "Does this mean you must have virtual box installed to build the plugin? Or just if you want to build it on a non-ubuntu system?",
+      "range": {
+        "startLine": 16,
+        "startChar": 18,
+        "endLine": 16,
+        "endChar": 30
+      },
+      "revId": "5df5198c8b178debaf0e7190a42fa6cc2851b633",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
