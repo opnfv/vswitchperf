@@ -77,11 +77,13 @@ class VswitchControllerOP2P(IVswitchController):
             vtep_ip2 = settings.getValue('VTEP_IP2')
             self._vswitch.add_switch(bridge)
 
-            tasks.run_task(['sudo', 'ifconfig', bridge,
-                            settings.getValue('VTEP_IP1')],
+            tasks.run_task(['sudo', 'ip', 'addr', 'add',
+                            settings.getValue('VTEP_IP1'), 'dev', bridge],
                            self._logger, 'Assign ' +
                            settings.getValue('VTEP_IP1') + ' to ' + bridge,
                            False)
+            tasks.run_task(['sudo', 'ip', 'link', 'set', 'dev', bridge, 'up'],
+                           self._logger, 'Bring up ' + bridge, False)
 
             tunnel_type = self._traffic['tunnel_type']
 
@@ -137,10 +139,12 @@ class VswitchControllerOP2P(IVswitchController):
             tgen_ip1 = settings.getValue('TRAFFICGEN_PORT1_IP')
             self._vswitch.add_switch(bridge)
 
-            tasks.run_task(['sudo', 'ifconfig', bridge,
-                            settings.getValue('VTEP_IP1')],
+            tasks.run_task(['sudo', 'ip', 'addr', 'add',
+                            settings.getValue('VTEP_IP1'), 'dev', bridge],
                            self._logger, 'Assign ' +
                            settings.getValue('VTEP_IP1') + ' to ' + bridge, False)
+            tasks.run_task(['sudo', 'ip', 'link', 'set', 'dev', bridge, 'up'],
+                           self._logger, 'Bring up ' + bridge, False)
 
             tunnel_type = self._traffic['tunnel_type']
 
@@ -195,10 +199,12 @@ class VswitchControllerOP2P(IVswitchController):
             tgen_ip1 = settings.getValue('TRAFFICGEN_PORT1_IP')
             self._vswitch.add_switch(bridge)
 
-            tasks.run_task(['sudo', 'ifconfig', bridge,
-                            settings.getValue('TUNNEL_INT_BRIDGE_IP')],
+            tasks.run_task(['sudo', 'ip', 'addr', 'add',
+                            settings.getValue('TUNNEL_INT_BRIDGE_IP'), 'dev', bridge],
                            self._logger, 'Assign ' +
                            settings.getValue('TUNNEL_INT_BRIDGE_IP') + ' to ' + bridge, False)
+            tasks.run_task(['sudo', 'ip', 'link', 'set', 'dev', bridge, 'up'],
+                           self._logger, 'Bring up ' + bridge, False)
 
             tunnel_type = self._traffic['tunnel_type']
 

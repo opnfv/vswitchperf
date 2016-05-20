@@ -94,8 +94,10 @@ class OvsVanilla(IVSwitchOvs):
         params = []
 
         # For PVP only
-        tasks.run_task(['sudo', 'ifconfig', port_name, '0'],
+        tasks.run_task(['sudo', 'ip', 'addr', 'flush', 'dev', port_name],
                        self._logger, 'Remove IP', False)
+        tasks.run_task(['sudo', 'ip', 'link', 'set', 'dev', port_name, 'up'],
+                       self._logger, 'Bring up ' + port_name, False)
 
         of_port = bridge.add_port(port_name, params)
         self._current_id += 1
@@ -119,7 +121,9 @@ class OvsVanilla(IVSwitchOvs):
                         tap_name, 'mode', 'tap'],
                        self._logger, 'Creating tap device...', False)
 
-        tasks.run_task(['sudo', 'ifconfig', tap_name, '0'],
+        tasks.run_task(['sudo', 'ip', 'addr', 'flush', 'dev', tap_name],
+                       self._logger, 'Remove IP', False)
+        tasks.run_task(['sudo', 'ip', 'link', 'set', 'dev', tap_name, 'up'],
                        self._logger, 'Bring up ' + tap_name, False)
 
         bridge = self._bridges[switch_name]

@@ -384,17 +384,23 @@ class IVnfQemu(IVnf):
         """
         self._configure_disable_firewall()
 
-        self.execute('ifconfig ' + self._net1 + ' ' +
-                     S.getValue('VANILLA_NIC1_IP_CIDR')[self._number])
+        self.execute('ip addr add ' +
+                     S.getValue('VANILLA_NIC1_IP_CIDR')[self._number] +
+                     ' dev ' + self._net1)
+        self.execute('ip link set dev ' + self._net1 + ' up')
 
-        self.execute('ifconfig ' + self._net2 + ' ' +
-                     S.getValue('VANILLA_NIC2_IP_CIDR')[self._number])
+        self.execute('ip addr add ' +
+                     S.getValue('VANILLA_NIC2_IP_CIDR')[self._number] +
+                     ' dev ' + self._net2)
+        self.execute('ip link set dev ' + self._net2 + ' up')
 
         # configure linux bridge
         self.execute('brctl addbr br0')
         self.execute('brctl addif br0 ' + self._net1 + ' ' + self._net2)
-        self.execute('ifconfig br0 ' +
-                     S.getValue('VANILLA_BRIDGE_IP')[self._number])
+        self.execute('ip addr add ' +
+                     S.getValue('VANILLA_BRIDGE_IP')[self._number] +
+                     ' dev br0')
+        self.execute('ip link set dev br0 up')
 
         # Add the arp entries for the IXIA ports and the bridge you are using.
         # Use command line values if provided.
