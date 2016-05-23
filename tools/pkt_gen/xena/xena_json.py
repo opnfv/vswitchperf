@@ -95,7 +95,7 @@ class XenaJSON(object):
         ]
 
         self.json_data['StreamProfileHandler']['EntityList'][entity][
-            'StreamConfig']['HwModifiers'].append(segments)
+            'StreamConfig']['HwModifiers'] = (segments)
 
     def _create_packet_header(self):
         """
