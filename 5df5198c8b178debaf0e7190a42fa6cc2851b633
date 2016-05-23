@@ -22,6 +22,30 @@
       "revId": "5df5198c8b178debaf0e7190a42fa6cc2851b633",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_69e4620d",
+        "filename": "fuel-plugin-vsperf/vagrant/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2016-05-23T00:27:41Z",
+      "side": 1,
+      "message": "you need to install vagrant \u0026 virtualbox.\nThe purpose is to easy build out fuel plugin by issuing \"vagrant up\". The script can create fuel build environment.\n\nIf you know how to build fuel plugin, just ignore vagrant directory.",
+      "parentUuid": "9a91bd0f_0ee7dc41",
+      "range": {
+        "startLine": 16,
+        "startChar": 18,
+        "endLine": 16,
+        "endChar": 30
+      },
+      "revId": "5df5198c8b178debaf0e7190a42fa6cc2851b633",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }

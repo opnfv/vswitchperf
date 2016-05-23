@@ -22,6 +22,30 @@
       "revId": "cc5df3ec2038249425c8313bdb73add3d1268b09",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_89dd2645",
+        "filename": "fuel-plugin-vsperf/pre_build_hook",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2016-05-23T00:27:41Z",
+      "side": 0,
+      "message": "Billy,\n\ndo you agree the change? The change is to build fuel plugin from local instead of remote git repo. for example(without the change), you need to push your change to remote git repo then you can build out fuel plugin. Second, it is not easy for release.",
+      "parentUuid": "9a91bd0f_aecfd0af",
+      "range": {
+        "startLine": 21,
+        "startChar": 48,
+        "endLine": 21,
+        "endChar": 59
+      },
+      "revId": "cc5df3ec2038249425c8313bdb73add3d1268b09",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
