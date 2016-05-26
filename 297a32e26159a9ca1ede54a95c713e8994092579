@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_a4792c31",
+        "filename": "docs/userguide/integration.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-05-26T08:33:08Z",
+      "side": 1,
+      "message": "May be we should add comment with step number (# STEP 0, etc.) as it is done in second example. Just for better clarity. Of course only if there is enough space at the end of every line in PDF version.",
+      "revId": "297a32e26159a9ca1ede54a95c713e8994092579",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
