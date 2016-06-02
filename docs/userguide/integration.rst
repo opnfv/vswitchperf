@@ -7,13 +7,101 @@ Integration tests
 
 VSPERF includes a set of integration tests defined in conf/integration.
 These tests can be run by specifying --integration as a parameter to vsperf.
-Current tests in conf/integration are Overlay tests.
+Current tests in conf/integration include switch functionality and Overlay
+tests.
 
-VSPERF supports VXLAN, GRE and GENEVE tunneling protocols.
+Tests in the conf/integration can be used to test scaling of different switch
+configurations by adding steps into the test case.
+
+For the overlay tests VSPERF supports VXLAN, GRE and GENEVE tunneling protocols.
 Testing of these protocols is limited to unidirectional traffic and
 P2P (Physical to Physical scenarios).
 
-NOTE: The configuration for overlay tests provided in this guide is for unidirectional traffic only.
+NOTE: The configuration for overlay tests provided in this guide is for
+unidirectional traffic only.
+
+Executing Integration Tests
+---------------------------
+
+To execute integration tests VSPERF is run with the integration parameter. To
+view the current test list simply execute the following command:
+
+.. code-block:: console
+
+    ./vsperf --integration --list
+
+The standard tests included are defined inside the
+``conf/integration/01_testcases.conf`` file.
+
+Test Steps
+----------
+
+Execution of integration tests are done on a step by step work flow starting
+with step 0 as defined inside the test case. Each step of the test increments
+the step number by one which is indicated in the log.
+
+.. code-block:: console
+
+    (testcases.integration) - Step 1 - 'vswitch add_switch ['int_br1']' ... OK
+
+Each step in the test case is validated. If a step does not pass validation the
+test will fail and terminate. The test will continue until a failure is detected
+or all steps pass. A csv report file is generated after a test completes with an
+OK or FAIL result.
+
+Test Macros
+-----------
+
+Test profiles can include macros as part of the test step. Each step in the
+profile may return a value such as a port name. Recall macros use #STEP to
+indicate the recalled value inside the return structure. If the method the
+test step calls returns a value it can be later recalled, for example:
+
+.. code-block:: python
+
+    {
+        "Name": "vswitch_add_del_vport",
+        "Deployment": "clean",
+        "Description": "vSwitch - add and delete virtual port",
+        "TestSteps": [
+                ['vswitch', 'add_switch', 'int_br0'],               # STEP 0
+                ['vswitch', 'add_vport', 'int_br0'],                # STEP 1
+                ['vswitch', 'del_port', 'int_br0', '#STEP[1][0]'],  # STEP 2
+                ['vswitch', 'del_switch', 'int_br0'],               # STEP 3
+             ]
+    }
+
+This test profile uses the the vswitch add_vport method which returns a string
+value of the port added. This is later called by the del_port method using the
+name from step 1.
+
+Also commonly used steps can be created as a separate profile.
+
+.. code-block:: python
+
+    STEP_VSWITCH_PVP_INIT = [
+        ['vswitch', 'add_switch', 'int_br0'],           # STEP 0
+        ['vswitch', 'add_phy_port', 'int_br0'],         # STEP 1
+        ['vswitch', 'add_phy_port', 'int_br0'],         # STEP 2
+        ['vswitch', 'add_vport', 'int_br0'],            # STEP 3
+        ['vswitch', 'add_vport', 'int_br0'],            # STEP 4
+    ]
+
+This profile can then be used inside other testcases
+
+.. code-block:: python
+
+    {
+        "Name": "vswitch_pvp",
+        "Deployment": "clean",
+        "Description": "vSwitch - configure switch and one vnf",
+        "TestSteps": STEP_VSWITCH_PVP_INIT +
+                     [
+                        ['vnf', 'start'],
+                        ['vnf', 'stop'],
+                     ] +
+                     STEP_VSWITCH_PVP_FINIT
+    }
 
 Executing Tunnel encapsulation tests
 ------------------------------------
