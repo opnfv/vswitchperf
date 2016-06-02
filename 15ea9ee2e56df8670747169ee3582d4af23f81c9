@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_eacdcb87",
+        "filename": "INFO",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-06-02T16:10:26Z",
+      "side": 1,
+      "message": "What happened to Bill?",
+      "revId": "15ea9ee2e56df8670747169ee3582d4af23f81c9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
