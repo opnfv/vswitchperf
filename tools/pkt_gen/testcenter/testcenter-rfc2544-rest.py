@@ -169,6 +169,11 @@ def main():
                                 default="PAIR",
                                 help="The traffic pattern between endpoints",
                                 dest="traffic_pattern")
+    optional_named.add_argument("--traffic_custom",
+                                required=False,
+                                default=None,
+                                help="The traffic pattern between endpoints",
+                                dest="traffic_custom")
     optional_named.add_argument("--search_mode",
                                 required=False,
                                 choices=["COMBO", "STEP", "BINARY"],
@@ -317,6 +322,12 @@ def main():
         if args.verbose:
             logger.debug("Creating project ...")
         project = stc.get("System1", "children-Project")
+
+        # Configure any custom traffic parameters
+        if args.traffic_custom == "cont":
+            if args.verbose:
+                logger.debug("Configure Continuous Traffic")
+            stc.create("ContinuousTestConfig", under=project)
 
         # Create ports
         if args.verbose:
