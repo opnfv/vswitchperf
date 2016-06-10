@@ -1285,11 +1285,11 @@ Test ID: LTD.Throughput.RFC2544.Profile
     to the DUT's RFC 2544 Throughput as determined by
     LTD.Throughput.RFC2544.PacketLoss Ratio (0% Packet Loss case). A delta
     of 0% is equivalent to an offered traffic rate equal to the RFC 2544
-    Throughput; A delta of +50% indicates an offered rate half-way
-    between the Throughput and line-rate, whereas a delta of
-    -50% indicates an offered rate of half the maximum rate. Therefore the
-    range of the delta figure is natuarlly bounded at -100% (zero offered
-    traffic) and +100% (traffic offered at line rate).
+    Maximum Throughput; A delta of +50% indicates an offered rate half-way
+    between the Maximum RFC2544 Throughput and line-rate, whereas a delta of
+    -50% indicates an offered rate of half the RFC 2544 Maximum Throughput.
+    Therefore the range of the delta figure is natuarlly bounded at -100%
+    (zero offered traffic) and +100% (traffic offered at line rate).
 
     The following deltas to the maximum forwarding rate should be applied:
 
