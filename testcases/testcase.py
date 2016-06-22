@@ -152,8 +152,8 @@ class TestCase(object):
 
         # OVS Vanilla requires guest VM MAC address and IPs to work
         if 'linux_bridge' in self.guest_loopback:
-            self._traffic['l2'].update({'srcmac': S.getValue('GUEST_NET2_MAC')[0],
-                                        'dstmac': S.getValue('GUEST_NET1_MAC')[0]})
+            self._traffic['l2'].update({'srcmac': S.getValue('VANILLA_TGEN_PORT1_MAC'),
+                                        'dstmac': S.getValue('VANILLA_TGEN_PORT2_MAC')})
             self._traffic['l3'].update({'srcip': S.getValue('VANILLA_TGEN_PORT1_IP'),
                                         'dstip': S.getValue('VANILLA_TGEN_PORT2_IP')})
 
