@@ -245,7 +245,7 @@ class TestCase(object):
             self._traffic_ctl.print_results()
 
             self._tc_results = self._append_results(self._traffic_ctl.get_results())
-            TestCase._write_result_to_file(self._tc_results, self._output_file)
+            TestCase.write_result_to_file(self._tc_results, self._output_file)
 
     def run(self):
         """Run the test
@@ -392,7 +392,7 @@ class TestCase(object):
             self._hugepages_mounted = False
 
     @staticmethod
-    def _write_result_to_file(results, output):
+    def write_result_to_file(results, output):
         """Write list of dictionaries to a CSV file.
 
         Each element on list will create separate row in output file.

@@ -191,7 +191,7 @@ class IntegrationTestCase(TestCase):
             results = OrderedDict()
             results['status'] = 'OK' if self._inttest['status'] else 'FAILED'
             results['details'] = self._inttest['details']
-            TestCase._write_result_to_file([results], self._output_file)
+            TestCase.write_result_to_file([results], self._output_file)
             self.report_status("Test '{}'".format(self.name), self._inttest['status'])
             # inform vsperf about testcase failure
             if not self._inttest['status']:

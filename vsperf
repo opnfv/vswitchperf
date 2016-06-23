@@ -622,6 +622,10 @@ def main():
             traffic_ctl.send_traffic(traffic)
         _LOGGER.debug("Traffic Results:")
         traffic_ctl.print_results()
+
+        # write results into CSV file
+        result_file = os.path.join(results_path, "result.csv")
+        PerformanceTestCase.write_result_to_file(traffic_ctl.get_results(), result_file)
     else:
         # configure tests
         if args['integration']:
