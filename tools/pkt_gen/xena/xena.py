@@ -288,14 +288,24 @@ class Xena(ITrafficGenerator):
                 1, settings.getValue("TRAFFICGEN_XENA_PORT1_IP"),
                 settings.getValue("TRAFFICGEN_XENA_PORT1_CIDR"),
                 settings.getValue("TRAFFICGEN_XENA_PORT1_GATEWAY"))
-            j_file.set_test_options(
+
+            if testtype == '2544_throughput':
+                j_file.set_test_options_tput(
                 packet_sizes=self._params['traffic']['l2']['framesize'],
                 iterations=trials, loss_rate=loss_rate,
                 duration=self._duration, micro_tpld=True if self._params[
                     'traffic']['l2']['framesize'] == 64 else False)
-            if testtype == '2544_throughput':
                 j_file.enable_throughput_test()
+
             elif testtype == '2544_b2b':
+                j_file.set_test_options_back2back(
+                packet_sizes=self._params['traffic']['l2']['framesize'],
+                iterations=trials,
+                duration=self._duration,
+                startvalue = self._params['traffic']['frame_rate'],
+                endvalue = self._params['traffic']['frame_rate'],
+                micro_tpld=True if self._params[
+                    'traffic']['l2']['framesize'] == 64 else False)
                 j_file.enable_back2back_test()
 
             j_file.set_header_layer2(
