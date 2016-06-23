@@ -354,10 +354,10 @@ class XenaJSON(object):
         self.json_data['PortHandler']['EntityList'][
             port]["IpV6RoutingPrefix"] = int(netmask)
 
-    def set_test_options(self, packet_sizes, duration, iterations, loss_rate,
+    def set_test_options_tput(self, packet_sizes, duration, iterations, loss_rate,
                          micro_tpld=False):
         """
-        Set the test options
+        Set the tput test options
         :param packet_sizes: List of packet sizes to test, single int entry is
          acceptable for one packet size testing
         :param duration: time for each test in seconds as int
@@ -378,6 +378,34 @@ class XenaJSON(object):
             'UseMicroTpldOnDemand'] = 'true' if micro_tpld else 'false'
         self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
             'Iterations'] = iterations
+    
+    def set_test_options_back2back(self, packet_sizes, duration, iterations,
+                         startvalue, endvalue, micro_tpld=False):
+        """
+        Set the back2back test options
+        :param packet_sizes: List of packet sizes to test, single int entry is
+         acceptable for one packet size testing
+        :param duration: time for each test in seconds as int
+        :param iterations: number of iterations of testing as int
+        :param micro_tpld: boolean if micro_tpld should be enabled or disabled
+        :param StartValue: start value 
+        :param EndValue: end value
+        :return: None
+        """
+        if isinstance(packet_sizes, int):
+            packet_sizes = [packet_sizes]
+        self.json_data['TestOptions']['PacketSizes'][
+            'CustomPacketSizes'] = packet_sizes
+        self.json_data['TestOptions']['TestTypeOptionMap']['Back2Back'][
+            'Duration'] = duration
+        self.json_data['TestOptions']['FlowCreationOptions'][
+            'UseMicroTpldOnDemand'] = 'true' if micro_tpld else 'false'
+        self.json_data['TestOptions']['TestTypeOptionMap']['Back2Back'][
+            'Iterations'] = iterations
+        self.json_data['TestOptions']['TestTypeOptionMap']['Back2Back'][
+            'RateSweepOptions']['StartValue'] = startvalue
+        self.json_data['TestOptions']['TestTypeOptionMap']['Back2Back'][
+            'RateSweepOptions']['EndValue'] = endvalue
 
     def set_topology_blocks(self):
         """
