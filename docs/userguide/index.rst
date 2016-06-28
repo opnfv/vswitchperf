@@ -12,3 +12,4 @@ VSPERF User Guide
 
    testusage.rst
    integration.rst
+   yardstick.rst
