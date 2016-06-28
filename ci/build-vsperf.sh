@@ -87,14 +87,15 @@ TEST_REPORT_LOG_DIR="${HOME}/opnfv/$PROJECT/results/$BRANCH"
 # parameters:
 #   none
 function terminate_vsperf() {
+    local qemu_system_name="qemu-system-$(uname -m)"
     sudo pkill stress &> /dev/null
     sudo pkill python3 &> /dev/null
-    sudo killall -9 qemu-system-x86_64 &> /dev/null
+    sudo killall -9 "${qemu_system_name}" &> /dev/null
 
     # sometimes qemu resists to terminate, so wait a bit and kill it again
-    if pgrep qemu-system-x86_64 &> /dev/null ; then
+    if pgrep "${qemu_system_name}" &> /dev/null ; then
         sleep 5
-        sudo killall -9 qemu-system-x86_64 &> /dev/null
+        sudo killall -9 "${qemu_system_name}" &> /dev/null
         sleep 5
     fi
 
