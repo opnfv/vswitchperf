@@ -54,11 +54,12 @@ apt-get -y install libnuma-dev
 # packages related to VM
 
 # a few manual fix up on a ubuntu
-cd /lib/x86_64-linux-gnu
+local arch=$(uname -m)
+cd /lib/${arch}-linux-gnu
 ln -sf libssl.so.1.0.0 libssl.so
 ln -sf libcrypto.so.1.0.0 libcrypto.so
 
-cd /usr/lib/x86_64-linux-gnu
+cd /usr/lib/${arch}-linux-gnu
 ln -sf libxml2.so.2 libxml2.so
 
 
