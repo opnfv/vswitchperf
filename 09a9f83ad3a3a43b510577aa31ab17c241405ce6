@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_119069eb",
+        "filename": "tools/pkt_gen/xena/xena.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-06-28T20:47:21Z",
+      "side": 1,
+      "message": "I think the below lines aren\u0027t indented properly. Can you verify your changes with pylint? I\u0027ll send you instructions on how to do this in email.",
+      "revId": "09a9f83ad3a3a43b510577aa31ab17c241405ce6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_f1928df5",
+        "filename": "tools/pkt_gen/xena/xena.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-06-28T20:47:21Z",
+      "side": 1,
+      "message": "I think the below lines aren\u0027t indented properly. Can you verify your changes with pylint?\nI\u0027ll send you instructions on how to do this in email.",
+      "revId": "09a9f83ad3a3a43b510577aa31ab17c241405ce6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
