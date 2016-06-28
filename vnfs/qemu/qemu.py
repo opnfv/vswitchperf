@@ -354,9 +354,22 @@ class IVnfQemu(IVnf):
                               '/DPDK/app/test-pmd')
         self.execute_and_wait('make clean')
         self.execute_and_wait('make')
-        self.execute_and_wait('./testpmd -c 0x3 -n 4 --socket-mem 512 --'
-                              ' --burst=64 -i --txqflags=0xf00 ' +
-                              '--disable-hw-vlan', 60, "Done")
+        if int(S.getValue('GUEST_NIC_QUEUES')):
+            self.execute_and_wait(
+                './testpmd {} -n4 --socket-mem 512 --'.format(
+                    S.getValue('GUEST_TESTPMD_CPU_MASK')) +
+                ' --burst=64 -i --txqflags=0xf00 ' +
+                '--nb-cores={} --rxq={} --txq={} '.format(
+                    S.getValue('GUEST_TESTPMD_NB_CORES'),
+                    S.getValue('GUEST_TESTPMD_TXQ'),
+                    S.getValue('GUEST_TESTPMD_RXQ')) +
+                '--disable-hw-vlan', 60, "Done")
+        else:
+            self.execute_and_wait(
+                './testpmd {} -n 4 --socket-mem 512 --'.format(
+                    S.getValue('GUEST_TESTPMD_CPU_MASK')) +
+                ' --burst=64 -i --txqflags=0xf00 ' +
+                '--disable-hw-vlan', 60, "Done")
         self.execute('set fwd ' + self._testpmd_fwd_mode, 1)
         self.execute_and_wait('start', 20,
                               'TX RS bit threshold=.+ - TXQ flags=0xf00')
