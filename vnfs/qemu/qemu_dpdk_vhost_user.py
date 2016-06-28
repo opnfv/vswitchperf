@@ -38,6 +38,14 @@ class QemuDpdkVhostUser(IVnfQemu):
         net1 = 'net' + str(i + 1)
         net2 = 'net' + str(i + 2)
 
+        # multi-queue values
+        if int(S.getValue('GUEST_NIC_QUEUES')):
+            queue_str = ',queues={}'.format(S.getValue('GUEST_NIC_QUEUES'))
+            mq_vector_str = ',mq=on,vectors={}'.format(
+                int(S.getValue('GUEST_NIC_QUEUES')) * 2 + 2)
+        else:
+            queue_str, mq_vector_str = '', ''
+
         self._cmd += ['-chardev',
                       'socket,id=char' + if1 +
                       ',path=' + S.getValue('OVS_VAR_DIR') +
@@ -48,19 +56,20 @@ class QemuDpdkVhostUser(IVnfQemu):
                       'dpdkvhostuser' + if2,
                       '-netdev',
                       'type=vhost-user,id=' + net1 +
-                      ',chardev=char' + if1 + ',vhostforce',
+                      ',chardev=char' + if1 + ',vhostforce' + queue_str,
                       '-device',
                       'virtio-net-pci,mac=' +
                       S.getValue('GUEST_NET1_MAC')[self._number] +
                       ',netdev=' + net1 + ',csum=off,gso=off,' +
-                      'guest_tso4=off,guest_tso6=off,guest_ecn=off',
+                      'guest_tso4=off,guest_tso6=off,guest_ecn=off' +
+                      mq_vector_str,
                       '-netdev',
                       'type=vhost-user,id=' + net2 +
-                      ',chardev=char' + if2 + ',vhostforce',
+                      ',chardev=char' + if2 + ',vhostforce' + queue_str,
                       '-device',
                       'virtio-net-pci,mac=' +
                       S.getValue('GUEST_NET2_MAC')[self._number] +
                       ',netdev=' + net2 + ',csum=off,gso=off,' +
-                      'guest_tso4=off,guest_tso6=off,guest_ecn=off',
+                      'guest_tso4=off,guest_tso6=off,guest_ecn=off' +
+                      mq_vector_str,
                      ]
-
