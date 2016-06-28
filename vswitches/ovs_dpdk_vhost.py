@@ -109,8 +109,11 @@ class OvsDpdkVhost(IVSwitchOvs):
         dpdk_count = self._get_port_count('type=dpdk')
         port_name = 'dpdk' + str(dpdk_count)
         params = ['--', 'set', 'Interface', port_name, 'type=dpdk']
+        # multi-queue enable
+        if int(settings.getValue('VSWITCH_MULTI_QUEUES')):
+                params += ['options:n_rxq={}'.format(
+                    settings.getValue('VSWITCH_MULTI_QUEUES'))]
         of_port = bridge.add_port(port_name, params)
-
         return (port_name, of_port)
 
     def add_vport(self, switch_name):
@@ -130,7 +133,10 @@ class OvsDpdkVhost(IVSwitchOvs):
             vhost_count = self._get_port_count('type=dpdkvhostuser')
             port_name = 'dpdkvhostuser' + str(vhost_count)
             params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostuser']
-
+            # multi queue enable
+            if int(settings.getValue('VSWITCH_MULTI_QUEUES')):
+                params += ['options:n_rxq={}'.format(
+                    settings.getValue('VSWITCH_MULTI_QUEUES'))]
         of_port = bridge.add_port(port_name, params)
 
         return (port_name, of_port)

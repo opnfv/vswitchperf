@@ -437,6 +437,61 @@ Guest loopback application must be configured, otherwise traffic
 will not be forwarded by VM and testcases with PVP and PVVP deployments
 will fail. Guest loopback application is set to 'testpmd' by default.
 
+Multi-Queue Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+VSPerf currently supports multi-queue with the following limitations:
+
+ 1.  Execution of pvp/pvvp tests require testpmd as the loopback if multi-queue
+     is enabled at the guest.
+ 2.  Requires QemuDpdkVhostUser as the vnf
+ 3.  Requires switch to be set to OvsDpdkVhost.
+ 4.  Requires QEMU 2.5 or greater and any OVS version higher than 2.5. The
+     default upstream package versions installed by VSPerf satisfy this
+     requirement.
+
+To enable multi-queue modify the ''02_vswitch.conf'' file to enable multi-queue
+on the switch.
+
+  .. code-block:: console
+
+     VSWITCH_MULTI_QUEUES = 2
+
+**NOTE:** you should consider using the switch affinity to set a pmd cpu mask
+that can optimize your performance. Consider the numa of the NIC in use if this
+applies by checking /sys/class/net/<eth_name>/device/numa_node and setting an
+appropriate mask to create PMD threads on the same numa node.
+
+When multi-queue is enabled, each dpdk or dpdkvhostuser port that is created
+on the switch will set the option for multiple queues.
+
+To enable multi-queue on the guest modify the ''04_vnf.conf'' file.
+
+  .. code-block:: console
+
+     GUEST_NIC_QUEUES = 2
+
+Enabling multi-queue at the guest will add multiple queues to each NIC port when
+qemu launches the guest.
+
+Testpmd should be configured to take advantage of multi-queue on the guest. This
+can be done by modifying the ''04_vnf.conf'' file.
+
+  .. code-block:: console
+
+     GUEST_TESTPMD_CPU_MASK = '-l 0,1,2,3,4'
+
+     GUEST_TESTPMD_NB_CORES = 4
+     GUEST_TESTPMD_TXQ = 2
+     GUEST_TESTPMD_RXQ = 2
+
+**NOTE:** The guest SMP cores must be configured to allow for testpmd to use the
+optimal number of cores to take advantage of the multiple guest queues.
+
+**NOTE:** For optimal performance guest SMPs should be on the same numa as the
+NIC in use if possible/applicable. Testpmd should be assigned at least
+(nb_cores +1) total cores with the cpu mask.
+
 Executing Packet Forwarding tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
