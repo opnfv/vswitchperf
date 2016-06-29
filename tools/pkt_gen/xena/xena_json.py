@@ -354,10 +354,10 @@ class XenaJSON(object):
         self.json_data['PortHandler']['EntityList'][
             port]["IpV6RoutingPrefix"] = int(netmask)
 
-    def set_test_options(self, packet_sizes, duration, iterations, loss_rate,
-                         micro_tpld=False):
+    def set_test_options_tput(self, packet_sizes, duration, iterations,
+                              loss_rate, micro_tpld=False):
         """
-        Set the test options
+        Set the tput test options
         :param packet_sizes: List of packet sizes to test, single int entry is
          acceptable for one packet size testing
         :param duration: time for each test in seconds as int
@@ -378,6 +378,35 @@ class XenaJSON(object):
             'UseMicroTpldOnDemand'] = 'true' if micro_tpld else 'false'
         self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
             'Iterations'] = iterations
+
+    def set_test_options_back2back(self, packet_sizes, duration,
+                                   iterations, startvalue, endvalue,
+                                   micro_tpld=False):
+        """
+        Set the back2back test options
+        :param packet_sizes: List of packet sizes to test, single int entry is
+         acceptable for one packet size testing
+        :param duration: time for each test in seconds as int
+        :param iterations: number of iterations of testing as int
+        :param micro_tpld: boolean if micro_tpld should be enabled or disabled
+        :param StartValue: start value
+        :param EndValue: end value
+        :return: None
+        """
+        if isinstance(packet_sizes, int):
+            packet_sizes = [packet_sizes]
+        self.json_data['TestOptions']['PacketSizes'][
+            'CustomPacketSizes'] = packet_sizes
+        self.json_data['TestOptions']['TestTypeOptionMap']['Back2Back'][
+            'Duration'] = duration
+        self.json_data['TestOptions']['FlowCreationOptions'][
+            'UseMicroTpldOnDemand'] = 'true' if micro_tpld else 'false'
+        self.json_data['TestOptions']['TestTypeOptionMap']['Back2Back'][
+            'Iterations'] = iterations
+        self.json_data['TestOptions']['TestTypeOptionMap']['Back2Back'][
+            'RateSweepOptions']['StartValue'] = startvalue
+        self.json_data['TestOptions']['TestTypeOptionMap']['Back2Back'][
+            'RateSweepOptions']['EndValue'] = endvalue
 
     def set_topology_blocks(self):
         """
@@ -586,8 +615,8 @@ if __name__ == "__main__":
     JSON.set_header_layer3(src_ip='192.168.100.2', dst_ip='192.168.100.3',
                            protocol='udp')
     JSON.set_header_layer4_udp(source_port=3000, destination_port=3001)
-    JSON.set_test_options(packet_sizes=[64], duration=10, iterations=1,
-                          loss_rate=0.0, micro_tpld=True)
+    JSON.set_test_options_tput(packet_sizes=[64], duration=10, iterations=1,
+                               loss_rate=0.0, micro_tpld=True)
     JSON.add_header_segments(flows=4000, multistream_layer='L4')
     JSON.set_topology_blocks()
     write_json_file(JSON.json_data, './testthis.x2544')
