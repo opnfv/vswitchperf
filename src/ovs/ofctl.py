@@ -349,6 +349,37 @@ class OFBridge(OFBase):
         self.logger.debug('dump flows')
         self.run_ofctl(['dump-flows', self.br_name], timeout=120)
 
+    def set_stp(self, enable=True):
+        """
+        Set stp status
+        :param enable: Boolean to enable or disable stp
+        :return: None
+        """
+        self.logger.debug(
+            'Setting stp on bridge to %s', 'on' if enable else 'off')
+        self.run_vsctl(
+            ['set', 'Bridge', self.br_name, 'stp_enable={}'.format(
+                'true' if enable else 'false')])
+
+    def set_rstp(self, enable=True):
+        """
+        Set rstp status
+        :param enable: Boolean to enable or disable rstp
+        :return: None
+        """
+        self.logger.debug(
+            'Setting rstp on bridge to %s', 'on' if enable else 'off')
+        self.run_vsctl(
+            ['set', 'Bridge', self.br_name, 'rstp_enable={}'.format(
+                'true' if enable else 'false')])
+
+    def bridge_info(self):
+        """
+        Get bridge info
+        :return: Returns bridge info from list bridge command
+        """
+        return self.run_vsctl(['list', 'bridge', self.br_name])
+
 #
 # helper functions
 #

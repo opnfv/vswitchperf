@@ -16,17 +16,19 @@
 """
 
 import logging
-import re
 import os
-import time
 import pexpect
+import re
+import time
+
 from conf import settings
-from vswitches.vswitch import IVSwitch
 from src.ovs import OFBridge, flow_key, flow_match
 from tools import tasks
+from vswitches.vswitch import IVSwitch
 
 _OVS_VAR_DIR = settings.getValue('OVS_VAR_DIR')
 _OVS_ETC_DIR = settings.getValue('OVS_ETC_DIR')
+
 
 class IVSwitchOvs(IVSwitch, tasks.Process):
     """Open vSwitch base class implementation
@@ -193,6 +195,50 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
             cnt = 0
         return cnt
 
+    def disable_stp(self, switch_name):
+        """
+        Disable stp protocol on the bridge
+        :param switch_name: bridge to disable stp
+        :return: None
+        """
+        bridge = self._bridges[switch_name]
+        bridge.set_stp(False)
+        self._logger.info('Sleeping for 50 secs to allow stp to stop.')
+        time.sleep(50)  # needs time to disable
+
+    def enable_stp(self, switch_name):
+        """
+        Enable stp protocol on the bridge
+        :param switch_name: bridge to enable stp
+        :return: None
+        """
+        bridge = self._bridges[switch_name]
+        bridge.set_stp(True)
+        self._logger.info('Sleeping for 50 secs to allow stp to start.')
+        time.sleep(50)  # needs time to enable
+
+    def disable_rstp(self, switch_name):
+        """
+        Disable rstp on the bridge
+        :param switch_name: bridge to disable rstp
+        :return: None
+        """
+        bridge = self._bridges[switch_name]
+        bridge.set_rstp(False)
+        self._logger.info('Sleeping for 15 secs to allow rstp to stop.')
+        time.sleep(15)  # needs time to disable
+
+    def enable_rstp(self, switch_name):
+        """
+        Enable rstp on the bridge
+        :param switch_name: bridge to enable rstp
+        :return: None
+        """
+        bridge = self._bridges[switch_name]
+        bridge.set_rstp(True)
+        self._logger.info('Sleeping for 15 secs to allow rstp to start.')
+        time.sleep(15)  # needs time to enable
+
     def kill(self, signal='-15', sleep=10):
         """Kill ``ovs-vswitchd`` and ``ovs-ovsdb`` instances if they are alive.
 
@@ -354,3 +400,27 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """ Validate call of flow dump
         """
         return True
+
+    def validate_disable_rstp(self, result, switch_name):
+        """ Validate rstp disable
+        """
+        bridge = self._bridges[switch_name]
+        return 'rstp_enable         : false' in ''.join(bridge.bridge_info())
+
+    def validate_enable_rstp(self, result, switch_name):
+        """ Validate rstp enable
+        """
+        bridge = self._bridges[switch_name]
+        return 'rstp_enable         : true' in ''.join(bridge.bridge_info())
+
+    def validate_disable_stp(self, result, switch_name):
+        """ Validate stp disable
+        """
+        bridge = self._bridges[switch_name]
+        return 'stp_enable          : false' in ''.join(bridge.bridge_info())
+
+    def validate_enable_stp(self, result, switch_name):
+        """ Validate stp enable
+        """
+        bridge = self._bridges[switch_name]
+        return 'stp_enable          : true' in ''.join(bridge.bridge_info())
