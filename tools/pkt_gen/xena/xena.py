@@ -492,22 +492,18 @@ class Xena(ITrafficGenerator):
     def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
         """Send a burst of traffic.
 
-        Send a ``numpkts`` packets of traffic, using ``traffic``
-        configuration, with a timeout of ``time``.
-
-        Attributes:
-        :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN tags
-        :param numpkts: Number of packets to send
-        :param duration: Time to wait to receive packets
-
-        :returns: dictionary of strings with following data:
-            - List of Tx Frames,
-            - List of Rx Frames,
-            - List of Tx Bytes,
-            - List of List of Rx Bytes,
-            - Payload Errors and Sequence Errors.
+        See ITrafficGenerator for description
         """
-        raise NotImplementedError('Xena burst traffic not implemented')
+        self._duration = duration
+
+        self._params.clear()
+        self._params['traffic'] = self.traffic_defaults.copy()
+        if traffic:
+            self._params['traffic'] = merge_spec(self._params['traffic'],
+                                                 traffic)
+
+        self._start_traffic_api(numpkts)
+        return self._stop_api_traffic()
 
     def send_cont_traffic(self, traffic=None, duration=20):
         """Send a continuous flow of traffic.
