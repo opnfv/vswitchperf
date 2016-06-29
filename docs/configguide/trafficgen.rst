@@ -15,6 +15,7 @@ VSPERF supports the following traffic generators:
   * IXIA (IxNet and IxOS)
   * Spirent TestCenter
   * Xena Networks
+  * MoonGen
 
 To see the list of traffic gens from the cli:
 
@@ -287,3 +288,45 @@ set to allow for proper connections to the chassis.
     TRAFFICGEN_XENA_PASSWORD = ''
     TRAFFICGEN_XENA_MODULE1 = ''
     TRAFFICGEN_XENA_MODULE2 = ''
+
+
+MoonGen
+-------
+
+Installation
+~~~~~~~~~~~~
+
+MoonGen architecture overview and general installation instructions
+can be found here:
+
+https://github.com/emmericp/MoonGen
+
+For VSPerf use, MoonGen should be cloned from here (as opposed to the afore
+mentioned GitHub):
+
+git clone https://github.com/atheurer/MoonGen
+
+and use the opnfv-stable branch:
+
+git checkout opnfv-stable
+
+VSPerf uses a particular example script under the examples directory within
+the MoonGen project:
+
+MoonGen/examples/opnfv-vsperf.lua
+
+Follow MoonGen set up instructions here:
+
+https://github.com/atheurer/MoonGen/blob/opnfv-stable/MoonGenSetUp.html
+
+Note one will need to set up ssh login to not use passwords between the server
+running MoonGen and the device under test (running the VSPERF test
+infrastructure).  This is because VSPERF on one server uses 'ssh' to
+configure and run MoonGen upon the other server.
+
+One can set up this ssh access by doing the following on both servers:
+
+.. code-block:: console
+
+    ssh-keygen -b 2048 -t rsa
+    ssh-copy-id <other server>
