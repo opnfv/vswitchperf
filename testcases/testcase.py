@@ -234,6 +234,26 @@ class TestCase(object):
         # restore original settings
         S.load_from_dict(self._settings_original)
 
+        # cleanup any namespaces created
+        if os.path.exists('/tmp/namespaces'):
+            import tools.namespace
+            namespace_list = os.listdir('/tmp/namespaces')
+            if len(namespace_list):
+                self._logger.info('Cleaning up namespaces')
+            for name in namespace_list:
+                tools.namespace.delete_namespace(name)
+            os.rmdir('/tmp/namespaces')
+        # cleanup any veth ports created
+        if os.path.exists('/tmp/veth'):
+            import tools.veth
+            veth_list = os.listdir('/tmp/veth')
+            if len(veth_list):
+                self._logger.info('Cleaning up veth ports')
+            for eth in veth_list:
+                port1, port2 = eth.split('-')
+                tools.veth.del_veth_port(port1, port2)
+            os.rmdir('/tmp/veth')
+
     def run_report(self):
         """ Report test results
         """
