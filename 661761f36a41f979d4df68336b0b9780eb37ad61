@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_dc3a0536",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-06-29T19:30:49Z",
+      "side": 1,
+      "message": "missing white space :-)  \"applicable. Testpmd\"",
+      "revId": "661761f36a41f979d4df68336b0b9780eb37ad61",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
