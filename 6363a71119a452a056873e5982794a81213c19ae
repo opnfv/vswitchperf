@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_fc04a17f",
+        "filename": "core/traffic_controller_rfc2544.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-06-29T19:22:46Z",
+      "side": 1,
+      "message": "Yes, let\u0027s leave the default loss ratio \u003d 0.00000000, or no loss.  Last week Maryam and I discovered a case where \"zero\" was interpreted as a percentage with limited accuracy or resolution. IOW, 0.0000001% loss rounds to 0.000%, but that\u0027s not zero packet loss.  We already  have an alternative at 10-7 loss ratio to allow background loss during a soak test. Let\u0027s make sure we enforce true zero loss.",
+      "parentUuid": "5a7ca5a3_1c8e3d2f",
+      "revId": "6363a71119a452a056873e5982794a81213c19ae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_5cc59559",
         "filename": "docs/configguide/trafficgen.rst",
         "patchSetId": 1
@@ -121,6 +139,23 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_3cf2199b",
+        "filename": "tools/pkt_gen/moongen/moongen.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-06-29T19:22:46Z",
+      "side": 1,
+      "message": "This conversion could be challenging for variable packet sizes, as in an IMIX.",
+      "revId": "6363a71119a452a056873e5982794a81213c19ae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_dc87650e",
         "filename": "tools/pkt_gen/moongen/moongen.py",
         "patchSetId": 1
@@ -149,6 +184,23 @@
       "writtenOn": "2016-06-29T18:09:28Z",
       "side": 1,
       "message": "Would prefer the use of os mkdir here, but that\u0027s just nitpicking.",
+      "revId": "6363a71119a452a056873e5982794a81213c19ae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_fc2b41e9",
+        "filename": "tools/pkt_gen/moongen/moongen.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-06-29T19:22:46Z",
+      "side": 1,
+      "message": "I don\u0027t mind if we express the results as a percentage, but without the confusion about a real zero loss condition.",
       "revId": "6363a71119a452a056873e5982794a81213c19ae",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
