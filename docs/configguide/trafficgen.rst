@@ -253,6 +253,8 @@ folder. Contact Xena Networks for the latest version of this file. The user
 can also visit www.xenanetworks/downloads to obtain the file with a valid
 support contract.
 
+**Note** VSPerf has been fully tested with version v2.43 of Xena2544.exe
+
 To execute the Xena2544.exe file under Linux distributions the mono-complete
 package must be installed. To install this package follow the instructions
 below. Further information can be obtained from

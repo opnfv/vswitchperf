@@ -207,7 +207,7 @@
           "PassThreshold": 0.0
         },
         "ReportPropertyOptions": [
-          "b"
+          "LatencyCounters"
         ],
         "TestType": "Throughput",
         "Enabled": false,
