@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_c299bc6f",
+        "filename": "vswitches/ovs.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 3307
+      },
+      "writtenOn": "2016-06-30T13:45:25Z",
+      "side": 1,
+      "message": "For the next 4 methods, is there a return value or something that one can verify instead of issuing a sleep?  Something like \u0027while enable/disable not done; sleep\u0027",
+      "revId": "155d9f596f21359156bba5090b55a4c84cf775db",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
