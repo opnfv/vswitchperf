@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_82a3c49d",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-06-30T13:49:32Z",
+      "side": 1,
+      "message": "Anyplace you are doing command line statements indicating commands to execute can you put them into a code block markup?\n\n.. code-block:: console\n\n   \u003ccommand\u003e\n   \u003ccommand\u003e\n\nLots of examples on how to do this in other places in the document.",
+      "revId": "7ad93d481f07b08cd8715bc078921ab724b5b334",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
