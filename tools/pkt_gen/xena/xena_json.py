@@ -15,6 +15,7 @@
 # Contributors:
 #   Dan Amzulescu, Xena Networks
 #   Christian Trautman, Red Hat Inc.
+#   Li Ting, Red Hat Inc.
 #
 # Usage can be seen below in unit test. This implementation is designed for one
 # module two port Xena chassis runs only.
@@ -31,6 +32,9 @@ import logging
 import uuid
 
 import scapy.layers.inet as inet
+from scapy.layers.inet import GRE
+from tools.pkt_gen.xena.vxlan import VXLAN
+from tools.pkt_gen.xena.geneve import GENEVE
 
 _LOGGER = logging.getLogger(__name__)
 _LOCALE = locale.getlocale()[1]
@@ -294,6 +298,158 @@ class XenaJSON(object):
         self.packet_data['vlan'] = [
             inet.Dot1Q(vlan=vlan_id, **kwargs),
             inet.Dot1Q(vlan=vlan_id, **kwargs)]
+
+    def set_header_vxlan(self, vni=0, **kwargs):
+        """
+        Build a vxlan scapy object inside instance packet_data structure
+        :param vxlan_id: The VXLAN ID
+        :param kwargs: Extra params per scapy usage
+        :return: None
+        """
+        self.packet_data['vxlan'] = [
+            VXLAN(vni=vni, **kwargs),
+            VXLAN(vni=vni, **kwargs)]
+
+    def set_header_vxlan_layer2(self, dst_mac='cc:cc:cc:cc:cc:cc',
+                          src_mac='bb:bb:bb:bb:bb:bb', **kwargs):
+        """
+        Build a scapy Ethernet L2 objects inside instance packet_data structure
+        :param dst_mac: destination mac as string. Example "aa:aa:aa:aa:aa:aa"
+        :param src_mac: source mac as string. Example "bb:bb:bb:bb:bb:bb"
+        :param kwargs: Extra params per scapy usage.
+        :return: None
+        """
+        self.packet_data['vxlan_layer2'] = [
+            inet.Ether(dst=dst_mac, src=src_mac, **kwargs),
+            inet.Ether(dst=src_mac, src=dst_mac, **kwargs)]
+
+    def set_header_vxlan_layer3(self, src_ip='192.168.0.2', dst_ip='192.168.0.3',
+                          protocol='UDP', **kwargs):
+        """
+        Build scapy IPV4 L3 objects nside instance packet_data structure
+        :param src_ip: source IP as string in dot notation format
+        :param dst_ip: destination IP as string in dot notation format
+        :param protocol: protocol for l4
+        :param kwargs: Extra params per scapy usage
+        :return: None
+        """
+        self.packet_data['vxlan_layer3'] = [
+            inet.IP(src=src_ip, dst=dst_ip, proto=protocol.lower(), **kwargs),
+            inet.IP(src=dst_ip, dst=src_ip, proto=protocol.lower(), **kwargs)]
+
+    def set_header_vxlan_layer4(self, source_port, destination_port, **kwargs):
+        """
+        Build scapy UDP L4 objects inside instance packet_data structure
+        :param source_port: Source port as int
+        :param destination_port: Destination port as int
+        :param kwargs: Extra params per scapy usage
+        :return: None
+        """
+        self.packet_data['vxlan_layer4'] = [
+            inet.UDP(sport=source_port, dport=destination_port, **kwargs),
+            inet.UDP(sport=source_port, dport=destination_port, **kwargs)]
+
+
+    def set_header_geneve(self, vni=0, **kwargs):
+        """
+        Build a vxlan scapy object inside instance packet_data structure
+        :param vxlan_id: The VXLAN ID
+        :param kwargs: Extra params per scapy usage
+        :return: None
+        """
+        self.packet_data['geneve'] = [
+            GENEVE(vni=vni, **kwargs),
+            GENEVE(vni=vni, **kwargs)]
+        pass
+
+    def set_header_geneve_layer2(self, dst_mac='cc:cc:cc:cc:cc:cc',
+                          src_mac='bb:bb:bb:bb:bb:bb', **kwargs):
+        """
+        Build a scapy Ethernet L2 objects inside instance packet_data structure
+        :param dst_mac: destination mac as string. Example "aa:aa:aa:aa:aa:aa"
+        :param src_mac: source mac as string. Example "bb:bb:bb:bb:bb:bb"
+        :param kwargs: Extra params per scapy usage.
+        :return: None
+        """
+        self.packet_data['geneve_layer2'] = [
+            inet.Ether(dst=dst_mac, src=src_mac, **kwargs),
+            inet.Ether(dst=src_mac, src=dst_mac, **kwargs)]
+
+    def set_header_geneve_layer3(self, src_ip='192.168.0.2', dst_ip='192.168.0.3',
+                          protocol='UDP', **kwargs):
+        """
+        Build scapy IPV4 L3 objects nside instance packet_data structure
+        :param src_ip: source IP as string in dot notation format
+        :param dst_ip: destination IP as string in dot notation format
+        :param protocol: protocol for l4
+        :param kwargs: Extra params per scapy usage
+        :return: None
+        """
+        self.packet_data['geneve_layer3'] = [
+            inet.IP(src=src_ip, dst=dst_ip, proto=protocol.lower(), **kwargs),
+            inet.IP(src=dst_ip, dst=src_ip, proto=protocol.lower(), **kwargs)]
+
+    def set_header_geneve_layer4(self, source_port, destination_port, **kwargs):
+        """
+        Build scapy UDP L4 objects inside instance packet_data structure
+        :param source_port: Source port as int
+        :param destination_port: Destination port as int
+        :param kwargs: Extra params per scapy usage
+        :return: None
+        """
+        self.packet_data['geneve_layer4'] = [
+            inet.UDP(sport=source_port, dport=destination_port, **kwargs),
+            inet.UDP(sport=source_port, dport=destination_port, **kwargs)]
+
+    def set_header_gre(self, key_present=1,key=900, **kwargs):
+        """
+        Build a vxlan scapy object inside instance packet_data structure
+        :param vxlan_id: The VXLAN ID
+        :param kwargs: Extra params per scapy usage
+        :return: None
+        """
+        self.packet_data['gre'] = [
+            GRE(**kwargs),
+            GRE(**kwargs)]
+
+    def set_header_gre_layer2(self, dst_mac='cc:cc:cc:cc:cc:cc',
+                          src_mac='bb:bb:bb:bb:bb:bb', **kwargs):
+        """
+        Build a scapy Ethernet L2 objects inside instance packet_data structure
+        :param dst_mac: destination mac as string. Example "aa:aa:aa:aa:aa:aa"
+        :param src_mac: source mac as string. Example "bb:bb:bb:bb:bb:bb"
+        :param kwargs: Extra params per scapy usage.
+        :return: None
+        """
+        self.packet_data['gre_layer2'] = [
+            inet.Ether(dst=dst_mac, src=src_mac, **kwargs),
+            inet.Ether(dst=src_mac, src=dst_mac, **kwargs)]
+
+    def set_header_gre_layer3(self, src_ip='192.168.0.2', dst_ip='192.168.0.3',
+                          protocol='UDP', **kwargs):
+        """
+        Build scapy IPV4 L3 objects nside instance packet_data structure
+        :param src_ip: source IP as string in dot notation format
+        :param dst_ip: destination IP as string in dot notation format
+        :param protocol: protocol for l4
+        :param kwargs: Extra params per scapy usage
+        :return: None
+        """
+        self.packet_data['gre_layer3'] = [
+            inet.IP(src=src_ip, dst=dst_ip, proto=protocol.lower(), **kwargs),
+            inet.IP(src=dst_ip, dst=src_ip, proto=protocol.lower(), **kwargs)]
+
+    def set_header_gre_layer4(self, source_port, destination_port, **kwargs):
+        """
+        Build scapy UDP L4 objects inside instance packet_data structure
+        :param source_port: Source port as int
+        :param destination_port: Destination port as int
+        :param kwargs: Extra params per scapy usage
+        :return: None
+        """
+        self.packet_data['gre_layer4'] = [
+            inet.UDP(sport=source_port, dport=destination_port, **kwargs),
+            inet.UDP(sport=source_port, dport=destination_port, **kwargs)]
 
     def set_port(self, index, module, port):
         """
