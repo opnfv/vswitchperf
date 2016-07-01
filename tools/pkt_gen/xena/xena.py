@@ -92,11 +92,11 @@ class Xena(ITrafficGenerator):
 
         if test_type == 'Throughput':
             results = OrderedDict()
-            results[ResultsConstants.THROUGHPUT_RX_FPS] = int(
-                root[0][1][0][0].get('PortRxPps')) + int(
+            results[ResultsConstants.THROUGHPUT_RX_FPS] = float(
+                root[0][1][0][0].get('PortRxPps')) + float(
                     root[0][1][0][1].get('PortRxPps'))
-            results[ResultsConstants.THROUGHPUT_RX_MBPS] = (int(
-                root[0][1][0][0].get('PortRxBpsL1')) + int(
+            results[ResultsConstants.THROUGHPUT_RX_MBPS] = (float(
+                root[0][1][0][0].get('PortRxBpsL1')) + float(
                     root[0][1][0][1].get('PortRxBpsL1')))/ 1000000
             results[ResultsConstants.THROUGHPUT_RX_PERCENT] = (
                 100 - int(root[0][1][0].get('TotalLossRatioPcnt'))) * float(
