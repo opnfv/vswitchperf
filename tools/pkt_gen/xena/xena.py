@@ -17,6 +17,7 @@
 #   Amit Supugade, Red Hat Inc.
 #   Dan Amzulescu, Xena Networks
 #   Christian Trautman, Red Hat Inc.
+#   Li Ting, Red Hat Inc.
 
 """
 Xena Traffic Generator Model
@@ -32,6 +33,7 @@ import xml.etree.ElementTree as ET
 from collections import OrderedDict
 # scapy imports
 import scapy.layers.inet as inet
+from scapy.layers.inet import GRE
 
 # VSPerf imports
 from conf import settings
@@ -40,6 +42,8 @@ from tools.pkt_gen.trafficgen.trafficgenhelper import (
     TRAFFIC_DEFAULTS,
     merge_spec)
 from tools.pkt_gen.trafficgen.trafficgen import ITrafficGenerator
+from tools.pkt_gen.xena.vxlan import VXLAN
+from tools.pkt_gen.xena.geneve import GENEVE
 
 # Xena module imports
 from tools.pkt_gen.xena.xena_json import XenaJSON
@@ -49,6 +53,7 @@ from tools.pkt_gen.xena.XenaDriver import (
     XenaSocketDriver,
     XenaManager,
     )
+
 
 class Xena(ITrafficGenerator):
     """
@@ -141,6 +146,128 @@ class Xena(ITrafficGenerator):
 
         return results
 
+    def _build_vxlan_header(self, reverse=False):
+        """
+        Build a packet header with vxlan
+        :param reverse: Swap source and destination info when building header
+        :return: vxlan packet header in hex
+        """
+        # pylint: disable=maybe-no-member
+        srcmac = settings.VXLAN_FRAME_L2[
+            'srcmac'] if not reverse else settings.VXLAN_FRAME_L2['dstmac']
+        dstmac = settings.VXLAN_FRAME_L2[
+            'dstmac'] if not reverse else settings.VXLAN_FRAME_L2['srcmac']
+        srcip = settings.VXLAN_FRAME_L3[
+            'srcip'] if not reverse else settings.VXLAN_FRAME_L3['dstip']
+        dstip = settings.VXLAN_FRAME_L3[
+            'dstip'] if not reverse else settings.VXLAN_FRAME_L3['srcip']
+        layer2 = inet.Ether(src=srcmac, dst=dstmac)
+        layer3 = inet.IP(src=srcip, dst=dstip,
+                         proto=settings.VXLAN_FRAME_L3['proto'])
+        layer4 = inet.UDP(sport=settings.VXLAN_FRAME_L4['srcport'],
+                          dport=settings.VXLAN_FRAME_L4['dstport'])
+        vxlan = VXLAN(vni=settings.VXLAN_FRAME_L4['vni'])
+        inner_srcmac = settings.VXLAN_FRAME_L4['inner_srcmac']
+        inner_dstmac = settings.VXLAN_FRAME_L4['inner_dstmac']
+        inner_srcip = settings.VXLAN_FRAME_L4['inner_srcip']
+        inner_dstip = settings.VXLAN_FRAME_L4['inner_dstip']
+        vxlan_layer2 = inet.Ether(src=inner_srcmac, dst=inner_dstmac)
+        vxlan_layer3 = inet.IP(src=inner_srcip, dst=inner_dstip,
+                               proto=settings.VXLAN_FRAME_L4['inner_proto'])
+        vxlan_layer4 = inet.UDP(sport=settings.VXLAN_FRAME_L4['inner_srcport'],
+                                dport=settings.VXLAN_FRAME_L4['inner_dstport'])
+        if self._params['traffic']['vlan']['enabled']:
+            vlan = self._build_vlan_header()
+            return layer2/vlan/layer3/layer4/vxlan/\
+                   vxlan_layer2/vxlan_layer3/vxlan_layer4
+        else:
+            return layer2/layer3/layer4/vxlan/vxlan_layer2/\
+                   vxlan_layer3/vxlan_layer4
+
+    def _build_geneve_header(self, reverse=False):
+        """
+        Build a packet header with geneve
+        :param reverse: Swap source and destination info when building header
+        :return: packet header in hex
+        """
+        # pylint: disable=maybe-no-member
+        srcmac = settings.GENEVE_FRAME_L2[
+            'srcmac'] if not reverse else settings.GENEVE_FRAME_L2['dstmac']
+        dstmac = settings.GENEVE_FRAME_L2[
+            'dstmac'] if not reverse else settings.GENEVE_FRAME_L2['srcmac']
+        srcip = settings.GENEVE_FRAME_L3[
+            'srcip'] if not reverse else settings.GENEVE_FRAME_L3['dstip']
+        dstip = settings.GENEVE_FRAME_L3[
+            'dstip'] if not reverse else settings.GENEVE_FRAME_L3['srcip']
+        layer2 = inet.Ether(src=srcmac, dst=dstmac)
+        layer3 = inet.IP(
+            src=srcip, dst=dstip, proto=settings.GENEVE_FRAME_L3['proto'])
+        layer4 = inet.UDP(sport=settings.GENEVE_FRAME_L4['srcport'],
+                          dport=settings.GENEVE_FRAME_L4['dstport'])
+        geneve = GENEVE(vni=settings.GENEVE_FRAME_L4['geneve_vni'])
+        inner_srcmac = settings.GENEVE_FRAME_L4['inner_srcmac']
+        inner_dstmac = settings.GENEVE_FRAME_L4['inner_dstmac']
+        inner_srcip = settings.GENEVE_FRAME_L4['inner_srcip']
+        inner_dstip = settings.GENEVE_FRAME_L4['inner_dstip']
+        geneve_layer2 = inet.Ether(src=inner_srcmac, dst=inner_dstmac)
+        geneve_layer3 = inet.IP(src=inner_srcip, dst=inner_dstip,
+                                proto=settings.GENEVE_FRAME_L4['inner_proto'])
+        geneve_layer4 = inet.UDP(
+            sport=settings.GENEVE_FRAME_L4['inner_srcport'],
+            dport=settings.GENEVE_FRAME_L4['inner_dstport'])
+        if self._params['traffic']['vlan']['enabled']:
+            vlan = self._build_vlan_header()
+            return layer2/vlan/layer3/layer4/geneve/geneve_layer2/\
+                   geneve_layer3/geneve_layer4
+        else:
+            return layer2/layer3/layer4/geneve/geneve_layer2/\
+                   geneve_layer3/geneve_layer4
+
+    def _build_gre_header(self, reverse=False):
+        """
+        Build a packet header with gre
+        :param reverse: Swap source and destination info when building header
+        :return: packet header in hex
+        """
+        # pylint: disable=maybe-no-member
+        srcmac = settings.GRE_FRAME_L2[
+            'srcmac'] if not reverse else settings.GRE_FRAME_L2['dstmac']
+        dstmac = settings.GRE_FRAME_L2[
+            'dstmac'] if not reverse else settings.GRE_FRAME_L2['srcmac']
+        srcip = settings.GRE_FRAME_L3[
+            'srcip'] if not reverse else settings.GRE_FRAME_L3['dstip']
+        dstip = settings.GRE_FRAME_L3[
+            'dstip'] if not reverse else settings.GRE_FRAME_L3['srcip']
+        layer2 = inet.Ether(src=srcmac, dst=dstmac)
+        layer3 = inet.IP(
+            src=srcip, dst=dstip, proto=settings.GRE_FRAME_L3['proto'])
+        gre = GRE(proto=0x6558)
+        inner_srcmac = settings.GRE_FRAME_L4['inner_srcmac']
+        inner_dstmac = settings.GRE_FRAME_L4['inner_dstmac']
+        gre_layer2 = inet.Ether(src=inner_srcmac, dst=inner_dstmac)
+        inner_srcip = settings.GRE_FRAME_L4['inner_srcip']
+        inner_dstip = settings.GRE_FRAME_L4['inner_dstip']
+        gre_layer3 = inet.IP(src=inner_srcip, dst=inner_dstip,
+                             proto=settings.GRE_FRAME_L4['inner_proto'])
+        gre_layer4 = inet.UDP(sport=settings.GRE_FRAME_L4['inner_srcport'],
+                              dport=settings.GRE_FRAME_L4['inner_dstport'])
+        if self._params['traffic']['vlan']['enabled']:
+            vlan = self._build_vlan_header()
+            return layer2/vlan/layer3/gre/gre_layer3/gre_layer4
+        else:
+            return layer2/layer3/gre/gre_layer2/gre_layer3/gre_layer4
+
+    def _build_vlan_header(self):
+        """
+        Build a vlan header.
+        :return: scapy vlan packet
+        """
+
+        vlan = inet.Dot1Q(vlan=self._params['traffic']['vlan']['id'],
+                          prio=self._params['traffic']['vlan']['priority'],
+                          id=self._params['traffic']['vlan']['cfi'])
+        return vlan
+
     def _build_packet_header(self, reverse=False):
         """
         Build a packet header based on traffic profile using scapy external
@@ -163,13 +290,36 @@ class Xena(ITrafficGenerator):
                          proto=self._params['traffic']['l3']['proto'])
         layer4 = inet.UDP(sport=self._params['traffic']['l4']['srcport'],
                           dport=self._params['traffic']['l4']['dstport'])
-        if self._params['traffic']['vlan']['enabled']:
-            vlan = inet.Dot1Q(vlan=self._params['traffic']['vlan']['id'],
-                              prio=self._params['traffic']['vlan']['priority'],
-                              id=self._params['traffic']['vlan']['cfi'])
+
+        if 'tunnel_type' in self._params['traffic']:
+            if self._params['traffic']['tunnel_type'] is None:
+                if self._params['traffic']['vlan']['enabled']:
+                    vlan = self._build_vlan_header()
+                    packet = layer2/vlan/layer3/layer4
+                else:
+                    packet = layer2/layer3/layer4
+            elif self._params['traffic']['tunnel_type'] == 'vxlan' and \
+                            'decap' in settings.getValue('EXACT_TEST_NAME')[0]:
+                packet = self._build_vxlan_header(reverse)
+            elif self._params['traffic']['tunnel_type'] == 'geneve'and \
+                            'decap' in settings.getValue('EXACT_TEST_NAME')[0]:
+                packet = self._build_geneve_header(reverse)
+            elif self._params['traffic']['tunnel_type'] == 'gre'and \
+                            'decap' in settings.getValue('EXACT_TEST_NAME')[0]:
+                packet = self._build_gre_header(reverse)
+            elif self._params['traffic']['tunnel_type'] in [
+                    'vxlan', 'geneve', 'gre']:
+                packet = layer2/layer3/layer4
+            else:
+                raise ValueError('Unknown tunnel type ',
+                                 self._params['traffic']['tunnel_type'])
         else:
-            vlan = None
-        packet = layer2/vlan/layer3/layer4 if vlan else layer2/layer3/layer4
+            if self._params['traffic']['vlan']['enabled']:
+                vlan = self._build_vlan_header()
+                packet = layer2/vlan/layer3/layer4
+            else:
+                packet = layer2/layer3/layer4
+
         packet_bytes = bytes(packet)
         packet_hex = '0x' + binascii.hexlify(packet_bytes).decode('utf-8')
         return packet_hex
@@ -305,16 +455,102 @@ class Xena(ITrafficGenerator):
                         'traffic']['l2']['framesize'] == 64 else False)
                 j_file.enable_back2back_test()
 
-            j_file.set_header_layer2(
-                dst_mac=self._params['traffic']['l2']['dstmac'],
-                src_mac=self._params['traffic']['l2']['srcmac'])
-            j_file.set_header_layer3(
-                src_ip=self._params['traffic']['l3']['srcip'],
-                dst_ip=self._params['traffic']['l3']['dstip'],
-                protocol=self._params['traffic']['l3']['proto'])
-            j_file.set_header_layer4_udp(
-                source_port=self._params['traffic']['l4']['srcport'],
-                destination_port=self._params['traffic']['l4']['dstport'])
+            if 'tunnel_type' in self._params['traffic']:
+                if not self._params['traffic']['tunnel_type']:
+                    j_file.set_header_layer2(
+                        dst_mac=self._params['traffic']['l2']['dstmac'],
+                        src_mac=self._params['traffic']['l2']['srcmac'])
+                    j_file.set_header_layer3(
+                        src_ip=self._params['traffic']['l3']['srcip'],
+                        dst_ip=self._params['traffic']['l3']['dstip'],
+                        protocol=self._params['traffic']['l3']['proto'])
+                    j_file.set_header_layer4_udp(
+                        source_port=self._params['traffic']['l4']['srcport'],
+                        destination_port=self._params['traffic']['l4']['dstport'])
+                elif self._params['traffic']['tunnel_type'] == 'vxlan' and \
+                    'decap' in settings.getValue('EXACT_TEST_NAME')[0]:
+                    # pylint: disable=maybe-no-member
+                    j_file.set_header_layer2(
+                        src_mac=settings.VXLAN_FRAME_L2['srcmac'],
+                        dst_mac=settings.VXLAN_FRAME_L2['dstmac'])
+                    j_file.set_header_layer3(
+                        src_ip=settings.VXLAN_FRAME_L3['srcip'],
+                        dst_ip=settings.VXLAN_FRAME_L3['dstip'],
+                        protocol=settings.VXLAN_FRAME_L3['proto'])
+                    j_file.set_header_layer4_udp(
+                        source_port=settings.VXLAN_FRAME_L4['srcport'],
+                        destination_port=settings.VXLAN_FRAME_L4['dstport'])
+                    j_file.set_header_vxlan(vni=settings.VXLAN_FRAME_L4['vni'])
+                    j_file.set_header_vxlan_layer2(
+                        src_mac=settings.VXLAN_FRAME_L4['inner_srcmac'],
+                        dst_mac=settings.VXLAN_FRAME_L4['inner_dstmac'])
+                    j_file.set_header_vxlan_layer3(
+                        src_ip=settings.VXLAN_FRAME_L4['inner_srcip'],
+                        dst_ip=settings.VXLAN_FRAME_L4['inner_dstip'],
+                        protocol=settings.VXLAN_FRAME_L4['inner_proto'])
+                    j_file.set_header_vxlan_layer4(
+                        source_port=settings.VXLAN_FRAME_L4['inner_srcport'],
+                        destination_port=settings.VXLAN_FRAME_L4[
+                            'inner_dstport'])
+                elif self._params['traffic']['tunnel_type'] == 'geneve' and\
+                    'decap' in settings.getValue('EXACT_TEST_NAME')[0]:
+                    # pylint: disable=maybe-no-member
+                    j_file.set_header_layer2(
+                        src_mac=settings.GENEVE_FRAME_L2['srcmac'],
+                        dst_mac=settings.GENEVE_FRAME_L2['dstmac'])
+                    j_file.set_header_layer3(
+                        src_ip=settings.GENEVE_FRAME_L3['srcip'],
+                        dst_ip=settings.GENEVE_FRAME_L3['dstip'],
+                        protocol=settings.GENEVE_FRAME_L3['proto'])
+                    j_file.set_header_layer4_udp(
+                        source_port=settings.GENEVE_FRAME_L4['srcport'],
+                        destination_port=settings.GENEVE_FRAME_L4['dstport'])
+                    j_file.set_header_geneve(
+                        vni=settings.GENEVE_FRAME_L4['geneve_vni'])
+                    j_file.set_header_geneve_layer2(
+                        src_mac=settings.GENEVE_FRAME_L4['inner_srcmac'],
+                        dst_mac=settings.GENEVE_FRAME_L4['inner_dstmac'])
+                    j_file.set_header_geneve_layer3(
+                        src_ip=settings.GENEVE_FRAME_L4['inner_srcip'],
+                        dst_ip=settings.GENEVE_FRAME_L4['inner_dstip'],
+                        protocol=settings.GENEVE_FRAME_L4['inner_proto'])
+                    j_file.set_header_geneve_layer4(
+                        source_port=settings.GENEVE_FRAME_L4['inner_srcport'],
+                        destination_port=settings.GENEVE_FRAME_L4['inner_dstport'])
+
+                elif self._params['traffic']['tunnel_type'] == 'gre' and \
+                    'decap' in settings.getValue('EXACT_TEST_NAME')[0]:
+                    # pylint: disable=maybe-no-member
+                    j_file.set_header_layer2(
+                        src_mac=settings.GRE_FRAME_L2['srcmac'],
+                        dst_mac=settings.GRE_FRAME_L2['dstmac'])
+                    j_file.set_header_layer3(
+                        src_ip=settings.GRE_FRAME_L3['srcip'],
+                        dst_ip=settings.GRE_FRAME_L3['dstip'],
+                        protocol=settings.GRE_FRAME_L3['proto'])
+                    j_file.set_header_gre(proto=0x6558)
+                    j_file.set_header_gre_layer2(
+                        src_mac=settings.GRE_FRAME_L4['inner_srcmac'],
+                        dst_mac=settings.GRE_FRAME_L4['inner_dstmac'])
+                    j_file.set_header_gre_layer3(
+                        src_ip=settings.GRE_FRAME_L4['inner_srcip'],
+                        dst_ip=settings.GRE_FRAME_L4['inner_dstip'],
+                        protocol=settings.GRE_FRAME_L4['inner_proto'])
+                    j_file.set_header_gre_layer4(
+                        source_port=settings.GRE_FRAME_L4['inner_srcport'],
+                        destination_port=settings.GRE_FRAME_L4['inner_dstport'])
+            else:
+                j_file.set_header_layer2(
+                    dst_mac=self._params['traffic']['l2']['dstmac'],
+                    src_mac=self._params['traffic']['l2']['srcmac'])
+                j_file.set_header_layer3(
+                    src_ip=self._params['traffic']['l3']['srcip'],
+                    dst_ip=self._params['traffic']['l3']['dstip'],
+                    protocol=self._params['traffic']['l3']['proto'])
+                j_file.set_header_layer4_udp(
+                    source_port=self._params['traffic']['l4']['srcport'],
+                    destination_port=self._params['traffic']['l4']['dstport'])
+
             if self._params['traffic']['vlan']['enabled']:
                 j_file.set_header_vlan(
                     vlan_id=self._params['traffic']['vlan']['id'],
