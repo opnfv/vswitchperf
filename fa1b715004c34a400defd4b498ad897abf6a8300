@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_8e252bc4",
+        "filename": "docs/userguide/yardstick.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-07-02T17:40:14Z",
+      "side": 1,
+      "message": "s/where testcase/where the testcase/",
+      "revId": "fa1b715004c34a400defd4b498ad897abf6a8300",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
