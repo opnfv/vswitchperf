@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_87ce6959",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "os.path.isdir would be better",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_27dbd51c",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "os.path.isdir would be better",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_e704fd7f",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "it is a new file, so you should state only \"2016\" and so far it\u0027s your code, so probably only RHT should be mentioned",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_a7fe056a",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "logging port name would be nice",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_c7030172",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "logging port name would be nice\nUppping vs. Bringing up",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_87f50985",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "it should check if given namespace exists first and fail if it is the case; Otherwise system wide namespace will be modified and finally deleted by VSPERF",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_47eff1b0",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "It seems, that following command will raise an exception and vsperf execution will fail. So this log can be probably removed.",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_27f2f59a",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "so in case that dir can\u0027t be created or it exists, but user doesn\u0027t have permissions to modify it, then system exception is raised\nIt seems, that this is intentional behavior, but it won\u0027t hurt to put a comment with explanation.",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_070a598a",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "os.path.isdir",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_67f8ed7c",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "if it is used only for validation purposes, we can change it to private\nif you want to keep generic and vsperf related namespaces separated, the implementation should take into account only  /tmp/namespaces content",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_e72b9de9",
+        "filename": "tools/veth.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "2016 RHT",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_673f8d26",
+        "filename": "tools/veth.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "see namespace.py for similar comments",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_474611c1",
+        "filename": "tools/veth.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "port and namespace name would be nice",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_071819d2",
+        "filename": "tools/veth.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T11:29:08Z",
+      "side": 1,
+      "message": "port name would be nice\nconsider upping vs. bringing up",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
