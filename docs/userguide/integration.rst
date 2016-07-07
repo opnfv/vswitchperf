@@ -831,3 +831,52 @@ To run GENEVE decapsulation tests:
     ./vsperf --conf-file user_settings.py --integration
              --test-params 'tunnel_type=geneve' overlay_p2p_decap_cont
 
+
+Executing Tunnel encapsulation+decapsulation tests
+--------------------------------------------------
+
+The OVS DPDK encapsulation_decapsulation tests requires IPs, MAC addresses,
+bridge names and WHITELIST_NICS for DPDK.
+
+The test cases can test the tunneling encap and decap without using any ingress
+overlay traffic as compared to above test cases. To achieve this the OVS is
+configured to perform encap and decap in a series on the same traffic stream as
+given below.
+
+TRAFFIC-IN --> [ENCAP] --> [MOD-PKT] --> [DECAP] --> TRAFFIC-OUT
+
+
+Default values are already provided. To customize for your environment, override
+the following variables in you user_settings.py file:
+
+  .. code-block:: python
+
+    # Variables defined in conf/integration/02_vswitch.conf
+
+    # Bridge names
+    TUNNEL_EXTERNAL_BRIDGE1 = 'br-phy1'
+    TUNNEL_EXTERNAL_BRIDGE2 = 'br-phy2'
+    TUNNEL_MODIFY_BRIDGE1 = 'br-mod1'
+    TUNNEL_MODIFY_BRIDGE2 = 'br-mod2'
+
+    # IP of br-mod1
+    TUNNEL_MODIFY_BRIDGE_IP1 = '10.0.0.1/24'
+
+    # Mac of br-mod1
+    TUNNEL_MODIFY_BRIDGE_MAC1 = '00:00:10:00:00:01'
+
+    # IP of br-mod2
+    TUNNEL_MODIFY_BRIDGE_IP2 = '20.0.0.1/24'
+
+    #Mac of br-mod2
+    TUNNEL_MODIFY_BRIDGE_MAC2 = '00:00:20:00:00:01'
+
+    # vxlan|gre|geneve, Only VXLAN is supported for now.
+    TUNNEL_TYPE = 'vxlan'
+
+To run VXLAN encapsulation+decapsulation tests:
+
+  .. code-block:: console
+
+    ./vsperf --conf-file user_settings.py --integration
+             overlay_p2p_mod_tput
