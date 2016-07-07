@@ -122,6 +122,38 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """
         raise NotImplementedError
 
+    def add_veth_pair_port(self, switch_name=None, remote_switch_name=None,
+                      local_opts=None, remote_opts=None):
+        """Creates veth-pair port between 'switch_name' and 'remote_switch_name'
+
+        """
+        if switch_name is None or remote_switch_name is None:
+            return
+
+        bridge = self._bridges[switch_name]
+        remote_bridge = self._bridges[remote_switch_name]
+        pcount = str(self._get_port_count('type=patch'))
+        # TODO ::: What if interface name longer than allowed width??
+        local_port_name = switch_name + '-' + remote_switch_name + '-' + pcount
+        remote_port_name = remote_switch_name + '-' + switch_name + '-' + pcount
+        local_params = ['--', 'set', 'Interface', local_port_name,
+                        'type=patch',
+                        'options:peer=' + remote_port_name]
+        remote_params = ['--', 'set', 'Interface', remote_port_name,
+                        'type=patch',
+                        'options:peer=' + local_port_name]
+
+        if local_opts is not None:
+            local_params = local_params + local_opts
+
+        if remote_opts is not None:
+            remote_params = remote_params + remote_opts
+
+        local_of_port = bridge.add_port(local_port_name, local_params)
+        remote_of_port = remote_bridge.add_port(remote_port_name, remote_params)
+        return [(local_port_name, local_of_port),
+                (remote_port_name, remote_of_port)]
+
     def add_tunnel_port(self, switch_name, remote_ip, tunnel_type='vxlan', params=None):
         """Creates tunneling port
         """
