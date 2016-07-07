@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_67054c10",
+        "filename": "src/ovs/ofctl.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T12:26:24Z",
+      "side": 1,
+      "message": "Possible improvements:\n\nIn case, that subprocess.check_output would be called directly, then enable/disable methods can periodically check if info was updated already, instead of blind wait for a long time; Similar logic is implemented during QEMU shutdown (IVnfQemu::stop()).\n\nIn case, that method would parse the output and return e.g. dict, then it would simplify check of given property status. Also all possible formatting issues would be isolated at one place if compared to the current usage.",
+      "revId": "bb4143a8b1c568f2a558de3d2f60d3481b2f2ce3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_a7128560",
+        "filename": "vswitches/ovs.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-07T12:26:24Z",
+      "side": 1,
+      "message": "It would be good to mention, that this method is blocking and waits, until bridge configuration is altered.\n\nThe same comment for all 4 methods.",
+      "revId": "bb4143a8b1c568f2a558de3d2f60d3481b2f2ce3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
