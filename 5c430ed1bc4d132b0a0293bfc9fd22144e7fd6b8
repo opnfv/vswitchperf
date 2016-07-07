@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_67e30cda",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "Thanks. Fixed.",
+      "parentUuid": "5a7ca5a3_87ce6959",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_27dbd51c",
         "filename": "testcases/testcase.py",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-07T11:29:08Z",
       "side": 1,
       "message": "os.path.isdir would be better",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_07e818b3",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "Thanks Fixed.",
+      "parentUuid": "5a7ca5a3_27dbd51c",
       "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_27b674da",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "Thanks fixed.",
+      "parentUuid": "5a7ca5a3_e704fd7f",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_a7fe056a",
         "filename": "tools/namespace.py",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-07-07T11:29:08Z",
       "side": 1,
       "message": "logging port name would be nice",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_07b1f8e0",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "5a7ca5a3_a7fe056a",
       "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_67954c32",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "OK I believe you are stating that bringing up sounds better than Upping. I have made this change.",
+      "parentUuid": "5a7ca5a3_c7030172",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_87f50985",
         "filename": "tools/namespace.py",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2016-07-07T11:29:08Z",
       "side": 1,
       "message": "it should check if given namespace exists first and fail if it is the case; Otherwise system wide namespace will be modified and finally deleted by VSPERF",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_c7a3009d",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "I\u0027ve changed it so it will raise an exception if the namespace already exists. I also changed the logic slightly from your recommendation. I didn\u0027t consider that if the folder creation fails I catch the exception and just log some errors, but the next statement would fail because the folder doesn\u0027t exist. \n\nI now check for the folder existence before doing the touch.",
+      "parentUuid": "5a7ca5a3_87f50985",
       "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_e7c71c44",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "See above comment",
+      "parentUuid": "5a7ca5a3_47eff1b0",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_27f2f59a",
         "filename": "tools/namespace.py",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2016-07-07T11:29:08Z",
       "side": 1,
       "message": "so in case that dir can\u0027t be created or it exists, but user doesn\u0027t have permissions to modify it, then system exception is raised\nIt seems, that this is intentional behavior, but it won\u0027t hurt to put a comment with explanation.",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_87c42841",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "I changed the wording slightly in the logging messages. The idea was I didn\u0027t want to cause a crash if the temp folder creation fails, but I\u0027m open to thoughts on it. If a testcase creates namespaces but can\u0027t track them for deletion later it could cause issues that would require backtracking into previous test case logs to determine the cause. I\u0027ll think more on this and may change it later.",
+      "parentUuid": "5a7ca5a3_27f2f59a",
       "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_87ad088b",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "I\u0027m not going to change this because I\u0027m checking if the file exists before attempting to delete it. The isdir would break this.",
+      "parentUuid": "5a7ca5a3_070a598a",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_67f8ed7c",
         "filename": "tools/namespace.py",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2016-07-07T11:29:08Z",
       "side": 1,
       "message": "if it is used only for validation purposes, we can change it to private\nif you want to keep generic and vsperf related namespaces separated, the implementation should take into account only  /tmp/namespaces content",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_67bc6cbc",
+        "filename": "tools/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "I modified the function into two different functions. One for system namespaces and one for VSPerf created namespaces. I think they may have use later outside of the module so I left them both public functions.",
+      "parentUuid": "5a7ca5a3_67f8ed7c",
       "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_27ed14c4",
+        "filename": "tools/veth.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "5a7ca5a3_e72b9de9",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_673f8d26",
         "filename": "tools/veth.py",
         "patchSetId": 2
@@ -200,6 +398,24 @@
       "writtenOn": "2016-07-07T11:29:08Z",
       "side": 1,
       "message": "see namespace.py for similar comments",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_c7d1c0fc",
+        "filename": "tools/veth.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "Handled the same way as namespaces for now.",
+      "parentUuid": "5a7ca5a3_673f8d26",
       "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_e7ce3c5a",
+        "filename": "tools/veth.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "5a7ca5a3_474611c1",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_071819d2",
         "filename": "tools/veth.py",
         "patchSetId": 2
@@ -234,6 +468,24 @@
       "writtenOn": "2016-07-07T11:29:08Z",
       "side": 1,
       "message": "port name would be nice\nconsider upping vs. bringing up",
+      "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_87dbc81a",
+        "filename": "tools/veth.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-07T15:21:14Z",
+      "side": 1,
+      "message": "Again I believe you think bringing up sounds better than upping. I\u0027ve made this change.",
+      "parentUuid": "5a7ca5a3_071819d2",
       "revId": "5c430ed1bc4d132b0a0293bfc9fd22144e7fd6b8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
