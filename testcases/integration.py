@@ -22,9 +22,12 @@ import copy
 from testcases import TestCase
 from conf import settings as S
 from collections import OrderedDict
+from tools import namespace
+from tools import veth
 from core.loader import Loader
 
 CHECK_PREFIX = 'validate_'
+
 
 class IntegrationTestCase(TestCase):
     """IntegrationTestCase class
@@ -115,6 +118,10 @@ class IntegrationTestCase(TestCase):
                                     step_ok = False
                                     if step[0] == 'vswitch':
                                         test_object = self._vswitch_ctl.get_vswitch()
+                                    elif step[0] == 'namespace':
+                                        test_object = namespace
+                                    elif step[0] == 'veth':
+                                        test_object = veth
                                     elif step[0] == 'trafficgen':
                                         test_object = self._traffic_ctl
                                         # in case of send_traffic method, ensure that specified
