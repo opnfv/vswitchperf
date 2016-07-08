@@ -439,6 +439,21 @@ def flow_match(flow_dump, flow_src):
     # perform unifications on both source and destination flows
     flow_dump = flow_dump.replace('actions=', 'action=')
     flow_src = flow_src.replace('actions=', 'action=')
+    # For complex flows the output of "ovs-ofctl dump-flows" can use the
+    # shorthand notation.
+    # eg if we set a flow with constraints on UDP ports like in the following
+    # {'dl_type': '0x0800', 'nw_proto': '17', 'in_port': '1', 'udp_dst': '0', 'actions': ['output:2']}
+    # dump-flows output can combine the first 2 constraints into 'udp' and translate
+    # 'udp_dst' into 'tp_dst' like
+    # "udp,in_port=1,tp_dst=0 actions=output:2".
+    # So the next replacements are needed.
+    flow_dump = flow_dump.replace('ip', 'dl_type=0x0800')
+    flow_dump = flow_dump.replace('tcp', 'nw_proto=6,dl_type=0x0800')
+    flow_dump = flow_dump.replace('udp', 'nw_proto=17,dl_type=0x0800')
+    flow_src = flow_src.replace('udp_src', 'tp_src')
+    flow_src = flow_src.replace('udp_dst', 'tp_dst')
+    flow_src = flow_src.replace('tcp_src', 'tp_src')
+    flow_src = flow_src.replace('tcp_dst', 'tp_dst')
 
     # split flow strings into lists of comparable elements
     flow_dump_list = re.findall(r"[\w.:=()]+", flow_dump)
