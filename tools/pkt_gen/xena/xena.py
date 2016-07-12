@@ -25,6 +25,7 @@ Xena Traffic Generator Model
 # python imports
 import binascii
 import logging
+import os
 import subprocess
 import sys
 from time import sleep
@@ -65,6 +66,14 @@ class Xena(ITrafficGenerator):
         self._duration = None
         self.tx_stats = None
         self.rx_stats = None
+        self._log_handle = None
+
+        self._user_home = os.path.expanduser('~')
+        if os.path.exists('{}/Xena/Xena2544-2G/Logs/xena2544.log'.format(
+                self._user_home)):
+            # empty the file contents
+            open('{}/Xena/Xena2544-2G/Logs/xena2544.log'.format(
+                self._user_home), 'w').close()
 
     @property
     def traffic_defaults(self):
@@ -451,6 +460,44 @@ class Xena(ITrafficGenerator):
             self.rx_stats = self.xmanager.ports[1].get_rx_stats()
         sleep(1)
 
+    def _start_xena_2544(self):
+        """
+        Start the xena2544 exe.
+        :return: None
+        """
+        args = ["mono", "./tools/pkt_gen/xena/Xena2544.exe", "-c",
+                "./tools/pkt_gen/xena/profiles/2bUsed.x2544", "-e", "-r",
+                "./tools/pkt_gen/xena", "-u",
+                settings.getValue('TRAFFICGEN_XENA_USER')]
+        # Sometimes Xena2544.exe completes, but mono holds the process without
+        # releasing it, this can cause a deadlock of the main thread. Use the
+        # xena log file as a way to detect this.
+        self._log_handle = open('{}/Xena/Xena2544-2G/Logs/xena2544.log'.format(
+            self._user_home), 'r')
+        # read the contents of the log before we start so the next read in the
+        # wait method are only looking at the text from this test instance
+        self._log_handle.read()
+        self.mono_pipe = subprocess.Popen(args, stdout=sys.stdout)
+
+    def _wait_xena_2544_complete(self):
+        """
+        Wait for Xena2544.exe completion.
+        :return: None
+        """
+        data = ''
+        while True:
+            try:
+                self.mono_pipe.wait(60)
+                self._log_handle.close()
+                break
+            except subprocess.TimeoutExpired:
+                # check the log to see if Xena2544 has completed and mono is
+                # deadlocked.
+                data += self._log_handle.read()
+                if 'TestCompletedSuccessfully' in data:
+                    self._log_handle.close()
+                    self.mono_pipe.terminate()
+
     def _stop_api_traffic(self):
         """
         Stop traffic through the socket API
@@ -495,13 +542,11 @@ class Xena(ITrafficGenerator):
         See ITrafficGenerator for description
         """
         self._duration = duration
-
         self._params.clear()
         self._params['traffic'] = self.traffic_defaults.copy()
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-
         self._start_traffic_api(numpkts)
         return self._stop_api_traffic()
 
@@ -517,7 +562,6 @@ class Xena(ITrafficGenerator):
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-
         self._start_traffic_api(-1)
         return self._stop_api_traffic()
 
@@ -533,7 +577,6 @@ class Xena(ITrafficGenerator):
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-
         self._start_traffic_api(-1)
 
     def stop_cont_traffic(self):
@@ -554,15 +597,10 @@ class Xena(ITrafficGenerator):
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-
         self._setup_json_config(trials, lossrate, '2544_throughput')
+        self._start_xena_2544()
+        self._wait_xena_2544_complete()
 
-        args = ["mono", "./tools/pkt_gen/xena/Xena2544.exe", "-c",
-                "./tools/pkt_gen/xena/profiles/2bUsed.x2544", "-e", "-r",
-                "./tools/pkt_gen/xena", "-u",
-                settings.getValue('TRAFFICGEN_XENA_USER')]
-        self.mono_pipe = subprocess.Popen(args, stdout=sys.stdout)
-        self.mono_pipe.communicate()
         root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
         return Xena._create_throughput_result(root)
 
@@ -578,22 +616,15 @@ class Xena(ITrafficGenerator):
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-
         self._setup_json_config(trials, lossrate, '2544_throughput')
-
-        args = ["mono", "./tools/pkt_gen/xena/Xena2544.exe", "-c",
-                "./tools/pkt_gen/xena/profiles/2bUsed.x2544", "-e", "-r",
-                "./tools/pkt_gen/xena", "-u",
-                settings.getValue('TRAFFICGEN_XENA_USER')]
-        self.mono_pipe = subprocess.Popen(args, stdout=sys.stdout)
+        self._start_xena_2544()
 
     def wait_rfc2544_throughput(self):
         """Wait for and return results of RFC2544 test.
 
         See ITrafficGenerator for description
         """
-        self.mono_pipe.communicate()
-        sleep(2)
+        self._wait_xena_2544_complete()
         root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
         return Xena._create_throughput_result(root)
 
@@ -610,16 +641,9 @@ class Xena(ITrafficGenerator):
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-
         self._setup_json_config(trials, lossrate, '2544_b2b')
-
-        args = ["mono", "./tools/pkt_gen/xena/Xena2544.exe", "-c",
-                "./tools/pkt_gen/xena/profiles/2bUsed.x2544", "-e", "-r",
-                "./tools/pkt_gen/xena", "-u",
-                settings.getValue('TRAFFICGEN_XENA_USER')]
-        self.mono_pipe = subprocess.Popen(
-            args, stdout=sys.stdout)
-        self.mono_pipe.communicate()
+        self._start_xena_2544()
+        self._wait_xena_2544_complete()
         root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
         return Xena._create_throughput_result(root)
 
@@ -630,27 +654,18 @@ class Xena(ITrafficGenerator):
         See ITrafficGenerator for description
         """
         self._duration = duration
-
         self._params.clear()
         self._params['traffic'] = self.traffic_defaults.copy()
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-
         self._setup_json_config(trials, lossrate, '2544_b2b')
-
-        args = ["mono", "./tools/pkt_gen/xena/Xena2544.exe", "-c",
-                "./tools/pkt_gen/xena/profiles/2bUsed.x2544", "-e", "-r",
-                "./tools/pkt_gen/xena", "-u",
-                settings.getValue('TRAFFICGEN_XENA_USER')]
-        self.mono_pipe = subprocess.Popen(
-            args, stdout=sys.stdout)
+        self._start_xena_2544()
 
     def wait_rfc2544_back2back(self):
         """Wait and set results of RFC2544 test.
         """
-        self.mono_pipe.communicate()
-        sleep(2)
+        self._wait_xena_2544_complete()
         root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
         return Xena._create_throughput_result(root)
 
