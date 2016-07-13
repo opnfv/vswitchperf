@@ -46,7 +46,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """See IVswitch for general description
         """
         self._logger = logging.getLogger(__name__)
-        self._expect = None
+        self._expect = r'bridge|INFO|ovs-vswitchd'
         self._timeout = 30
         self._bridges = {}
         self._vswitchd_args = ['--pidfile=' + self._vswitchd_pidfile_path,
