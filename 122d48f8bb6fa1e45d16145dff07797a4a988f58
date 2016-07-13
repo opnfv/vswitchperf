@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_d03733e2",
+        "filename": "tools/pkt_gen/xena/xena.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 3307
+      },
+      "writtenOn": "2016-07-13T14:11:51Z",
+      "side": 1,
+      "message": "Looks good... one nit-pick, you may want to make a note why this sleep is needed (Is it?)",
+      "range": {
+        "startLine": 658,
+        "startChar": 8,
+        "endLine": 658,
+        "endChar": 13
+      },
+      "revId": "122d48f8bb6fa1e45d16145dff07797a4a988f58",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
