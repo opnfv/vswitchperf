@@ -13,7 +13,7 @@ validation of installation of OPNFV platform. In the future, Yardstick will
 support two options of vswitchperf testcase execution:
 
 - plugin mode, which will execute native vswitchperf testcases; Tests will
-  be executed the same way as today, but test results will be processed and
+  be executed natively by vsperf, and test results will be processed and
   reported by yardstick.
 - traffic generator mode, which will run vswitchperf in **trafficgen**
   mode only; Yardstick framework will be used to launch VNFs and to configure
@@ -71,7 +71,7 @@ Testcase customization
 
 Yardstick testcases are described by YAML files. vswitchperf specific testcases
 are part of the vswitchperf repository and their yaml files can be found at
-``yardstick/tests`` directory. For detailed description of yaml file sctructure,
+``yardstick/tests`` directory. For detailed description of yaml file structure,
 please see yardstick documentation and testcase samples. Only vswitchperf specific
 parts will be discussed here.
 
