@@ -41,7 +41,6 @@ class OvsVanilla(IVSwitchOvs):
         self._logger = logging.getLogger(__name__)
         self._vswitchd_args += ["unix:%s" % self.get_db_sock_path()]
         self._vswitchd_args += settings.getValue('VSWITCHD_VANILLA_ARGS')
-        self._expect = "db.sock: connected"
         self._module_manager = ModuleManager()
 
     def start(self):

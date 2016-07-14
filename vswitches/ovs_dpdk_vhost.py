@@ -39,7 +39,6 @@ class OvsDpdkVhost(IVSwitchOvs):
     def __init__(self):
         super(OvsDpdkVhost, self).__init__()
         self._logger = logging.getLogger(__name__)
-        self._expect = r'EAL: Master l*core \d+ is ready'
 
         vswitchd_args = []
 
