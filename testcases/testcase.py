@@ -14,14 +14,18 @@
 """TestCase base class
 """
 
-import csv
-import os
-import time
-import logging
-import subprocess
-import copy
 from collections import OrderedDict
+import copy
+import csv
+import logging
+import math
+import os
+import re
+import time
+import subprocess
 
+from conf import settings as S
+from conf import get_test_param
 import core.component_factory as component_factory
 from core.loader import Loader
 from core.results.results_constants import ResultsConstants
@@ -29,8 +33,7 @@ from tools import tasks
 from tools import hugepages
 from tools import functions
 from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
-from conf import settings as S
-from conf import get_test_param
+
 
 class TestCase(object):
     """TestCase base class
@@ -188,6 +191,10 @@ class TestCase(object):
 
         # mount hugepages if needed
         self._mount_hugepages()
+
+        # verify enough hugepages are free to run the testcase
+        if not self._check_for_enough_hugepages():
+            raise RuntimeError('Not enough hugepages free to run test.')
 
         # copy sources of l2 forwarding tools into VM shared dir if needed
         self._copy_fwd_tools_for_all_guests()
@@ -391,7 +398,6 @@ class TestCase(object):
             except subprocess.CalledProcessError:
                 self._logger.error('Unable to copy DPDK and l2fwd to shared directory')
 
-
     def _mount_hugepages(self):
         """Mount hugepages if usage of DPDK or Qemu is detected
         """
@@ -410,6 +416,80 @@ class TestCase(object):
         if self._hugepages_mounted:
             hugepages.umount_hugepages()
             self._hugepages_mounted = False
+
+    def _check_for_enough_hugepages(self):
+        """Check to make sure enough hugepages are free to satisfy the
+        test environment.
+        """
+        hugepages_needed = 0
+        hugepage_size = hugepages.get_hugepage_size()
+        # get hugepage amounts per guest
+        for guest in range(self.deployment.count('v')):
+            hugepages_needed += math.ceil((int(S.getValue(
+                'GUEST_MEMORY')[guest]) * 1000) / hugepage_size)
+
+        # get hugepage amounts for each socket on dpdk
+        sock0_mem, sock1_mem = 0, 0
+        if S.getValue('VSWITCH').lower().count('dpdk'):
+            # the import below needs to remain here and not put into the module
+            # imports because of an exception due to settings not yet loaded
+            from vswitches import ovs_dpdk_vhost
+            if ovs_dpdk_vhost.OvsDpdkVhost.old_dpdk_config():
+                match = re.search(
+                    '-socket-mem\s+(\d+),(\d+)',
+                    ''.join(S.getValue('VSWITCH_DPDK_ARGS')))
+                if match:
+                    sock0_mem, sock1_mem = (int(match.group(1)),
+                                            int(match.group(2)))
+                else:
+                    logging.info(
+                        'Could not parse socket memory config in dpdk params.')
+            else:
+                sock0_mem, sock1_mem = (
+                    S.getValue(
+                        'VSWITCHD_DPDK_CONFIG')['dpdk-socket-mem'].split(','))
+                sock0_mem, sock1_mem = (int(sock0_mem) / 1024,
+                                        int(sock1_mem) / 1024)
+
+        # If hugepages needed, verify the amounts are free
+        if any([hugepages_needed, sock0_mem, sock1_mem]):
+            free_hugepages = hugepages.get_free_hugepages()
+            if hugepages_needed:
+                logging.info('Need %s hugepages free for guests',
+                             hugepages_needed)
+                result1 = free_hugepages >= hugepages_needed
+                free_hugepages -= hugepages_needed
+            else:
+                result1 = True
+
+            if sock0_mem:
+                logging.info('Need %s hugepages free for dpdk socket 0',
+                             sock0_mem)
+                result2 = hugepages.get_free_hugepages('0') >= sock0_mem
+                free_hugepages -= sock0_mem
+            else:
+                result2 = True
+
+            if sock1_mem:
+                logging.info('Need %s hugepages free for dpdk socket 1',
+                             sock1_mem)
+                result3 = hugepages.get_free_hugepages('1') >= sock1_mem
+                free_hugepages -= sock1_mem
+            else:
+                result3 = True
+
+            logging.info('Need a total of {} total hugepages'.format(
+                hugepages_needed + sock1_mem + sock0_mem))
+
+            # The only drawback here is sometimes dpdk doesn't release
+            # its hugepages on a test failure. This could cause a test
+            # to fail when dpdk would be OK to start because it will just
+            # use the previously allocated hugepages.
+            result4 = True if free_hugepages >= 0 else False
+
+            return all([result1, result2, result3, result4])
+        else:
+            return True
 
     @staticmethod
     def write_result_to_file(results, output):
