@@ -186,8 +186,18 @@ parameter. In recent vswitchd versions, option VSWITCHD_DPDK_CONFIG will be
 used to configure vswitchd via ovs-vsctl calls.
 
 With the --socket-mem argument set to use 1 hugepage on the specified sockets as
-seen above, the configuration will need 9 hugepages total to run all tests
+seen above, the configuration will need 10 hugepages total to run all tests
 within vsperf if the pagesize is set correctly to 1GB.
+
+VSPerf will verify hugepage amounts are free before executing test
+environments. In case of hugepage amounts not being free, test initialization
+will fail and testing will stop.
+
+**Please Note**: In some instances on a test failure dpdk resources may not
+release hugepages used in dpdk configuration. It is recommended to configure a
+few extra hugepages to prevent a false detection by VSPerf that not enough free
+hugepages are available to execute the test environment. Normally dpdk would use
+previously allocated hugepages upon initialization.
 
 Depending on your OS selection configuration of hugepages may vary. Please refer
 to your OS documentation to set hugepages correctly. It is recommended to set
