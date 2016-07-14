@@ -32,28 +32,35 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def is_hugepage_available():
-    """Check if hugepages are available on the system.
+    """Check if hugepages are configured/available on the system.
     """
-    hugepage_re = re.compile(r'^HugePages_Free:\s+(?P<num_hp>\d+)$')
+    hugepage_size_re = re.compile(r'^Hugepagesize:\s+(?P<size_hp>\d+)\s+kB',
+                                  re.IGNORECASE)
 
     # read in meminfo
     with open('/proc/meminfo') as mem_file:
         mem_info = mem_file.readlines()
 
-    # first check if module is loaded
+    # see if the hugepage size is the recommended value
     for line in mem_info:
-        result = hugepage_re.match(line)
-        if not result:
-            continue
+        match_size = hugepage_size_re.match(line)
+        if match_size:
+            if match_size.group('size_hp') != '1048576':
+                _LOGGER.info(
+                    '%s%s%s kB',
+                    'Hugepages not configured for recommend 1GB size. ',
+                    'Currently set at ', match_size.group('size_hp'))
 
-        num_huge = result.group('num_hp')
-        if not num_huge:
-            _LOGGER.info('No free hugepages.')
+    # make sure we have at least 1 hugepage configured.
+    with open('/proc/sys/vm/nr_hugepages', 'r') as fh:
+        num_huge = fh.read().rstrip('\n')
+        if not int(num_huge):
+            _LOGGER.error('No configured hugepages. Hugepages configured: %s',
+                          num_huge)
+            return False
         else:
-            _LOGGER.info('Found \'%s\' free hugepage(s).', num_huge)
+            _LOGGER.info('Found \'%s\' configured hugepage(s).', num_huge)
         return True
-
-    return False
 
 
 def is_hugepage_mounted():
@@ -69,10 +76,11 @@ def is_hugepage_mounted():
 
 
 def mount_hugepages():
-    """Ensure hugepages are mounted.
+    """Ensure hugepages are mounted. Raises RuntimeError if no configured
+    hugepages are available.
     """
     if not is_hugepage_available():
-        return
+        raise RuntimeError('No Hugepages available.')
 
     if is_hugepage_mounted():
         return
