@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_24b745da",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3307
+      },
+      "writtenOn": "2016-07-15T18:38:08Z",
+      "side": 1,
+      "message": "This is all fine... as a side, you can alternately do a quick check of /proc/sys/vm/nr_hugepages and make sure its non-zero.  Additionally - and it may be immaterial - you can check the amount of huge pages allocated per NUMA node via checking /sys/devices/system/node/node*/meminfo",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "34d986471a9b2ada3fa4ec06fca2242c54948c50",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
