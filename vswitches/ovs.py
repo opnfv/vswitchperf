@@ -38,8 +38,8 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
     see the interface.
     """
     _logfile = os.path.join(settings.getValue('LOG_DIR'), settings.getValue('LOG_FILE_VSWITCHD'))
-    _ovsdb_pidfile_path = os.path.join(settings.getValue('LOG_DIR'), "ovsdb_pidfile.pid")
-    _vswitchd_pidfile_path = os.path.join(settings.getValue('LOG_DIR'), "vswitchd_pidfile.pid")
+    _ovsdb_pidfile_path = os.path.join(_OVS_VAR_DIR, "ovsdb-server.pid")
+    _vswitchd_pidfile_path = os.path.join(_OVS_VAR_DIR, "ovs-vswitchd.pid")
     _proc_name = 'ovs-vswitchd'
 
     def __init__(self):
