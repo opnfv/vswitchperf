@@ -227,15 +227,15 @@ function generate_report() {
     # ...and remove original log files
     find "${TEST_REPORT_LOG_DIR}" -mindepth 1 -maxdepth 1 -type d -exec rm -rf \{\} \;
 
-    # clone releng repository
-    echo "Cloning releng repository..."
-    [ -d releng ] && rm -rf releng
-    git clone https://gerrit.opnfv.org/gerrit/releng &> /dev/null
+    # clone opnfvdocs repository
+    echo "Cloning opnfvdocs repository..."
+    [ -d opnfvdocs ] && rm -rf opnfvdocs
+    git clone https://gerrit.opnfv.org/gerrit/opnfvdocs &> /dev/null
 
     # generate final docs with test results
     echo "Generating test report..."
-    sed -ie 's,python ,python2 ,g' ./releng/utils/docs-build.sh
-    ./releng/utils/docs-build.sh &> /dev/null
+    sed -ie 's,python ,python2 ,g' ./opnfvdocs/scripts/docs-build.sh
+    OPNFVDOCS_DIR='./opnfvdocs' ./opnfvdocs/scripts/docs-build.sh &> /dev/null
 
     # store PDF with test results into dedicated directory
     if [ -f $TEST_REPORT_FILE ] ; then
@@ -248,6 +248,11 @@ function generate_report() {
 
 # pushes test report and logs collected during test execution into artifactory
 function push_results_to_artifactory() {
+    # clone releng repository
+    echo "Cloning releng repository..."
+    [ -d releng ] && rm -rf releng
+    git clone https://gerrit.opnfv.org/gerrit/releng &> /dev/null
+
     echo "Pushing results and logs into artifactory..."
     . ./releng/utils/push-test-logs.sh "$DATE"
 
