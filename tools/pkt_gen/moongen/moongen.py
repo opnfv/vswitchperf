@@ -58,12 +58,12 @@ class Moongen(ITrafficGenerator):
         will likely break traffic generator implementations or tests
         respectively.
         """
-        self._logger.info("In moongen traffic_defaults method")
+        self._logger.info("In Moongen traffic_defaults method")
         return self._traffic_defaults
 
     def create_moongen_cfg_file(self, traffic, duration=60,
                                 acceptable_loss_pct=1, one_shot=0):
-        """Create the MoonGen configuration file from VSPERF's traffic profile
+        """Create the Moongen configuration file from VSPERF's traffic profile
         :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN tags
         :param duration: The length of time to generate packet throughput
         :param acceptable_loss: Maximum packet loss acceptable
@@ -157,7 +157,7 @@ class Moongen(ITrafficGenerator):
             out_file.write("oneShot = true,\n")
 
         # Assume 10G line rates at the moment.  Need to convert VSPERF
-        # frame_rate (percentage of line rate) to Mpps for MoonGen
+        # frame_rate (percentage of line rate) to Mpps for Moongen
 
         out_file.write("startRate = " + str((traffic['frame_rate'] / 100) * 14.88) + "\n")
         out_file.write("}" + "\n")
@@ -181,17 +181,17 @@ class Moongen(ITrafficGenerator):
             raise RuntimeError('MOONGEN: Error copying configuration file')
 
     def connect(self):
-        """Connect to MoonGen traffic generator
+        """Connect to Moongen traffic generator
 
-        Verify that MoonGen is on the system indicated by
+        Verify that Moongen is on the system indicated by
         the configuration file
         """
-        self._logger.info("MOONGEN:  In MoonGen connect method...")
+        self._logger.info("MOONGEN:  In Moongen connect method...")
 
         if self._moongen_host_ip_addr:
             cmd_ping = "ping -c1 " + self._moongen_host_ip_addr
         else:
-            raise RuntimeError('MOONGEN: MoonGen host not defined')
+            raise RuntimeError('MOONGEN: Moongen host not defined')
 
         ping = subprocess.Popen(cmd_ping, shell=True, stderr=subprocess.PIPE)
         output, error = ping.communicate()
@@ -199,7 +199,7 @@ class Moongen(ITrafficGenerator):
         if ping.returncode:
             self._logger.error(error)
             self._logger.error(output)
-            raise RuntimeError('MOONGEN: Cannot ping MoonGen host at ' + \
+            raise RuntimeError('MOONGEN: Cannot ping Moongen host at ' + \
                                self._moongen_host_ip_addr)
 
         connect_moongen = "ssh " + self._moongen_user + \
@@ -218,10 +218,10 @@ class Moongen(ITrafficGenerator):
             self._logger.error(error)
             self._logger.error(output)
             raise RuntimeError(
-                'MOONGEN: Cannot locate MoonGen program at %s within %s' \
+                'MOONGEN: Cannot locate Moongen program at %s within %s' \
                 % (self._moongen_host_ip_addr, self._moongen_base_dir))
 
-        self._logger.info("MOONGEN: MoonGen host successfully found...")
+        self._logger.info("MOONGEN: Moongen host successfully found...")
 
     def disconnect(self):
         """Disconnect from the traffic generator.
@@ -252,7 +252,7 @@ class Moongen(ITrafficGenerator):
             - List of List of Rx Bytes,
             - Payload Errors and Sequence Errors.
         """
-        self._logger.info("In moongen send_burst_traffic method")
+        self._logger.info("In Moongen send_burst_traffic method")
         return NotImplementedError('Moongen Burst traffic not implemented')
 
     def send_cont_traffic(self, traffic=None, duration=20):
@@ -274,7 +274,7 @@ class Moongen(ITrafficGenerator):
             - Max Latency (ns),
             - Avg Latency (ns)
         """
-        self._logger.info("In moongen send_cont_traffic method")
+        self._logger.info("In Moongen send_cont_traffic method")
 
         self._params.clear()
         self._params['traffic'] = self.traffic_defaults.copy()
@@ -352,18 +352,18 @@ class Moongen(ITrafficGenerator):
         :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN tags
         :param duration: Time to wait to receive packets (secs)
         """
-        self._logger.info("In moongen start_cont_traffic method")
-        return NotImplementedError('Moongen continuous traffic not implemented')
+        self._logger.info("In Moongen start_cont_traffic method")
+        return NotImplementedError('moongen continuous traffic not implemented')
 
     def stop_cont_traffic(self):
         # Stop continuous transmission and return results.
-        self._logger.info("In moongen stop_cont_traffic method")
+        self._logger.info("In Moongen stop_cont_traffic method")
 
     def run_moongen_and_collect_results(self, test_run=1):
-        """Execute MoonGen and transform results into VSPERF format
+        """Execute Moongen and transform results into VSPERF format
         :param test_run: The number of tests to run
         """
-        # Start MoonGen and create logfile of the run
+        # Start Moongen and create logfile of the run
         connect_moongen = "ssh " + self._moongen_user + "@" + \
             self._moongen_host_ip_addr
 
@@ -381,7 +381,7 @@ class Moongen(ITrafficGenerator):
             logging.debug(error)
             logging.debug(output)
             raise RuntimeError(
-                'MOONGEN: Error starting MoonGen program at %s within %s' \
+                'MOONGEN: Error starting Moongen program at %s within %s' \
                 % (self._moongen_host_ip_addr, self._moongen_base_dir))
 
         cmd_moongen = "mkdir -p /tmp/moongen/" + str(test_run)
@@ -396,7 +396,7 @@ class Moongen(ITrafficGenerator):
             logging.debug(error)
             logging.debug(output)
             raise RuntimeError(
-                'MOONGEN: Error obtaining MoonGen log from %s within %s' \
+                'MOONGEN: Error obtaining Moongen log from %s within %s' \
                 % (self._moongen_host_ip_addr, self._moongen_base_dir))
 
         cmd_moongen = " scp " + self._moongen_user + "@" + \
@@ -414,7 +414,7 @@ class Moongen(ITrafficGenerator):
             logging.debug(error)
             logging.debug(output)
             raise RuntimeError(
-                'MOONGEN: Error obtaining MoonGen log from %s within %s' \
+                'MOONGEN: Error obtaining Moongen log from %s within %s' \
                 % (self._moongen_host_ip_addr, self._moongen_base_dir))
 
         log_file = "/tmp/moongen/" + str(test_run) + "/moongen-run.log"
@@ -443,7 +443,7 @@ class Moongen(ITrafficGenerator):
 
             if not results_match:
                 logging.error('There was a problem parsing ' +\
-                    'MoonGen REPORT section of MoonGen log file')
+                    'Moongen REPORT section of Moongen log file')
 
             moongen_results = OrderedDict()
             moongen_results[ResultsConstants.THROUGHPUT_RX_FPS] = 0
@@ -468,8 +468,8 @@ class Moongen(ITrafficGenerator):
             if parameters_match:
                 frame_size = int(parameters_match.group(1))
             else:
-                logging.error('There was a problem parsing MoonGen ' +\
-                    'PARAMETERS section of MoonGen log file')
+                logging.error('There was a problem parsing Moongen ' +\
+                    'PARAMETERS section of Moongen log file')
                 frame_size = 0
 
         if results_match and parameters_match:
@@ -737,7 +737,7 @@ class Moongen(ITrafficGenerator):
         #
         # Start transmission and immediately return. Do not wait for results.
         #
-        self._logger.info("In moongen start_rfc2544_back2back method")
+        self._logger.info("In Moongen start_rfc2544_back2back method")
         return NotImplementedError(
             'Moongen start back2back traffic not implemented')
 
