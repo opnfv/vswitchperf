@@ -30,6 +30,46 @@ _LOGGER = logging.getLogger(__name__)
 # hugepage management
 #
 
+def get_hugepage_size():
+    """Return the size of the configured hugepages
+    """
+    hugepage_size_re = re.compile(r'^Hugepagesize:\s+(?P<size_hp>\d+)\s+kB',
+                                  re.IGNORECASE)
+    with open('/proc/meminfo', 'r') as fh:
+        data = fh.readlines()
+        for line in data:
+            match = hugepage_size_re.search(line)
+            if match:
+                _LOGGER.info('Hugepages size: %s', match.group('size_hp'))
+                return int(match.group('size_hp'))
+        else:
+            _LOGGER.error('Could not parse for hugepage size')
+            return 0
+
+
+
+def allocate_hugepages():
+    """Allocate hugepages on the fly
+    """
+    hp_size = get_hugepage_size()
+
+    if hp_size > 0:
+        nr_hp = int(settings.getValue('HP_RAM_ALLOCATION')/hp_size)
+        _LOGGER.info ('Will allocate %s hugepages.', nr_hp)
+
+        nr_hugepages = 'vm.nr_hugepages=' + str(nr_hp)
+        try:
+            tasks.run_task(['sudo', 'sysctl', nr_hugepages],
+                           _LOGGER, 'Trying to allocate hugepages..', True)
+        except subprocess.CalledProcessError:
+            _LOGGER.error('Unable to allocate hugepages.')
+            return False
+        return True
+
+    else:
+        _LOGGER.error('Division by 0 will be supported in next release')
+        return False
+
 
 def is_hugepage_available():
     """Check if hugepages are available on the system.
@@ -47,8 +87,10 @@ def is_hugepage_available():
             continue
 
         num_huge = result.group('num_hp')
-        if not num_huge:
+        if num_huge == '0':
             _LOGGER.info('No free hugepages.')
+            if not allocate_hugepages():
+                return 
         else:
             _LOGGER.info('Found \'%s\' free hugepage(s).', num_huge)
         return True
