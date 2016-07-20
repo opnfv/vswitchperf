@@ -190,3 +190,8 @@ You can review your hugepage amounts by executing the following command
 .. code:: bash
 
     cat /proc/meminfo | grep Huge
+
+If no hugepages are available vsperf will try to automatically allocate some.
+Allocation is controlled by HP_RAM_ALLOCATION configuration parameter in
+``02_vswitch.conf`` file. Default is 2GB, resulting in either 2 1GB hugepages
+or 1024 2MB hugepages.
