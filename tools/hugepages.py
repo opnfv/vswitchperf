@@ -30,6 +30,17 @@ _LOGGER = logging.getLogger(__name__)
 # hugepage management
 #
 
+def allocate_hugepages():
+    """Allocate hugepages on the fly
+    """
+
+    nr_hugepages = 'vm.nr_hugepages=' + settings.getValue('NR_HUGEPAGES')
+    try:
+        tasks.run_task(['sudo', 'sysctl', nr_hugepages],
+                       _LOGGER, 'Trying to allocate hugepages..', True)
+    except subprocess.CalledProcessError:
+        _LOGGER.error('Unable to allocate hugepages.')
+
 
 def is_hugepage_available():
     """Check if hugepages are available on the system.
@@ -47,8 +58,9 @@ def is_hugepage_available():
             continue
 
         num_huge = result.group('num_hp')
-        if not num_huge:
+        if num_huge == '0':
             _LOGGER.info('No free hugepages.')
+            allocate_hugepages()
         else:
             _LOGGER.info('Found \'%s\' free hugepage(s).', num_huge)
         return True
