@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_dc19bc7a",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-21T12:22:33Z",
+      "side": 1,
+      "message": "Its probably better to determine how much socket memory is needed for DPDK and also how much is needed for each guest. I\u0027ll go back and work on this. I\u0027ll have to revert back to the free hugepage technique over the configured huge page I changed it to.",
+      "parentUuid": "1a76adc5_88654347",
+      "revId": "eceb6526c3a8dda96bccf6cb1a8f073d45343b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_08fff335",
         "filename": "tools/hugepages.py",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-21T09:42:34Z",
       "side": 1,
       "message": "return was there on purpose to simplify the implementation:\n\ncurrent mount_hugepages is called as part of TestCase::run_initialize() method, without further checks. It means, that it is called also in case, that OVS or QEMU is not needed for the test - i.e. the fact, that hugepages are not mounted is not a show stopper. Also QEMU is able to allocate standard memory if hugepages are not available.\n\nSo if you want to introduce an explicit vsperf termination in case that hugepages are not available, you should modify mount_hugepages() usage to avoid a vsperf crash in case, that hugepages are not mandatory. It might be a bit of overkill, thus I\u0027ve chosen a \"forgiving\" approach in the past...",
+      "revId": "eceb6526c3a8dda96bccf6cb1a8f073d45343b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_bc1c006c",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-21T12:22:33Z",
+      "side": 1,
+      "message": "Thanks! I\u0027ll figure out some logic to handle the situation you describe.",
+      "parentUuid": "1a76adc5_08fff335",
       "revId": "eceb6526c3a8dda96bccf6cb1a8f073d45343b9e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
