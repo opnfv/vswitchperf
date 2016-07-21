@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_1c3c142f",
+        "filename": "tools/pkt_gen/moongen/moongen.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-21T17:03:21Z",
+      "side": 1,
+      "message": "This is fine.\n\nJust as a future reference you could do a boolean compare in the future which may look cleaner.\n\n\nif traffic[\u0027vlan\u0027][\u0027enabled\u0027]: \n....code\n\nI don\u0027t forsee the vlan enabled being passed as a string anywhere in case you were worried about it. It looks like its always a boolean.",
+      "revId": "9d162dafdee3fe49b0fa1af501dfd483fcebf05e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
