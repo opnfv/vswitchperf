@@ -138,8 +138,9 @@ class Moongen(ITrafficGenerator):
         out_file.write("dstIp = \"" + \
             str(traffic['l3']['dstip']) + "\",\n")
 
-        out_file.write("vlanId = " + \
-            str(traffic['vlan']['id']) + ",\n")
+        if traffic['vlan']['enabled']:
+            out_file.write("vlanId = " + \
+                str(traffic['vlan']['id']) + ",\n")
 
         out_file.write("searchRunTime = " + \
             str(duration) + ",\n")
