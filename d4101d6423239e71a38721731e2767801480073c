@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_6879c7fb",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-21T09:13:44Z",
+      "side": 1,
+      "message": "There are several hugepages size types, which can be enabled. So it is not clear how much memory will be allocated just from the variable stating a number of hugepages.\n\nAnother approach would be a definition of required memory and then a detection of (e.g.) default hugepage size and proper calculation of the number of hugepages to be allocated.\n\nAdditional notes for consideration:\n\n* multiple hugepages sizes can be enabled in parallel - automatic allocation should probably allocate the default one\n\n* hugepages are used also by QEMU to allocate memory for VMs (e.g. 4GB per VM)\n\n* on NUMA architecture, hugepages can be configured per node if needed",
+      "revId": "d4101d6423239e71a38721731e2767801480073c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a8f11f97",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-21T09:13:44Z",
+      "side": 1,
+      "message": "Even if hugepages are automatically allocated, then is_hugepage_available() still returns False.\n\nAttempt to allocate hugepages should be logged.",
+      "revId": "d4101d6423239e71a38721731e2767801480073c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
