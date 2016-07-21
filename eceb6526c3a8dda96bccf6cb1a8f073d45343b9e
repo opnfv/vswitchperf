@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_88654347",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-21T09:42:34Z",
+      "side": 1,
+      "message": "The fact, that hugepages are allocated doesn\u0027t mean that they are free to be used. If we really want to improve current implementation, we should 1) define how much \"hugepage\" memory we need; 2) check if required amount of memory is available.\n\nYou\u0027re probably aware of it, but let me note a document, which I used during original implementation:\n\nhttps://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt",
+      "revId": "eceb6526c3a8dda96bccf6cb1a8f073d45343b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_08fff335",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-21T09:42:34Z",
+      "side": 1,
+      "message": "return was there on purpose to simplify the implementation:\n\ncurrent mount_hugepages is called as part of TestCase::run_initialize() method, without further checks. It means, that it is called also in case, that OVS or QEMU is not needed for the test - i.e. the fact, that hugepages are not mounted is not a show stopper. Also QEMU is able to allocate standard memory if hugepages are not available.\n\nSo if you want to introduce an explicit vsperf termination in case that hugepages are not available, you should modify mount_hugepages() usage to avoid a vsperf crash in case, that hugepages are not mandatory. It might be a bit of overkill, thus I\u0027ve chosen a \"forgiving\" approach in the past...",
+      "revId": "eceb6526c3a8dda96bccf6cb1a8f073d45343b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
