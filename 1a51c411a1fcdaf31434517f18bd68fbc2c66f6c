@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_08c7f346",
+        "filename": "tools/pkt_gen/xena/xena.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-21T08:49:36Z",
+      "side": 1,
+      "message": "It seems, that code relies on default log file location. Is it possible to change its location by e.g. configuration change? If so, then hardcoded log file path won\u0027t be valid.\n\nBTW, later the log file path is calculated again. It might be better to e.g. create a constant with log file name at the beginning of the file.",
+      "revId": "1a51c411a1fcdaf31434517f18bd68fbc2c66f6c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_88bb03c4",
+        "filename": "tools/pkt_gen/xena/xena.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-21T08:49:36Z",
+      "side": 1,
+      "message": "do we need to execute another loop iteration after terminate() is called? If not, then break should be here.",
+      "revId": "1a51c411a1fcdaf31434517f18bd68fbc2c66f6c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
