@@ -41,22 +41,34 @@ class QemuVirtioNet(IVnfQemu):
         if1 = str(i)
         if2 = str(i + 1)
 
+        # multi-queue values
+        if int(S.getValue('GUEST_NIC_QUEUES')):
+            queue_str = ',queues={}'.format(S.getValue('GUEST_NIC_QUEUES'))
+            mq_vector_str = ',mq=on,vectors={}'.format(
+                int(S.getValue('GUEST_NIC_QUEUES')) * 2 + 2)
+        else:
+            queue_str, mq_vector_str = '', ''
+
         self._cmd += ['-netdev',
-                      'type=tap,id=' + self._net1 +
+                      'tap,id=' + self._net1 + queue_str +
                       ',script=no,downscript=no,' +
                       'ifname=tap' + if1 + ',vhost=on',
                       '-device',
                       'virtio-net-pci,mac=' +
                       S.getValue('GUEST_NET1_MAC')[self._number] +
-                      ',netdev=' + self._net1 + ',csum=off,gso=off,' +
-                      'guest_tso4=off,guest_tso6=off,guest_ecn=off',
+                      ',netdev=' + self._net1 +
+                      ',csum=off,gso=off,' +
+                      'guest_tso4=off,guest_tso6=off,guest_ecn=off' +
+                      mq_vector_str,
                       '-netdev',
-                      'type=tap,id=' + self._net2 +
+                      'tap,id=' + self._net2 + queue_str +
                       ',script=no,downscript=no,' +
                       'ifname=tap' + if2 + ',vhost=on',
                       '-device',
                       'virtio-net-pci,mac=' +
                       S.getValue('GUEST_NET2_MAC')[self._number] +
-                      ',netdev=' + self._net2 + ',csum=off,gso=off,' +
-                      'guest_tso4=off,guest_tso6=off,guest_ecn=off',
-                     ]
+                      ',netdev=' + self._net2 +
+                      ',csum=off,gso=off,' +
+                      'guest_tso4=off,guest_tso6=off,guest_ecn=off' +
+                      mq_vector_str,
+        ]

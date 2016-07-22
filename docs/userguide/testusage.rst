@@ -427,30 +427,25 @@ Multi-Queue Configuration
 
 VSPerf currently supports multi-queue with the following limitations:
 
- 1.  Execution of pvp/pvvp tests require testpmd as the loopback if multi-queue
-     is enabled at the guest.
-
- 2.  Requires QemuDpdkVhostUser as the vnf.
-
- 3.  Requires switch to be set to OvsDpdkVhost.
-
- 4.  Requires QEMU 2.5 or greater and any OVS version higher than 2.5. The
-     default upstream package versions installed by VSPerf satisfy this
+ 1.  Requires QEMU 2.5 or greater and any OVS version higher than 2.5. The
+     default upstream package versions installed by VSPerf satisfies this
      requirement.
 
- 5. If using OVS versions 2.5.0 or less enable old style multi-queue as shown in
-    the ''02_vswitch.conf'' file.
+ 2.  Guest image must have ethtool utility installed if using l2fwd or linux
+     bridge inside guest for loopback.
+
+ 3.  If using OVS versions 2.5.0 or less enable old style multi-queue as shown
+     in the ''02_vswitch.conf'' file.
 
   .. code-block:: console
 
      OVS_OLD_STYLE_MQ = True
 
-To enable multi-queue modify the ''02_vswitch.conf'' file to enable multi-queue
-on the switch.
+To enable multi-queue for dpdk modify the ''02_vswitch.conf'' file.
 
   .. code-block:: console
 
-     VSWITCH_MULTI_QUEUES = 2
+     VSWITCH_DPDK_MULTI_QUEUES = 2
 
 **NOTE:** you should consider using the switch affinity to set a pmd cpu mask
 that can optimize your performance. Consider the numa of the NIC in use if this
@@ -471,8 +466,12 @@ To enable multi-queue on the guest modify the ''04_vnf.conf'' file.
 Enabling multi-queue at the guest will add multiple queues to each NIC port when
 qemu launches the guest.
 
-Testpmd should be configured to take advantage of multi-queue on the guest. This
-can be done by modifying the ''04_vnf.conf'' file.
+In case of Vanilla OVS, multi-queue is enabled on the tuntap ports and nic
+queues will be enabled inside the guest with ethtool. Simply enabling the
+multi-queue on the guest is sufficient for Vanilla OVS multi-queue.
+
+Testpmd should be configured to take advantage of multi-queue on the guest if
+using DPDKVhostUser. This can be done by modifying the ''04_vnf.conf'' file.
 
   .. code-block:: console
 
@@ -485,9 +484,23 @@ can be done by modifying the ''04_vnf.conf'' file.
 **NOTE:** The guest SMP cores must be configured to allow for testpmd to use the
 optimal number of cores to take advantage of the multiple guest queues.
 
-**NOTE:** For optimal performance guest SMPs should be on the same numa as the
-NIC in use if possible/applicable. Testpmd should be assigned at least
-(nb_cores +1) total cores with the cpu mask.
+In case of using Vanilla OVS and qemu virtio-net you can increase performance
+by binding vhost-net threads to cpus. This can be done by enabling the affinity
+in the ''04_vnf.conf'' file. This can be done to non multi-queue enabled
+configurations as well as there will be 2 vhost-net threads.
+
+  .. code-block:: console
+
+     VSWITCH_VHOST_NET_AFFINITIZATION = True
+
+     VSWITCH_VHOST_CPU_MAP = [4,5,8,11]
+
+**NOTE:** This method of binding would require a custom script in a real
+environment.
+
+**NOTE:** For optimal performance guest SMPs and/or vhost-net threads should be
+on the same numa as the NIC in use if possible/applicable. Testpmd should be
+assigned at least (nb_cores +1) total cores with the cpu mask.
 
 Executing Packet Forwarding tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
