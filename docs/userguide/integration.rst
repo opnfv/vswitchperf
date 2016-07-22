@@ -71,7 +71,7 @@ test step calls returns a value it can be later recalled, for example:
              ]
     }
 
-This test profile uses the the vswitch add_vport method which returns a string
+This test profile uses the vswitch add_vport method which returns a string
 value of the port added. This is later called by the del_port method using the
 name from step 1.
 
@@ -500,4 +500,310 @@ To run GENEVE decapsulation tests:
 
     ./vsperf --conf-file user_settings.py --integration
              --test-params 'tunnel_type=geneve' overlay_p2p_decap_cont
+
+HelloWorld and other basic Testcases
+------------------------------------
+
+The following examples are for demonstration purposes.
+You can run them by copying and pasting into the
+conf/integration/01_testcases.conf file.
+
+HelloWorld
+^^^^^^^^^^
+
+The first example is a HelloWorld testcase.
+
+.. code-block:: python
+
+    {
+        "Name": "HelloWorld",
+        "Description": "My first testcase",
+        "Deployment": "clean",
+        "TestSteps": [
+            ['vswitch', 'add_switch', 'int_br0'],   # STEP 0
+            ['vswitch', 'add_phy_port', 'int_br0'], # STEP 1
+            ['vswitch', 'add_phy_port', 'int_br0'], # STEP 2
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
+                'actions': ['drop'], 'idle_timeout': '0'}],
+            ['vswitch', 'del_flow', 'int_br0'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[1][0]'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[2][0]'],
+            ['vswitch', 'del_switch', 'int_br0'],
+        ]
+
+    }
+
+To run HelloWorld test:
+
+  .. code-block:: console
+
+    ./vsperf --conf-file user_settings.py --integration HelloWorld
+
+Specify a Flow by the IP address
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The next example shows how to explicitly set a flow by specifying a destination IP address.
+
+.. code-block:: python
+
+    {
+        "Name": "p2p_rule_l3da",
+        "Description": "Phy2Phy with rule on L3 Dest Addr",
+        "Deployment": "clean",
+        "biDirectional": "False",
+        "TestSteps": [
+            ['vswitch', 'add_switch', 'int_br0'],   # STEP 0
+            ['vswitch', 'add_phy_port', 'int_br0'], # STEP 1
+            ['vswitch', 'add_phy_port', 'int_br0'], # STEP 2
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
+                'dl_type': '0x0800', 'nw_dst': '90.90.90.90', \
+                'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
+            ['trafficgen', 'send_traffic', {'traffic_type' : 'continuous'}],
+            ['vswitch', 'dump_flows', 'int_br0'],   # STEP 5
+            ['vswitch', 'del_flow', 'int_br0'],     # STEP 7 == del-flows
+            ['vswitch', 'del_port', 'int_br0', '#STEP[1][0]'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[2][0]'],
+            ['vswitch', 'del_switch', 'int_br0'],
+        ]
+    },
+
+To run the test:
+
+  .. code-block:: console
+
+    ./vsperf --conf-file user_settings.py --integration p2p_rule_l3da
+
+Multistream feature
+^^^^^^^^^^^^^^^^^^^
+
+The next testcase uses the multistream feature.
+The traffic generator will send packets with different UDP ports.
+That is accomplished by using "Stream Type" and "MultiStream" keywords.
+4 different flows are set to capture all incoming packets.
+
+.. code-block:: python
+
+    {
+        "Name": "multistream_l4",
+        "Description": "Multistream on UDP ports",
+        "Deployment": "clean",
+        "Stream Type": "L4",
+        "MultiStream": 4,
+        "TestSteps": [
+            ['vswitch', 'add_switch', 'int_br0'],   # STEP 0
+            ['vswitch', 'add_phy_port', 'int_br0'], # STEP 1
+            ['vswitch', 'add_phy_port', 'int_br0'], # STEP 2
+            # Setup Flows
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
+                'dl_type': '0x0800', 'nw_proto': '17', 'udp_dst': '0', \
+                'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
+                'dl_type': '0x0800', 'nw_proto': '17', 'udp_dst': '1', \
+                'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
+                'dl_type': '0x0800', 'nw_proto': '17', 'udp_dst': '2', \
+                'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
+                'dl_type': '0x0800', 'nw_proto': '17', 'udp_dst': '3', \
+                'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
+            # Send mono-dir traffic
+            ['trafficgen', 'send_traffic', {'traffic_type' : 'continuous', \
+                'bidir' : 'False'}],
+            # Clean up
+            ['vswitch', 'del_flow', 'int_br0'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[1][0]'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[2][0]'],
+            ['vswitch', 'del_switch', 'int_br0'],
+         ]
+    },
+
+To run the test:
+
+  .. code-block:: console
+
+    ./vsperf --conf-file user_settings.py --integration multistream_l4
+
+Launch 2 VMs in sequence
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+This example launches a 1st VM then removes it and launches a 2nd VM.
+
+.. code-block:: python
+
+    {
+        "Name": "ex_replace_vm",
+        "Description": "PVP with VM replacement",
+        "Deployment": "clean",
+        "TestSteps": [
+            ['vswitch', 'add_switch', 'int_br0'],       # STEP 0
+            ['vswitch', 'add_phy_port', 'int_br0'],     # STEP 1
+            ['vswitch', 'add_phy_port', 'int_br0'],     # STEP 2
+            ['vswitch', 'add_vport', 'int_br0'],        # STEP 3    vm1
+            ['vswitch', 'add_vport', 'int_br0'],        # STEP 4
+
+            # Setup Flows
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
+                'actions': ['output:#STEP[3][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[4][1]', \
+                'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[2][1]', \
+                'actions': ['output:#STEP[4][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[3][1]', \
+                'actions': ['output:#STEP[1][1]'], 'idle_timeout': '0'}],
+
+            # Start VM 1
+            ['vnf1', 'start'],
+            ['vnf1', 'stop'],
+
+            ['vswitch', 'add_vport', 'int_br0'],        # STEP 11    vm2
+            ['vswitch', 'add_vport', 'int_br0'],        # STEP 12
+            ['vswitch', 'del_flow', 'int_br0'],
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
+                'actions': ['output:#STEP[11][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[12][1]', \
+                'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
+
+            # Start VM 2
+            ['vnf2', 'start'],
+            ['vnf2', 'stop'],
+            ['vswitch', 'dump_flows', 'int_br0'],
+
+            # Clean up
+            ['vswitch', 'del_flow', 'int_br0'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[1][0]'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[2][0]'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[3][0]'],    # vm1
+            ['vswitch', 'del_port', 'int_br0', '#STEP[4][0]'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[11][0]'],   # vm2
+            ['vswitch', 'del_port', 'int_br0', '#STEP[12][0]'],
+            ['vswitch', 'del_switch', 'int_br0'],
+        ]
+    },
+
+To run the test:
+
+  .. code-block:: console
+
+     ./vsperf --conf-file user_settings.py --integration ex_replace_vm
+
+VM with a Linux bridge
+^^^^^^^^^^^^^^^^^^^^^^
+
+In this example a command-line parameter allows to set up a Linux bridge into the guest VM.
+That's one of the available ways to specify the guest application.
+
+.. code-block:: python
+
+    {
+        "Name": "ex_pvp_rule_l3da",
+        "Description": "PVP with flow on L3 Dest Addr",
+        "Deployment": "clean",
+        "TestSteps": [
+            ['vswitch', 'add_switch', 'int_br0'],       # STEP 0
+            ['vswitch', 'add_phy_port', 'int_br0'],     # STEP 1
+            ['vswitch', 'add_phy_port', 'int_br0'],     # STEP 2
+            ['vswitch', 'add_vport', 'int_br0'],        # STEP 3    vm1
+            ['vswitch', 'add_vport', 'int_br0'],        # STEP 4
+            # Setup Flows
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
+                'dl_type': '0x0800', 'nw_dst': '90.90.90.90', \
+                'actions': ['output:#STEP[3][1]'], 'idle_timeout': '0'}],
+            # Each pkt from the VM is forwarded to the 2nd dpdk port
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[4][1]', \
+                'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
+            # Start VMs
+            ['vnf1', 'start'],
+            ['trafficgen', 'send_traffic', {'traffic_type' : 'continuous', \
+                'bidir' : 'False'}],
+            ['vnf1', 'stop'],
+            # Clean up
+            ['vswitch', 'dump_flows', 'int_br0'],       # STEP 10
+            ['vswitch', 'del_flow', 'int_br0'],         # STEP 11
+            ['vswitch', 'del_port', 'int_br0', '#STEP[1][0]'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[2][0]'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[3][0]'],  # vm1 ports
+            ['vswitch', 'del_port', 'int_br0', '#STEP[4][0]'],
+            ['vswitch', 'del_switch', 'int_br0'],
+        ]
+    },
+
+To run the test:
+
+  .. code-block:: console
+
+    ./vsperf --conf-file user_settings.py --test-params "guest_loopback=linux_bridge" --integration ex_pvp_rule_l3da
+
+Forward packets based on UDP port
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This examples launches 2 VMs connected in parallel.
+Incoming packets will be forwarded to one specific VM depending on the destination UDP port.
+
+.. code-block:: python
+
+    {
+        "Name": "ex_2pvp_rule_l4dp",
+        "Description": "2 PVP with flows on L4 Dest Port",
+        "Deployment": "clean",
+        "Stream Type": "L4",    # loop UDP ports
+        "MultiStream": 2,
+        "TestSteps": [
+            ['vswitch', 'add_switch', 'int_br0'],       # STEP 0
+            ['vswitch', 'add_phy_port', 'int_br0'],     # STEP 1
+            ['vswitch', 'add_phy_port', 'int_br0'],     # STEP 2
+            ['vswitch', 'add_vport', 'int_br0'],        # STEP 3    vm1
+            ['vswitch', 'add_vport', 'int_br0'],        # STEP 4
+            ['vswitch', 'add_vport', 'int_br0'],        # STEP 5    vm2
+            ['vswitch', 'add_vport', 'int_br0'],        # STEP 6
+            # Setup Flows to reply ICMPv6 and similar packets, so to
+            # avoid flooding internal port with their re-transmissions
+            ['vswitch', 'add_flow', 'int_br0', \
+                {'priority': '1', 'dl_src': '00:00:00:00:00:01', \
+                'actions': ['output:#STEP[3][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', \
+                {'priority': '1', 'dl_src': '00:00:00:00:00:02', \
+                'actions': ['output:#STEP[4][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', \
+                {'priority': '1', 'dl_src': '00:00:00:00:00:03', \
+                'actions': ['output:#STEP[5][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', \
+                {'priority': '1', 'dl_src': '00:00:00:00:00:04', \
+                'actions': ['output:#STEP[6][1]'], 'idle_timeout': '0'}],
+            # Forward UDP packets depending on dest port
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
+                'dl_type': '0x0800', 'nw_proto': '17', 'udp_dst': '0', \
+                'actions': ['output:#STEP[3][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
+                'dl_type': '0x0800', 'nw_proto': '17', 'udp_dst': '1', \
+                'actions': ['output:#STEP[5][1]'], 'idle_timeout': '0'}],
+            # Send VM output to phy port #2
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[4][1]', \
+                'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[6][1]', \
+                'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
+            # Start VMs
+            ['vnf1', 'start'],                          # STEP 16
+            ['vnf2', 'start'],                          # STEP 17
+            ['trafficgen', 'send_traffic', {'traffic_type' : 'continuous', \
+                'bidir' : 'False'}],
+            ['vnf1', 'stop'],
+            ['vnf2', 'stop'],
+            ['vswitch', 'dump_flows', 'int_br0'],
+            # Clean up
+            ['vswitch', 'del_flow', 'int_br0'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[1][0]'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[2][0]'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[3][0]'],  # vm1 ports
+            ['vswitch', 'del_port', 'int_br0', '#STEP[4][0]'],
+            ['vswitch', 'del_port', 'int_br0', '#STEP[5][0]'],  # vm2 ports
+            ['vswitch', 'del_port', 'int_br0', '#STEP[6][0]'],
+            ['vswitch', 'del_switch', 'int_br0'],
+        ]
+    },
+
+To run the test:
+
+  .. code-block:: console
+
+    ./vsperf --conf-file user_settings.py --integration ex_2pvp_rule_l4dp
 
