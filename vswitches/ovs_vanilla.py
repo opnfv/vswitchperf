@@ -60,9 +60,10 @@ class OvsVanilla(IVSwitchOvs):
         # remove all tap interfaces
         for i in range(self._vport_id):
             tapx = 'tap' + str(i)
-            tasks.run_task(['sudo', 'ip', 'tuntap', 'del',
-                            tapx, 'mode', 'tap'],
-                           self._logger, 'Deleting ' + tapx, False)
+            tap_cmd_list = ['sudo', 'ip', 'tuntap', 'del', tapx, 'mode', 'tap']
+            if int(settings.getValue('GUEST_NIC_QUEUES')):
+                tap_cmd_list += ['multi_queue']
+            tasks.run_task(tap_cmd_list, self._logger, 'Deleting ' + tapx, False)
         self._vport_id = 0
 
         super(OvsVanilla, self).stop()
@@ -70,7 +71,6 @@ class OvsVanilla(IVSwitchOvs):
         dpctl.del_dp()
 
         self._module_manager.remove_modules()
-
 
     def add_phy_port(self, switch_name):
         """
@@ -111,14 +111,17 @@ class OvsVanilla(IVSwitchOvs):
         # Create tap devices for the VM
         tap_name = 'tap' + str(self._vport_id)
         self._vport_id += 1
+        tap_cmd_list = ['sudo', 'ip', 'tuntap', 'del', tap_name, 'mode', 'tap']
+        if int(settings.getValue('GUEST_NIC_QUEUES')):
+            tap_cmd_list += ['multi_queue']
+        tasks.run_task(tap_cmd_list, self._logger,
+                       'Creating tap device...', False)
 
-        tasks.run_task(['sudo', 'ip', 'tuntap', 'del',
-                        tap_name, 'mode', 'tap'],
-                       self._logger, 'Creating tap device...', False)
-
-        tasks.run_task(['sudo', 'ip', 'tuntap', 'add',
-                        tap_name, 'mode', 'tap'],
-                       self._logger, 'Creating tap device...', False)
+        tap_cmd_list = ['sudo', 'ip', 'tuntap', 'add', tap_name, 'mode', 'tap']
+        if int(settings.getValue('GUEST_NIC_QUEUES')):
+            tap_cmd_list += ['multi_queue']
+        tasks.run_task(tap_cmd_list, self._logger,
+                       'Creating tap device...', False)
 
         tasks.run_task(['sudo', 'ip', 'addr', 'flush', 'dev', tap_name],
                        self._logger, 'Remove IP', False)
