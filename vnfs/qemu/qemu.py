@@ -127,6 +127,10 @@ class IVnfQemu(IVnf):
         if S.getValue('VNF_AFFINITIZATION_ON'):
             self._affinitize()
 
+        if S.getValue('VSWITCH_VHOST_NET_AFFINITIZATION') and S.getValue(
+                'VNF') == 'QemuVirtioNet':
+            self._affinitize_vhost_net()
+
         if self._timeout:
             self._config_guest_loopback()
 
@@ -233,6 +237,34 @@ class IVnfQemu(IVnf):
             if not match:
                 self._logger.error('Failed to affinitize guest core #%d. Could'
                                    ' not parse tid.', cpu)
+
+    def _affinitize_vhost_net(self):
+        """
+        Affinitize the vhost net threads for Vanilla OVS and guest nic queues.
+
+        :return: None
+        """
+        self._logger.info('Affinitizing VHOST Net threads.')
+        args1 = ['ps', 'ax']
+        process1 = subprocess.Popen(args1, stdout=subprocess.PIPE,
+                                    shell=False)
+        out = process1.communicate()[0]
+        processes = list()
+        for line in out.decode(locale.getdefaultlocale()[1]).split('\n'):
+            if re.search('\[vhost-(\d+)', line):
+                processes.append(re.match('\s*(\d+)', line).group(1))
+        self._logger.info('Found %s vhost net threads...', len(processes))
+
+        cpumap = S.getValue('VSWITCH_VHOST_CPU_MAP')
+        mapcount = 0
+        for proc in processes:
+            self._affinitize_pid(cpumap[mapcount], proc)
+            mapcount += 1
+            if mapcount + 1 > len(cpumap):
+                # Not enough cpus were given in the mapping to cover all the
+                # threads on a 1 to 1 ratio with cpus so reset the list counter
+                #  to 0.
+                mapcount = 0
 
     def _config_guest_loopback(self):
         """
@@ -378,6 +410,8 @@ class IVnfQemu(IVnf):
         """
         Configure VM to perform L2 forwarding between NICs by l2fwd module
         """
+        if int(S.getValue('GUEST_NIC_QUEUES')):
+            self._set_multi_queue_nic()
         self._configure_copy_sources('l2fwd')
         self._configure_disable_firewall()
 
@@ -395,6 +429,8 @@ class IVnfQemu(IVnf):
         """
         Configure VM to perform L2 forwarding between NICs by linux bridge
         """
+        if int(S.getValue('GUEST_NIC_QUEUES')):
+            self._set_multi_queue_nic()
         self._configure_disable_firewall()
 
         self.execute('ip addr add ' +
@@ -439,3 +475,15 @@ class IVnfQemu(IVnf):
         self.execute('sysctl -w net.ipv4.conf.all.rp_filter=0')
         self.execute('sysctl -w net.ipv4.conf.' + self._net1 + '.rp_filter=0')
         self.execute('sysctl -w net.ipv4.conf.' + self._net2 + '.rp_filter=0')
+
+    def _set_multi_queue_nic(self):
+        """
+        Enable multi-queue in guest kernel with ethool.
+        :return: None
+        """
+        self.execute_and_wait('ethtool -L {} combined {}'.format(
+            self._net1, S.getValue('GUEST_NIC_QUEUES')))
+        self.execute_and_wait('ethtool -l {}'.format(self._net1))
+        self.execute_and_wait('ethtool -L {} combined {}'.format(
+            self._net2, S.getValue('GUEST_NIC_QUEUES')))
+        self.execute_and_wait('ethtool -l {}'.format(self._net2))

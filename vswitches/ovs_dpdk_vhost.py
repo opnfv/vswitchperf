@@ -74,11 +74,11 @@ class OvsDpdkVhost(IVSwitchOvs):
         super(OvsDpdkVhost, self).start()
         # old style OVS <= 2.5.0 multi-queue enable
         if settings.getValue('OVS_OLD_STYLE_MQ') and \
-                int(settings.getValue('VSWITCH_MULTI_QUEUES')):
+                int(settings.getValue('VSWITCH_DPDK_MULTI_QUEUES')):
             tmp_br = OFBridge(timeout=-1)
             tmp_br.set_db_attribute(
                 'Open_vSwitch', '.', 'other_config:' +
-                'n-dpdk-rxqs', settings.getValue('VSWITCH_MULTI_QUEUES'))
+                'n-dpdk-rxqs', settings.getValue('VSWITCH_DPDK_MULTI_QUEUES'))
 
     def stop(self):
         """See IVswitch for general description
@@ -116,10 +116,11 @@ class OvsDpdkVhost(IVSwitchOvs):
         port_name = 'dpdk' + str(dpdk_count)
         params = ['--', 'set', 'Interface', port_name, 'type=dpdk']
         # multi-queue enable
-        if int(settings.getValue('VSWITCH_MULTI_QUEUES')) and \
+
+        if int(settings.getValue('VSWITCH_DPDK_MULTI_QUEUES')) and \
                 not settings.getValue('OVS_OLD_STYLE_MQ'):
                 params += ['options:n_rxq={}'.format(
-                    settings.getValue('VSWITCH_MULTI_QUEUES'))]
+                    settings.getValue('VSWITCH_DPDK_MULTI_QUEUES'))]
         of_port = bridge.add_port(port_name, params)
         return (port_name, of_port)
 
@@ -141,10 +142,11 @@ class OvsDpdkVhost(IVSwitchOvs):
             port_name = 'dpdkvhostuser' + str(vhost_count)
             params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostuser']
             # multi queue enable
-            if int(settings.getValue('VSWITCH_MULTI_QUEUES')) and \
+
+            if int(settings.getValue('VSWITCH_DPDK_MULTI_QUEUES')) and \
                     not settings.getValue('OVS_OLD_STYLE_MQ'):
                 params += ['options:n_rxq={}'.format(
-                    settings.getValue('VSWITCH_MULTI_QUEUES'))]
+                    settings.getValue('VSWITCH_DPDK_MULTI_QUEUES'))]
         of_port = bridge.add_port(port_name, params)
 
         return (port_name, of_port)
