@@ -14,7 +14,7 @@
 
 """Automation of system configuration for DPDK use.
 
-Parts of this based on ``tools/dpdk_nic_bind.py`` script from Intel(R)
+Parts of this based on ``tools/dpdk*bind.py`` script from Intel(R)
 DPDK.
 """
 
@@ -23,14 +23,15 @@ from sys import platform as _platform
 import os
 import subprocess
 import logging
+import glob
 
 from tools import tasks
 from conf import settings
 from tools.module_manager import ModuleManager
 
 _LOGGER = logging.getLogger(__name__)
-RTE_PCI_TOOL = os.path.join(
-    settings.getValue('RTE_SDK_USER'), 'tools', 'dpdk_nic_bind.py')
+RTE_PCI_TOOL = glob.glob(os.path.join(
+    settings.getValue('RTE_SDK_USER'), 'tools', 'dpdk*bind.py'))[0]
 
 _DPDK_MODULE_MANAGER = ModuleManager()
 
@@ -168,7 +169,7 @@ def _vhost_user_cleanup():
 
 
 def _bind_nics():
-    """Bind NICs using the Intel DPDK ``dpdk_nic_bind.py`` tool.
+    """Bind NICs using the Intel DPDK ``dpdk*bind.py`` tool.
     """
     try:
         _driver = 'igb_uio'
@@ -189,7 +190,7 @@ def _bind_nics():
         _LOGGER.error('Unable to bind NICs %s', str(_NICS_PCI))
 
 def _unbind_nics():
-    """Unbind NICs using the Intel DPDK ``dpdk_nic_bind.py`` tool.
+    """Unbind NICs using the Intel DPDK ``dpdk*bind.py`` tool.
     """
     try:
         tasks.run_task(['sudo', RTE_PCI_TOOL, '--unbind'] +
@@ -199,7 +200,7 @@ def _unbind_nics():
     except subprocess.CalledProcessError:
         _LOGGER.error('Unable to unbind NICs %s', str(_NICS_PCI))
     # Rebind NICs to their original drivers
-    # using the Intel DPDK ``dpdk_nic_bind.py`` tool.
+    # using the Intel DPDK ``dpdk*bind.py`` tool.
     for nic in _NICS:
         try:
             if nic['driver']:

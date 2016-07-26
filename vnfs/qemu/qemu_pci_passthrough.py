@@ -19,6 +19,7 @@
 import logging
 import subprocess
 import os
+import glob
 
 from conf import settings as S
 from vnfs.qemu.qemu import IVnfQemu
@@ -26,7 +27,7 @@ from tools import tasks
 from tools.module_manager import ModuleManager
 
 _MODULE_MANAGER = ModuleManager()
-_RTE_PCI_TOOL = os.path.join(S.getValue('RTE_SDK'), 'tools', 'dpdk_nic_bind.py')
+_RTE_PCI_TOOL = glob.glob(os.path.join(S.getValue('RTE_SDK'), 'tools', 'dpdk*bind.py'))[0]
 
 class QemuPciPassthrough(IVnfQemu):
     """

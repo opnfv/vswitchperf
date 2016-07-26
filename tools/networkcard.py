@@ -249,7 +249,7 @@ def reinit_vfs(pf_pci_handle):
 
     :param pf_pci_handle: PCI slot identifier of PF with domain part.
     """
-    rte_pci_tool = os.path.join(settings.getValue('RTE_SDK'), 'tools', 'dpdk_nic_bind.py')
+    rte_pci_tool = glob.glob(os.path.join(settings.getValue('RTE_SDK'), 'tools', 'dpdk*bind.py'))[0]
 
     for vf_nic in get_sriov_vfs_list(pf_pci_handle):
         nic_driver = get_driver(vf_nic)
