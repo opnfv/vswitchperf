@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_86a1afab",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-26T11:39:49Z",
+      "side": 1,
+      "message": "I\u0027ve chosen this lowlevel solution, because:\n* it requires only minimal changes and thus it can be merged to Colorado as a bugfix\n* it seems, we would need to support also OVS delivered as binary package with given distro. Such functionality would require a redesign of OVS/DPDK configuration anyway (including path to the script). As we might even abandon this script and manipulate /proc filesystem directly, it doesn\u0027t make sense to spent much effort on less wild(card) solution now.\n* introduction of another script matching this wildcard is not likely",
+      "revId": "49c477226c80bbe7350ddfc77c118d0b8aee0547",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
