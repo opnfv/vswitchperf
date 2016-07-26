@@ -16,6 +16,23 @@
       "revId": "49c477226c80bbe7350ddfc77c118d0b8aee0547",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_46ab9789",
+        "filename": "tools/systeminfo.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-26T11:47:36Z",
+      "side": 1,
+      "message": "It is to note, that version 1.5.0 and older used a form 1.5.0r1, where \"r\" should be added by application. This is currently not supported by VSPERF, i.e. for any release candidate of 1.5 and older it will show 1.5.01 in the report.\n\nIn case anybody will miss correct functionality of old release candidates, I can prepare it. However from code simplification perspective, I consider support of DPDK versions starting with 1.7.0-rc0 as sufficient.",
+      "revId": "49c477226c80bbe7350ddfc77c118d0b8aee0547",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
