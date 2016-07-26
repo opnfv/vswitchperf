@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_c66b2784",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-07-26T10:25:51Z",
+      "side": 1,
+      "message": "if you want to go per socket it might be easier to just use \n cat /sys/devices/system/node/node*/meminfo | grep -i huge, you\u0027ll have the total and free pages but you won\u0027t know the hugepage size unless you run cat /proc/meminfo",
+      "parentUuid": "1a76adc5_dc19bc7a",
+      "revId": "eceb6526c3a8dda96bccf6cb1a8f073d45343b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_08fff335",
         "filename": "tools/hugepages.py",
         "patchSetId": 4
