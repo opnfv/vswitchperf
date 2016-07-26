@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_a64f0b92",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-26T18:12:27Z",
+      "side": 1,
+      "message": "I think we may want to check for a remainder and append 1 to the total if one is found.\n\nSuch as if I put in a number into the conf file such as 11485769 it isn\u0027t evenly divisible by 1048576. To meet that requirement I would need 11 total hugepages. However, with the typecast to int it will only assign 10 because I believe typecasting to int always rounds down (Please someone correct me if I\u0027m wrong). This would assign enough hugepages for 10485760 kb instead of the 11 hugepages needed to satisfy my setting.\n\nA simple calculation could be used such as\n\nif settings.getValue(\u0027HP_RAM_ALLOCATION\u0027) % hp_size:\n  nr_hp +\u003d 1",
+      "revId": "33b028d6e74379403faf0f75214016cdb1b564fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0677dfd5",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-26T18:12:27Z",
+      "side": 1,
+      "message": "remove trailing whitespace",
+      "revId": "33b028d6e74379403faf0f75214016cdb1b564fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
