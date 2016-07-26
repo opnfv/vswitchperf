@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_463b97eb",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-07-26T18:58:41Z",
+      "side": 1,
+      "message": "May have a cleaner solution. I looked in the math module and found a function that could work instead of doing two separate calculations.\nAdd an import at the top\nimport math\nThen use \nnr_hp \u003d int(mail.ceil(settings.getValue(\u0027HP_RAM_ALLOCATION\u0027)/hp_size ))\n\nIt will round the value up if needed.",
+      "parentUuid": "1a76adc5_a64f0b92",
+      "revId": "33b028d6e74379403faf0f75214016cdb1b564fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_0677dfd5",
         "filename": "tools/hugepages.py",
         "patchSetId": 2
