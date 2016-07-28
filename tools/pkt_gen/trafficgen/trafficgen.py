@@ -133,7 +133,7 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def send_rfc2544_throughput(self, traffic=None, tests=1, trials=3, duration=20,
                                 lossrate=0.0):
         """Send traffic per RFC2544 throughput test specifications.
 
@@ -142,7 +142,8 @@ class ITrafficGenerator(object):
         detected is found.
 
         :param traffic: Detailed "traffic" spec, see design docs for details
-        :param trials: Number of trials to execute
+        :param tests: Number of tests to execute
+        :param trials: Number of test trials to execute
         :param duration: Per iteration duration
         :param lossrate: Acceptable lossrate percentage
         :returns: dictionary of strings with following data:
@@ -158,7 +159,7 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def start_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def start_rfc2544_throughput(self, traffic=None, tests=1, trials=3, duration=20,
                                  lossrate=0.0):
         """Non-blocking version of 'send_rfc2544_throughput'.
 
@@ -172,7 +173,7 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def send_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
+    def send_rfc2544_back2back(self, traffic=None, tests=1, trials=1, duration=20,
                                lossrate=0.0):
         """Send traffic per RFC2544 back2back test specifications.
 
@@ -180,7 +181,8 @@ class ITrafficGenerator(object):
         configuration, for duration seconds.
 
         :param traffic: Detailed "traffic" spec, see design docs for details
-        :param trials: Number of trials to execute
+        :param tests: Number of tests to execute
+        :param trials: Number of test trials to execute
         :param duration: Per iteration duration
         :param lossrate: Acceptable loss percentage
 
@@ -191,7 +193,7 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def start_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
+    def start_rfc2544_back2back(self, traffic=None, tests=1, trials=1, duration=20,
                                 lossrate=0.0):
         """Non-blocking version of 'send_rfc2544_back2back'.
 

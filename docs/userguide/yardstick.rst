@@ -130,8 +130,9 @@ argument. Following options are supported:
 - **bidirectional** - specifies if traffic will be uni (False) or bi-directional
   (True); Default: False
 - **iload** - specifies frame rate; Default: 100
-- **rfc2544_trials** - specifies the number of trials performed for each packet
-  size
+- **rfc2544_tests** - specifies the number of tests performed for each packet
+- **rfc2544_trials** - specifies the number of trials performed for each
+  test
 - **multistream** - specifies the number of simulated streams; Default: 0 (i.e.
   multistream feature is disabled)
 - **stream_type** - specifies network layer used for multistream simulation
