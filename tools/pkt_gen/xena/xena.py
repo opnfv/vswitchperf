@@ -275,10 +275,10 @@ class Xena(ITrafficGenerator):
 
         return result_dict
 
-    def _setup_json_config(self, trials, loss_rate, testtype=None):
+    def _setup_json_config(self, tests, loss_rate, testtype=None):
         """
         Create a 2bUsed json file that will be used for xena2544.exe execution.
-        :param trials: Number of trials
+        :param tests: Number of tests
         :param loss_rate: The acceptable loss rate as float
         :param testtype: Either '2544_b2b' or '2544_throughput' as string
         :return: None
@@ -305,7 +305,7 @@ class Xena(ITrafficGenerator):
             if testtype == '2544_throughput':
                 j_file.set_test_options_tput(
                     packet_sizes=self._params['traffic']['l2']['framesize'],
-                    iterations=trials, loss_rate=loss_rate,
+                    iterations=tests, loss_rate=loss_rate,
                     duration=self._duration, micro_tpld=True if self._params[
                         'traffic']['l2']['framesize'] == 64 else False)
                 j_file.enable_throughput_test()
@@ -313,7 +313,7 @@ class Xena(ITrafficGenerator):
             elif testtype == '2544_b2b':
                 j_file.set_test_options_back2back(
                     packet_sizes=self._params['traffic']['l2']['framesize'],
-                    iterations=trials, duration=self._duration,
+                    iterations=tests, duration=self._duration,
                     startvalue=self._params['traffic']['frame_rate'],
                     endvalue=self._params['traffic']['frame_rate'],
                     micro_tpld=True if self._params[
@@ -590,7 +590,7 @@ class Xena(ITrafficGenerator):
         """
         return self._stop_api_traffic()
 
-    def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def send_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
                                 lossrate=0.0):
         """Send traffic per RFC2544 throughput test specifications.
 
@@ -603,14 +603,14 @@ class Xena(ITrafficGenerator):
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-        self._setup_json_config(trials, lossrate, '2544_throughput')
+        self._setup_json_config(tests, lossrate, '2544_throughput')
         self._start_xena_2544()
         self._wait_xena_2544_complete()
 
         root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
         return Xena._create_throughput_result(root)
 
-    def start_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def start_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
                                  lossrate=0.0):
         """Non-blocking version of 'send_rfc2544_throughput'.
 
@@ -622,7 +622,7 @@ class Xena(ITrafficGenerator):
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-        self._setup_json_config(trials, lossrate, '2544_throughput')
+        self._setup_json_config(tests, lossrate, '2544_throughput')
         self._start_xena_2544()
 
     def wait_rfc2544_throughput(self):
@@ -634,7 +634,7 @@ class Xena(ITrafficGenerator):
         root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
         return Xena._create_throughput_result(root)
 
-    def send_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
+    def send_rfc2544_back2back(self, traffic=None, tests=1, duration=20,
                                lossrate=0.0):
         """Send traffic per RFC2544 back2back test specifications.
 
@@ -647,13 +647,13 @@ class Xena(ITrafficGenerator):
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-        self._setup_json_config(trials, lossrate, '2544_b2b')
+        self._setup_json_config(tests, lossrate, '2544_b2b')
         self._start_xena_2544()
         self._wait_xena_2544_complete()
         root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
         return Xena._create_throughput_result(root)
 
-    def start_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
+    def start_rfc2544_back2back(self, traffic=None, tests=1, duration=20,
                                 lossrate=0.0):
         """Non-blocking version of 'send_rfc2544_back2back'.
 
@@ -665,7 +665,7 @@ class Xena(ITrafficGenerator):
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-        self._setup_json_config(trials, lossrate, '2544_b2b')
+        self._setup_json_config(tests, lossrate, '2544_b2b')
         self._start_xena_2544()
 
     def wait_rfc2544_back2back(self):

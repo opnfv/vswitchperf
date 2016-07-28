@@ -83,13 +83,16 @@ proc startRfc2544Test { testSpec trafficSpec } {
 
     set duration                [dict get $testSpec duration]
 
+    # RFC2544 to IXIA terminology mapping (it affects Ixia configuration inside this script):
+    # Test    => Trial
+    # Trial   => Iteration
     if {$binary} {
-        set numTrials           [dict get $testSpec trials]
+        set numTests            [dict get $testSpec tests]
         set frameRate           100
         set tolerance           [dict get $testSpec lossrate]
         set loadType            binary
     } else {
-        set numTrials           1
+        set numTests            1
         set frameRate           [dict get $testSpec framerate]
         set tolerance           0.0
         set loadType            custom
@@ -3218,7 +3221,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -framesize $frameSize \
          -reportTputRateUnit mbps \
          -duration $duration \
-         -numtrials $numTrials \
+         -numtrials $numTests \
          -trafficType constantLoading \
          -burstSize 1 \
          -framesPerBurstGap 1 \
@@ -3391,7 +3394,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -rfc2889ordering noOrdering \
          -floodedFramesEnabled False \
          -duration $duration \
-         -numtrials $numTrials \
+         -numtrials $numTests \
          -trafficType constantLoading \
          -burstSize 1 \
          -framesPerBurstGap 1 \

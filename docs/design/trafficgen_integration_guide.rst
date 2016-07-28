@@ -161,9 +161,9 @@ Example of synchronous interfaces:
 
 .. code-block:: python
 
-    def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def send_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
                                 lossrate=0.0):
-    def send_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
+    def send_rfc2544_back2back(self, traffic=None, tests=1, duration=20,
                                lossrate=0.0):
     def send_cont_traffic(self, traffic=None, duration=20):
 
@@ -171,11 +171,11 @@ Example of asynchronous interfaces:
 
 .. code-block:: python
 
-    def start_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def start_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
                                  lossrate=0.0):
     def wait_rfc2544_throughput(self):
 
-    def start_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
+    def start_rfc2544_back2back(self, traffic=None, tests=1, duration=20,
                                 lossrate=0.0):
     def wait_rfc2544_back2back(self):
 
@@ -221,7 +221,7 @@ functions:
       * param **vlan**: A dictionary with vlan specific parameters,
         e.g. **priority**, **cfi**, **id** and vlan on/off switch **enabled**.
 
-    * param **trials**: Number of trials to execute.
+    * param **tests**: Number of times the test is executed.
     * param **duration**: Duration of continuous test or per iteration duration
       in case of RFC2544 throughput or back2back traffic types.
     * param **lossrate**: Acceptable lossrate percentage.
