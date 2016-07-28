@@ -211,7 +211,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
 
         return self.get_rfc2544_results(filec)
 
-    def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def send_rfc2544_throughput(self, traffic=None, tests=1, trials=3, duration=20,
                                 lossrate=0.0):
         """
         Send traffic per RFC2544 throughput test specifications.
@@ -243,7 +243,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
 
         return self.get_rfc2544_results(filec)
 
-    def send_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
+    def send_rfc2544_back2back(self, traffic=None, tests=1, trials=1, duration=20,
                                lossrate=0.0):
         """
         Send traffic per RFC2544 BacktoBack test specifications.

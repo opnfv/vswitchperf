@@ -512,7 +512,7 @@ class Moongen(ITrafficGenerator):
         return moongen_results
 
     def send_rfc2544_throughput(self, traffic=None, duration=20,
-                                lossrate=0.0, trials=1):
+                                lossrate=0.0, tests=1, trials=1):
         #
         # Send traffic per RFC2544 throughput test specifications.
         #
@@ -521,7 +521,8 @@ class Moongen(ITrafficGenerator):
         # detected is found.
         #
         # :param traffic: Detailed "traffic" spec, see design docs for details
-        # :param trials: Number of trials to execute
+        # :param tests: Number of tests to execute
+        # :param trials: Number of test trials to execute
         # :param duration: Per iteration duration
         # :param lossrate: Acceptable lossrate percentage
         # :returns: dictionary of strings with following data:
@@ -557,7 +558,7 @@ class Moongen(ITrafficGenerator):
         total_max_latency_ns = 0
         total_avg_latency_ns = 0
 
-        for test_run in range(1, trials+1):
+        for test_run in range(1, tests+1):
             collected_results = (
                 Moongen.run_moongen_and_collect_results(self, test_run=test_run))
 
@@ -586,35 +587,35 @@ class Moongen(ITrafficGenerator):
 
         results = OrderedDict()
         results[ResultsConstants.THROUGHPUT_RX_FPS] = (
-            '{:,.6f}'.format(total_throughput_rx_fps / trials))
+            '{:,.6f}'.format(total_throughput_rx_fps / tests))
 
         results[ResultsConstants.THROUGHPUT_RX_MBPS] = (
-            '{:,.3f}'.format(total_throughput_rx_mbps / trials))
+            '{:,.3f}'.format(total_throughput_rx_mbps / tests))
 
         results[ResultsConstants.THROUGHPUT_RX_PERCENT] = (
-            '{:,.3f}'.format(total_throughput_rx_pct / trials))
+            '{:,.3f}'.format(total_throughput_rx_pct / tests))
 
         results[ResultsConstants.TX_RATE_FPS] = (
-            '{:,.6f}'.format(total_throughput_tx_fps / trials))
+            '{:,.6f}'.format(total_throughput_tx_fps / tests))
 
         results[ResultsConstants.TX_RATE_MBPS] = (
-            '{:,.3f}'.format(total_throughput_tx_mbps / trials))
+            '{:,.3f}'.format(total_throughput_tx_mbps / tests))
 
         results[ResultsConstants.TX_RATE_PERCENT] = (
-            '{:,.3f}'.format(total_throughput_tx_pct / trials))
+            '{:,.3f}'.format(total_throughput_tx_pct / tests))
 
         results[ResultsConstants.MIN_LATENCY_NS] = (
-            '{:,.3f}'.format(total_min_latency_ns / trials))
+            '{:,.3f}'.format(total_min_latency_ns / tests))
 
         results[ResultsConstants.MAX_LATENCY_NS] = (
-            '{:,.3f}'.format(total_max_latency_ns / trials))
+            '{:,.3f}'.format(total_max_latency_ns / tests))
 
         results[ResultsConstants.AVG_LATENCY_NS] = (
-            '{:,.3f}'.format(total_avg_latency_ns / trials))
+            '{:,.3f}'.format(total_avg_latency_ns / tests))
 
         return results
 
-    def start_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def start_rfc2544_throughput(self, traffic=None, tests=1, trials=3, duration=20,
                                  lossrate=0.0):
         """Non-blocking version of 'send_rfc2544_throughput'.
 
@@ -630,14 +631,15 @@ class Moongen(ITrafficGenerator):
         self._logger.info('In moongen wait_rfc2544_throughput')
 
     def send_rfc2544_back2back(self, traffic=None, duration=60,
-                               lossrate=0.0, trials=1):
+                               lossrate=0.0, tests=1, trials=1):
         """Send traffic per RFC2544 back2back test specifications.
 
         Send packets at a fixed rate, using ``traffic``
         configuration, for duration seconds.
 
         :param traffic: Detailed "traffic" spec, see design docs for details
-        :param trials: Number of trials to execute
+        :param tests: Number of tests to execute
+        :param trials: Number of test trials to execute
         :param duration: Per iteration duration
         :param lossrate: Acceptable loss percentage
 
@@ -671,7 +673,7 @@ class Moongen(ITrafficGenerator):
         results[ResultsConstants.SCAL_STREAM_TYPE] = 0
         results[ResultsConstants.SCAL_PRE_INSTALLED_FLOWS] = 0
 
-        for test_run in range(1, trials+1):
+        for test_run in range(1, tests+1):
             collected_results = (
                 Moongen.run_moongen_and_collect_results(self, test_run=test_run))
 
@@ -701,28 +703,28 @@ class Moongen(ITrafficGenerator):
 
         # Calculate average results
         results[ResultsConstants.B2B_RX_FPS] = (
-            results[ResultsConstants.B2B_RX_FPS] / trials)
+            results[ResultsConstants.B2B_RX_FPS] / tests)
 
         results[ResultsConstants.B2B_RX_PERCENT] = (
-            results[ResultsConstants.B2B_RX_PERCENT] / trials)
+            results[ResultsConstants.B2B_RX_PERCENT] / tests)
 
         results[ResultsConstants.B2B_TX_FPS] = (
-            results[ResultsConstants.B2B_TX_FPS] / trials)
+            results[ResultsConstants.B2B_TX_FPS] / tests)
 
         results[ResultsConstants.B2B_TX_PERCENT] = (
-            results[ResultsConstants.B2B_TX_PERCENT] / trials)
+            results[ResultsConstants.B2B_TX_PERCENT] / tests)
 
         results[ResultsConstants.B2B_TX_COUNT] = (
-            results[ResultsConstants.B2B_TX_COUNT] / trials)
+            results[ResultsConstants.B2B_TX_COUNT] / tests)
 
         results[ResultsConstants.B2B_FRAMES] = (
-            results[ResultsConstants.B2B_FRAMES] / trials)
+            results[ResultsConstants.B2B_FRAMES] / tests)
 
         results[ResultsConstants.B2B_FRAME_LOSS_FRAMES] = (
-            results[ResultsConstants.B2B_FRAME_LOSS_FRAMES] / trials)
+            results[ResultsConstants.B2B_FRAME_LOSS_FRAMES] / tests)
 
         results[ResultsConstants.B2B_FRAME_LOSS_PERCENT] = (
-            results[ResultsConstants.B2B_FRAME_LOSS_PERCENT] / trials)
+            results[ResultsConstants.B2B_FRAME_LOSS_PERCENT] / tests)
 
         results[ResultsConstants.SCAL_STREAM_COUNT] = 0
         results[ResultsConstants.SCAL_STREAM_TYPE] = 0
@@ -730,7 +732,7 @@ class Moongen(ITrafficGenerator):
 
         return results
 
-    def start_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
+    def start_rfc2544_back2back(self, traffic=None, tests=1, trials=1, duration=20,
                                 lossrate=0.0):
         #
         # Non-blocking version of 'send_rfc2544_back2back'.

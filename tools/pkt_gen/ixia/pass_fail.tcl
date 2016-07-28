@@ -675,7 +675,10 @@ proc rfcThroughputTest { testSpec trafficSpec } {
 
     # testSpec
 
-    set numTrials               [dict get $testSpec trials]  ;# we don't use this yet
+    # RFC2544 to IXIA terminology mapping (it affects Ixia configuration below):
+    # Test    => Trial
+    # Trial   => Iteration
+    set numTrials               [dict get $testSpec tests]  ;# we don't use this yet
     set duration                [dict get $testSpec duration]
     set lossRate                [dict get $testSpec lossrate]
     set multipleStream          [dict get $testSpec multipleStreams]  ;# we don't use this yet

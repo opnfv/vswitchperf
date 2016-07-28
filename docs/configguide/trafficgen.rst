@@ -71,13 +71,13 @@ OR from the commandline:
 
     $ ./vsperf --test-params "pkt_sizes=x,y" $TESTNAME
 
-You can also modify the traffic transmission duration and the number
-of trials run by the traffic generator by extending the example
-commandline above to:
+You can also modify the traffic transmission duration, the number
+of tests and the number of test trials run by the traffic generator
+by extending the example commandline above to:
 
 .. code-block:: console
 
-    $ ./vsperf --test-params "pkt_sizes=x,y;duration=10;rfc2455_trials=3" $TESTNAME
+    $ ./vsperf --test-params "pkt_sizes=x,y;duration=10;rfc2544_tests=2;rfc2544_trials=3" $TESTNAME
 
 Dummy Setup
 ------------

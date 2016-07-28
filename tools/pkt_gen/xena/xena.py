@@ -260,10 +260,11 @@ class Xena(ITrafficGenerator):
 
         return result_dict
 
-    def _setup_json_config(self, trials, loss_rate, testtype=None):
+    def _setup_json_config(self, tests, trials, loss_rate, testtype=None):
         """
         Create a 2bUsed json file that will be used for xena2544.exe execution.
-        :param trials: Number of trials
+        :param tests: Number of tests
+        :param trials: Number of test trials
         :param loss_rate: The acceptable loss rate as float
         :param testtype: Either '2544_b2b' or '2544_throughput' as string
         :return: None
@@ -541,7 +542,7 @@ class Xena(ITrafficGenerator):
         """
         return self._stop_api_traffic()
 
-    def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def send_rfc2544_throughput(self, traffic=None, tests=1, trials=3, duration=20,
                                 lossrate=0.0):
         """Send traffic per RFC2544 throughput test specifications.
 
@@ -555,7 +556,7 @@ class Xena(ITrafficGenerator):
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
 
-        self._setup_json_config(trials, lossrate, '2544_throughput')
+        self._setup_json_config(tests, trials, lossrate, '2544_throughput')
 
         args = ["mono", "./tools/pkt_gen/xena/Xena2544.exe", "-c",
                 "./tools/pkt_gen/xena/profiles/2bUsed.x2544", "-e", "-r",
@@ -566,7 +567,7 @@ class Xena(ITrafficGenerator):
         root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
         return Xena._create_throughput_result(root)
 
-    def start_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def start_rfc2544_throughput(self, traffic=None, tests=1, trials=3, duration=20,
                                  lossrate=0.0):
         """Non-blocking version of 'send_rfc2544_throughput'.
 
@@ -579,7 +580,7 @@ class Xena(ITrafficGenerator):
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
 
-        self._setup_json_config(trials, lossrate, '2544_throughput')
+        self._setup_json_config(tests, trials, lossrate, '2544_throughput')
 
         args = ["mono", "./tools/pkt_gen/xena/Xena2544.exe", "-c",
                 "./tools/pkt_gen/xena/profiles/2bUsed.x2544", "-e", "-r",
@@ -597,7 +598,7 @@ class Xena(ITrafficGenerator):
         root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
         return Xena._create_throughput_result(root)
 
-    def send_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
+    def send_rfc2544_back2back(self, traffic=None, tests=1, trials=1, duration=20,
                                lossrate=0.0):
         """Send traffic per RFC2544 back2back test specifications.
 
@@ -611,7 +612,7 @@ class Xena(ITrafficGenerator):
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
 
-        self._setup_json_config(trials, lossrate, '2544_b2b')
+        self._setup_json_config(tests, trials, lossrate, '2544_b2b')
 
         args = ["mono", "./tools/pkt_gen/xena/Xena2544.exe", "-c",
                 "./tools/pkt_gen/xena/profiles/2bUsed.x2544", "-e", "-r",
@@ -623,7 +624,7 @@ class Xena(ITrafficGenerator):
         root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
         return Xena._create_throughput_result(root)
 
-    def start_rfc2544_back2back(self, traffic=None, trials=1, duration=20,
+    def start_rfc2544_back2back(self, traffic=None, tests=1, trials=1, duration=20,
                                 lossrate=0.0):
         """Non-blocking version of 'send_rfc2544_back2back'.
 
@@ -637,7 +638,7 @@ class Xena(ITrafficGenerator):
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
 
-        self._setup_json_config(trials, lossrate, '2544_b2b')
+        self._setup_json_config(tests, trials, lossrate, '2544_b2b')
 
         args = ["mono", "./tools/pkt_gen/xena/Xena2544.exe", "-c",
                 "./tools/pkt_gen/xena/profiles/2bUsed.x2544", "-e", "-r",

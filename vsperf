@@ -180,7 +180,7 @@ def parse_arguments():
     group.add_argument('--test-params', action=_SplitTestParamsAction,
                        help='csv list of test parameters: key=val; e.g.'
                        'including pkt_sizes=x,y; duration=x; '
-                       'rfc2544_trials=x ...')
+                       'rfc2544_tests=x; rfc2544_trials=x ...')
     group.add_argument('--opnfvpod', help='name of POD in opnfv')
 
     args = vars(parser.parse_args())
