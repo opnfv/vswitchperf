@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_f45124d9",
+        "filename": "conf/02_vswitch.conf",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-29T11:32:46Z",
+      "side": 1,
+      "message": "remove whitespace at the end",
+      "revId": "17d15388658f9f5ddd69b09d7158abc499a1ff5e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5441f809",
+        "filename": "conf/02_vswitch.conf",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-29T11:32:46Z",
+      "side": 1,
+      "message": "I would prefer HUGEPAGE_ prefix to HP from several reasons. We already have HUGEPAGE_ prefixed config option. It is visible for the first sight, that it is related to hugepages. HP can be understood as HP (i.e. Hewlett-Packard) specific option.\n\nDefault size of 2GB is enough to execute OVS, but it is not enough for Qemu instances. Each VM uses by default 4GB of hugepages. We should consider a default value which will be sufficient for PVP and PVVP scenarios (10-12GB?). On the other hand QEMU seems to be able to allocate a memory from standard pool if there isn\u0027t enough space inside hugepages.So we might keep it as it is, but at least a comment about VM requirements should be made, so user is able to set it correctly.",
+      "revId": "17d15388658f9f5ddd69b09d7158abc499a1ff5e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_74467425",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-29T11:32:46Z",
+      "side": 1,
+      "message": "remove whitespace at the end",
+      "revId": "17d15388658f9f5ddd69b09d7158abc499a1ff5e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_545818fa",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-29T11:32:46Z",
+      "side": 1,
+      "message": "I\u0027m looking forward to it :)",
+      "revId": "17d15388658f9f5ddd69b09d7158abc499a1ff5e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b4316ca4",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-29T11:32:46Z",
+      "side": 1,
+      "message": "possible improvement: check if enough space in hugepages is available based on configuration variable and enhance the hugepage size if needed",
+      "revId": "17d15388658f9f5ddd69b09d7158abc499a1ff5e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_945eb0e8",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-07-29T11:32:46Z",
+      "side": 1,
+      "message": "Did you mean \"return False\"?",
+      "revId": "17d15388658f9f5ddd69b09d7158abc499a1ff5e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
