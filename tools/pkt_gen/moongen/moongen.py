@@ -488,10 +488,21 @@ class Moongen(ITrafficGenerator):
                     'PARAMETERS section of Moongen log file')
                 frame_size = 0
 
-        if results_match and parameters_match:
+            # Each packet stream in the MoonGen report is prefaced with the
+            # words '[REPORT]Device'.  Count the instances of this string to
+            # get the total aggregrate throughput.  For example:
+            #
+            # - If num_traffic_streams = 1, there is a single
+            #                               unidirectional stream
+            #
+            # - If num_traffic_streams = 2, there is a bidirectional
+            #                               traffic stream
+            num_traffic_streams = mytext.count('[REPORT]Device')
+
+        if results_match and parameters_match and num_traffic_streams:
             # Assume for now 10G link speed
-            max_theoretical_mfps = (
-                (self._moongen_line_speed / 8) / (frame_size + 20))
+            max_theoretical_fps = (
+                num_traffic_streams * (10000000000 / 8) / (frame_size + 20))
 
             moongen_results[ResultsConstants.THROUGHPUT_RX_FPS] = (
                 float(results_match.group(6)) * 1000000)
@@ -500,8 +511,7 @@ class Moongen(ITrafficGenerator):
                 (float(results_match.group(6)) * frame_size + 20) * 8)
 
             moongen_results[ResultsConstants.THROUGHPUT_RX_PERCENT] = (
-                float(results_match.group(6)) * \
-                      1000000 / max_theoretical_mfps * 100)
+                (100 * float(results_match.group(6)) * 1000000) / max_theoretical_fps)
 
             moongen_results[ResultsConstants.TX_RATE_FPS] = (
                 float(results_match.group(5)) * 1000000)
@@ -510,8 +520,7 @@ class Moongen(ITrafficGenerator):
                 float(results_match.group(5)) * (frame_size + 20) * 8)
 
             moongen_results[ResultsConstants.TX_RATE_PERCENT] = (
-                float(results_match.group(5)) *
-                1000000 / max_theoretical_mfps * 100)
+                (100 * float(results_match.group(5)) * 1000000) / max_theoretical_fps)
 
             moongen_results[ResultsConstants.B2B_TX_COUNT] = (
                 float(results_match.group(1)))
