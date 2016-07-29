@@ -338,16 +338,16 @@ class IVnfQemu(IVnf):
         self.execute_and_wait('modprobe uio')
         self.execute_and_wait('insmod %s/kmod/igb_uio.ko' %
                               S.getValue('RTE_TARGET'))
-        self.execute_and_wait('./tools/dpdk_nic_bind.py --status')
+        self.execute_and_wait('./tools/dpdk*bind.py --status')
         self.execute_and_wait(
-            './tools/dpdk_nic_bind.py -u' ' ' +
+            './tools/dpdk*bind.py -u' ' ' +
             S.getValue('GUEST_NET1_PCI_ADDRESS')[self._number] + ' ' +
             S.getValue('GUEST_NET2_PCI_ADDRESS')[self._number])
         self.execute_and_wait(
-            './tools/dpdk_nic_bind.py -b igb_uio' ' ' +
+            './tools/dpdk*bind.py -b igb_uio' ' ' +
             S.getValue('GUEST_NET1_PCI_ADDRESS')[self._number] + ' ' +
             S.getValue('GUEST_NET2_PCI_ADDRESS')[self._number])
-        self.execute_and_wait('./tools/dpdk_nic_bind.py --status')
+        self.execute_and_wait('./tools/dpdk*bind.py --status')
 
         # build and run 'test-pmd'
         self.execute_and_wait('cd ' + S.getValue('GUEST_OVS_DPDK_DIR') +

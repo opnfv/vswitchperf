@@ -223,22 +223,45 @@ def get_version(app_name):
         app_git_tag = get_git_tag(S.getValue('OVS_DIR'))
     elif app_name.lower() in ['dpdk', 'testpmd']:
         tmp_ver = ['', '', '']
-        found = False
+        dpdk_16 = False
         with open(app_version_file['dpdk']) as file_:
             for line in file_:
                 if not line.strip():
                     continue
+                # DPDK version < 16
                 if line.startswith('#define RTE_VER_MAJOR'):
-                    found = True
                     tmp_ver[0] = line.rstrip('\n').split(' ')[2]
-                if line.startswith('#define RTE_VER_MINOR'):
-                    found = True
-                    tmp_ver[1] = line.rstrip('\n').split(' ')[2]
-                if line.startswith('#define RTE_VER_PATCH_LEVEL'):
-                    found = True
+                # DPDK version < 16
+                elif line.startswith('#define RTE_VER_PATCH_LEVEL'):
                     tmp_ver[2] = line.rstrip('\n').split(' ')[2]
+                # DPDK version < 16
+                elif line.startswith('#define RTE_VER_PATCH_RELEASE'):
+                    release = line.rstrip('\n').split(' ')[2]
+                    if not '16' in release:
+                        tmp_ver[2] += line.rstrip('\n').split(' ')[2]
+                # DPDK all versions
+                elif line.startswith('#define RTE_VER_MINOR'):
+                    if dpdk_16:
+                        tmp_ver[2] = line.rstrip('\n').split(' ')[2]
+                    else:
+                        tmp_ver[1] = line.rstrip('\n').split(' ')[2]
+                # DPDK all versions
+                elif line.startswith('#define RTE_VER_SUFFIX'):
+                    tmp_ver[2] += line.rstrip('\n').split('"')[1]
+                # DPDK version >= 16
+                elif line.startswith('#define RTE_VER_YEAR'):
+                    dpdk_16 = True
+                    tmp_ver[0] = line.rstrip('\n').split(' ')[2]
+                # DPDK version >= 16
+                elif line.startswith('#define RTE_VER_MONTH'):
+                    tmp_ver[1] = '{:0>2}'.format(line.rstrip('\n').split(' ')[2])
+                # DPDK version >= 16
+                elif line.startswith('#define RTE_VER_RELEASE'):
+                    release = line.rstrip('\n').split(' ')[2]
+                    if not '16' in release:
+                        tmp_ver[2] += line.rstrip('\n').split(' ')[2]
 
-        if found:
+        if len(tmp_ver[0]):
             app_version = '.'.join(tmp_ver)
         app_git_tag = get_git_tag(S.getValue('RTE_SDK'))
     elif app_name.lower().startswith('qemu'):
