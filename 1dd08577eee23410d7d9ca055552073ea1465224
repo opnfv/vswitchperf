@@ -16,6 +16,24 @@
       "revId": "1dd08577eee23410d7d9ca055552073ea1465224",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ba3153a4",
+        "filename": "tools/pkt_gen/moongen/moongen.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-08-01T14:20:06Z",
+      "side": 1,
+      "message": "We should support modification of both in general. So generic API supports both values. As I\u0027ve mentioned in the ticket, it would be good if proper implementation for both values will be supported by all traffic generator implementations - in Release D. Of course if it is possible/feasible, otherwise we will drop a note in code and documentation, that traffic generator xyz doesn\u0027t support test/trial option...\n\nI think it\u0027s good to have all supported params listed also in specialized classes, so anybody updating this class is explicitly aware of all options (that should be supported).",
+      "parentUuid": "1a76adc5_9a37b7b0",
+      "revId": "1dd08577eee23410d7d9ca055552073ea1465224",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
