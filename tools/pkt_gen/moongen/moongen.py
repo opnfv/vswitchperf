@@ -317,31 +317,31 @@ class Moongen(ITrafficGenerator):
 
         results = OrderedDict()
         results[ResultsConstants.THROUGHPUT_RX_FPS] = (
-            '{:,.6f}'.format(total_throughput_rx_fps))
+            '{:.6f}'.format(total_throughput_rx_fps))
 
         results[ResultsConstants.THROUGHPUT_RX_MBPS] = (
-            '{:,.3f}'.format(total_throughput_rx_mbps))
+            '{:.3f}'.format(total_throughput_rx_mbps))
 
         results[ResultsConstants.THROUGHPUT_RX_PERCENT] = (
-            '{:,.3f}'.format(total_throughput_rx_pct))
+            '{:.3f}'.format(total_throughput_rx_pct))
 
         results[ResultsConstants.TX_RATE_FPS] = (
-            '{:,.6f}'.format(total_throughput_tx_fps))
+            '{:.6f}'.format(total_throughput_tx_fps))
 
         results[ResultsConstants.TX_RATE_MBPS] = (
-            '{:,.3f}'.format(total_throughput_tx_mbps))
+            '{:.3f}'.format(total_throughput_tx_mbps))
 
         results[ResultsConstants.TX_RATE_PERCENT] = (
-            '{:,.3f}'.format(total_throughput_tx_pct))
+            '{:.3f}'.format(total_throughput_tx_pct))
 
         results[ResultsConstants.MIN_LATENCY_NS] = (
-            '{:,.3f}'.format(total_min_latency_ns))
+            '{:.3f}'.format(total_min_latency_ns))
 
         results[ResultsConstants.MAX_LATENCY_NS] = (
-            '{:,.3f}'.format(total_max_latency_ns))
+            '{:.3f}'.format(total_max_latency_ns))
 
         results[ResultsConstants.AVG_LATENCY_NS] = (
-            '{:,.3f}'.format(total_avg_latency_ns))
+            '{:.3f}'.format(total_avg_latency_ns))
 
         return results
 
@@ -587,31 +587,31 @@ class Moongen(ITrafficGenerator):
 
         results = OrderedDict()
         results[ResultsConstants.THROUGHPUT_RX_FPS] = (
-            '{:,.6f}'.format(total_throughput_rx_fps / trials))
+            '{:.6f}'.format(total_throughput_rx_fps / trials))
 
         results[ResultsConstants.THROUGHPUT_RX_MBPS] = (
-            '{:,.3f}'.format(total_throughput_rx_mbps / trials))
+            '{:.3f}'.format(total_throughput_rx_mbps / trials))
 
         results[ResultsConstants.THROUGHPUT_RX_PERCENT] = (
-            '{:,.3f}'.format(total_throughput_rx_pct / trials))
+            '{:.3f}'.format(total_throughput_rx_pct / trials))
 
         results[ResultsConstants.TX_RATE_FPS] = (
-            '{:,.6f}'.format(total_throughput_tx_fps / trials))
+            '{:.6f}'.format(total_throughput_tx_fps / trials))
 
         results[ResultsConstants.TX_RATE_MBPS] = (
-            '{:,.3f}'.format(total_throughput_tx_mbps / trials))
+            '{:.3f}'.format(total_throughput_tx_mbps / trials))
 
         results[ResultsConstants.TX_RATE_PERCENT] = (
-            '{:,.3f}'.format(total_throughput_tx_pct / trials))
+            '{:.3f}'.format(total_throughput_tx_pct / trials))
 
         results[ResultsConstants.MIN_LATENCY_NS] = (
-            '{:,.3f}'.format(total_min_latency_ns / trials))
+            '{:.3f}'.format(total_min_latency_ns / trials))
 
         results[ResultsConstants.MAX_LATENCY_NS] = (
-            '{:,.3f}'.format(total_max_latency_ns / trials))
+            '{:.3f}'.format(total_max_latency_ns / trials))
 
         results[ResultsConstants.AVG_LATENCY_NS] = (
-            '{:,.3f}'.format(total_avg_latency_ns / trials))
+            '{:.3f}'.format(total_avg_latency_ns / trials))
 
         return results
 
