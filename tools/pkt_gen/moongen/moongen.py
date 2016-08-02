@@ -20,10 +20,11 @@ Moongen Traffic Generator Model
 """
 
 # python imports
-import logging
 from collections import OrderedDict
-import subprocess
+import logging
+import math
 import re
+import subprocess
 
 # VSPerf imports
 from conf import settings
@@ -48,6 +49,13 @@ class Moongen(ITrafficGenerator):
             settings.getValue('TRAFFICGEN_MOONGEN_BASE_DIR'))
         self._moongen_user = settings.getValue('TRAFFICGEN_MOONGEN_USER')
         self._moongen_ports = settings.getValue('TRAFFICGEN_MOONGEN_PORTS')
+
+        if settings.getValue('TRAFFICGEN_MOONGEN_LINE_SPEED_GBPS') == '10':
+            self._moongen_line_speed = math.pow(10, 10)
+        else:
+            raise RuntimeError(
+                'MOONGEN: Invalid line speed in configuration ' + \
+                'file (today 10Gbps supported)')
 
     @property
     def traffic_defaults(self):
@@ -157,10 +165,17 @@ class Moongen(ITrafficGenerator):
         if one_shot:
             out_file.write("oneShot = true,\n")
 
-        # Assume 10G line rates at the moment.  Need to convert VSPERF
-        # frame_rate (percentage of line rate) to Mpps for Moongen
+        # Need to convert VSPERF frame_rate (percentage of line rate)
+        # to Mpps for Moongen
+        start_rate = str(
+            (traffic['frame_rate'] / 100) * (self._moongen_line_speed / \
+            (8 * (traffic['l2']['framesize'] + 20)) / math.pow(10, 6)))
 
-        out_file.write("startRate = " + str((traffic['frame_rate'] / 100) * 14.88) + "\n")
+        logging.debug("startRate = " + start_rate)
+
+        out_file.write("startRate = " + \
+            start_rate + "\n")
+
         out_file.write("}" + "\n")
         out_file.close()
 
@@ -476,7 +491,7 @@ class Moongen(ITrafficGenerator):
         if results_match and parameters_match:
             # Assume for now 10G link speed
             max_theoretical_mfps = (
-                (10000000000 / 8) / (frame_size + 20))
+                (self._moongen_line_speed / 8) / (frame_size + 20))
 
             moongen_results[ResultsConstants.THROUGHPUT_RX_FPS] = (
                 float(results_match.group(6)) * 1000000)
