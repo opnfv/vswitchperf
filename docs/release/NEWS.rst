@@ -4,9 +4,18 @@
 
 OPNFV Colorado Release
 ======================
+* Support for DPDK v16.07
+* Support for yardstick testing framework
+* Support for stp/rstp configuration
+* Support for veth ports and network namespaces
+* Support for multi-queue usage by testpmd loopback app
+* Support for reporting of test execution length
+* Support for MoonGen traffic generator.
 * Support for OVS version 2.5 + DPDK 2.2.
 * Support for DPDK v16.04
 * Support for Xena traffic generator.
+* Support for Red Hat Enterprise Linux
+* Support for mode of operation (trafficgen, trafficgen-off)
 * Support for Integration tests for OVS with DPDK including:
   * Physical ports.
   * Virtual ports (vhost user and vhost cuse).
