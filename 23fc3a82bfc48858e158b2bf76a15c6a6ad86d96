@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_f1529112",
+        "filename": "tools/pkt_gen/moongen/moongen.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-02T20:23:10Z",
+      "side": 1,
+      "message": "It appears you already have an open file handle with all the contents available in a variable (mytext) for the log file.\n\nInstead of running the subprocess, maybe just count the number of instances inside the variable? Might save a few cpu cycles :).\n\nnum_traffic_streams \u003d mytext.count(\u0027[Report]Device\u0027)",
+      "revId": "23fc3a82bfc48858e158b2bf76a15c6a6ad86d96",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_91579d02",
+        "filename": "tools/pkt_gen/moongen/moongen.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-02T20:23:10Z",
+      "side": 1,
+      "message": "Looks like the large number here could relate with the line rate specified in your other patch? Should we somehow include that calculation based on what they state the line rate is? I know it says its 10Gbps only, but if the value changes later with new functionality you might want this value to also have the ability to adapt to that instead of hard coding in 10Gbps which may cause you a head ache later.\n\nThoughts?",
+      "revId": "23fc3a82bfc48858e158b2bf76a15c6a6ad86d96",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
