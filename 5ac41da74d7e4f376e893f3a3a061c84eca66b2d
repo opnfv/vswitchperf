@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_44caa550",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-03T19:19:28Z",
+      "side": 1,
+      "message": "hugepages: on the fly allocation",
+      "revId": "5ac41da74d7e4f376e893f3a3a061c84eca66b2d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a4b5b9ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-03T19:19:28Z",
+      "side": 1,
+      "message": "Can you pls line wrap at 72 chars?",
+      "revId": "5ac41da74d7e4f376e893f3a3a061c84eca66b2d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_64c7a146",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-03T19:19:28Z",
+      "side": 1,
+      "message": "s/HP_RAM_ALLOCATION/HUGEPAGE_RAM_ALLOCATION",
+      "range": {
+        "startLine": 195,
+        "startChar": 28,
+        "endLine": 195,
+        "endChar": 45
+      },
+      "revId": "5ac41da74d7e4f376e893f3a3a061c84eca66b2d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
