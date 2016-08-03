@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_a414d9f5",
+        "filename": "conf/10_custom.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-03T17:06:02Z",
+      "side": 1,
+      "message": "Should we add these comments to the 03_traffic conf file as well?",
+      "revId": "a5a631c37f2a7a586801f7eb73820c520ebb2235",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
