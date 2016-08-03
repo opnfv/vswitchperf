@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_c44d5574",
+        "filename": "conf/02_vswitch.conf",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-03T13:13:47Z",
+      "side": 1,
+      "message": "Should change reference to HP_RAM_ALLOCATION to match new variable name HUGEPAGE_RAM_ALLOCATION",
+      "revId": "46fadb44c124e2436bb4d15b4db6a3f2f75eb61f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e452d112",
+        "filename": "conf/02_vswitch.conf",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-03T13:13:47Z",
+      "side": 1,
+      "message": "Those darn trailing whitespaces!",
+      "revId": "46fadb44c124e2436bb4d15b4db6a3f2f75eb61f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
