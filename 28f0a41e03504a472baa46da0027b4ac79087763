@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_a49e1955",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-03T19:14:54Z",
+      "side": 1,
+      "message": "is there double spacing at the start of the sentences?",
+      "revId": "28f0a41e03504a472baa46da0027b4ac79087763",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e4941139",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-03T19:14:54Z",
+      "side": 1,
+      "message": "sorry to be a bit of a stickler on this... any chance you could keep the body of the commit message a single paragraph?\n\nI could be wrong, but you\u0027re not line wrapping at 72 chars? which is fine, but it might make the commit message a little more compact if someone is looking through the git log",
+      "revId": "28f0a41e03504a472baa46da0027b4ac79087763",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
