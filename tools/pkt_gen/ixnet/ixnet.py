@@ -19,8 +19,6 @@ This requires the following settings in your config file:
 
 * TRAFFICGEN_IXNET_LIB_PATH
     IxNetwork libraries path
-* TRAFFICGEN_IXNET_HOST
-    IxNetwork host IP address
 * TRAFFICGEN_IXNET_PORT
     IxNetwork host port number
 * TRAFFICGEN_IXNET_USER
@@ -32,7 +30,7 @@ This requires the following settings in your config file:
     as the previous one
 
 The following settings are also required. These can likely be shared
-an 'Ixia' traffic generator instance:
+with an 'Ixia' traffic generator instance:
 
 * TRAFFICGEN_IXIA_HOST
     IXIA chassis IP address

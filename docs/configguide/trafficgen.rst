@@ -176,6 +176,88 @@ need it for the 10\_custom.conf file).
 
 Hit Ok and start the TCL server application
 
+VSPERF configuration
+~~~~~~~~~~~~~~~~~~~~
+
+There are several configuration options specific to the IxNetworks traffic generator
+from IXIA. It is essential to set them correctly, before the VSPERF is executed
+for the first time.
+
+Detailed description of options follows:
+
+ * TRAFFICGEN_IXNET_MACHINE - IP address of server, where IxNetwork TCL Server is running
+ * TRAFFICGEN_IXNET_PORT - PORT, where IxNetwork TCL Server is accepting connections from
+   TCL clients
+ * TRAFFICGEN_IXNET_USER - username, which will be used during communication with IxNetwork
+   TCL Server and IXIA chassis
+ * TRAFFICGEN_IXIA_HOST - IP address of IXIA traffic generator chassis
+ * TRAFFICGEN_IXIA_CARD - identification of card with dedicated ports at IXIA chassis
+ * TRAFFICGEN_IXIA_PORT1 - identification of the first dedicated port at TRAFFICGEN_IXIA_CARD
+   at IXIA chassis; VSPERF uses two separated ports for traffic generation. In case of
+   unidirectional traffic, it is essential to correctly connect 1st IXIA port to the 1st NIC
+   at DUT, i.e. to the first PCI handle from WHITELIST_NICS list. Otherwise traffic may not
+   be able to pass through the vSwitch.
+ * TRAFFICGEN_IXIA_PORT2 - identification of the second dedicated port at TRAFFICGEN_IXIA_CARD
+   at IXIA chassis; VSPERF uses two separated ports for traffic generation. In case of
+   unidirectional traffic, it is essential to correctly connect 2nd IXIA port to the 2nd NIC
+   at DUT, i.e. to the second PCI handle from WHITELIST_NICS list. Otherwise traffic may not
+   be able to pass through the vSwitch.
+ * TRAFFICGEN_IXNET_LIB_PATH - path to the DUT specific installation of IxNetwork TCL API
+ * TRAFFICGEN_IXNET_TCL_SCRIPT - name of the TCL script, which VSPERF will use for
+   communication with IXIA TCL server
+ * TRAFFICGEN_IXNET_TESTER_RESULT_DIR - folder accessible from IxNetwork TCL server,
+   where test results are stored, e.g. ``c:/ixia_results``; see test-results-share_
+ * TRAFFICGEN_IXNET_DUT_RESULT_DIR - directory accessible from the DUT, where test
+   results from IxNetwork TCL server are stored, e.g. ``/mnt/ixia_results``; see
+   test-results-share_
+
+.. _test-results-share:
+
+Test results share
+~~~~~~~~~~~~~~~~~~
+
+VSPERF is not able to retrieve test results via TCL API directly. Instead, all test
+results are stored at IxNetwork TCL server. Results are stored at folder defined by
+``TRAFFICGEN_IXNET_TESTER_RESULT_DIR`` configuration parameter. Content of this
+folder must be shared (e.g. via samba protocol) between TCL Server and DUT, where
+VSPERF is executed. VSPERF expects, that test results will be available at directory
+configured by ``TRAFFICGEN_IXNET_DUT_RESULT_DIR`` configuration parameter.
+
+Example of sharing configuration:
+
+ * Create a new folder at IxNetwork TCL server machine, e.g. ``c:\ixia_results``
+ * Modify sharing options of ``ixia_results`` folder to share it with everybody
+ * Create a new directory at DUT, where shared directory with results
+   will be mounted, e.g. ``/mnt/ixia_results``
+ * Update your custom VSPERF configuration file as follows:
+
+   .. code-block:: python
+
+       TRAFFICGEN_IXNET_TESTER_RESULT_DIR = 'c:/ixia_results'
+       TRAFFICGEN_IXNET_DUT_RESULT_DIR = '/mnt/ixia_results'
+
+   Note: It is essential to use slashes '/' also in path
+   configured by ``TRAFFICGEN_IXNET_TESTER_RESULT_DIR`` parameter.
+ * Install cifs-utils package.
+
+   e.g. at rpm based Linux distribution:
+
+   .. code-block:: console
+
+       yum install cifs-utils
+
+ * Mount shared directory, so VSPERF can access test results.
+
+   e.g. by adding new record into ``/etc/fstab``
+
+   .. code-block:: console
+
+       mount -t cifs //_TCL_SERVER_IP_OR_FQDN_/ixia_results /mnt/ixia_results
+             -o file_mode=0777,dir_mode=0777,nounix
+
+It is recommended to verify, that any new file inserted into ``c:/ixia_results`` folder
+is visible at DUT inside ``/mnt/ixia_results`` directory.
+
 Spirent Setup
 -------------
 
