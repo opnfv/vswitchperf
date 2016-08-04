@@ -1001,8 +1001,20 @@ class XenaTXStats(object):
         mydict = statdict
         return mydict
 
-
 def aggregate_stats(stat1, stat2):
+    """
+    Judge whether stat1 and stat2 both have same key, if both have same key, 
+    call the aggregate fuction, else use the stat1's value
+    """
+    newstat = dict()
+    for keys in stat1.keys():
+        if keys in stat2 and isinstance(stat1[keys], dict):
+            newstat[keys] = aggregate(stat1[keys], stat2[keys])
+        else:
+            newstat[keys] = stat1[keys]
+    return newstat
+
+def aggregate(stat1, stat2):
     """
     Recursive function to aggregate two sets of statistics. This is used when
     bi directional traffic is done and statistics need to be calculated based
@@ -1014,7 +1026,7 @@ def aggregate_stats(stat1, stat2):
     newstat = dict()
     for (keys1, keys2) in zip(stat1.keys(), stat2.keys()):
         if isinstance(stat1[keys1], dict):
-            newstat[keys1] = aggregate_stats(stat1[keys1], stat2[keys2])
+            newstat[keys1] = aggregate(stat1[keys1], stat2[keys2])
         else:
             if not isinstance(stat1[keys1], int) and not isinstance(
                     [keys1], float):
