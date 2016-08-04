@@ -65,6 +65,10 @@ libreport-python3
 abrt-python3
 abrt-addon-python3
 
+# libs
+numactl
+numactl-devel
+
 # install git-review tool
 git-review
 " | grep -v ^#) || exit 1
