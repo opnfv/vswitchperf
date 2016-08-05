@@ -44,8 +44,8 @@ class QemuPciPassthrough(IVnfQemu):
         # in case of SRIOV and PCI passthrough we must ensure, that MAC addresses are swapped
         if S.getValue('SRIOV_ENABLED') and not self._testpmd_fwd_mode.startswith('mac'):
             self._logger.info("SRIOV detected, forwarding mode of testpmd was changed from '%s' to '%s'",
-                              self._testpmd_fwd_mode, 'mac_retry')
-            self._testpmd_fwd_mode = 'mac_retry'
+                              self._testpmd_fwd_mode, 'mac')
+            self._testpmd_fwd_mode = 'mac'
 
         for nic in self._nics:
             self._cmd += ['-device', 'vfio-pci,host=' + nic['pci']]
