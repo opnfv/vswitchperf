@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_7da5f002",
+        "filename": "vnfs/qemu/qemu_pci_passthrough.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-08-05T11:06:12Z",
+      "side": 1,
+      "message": "Both mac \u0026 mac_retry options work well (tested). I\u0027ve used \u0027retry_mac\u0027 as a fall back in the past, because it is more robust (retries if the destination queue is full). User should configure one of \u0027mac\u0027 modes in the config file to fulfill the test goal. In case of wrong configuration the fallback to \u0027mac\u0027 is good enough and it is supported across all (i.e. 2.2.0, 16.04, 160.7) DPDK versions.",
+      "revId": "1a4a0b2e26c155025bc85fbbff83fcdcc3c18d7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
