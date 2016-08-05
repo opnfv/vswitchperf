@@ -385,6 +385,8 @@ can be found here:
 
 https://github.com/emmericp/MoonGen
 
+* Note:  Today, MoonGen with VSPERF only supports 10Gbps line speeds.
+
 For VSPerf use, MoonGen should be cloned from here (as opposed to the afore
 mentioned GitHub):
 
