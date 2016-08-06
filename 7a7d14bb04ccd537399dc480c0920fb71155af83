@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_7d9f3004",
+        "filename": "docs/requirements/vswitchperf_ltp.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-08-06T17:28:18Z",
+      "side": 1,
+      "message": "Long line, maybe split into a sub-list of test cases.",
+      "revId": "7a7d14bb04ccd537399dc480c0920fb71155af83",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
