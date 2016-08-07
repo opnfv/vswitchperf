@@ -16,6 +16,24 @@
       "revId": "42b6ed4eb1c8f20e8f58f1a74cee3e1b5a24116a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_bd31480d",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1971,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-08-07T12:50:30Z",
+      "side": 1,
+      "message": "yes, and there\u0027s a \")\" missing, which didn\u0027t help I\u0027m sure.  I\u0027d rather have validation check for errors like that (as opposed to \ntrailing white space).",
+      "parentUuid": "1a76adc5_1da71c51",
+      "revId": "42b6ed4eb1c8f20e8f58f1a74cee3e1b5a24116a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
