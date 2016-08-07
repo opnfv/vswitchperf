@@ -22,6 +22,30 @@
       "revId": "9d527a1ec357e159c08a2639ff4c63fcf97e9ba7",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7d3bb0eb",
+        "filename": "tools/namespace.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-07T13:07:17Z",
+      "side": 1,
+      "message": "Actually no,\n\nWhat happens here is before it returns the os.listdir result it checks to see if the path exists. If it doesn\u0027t exist it just returns an empty tuple. The inline if else statements in Python are tricky to read if you aren\u0027t used to them. If its confusing I can rewrite it to a more classic structure of if/else.\nThey are similar to a C++ Ternary except the ordering is different.",
+      "parentUuid": "1a76adc5_fd57c024",
+      "range": {
+        "startLine": 112,
+        "startChar": 26,
+        "endLine": 112,
+        "endChar": 38
+      },
+      "revId": "9d527a1ec357e159c08a2639ff4c63fcf97e9ba7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
