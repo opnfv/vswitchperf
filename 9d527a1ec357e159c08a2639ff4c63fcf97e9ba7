@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_fd57c024",
+        "filename": "tools/namespace.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-08-07T12:28:19Z",
+      "side": 1,
+      "message": "if this works, +1, but shouldn\u0027t os.mkdir() be used in the else?",
+      "range": {
+        "startLine": 112,
+        "startChar": 26,
+        "endLine": 112,
+        "endChar": 38
+      },
+      "revId": "9d527a1ec357e159c08a2639ff4c63fcf97e9ba7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
