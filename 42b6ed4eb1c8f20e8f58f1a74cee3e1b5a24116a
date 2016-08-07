@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_1da71c51",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1971,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-07T00:52:21Z",
+      "side": 1,
+      "message": "I\u0027ve read the previous sentence about ten times now. It seems to be long winded. Would it make sense to break it into a bullet list instead of a long comma separated sentence list?",
+      "revId": "42b6ed4eb1c8f20e8f58f1a74cee3e1b5a24116a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
