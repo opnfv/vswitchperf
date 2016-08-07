@@ -108,8 +108,8 @@ def get_system_namespace_list():
     Return tuple of strings for namespaces on the system
     :return: tuple of namespaces as string
     """
-    return tuple(os.listdir('/var/run/netns'))
-
+    return tuple(os.listdir('/var/run/netns')) if os.path.exists(
+        '/var/run/netns') else tuple()
 
 def get_vsperf_namespace_list():
     """
