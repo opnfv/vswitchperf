@@ -46,6 +46,30 @@
       "revId": "9d527a1ec357e159c08a2639ff4c63fcf97e9ba7",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3d2538c2",
+        "filename": "tools/namespace.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-08-07T14:12:04Z",
+      "side": 1,
+      "message": "Right, if there\u0027s no directory, there\u0027s no list to return. thanks.",
+      "parentUuid": "1a76adc5_7d3bb0eb",
+      "range": {
+        "startLine": 112,
+        "startChar": 26,
+        "endLine": 112,
+        "endChar": 38
+      },
+      "revId": "9d527a1ec357e159c08a2639ff4c63fcf97e9ba7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
