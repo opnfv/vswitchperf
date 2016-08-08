@@ -44,6 +44,8 @@ apt-get -y install autoconf libtool
 apt-get -y install libpcap-dev
 apt-get -y install libglib2.0
 apt-get -y install libfuse-dev
+apt-get -y install libnuma1
+apt-get -y install libnuma-dev
 
 # Some useful tools you may optionally install
 #apt-get -y install ctags

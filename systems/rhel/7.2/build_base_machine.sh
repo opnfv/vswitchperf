@@ -50,6 +50,8 @@ pkglist=(
  socat\
  tk-devel\
  wget\
+ numactl\
+ numactl-devel\
 )
 
 # python tools for proper QEMU, DPDK, and OVS make

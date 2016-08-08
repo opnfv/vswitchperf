@@ -77,6 +77,10 @@ python3-tk
 libpython3.4
 python3-reportlab
 
+# libs
+libnuma1
+libnuma-dev
+
 # install git-review tool
 git-review
 " | grep -v ^#)

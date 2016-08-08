@@ -58,6 +58,8 @@ zlib-devel
 glib2-devel
 pixman-devel
 socat
+numactl
+numactl-devel
 
 # install gvim
 vim-X11
