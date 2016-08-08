@@ -396,7 +396,7 @@ Execution of test with PCI passthrough with vswitch disabled:
 .. code-block:: console
 
     $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
-               --vswtich none --vnf QemuPciPassthrough pvp_tput
+               --vswitch none --vnf QemuPciPassthrough pvp_tput
 
 Any of supported guest-loopback-application_ can be used inside VM with
 PCI passthrough support.
@@ -526,7 +526,10 @@ for selected Packet Forwarder:
 
    # testpmd configuration
    TESTPMD_ARGS = []
-   # packet forwarding mode: io|mac|mac_retry|macswap|flowgen|rxonly|txonly|csum|icmpecho
+   # packet forwarding mode supported by testpmd; Please see DPDK documentation
+   # for comprehensive list of modes supported by your version.
+   # e.g. io|mac|mac_retry|macswap|flowgen|rxonly|txonly|csum|icmpecho|...
+   # Note: Option "mac_retry" has been changed to "mac retry" since DPDK v16.07
    TESTPMD_FWD_MODE = 'csum'
    # checksum calculation layer: ip|udp|tcp|sctp|outer-ip
    TESTPMD_CSUM_LAYER = 'ip'
