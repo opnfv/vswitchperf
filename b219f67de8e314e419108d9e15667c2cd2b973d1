@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_737c4173",
+        "filename": "tools/pkt_gen/moongen/moongen.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 3307
+      },
+      "writtenOn": "2016-08-08T17:03:45Z",
+      "side": 0,
+      "message": "Hi - thanks for all of the merging.  The code works, but I had a couple of outstanding code changes that conflicted with one another so line 494 (self_moongen_line_speed) should have remained in the code.  Given the different code changes in the moongen.py I think it might be easier to create a quick Jira ticket and make the change back separate from this issue - does that make sense?",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 494,
+        "endChar": 4
+      },
+      "revId": "b219f67de8e314e419108d9e15667c2cd2b973d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
