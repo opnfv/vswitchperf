@@ -557,12 +557,12 @@ def main():
         _LOGGER.error("Cannot specify tests with both positional args and --test.")
         sys.exit(1)
 
-    # sriov handling
-    settings.setValue('SRIOV_ENABLED', enable_sriov(settings.getValue('WHITELIST_NICS')))
-
     # modify NIC configuration to decode enhanced PCI IDs
     wl_nics_orig = list(networkcard.check_pci(pci) for pci in settings.getValue('WHITELIST_NICS'))
     settings.setValue('WHITELIST_NICS_ORIG', wl_nics_orig)
+
+    # sriov handling is performed on checked/expanded PCI IDs
+    settings.setValue('SRIOV_ENABLED', enable_sriov(wl_nics_orig))
 
     nic_list = []
     for nic in wl_nics_orig:
