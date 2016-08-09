@@ -53,7 +53,7 @@ for development purposes:
 
 .. code-block:: console
 
-   $ ./vsperf --test-params 'duration=10;rfc2544_trials=1;pkt_sizes=64' --tests 'pvp_tput'
+   $ ./vsperf --test-params 'duration=10;rfc2544_tests=1;pkt_sizes=64' --tests 'pvp_tput'
 
 Typical Test Sequence
 =====================
@@ -155,12 +155,12 @@ ITrafficGenerator
       start_cont_traffic(traffic, time, framerate)
       stop_cont_traffic(self):
 
-      send_rfc2544_throughput(traffic, trials, duration, lossrate)
-      start_rfc2544_throughput(traffic, trials, duration, lossrate)
+      send_rfc2544_throughput(traffic, tests, duration, lossrate)
+      start_rfc2544_throughput(traffic, tests, duration, lossrate)
       wait_rfc2544_throughput(self)
 
-      send_rfc2544_back2back(traffic, trials, duration, lossrate)
-      start_rfc2544_back2back(traffic, , trials, duration, lossrate)
+      send_rfc2544_back2back(traffic, tests, duration, lossrate)
+      start_rfc2544_back2back(traffic, , tests, duration, lossrate)
       wait_rfc2544_back2back()
 
 Note ``send_xxx()`` blocks whereas ``start_xxx()`` does not and must be followed by a subsequent call to ``wait_xxx()``.

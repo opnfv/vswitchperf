@@ -146,8 +146,8 @@ class Dummy(trafficgen.ITrafficGenerator):
         results = get_user_traffic(
             'continuous',
             '%dmpps, multistream %s, duration %d' % (traffic['frame_rate'],
-                                                    traffic['multistream'],
-                                                    duration), traffic_,
+                                                     traffic['multistream'],
+                                                     duration), traffic_,
             ('frames tx', 'frames rx', 'tx rate %', 'rx rate %', 'min latency',
              'max latency', 'avg latency', 'frameloss %'))
 
@@ -169,7 +169,7 @@ class Dummy(trafficgen.ITrafficGenerator):
         result[ResultsConstants.FRAME_LOSS_PERCENT] = float(results[7])
         return result
 
-    def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def send_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
                                 lossrate=0.0):
         """
         Send traffic per RFC2544 throughput test specifications.
@@ -182,8 +182,8 @@ class Dummy(trafficgen.ITrafficGenerator):
 
         results = get_user_traffic(
             'throughput',
-            '%d trials, %d seconds iterations, %f packet loss, multistream '
-            '%s' % (trials, duration, lossrate, traffic['multistream']),
+            '%d tests, %d seconds iterations, %f packet loss, multistream '
+            '%s' % (tests, duration, lossrate, traffic['multistream']),
             traffic_,
             ('frames tx', 'frames rx', 'tx rate %', 'rx rate %', 'min latency',
              'max latency', 'avg latency', 'frameloss %'))

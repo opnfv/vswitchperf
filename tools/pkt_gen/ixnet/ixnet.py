@@ -253,15 +253,15 @@ class IxNet(trafficgen.ITrafficGenerator):
         """
         return self._wait_result()
 
-    def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def send_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
                                 lossrate=0.0):
         """See ITrafficGenerator for description
         """
-        self.start_rfc2544_throughput(traffic, trials, duration, lossrate)
+        self.start_rfc2544_throughput(traffic, tests, duration, lossrate)
 
         return self.wait_rfc2544_throughput()
 
-    def start_rfc2544_throughput(self, traffic=None, trials=3, duration=20,
+    def start_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
                                  lossrate=0.0):
         """Start transmission.
         """
@@ -270,7 +270,7 @@ class IxNet(trafficgen.ITrafficGenerator):
 
         self._params['config'] = {
             'binary': True,
-            'trials': trials,
+            'tests': tests,
             'duration': duration,
             'lossrate': lossrate,
             'multipleStreams': traffic['multistream'],
@@ -387,18 +387,18 @@ class IxNet(trafficgen.ITrafficGenerator):
         # the results file
         return parse_ixnet_rfc_results(parse_result_string(output[0]))
 
-    def send_rfc2544_back2back(self, traffic=None, trials=50, duration=2,
+    def send_rfc2544_back2back(self, traffic=None, tests=1, duration=2,
                                lossrate=0.0):
         """See ITrafficGenerator for description
         """
         # NOTE 2 seconds is the recommended duration for a back 2 back
         # test in RFC2544. 50 trials is the recommended number from the
         # RFC also.
-        self.start_rfc2544_back2back(traffic, trials, duration, lossrate)
+        self.start_rfc2544_back2back(traffic, tests, duration, lossrate)
 
         return self.wait_rfc2544_back2back()
 
-    def start_rfc2544_back2back(self, traffic=None, trials=50, duration=2,
+    def start_rfc2544_back2back(self, traffic=None, tests=1, duration=2,
                                 lossrate=0.0):
         """Start transmission.
         """
@@ -407,7 +407,7 @@ class IxNet(trafficgen.ITrafficGenerator):
 
         self._params['config'] = {
             'binary': True,
-            'trials': trials,
+            'tests': tests,
             'duration': duration,
             'lossrate': lossrate,
             'multipleStreams': traffic['multistream'],

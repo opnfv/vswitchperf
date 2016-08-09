@@ -38,9 +38,9 @@ import tkinter
 import logging
 import os
 
+from collections import OrderedDict
 from tools.pkt_gen import trafficgen
 from conf import settings
-from collections import OrderedDict
 from core.results.results_constants import ResultsConstants
 
 _ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -252,13 +252,13 @@ class Ixia(trafficgen.ITrafficGenerator):
         """
         return self.run_tcl('stopTraffic')
 
-    def send_rfc2544_throughput(self, traffic=None, trials=3, duration=20, lossrate=0.0):
+    def send_rfc2544_throughput(self, traffic=None, tests=1, duration=20, lossrate=0.0):
         """See ITrafficGenerator for description
         """
         params = {}
 
         params['config'] = {
-            'trials': trials,
+            'tests': tests,
             'duration': duration,
             'lossrate': lossrate,
             'multipleStreams': traffic['multistream'],

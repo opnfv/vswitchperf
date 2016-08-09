@@ -39,7 +39,7 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
         self._traffic_gen_class = traffic_gen_class()
         self._traffic_started = False
         self._traffic_started_call_count = 0
-        self._trials = int(get_test_param('rfc2544_trials', 1))
+        self._tests = int(get_test_param('rfc2544_tests', 1))
         self._duration = int(get_test_param('duration', 30))
         self._lossrate = float(get_test_param('lossrate', 0.0))
         self._results = []
@@ -101,13 +101,13 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
 
             if traffic['traffic_type'] == 'back2back':
                 result = self._traffic_gen_class.send_rfc2544_back2back(
-                    traffic, trials=self._trials, duration=self._duration, lossrate=self._lossrate)
+                    traffic, tests=self._tests, duration=self._duration, lossrate=self._lossrate)
             elif traffic['traffic_type'] == 'continuous':
                 result = self._traffic_gen_class.send_cont_traffic(
                     traffic, duration=self._duration)
             else:
                 result = self._traffic_gen_class.send_rfc2544_throughput(
-                    traffic, trials=self._trials, duration=self._duration, lossrate=self._lossrate)
+                    traffic, tests=self._tests, duration=self._duration, lossrate=self._lossrate)
 
             result = TrafficControllerRFC2544._append_results(result,
                                                               packet_size)
@@ -123,7 +123,7 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
             traffic['l2'] = {'framesize': packet_size}
             self._traffic_gen_class.start_rfc2544_throughput(
                 traffic,
-                trials=self._trials,
+                tests=self._tests,
                 duration=self._duration)
             self._traffic_started = True
             if len(function['args']) > 0:
@@ -156,7 +156,7 @@ class TrafficControllerRFC2544(ITrafficController, IResults):
         """
         return self._results
 
-    def validate_send_traffic(self, result, traffic):
+    def validate_send_traffic(self, dummy_result, dummy_traffic):
         """Verify that send traffic has succeeded
         """
         if len(self._results):
