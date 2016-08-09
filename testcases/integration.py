@@ -94,99 +94,100 @@ class IntegrationTestCase(TestCase):
         # prepare test execution environment
         self.run_initialize()
 
-        with self._vswitch_ctl, self._loadgen:
-            with self._vnf_ctl, self._collector:
-                if not self._vswitch_none:
-                    self._add_flows()
-
-                # run traffic generator if requested, otherwise wait for manual termination
-                if S.getValue('mode') == 'trafficgen-off':
-                    time.sleep(2)
-                    self._logger.debug("All is set. Please run traffic generator manually.")
-                    input(os.linesep + "Press Enter to terminate vswitchperf..." + os.linesep + os.linesep)
-                else:
-                    with self._traffic_ctl:
-                        if not self.test:
-                            self._traffic_ctl.send_traffic(self._traffic)
-                        else:
-                            vnf_list = {}
-                            loader = Loader()
-                            # execute test based on TestSteps definition
-                            if self.test:
-                                step_result = [None] * len(self.test)
-                                for i, step in enumerate(self.test):
-                                    step_ok = False
-                                    if step[0] == 'vswitch':
-                                        test_object = self._vswitch_ctl.get_vswitch()
-                                    elif step[0] == 'namespace':
-                                        test_object = namespace
-                                    elif step[0] == 'veth':
-                                        test_object = veth
-                                    elif step[0] == 'trafficgen':
-                                        test_object = self._traffic_ctl
-                                        # in case of send_traffic method, ensure that specified
-                                        # traffic values are merged with existing self._traffic
-                                        if step[1] == 'send_traffic':
-                                            tmp_traffic = copy.deepcopy(self._traffic)
-                                            tmp_traffic.update(step[2])
-                                            step[2] = tmp_traffic
-                                    elif step[0].startswith('vnf'):
-                                        if not step[0] in vnf_list:
-                                            # initialize new VM and copy data to its shared dir
-                                            vnf_list[step[0]] = loader.get_vnf_class()()
-                                            self._copy_fwd_tools_for_guest(len(vnf_list))
-                                        test_object = vnf_list[step[0]]
-                                    else:
-                                        self._logger.error("Unsupported test object %s", step[0])
-                                        self._inttest = {'status' : False, 'details' : ' '.join(step)}
-                                        self.report_status("Step '{}'".format(' '.join(step)), self._inttest['status'])
-                                        break
-
-                                    test_method = getattr(test_object, step[1])
-                                    test_method_check = getattr(test_object, CHECK_PREFIX + step[1])
-
-                                    step_params = []
-                                    if test_method and test_method_check and \
-                                        callable(test_method) and callable(test_method_check):
-
-                                        try:
-                                            step_params = eval_step_params(step[2:], step_result)
-                                            step_log = '{} {}'.format(' '.join(step[:2]), step_params)
-                                            step_result[i] = test_method(*step_params)
-                                            self._logger.debug("Step %s '%s' results '%s'", i,
-                                                               step_log, step_result[i])
-                                            time.sleep(5)
-                                            step_ok = test_method_check(step_result[i], *step_params)
-                                        except AssertionError:
-                                            self._inttest = {'status' : False, 'details' : step_log}
-                                            self._logger.error("Step %s raised assertion error", i)
-                                            # stop vnfs in case of error
-                                            for vnf in vnf_list:
-                                                vnf_list[vnf].stop()
-                                            break
-                                        except IndexError:
-                                            self._inttest = {'status' : False, 'details' : step_log}
-                                            self._logger.error("Step %s result index error %s", i,
-                                                               ' '.join(step[2:]))
-                                            # stop vnfs in case of error
-                                            for vnf in vnf_list:
-                                                vnf_list[vnf].stop()
-                                            break
-
-                                    self.report_status("Step {} - '{}'".format(i, step_log), step_ok)
-                                    if not step_ok:
-                                        self._inttest = {'status' : False, 'details' : step_log}
-                                        # stop vnfs in case of error
-                                        for vnf in vnf_list:
-                                            vnf_list[vnf].stop()
-                                        break
-
-                    # dump vswitch flows before they are affected by VNF termination
+        try:
+            with self._vswitch_ctl, self._loadgen:
+                with self._vnf_ctl, self._collector:
                     if not self._vswitch_none:
-                        self._vswitch_ctl.dump_vswitch_flows()
+                        self._add_flows()
 
-        # tear down test execution environment and log results
-        self.run_finalize()
+                    # run traffic generator if requested, otherwise wait for manual termination
+                    if S.getValue('mode') == 'trafficgen-off':
+                        time.sleep(2)
+                        self._logger.debug("All is set. Please run traffic generator manually.")
+                        input(os.linesep + "Press Enter to terminate vswitchperf..." + os.linesep + os.linesep)
+                    else:
+                        with self._traffic_ctl:
+                            if not self.test:
+                                self._traffic_ctl.send_traffic(self._traffic)
+                            else:
+                                vnf_list = {}
+                                loader = Loader()
+                                # execute test based on TestSteps definition
+                                if self.test:
+                                    step_result = [None] * len(self.test)
+                                    for i, step in enumerate(self.test):
+                                        step_ok = False
+                                        if step[0] == 'vswitch':
+                                            test_object = self._vswitch_ctl.get_vswitch()
+                                        elif step[0] == 'namespace':
+                                            test_object = namespace
+                                        elif step[0] == 'veth':
+                                            test_object = veth
+                                        elif step[0] == 'trafficgen':
+                                            test_object = self._traffic_ctl
+                                            # in case of send_traffic method, ensure that specified
+                                            # traffic values are merged with existing self._traffic
+                                            if step[1] == 'send_traffic':
+                                                tmp_traffic = copy.deepcopy(self._traffic)
+                                                tmp_traffic.update(step[2])
+                                                step[2] = tmp_traffic
+                                        elif step[0].startswith('vnf'):
+                                            if not step[0] in vnf_list:
+                                                # initialize new VM and copy data to its shared dir
+                                                vnf_list[step[0]] = loader.get_vnf_class()()
+                                                self._copy_fwd_tools_for_guest(len(vnf_list))
+                                            test_object = vnf_list[step[0]]
+                                        else:
+                                            self._logger.error("Unsupported test object %s", step[0])
+                                            self._inttest = {'status' : False, 'details' : ' '.join(step)}
+                                            self.report_status("Step '{}'".format(' '.join(step)), self._inttest['status'])
+                                            break
+
+                                        test_method = getattr(test_object, step[1])
+                                        test_method_check = getattr(test_object, CHECK_PREFIX + step[1])
+
+                                        step_params = []
+                                        if test_method and test_method_check and \
+                                            callable(test_method) and callable(test_method_check):
+
+                                            try:
+                                                step_params = eval_step_params(step[2:], step_result)
+                                                step_log = '{} {}'.format(' '.join(step[:2]), step_params)
+                                                step_result[i] = test_method(*step_params)
+                                                self._logger.debug("Step %s '%s' results '%s'", i,
+                                                                   step_log, step_result[i])
+                                                time.sleep(5)
+                                                step_ok = test_method_check(step_result[i], *step_params)
+                                            except AssertionError:
+                                                self._inttest = {'status' : False, 'details' : step_log}
+                                                self._logger.error("Step %s raised assertion error", i)
+                                                # stop vnfs in case of error
+                                                for vnf in vnf_list:
+                                                    vnf_list[vnf].stop()
+                                                break
+                                            except IndexError:
+                                                self._inttest = {'status' : False, 'details' : step_log}
+                                                self._logger.error("Step %s result index error %s", i,
+                                                                   ' '.join(step[2:]))
+                                                # stop vnfs in case of error
+                                                for vnf in vnf_list:
+                                                    vnf_list[vnf].stop()
+                                                break
+    
+                                        self.report_status("Step {} - '{}'".format(i, step_log), step_ok)
+                                        if not step_ok:
+                                            self._inttest = {'status' : False, 'details' : step_log}
+                                            # stop vnfs in case of error
+                                            for vnf in vnf_list:
+                                                vnf_list[vnf].stop()
+                                            break
+
+                        # dump vswitch flows before they are affected by VNF termination
+                        if not self._vswitch_none:
+                            self._vswitch_ctl.dump_vswitch_flows()
+        finally:
+            # tear down test execution environment and log results
+            self.run_finalize()
 
         # report test results
         self.run_report()
