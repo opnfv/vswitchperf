@@ -233,6 +233,22 @@ class XenaJSON(object):
         self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
             'Enabled'] = 'true'
 
+    def modify_2544_tput_options(self, initial_value, minimum_value,
+                                 maximum_value, value_resolution,
+                                 use_pass_threshhold, pass_threshhold):
+        self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
+            'RateIterationOptions']['InitialValue'] = initial_value
+        self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
+            'RateIterationOptions']['MinimumValue'] = minimum_value
+        self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
+            'RateIterationOptions']['MaximumValue'] = maximum_value
+        self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
+            'RateIterationOptions']['ValueResolution'] = value_resolution
+        self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
+            'RateIterationOptions']['UsePassThreshold'] = use_pass_threshhold
+        self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
+            'RateIterationOptions']['PassThreshold'] = pass_threshhold
+
     def set_chassis_info(self, hostname, pwd):
         """
         Set the chassis info
