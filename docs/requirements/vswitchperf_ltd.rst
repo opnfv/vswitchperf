@@ -1947,6 +1947,128 @@ Test ID: LTD.Throughput.Overlay.Network.<tech>.RFC2544.PacketLossRatio
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
 
+.. 3.2.3.1.15
+
+Test ID: LTD.Throughput.RFC2544.MatchAction.PacketLossRatio
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    **Title**: RFC 2544 X% packet loss ratio match action Throughput and Latency Test
+
+    **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatio
+
+    **Priority**:
+
+    **Description**:
+
+    The aim of this test is to determine the cost of carrying out match
+    action(s) on the DUT’s RFC2544 Throughput with X% traffic loss for
+    a constant load (fixed length frames at a fixed interval time).
+
+    Each test case requires:
+         * selection of a specific match action(s),
+         * specifying a percentage of total traffic that is elligible
+           for the match action,
+         * determination of the specific test configuration (number
+           of flows, number of test ports, presence of an external
+           controller, etc.), and
+         * measurement of the RFC 2544 Throughput level with X% packet
+           loss: Traffic shall be bi-directional and symmetric.
+
+    Note: It would be ideal to verify that all match action-elligible
+    traffic was forwarded to the correct port, and if forwarded to
+    an unintended port it should be considered lost.
+
+    A match action is an action that is typically carried on a frame
+    or packet that matches a set of flow classification parameters
+    (typically frame/packet header fields). A match action may or may
+    not modify a packet/frame. Match actions include [1]:
+         * output : outputs a packet to a particular port.
+         * normal: Subjects the packet to traditional L2/L3 processing
+           (MAC learning).
+         * flood: Outputs the packet on all switch physical ports
+           other than the port on which it was received and any ports
+           on which flooding is disabled.
+         * all: Outputs the packet on all switch physical ports other
+           than the port on which it was received.
+         * local: Outputs  the packet on the ``local port,'' which
+           corresponds to the network device that has the same name as
+           the bridge.
+         * in_port: Outputs the packet on the port from which it was
+           received.
+         * Controller: Sends the packet and its metadata to the
+           OpenFlow controller as a ``packet in'' message.
+         * enqueue: Enqueues  the  packet  on the specified queue
+           within port.
+         * drop: discard the packet.
+
+   Modifications include [1]:
+         * mod vlan: covered by LTD.Throughput.RFC2544.PacketLossRatioFrameModification
+         * mod_dl_src: Sets the source Ethernet address.
+         * mod_dl_dst: Sets the destination Ethernet address.
+         * mod_nw_src: Sets the IPv4 source address.
+         * mod_nw_dst: Sets the IPv4 destination address.
+         * mod_tp_src: Sets the TCP or UDP or SCTP source port.
+         * mod_tp_dst: Sets the TCP or UDP or SCTP destination port.
+         * mod_nw_tos: Sets the  DSCP bits in the IPv4 ToS/DSCP or
+           IPv6 traffic class field.
+         * mod_nw_ecn: Sets the ECN bits in the appropriate IPv4 or
+           IPv6 field.
+         * mod_nw_ttl: Sets the IPv4 TTL or IPv6 hop limit field.
+
+    Note: This comprehensive list requires extensive traffic generator
+    capabilities.
+
+    The match action(s) that were applied as part of the test should be
+    reported in the final test report.
+
+    During this test, the DUT must perform the following operations on
+    the traffic flow:
+        * Perform packet parsing on the DUT’s ingress port.
+        * Perform any relevant address look-ups on the DUT’s ingress
+          ports.
+        * Carry out one or more of the match actions specified above.
+
+    The default loss percentages to be tested are: - X = 0% - X = 10^-7%
+    Other values can be tested if required by the user. The selected
+    frame sizes are those previously defined under Default Test
+    Parameters.
+
+    The test can also be used to determine the average latency of the
+    traffic when a match action is applied to packets in a flow. Under
+    the RFC2544 test methodology, the test duration will include a
+    number of trials; each trial should run for a minimum period of 60
+    seconds. A binary search methodology must be applied for each
+    trial to obtain the final result.
+
+    **Expected Result:**
+
+    At the end of each trial, the presence or absence of loss
+    determines the modification of offered load for the next trial,
+    converging on a maximum rate, or RFC2544Throughput with X% loss.
+    The Throughput load is re-used in related RFC2544 tests and other
+    tests.
+
+    **Metrics Collected:**
+
+    The following are the metrics collected for this test:
+        * The RFC 2544 Throughput in Frames Per Second (FPS) and Mbps
+          of the DUT for each frame size with X% packet loss.
+        * The average latency of the traffic flow when passing through
+          the DUT (if testing for latency, note that this average is
+          different from the test specified in Section 26.3 ofRFC2544).
+        * CPU and memory utilization may also be collected as part of
+          this test, to determine the vSwitch’s performance footprint
+          on the system.
+
+    The metrics collected can be compared to that of the prerequisite
+    test to determine the cost of the match action(s) in the pipeline.
+
+    **Deployment scenario**:
+
+    -  Physical → virtual switch → physical (and others are possible)
+
+    [1] ovs-ofctl - administer OpenFlow switches
+        [http://openvswitch.org/support/dist-docs/ovs-ofctl.8.txt ]
+
 
 .. 3.2.3.2
 
