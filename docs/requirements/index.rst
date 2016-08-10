@@ -10,5 +10,6 @@ VSPERF LEVEL TEST DESIGN (LTD)
    :maxdepth: 3
    :numbered: 5
 
+   vswitchperf_ltp.rst
    vswitchperf_ltd.rst
 
