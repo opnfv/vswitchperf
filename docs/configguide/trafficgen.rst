@@ -373,6 +373,25 @@ set to allow for proper connections to the chassis.
     TRAFFICGEN_XENA_MODULE1 = ''
     TRAFFICGEN_XENA_MODULE2 = ''
 
+RFC2544 Throughput Testing
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Xena traffic generator testing for rfc2544 throughput can be modified for
+different behaviors if needed. The default options for the following are
+optimized for best results.
+
+.. code-block:: console
+
+    TRAFFICGEN_XENA_2544_TPUT_INIT_VALUE = '10.0'
+    TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE = '0.1'
+    TRAFFICGEN_XENA_2544_TPUT_MAX_VALUE = '100.0'
+    TRAFFICGEN_XENA_2544_TPUT_VALUE_RESOLUTION = '0.5'
+    TRAFFICGEN_XENA_2544_TPUT_USEPASS_THRESHHOLD = 'false'
+    TRAFFICGEN_XENA_2544_TPUT_PASS_THRESHHOLD = '0.0'
+
+Each value modifies the behavior of rfc 2544 throughput testing. Refer to your
+Xena documentation to understand the behavior changes in modifying these
+values.
 
 MoonGen
 -------

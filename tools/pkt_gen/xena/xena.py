@@ -309,6 +309,17 @@ class Xena(ITrafficGenerator):
                     duration=self._duration, micro_tpld=True if self._params[
                         'traffic']['l2']['framesize'] == 64 else False)
                 j_file.enable_throughput_test()
+                j_file.modify_2544_tput_options(
+                    settings.getValue('TRAFFICGEN_XENA_2544_TPUT_INIT_VALUE'),
+                    settings.getValue('TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE'),
+                    settings.getValue('TRAFFICGEN_XENA_2544_TPUT_MAX_VALUE'),
+                    settings.getValue(
+                        'TRAFFICGEN_XENA_2544_TPUT_VALUE_RESOLUTION'),
+                    settings.getValue(
+                        'TRAFFICGEN_XENA_2544_TPUT_USEPASS_THRESHHOLD'),
+                    settings.getValue(
+                        'TRAFFICGEN_XENA_2544_TPUT_PASS_THRESHHOLD')
+                )
 
             elif testtype == '2544_b2b':
                 j_file.set_test_options_back2back(
