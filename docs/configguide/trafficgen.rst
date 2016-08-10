@@ -435,3 +435,18 @@ One can set up this ssh access by doing the following on both servers:
 
     ssh-keygen -b 2048 -t rsa
     ssh-copy-id <other server>
+
+Configuration
+~~~~~~~~~~~~~
+
+Connection information for your Xena Chassis must be supplied inside the
+``10_custom.conf`` or ``03_custom.conf`` file. The following parameters must be
+set to allow for proper connections to the chassis.
+
+.. code-block:: console
+
+    TRAFFICGEN_MOONGEN_HOST_IP_ADDR = ""
+    TRAFFICGEN_MOONGEN_USER = ""
+    TRAFFICGEN_MOONGEN_BASE_DIR = ""
+    TRAFFICGEN_MOONGEN_PORTS = ""
+    TRAFFICGEN_MOONGEN_LINE_SPEED_GBPS = ""
