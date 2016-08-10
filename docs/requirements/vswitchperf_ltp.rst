@@ -4,6 +4,10 @@
 
 .. 3.1
 
+*****************************
+VSPERF LEVEL TEST PLAN (LTP)
+*****************************
+
 ===============
 Introduction
 ===============
@@ -27,12 +31,10 @@ This document is currently in draft form.
 Document identifier
 =========================
 
-The document id will be used to uniquely
-identify versions of the LTD. The format for the document id will be:
-OPNFV\_vswitchperf\_LTP\_REL\_STATUS, where by the
-status is one of: draft, reviewed, corrected or final. The document id
-for this version of the LTD is:
-OPNFV\_vswitchperf\_LTP\_Colorado\_REVIEWED.
+The document id will be used to uniquely identify versions of the LTP. The
+format for the document id will be: OPNFV\_vswitchperf\_LTP\_REL\_STATUS, where
+by the status is one of: draft, reviewed, corrected or final. The document id
+for this version of the LTP is: OPNFV\_vswitchperf\_LTP\_Colorado\_REVIEWED.
 
 .. 3.1.2
 
@@ -181,23 +183,24 @@ traceability. The matrix was expanded to 3x4 to accommodate scale metrics when
 displaying the coverage of many metrics/benchmarks). Test case covreage in the
 LTD is tracked using the following catagories:
 
-|------------------------------------------------------------------------|
+
++---------------+-------------+------------+---------------+-------------+
 |               |             |            |               |             |
 |               |   SPEED     |  ACCURACY  |  RELIABILITY  |    SCALE    |
 |               |             |            |               |             |
-|------------------------------------------------------------------------|
++---------------+-------------+------------+---------------+-------------+
 |               |             |            |               |             |
 |  Activation   |      X      |     X      |       X       |      X      |
 |               |             |            |               |             |
-|------------------------------------------------------------------------|
++---------------+-------------+------------+---------------+-------------+
 |               |             |            |               |             |
 |  Operation    |      X      |      X     |       X       |      X      |
 |               |             |            |               |             |
-|------------------------------------------------------------------------|
++---------------+-------------+------------+---------------+-------------+
 |               |             |            |               |             |
 | De-activation |             |            |               |             |
 |               |             |            |               |             |
-|------------------------------------------------------------------------|
++---------------+-------------+------------+---------------+-------------+
 
 X = denotes a test catagory that has 1 or more test cases defined.
 
