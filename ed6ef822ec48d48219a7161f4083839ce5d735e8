@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_c00c5897",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-10T14:53:37Z",
+      "side": 1,
+      "message": "I believe after a code-block the code belonging to the block must be indented.",
+      "revId": "ed6ef822ec48d48219a7161f4083839ce5d735e8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
