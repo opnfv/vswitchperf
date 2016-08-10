@@ -26,7 +26,7 @@ from tools import tasks
 from conf import settings
 
 _LOGGER = logging.getLogger(__name__)
-
+_allocated_hugepages = False
 #
 # hugepage management
 #
@@ -53,23 +53,39 @@ def allocate_hugepages():
     """Allocate hugepages on the fly
     """
     hp_size = get_hugepage_size()
-
     if hp_size > 0:
-        nr_hp = int(math.ceil(settings.getValue('HUGEPAGE_RAM_ALLOCATION')/hp_size))
-        _LOGGER.info('Will allocate %s hugepages.', nr_hp)
+       nr_hp = int(math.ceil(settings.getValue('HUGEPAGE_RAM_ALLOCATION')/hp_size))
+       _LOGGER.info('Will allocate %s hugepages.', nr_hp)
 
-        nr_hugepages = 'vm.nr_hugepages=' + str(nr_hp)
-        try:
-            tasks.run_task(['sudo', 'sysctl', nr_hugepages],
-                           _LOGGER, 'Trying to allocate hugepages..', True)
-        except subprocess.CalledProcessError:
-            _LOGGER.error('Unable to allocate hugepages.')
-            return False
-        return True
+       nr_hugepages = 'vm.nr_hugepages=' + str(nr_hp)
+       try:
+           tasks.run_task(['sudo', 'sysctl', nr_hugepages],
+                          _LOGGER, 'Trying to allocate hugepages..', True)
+       except subprocess.CalledProcessError:
+           _LOGGER.error('Unable to allocate hugepages.')
+           return False
+       global _allocated_hugepages
+       _allocated_hugepages = True
+       return True
 
     else:
         _LOGGER.error('Division by 0 will be supported in next release')
         return False
+
+def deallocate_hugepages():
+    """De-allocate hugepages that were allocated on the fly
+    """
+    global _allocated_hugepages
+    if _allocated_hugepages:
+        nr_hugepages = 'vm.nr_hugepages= 0'
+        try:
+            tasks.run_task(['sudo', 'sysctl', nr_hugepages],
+                           _LOGGER, 'Trying to de-allocate hugepages..', True)
+        except subprocess.CalledProcessError:
+            _LOGGER.error('Unable to de-allocate hugepages.')
+            return False
+        _allocated_hugepages = False
+    return True
 
 
 def get_free_hugepages(socket=None):
@@ -178,4 +194,5 @@ def umount_hugepages():
     except subprocess.CalledProcessError:
         _LOGGER.error('Unable to umount hugepages.')
 
-
+    if not deallocate_hugepages():
+        _LOGGER.error('Unable to deallocate previously allocated hugepages.')
