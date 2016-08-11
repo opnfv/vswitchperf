@@ -439,8 +439,8 @@ class TestCase(object):
                     '-socket-mem\s+(\d+),(\d+)',
                     ''.join(S.getValue('VSWITCHD_DPDK_ARGS')))
                 if match:
-                    sock0_mem, sock1_mem = (int(match.group(1)) / 1024,
-                                            int(match.group(2)) / 1024)
+                    sock0_mem, sock1_mem = (int(match.group(1)) * 1024 / hugepage_size,
+                                            int(match.group(2)) * 1024 / hugepage_size)
                 else:
                     logging.info(
                         'Could not parse socket memory config in dpdk params.')
@@ -448,8 +448,8 @@ class TestCase(object):
                 sock0_mem, sock1_mem = (
                     S.getValue(
                         'VSWITCHD_DPDK_CONFIG')['dpdk-socket-mem'].split(','))
-                sock0_mem, sock1_mem = (int(sock0_mem) / 1024,
-                                        int(sock1_mem) / 1024)
+                sock0_mem, sock1_mem = (int(sock0_mem) * 1024 / hugepage_size,
+                                        int(sock1_mem) * 1024 / hugepage_size)
 
         # If hugepages needed, verify the amounts are free
         if any([hugepages_needed, sock0_mem, sock1_mem]):

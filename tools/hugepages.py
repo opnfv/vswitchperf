@@ -42,7 +42,7 @@ def get_hugepage_size():
         for line in data:
             match = hugepage_size_re.search(line)
             if match:
-                _LOGGER.info('Hugepages size: %s', match.group('size_hp'))
+                _LOGGER.info('Hugepages size: %s kb', match.group('size_hp'))
                 return int(match.group('size_hp'))
         else:
             _LOGGER.error('Could not parse for hugepage size')
