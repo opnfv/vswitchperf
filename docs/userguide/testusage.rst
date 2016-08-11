@@ -16,6 +16,10 @@ support in VSPERF includes:
 - Spirent traffic generator (TestCenter hardware chassis or TestCenter virtual
   in a VM) and a VM to run the Spirent Virtual Deployment Service image,
   formerly known as "Spirent LabServer".
+- Xena Network traffic generator (Xena hardware chassis) that houses the Xena
+  Traffic generator modules.
+- Moongen software traffic generator. Requires a separate machine running
+  moongen to execute packet generation.
 
 If you want to use another traffic generator, please select the Dummy generator
 option as shown in `Traffic generator instructions
@@ -113,6 +117,12 @@ deployment scenarios. The image can be downloaded from
 .. code-block:: console
 
     $ wget http://artifacts.opnfv.org/vswitchperf/vloop-vnf-ubuntu-14.04_20151216.qcow2
+
+Newer vloop_vnf images are available. Please reference the
+installation instructions for information on these images
+`installation instructions
+<http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html>`__
+
 
 vloop_vnf forwards traffic through a VM using one of:
 * DPDK testpmd
@@ -645,5 +655,5 @@ More information
 ^^^^^^^^^^^^^^^^
 
 For more information and details refer to the vSwitchPerf user guide at:
-http://artifacts.opnfv.org/vswitchperf/brahmaputra/userguide/index.html
+http://artifacts.opnfv.org/vswitchperf/docs/userguide/index.html
 

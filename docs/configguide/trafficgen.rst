@@ -57,7 +57,7 @@ follows:
         },
     }
 
-The framesize paramter can be overridden from the configuration
+The framesize parameter can be overridden from the configuration
 files by adding the following to your custom configuration file
 ``10_custom.conf``:
 
@@ -169,7 +169,7 @@ IxNetwork -> IxNetwork\_$(VER\_NUM) -> IxNetwork TCL Server)
 
 Right click on IxNetwork TCL Server, select properties - Under shortcut tab in
 the Target dialogue box make sure there is the argument "-tclport xxxx"
-where xxxx is your port number (take note of this port number you will
+where xxxx is your port number (take note of this port number as you will
 need it for the 10\_custom.conf file).
 
 .. image:: TCLServerProperties.png
@@ -329,7 +329,7 @@ Xena Networks
 Installation
 ~~~~~~~~~~~~
 
-Xena Networks traffic generator requires certain files and packages to be
+Xena Networks traffic generator requires specific files and packages to be
 installed. It is assumed the user has access to the Xena2544.exe file which
 must be placed in VSPerf installation location under the tools/pkt_gen/xena
 folder. Contact Xena Networks for the latest version of this file. The user
@@ -406,7 +406,7 @@ https://github.com/emmericp/MoonGen
 
 * Note:  Today, MoonGen with VSPERF only supports 10Gbps line speeds.
 
-For VSPerf use, MoonGen should be cloned from here (as opposed to the afore
+For VSPerf use, MoonGen should be cloned from here (as opposed to the previously
 mentioned GitHub):
 
 git clone https://github.com/atheurer/MoonGen
