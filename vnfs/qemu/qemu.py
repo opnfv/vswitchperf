@@ -81,6 +81,11 @@ class IVnfQemu(IVnf):
                               self._testpmd_fwd_mode, 'io')
             self._testpmd_fwd_mode = 'io'
 
+        guest_smp = int(get_test_param('guest_smp', 0))
+        if guest_smp:
+            override_list = [guest_smp] * (self._number + 1)
+            S.setValue('GUEST_SMP', override_list)
+
         name = 'Client%d' % self._number
         vnc = ':%d' % self._number
         # don't use taskset to affinize main qemu process; It causes hangup
@@ -230,14 +235,18 @@ class IVnfQemu(IVnf):
             stdin=proc.stdout)
         proc.wait()
 
+        guest_core_binding = int(get_test_param('guest_core_binding', 0))
         for cpu in range(0, int(S.getValue('GUEST_SMP')[self._number])):
             match = None
             for line in output.decode(cur_locale).split('\n'):
                 match = re.search(thread_id % cpu, line)
                 if match:
-                    self._affinitize_pid(
-                        S.getValue('GUEST_CORE_BINDING')[self._number][cpu],
-                        match.group(1))
+                    if guest_core_binding:
+                        self._affinitize_pid(guest_core_binding, match.group(1))
+                    else:
+                        self._affinitize_pid(
+                            S.getValue('GUEST_CORE_BINDING')[self._number][cpu],
+                            match.group(1))
                     break
 
             if not match:
@@ -389,6 +398,30 @@ class IVnfQemu(IVnf):
                               '/DPDK/app/test-pmd')
         self.execute_and_wait('make clean')
         self.execute_and_wait('make')
+
+        # get multi-queue settings from CLI
+        guest_testpmd_txq = int(get_test_param('guest_testpmd_txq', 0))
+        if guest_testpmd_txq:
+            override_list = [guest_testpmd_txq] * (self._number + 1)
+            S.setValue('GUEST_TESTPMD_TXQ', override_list)
+
+        guest_testpmd_rxq = int(get_test_param('guest_testpmd_rxq', 0))
+        if guest_testpmd_rxq:
+            override_list = [guest_testpmd_rxq] * (self._number + 1)
+            S.setValue('GUEST_TESTPMD_RXQ', override_list)
+
+        guest_testpmd_nb_cores = \
+            int(get_test_param('guest_testpmd_nb_cores', 0))
+        if guest_testpmd_nb_cores:
+            override_list = [guest_testpmd_nb_cores] * (self._number + 1)
+            S.setValue('GUEST_TESTPMD_NB_CORES', override_list)
+
+        guest_testpmd_cpu_mask = \
+            int(get_test_param('guest_testpmd_cpu_mask', 0))
+        if guest_testpmd_cpu_mask:
+            override_list = [guest_testpmd_cpu_mask] * (self._number + 1)
+            S.setValue('GUEST_TESTPMD_CPU_MASK', override_list)
+
         if int(S.getValue('GUEST_NIC_QUEUES')[self._number]):
             self.execute_and_wait(
                 './testpmd {} -n4 --socket-mem 512 --'.format(

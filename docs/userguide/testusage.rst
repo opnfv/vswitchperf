@@ -518,6 +518,18 @@ environment.
 on the same numa as the NIC in use if possible/applicable. Testpmd should be
 assigned at least (nb_cores +1) total cores with the cpu mask.
 
+The following CLI parameters override the corresponding configuration settings:
+     1. guest_nic_queues, which overrides all GUEST_NIC_QUEUES values
+     2. guest_testpmd_txq, which overrides all GUEST_TESTPMD_TXQ
+     3. guest_testpmd_rxq, which overrides all GUEST_TESTPMD_RXQ
+     4. guest_testpmd_nb_cores, which overrides all GUEST_TESTPMD_NB_CORES
+        values
+     5. guest_testpmd_cpu_mask, which overrides all GUEST_TESTPMD_CPU_MASK
+        values
+     6. vswitch_dpdk_multi_queues, which overrides VSWITCH_DPDK_MULTI_QUEUES
+     7. guest_smp, which overrides all GUEST_SMP values
+     8. guest_core_binding, which overrides all GUEST_CORE_BINDING values
+
 Executing Packet Forwarding tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
