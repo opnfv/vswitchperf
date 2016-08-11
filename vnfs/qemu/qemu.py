@@ -354,6 +354,18 @@ class IVnfQemu(IVnf):
                               '/DPDK/app/test-pmd')
         self.execute_and_wait('make clean')
         self.execute_and_wait('make')
+        guest_testpmd_txq = int(get_test_param('guest_testpmd_txq', 0))
+        if guest_testpmd_txq:
+            S.setValue('GUEST_TESTPMD_TXQ', guest_testpmd_txq)
+
+        guest_testpmd_rxq = int(get_test_param('guest_testpmd_rxq', 0))
+        if guest_testpmd_rxq:
+            S.setValue('GUEST_TESTPMD_RXQ', guest_testpmd_rxq)
+
+        guest_testpmd_nb_cores = int(get_test_param('guest_testpmd_nb_cores', 0))
+        if guest_testpmd_nb_cores:
+            S.setValue('GUEST_TESTPMD_NB_CORES', guest_testpmd_nb_cores)
+
         if int(S.getValue('GUEST_NIC_QUEUES')):
             self.execute_and_wait(
                 './testpmd {} -n4 --socket-mem 512 --'.format(
