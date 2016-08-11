@@ -18,6 +18,7 @@
 import logging
 
 from conf import settings as S
+from conf import get_test_param
 from vnfs.qemu.qemu import IVnfQemu
 
 class QemuDpdkVhostUser(IVnfQemu):
@@ -32,6 +33,10 @@ class QemuDpdkVhostUser(IVnfQemu):
         self._logger = logging.getLogger(__name__)
 
         # multi-queue values
+        guest_nic_queues = int(get_test_param('guest_nic_queues', 0))
+        if guest_nic_queues:
+            override_list = [guest_nic_queues] * (self._number + 1)
+            S.setValue('GUEST_NIC_QUEUES', override_list)
         if int(S.getValue('GUEST_NIC_QUEUES')[self._number]):
             queue_str = ',queues={}'.format(S.getValue('GUEST_NIC_QUEUES')[self._number])
             mq_vector_str = ',mq=on,vectors={}'.format(
