@@ -162,8 +162,8 @@ hugepage amounts to support running these configurations. It is recommended
 to configure 1GB hugepages as the pagesize.
 
 The amount of hugepages needed depends on your configuration files in vsperf.
-Each guest image requires 4096 by default according to the default settings in
-the ``04_vnf.conf`` file.
+Each guest image requires 4096 MB by default according to the default settings
+in the ``04_vnf.conf`` file.
 
 .. code:: bash
 

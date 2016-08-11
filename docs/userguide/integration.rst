@@ -435,6 +435,10 @@ Executing Tunnel encapsulation tests
 The VXLAN OVS DPDK encapsulation tests requires IPs, MAC addresses,
 bridge names and WHITELIST_NICS for DPDK.
 
+NOTE: Only Ixia traffic generators currently support the execution of the tunnel
+encapsulation tests. Support for other traffic generators may come in a future
+release.
+
 Default values are already provided. To customize for your environment, override
 the following variables in you user_settings.py file:
 
