@@ -1241,6 +1241,41 @@ platform should be configured for every test after this
 (# of vCPUs, vNICs, Memory, affinitization…) is how it should be
 configured for every test that uses a VNF after this.
 
+**Methodology to benchmark the VNF to vSwitch to VNF deployment scenario**
+
+vsperf has identified concerns around time synchronization between VNFs/VMs and
+clock accuracy of a VNF/VM if they were to be used as traffic generator sources
+and sinks. The recommendation from vsperf is that tests for this sceanario must
+include an external HW traffic generator to act as the tester/traffic source
+and sink. The perscribed methodology to benchmark this depolyment scanrio with
+an external tester invloves the following three steps:
+
+#. Determine the forwarding capability and latency through the virtual interface
+connected to the VNF/VM.
+
+.. Figure:: vm2vm_virtual_interface_benchmark.png
+
+   Virtual interfaces performance benchmark
+
+#. Determine the forwarding capability and latency through the VNF/hypervisor.
+
+.. Figure:: vm2vm_hypervisor_benchmark.png
+
+   Hypervisor performance benchmark
+
+#. Determine the forwarding capability and latency for the VNF to vSwitch to VNF
+   taking the information from the previous two steps into account.
+
+.. Figure:: vm2vm_benchmark.png
+
+   VNF to vSwitch to VNF performance benchmark
+
+vsperf also identified an alternative configuration for the final step:
+
+.. Figure:: vm2vm_alternative_benchmark.png
+
+   VNF to vSwitch to VNF alternative performance benchmark
+
 .. 3.3.2:
 
 Environment/infrastructure
