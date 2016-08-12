@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_b6407d57",
+        "filename": "docs/requirements/vswitchperf_ltp.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1248,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-08-12T16:07:37Z",
+      "side": 1,
+      "message": "A second concern (for me at least) is that a VNF traffic generator/receiver may be using resources of the system under test, causing at least three forms of workload to increase as the traffic load increases (generation, switching, receiving).  \u003cso, we could just add this sentence if we agree\u003e",
+      "revId": "bf52f50bd740e5a922d038467d071ca7d77ec7cd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_965a2182",
         "filename": "docs/requirements/vswitchperf_ltp.rst",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2016-08-12T14:43:01Z",
       "side": 1,
       "message": "Did you mean sync?\nDeployment spelling",
+      "revId": "bf52f50bd740e5a922d038467d071ca7d77ec7cd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_963b01eb",
+        "filename": "docs/requirements/vswitchperf_ltp.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-08-12T16:07:37Z",
+      "side": 1,
+      "message": "Sink is right, it\u0027s the traffic receiver in reality, so we could say receiver to be more clear.",
+      "parentUuid": "1a76adc5_965a2182",
       "revId": "bf52f50bd740e5a922d038467d071ca7d77ec7cd",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
