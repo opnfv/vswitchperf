@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_965a2182",
+        "filename": "docs/requirements/vswitchperf_ltp.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-12T14:43:01Z",
+      "side": 1,
+      "message": "Did you mean sync?\nDeployment spelling",
+      "revId": "bf52f50bd740e5a922d038467d071ca7d77ec7cd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b65f1d72",
+        "filename": "docs/requirements/vswitchperf_ltp.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-12T14:43:01Z",
+      "side": 1,
+      "message": "spelling on involves",
+      "revId": "bf52f50bd740e5a922d038467d071ca7d77ec7cd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
