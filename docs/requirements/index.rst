@@ -2,13 +2,10 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
-******************************
-VSPERF LEVEL TEST DESIGN (LTD)
-******************************
-
 .. toctree::
    :maxdepth: 3
    :numbered: 5
 
+   vswitchperf_ltp.rst
    vswitchperf_ltd.rst
 

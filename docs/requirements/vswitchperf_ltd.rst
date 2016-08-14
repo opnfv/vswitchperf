@@ -2,21 +2,20 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
+******************************
+VSPERF LEVEL TEST DESIGN (LTD)
+******************************
+
 .. 3.1
 
-===============
 Introduction
 ===============
 
-The objective of the OPNFV project titled
-**“Characterize vSwitch Performance for Telco NFV Use Cases”**, is to
-evaluate a virtual switch to identify its suitability for a Telco
-Network Function Virtualization (NFV) environment. The intention of this
-Level Test Design (LTD) document is to specify the set of tests to carry
-out in order to objectively measure the current characteristics of a
-virtual switch in the Network Function Virtualization Infrastructure
-(NFVI) as well as the test pass criteria. The detailed test cases will
-be defined in details-of-LTD_, preceded by the doc-id_ and the scope_.
+The intention of this Level Test Design (LTD) document is to specify the set of
+tests to carry out in order to objectively measure the current characteristics
+of a virtual switch in the Network Function Virtualization Infrastructure
+(NFVI) as well as the test pass criteria. The detailed test cases will be
+defined in details-of-LTD_, preceded by the doc-id_ and the scope_.
 
 This document is currently in draft form.
 
@@ -86,11 +85,8 @@ References
 Details of the Level Test Design
 ===================================
 
-This section describes the features to be tested (
-FeaturesToBeTested_), the test approach (Approach_);
-it also identifies the sets of test cases or scenarios (
-TestIdentification_) along with the pass/fail criteria and
-the test deliverables.
+This section describes the features to be tested (FeaturesToBeTested_), and
+identifies the sets of test cases or scenarios (TestIdentification_).
 
 .. 3.2.1
 
