@@ -72,12 +72,19 @@ class OvsDpdkVhost(IVSwitchOvs):
         """
         dpdk.init()
         super(OvsDpdkVhost, self).start()
+        if settings.getValue('OVS_OLD_STYLE_MQ') and \
+                settings.getValue('VSWITCH_MULTI_QUEUES'):
+            tmp_br = OFBridge(timeout=-1)
+            tmp_br.set_db_attribute(
+                'Open_vSwitch', '.', 'other_config:' +
+                'n-dpdk-rxqs', settings.getValue('VSWITCH_MULTI_QUEUES'))
 
     def stop(self):
         """See IVswitch for general description
 
         Kills ovsdb and vswitchd and removes DPDK kernel modules.
         """
+
         super(OvsDpdkVhost, self).stop()
         dpdk.cleanup()
         dpdk.remove_vhost_modules()
@@ -90,7 +97,6 @@ class OvsDpdkVhost(IVSwitchOvs):
             switch_params = switch_params + params
 
         super(OvsDpdkVhost, self).add_switch(switch_name, switch_params)
-
         if settings.getValue('VSWITCH_AFFINITIZATION_ON') == 1:
             # Sets the PMD core mask to VSWITCH_PMD_CPU_MASK
             # for CPU core affinitization
@@ -109,7 +115,8 @@ class OvsDpdkVhost(IVSwitchOvs):
         port_name = 'dpdk' + str(dpdk_count)
         params = ['--', 'set', 'Interface', port_name, 'type=dpdk']
         # multi-queue enable
-        if int(settings.getValue('VSWITCH_MULTI_QUEUES')):
+        if int(settings.getValue('VSWITCH_MULTI_QUEUES')) and not \
+                settings.getValue('OVS_OLD_STYLE_MQ'):
                 params += ['options:n_rxq={}'.format(
                     settings.getValue('VSWITCH_MULTI_QUEUES'))]
         of_port = bridge.add_port(port_name, params)
@@ -133,7 +140,8 @@ class OvsDpdkVhost(IVSwitchOvs):
             port_name = 'dpdkvhostuser' + str(vhost_count)
             params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostuser']
             # multi queue enable
-            if int(settings.getValue('VSWITCH_MULTI_QUEUES')):
+            if int(settings.getValue('VSWITCH_MULTI_QUEUES')) and not \
+                    settings.getValue('OVS_OLD_STYLE_MQ'):
                 params += ['options:n_rxq={}'.format(
                     settings.getValue('VSWITCH_MULTI_QUEUES'))]
         of_port = bridge.add_port(port_name, params)
