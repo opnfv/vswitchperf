@@ -16,6 +16,7 @@
 
 import logging
 import pexpect
+from conf import settings
 from vnfs.vnf.vnf import IVnf
 
 class VnfController(object):
@@ -25,13 +26,13 @@ class VnfController(object):
 
     Attributes:
         _vnf_class: A class object representing the VNF to be used.
-        _deployment_scenario: A string describing the scenario to set-up in the
+        _deployment: A string describing the scenario to set-up in the
             constructor.
         _vnfs: A list of vnfs controlled by the controller.
     """
 
-    def __init__(self, deployment_scenario, vnf_class):
-        """Sets up the VNF infrastructure for the PVP deployment scenario.
+    def __init__(self, deployment, vnf_class):
+        """Sets up the VNF infrastructure based on deployment scenario
 
         :param vnf_class: The VNF class to be used.
         """
@@ -41,17 +42,38 @@ class VnfController(object):
         # setup controller with requested number of VNFs
         self._logger = logging.getLogger(__name__)
         self._vnf_class = vnf_class
-        self._deployment_scenario = deployment_scenario.upper()
-        if self._deployment_scenario == 'P2P':
-            self._vnfs = []
-        elif self._deployment_scenario == 'PVP':
-            self._vnfs = [vnf_class()]
-        elif self._deployment_scenario == 'PVVP':
-            self._vnfs = [vnf_class(), vnf_class()]
-        elif self._deployment_scenario == 'OP2P':
-            self._vnfs = []
+        self._deployment = deployment.lower()
+        self._vnfs = []
+        if self._deployment == 'pvp':
+            vm_number = 1
+        elif (self._deployment.startswith('pvvp') or
+              self._deployment.startswith('pvpv')):
+            if len(self._deployment) > 4:
+                vm_number = int(self._deployment[4:])
+            else:
+                vm_number = 2
         else:
-            self._vnfs = []
+            raise RuntimeError('Deployment {} is not supported by '
+                               'VnfController.'.format(self._deployment))
+
+        if vm_number:
+            self._logger.debug('Check configuration for %s guests.', vm_number)
+            settings.check_vm_settings(vm_number)
+            # enforce that GUEST_NIC_NR is 1 or even number of NICs
+            updated = False
+            nics_nr = settings.getValue('GUEST_NICS_NR')
+            for index in range(len(nics_nr)):
+                if nics_nr[index] > 1 and nics_nr[index] % 2:
+                    updated = True
+                    nics_nr[index] = int(nics_nr[index] / 2) * 2
+            if updated:
+                settings.setValue('GUEST_NICS_NR', nics_nr)
+                self._logger.warning('Odd number of NICs was detected. Configuration '
+                                     'was updated to GUEST_NICS_NR = %s',
+                                     settings.getValue('GUEST_NICS_NR'))
+
+            self._vnfs = [vnf_class() for _ in range(vm_number)]
+
         self._logger.debug('__init__ ' + str(len(self._vnfs)) +
                            ' VNF[s] with ' + ' '.join(map(str, self._vnfs)))
 
@@ -61,6 +83,13 @@ class VnfController(object):
         self._logger.debug('get_vnfs ' + str(len(self._vnfs)) +
                            ' VNF[s] with ' + ' '.join(map(str, self._vnfs)))
         return self._vnfs
+
+    def get_vnfs_number(self):
+        """Returns a number of vnfs controlled by this controller.
+        """
+        self._logger.debug('get_vnfs_number ' + str(len(self._vnfs)) +
+                           ' VNF[s]')
+        return len(self._vnfs)
 
     def start(self):
         """Boots all VNFs set-up by __init__.
