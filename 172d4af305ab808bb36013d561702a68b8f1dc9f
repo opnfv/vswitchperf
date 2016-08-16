@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_cabb0a71",
+        "filename": "vswitches/ovs_dpdk_vhost.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-16T12:41:15Z",
+      "side": 1,
+      "message": "Yes as the setting could be entered as a string so typecasting it to int makes sense. I\u0027ll fix this.",
+      "parentUuid": "1a76adc5_6add1670",
+      "revId": "172d4af305ab808bb36013d561702a68b8f1dc9f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_8adaf276",
         "filename": "vswitches/ovs_dpdk_vhost.py",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-16T06:39:43Z",
       "side": 1,
       "message": "(minor minor) I prefer to put \u0027not\u0027 operator before expression it is related to, so it is not overlooked or missed during copy\u0026paste refactoring. (the same below)",
+      "revId": "172d4af305ab808bb36013d561702a68b8f1dc9f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6ab0b68b",
+        "filename": "vswitches/ovs_dpdk_vhost.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-16T12:41:15Z",
+      "side": 1,
+      "message": "No problem,\nI\u0027ll fix that up.",
+      "parentUuid": "1a76adc5_8adaf276",
       "revId": "172d4af305ab808bb36013d561702a68b8f1dc9f",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
