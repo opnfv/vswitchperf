@@ -162,12 +162,12 @@ hugepage amounts to support running these configurations. It is recommended
 to configure 1GB hugepages as the pagesize.
 
 The amount of hugepages needed depends on your configuration files in vsperf.
-Each guest image requires 4096 MB by default according to the default settings
+Each guest image requires 2048 MB by default according to the default settings
 in the ``04_vnf.conf`` file.
 
 .. code:: bash
 
-    GUEST_MEMORY = ['4096', '4096']
+    GUEST_MEMORY = ['2048']
 
 The dpdk startup parameters also require an amount of hugepages depending on
 your configuration in the ``02_vswitch.conf`` file.

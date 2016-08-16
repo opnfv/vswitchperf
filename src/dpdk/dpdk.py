@@ -25,8 +25,8 @@ import subprocess
 import logging
 import glob
 
-from tools import tasks
 from conf import settings
+from tools import tasks
 from tools.module_manager import ModuleManager
 
 _LOGGER = logging.getLogger(__name__)
@@ -150,7 +150,7 @@ def _remove_vhost_net():
 def _vhost_user_cleanup():
     """Remove files created by vhost-user tests.
     """
-    for sock in settings.getValue('VHOST_USER_SOCKS'):
+    for sock in glob.glob(settings.getValue('VHOST_USER_SOCKS')):
         if os.path.exists(sock):
             try:
                 tasks.run_task(['sudo', 'rm', sock],
