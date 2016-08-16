@@ -36,6 +36,8 @@ class IVnf(tasks.Process):
         this call (use ``start`` method instead).
         """
         self._number = IVnf._number_vnfs
+        self._logger.debug('Initializing %s. VM with index %s',
+                           self._number + 1, self._number)
         IVnf._number_vnfs = IVnf._number_vnfs + 1
         self._log_prefix = 'vnf_%d_cmd : ' % self._number
 
