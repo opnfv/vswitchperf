@@ -85,6 +85,10 @@ contents. Any configuration item mentioned in any .conf file in
 ``./conf`` directory can be added and that item will be overridden by
 the custom configuration value.
 
+Further details about configuration files evaluation and special behaviour
+of options with ``GUEST_`` prefix could be found at `design document
+<http://artifacts.opnfv.org/vswitchperf/docs/design/vswitchperf_design.html#configuration>`__.
+
 Using a custom settings file
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -105,11 +109,15 @@ described like so (1 = max priority):
 2. Environment variables
 3. Configuration file(s)
 
+Further details about configuration files evaluation and special behaviour
+of options with ``GUEST_`` prefix could be found at `design document
+<http://artifacts.opnfv.org/vswitchperf/docs/design/vswitchperf_design.html#configuration>`__.
+
 vloop_vnf
 ^^^^^^^^^
 
-vsperf uses a VM called vloop_vnf for looping traffic in the PVP and PVVP
-deployment scenarios. The image can be downloaded from
+vsperf uses a VM image called vloop_vnf for looping traffic in the deployment
+scenarios involving VMs. The image can be downloaded from
 `<http://artifacts.opnfv.org/>`__.
 
 .. code-block:: console
@@ -226,8 +234,8 @@ set the ports.
     $ ./vsperf --vswitch OvsVanilla
 
 
-Executing PVP and PVVP tests
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Executing tests with VMs
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 To run tests using vhost-user as guest access method:
 
@@ -252,8 +260,8 @@ To run tests using vhost-user as guest access method:
 
      $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
 
-Executing PVP tests using Vanilla OVS
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Executing tests with VMs using Vanilla OVS
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To run tests using Vanilla OVS:
 
@@ -391,15 +399,15 @@ deployment.
 
 .. _guest-loopback-application:
 
-Selection of loopback application for PVP and PVVP tests
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Selection of loopback application for tests with VMs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To select loopback application, which will perform traffic forwarding
 inside VM, following configuration parameter should be configured:
 
 .. code-block:: console
 
-     GUEST_LOOPBACK = ['testpmd', 'testpmd']
+     GUEST_LOOPBACK = ['testpmd']
 
 or use --test-param
 
@@ -419,15 +427,22 @@ Supported loopback applications are:
                        ensure traffic forwarding between its interfaces
 
 Guest loopback application must be configured, otherwise traffic
-will not be forwarded by VM and testcases with PVP and PVVP deployments
+will not be forwarded by VM and testcases with VM related deployments
 will fail. Guest loopback application is set to 'testpmd' by default.
+
+Note: In case that only 1 or more than 2 NICs are configured for VM,
+then 'testpmd' should be used. As it is able to forward traffic between
+multiple VM NIC pairs.
+
+Note: In case of linux_bridge, all guest NICs are connected to the same
+bridge inside the guest.
 
 Multi-Queue Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 VSPerf currently supports multi-queue with the following limitations:
 
- 1.  Execution of pvp/pvvp tests require testpmd as the loopback if multi-queue
+ 1.  Execution of tests with VMs require testpmd as the loopback if multi-queue
      is enabled at the guest.
 
  2.  Requires QemuDpdkVhostUser as the vnf.
@@ -609,8 +624,8 @@ OVS with DPDK and QEMU
 
 If you encounter the following error: "before (last 100 chars):
 '-path=/dev/hugepages,share=on: unable to map backing store for
-hugepages: Cannot allocate memory\r\n\r\n" with the PVP or PVVP
-deployment scenario, check the amount of hugepages on your system:
+hugepages: Cannot allocate memory\r\n\r\n" during qemu initialization,
+check the amount of hugepages on your system:
 
 .. code-block:: console
 

@@ -57,7 +57,6 @@ class TestCase(object):
         self._loadgen = None
         self._output_file = None
         self._tc_results = None
-        self.guest_loopback = []
         self._settings_original = {}
         self._settings_paths_modified = False
         self._testcast_run_time = None
@@ -70,7 +69,8 @@ class TestCase(object):
         # update global settings
         guest_loopback = get_test_param('guest_loopback', None)
         if guest_loopback:
-            self._update_settings('GUEST_LOOPBACK', [guest_loopback for dummy in S.getValue('GUEST_LOOPBACK')])
+            # we can put just one item, it'll be expanded automatically for all VMs
+            self._update_settings('GUEST_LOOPBACK', [guest_loopback])
 
         if 'VSWITCH' in self._settings_original or 'VNF' in self._settings_original:
             self._settings_original.update({
@@ -112,12 +112,6 @@ class TestCase(object):
                 self._tunnel_type = get_test_param('tunnel_type',
                                                    self._tunnel_type)
 
-        # identify guest loopback method, so it can be added into reports
-        if self.deployment == 'pvp':
-            self.guest_loopback.append(S.getValue('GUEST_LOOPBACK')[0])
-        else:
-            self.guest_loopback = S.getValue('GUEST_LOOPBACK').copy()
-
         # read configuration of streams; CLI parameter takes precedence to
         # testcase definition
         multistream = cfg.get('MultiStream', TRAFFIC_DEFAULTS['multistream'])
@@ -153,13 +147,6 @@ class TestCase(object):
         # Packet Forwarding mode
         self._vswitch_none = 'none' == S.getValue('VSWITCH').strip().lower()
 
-        # OVS Vanilla requires guest VM MAC address and IPs to work
-        if 'linux_bridge' in self.guest_loopback:
-            self._traffic['l2'].update({'srcmac': S.getValue('VANILLA_TGEN_PORT1_MAC'),
-                                        'dstmac': S.getValue('VANILLA_TGEN_PORT2_MAC')})
-            self._traffic['l3'].update({'srcip': S.getValue('VANILLA_TGEN_PORT1_IP'),
-                                        'dstip': S.getValue('VANILLA_TGEN_PORT2_IP')})
-
         # trafficgen configuration required for tests of tunneling protocols
         if self.deployment == "op2p":
             self._traffic['l2'].update({'srcmac':
@@ -192,13 +179,6 @@ class TestCase(object):
         # mount hugepages if needed
         self._mount_hugepages()
 
-        # verify enough hugepages are free to run the testcase
-        if not self._check_for_enough_hugepages():
-            raise RuntimeError('Not enough hugepages free to run test.')
-
-        # copy sources of l2 forwarding tools into VM shared dir if needed
-        self._copy_fwd_tools_for_all_guests()
-
         self._logger.debug("Controllers:")
         loader = Loader()
         self._traffic_ctl = component_factory.create_traffic(
@@ -208,6 +188,32 @@ class TestCase(object):
         self._vnf_ctl = component_factory.create_vnf(
             self.deployment,
             loader.get_vnf_class())
+
+        # verify enough hugepages are free to run the testcase
+        if not self._check_for_enough_hugepages():
+            raise RuntimeError('Not enough hugepages free to run test.')
+
+        # perform guest related handling
+        if self._vnf_ctl.get_vnfs_number():
+            # copy sources of l2 forwarding tools into VM shared dir if needed
+            self._copy_fwd_tools_for_all_guests()
+
+            # in case of multi VM in parallel, set the number of streams to the number of VMs
+            if self.deployment.startswith('pvpv'):
+                # for each VM NIC pair we need an unique stream
+                streams = 0
+                for vm_nic in S.getValue('GUEST_NICS_NR')[:self._vnf_ctl.get_vnfs_number()]:
+                    streams += int(vm_nic / 2) if vm_nic > 1 else 1
+                self._logger.debug("VMs with parallel connection were detected. "
+                                   "Thus Number of streams was set to %s", streams)
+                self._traffic.update({'multistream': streams})
+
+            # OVS Vanilla requires guest VM MAC address and IPs to work
+            if 'linux_bridge' in S.getValue('GUEST_LOOPBACK'):
+                self._traffic['l2'].update({'srcmac': S.getValue('VANILLA_TGEN_PORT1_MAC'),
+                                            'dstmac': S.getValue('VANILLA_TGEN_PORT2_MAC')})
+                self._traffic['l3'].update({'srcip': S.getValue('VANILLA_TGEN_PORT1_IP'),
+                                            'dstip': S.getValue('VANILLA_TGEN_PORT2_IP')})
 
         if self._vswitch_none:
             self._vswitch_ctl = component_factory.create_pktfwd(
@@ -350,8 +356,8 @@ class TestCase(object):
                 item[ResultsConstants.SCAL_STREAM_COUNT] = self._traffic['multistream']
                 item[ResultsConstants.SCAL_STREAM_TYPE] = self._traffic['stream_type']
                 item[ResultsConstants.SCAL_PRE_INSTALLED_FLOWS] = self._traffic['pre_installed_flows']
-            if self.deployment in ['pvp', 'pvvp'] and len(self.guest_loopback):
-                item[ResultsConstants.GUEST_LOOPBACK] = ' '.join(self.guest_loopback)
+            if self._vnf_ctl.get_vnfs_number():
+                item[ResultsConstants.GUEST_LOOPBACK] = ' '.join(S.getValue('GUEST_LOOPBACK'))
             if self._tunnel_type:
                 item[ResultsConstants.TUNNEL_TYPE] = self._tunnel_type
         return results
@@ -359,19 +365,15 @@ class TestCase(object):
     def _copy_fwd_tools_for_all_guests(self):
         """Copy dpdk and l2fwd code to GUEST_SHARE_DIR[s] based on selected deployment.
         """
-        # data are copied only for pvp and pvvp, so let's count number of 'v'
-        counter = 1
-        while counter <= self.deployment.count('v'):
-            self._copy_fwd_tools_for_guest(counter)
-            counter += 1
+        # consider only VNFs involved in the test
+        for guest_dir in set(S.getValue('GUEST_SHARE_DIR')[:self._vnf_ctl.get_vnfs_number()]):
+            self._copy_fwd_tools_for_guest(guest_dir)
 
-    def _copy_fwd_tools_for_guest(self, index):
+    def _copy_fwd_tools_for_guest(self, guest_dir):
         """Copy dpdk and l2fwd code to GUEST_SHARE_DIR of VM
 
         :param index: Index of VM starting from 1 (i.e. 1st VM has index 1)
         """
-        guest_dir = S.getValue('GUEST_SHARE_DIR')[index-1]
-
         # remove shared dir if it exists to avoid issues with file consistency
         if os.path.exists(guest_dir):
             tasks.run_task(['rm', '-f', '-r', guest_dir], self._logger,
@@ -381,7 +383,8 @@ class TestCase(object):
         os.makedirs(guest_dir)
 
         # copy sources into shared dir only if neccessary
-        if 'testpmd' in self.guest_loopback or 'l2fwd' in self.guest_loopback:
+        guest_loopback = set(S.getValue('GUEST_LOOPBACK'))
+        if 'testpmd' in guest_loopback or 'l2fwd' in guest_loopback:
             try:
                 tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
                                 os.path.join(S.getValue('RTE_SDK_USER'), ''),
@@ -423,8 +426,8 @@ class TestCase(object):
         """
         hugepages_needed = 0
         hugepage_size = hugepages.get_hugepage_size()
-        # get hugepage amounts per guest
-        for guest in range(self.deployment.count('v')):
+        # get hugepage amounts per guest involved in the test
+        for guest in range(self._vnf_ctl.get_vnfs_number()):
             hugepages_needed += math.ceil((int(S.getValue(
                 'GUEST_MEMORY')[guest]) * 1000) / hugepage_size)
 
@@ -436,7 +439,7 @@ class TestCase(object):
             from vswitches import ovs_dpdk_vhost
             if ovs_dpdk_vhost.OvsDpdkVhost.old_dpdk_config():
                 match = re.search(
-                    '-socket-mem\s+(\d+),(\d+)',
+                    r'-socket-mem\s+(\d+),(\d+)',
                     ''.join(S.getValue('VSWITCHD_DPDK_ARGS')))
                 if match:
                     sock0_mem, sock1_mem = (int(match.group(1)) * 1024 / hugepage_size,

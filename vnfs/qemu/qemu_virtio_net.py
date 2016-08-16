@@ -36,27 +36,23 @@ class QemuVirtioNet(IVnfQemu):
         tasks.run_task(['sudo', 'modprobe', 'vhost_net'], self._logger,
                        'Loading vhost_net module...', True)
 
-        # calculate indexes of guest devices (e.g. charx, dpdkvhostuserx)
-        i = self._number * 2
-        if1 = str(i)
-        if2 = str(i + 1)
+        # calculate index of first interface, i.e. check how many
+        # interfaces has been created for previous VMs, where 1st NIC
+        # of 1st VM has index 0
+        start_index = sum(S.getValue('GUEST_NICS_NR')[:self._number])
 
-        self._cmd += ['-netdev',
-                      'type=tap,id=' + self._net1 +
-                      ',script=no,downscript=no,' +
-                      'ifname=tap' + if1 + ',vhost=on',
-                      '-device',
-                      'virtio-net-pci,mac=' +
-                      S.getValue('GUEST_NET1_MAC')[self._number] +
-                      ',netdev=' + self._net1 + ',csum=off,gso=off,' +
-                      'guest_tso4=off,guest_tso6=off,guest_ecn=off',
-                      '-netdev',
-                      'type=tap,id=' + self._net2 +
-                      ',script=no,downscript=no,' +
-                      'ifname=tap' + if2 + ',vhost=on',
-                      '-device',
-                      'virtio-net-pci,mac=' +
-                      S.getValue('GUEST_NET2_MAC')[self._number] +
-                      ',netdev=' + self._net2 + ',csum=off,gso=off,' +
-                      'guest_tso4=off,guest_tso6=off,guest_ecn=off',
-                     ]
+        # setup requested number of interfaces
+        for nic in range(len(self._nics)):
+            index = start_index + nic
+            ifi = str(index)
+            self._cmd += ['-netdev', 'type=tap,id=' +
+                          self._nics[nic]['device'] +
+                          ',script=no,downscript=no,' +
+                          'ifname=tap' + ifi + ',vhost=on',
+                          '-device',
+                          'virtio-net-pci,mac=' +
+                          self._nics[nic]['mac'] + ',netdev=' +
+                          self._nics[nic]['device'] +
+                          ',csum=off,gso=off,' +
+                          'guest_tso4=off,guest_tso6=off,guest_ecn=off',
+                         ]
