@@ -61,7 +61,9 @@ class OvsVanilla(IVSwitchOvs):
         for i in range(self._vport_id):
             tapx = 'tap' + str(i)
             tap_cmd_list = ['sudo', 'ip', 'tuntap', 'del', tapx, 'mode', 'tap']
-            if int(settings.getValue('GUEST_NIC_QUEUES')):
+            # let's assume, that all VMs have NIC QUEUES enabled or disabled
+            # at the same time
+            if int(settings.getValue('GUEST_NIC_QUEUES')[0]):
                 tap_cmd_list += ['multi_queue']
             tasks.run_task(tap_cmd_list, self._logger, 'Deleting ' + tapx, False)
         self._vport_id = 0
@@ -112,13 +114,17 @@ class OvsVanilla(IVSwitchOvs):
         tap_name = 'tap' + str(self._vport_id)
         self._vport_id += 1
         tap_cmd_list = ['sudo', 'ip', 'tuntap', 'del', tap_name, 'mode', 'tap']
-        if int(settings.getValue('GUEST_NIC_QUEUES')):
+        # let's assume, that all VMs have NIC QUEUES enabled or disabled
+        # at the same time
+        if int(settings.getValue('GUEST_NIC_QUEUES')[0]):
             tap_cmd_list += ['multi_queue']
         tasks.run_task(tap_cmd_list, self._logger,
                        'Creating tap device...', False)
 
         tap_cmd_list = ['sudo', 'ip', 'tuntap', 'add', tap_name, 'mode', 'tap']
-        if int(settings.getValue('GUEST_NIC_QUEUES')):
+        # let's assume, that all VMs have NIC QUEUES enabled or disabled
+        # at the same time
+        if int(settings.getValue('GUEST_NIC_QUEUES')[0]):
             tap_cmd_list += ['multi_queue']
         tasks.run_task(tap_cmd_list, self._logger,
                        'Creating tap device...', False)
