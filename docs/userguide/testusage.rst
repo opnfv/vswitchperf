@@ -463,6 +463,13 @@ VSPerf currently supports multi-queue with the following limitations:
      default upstream package versions installed by VSPerf satisfy this
      requirement.
 
+ 5. If using OVS versions 2.5.0 or less enable old style multi-queue as shown in
+    the ''02_vswitch.conf'' file.
+
+  .. code-block:: console
+
+     OVS_OLD_STYLE_MQ = True
+
 To enable multi-queue modify the ''02_vswitch.conf'' file to enable multi-queue
 on the switch.
 
@@ -476,7 +483,9 @@ applies by checking /sys/class/net/<eth_name>/device/numa_node and setting an
 appropriate mask to create PMD threads on the same numa node.
 
 When multi-queue is enabled, each dpdk or dpdkvhostuser port that is created
-on the switch will set the option for multiple queues.
+on the switch will set the option for multiple queues. If old style multi queue
+has been enabled a global option for multi queue will be used instead of the
+port by port option.
 
 To enable multi-queue on the guest modify the ''04_vnf.conf'' file.
 
