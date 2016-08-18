@@ -50,10 +50,6 @@ class OvsDpdkVhost(IVSwitchOvs):
             else:
                 self._vswitchd_args = vswitchd_args
 
-        if settings.getValue('VNF').endswith('Cuse'):
-            self._logger.info("Inserting VHOST Cuse modules into kernel...")
-            dpdk.insert_vhost_modules()
-
     def configure(self):
         """ Configure vswitchd DPDK options through ovsdb if needed
         """
@@ -131,20 +127,14 @@ class OvsDpdkVhost(IVSwitchOvs):
         from 0
         """
         bridge = self._bridges[switch_name]
-        # Changed dpdkvhost to dpdkvhostuser to be able to run in Qemu 2.2
-        if settings.getValue('VNF').endswith('Cuse'):
-            vhost_count = self._get_port_count('type=dpdkvhostcuse')
-            port_name = 'dpdkvhostcuse' + str(vhost_count)
-            params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostcuse']
-        else:
-            vhost_count = self._get_port_count('type=dpdkvhostuser')
-            port_name = 'dpdkvhostuser' + str(vhost_count)
-            params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostuser']
-            # multi queue enable
-            if int(settings.getValue('VSWITCH_MULTI_QUEUES')) and \
-                    not settings.getValue('OVS_OLD_STYLE_MQ'):
-                params += ['options:n_rxq={}'.format(
-                    settings.getValue('VSWITCH_MULTI_QUEUES'))]
+        vhost_count = self._get_port_count('type=dpdkvhostuser')
+        port_name = 'dpdkvhostuser' + str(vhost_count)
+        params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostuser']
+        # multi queue enable
+        if int(settings.getValue('VSWITCH_MULTI_QUEUES')) and \
+                not settings.getValue('OVS_OLD_STYLE_MQ'):
+            params += ['options:n_rxq={}'.format(
+                settings.getValue('VSWITCH_MULTI_QUEUES'))]
         of_port = bridge.add_port(port_name, params)
 
         return (port_name, of_port)

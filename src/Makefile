@@ -19,7 +19,7 @@
 # Contributors:
 #   Aihua Li, Huawei Technologies.
 
-SUBBUILDS = src_cuse src_vanilla
+SUBBUILDS = src_vanilla
 .PHONY: vhost subbuilds $(SUBBUILDS)
 
 all clean distclean: vhost subbuilds

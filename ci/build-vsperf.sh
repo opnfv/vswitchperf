@@ -129,7 +129,7 @@ function print_results() {
 
 # execute tests and display results
 # parameters:
-#   $1 - vswitch and vnf combination, one of OVS_vanilla, OVS_with_DPDK_and_vHost_Cuse, OVS_with_DPDK_and_vHost_User
+#   $1 - vswitch and vnf combination, one of OVS_vanilla, OVS_with_DPDK_and_vHost_User
 #   $2 - CI job type, one of verify, merge, daily
 function execute_vsperf() {
     # figure out list of TCs and execution parameters
@@ -162,14 +162,6 @@ function execute_vsperf() {
 
             echo "$VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsVanilla --vnf QemuVirtioNet $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE"
             $VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsVanilla --vnf QemuVirtioNet $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
-            ;;
-        "OVS_with_DPDK_and_vHost_Cuse")
-            # figure out log file name
-            LOG_SUBDIR="OvsDpdkVhostCuse"
-            LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
-
-            echo "$VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostCuse $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE"
-            $VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostCuse $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
             ;;
         *)
             # figure out log file name

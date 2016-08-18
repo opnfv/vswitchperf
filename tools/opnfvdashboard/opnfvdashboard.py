@@ -91,34 +91,30 @@ def _generate_test_name(testcase, int_data):
     """
     the method generates testcase name for releng
     """
-    cuse = int_data['cuse']
     vanilla = int_data['vanilla']
     res_name = ""
 
-    names = {'phy2phy_tput': ["tput_ovsdpdk", "tput_ovsdpdk", "tput_ovs"],
-             'back2back': ["b2b_ovsdpdk", "b2b_ovsdpdk", "b2b_ovs"],
-             'phy2phy_tput_mod_vlan': ["tput_mod_vlan_ovsdpdk", "tput_mod_vlan_ovsdpdk", "tput_mod_vlan_ovs"],
-             'phy2phy_cont': ["cont_ovsdpdk", "cont_ovsdpdk", "cont_ovs"],
-             'pvp_cont': ["pvp_cont_ovsdpdkuser", "pvp_cont_ovsdpdkcuse", "pvp_cont_ovsvirtio"],
-             'pvvp_cont': ["pvvp_cont_ovsdpdkuser", "pvvp_cont_ovsdpdkcuse", "pvvp_cont_ovsvirtio"],
-             'phy2phy_scalability': ["scalability_ovsdpdk", "scalability_ovsdpdk", "scalability_ovs"],
-             'pvp_tput': ["pvp_tput_ovsdpdkuser", "pvp_tput_ovsdpdkcuse", "pvp_tput_ovsvirtio"],
-             'pvp_back2back': ["pvp_b2b_ovsdpdkuser", "pvp_b2b_ovsdpdkcuse", "pvp_b2b_ovsvirtio"],
-             'pvvp_tput': ["pvvp_tput_ovsdpdkuser", "pvvp_tput_ovsdpdkcuse", "pvvp_tput_ovsvirtio"],
-             'pvvp_back2back': ["pvvp_b2b_ovsdpdkuser", "pvvp_b2b_ovsdpdkcuse", "pvvp_b2b_ovsvirtio"],
-             'phy2phy_cpu_load': ["cpu_load_ovsdpdk", "cpu_load_ovsdpdk", "cpu_load_ovs"],
-             'phy2phy_mem_load': ["mem_load_ovsdpdk", "mem_load_ovsdpdk", "mem_load_ovs"]}
+    names = {'phy2phy_tput': ["tput_ovsdpdk", "tput_ovs"],
+             'back2back': ["b2b_ovsdpdk", "b2b_ovs"],
+             'phy2phy_tput_mod_vlan': ["tput_mod_vlan_ovsdpdk", "tput_mod_vlan_ovs"],
+             'phy2phy_cont': ["cont_ovsdpdk", "cont_ovs"],
+             'pvp_cont': ["pvp_cont_ovsdpdkuser", "pvp_cont_ovsvirtio"],
+             'pvvp_cont': ["pvvp_cont_ovsdpdkuser", "pvvp_cont_ovsvirtio"],
+             'phy2phy_scalability': ["scalability_ovsdpdk", "scalability_ovs"],
+             'pvp_tput': ["pvp_tput_ovsdpdkuser", "pvp_tput_ovsvirtio"],
+             'pvp_back2back': ["pvp_b2b_ovsdpdkuser", "pvp_b2b_ovsvirtio"],
+             'pvvp_tput': ["pvvp_tput_ovsdpdkuser", "pvvp_tput_ovsvirtio"],
+             'pvvp_back2back': ["pvvp_b2b_ovsdpdkuser", "pvvp_b2b_ovsvirtio"],
+             'phy2phy_cpu_load': ["cpu_load_ovsdpdk", "cpu_load_ovs"],
+             'phy2phy_mem_load': ["mem_load_ovsdpdk", "mem_load_ovs"]}
 
     for name, name_list in names.items():
         if name != testcase:
             continue
         if vanilla == True:
-            res_name = name_list[2]
+            res_name = name_list[1]
         else:
-            if cuse == True:
-                res_name = name_list[1]
-            else:
-                res_name = name_list[0]
+            res_name = name_list[0]
         break
 
     return res_name

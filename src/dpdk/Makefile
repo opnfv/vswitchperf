@@ -30,7 +30,6 @@ ifndef VHOST_USER
 endif
 WORK_DIR = dpdk
 TAG_DONE_FLAG = $(WORK_DIR)/.$(DPDK_TAG).tag.done
-DPDK_CUSE = ../../src_cuse/dpdk
 
 # VHOST configuration options are stored in different files based on DPDK version
 # v1.2.3r0-v1.6.0r2 - configuration inside config/defconfig_x86_64-default-linuxapp-gcc
@@ -99,7 +98,6 @@ clean:
 	$(AT)cd $(WORK_DIR) && git clean -xfd *.o
 clobber:
 	$(AT)rm -rf $(WORK_DIR)
-	$(AT)rm -rf $(DPDK_CUSE)
 
 # distclean is for developer who would like to keep the
 # clone git repo, saving time to fetch again from url
@@ -114,8 +112,6 @@ sanity:
 
 $(WORK_DIR):
 	$(AT)git clone $(DPDK_URL)
-	$(AT)mkdir -p $(DPDK_CUSE)
-	$(AT)cp -rf ./* $(DPDK_CUSE)
 
 $(TAG_DONE_FLAG): $(WORK_DIR)
 	$(AT)cd $(WORK_DIR); git checkout $(DPDK_TAG)
