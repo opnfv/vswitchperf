@@ -61,10 +61,8 @@ The 'make' builds all options in src:
 
 * Vanilla OVS
 * OVS with vhost_user as the guest access method (with DPDK support)
-* OVS with vhost_cuse s the guest access method (with DPDK support)
 
 The vhost_user build will reside in src/ovs/
-The vhost_cuse build will reside in vswitchperf/src_cuse
 The Vanilla OVS build will reside in vswitchperf/src_vanilla
 
 To delete a src subdirectory and its contents to allow you to re-clone simply
@@ -237,31 +235,8 @@ To run tests using vhost-user as guest access method:
 
 .. code-block:: console
 
-   VHOST_METHOD='user'
+   VSWITCH = 'OvsDpdkVhost'
    VNF = 'QemuDpdkVhost'
-
-2. If needed, recompile src for all OVS variants
-
-.. code-block:: console
-
-     $ cd src
-     $ make distclean
-     $ make
-
-3. Run test:
-
-.. code-block:: console
-
-     $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
-
-To run tests using vhost-cuse as guest access method:
-
-1. Set VHOST_METHOD and VNF of your settings file to:
-
-.. code-block:: console
-
-     VHOST_METHOD='cuse'
-     VNF = 'QemuDpdkVhostCuse'
 
 2. If needed, recompile src for all OVS variants
 

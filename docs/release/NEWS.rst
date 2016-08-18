@@ -2,6 +2,10 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
+OPNFV D Release
+===============
+* Remove support for vhost cuse
+
 OPNFV Colorado Release
 ======================
 * Support for DPDK v16.07
@@ -99,7 +103,7 @@ September 2015
 ==============
 
 - Implementation of system statistics based upon pidstat command line tool.
-- Support of PVVP deployment scenario using bhost-cuse and vhost user access
+- Support of PVVP deployment scenario using vhost-cuse and vhost user access
   methods
 
 August 2015

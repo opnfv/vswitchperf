@@ -28,15 +28,6 @@ def settings_update_paths():
     if settings.getValue('VSWITCH').endswith('Vanilla'):
         # settings paths for Vanilla
         settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_VANILLA')))
-    elif settings.getValue('VSWITCH').endswith('Vhost'):
-        if settings.getValue('VNF').endswith('Cuse'):
-            # settings paths for Cuse
-            settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_CUSE')))
-            settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_CUSE')))
-        else:
-            # settings paths for VhostUser
-            settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_USER')))
-            settings.setValue('OVS_DIR', (settings.getValue('OVS_DIR_USER')))
     else:
         # default - set to VHOST USER but can be changed during enhancement
         settings.setValue('RTE_SDK', (settings.getValue('RTE_SDK_USER')))
