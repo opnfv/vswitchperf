@@ -85,7 +85,8 @@ class IVnfQemu(IVnf):
                      '-m', S.getValue('GUEST_MEMORY')[self._number],
                      '-smp', str(S.getValue('GUEST_SMP')[self._number]),
                      '-cpu', 'host,migratable=off',
-                     '-drive', 'if=scsi,file=' +
+                     '-drive', 'if={},file='.format(S.getValue(
+                        'GUEST_BOOT_DRIVE_TYPE')) +
                      S.getValue('GUEST_IMAGE')[self._number],
                      '-boot', 'c', '--enable-kvm',
                      '-monitor', 'unix:%s,server,nowait' % self._monitor,
@@ -97,8 +98,9 @@ class IVnfQemu(IVnf):
                      '-nographic', '-vnc', str(vnc), '-name', name,
                      '-snapshot', '-net none', '-no-reboot',
                      '-drive',
-                     'if=scsi,format=raw,file=fat:rw:%s,snapshot=off' %
-                     S.getValue('GUEST_SHARE_DIR')[self._number],
+                     'if=%s,format=raw,file=fat:rw:%s,snapshot=off' %
+                     (S.getValue('GUEST_SHARED_DRIVE_TYPE'),
+                      S.getValue('GUEST_SHARE_DIR')[self._number]),
                     ]
         self._configure_logging()
 
