@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_c1920357",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-23T10:07:18Z",
+      "side": 1,
+      "message": "I wasn\u0027t really sure about adding this line, welcome to opinions as most things we do are inherit features. The guest affinitize is OK because a lot of people use virsh with xml files that allow for direct cpu pinning. I felt that because there was no way to do this type of configuration outside of a custom script we should mention it.",
+      "revId": "6b588b90b143afad446c52e987d368ab741cb0f4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
