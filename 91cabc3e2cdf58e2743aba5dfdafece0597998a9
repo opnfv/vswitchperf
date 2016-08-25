@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_c1be7ed4",
+        "filename": "conf/04_vnf.conf",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-08-25T06:51:12Z",
+      "side": 1,
+      "message": "@Al, @Maryam,\n\nif I recall it correctly, there was a requirement in the past to pass multiple \"streams\" through one VM. This configuration template allows to configure up to 4 NICs per VM, i.e. to pass a serial stream twice through VM or to have two parallel streams. It is easy to enhance default template to more NICs, e.g. up to 8 (to support up to 4 independent \"streams\" per VM). Let me know, if you find it useful (and the number of NICs to be prepared in default template).",
+      "revId": "91cabc3e2cdf58e2743aba5dfdafece0597998a9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
