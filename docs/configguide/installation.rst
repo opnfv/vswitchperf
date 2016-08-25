@@ -42,6 +42,12 @@ download at OPNFV website.
 vloop-vnf changelog:
 ====================
 
+* `vloop-vnf-ubuntu-14.04_20160823`_
+
+  * ethtool installed
+  * only 1 NIC is configured by default to speed up boot with 1 NIC setup
+  * security updates applied
+
 * `vloop-vnf-ubuntu-14.04_20160804`_
 
   * Linux kernel 4.4.0 installed
