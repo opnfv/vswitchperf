@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_a1758299",
+        "filename": "conf/04_vnf.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-25T03:13:20Z",
+      "side": 1,
+      "message": "Should change this to be in a list even though it is commented out to match the other config changes.",
+      "revId": "6ac8f695136e1d585576a707ba103f7bef3c7c75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c19f5eb3",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-25T03:13:20Z",
+      "side": 1,
+      "message": "I think you mean \"setup scenarios\", the a in the middle makes it sound funny.",
+      "revId": "6ac8f695136e1d585576a707ba103f7bef3c7c75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_61a68a12",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-25T03:13:20Z",
+      "side": 1,
+      "message": "related to \"a\" particular VM instance?\nI think I found where the \"a\" above was meant to go :).",
+      "revId": "6ac8f695136e1d585576a707ba103f7bef3c7c75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_21b09242",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-25T03:13:20Z",
+      "side": 1,
+      "message": "I think we should make it start with \"The Controller\".",
+      "revId": "6ac8f695136e1d585576a707ba103f7bef3c7c75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
