@@ -42,6 +42,12 @@ download at OPNFV website.
 vloop-vnf changelog:
 ====================
 
+* `vloop-vnf-ubuntu-14.04_20160823`_
+
+  * ethtool installed
+  * only 1 NIC is configured by default to speed up boot with 1 NIC setup
+  * security updates applied
+
 * `vloop-vnf-ubuntu-14.04_20160804`_
 
   * Linux kernel 4.4.0 installed
@@ -150,6 +156,7 @@ running any of the above. For example:
 
 .. _a link: http://www.softwarecollections.org/en/scls/rhscl/python33/
 .. _virtualenv: https://virtualenv.readthedocs.org/en/latest/
+.. _vloop-vnf-ubuntu-14.04_20160823: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20160823.qcow2
 .. _vloop-vnf-ubuntu-14.04_20160804: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20160804.qcow2
 .. _vloop-vnf-ubuntu-14.04_20160303: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20160303.qcow2
 .. _vloop-vnf-ubuntu-14.04_20151216: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20151216.qcow2
