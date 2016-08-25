@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_41d90e82",
+        "filename": "conf/04_vnf.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-08-25T06:12:57Z",
+      "side": 1,
+      "message": "Good catch, I\u0027ve missed that. Thanks.",
+      "parentUuid": "1a76adc5_a1758299",
+      "revId": "6ac8f695136e1d585576a707ba103f7bef3c7c75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_c19f5eb3",
         "filename": "docs/design/vswitchperf_design.rst",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-25T03:13:20Z",
       "side": 1,
       "message": "I think you mean \"setup scenarios\", the a in the middle makes it sound funny.",
+      "revId": "6ac8f695136e1d585576a707ba103f7bef3c7c75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e1e7fa3e",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-08-25T06:12:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_c19f5eb3",
       "revId": "6ac8f695136e1d585576a707ba103f7bef3c7c75",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_a1d10259",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-08-25T06:12:57Z",
+      "side": 1,
+      "message": "Fixed in both design doc and 04_vnf.conf.",
+      "parentUuid": "1a76adc5_61a68a12",
+      "revId": "6ac8f695136e1d585576a707ba103f7bef3c7c75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_21b09242",
         "filename": "docs/design/vswitchperf_design.rst",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-25T03:13:20Z",
       "side": 1,
       "message": "I think we should make it start with \"The Controller\".",
+      "revId": "6ac8f695136e1d585576a707ba103f7bef3c7c75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c1d43e49",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-08-25T06:12:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_21b09242",
       "revId": "6ac8f695136e1d585576a707ba103f7bef3c7c75",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
