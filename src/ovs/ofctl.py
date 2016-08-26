@@ -28,13 +28,6 @@ import re
 from tools import tasks
 from conf import settings
 
-_OVS_VSCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
-                              'ovs-vsctl')
-_OVS_OFCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
-                              'ovs-ofctl')
-_OVS_APPCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
-                               'ovs-appctl')
-
 _OVS_BRIDGE_NAME = settings.getValue('VSWITCH_BRIDGE_NAME')
 
 _CACHE_FILE_NAME = '/tmp/vsperf_flows_cache'
@@ -66,9 +59,9 @@ class OFBase(object):
         :return: None
         """
         if self.timeout == -1:
-            cmd = ['sudo', _OVS_VSCTL_BIN, '--no-wait'] + args
+            cmd = ['sudo', settings.getValue('TOOLS')['ovs-vsctl'], '--no-wait'] + args
         else:
-            cmd = ['sudo', _OVS_VSCTL_BIN, '--timeout', str(self.timeout)] + args
+            cmd = ['sudo', settings.getValue('TOOLS')['ovs-vsctl'], '--timeout', str(self.timeout)] + args
         return tasks.run_task(
             cmd, self.logger, 'Running ovs-vsctl...', check_error)
 
@@ -81,7 +74,7 @@ class OFBase(object):
 
         :return: None
         """
-        cmd = ['sudo', _OVS_APPCTL_BIN,
+        cmd = ['sudo', settings.getValue('TOOLS')['ovs-appctl'],
                '--timeout',
                str(self.timeout)] + args
         return tasks.run_task(
@@ -184,8 +177,8 @@ class OFBridge(OFBase):
         :return: None
         """
         tmp_timeout = self.timeout if timeout == None else timeout
-        cmd = ['sudo', _OVS_OFCTL_BIN, '-O', 'OpenFlow13', '--timeout',
-               str(tmp_timeout)] + args
+        cmd = ['sudo', settings.getValue('TOOLS')['ovs-ofctl'], '-O',
+               'OpenFlow13', '--timeout', str(tmp_timeout)] + args
         return tasks.run_task(
             cmd, self.logger, 'Running ovs-ofctl...', check_error)
 

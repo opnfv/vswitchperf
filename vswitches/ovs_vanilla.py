@@ -43,15 +43,6 @@ class OvsVanilla(IVSwitchOvs):
         self._vswitchd_args += settings.getValue('VSWITCHD_VANILLA_ARGS')
         self._module_manager = ModuleManager()
 
-    def start(self):
-        """See IVswitch for general description
-
-        Activates kernel modules, ovsdb and vswitchd.
-        """
-        self._module_manager.insert_modules(
-            settings.getValue('VSWITCH_VANILLA_KERNEL_MODULES'))
-        super(OvsVanilla, self).start()
-
     def stop(self):
         """See IVswitch for general description
 

@@ -30,8 +30,6 @@ from conf import settings
 from tools.module_manager import ModuleManager
 
 _LOGGER = logging.getLogger(__name__)
-RTE_PCI_TOOL = glob.glob(os.path.join(
-    settings.getValue('RTE_SDK_USER'), 'tools', 'dpdk*bind.py'))[0]
 
 _DPDK_MODULE_MANAGER = ModuleManager()
 
@@ -91,43 +89,12 @@ def _insert_modules():
     """Ensure required modules are inserted on system.
     """
 
-    _DPDK_MODULE_MANAGER.insert_modules(settings.getValue('SYS_MODULES'))
-
-    mod_path_prefix = settings.getValue('OVS_DIR')
-    _DPDK_MODULE_MANAGER.insert_module_group(settings.getValue('OVS_MODULES'),
-                                             mod_path_prefix)
-    if 'vfio-pci' not in settings.getValue('DPDK_MODULES'):
-        mod_path_prefix = os.path.join(settings.getValue('RTE_SDK'),
-                                       settings.getValue('RTE_TARGET'))
-        _DPDK_MODULE_MANAGER.insert_module_group(settings.getValue('DPDK_MODULES'),
-                                                 mod_path_prefix)
-    else:
-        _DPDK_MODULE_MANAGER.insert_modules(settings.getValue('DPDK_MODULES'))
+    _DPDK_MODULE_MANAGER.insert_modules(settings.getValue('TOOLS')['dpdk_modules'])
 
 def _remove_modules():
     """Ensure required modules are removed from system.
     """
     _DPDK_MODULE_MANAGER.remove_modules()
-
-#
-# vhost specific modules management
-#
-
-def insert_vhost_modules():
-    """Inserts VHOST related kernel modules
-    """
-    mod_path_prefix = os.path.join(settings.getValue('RTE_SDK'),
-                                   'lib',
-                                   'librte_vhost')
-    _DPDK_MODULE_MANAGER.insert_module_group(settings.getValue('VHOST_MODULE'), mod_path_prefix)
-
-
-def remove_vhost_modules():
-    """Removes all VHOST related kernel modules
-    """
-    # all modules are removed automatically by _remove_modules() method
-    pass
-
 
 #
 # 'vhost-net' module cleanup
@@ -173,7 +140,7 @@ def _bind_nics():
     """
     try:
         _driver = 'igb_uio'
-        if 'vfio-pci' in settings.getValue('DPDK_MODULES'):
+        if 'vfio-pci' in settings.getValue('TOOLS')['dpdk_modules']:
             _driver = 'vfio-pci'
             tasks.run_task(['sudo', 'chmod', 'a+x', '/dev/vfio'],
                            _LOGGER, 'Setting VFIO permissions .. a+x',
@@ -182,7 +149,8 @@ def _bind_nics():
                            _LOGGER, 'Setting VFIO permissions .. 0666',
                            True)
 
-        tasks.run_task(['sudo', RTE_PCI_TOOL, '--bind=' + _driver] +
+        tasks.run_task(['sudo', settings.getValue('TOOLS')['bind-tool'],
+                       '--bind=' + _driver] +
                        _NICS_PCI, _LOGGER,
                        'Binding NICs %s...' % _NICS_PCI,
                        True)
@@ -193,7 +161,7 @@ def _unbind_nics():
     """Unbind NICs using the Intel DPDK ``dpdk*bind.py`` tool.
     """
     try:
-        tasks.run_task(['sudo', RTE_PCI_TOOL, '--unbind'] +
+        tasks.run_task(['sudo', settings.getValue('TOOLS')['bind-tool'], '--unbind'] +
                        _NICS_PCI, _LOGGER,
                        'Unbinding NICs %s...' % str(_NICS_PCI),
                        True)
@@ -204,7 +172,7 @@ def _unbind_nics():
     for nic in _NICS:
         try:
             if nic['driver']:
-                tasks.run_task(['sudo', RTE_PCI_TOOL, '--bind',
+                tasks.run_task(['sudo', settings.getValue('TOOLS')['bind-tool'], '--bind',
                                 nic['driver'], nic['pci']],
                                _LOGGER, 'Binding NIC %s to %s...' %
                                (nic['pci'], nic['driver']),
