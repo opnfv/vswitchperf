@@ -509,11 +509,15 @@ To run OVS NATIVE tunnel tests (VXLAN/GRE/GENEVE):
 
     VSWITCH = 'OvsVanilla'
     # Specify vport_* kernel module to test.
-    VSWITCH_VANILLA_KERNEL_MODULES = ['vport_vxlan',
-                                      'vport_gre',
-                                      'vport_geneve',
-                                      os.path.join(OVS_DIR_VANILLA,
-                                      'datapath/linux/openvswitch.ko')]
+    PATHS['vswitch']['OvsVanilla']['src']['modules'] = [
+        'vport_vxlan',
+        'vport_gre',
+        'vport_geneve',
+        'datapath/linux/openvswitch.ko',
+    ]
+
+  **NOTE:** In case, that Vanilla OVS is installed from binary package, then
+  please set ``PATHS['vswitch']['OvsVanilla']['bin']['modules']`` instead.
 
 3. Run tests:
 
@@ -674,9 +678,10 @@ To run VXLAN decapsulation tests:
 
   .. code-block:: python
 
-    VSWITCH_VANILLA_KERNEL_MODULES = ['vport_vxlan',
-                                      os.path.join(OVS_DIR_VANILLA,
-                                      'datapath/linux/openvswitch.ko')]
+    PATHS['vswitch']['OvsVanilla']['src']['modules'] = [
+        'vport_vxlan',
+        'datapath/linux/openvswitch.ko',
+    ]
 
     DUT_NIC1_MAC = '<DUT NIC1 MAC ADDRESS>'
 
@@ -714,6 +719,9 @@ To run VXLAN decapsulation tests:
                       'inner_dstport': 3001,
                      }
 
+  **NOTE:** In case, that Vanilla OVS is installed from binary package, then
+  please set ``PATHS['vswitch']['OvsVanilla']['bin']['modules']`` instead.
+
 2. Run test:
 
   .. code-block:: console
@@ -730,9 +738,10 @@ To run GRE decapsulation tests:
 
   .. code-block:: python
 
-    VSWITCH_VANILLA_KERNEL_MODULES = ['vport_gre',
-                                      os.path.join(OVS_DIR_VANILLA,
-                                      'datapath/linux/openvswitch.ko')]
+    PATHS['vswitch']['OvsVanilla']['src']['modules'] = [
+        'vport_gre',
+        'datapath/linux/openvswitch.ko',
+    ]
 
     DUT_NIC1_MAC = '<DUT NIC1 MAC ADDRESS>'
 
@@ -769,6 +778,9 @@ To run GRE decapsulation tests:
                     'inner_dstport': 3001,
                    }
 
+  **NOTE:** In case, that Vanilla OVS is installed from binary package, then
+  please set ``PATHS['vswitch']['OvsVanilla']['bin']['modules']`` instead.
+
 2. Run test:
 
   .. code-block:: console
@@ -785,9 +797,10 @@ To run GENEVE decapsulation tests:
 
   .. code-block:: python
 
-    VSWITCH_VANILLA_KERNEL_MODULES = ['vport_geneve',
-                                      os.path.join(OVS_DIR_VANILLA,
-                                      'datapath/linux/openvswitch.ko')]
+    PATHS['vswitch']['OvsVanilla']['src']['modules'] = [
+        'vport_geneve',
+        'datapath/linux/openvswitch.ko',
+    ]
 
     DUT_NIC1_MAC = '<DUT NIC1 MAC ADDRESS>'
 
@@ -823,6 +836,9 @@ To run GENEVE decapsulation tests:
                        'inner_srcport': 3000,
                        'inner_dstport': 3001,
                       }
+
+  **NOTE:** In case, that Vanilla OVS is installed from binary package, then
+  please set ``PATHS['vswitch']['OvsVanilla']['bin']['modules']`` instead.
 
 2. Run test:
 

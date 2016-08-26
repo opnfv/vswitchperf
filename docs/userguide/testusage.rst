@@ -306,15 +306,16 @@ To run tests using Vanilla OVS:
 Using vfio_pci with DPDK
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To use vfio with DPDK instead of igb_uio edit 'conf/02_vswitch.conf'
-with the following parameters:
+To use vfio with DPDK instead of igb_uio add into your custom configuration
+file the following parameter:
 
 .. code-block:: console
 
-    DPDK_MODULES = [
-     ('vfio-pci'),
-    ]
-    SYS_MODULES = ['cuse']
+    PATHS['dpdk']['src']['modules'] = ['uio', 'vfio-pci']
+
+
+**NOTE:** In case, that DPDK is installed from binary package, then please
+set ``PATHS['dpdk']['bin']['modules']`` instead.
 
 **NOTE:** Please ensure that Intel VT-d is enabled in BIOS.
 

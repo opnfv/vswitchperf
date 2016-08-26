@@ -100,6 +100,164 @@ The values in the file specified by ``--conf-file`` takes precedence over all
 the other configuration files and does not have to follow the naming
 convention.
 
+Configuration of PATHS dictionary
+---------------------------------
+
+VSPERF uses external tools like Open vSwitch and Qemu for execution of testcases. These
+tools may be downloaded and built automatically by `VSPERF installation scripts`_
+or installed manually by user from binary packages. It is also possible to use a combination
+of both approaches, but it is essential to correctly set paths to all required tools.
+These paths are stored within a PATHS dictionary, which is evaluated before execution
+of each testcase, in order to setup testcase specific environment. Values selected for testcase
+execution are internally stored inside TOOLS dictionary, which is used by VSPERF to execute
+external tools, load kernel modules, etc.
+
+The default configuration of PATHS dictionary is spread among three different configuration files
+to follow logical grouping of configuration options. Basic description of PATHS dictionary
+is placed inside ``conf/00_common.conf``. The configuration specific to DPDK and vswitches
+is located at ``conf/02_vswitch.conf``. The last part related to the Qemu is defined inside
+``conf/04_vnf.conf``. Default configuration values can be used in case, that all required
+tools were downloaded and built automatically by vsperf itself. In case, that some of
+tools were installed manually from binary packages, then it will be necessary to modify
+the content of PATHS dictionary accordingly.
+
+Dictionary has a specific section of configuration options for every tool type, it means:
+
+    * ``PATHS['vswitch']`` - contains a separete dictionary for each of vswitches supported by VSPEF
+
+      Example:
+
+      .. code-block:: python
+
+         PATHS['vswitch'] = {
+            'OvsDpdkVhost': { ... },
+            'OvsVanilla' : { ... },
+            ...
+         }
+
+    * ``PATHS['dpdk']`` - contains paths to the dpdk sources, kernel modules and tools (e.g. testpmd)
+
+      Example:
+
+      .. code-block:: python
+
+         PATHS['dpdk'] = {
+            'type' : 'src',
+            'src': {
+                'path': os.path.join(ROOT_DIR, 'src/dpdk/dpdk/'),
+                'modules' : ['uio', os.path.join(RTE_TARGET, 'kmod/igb_uio.ko')],
+                'bind-tool': 'tools/dpdk*bind.py',
+                'testpmd': os.path.join(RTE_TARGET, 'app', 'testpmd'),
+            },
+            ...
+         }
+
+    * ``PATHS['qemu']`` - contains paths to the qemu sources and executable file
+
+      Example:
+
+      .. code-block:: python
+
+         PATHS['qemu'] = {
+             'type' : 'bin',
+             'bin': {
+                 'qemu-system': 'qemu-system-x86_64'
+             },
+             ...
+         }
+
+Every section specific to the particular vswitch, dpdk or qemu may contain following types
+of configuration options:
+
+    * option ``type`` - is a string, which defines the type of configured paths ('src' or 'bin')
+      to be selected for a given section:
+
+        * value ``src`` means, that VSPERF will use vswitch, DPDK or QEMU built from sources
+          e.g. by execution of ``systems/build_base_machine.sh`` script during VSPERF
+          installation
+
+        * value ``bin`` means, that VSPERF will use vswitch, DPDK or QEMU binaries installed
+          directly in the operating system, e.g. via OS specific packaging system
+
+    * option ``path`` - is a string with a valid system path; Its content is checked for
+      existence, prefixed with section name and stored into TOOLS for later use
+      e.g. ``TOOLS['dpdk_src']`` or ``TOOLS['vswitch_src']``
+
+    * option ``modules`` - is list of strings with names of kernel modules; Every module name
+      from given list is checked for a '.ko' suffix. In case that it matches and if it is not
+      an absolute path to the module, then module name is prefixed with value of ``path``
+      option defined for the same section
+
+      Example:
+
+      .. code-block:: python
+
+         """
+         snippet of PATHS definition from the configuration file:
+         """
+         PATHS['vswitch'] = {
+             'OvsVanilla' = {
+                 'type' : 'src',
+                 'src': {
+                     'path': '/tmp/vsperf/src_vanilla/ovs/ovs/',
+                     'modules' : ['datapath/linux/openvswitch.ko'],
+                     ...
+                 },
+                 ...
+             }
+             ...
+         }
+
+         """
+         Final content of TOOLS dictionary used during runtime:
+         """
+         TOOLS['vswitch_modules'] = ['/tmp/vsperf/src_vanilla/ovs/ovs/datapath/linux/openvswitch.ko']
+
+    * all other options are strings with names and paths to specific tools; If a given string
+      contains a relative path and option ``path`` is defined for a given section, then string
+      content will be prefixed with content of the ``path``. Otherwise the name of the tool will be
+      searched within standard system directories. In case that filename contains OS specific
+      wildcards, then they will be expanded to the real path. At the end of the processing, every
+      absolute path will be checked for its existence. In case that temporary path (i.e. path with
+      a ``_tmp`` suffix) does not exist, then log will be written and vsperf will continue. If any
+      other path will not exist, then vsperf execution will be terminated with a runtime error.
+
+      Example:
+
+      .. code-block:: python
+
+         """
+         snippet of PATHS definition from the configuration file:
+         """
+         PATHS['vswitch'] = {
+             'OvsDpdkVhost': {
+                 'type' : 'src',
+                 'src': {
+                     'path': '/tmp/vsperf/src_vanilla/ovs/ovs/',
+                     'ovs-vswitchd': 'vswitchd/ovs-vswitchd',
+                     'ovsdb-server': 'ovsdb/ovsdb-server',
+                     ...
+                 }
+                 ...
+             }
+             ...
+         }
+
+         """
+         Final content of TOOLS dictionary used during runtime:
+         """
+         TOOLS['ovs-vswitchd'] = '/tmp/vsperf/src_vanilla/ovs/ovs/vswitchd/ovs-vswitchd'
+         TOOLS['ovsdb-server'] = '/tmp/vsperf/src_vanilla/ovs/ovs/ovsdb/ovsdb-server'
+
+Note: In case that ``bin`` type is set for DPDK, then ``TOOLS['dpdk_src']`` will be set to
+the value of ``PATHS['dpdk']['src']['path']``. The reason is, that VSPERF uses downloaded
+DPDK sources to copy DPDK and testpmd into the GUEST, where testpmd is built. In case,
+that DPDK sources are not available, then vsperf will continue with test execution,
+but testpmd can't be used as a guest loopback. This is useful in case, that other guest
+loopback applications (e.g. buildin or l2fwd) are used.
+
+.. _VSPERF installation scripts: http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html#other-requirements
+
 Configuration of GUEST options
 ------------------------------
 

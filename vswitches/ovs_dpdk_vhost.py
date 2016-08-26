@@ -84,7 +84,6 @@ class OvsDpdkVhost(IVSwitchOvs):
 
         super(OvsDpdkVhost, self).stop()
         dpdk.cleanup()
-        dpdk.remove_vhost_modules()
 
     def add_switch(self, switch_name, params=None):
         """See IVswitch for general description
@@ -147,7 +146,7 @@ class OvsDpdkVhost(IVSwitchOvs):
         :returns: True if legacy --dpdk option is supported, otherwise it returns False
         """
 
-        ovs_vswitchd_bin = os.path.join(settings.getValue('OVS_DIR'), 'vswitchd', 'ovs-vswitchd')
+        ovs_vswitchd_bin = settings.getValue('TOOLS')['ovs-vswitchd']
         try:
             subprocess.check_output(ovs_vswitchd_bin + r' --help | grep "\-\-dpdk"', shell=True)
             return True

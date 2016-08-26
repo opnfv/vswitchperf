@@ -20,8 +20,8 @@ Generate reports in format defined by X.
 
 import sys
 import os
-import jinja2
 import logging
+import jinja2
 
 from core.results.results_constants import ResultsConstants
 from conf import settings as S
@@ -64,7 +64,8 @@ def _get_env(result):
     if result[ResultsConstants.DEPLOYMENT].count('v'):
         env.update({'vnf': systeminfo.get_version(S.getValue('VNF')),
                     'guest_image': S.getValue('GUEST_IMAGE'),
-                    'loopback_app': list(map(systeminfo.get_version, S.getValue('GUEST_LOOPBACK'))),
+                    'loopback_app': list(map(systeminfo.get_loopback_version,
+                                             S.getValue('GUEST_LOOPBACK'))),
                    })
 
     return env
