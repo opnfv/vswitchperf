@@ -508,7 +508,7 @@ class Moongen(ITrafficGenerator):
                 float(results_match.group(6)) * 1000000)
 
             moongen_results[ResultsConstants.THROUGHPUT_RX_MBPS] = (
-                (float(results_match.group(6)) * frame_size + 20) * 8)
+                float(results_match.group(6)) * (frame_size + 20) * 8)
 
             moongen_results[ResultsConstants.THROUGHPUT_RX_PERCENT] = (
                 (100 * float(results_match.group(6)) * 1000000) / max_theoretical_fps)
