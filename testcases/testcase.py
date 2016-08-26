@@ -68,16 +68,10 @@ class TestCase(object):
         self._update_settings('TEST_PARAMS', cfg.get('Parameters', S.getValue('TEST_PARAMS')))
 
         # update global settings
+        functions.settings_update_paths()
         guest_loopback = get_test_param('guest_loopback', None)
         if guest_loopback:
             self._update_settings('GUEST_LOOPBACK', [guest_loopback for dummy in S.getValue('GUEST_LOOPBACK')])
-
-        if 'VSWITCH' in self._settings_original or 'VNF' in self._settings_original:
-            self._settings_original.update({
-                'RTE_SDK' : S.getValue('RTE_SDK'),
-                'OVS_DIR' : S.getValue('OVS_DIR'),
-            })
-            functions.settings_update_paths()
 
         # set test parameters; CLI options take precedence to testcase settings
         self._logger = logging.getLogger(__name__)
@@ -384,7 +378,7 @@ class TestCase(object):
         if 'testpmd' in self.guest_loopback or 'l2fwd' in self.guest_loopback:
             try:
                 tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
-                                os.path.join(S.getValue('RTE_SDK_USER'), ''),
+                                os.path.join(S.getValue('TOOLS')['dpdk_src'], ''),
                                 os.path.join(guest_dir, 'DPDK')],
                                self._logger,
                                'Copying DPDK to shared directory...',

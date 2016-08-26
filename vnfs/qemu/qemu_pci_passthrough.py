@@ -19,7 +19,6 @@
 import logging
 import subprocess
 import os
-import glob
 
 from conf import settings as S
 from vnfs.qemu.qemu import IVnfQemu
@@ -27,7 +26,6 @@ from tools import tasks
 from tools.module_manager import ModuleManager
 
 _MODULE_MANAGER = ModuleManager()
-_RTE_PCI_TOOL = glob.glob(os.path.join(S.getValue('RTE_SDK'), 'tools', 'dpdk*bind.py'))[0]
 
 class QemuPciPassthrough(IVnfQemu):
     """
@@ -60,7 +58,7 @@ class QemuPciPassthrough(IVnfQemu):
         # bind every interface to vfio-pci driver
         try:
             nics_list = list(tmp_nic['pci'] for tmp_nic in self._nics)
-            tasks.run_task(['sudo', _RTE_PCI_TOOL, '--bind=vfio-pci'] + nics_list,
+            tasks.run_task(['sudo', S.getValue('TOOLS')['bind-tool'], '--bind=vfio-pci'] + nics_list,
                            self._logger, 'Binding NICs %s...' % nics_list, True)
 
         except subprocess.CalledProcessError:
@@ -78,7 +76,7 @@ class QemuPciPassthrough(IVnfQemu):
         for nic in self._nics:
             if nic['driver']:
                 try:
-                    tasks.run_task(['sudo', _RTE_PCI_TOOL, '--bind=' + nic['driver'], nic['pci']],
+                    tasks.run_task(['sudo', S.getValue('TOOLS')['bind-tool'], '--bind=' + nic['driver'], nic['pci']],
                                    self._logger, 'Binding NIC %s...' % nic['pci'], True)
 
                 except subprocess.CalledProcessError:
