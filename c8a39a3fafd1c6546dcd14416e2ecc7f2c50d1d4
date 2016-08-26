@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_ef2041f9",
+        "filename": "systems/ubuntu/build_base_machine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-08-26T13:11:52Z",
+      "side": 1,
+      "message": "Why not uname -i  ?  \n(-i returns the platform, not HW, such as x86_64 \n -m will return x686 for intel )",
+      "revId": "c8a39a3fafd1c6546dcd14416e2ecc7f2c50d1d4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
