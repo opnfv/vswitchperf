@@ -27,10 +27,6 @@ from tools import tasks
 
 _TESTPMD_PROMPT = 'Done'
 
-_TESTPMD_BIN = os.path.join(
-    settings.getValue('RTE_SDK'), settings.getValue('RTE_TARGET'),
-    'app', 'testpmd')
-
 _LOG_FILE_VSWITCHD = os.path.join(
     settings.getValue('LOG_DIR'), settings.getValue('LOG_FILE_VSWITCHD'))
 
@@ -57,7 +53,7 @@ class TestPMDProcess(tasks.Process):
         if not self._expect:
             self._expect = _TESTPMD_PROMPT
         testpmd_args = testpmd_args or []
-        self._cmd = ['sudo', '-E', _TESTPMD_BIN] + testpmd_args
+        self._cmd = ['sudo', '-E', settings.getValue('TOOLS')['testpmd']] + testpmd_args
 
     # startup/shutdown
 
