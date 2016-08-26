@@ -16,6 +16,24 @@
       "revId": "0fb65d2afadad1f092788f5a4f251b09851b3ae7",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_44083c2d",
+        "filename": "vnfs/qemu/qemu.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-08-26T00:44:48Z",
+      "side": 1,
+      "message": "I was hoping you would have a better approach to this messy regex way of doing this. I\u0027ll look into it and post an update in a day or two.  Thanks.",
+      "parentUuid": "1a76adc5_845c14ef",
+      "revId": "0fb65d2afadad1f092788f5a4f251b09851b3ae7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
