@@ -23,9 +23,6 @@ import string
 from tools import tasks
 from conf import settings
 
-_OVS_DPCTL_BIN = os.path.join(settings.getValue('OVS_DIR'), 'utilities',
-                              'ovs-dpctl')
-
 _OVS_LOCAL_DATAPATH = 'ovs-system'
 
 class DPCtl(object):
@@ -51,7 +48,7 @@ class DPCtl(object):
 
         :return: None
         """
-        cmd = ['sudo', _OVS_DPCTL_BIN,
+        cmd = ['sudo', settings.getValue('TOOLS')['ovs-dpctl'],
                '--timeout',
                str(self.timeout)] + args
         return tasks.run_task(

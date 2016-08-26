@@ -19,6 +19,7 @@ import os
 import platform
 import subprocess
 import locale
+import re
 
 from conf import settings as S
 
@@ -176,6 +177,40 @@ def pid_isalive(pid):
     """
     return os.path.isdir('/proc/' + str(pid))
 
+def get_bin_version(binary, regex):
+    """ get version of given binary selected by given regex
+
+    :returns: version string or None
+    """
+    try:
+        output = subprocess.check_output(binary, shell=True).decode().rstrip('\n')
+    except subprocess.CalledProcessError:
+        return None
+
+    versions = re.findall(regex, output)
+    if len(versions):
+        return versions[0]
+    else:
+        return None
+
+def get_git_tag(path):
+    """ get tag of recent commit from repository located at 'path'
+
+    :returns: git tag in form of string with commit hash or None if there
+        isn't any git repository at given path
+    """
+    try:
+        if os.path.isdir(path):
+            return subprocess.check_output('cd {}; git rev-parse HEAD'.format(path), shell=True,
+                                           stderr=subprocess.DEVNULL).decode().rstrip('\n')
+        elif os.path.isfile(path):
+            return subprocess.check_output('cd $(dirname {}); git log -1 --pretty="%H" {}'.format(path, path),
+                                           shell=True, stderr=subprocess.DEVNULL).decode().rstrip('\n')
+        else:
+            return None
+    except subprocess.CalledProcessError:
+        return None
+
 # This function uses long switch per purpose, so let us suppress pylint warning too-many-branches
 # pylint: disable=R0912
 def get_version(app_name):
@@ -186,87 +221,33 @@ def get_version(app_name):
 
     """
     app_version_file = {
-        'ovs' : os.path.join(S.getValue('OVS_DIR'), 'include/openvswitch/version.h'),
-        'dpdk' : os.path.join(S.getValue('RTE_SDK'), 'lib/librte_eal/common/include/rte_version.h'),
-        'qemu' : os.path.join(S.getValue('QEMU_DIR'), 'VERSION'),
+        'ovs' : r'Open vSwitch\) ([0-9.]+)',
+        'testpmd' : r'DPDK ([0-9.]+)',
+        'qemu' : r'QEMU emulator version ([0-9.]+)',
         'l2fwd' : os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/l2fwd.c'),
         'ixnet' : os.path.join(S.getValue('TRAFFICGEN_IXNET_LIB_PATH'), 'pkgIndex.tcl'),
     }
 
-
-    def get_git_tag(path):
-        """ get tag of recent commit from repository located at 'path'
-
-        :returns: git tag in form of string with commit hash or None if there
-            isn't any git repository at given path
-        """
-        try:
-            if os.path.isdir(path):
-                return subprocess.check_output('cd {}; git rev-parse HEAD'.format(path), shell=True,
-                                               stderr=subprocess.DEVNULL).decode().rstrip('\n')
-            elif os.path.isfile(path):
-                return subprocess.check_output('cd $(dirname {}); git log -1 --pretty="%H" {}'.format(path, path),
-                                               shell=True, stderr=subprocess.DEVNULL).decode().rstrip('\n')
-            else:
-                return None
-        except subprocess.CalledProcessError:
-            return None
 
 
     app_version = None
     app_git_tag = None
 
     if app_name.lower().startswith('ovs'):
-        app_version = match_line(app_version_file['ovs'], '#define OVS_PACKAGE_VERSION')
-        if app_version:
-            app_version = app_version.split('"')[1]
-        app_git_tag = get_git_tag(S.getValue('OVS_DIR'))
+        app_version = get_bin_version('{} --version'.format(S.getValue('TOOLS')['ovs-vswitchd']),
+                                         app_version_file['ovs'])
+        if 'vswitch_src' in S.getValue('TOOLS'):
+            app_git_tag = get_git_tag(S.getValue('TOOLS')['vswitch_src'])
     elif app_name.lower() in ['dpdk', 'testpmd']:
-        tmp_ver = ['', '', '']
-        dpdk_16 = False
-        with open(app_version_file['dpdk']) as file_:
-            for line in file_:
-                if not line.strip():
-                    continue
-                # DPDK version < 16
-                if line.startswith('#define RTE_VER_MAJOR'):
-                    tmp_ver[0] = line.rstrip('\n').split(' ')[2]
-                # DPDK version < 16
-                elif line.startswith('#define RTE_VER_PATCH_LEVEL'):
-                    tmp_ver[2] = line.rstrip('\n').split(' ')[2]
-                # DPDK version < 16
-                elif line.startswith('#define RTE_VER_PATCH_RELEASE'):
-                    release = line.rstrip('\n').split(' ')[2]
-                    if not '16' in release:
-                        tmp_ver[2] += line.rstrip('\n').split(' ')[2]
-                # DPDK all versions
-                elif line.startswith('#define RTE_VER_MINOR'):
-                    if dpdk_16:
-                        tmp_ver[2] = line.rstrip('\n').split(' ')[2]
-                    else:
-                        tmp_ver[1] = line.rstrip('\n').split(' ')[2]
-                # DPDK all versions
-                elif line.startswith('#define RTE_VER_SUFFIX'):
-                    tmp_ver[2] += line.rstrip('\n').split('"')[1]
-                # DPDK version >= 16
-                elif line.startswith('#define RTE_VER_YEAR'):
-                    dpdk_16 = True
-                    tmp_ver[0] = line.rstrip('\n').split(' ')[2]
-                # DPDK version >= 16
-                elif line.startswith('#define RTE_VER_MONTH'):
-                    tmp_ver[1] = '{:0>2}'.format(line.rstrip('\n').split(' ')[2])
-                # DPDK version >= 16
-                elif line.startswith('#define RTE_VER_RELEASE'):
-                    release = line.rstrip('\n').split(' ')[2]
-                    if not '16' in release:
-                        tmp_ver[2] += line.rstrip('\n').split(' ')[2]
-
-        if len(tmp_ver[0]):
-            app_version = '.'.join(tmp_ver)
-        app_git_tag = get_git_tag(S.getValue('RTE_SDK'))
+        app_version = get_bin_version('{} -v -h'.format(S.getValue('TOOLS')['testpmd']),
+                                         app_version_file['testpmd'])
+        if 'dpdk_src' in S.getValue('TOOLS'):
+            app_git_tag = get_git_tag(S.getValue('TOOLS')['dpdk_src'])
     elif app_name.lower().startswith('qemu'):
-        app_version = match_line(app_version_file['qemu'], '')
-        app_git_tag = get_git_tag(S.getValue('QEMU_DIR'))
+        app_version = get_bin_version('{} --version'.format(S.getValue('TOOLS')['qemu-system']),
+                                         app_version_file['qemu'])
+        if 'qemu_src' in S.getValue('TOOLS'):
+            app_git_tag = get_git_tag(S.getValue('TOOLS')['qemu_src'])
     elif app_name.lower() == 'ixnet':
         app_version = match_line(app_version_file['ixnet'], 'package provide IxTclNetwork')
         if app_version:
