@@ -1,0 +1,302 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_557304e7",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "rather than large can we just say a number of VMs in series or in parallel",
+      "range": {
+        "startLine": 106,
+        "startChar": 46,
+        "endLine": 106,
+        "endChar": 51
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f581f08f",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "a couple of examples would be good here",
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a4b4abd1",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "Quick example wouldn\u0027t be too harmful",
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_44cb5753",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "s/to setup vSwitch/to setup vswitches, VNFs...",
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_64c6934b",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "for *a* given",
+      "range": {
+        "startLine": 171,
+        "startChar": 27,
+        "endLine": 171,
+        "endChar": 36
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c4de8711",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "configure and execute",
+      "range": {
+        "startLine": 176,
+        "startChar": 59,
+        "endLine": 176,
+        "endChar": 66
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_24c09b29",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "these scenarios are realized by",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 20
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e4e143d1",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "configurations",
+      "range": {
+        "startLine": 177,
+        "startChar": 29,
+        "endLine": 177,
+        "endChar": 42
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a4eb4baf",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "one or an even",
+      "range": {
+        "startLine": 178,
+        "startChar": 5,
+        "endLine": 178,
+        "endChar": 16
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_44d27701",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "maybe an examle for someone who\u0027s not familiar with vsperf would be useful at this point",
+      "range": {
+        "startLine": 179,
+        "startChar": 16,
+        "endLine": 179,
+        "endChar": 54
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_04dc7f11",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "series/serial configuration",
+      "range": {
+        "startLine": 186,
+        "startChar": 65,
+        "endLine": 186,
+        "endChar": 71
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_076321dd",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "nit pick... if it\u0027s not too much of a pain it would be good to name this pvpv*p* to indicate that there is always a physical port that acts as the last point through which traffic flows through a vswitch... what do you think?",
+      "range": {
+        "startLine": 189,
+        "startChar": 6,
+        "endLine": 189,
+        "endChar": 10
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_275e5d13",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "series/a serial configuration",
+      "range": {
+        "startLine": 204,
+        "startChar": 68,
+        "endLine": 204,
+        "endChar": 74
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c79c49c3",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-30T15:40:33Z",
+      "side": 1,
+      "message": "quick diagram to show the 2 scenarios would be good",
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
