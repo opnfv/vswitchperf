@@ -2,6 +2,144 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_87a6510f",
+        "filename": "conf/01_testcases.conf",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-31T08:48:35Z",
+      "side": 1,
+      "message": "is the plan to only add the cont tests for now?",
+      "range": {
+        "startLine": 174,
+        "startChar": 17,
+        "endLine": 174,
+        "endChar": 26
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a7a90de1",
+        "filename": "conf/04_vnf.conf",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-31T08:48:35Z",
+      "side": 1,
+      "message": "what is the affinitization scheme? is this documented anywhere?\nshould be reported as part of the results if we are affinitizing...",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 21
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c783e954",
+        "filename": "conf/__init__.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-31T08:48:35Z",
+      "side": 1,
+      "message": "can you please update the license year here",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_27b5fd30",
+        "filename": "conf/__init__.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-31T08:48:35Z",
+      "side": 1,
+      "message": "configuration*",
+      "range": {
+        "startLine": 32,
+        "startChar": 17,
+        "endLine": 32,
+        "endChar": 30
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_47def96e",
+        "filename": "core/vnf_controller.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-31T08:48:35Z",
+      "side": 1,
+      "message": "q. does it make sense to have 0 VMs in the VNF controller?\nis this for the sr-iov bypass testing?",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 56,
+        "endChar": 25
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_47c5998c",
+        "filename": "core/vnf_controller.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-08-31T08:48:35Z",
+      "side": 1,
+      "message": "should this be more of a warning than a debug message? we should draw someone\u0027s attention to the fact that we are changing their settings for a test?",
+      "range": {
+        "startLine": 70,
+        "startChar": 29,
+        "endLine": 70,
+        "endChar": 34
+      },
+      "revId": "79ec7e05692d07a479c2dfa1dcc3f25a8c37a786",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_557304e7",
         "filename": "docs/design/vswitchperf_design.rst",
         "patchSetId": 4
