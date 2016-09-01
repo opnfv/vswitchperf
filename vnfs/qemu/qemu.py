@@ -247,14 +247,13 @@ class IVnfQemu(IVnf):
         :return: None
         """
         self._logger.info('Affinitizing VHOST Net threads.')
-        args1 = ['ps', 'ax']
+        args1 = ['pgrep', 'vhost-']
         process1 = subprocess.Popen(args1, stdout=subprocess.PIPE,
                                     shell=False)
         out = process1.communicate()[0]
-        processes = list()
-        for line in out.decode(locale.getdefaultlocale()[1]).split('\n'):
-            if re.search('\[vhost-(\d+)', line):
-                processes.append(re.match('\s*(\d+)', line).group(1))
+        processes = out.decode(locale.getdefaultlocale()[1]).split('\n')
+        if processes[-1] == '':
+            processes.pop() # pgrep may return an extra line with no data
         self._logger.info('Found %s vhost net threads...', len(processes))
 
         cpumap = S.getValue('VSWITCH_VHOST_CPU_MAP')
