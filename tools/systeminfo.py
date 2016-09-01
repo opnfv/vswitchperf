@@ -187,7 +187,7 @@ def get_version(app_name):
     """
     app_version_file = {
         'ovs' : os.path.join(S.getValue('OVS_DIR'), 'include/openvswitch/version.h'),
-        'dpdk' : os.path.join(S.getValue('RTE_SDK'), 'lib/librte_eal/common/include/rte_version.h'),
+        'dpdk' : os.path.join(S.getValue('RTE_SDK_HEADER_FILES'), 'rte_version.h'),
         'qemu' : os.path.join(S.getValue('QEMU_DIR'), 'VERSION'),
         'l2fwd' : os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/l2fwd.c'),
         'ixnet' : os.path.join(S.getValue('TRAFFICGEN_IXNET_LIB_PATH'), 'pkgIndex.tcl'),
