@@ -18,8 +18,7 @@
 from core.traffic_controller_rfc2544 import TrafficControllerRFC2544
 from core.vswitch_controller_clean import VswitchControllerClean
 from core.vswitch_controller_p2p import VswitchControllerP2P
-from core.vswitch_controller_pvp import VswitchControllerPVP
-from core.vswitch_controller_pvvp import VswitchControllerPVVP
+from core.vswitch_controller_pxp import VswitchControllerPXP
 from core.vswitch_controller_op2p import VswitchControllerOP2P
 from core.vswitch_controller_ptunp import VswitchControllerPtunP
 from core.vnf_controller import VnfController
@@ -57,7 +56,7 @@ def create_vswitch(deployment_scenario, vswitch_class, traffic,
 
     The returned controller is configured with the given vSwitch class.
 
-    Deployment scenarios: 'p2p', 'pvp'
+    Deployment scenarios: e.g. 'p2p', 'pvp', 'pvpv12', etc.
 
     :param deployment_scenario: The deployment scenario name
     :param vswitch_class: Reference to vSwitch class to be used.
@@ -66,18 +65,22 @@ def create_vswitch(deployment_scenario, vswitch_class, traffic,
     :return: IVSwitchController for the deployment_scenario
     """
     deployment_scenario = deployment_scenario.lower()
-    if deployment_scenario.find("p2p") == 0:
+    if deployment_scenario.startswith("p2p"):
         return VswitchControllerP2P(vswitch_class, traffic)
-    elif deployment_scenario.find("pvp") >= 0:
-        return VswitchControllerPVP(vswitch_class, traffic)
-    elif deployment_scenario.find("pvvp") >= 0:
-        return VswitchControllerPVVP(vswitch_class, traffic)
-    elif deployment_scenario.find("op2p") >= 0:
+    elif deployment_scenario.startswith("pvp"):
+        return VswitchControllerPXP(deployment_scenario, vswitch_class, traffic)
+    elif deployment_scenario.startswith("pvvp"):
+        return VswitchControllerPXP(deployment_scenario, vswitch_class, traffic)
+    elif deployment_scenario.startswith("pvpv"):
+        return VswitchControllerPXP(deployment_scenario, vswitch_class, traffic)
+    elif deployment_scenario.startswith("op2p"):
         return VswitchControllerOP2P(vswitch_class, traffic, tunnel_operation)
-    elif deployment_scenario.find("ptunp") >= 0:
+    elif deployment_scenario.startswith("ptunp"):
         return VswitchControllerPtunP(vswitch_class, traffic)
-    elif deployment_scenario.find("clean") >= 0:
+    elif deployment_scenario.startswith("clean"):
         return VswitchControllerClean(vswitch_class, traffic)
+    else:
+        raise RuntimeError("Unknown deployment scenario '{}'.".format(deployment_scenario))
 
 
 def create_vnf(deployment_scenario, vnf_class):

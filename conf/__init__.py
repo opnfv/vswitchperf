@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2016 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,22 @@ and any user provided settings file.
 
 import os
 import re
+import logging
 import pprint
+import ast
+import netaddr
+
+_LOGGER = logging.getLogger(__name__)
+
+# regex to parse configuration macros from 04_vnf.conf
+# it will select all patterns starting with # sign
+# and returns macro parameters and step
+# examples of valid macros:
+#   #VMINDEX
+#   #MAC(AA:BB:CC:DD:EE:FF) or #MAC(AA:BB:CC:DD:EE:FF,2)
+#   #IP(192.168.1.2) or #IP(192.168.1.2,2)
+#   #EVAL(2*#VMINDEX)
+_PARSE_PATTERN = r'(#[A-Z]+)(\(([^(),]+)(,([0-9]+))?\))?'
 
 class Settings(object):
     """Holding class for settings.
@@ -120,6 +135,64 @@ class Settings(object):
         """
         for key in os.environ:
             setattr(self, key, os.environ[key])
+
+    def check_vm_settings(self, vm_number):
+        """
+        Check all VM related settings starting with GUEST_ prefix.
+        If it is not available for defined number of VMs, then vsperf
+        will try to expand it automatically. Expansion is performed
+        also in case that first list item contains a macro.
+        """
+        for key in self.__dict__:
+            if key.startswith('GUEST_'):
+                if (isinstance(self.__dict__[key], str) and
+                        self.__dict__[key].find('#') >= 0):
+                    self.__dict__[key] = [self.__dict__[key]]
+                    self._expand_vm_settings(key, 1)
+                    self.__dict__[key] = self.__dict__[key][0]
+
+                if isinstance(self.__dict__[key], list):
+                    if (len(self.__dict__[key]) < vm_number or
+                            str(self.__dict__[key][0]).find('#') >= 0):
+                        # expand configuration for all VMs
+                        self._expand_vm_settings(key, vm_number)
+
+    def _expand_vm_settings(self, key, vm_number):
+        """
+        Expand VM option with given key for given number of VMs
+        """
+        master_value = self.__dict__[key][0]
+        master_value_str = str(master_value)
+        if master_value_str.find('#') >= 0:
+            self.__dict__[key] = []
+            for vmindex in range(vm_number):
+                value = master_value_str.replace('#VMINDEX', str(vmindex))
+                for macro, args, param, _, step in re.findall(_PARSE_PATTERN, value):
+                    multi = int(step) if len(step) and int(step) else 1
+                    if macro == '#EVAL':
+                        tmp_result = str(eval(param))
+                    elif macro == '#MAC':
+                        mac_value = netaddr.EUI(param).value
+                        mac = netaddr.EUI(mac_value + vmindex * multi)
+                        mac.dialect = netaddr.mac_unix_expanded
+                        tmp_result = str(mac)
+                    elif macro == '#IP':
+                        ip_value = netaddr.IPAddress(param).value
+                        tmp_result = str(netaddr.IPAddress(ip_value + vmindex * multi))
+                    else:
+                        raise RuntimeError('Unknown configuration macro {} in {}'.format(macro, key))
+
+                    value = value.replace("{}{}".format(macro, args), tmp_result)
+
+                # retype value to original type if needed
+                if not isinstance(master_value, str):
+                    value = ast.literal_eval(value)
+                self.__dict__[key].append(value)
+        else:
+            for vmindex in range(len(self.__dict__[key]), vm_number):
+                self.__dict__[key].append(master_value)
+
+        _LOGGER.debug("Expanding option: %s = %s", key, self.__dict__[key])
 
     def __str__(self):
         """Provide settings as a human-readable string.

@@ -36,39 +36,33 @@ class QemuVirtioNet(IVnfQemu):
         tasks.run_task(['sudo', 'modprobe', 'vhost_net'], self._logger,
                        'Loading vhost_net module...', True)
 
-        # calculate indexes of guest devices (e.g. charx, dpdkvhostuserx)
-        i = self._number * 2
-        if1 = str(i)
-        if2 = str(i + 1)
+        # calculate index of first interface, i.e. check how many
+        # interfaces has been created for previous VMs, where 1st NIC
+        # of 1st VM has index 0
+        start_index = sum(S.getValue('GUEST_NICS_NR')[:self._number])
 
         # multi-queue values
-        if int(S.getValue('GUEST_NIC_QUEUES')):
-            queue_str = ',queues={}'.format(S.getValue('GUEST_NIC_QUEUES'))
+        if int(S.getValue('GUEST_NIC_QUEUES')[self._number]):
+            queue_str = ',queues={}'.format(
+                S.getValue('GUEST_NIC_QUEUES')[self._number])
             mq_vector_str = ',mq=on,vectors={}'.format(
-                int(S.getValue('GUEST_NIC_QUEUES')) * 2 + 2)
+                int(S.getValue('GUEST_NIC_QUEUES')[self._number]) * 2 + 2)
         else:
             queue_str, mq_vector_str = '', ''
 
-        self._cmd += ['-netdev',
-                      'tap,id=' + self._net1 + queue_str +
-                      ',script=no,downscript=no,' +
-                      'ifname=tap' + if1 + ',vhost=on',
-                      '-device',
-                      'virtio-net-pci,mac=' +
-                      S.getValue('GUEST_NET1_MAC')[self._number] +
-                      ',netdev=' + self._net1 +
-                      ',csum=off,gso=off,' +
-                      'guest_tso4=off,guest_tso6=off,guest_ecn=off' +
-                      mq_vector_str,
-                      '-netdev',
-                      'tap,id=' + self._net2 + queue_str +
-                      ',script=no,downscript=no,' +
-                      'ifname=tap' + if2 + ',vhost=on',
-                      '-device',
-                      'virtio-net-pci,mac=' +
-                      S.getValue('GUEST_NET2_MAC')[self._number] +
-                      ',netdev=' + self._net2 +
-                      ',csum=off,gso=off,' +
-                      'guest_tso4=off,guest_tso6=off,guest_ecn=off' +
-                      mq_vector_str,
-        ]
+        # setup requested number of interfaces
+        for nic in range(len(self._nics)):
+            index = start_index + nic
+            ifi = str(index)
+            self._cmd += ['-netdev', 'type=tap,id=' +
+                          self._nics[nic]['device'] + queue_str +
+                          ',script=no,downscript=no,' +
+                          'ifname=tap' + ifi + ',vhost=on',
+                          '-device',
+                          'virtio-net-pci,mac=' +
+                          self._nics[nic]['mac'] + ',netdev=' +
+                          self._nics[nic]['device'] +
+                          ',csum=off,gso=off,' +
+                          'guest_tso4=off,guest_tso6=off,guest_ecn=off' +
+                          mq_vector_str,
+                         ]

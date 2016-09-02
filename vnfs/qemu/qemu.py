@@ -32,7 +32,7 @@ class IVnfQemu(IVnf):
     Abstract class for controling an instance of QEMU
     """
     _cmd = None
-    _expect = S.getValue('GUEST_PROMPT_LOGIN')
+    _expect = None
     _proc_name = 'qemu'
 
     class GuestCommandFilter(logging.Filter):
@@ -47,28 +47,32 @@ class IVnfQemu(IVnf):
         Initialisation function.
         """
         super(IVnfQemu, self).__init__()
+
+        self._expect = S.getValue('GUEST_PROMPT_LOGIN')[self._number]
         self._logger = logging.getLogger(__name__)
         self._logfile = os.path.join(
             S.getValue('LOG_DIR'),
             S.getValue('LOG_FILE_QEMU')) + str(self._number)
         self._timeout = S.getValue('GUEST_TIMEOUT')[self._number]
         self._monitor = '%s/vm%dmonitor' % ('/tmp', self._number)
-        self._net1 = get_test_param('guest_nic1_name', None)
-        if self._net1 == None:
-            self._net1 = S.getValue('GUEST_NIC1_NAME')[self._number]
-        else:
-            self._net1 = self._net1.split(',')[self._number]
-        self._net2 = get_test_param('guest_nic2_name', None)
-        if self._net2 == None:
-            self._net2 = S.getValue('GUEST_NIC2_NAME')[self._number]
-        else:
-            self._net2 = self._net2.split(',')[self._number]
+        # read GUEST NICs configuration and use only defined NR of NICS
+        nics_nr = S.getValue('GUEST_NICS_NR')[self._number]
+        # and inform user about missconfiguration
+        if nics_nr < 1:
+            raise RuntimeError('At least one VM NIC is mandotory, but {} '
+                               'NICs are configured'.format(nics_nr))
+        elif nics_nr > 1 and nics_nr % 2:
+            nics_nr = int(nics_nr / 2) * 2
+            self._logger.warning('Odd number of NICs is configured, only '
+                                 '%s NICs will be used', nics_nr)
+
+        self._nics = S.getValue('GUEST_NICS')[self._number][:nics_nr]
 
         # set guest loopback application based on VNF configuration
         # cli option take precedence to config file values
         self._guest_loopback = S.getValue('GUEST_LOOPBACK')[self._number]
 
-        self._testpmd_fwd_mode = S.getValue('GUEST_TESTPMD_FWD_MODE')
+        self._testpmd_fwd_mode = S.getValue('GUEST_TESTPMD_FWD_MODE')[self._number]
         # in case of SRIOV we must ensure, that MAC addresses are not swapped
         if S.getValue('SRIOV_ENABLED') and self._testpmd_fwd_mode.startswith('mac') and \
            not S.getValue('VNF').endswith('PciPassthrough'):
@@ -86,7 +90,7 @@ class IVnfQemu(IVnf):
                      '-smp', str(S.getValue('GUEST_SMP')[self._number]),
                      '-cpu', 'host,migratable=off',
                      '-drive', 'if={},file='.format(S.getValue(
-                        'GUEST_BOOT_DRIVE_TYPE')) +
+                         'GUEST_BOOT_DRIVE_TYPE')[self._number]) +
                      S.getValue('GUEST_IMAGE')[self._number],
                      '-boot', 'c', '--enable-kvm',
                      '-monitor', 'unix:%s,server,nowait' % self._monitor,
@@ -99,7 +103,7 @@ class IVnfQemu(IVnf):
                      '-snapshot', '-net none', '-no-reboot',
                      '-drive',
                      'if=%s,format=raw,file=fat:rw:%s,snapshot=off' %
-                     (S.getValue('GUEST_SHARED_DRIVE_TYPE'),
+                     (S.getValue('GUEST_SHARED_DRIVE_TYPE')[self._number],
                       S.getValue('GUEST_SHARE_DIR')[self._number]),
                     ]
         self._configure_logging()
@@ -181,11 +185,11 @@ class IVnfQemu(IVnf):
         if not self._timeout:
             self._expect_process(timeout=timeout)
 
-        self._child.sendline(S.getValue('GUEST_USERNAME'))
-        self._child.expect(S.getValue('GUEST_PROMPT_PASSWORD'), timeout=5)
-        self._child.sendline(S.getValue('GUEST_PASSWORD'))
+        self._child.sendline(S.getValue('GUEST_USERNAME')[self._number])
+        self._child.expect(S.getValue('GUEST_PROMPT_PASSWORD')[self._number], timeout=5)
+        self._child.sendline(S.getValue('GUEST_PASSWORD')[self._number])
 
-        self._expect_process(S.getValue('GUEST_PROMPT'), timeout=5)
+        self._expect_process(S.getValue('GUEST_PROMPT')[self._number], timeout=5)
 
     def send_and_pass(self, cmd, timeout=30):
         """
@@ -197,10 +201,10 @@ class IVnfQemu(IVnf):
         :returns: None
         """
         self.execute(cmd)
-        self.wait(S.getValue('GUEST_PROMPT'), timeout=timeout)
+        self.wait(S.getValue('GUEST_PROMPT')[self._number], timeout=timeout)
         self.execute('echo $?')
         self._child.expect('^0$', timeout=1)  # expect a 0
-        self.wait(S.getValue('GUEST_PROMPT'), timeout=timeout)
+        self.wait(S.getValue('GUEST_PROMPT')[self._number], timeout=timeout)
 
     def _affinitize(self):
         """
@@ -284,11 +288,14 @@ class IVnfQemu(IVnf):
             self._logger.error('Unsupported guest loopback method "%s" was specified. Option'
                                ' "buildin" will be used as a fallback.', self._guest_loopback)
 
-    def wait(self, prompt=S.getValue('GUEST_PROMPT'), timeout=30):
+    def wait(self, prompt=None, timeout=30):
+        if prompt is None:
+            prompt = S.getValue('GUEST_PROMPT')[self._number]
         super(IVnfQemu, self).wait(prompt=prompt, timeout=timeout)
 
-    def execute_and_wait(self, cmd, timeout=30,
-                         prompt=S.getValue('GUEST_PROMPT')):
+    def execute_and_wait(self, cmd, timeout=30, prompt=None):
+        if prompt is None:
+            prompt = S.getValue('GUEST_PROMPT')[self._number]
         super(IVnfQemu, self).execute_and_wait(cmd, timeout=timeout,
                                                prompt=prompt)
 
@@ -304,13 +311,13 @@ class IVnfQemu(IVnf):
         """
         # mount shared directory
         self.execute_and_wait('umount /dev/sdb1')
-        self.execute_and_wait('rm -rf ' + S.getValue('GUEST_OVS_DPDK_DIR'))
-        self.execute_and_wait('mkdir -p ' + S.getValue('OVS_DPDK_SHARE'))
+        self.execute_and_wait('rm -rf ' + S.getValue('GUEST_OVS_DPDK_DIR')[self._number])
+        self.execute_and_wait('mkdir -p ' + S.getValue('GUEST_OVS_DPDK_SHARE')[self._number])
         self.execute_and_wait('mount -o ro,iocharset=utf8 /dev/sdb1 ' +
-                              S.getValue('OVS_DPDK_SHARE'))
-        self.execute_and_wait('mkdir -p ' + S.getValue('GUEST_OVS_DPDK_DIR'))
-        self.execute_and_wait('cp -r ' + os.path.join(S.getValue('OVS_DPDK_SHARE'), dirname) +
-                              ' ' + S.getValue('GUEST_OVS_DPDK_DIR'))
+                              S.getValue('GUEST_OVS_DPDK_SHARE')[self._number])
+        self.execute_and_wait('mkdir -p ' + S.getValue('GUEST_OVS_DPDK_DIR')[self._number])
+        self.execute_and_wait('cp -r ' + os.path.join(S.getValue('GUEST_OVS_DPDK_SHARE')[self._number], dirname) +
+                              ' ' + S.getValue('GUEST_OVS_DPDK_DIR')[self._number])
         self.execute_and_wait('umount /dev/sdb1')
 
     def _configure_disable_firewall(self):
@@ -343,7 +350,7 @@ class IVnfQemu(IVnf):
 
         # Guest images _should_ have 1024 hugepages by default,
         # but just in case:'''
-        self.execute_and_wait('sysctl vm.nr_hugepages=1024')
+        self.execute_and_wait('sysctl vm.nr_hugepages={}'.format(S.getValue('GUEST_HUGEPAGES_NR')[self._number]))
 
         # Mount hugepages
         self.execute_and_wait('mkdir -p /dev/hugepages')
@@ -351,19 +358,19 @@ class IVnfQemu(IVnf):
             'mount -t hugetlbfs hugetlbfs /dev/hugepages')
 
         # build and configure system for dpdk
-        self.execute_and_wait('cd ' + S.getValue('GUEST_OVS_DPDK_DIR') +
+        self.execute_and_wait('cd ' + S.getValue('GUEST_OVS_DPDK_DIR')[self._number] +
                               '/DPDK')
         self.execute_and_wait('export CC=gcc')
         self.execute_and_wait('export RTE_SDK=' +
-                              S.getValue('GUEST_OVS_DPDK_DIR') + '/DPDK')
+                              S.getValue('GUEST_OVS_DPDK_DIR')[self._number] + '/DPDK')
         self.execute_and_wait('export RTE_TARGET=%s' % S.getValue('RTE_TARGET'))
 
         # modify makefile if needed
         self._modify_dpdk_makefile()
 
         # disable network interfaces, so DPDK can take care of them
-        self.execute_and_wait('ifdown ' + self._net1)
-        self.execute_and_wait('ifdown ' + self._net2)
+        for nic in self._nics:
+            self.execute_and_wait('ifdown ' + nic['device'])
 
         # build and insert igb_uio and rebind interfaces to it
         self.execute_and_wait('make RTE_OUTPUT=$RTE_SDK/$RTE_TARGET -C '
@@ -372,35 +379,30 @@ class IVnfQemu(IVnf):
         self.execute_and_wait('insmod %s/kmod/igb_uio.ko' %
                               S.getValue('RTE_TARGET'))
         self.execute_and_wait('./tools/dpdk*bind.py --status')
-        self.execute_and_wait(
-            './tools/dpdk*bind.py -u' ' ' +
-            S.getValue('GUEST_NET1_PCI_ADDRESS')[self._number] + ' ' +
-            S.getValue('GUEST_NET2_PCI_ADDRESS')[self._number])
-        self.execute_and_wait(
-            './tools/dpdk*bind.py -b igb_uio' ' ' +
-            S.getValue('GUEST_NET1_PCI_ADDRESS')[self._number] + ' ' +
-            S.getValue('GUEST_NET2_PCI_ADDRESS')[self._number])
+        pci_list = ' '.join([nic['pci'] for nic in self._nics])
+        self.execute_and_wait('./tools/dpdk*bind.py -u ' + pci_list)
+        self.execute_and_wait('./tools/dpdk*bind.py -b igb_uio ' + pci_list)
         self.execute_and_wait('./tools/dpdk*bind.py --status')
 
         # build and run 'test-pmd'
-        self.execute_and_wait('cd ' + S.getValue('GUEST_OVS_DPDK_DIR') +
+        self.execute_and_wait('cd ' + S.getValue('GUEST_OVS_DPDK_DIR')[self._number] +
                               '/DPDK/app/test-pmd')
         self.execute_and_wait('make clean')
         self.execute_and_wait('make')
-        if int(S.getValue('GUEST_NIC_QUEUES')):
+        if int(S.getValue('GUEST_NIC_QUEUES')[self._number]):
             self.execute_and_wait(
                 './testpmd {} -n4 --socket-mem 512 --'.format(
-                    S.getValue('GUEST_TESTPMD_CPU_MASK')) +
+                    S.getValue('GUEST_TESTPMD_CPU_MASK')[self._number]) +
                 ' --burst=64 -i --txqflags=0xf00 ' +
                 '--nb-cores={} --rxq={} --txq={} '.format(
-                    S.getValue('GUEST_TESTPMD_NB_CORES'),
-                    S.getValue('GUEST_TESTPMD_TXQ'),
-                    S.getValue('GUEST_TESTPMD_RXQ')) +
+                    S.getValue('GUEST_TESTPMD_NB_CORES')[self._number],
+                    S.getValue('GUEST_TESTPMD_TXQ')[self._number],
+                    S.getValue('GUEST_TESTPMD_RXQ')[self._number]) +
                 '--disable-hw-vlan', 60, "Done")
         else:
             self.execute_and_wait(
                 './testpmd {} -n 4 --socket-mem 512 --'.format(
-                    S.getValue('GUEST_TESTPMD_CPU_MASK')) +
+                    S.getValue('GUEST_TESTPMD_CPU_MASK')[self._number]) +
                 ' --burst=64 -i --txqflags=0xf00 ' +
                 '--disable-hw-vlan', 60, "Done")
         self.execute('set fwd ' + self._testpmd_fwd_mode, 1)
@@ -411,44 +413,51 @@ class IVnfQemu(IVnf):
         """
         Configure VM to perform L2 forwarding between NICs by l2fwd module
         """
-        if int(S.getValue('GUEST_NIC_QUEUES')):
+        if int(S.getValue('GUEST_NIC_QUEUES')[self._number]):
             self._set_multi_queue_nic()
         self._configure_copy_sources('l2fwd')
         self._configure_disable_firewall()
 
+        # configure all interfaces
+        for nic in self._nics:
+            self.execute('ip addr add ' +
+                         nic['ip'] + ' dev ' + nic['device'])
+            self.execute('ip link set dev ' + nic['device'] + ' up')
+
         # build and configure system for l2fwd
-        self.execute_and_wait('cd ' + S.getValue('GUEST_OVS_DPDK_DIR') +
+        self.execute_and_wait('cd ' + S.getValue('GUEST_OVS_DPDK_DIR')[self._number] +
                               '/l2fwd')
         self.execute_and_wait('export CC=gcc')
 
         self.execute_and_wait('make')
-        self.execute_and_wait('insmod ' + S.getValue('GUEST_OVS_DPDK_DIR') +
-                              '/l2fwd' + '/l2fwd.ko net1=' + self._net1 +
-                              ' net2=' + self._net2)
+        if len(self._nics) == 2:
+            self.execute_and_wait('insmod ' + S.getValue('GUEST_OVS_DPDK_DIR')[self._number] +
+                                  '/l2fwd' + '/l2fwd.ko net1=' + self._nics[0]['device'] +
+                                  ' net2=' + self._nics[1]['device'])
+        else:
+            raise RuntimeError('l2fwd can forward only between 2 NICs, but {} NICs are '
+                               'configured inside GUEST'.format(len(self._nics)))
 
     def _configure_linux_bridge(self):
         """
         Configure VM to perform L2 forwarding between NICs by linux bridge
         """
-        if int(S.getValue('GUEST_NIC_QUEUES')):
+        if int(S.getValue('GUEST_NIC_QUEUES')[self._number]):
             self._set_multi_queue_nic()
         self._configure_disable_firewall()
 
-        self.execute('ip addr add ' +
-                     S.getValue('VANILLA_NIC1_IP_CIDR')[self._number] +
-                     ' dev ' + self._net1)
-        self.execute('ip link set dev ' + self._net1 + ' up')
-
-        self.execute('ip addr add ' +
-                     S.getValue('VANILLA_NIC2_IP_CIDR')[self._number] +
-                     ' dev ' + self._net2)
-        self.execute('ip link set dev ' + self._net2 + ' up')
-
         # configure linux bridge
         self.execute('brctl addbr br0')
-        self.execute('brctl addif br0 ' + self._net1 + ' ' + self._net2)
+
+        # add all NICs into the bridge
+        for nic in self._nics:
+            self.execute('ip addr add ' +
+                         nic['ip'] + ' dev ' + nic['device'])
+            self.execute('ip link set dev ' + nic['device'] + ' up')
+            self.execute('brctl addif br0 ' + nic['device'])
+
         self.execute('ip addr add ' +
-                     S.getValue('VANILLA_BRIDGE_IP')[self._number] +
+                     S.getValue('GUEST_BRIDGE_IP')[self._number] +
                      ' dev br0')
         self.execute('ip link set dev br0 up')
 
@@ -474,17 +483,15 @@ class IVnfQemu(IVnf):
         # Controls source route verification
         # 0 means no source validation
         self.execute('sysctl -w net.ipv4.conf.all.rp_filter=0')
-        self.execute('sysctl -w net.ipv4.conf.' + self._net1 + '.rp_filter=0')
-        self.execute('sysctl -w net.ipv4.conf.' + self._net2 + '.rp_filter=0')
+        for nic in self._nics:
+            self.execute('sysctl -w net.ipv4.conf.' + nic['device'] + '.rp_filter=0')
 
     def _set_multi_queue_nic(self):
         """
         Enable multi-queue in guest kernel with ethool.
         :return: None
         """
-        self.execute_and_wait('ethtool -L {} combined {}'.format(
-            self._net1, S.getValue('GUEST_NIC_QUEUES')))
-        self.execute_and_wait('ethtool -l {}'.format(self._net1))
-        self.execute_and_wait('ethtool -L {} combined {}'.format(
-            self._net2, S.getValue('GUEST_NIC_QUEUES')))
-        self.execute_and_wait('ethtool -l {}'.format(self._net2))
+        for nic in self._nics:
+            self.execute_and_wait('ethtool -L {} combined {}'.format(
+                nic['device'], S.getValue('GUEST_NIC_QUEUES')[self._number]))
+            self.execute_and_wait('ethtool -l {}'.format(nic['device']))

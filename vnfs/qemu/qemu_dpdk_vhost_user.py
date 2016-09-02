@@ -31,45 +31,36 @@ class QemuDpdkVhostUser(IVnfQemu):
         super(QemuDpdkVhostUser, self).__init__()
         self._logger = logging.getLogger(__name__)
 
-        # calculate indexes of guest devices (e.g. charx, dpdkvhostuserx)
-        i = self._number * 2
-        if1 = str(i)
-        if2 = str(i + 1)
-        net1 = 'net' + str(i + 1)
-        net2 = 'net' + str(i + 2)
-
         # multi-queue values
-        if int(S.getValue('GUEST_NIC_QUEUES')):
-            queue_str = ',queues={}'.format(S.getValue('GUEST_NIC_QUEUES'))
+        if int(S.getValue('GUEST_NIC_QUEUES')[self._number]):
+            queue_str = ',queues={}'.format(S.getValue('GUEST_NIC_QUEUES')[self._number])
             mq_vector_str = ',mq=on,vectors={}'.format(
-                int(S.getValue('GUEST_NIC_QUEUES')) * 2 + 2)
+                int(S.getValue('GUEST_NIC_QUEUES')[self._number]) * 2 + 2)
         else:
             queue_str, mq_vector_str = '', ''
 
-        self._cmd += ['-chardev',
-                      'socket,id=char' + if1 +
-                      ',path=' + S.getValue('OVS_VAR_DIR') +
-                      'dpdkvhostuser' + if1,
-                      '-chardev',
-                      'socket,id=char' + if2 +
-                      ',path=' + S.getValue('OVS_VAR_DIR') +
-                      'dpdkvhostuser' + if2,
-                      '-netdev',
-                      'type=vhost-user,id=' + net1 +
-                      ',chardev=char' + if1 + ',vhostforce' + queue_str,
-                      '-device',
-                      'virtio-net-pci,mac=' +
-                      S.getValue('GUEST_NET1_MAC')[self._number] +
-                      ',netdev=' + net1 + ',csum=off,gso=off,' +
-                      'guest_tso4=off,guest_tso6=off,guest_ecn=off' +
-                      mq_vector_str,
-                      '-netdev',
-                      'type=vhost-user,id=' + net2 +
-                      ',chardev=char' + if2 + ',vhostforce' + queue_str,
-                      '-device',
-                      'virtio-net-pci,mac=' +
-                      S.getValue('GUEST_NET2_MAC')[self._number] +
-                      ',netdev=' + net2 + ',csum=off,gso=off,' +
-                      'guest_tso4=off,guest_tso6=off,guest_ecn=off' +
-                      mq_vector_str,
-                     ]
+        # calculate index of first interface, i.e. check how many
+        # interfaces has been created for previous VMs, where 1st NIC
+        # of 1st VM has index 0
+        start_index = sum(S.getValue('GUEST_NICS_NR')[:self._number])
+
+        # setup requested number of interfaces
+        for nic in range(len(self._nics)):
+            index = start_index + nic
+            ifi = str(index)
+            net = 'net' + str(index + 1)
+
+            self._cmd += ['-chardev',
+                          'socket,id=char' + ifi +
+                          ',path=' + S.getValue('OVS_VAR_DIR') +
+                          'dpdkvhostuser' + ifi,
+                          '-netdev',
+                          'type=vhost-user,id=' + net +
+                          ',chardev=char' + ifi + ',vhostforce' + queue_str,
+                          '-device',
+                          'virtio-net-pci,mac=' +
+                          self._nics[nic]['mac'] +
+                          ',netdev=' + net + ',csum=off,gso=off,' +
+                          'guest_tso4=off,guest_tso6=off,guest_ecn=off' +
+                          mq_vector_str,
+                         ]

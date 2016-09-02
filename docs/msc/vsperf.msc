@@ -11,9 +11,9 @@ msc {
   vsperf => testcase [ label="run()" ];
   --- [ label = " skipping details of finding and creating correct subclasses of IVSwitch, ITrafficGenerator etc." ];
   testcase => vswitch_ctl [ label="create(vswitch_class" ];
-  vswitch_ctl note vswitch_ctl [ label="vswitch_ctl is instance of VswitchControllerPvp"];
+  vswitch_ctl note vswitch_ctl [ label="vswitch_ctl is instance of VswitchControllerPXP"];
   testcase => vnf_ctl [ label="create(vnf_class)" ];
-  vnf_ctl note vnf_ctl [ label="vnf_ctl is instance of VnfControllerPvp"];
+  vnf_ctl note vnf_ctl [ label="vnf_ctl is instance of VnfController"];
   testcase => traffic_ctl [ label="create()" ];
   traffic_ctl note traffic_ctl [ label="traffic_ctl is instance of TrafficControllerRFC2544"];
   |||;
