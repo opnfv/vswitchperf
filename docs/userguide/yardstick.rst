@@ -27,7 +27,7 @@ Yardstick Installation
 
 In order to run Yardstick testcases, you will need to prepare your test
 environment. Please follow the `installation instructions
-<http://artifacts.opnfv.org/yardstick/brahmaputra/docs/user_guides_framework/index.html>`__
+<http://artifacts.opnfv.org/yardstick/docs/user_guides_framework/index.html>`__
 to install the yardstick.
 
 Please note, that yardstick uses OpenStack for execution of testcases.
@@ -161,7 +161,7 @@ Section runner
 ~~~~~~~~~~~~~~
 
 Yardstick supports several `runner types
-<http://artifacts.opnfv.org/yardstick/brahmaputra/docs/userguide/architecture.html#runner-types>`__.
+<http://artifacts.opnfv.org/yardstick/docs/userguide/architecture.html#runner-types>`__.
 In case of vswitchperf specific TCs, **Sequence** runner type can be used to
 execute the testcase for given list of packet sizes.
 
