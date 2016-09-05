@@ -9,7 +9,7 @@ VSPERF LEVEL TEST DESIGN (LTD)
 .. 3.1
 
 Introduction
-===============
+============
 
 The intention of this Level Test Design (LTD) document is to specify the set of
 tests to carry out in order to objectively measure the current characteristics
@@ -25,7 +25,7 @@ This document is currently in draft form.
 .. _doc-id:
 
 Document identifier
-=========================
+===================
 
 The document id will be used to uniquely
 identify versions of the LTD. The format for the document id will be:
@@ -39,7 +39,7 @@ OPNFV\_vswitchperf\_LTD\_Brahmaputra\_REVIEWED.
 .. _scope:
 
 Scope
-==========
+=====
 
 The main purpose of this project is to specify a suite of
 performance tests in order to objectively measure the current packet
@@ -58,7 +58,7 @@ release.
 .. 3.1.3
 
 References
-===============
+==========
 
 *  `RFC 1242 Benchmarking Terminology for Network Interconnection
    Devices <http://www.ietf.org/rfc/rfc1242.txt>`__
@@ -81,9 +81,9 @@ References
 
 .. _details-of-LTD:
 
-===================================
+================================
 Details of the Level Test Design
-===================================
+================================
 
 This section describes the features to be tested (FeaturesToBeTested_), and
 identifies the sets of test cases or scenarios (TestIdentification_).
@@ -93,7 +93,7 @@ identifies the sets of test cases or scenarios (TestIdentification_).
 .. _FeaturesToBeTested:
 
 Features to be tested
-==========================
+=====================
 
 Characterizing virtual switches (i.e. Device Under Test (DUT) in this document)
 includes measuring the following performance metrics:
@@ -112,12 +112,13 @@ includes measuring the following performance metrics:
 .. _TestIdentification:
 
 Test identification
-=========================
+===================
 
-.. 3.2.3.1
+.. 3.2.2.1
 
 Throughput tests
-----------------------
+----------------
+
 The following tests aim to determine the maximum forwarding rate that
 can be achieved with a virtual switch. The list is not exhaustive but
 should indicate the type of tests that should be required. It is
@@ -126,7 +127,8 @@ expected that more will be added.
 .. 3.2.2.1.1
 
 Test ID: LTD.Throughput.RFC2544.PacketLossRatio
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC 2544 X% packet loss ratio Throughput and Latency Test
 
     **Prerequisite Test**: N/A
@@ -176,7 +178,8 @@ Test ID: LTD.Throughput.RFC2544.PacketLossRatio
 .. 3.2.2.1.2
 
 Test ID: LTD.Throughput.RFC2544.PacketLossRatioFrameModification
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC 2544 X% packet loss Throughput and Latency Test with
     packet modification
 
@@ -247,6 +250,7 @@ Test ID: LTD.Throughput.RFC2544.PacketLossRatioFrameModification
 
 Test ID: LTD.Throughput.RFC2544.Profile
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC 2544 Throughput and Latency Profile
 
     **Prerequisite Test**: N/A
@@ -301,7 +305,8 @@ Test ID: LTD.Throughput.RFC2544.Profile
 .. 3.2.2.1.4
 
 Test ID: LTD.Throughput.RFC2544.SystemRecoveryTime
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC 2544 System Recovery Time Test
 
     **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatio
@@ -353,7 +358,8 @@ Test ID: LTD.Throughput.RFC2544.SystemRecoveryTime
 .. 3.2.2.1.5
 
 Test ID: LTD.Throughput.RFC2544.BackToBackFrames
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC2544 Back To Back Frames Test
 
     **Prerequisite Test**: N
@@ -396,7 +402,8 @@ Test ID: LTD.Throughput.RFC2544.BackToBackFrames
 .. 3.2.2.1.6
 
 Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC 2889 X% packet loss Max Forwarding Rate Soak Test
 
     **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatio
@@ -438,7 +445,8 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
 .. 3.2.2.1.7
 
 Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoakFrameModification
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC 2889 Max Forwarding Rate Soak Test with Frame Modification
 
     **Prerequisite Test**:
@@ -494,7 +502,8 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoakFrameModification
 .. 3.2.2.1.8
 
 Test ID: LTD.Throughput.RFC6201.ResetTime
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC 6201 Reset Time Test
 
     **Prerequisite Test**: N/A
@@ -585,7 +594,8 @@ Test ID: LTD.Throughput.RFC6201.ResetTime
 .. 3.2.2.1.9
 
 Test ID: LTD.Throughput.RFC2889.MaxForwardingRate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC2889 Forwarding Rate Test
 
     **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatio
@@ -647,7 +657,8 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRate
 .. 3.2.2.1.10
 
 Test ID: LTD.Throughput.RFC2889.ForwardPressure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC2889 Forward Pressure Test
 
     **Prerequisite Test**: LTD.Throughput.RFC2889.MaxForwardingRate
@@ -682,7 +693,8 @@ Test ID: LTD.Throughput.RFC2889.ForwardPressure
 .. 3.2.2.1.11
 
 Test ID: LTD.Throughput.RFC2889.ErrorFramesFiltering
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC2889 Error Frames Filtering Test
 
     **Prerequisite Test**: N/A
@@ -718,7 +730,8 @@ Test ID: LTD.Throughput.RFC2889.ErrorFramesFiltering
 .. 3.2.2.1.12
 
 Test ID: LTD.Throughput.RFC2889.BroadcastFrameForwarding
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC2889 Broadcast Frame Forwarding Test
 
     **Prerequisite Test**: N
@@ -763,7 +776,8 @@ Test ID: LTD.Throughput.RFC2889.BroadcastFrameForwarding
 .. 3.2.2.1.13
 
 Test ID: LTD.Throughput.RFC2544.WorstN-BestN
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: Modified RFC 2544 X% packet loss ratio Throughput and Latency Test
 
     **Prerequisite Test**: N/A
@@ -856,6 +870,7 @@ Test ID: LTD.Throughput.RFC2544.WorstN-BestN
 
 Test ID: LTD.Throughput.Overlay.Network.<tech>.RFC2544.PacketLossRatio
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
        **Title**: <tech> Overlay Network RFC 2544 X% packet loss ratio Throughput and Latency Test
 
 
@@ -935,6 +950,7 @@ Test ID: LTD.Throughput.Overlay.Network.<tech>.RFC2544.PacketLossRatio
 
 Test ID: LTD.Throughput.RFC2544.MatchAction.PacketLossRatio
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC 2544 X% packet loss ratio match action Throughput and Latency Test
 
     **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatio
@@ -973,13 +989,13 @@ Test ID: LTD.Throughput.RFC2544.MatchAction.PacketLossRatio
            on which flooding is disabled.
          * all: Outputs the packet on all switch physical ports other
            than the port on which it was received.
-         * local: Outputs  the packet on the ``local port,'' which
+         * local: Outputs  the packet on the ``local port``, which
            corresponds to the network device that has the same name as
            the bridge.
          * in_port: Outputs the packet on the port from which it was
            received.
          * Controller: Sends the packet and its metadata to the
-           OpenFlow controller as a ``packet in'' message.
+           OpenFlow controller as a ``packet in`` message.
          * enqueue: Enqueues  the  packet  on the specified queue
            within port.
          * drop: discard the packet.
@@ -1057,7 +1073,8 @@ Test ID: LTD.Throughput.RFC2544.MatchAction.PacketLossRatio
 .. 3.2.2.2
 
 Packet Latency tests
----------------------------
+--------------------
+
 These tests will measure the store and forward latency as well as the packet
 delay variation for various packet types through the virtual switch. The
 following list is not exhaustive but should indicate the type of tests
@@ -1066,7 +1083,8 @@ that should be required. It is expected that more will be added.
 .. 3.2.2.2.1
 
 Test ID: LTD.PacketLatency.InitialPacketProcessingLatency
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: Initial Packet Processing Latency
 
     **Prerequisite Test**: N/A
@@ -1115,7 +1133,8 @@ Test ID: LTD.PacketLatency.InitialPacketProcessingLatency
 .. 3.2.2.2.2
 
 Test ID: LTD.PacketDelayVariation.RFC3393.Soak
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: Packet Delay Variation Soak Test
 
     **Prerequisite Tests**: LTD.Throughput.RFC2544.PacketLossRatio (0% Packet Loss)
@@ -1148,7 +1167,8 @@ Test ID: LTD.PacketDelayVariation.RFC3393.Soak
 .. 3.2.2.3
 
 Scalability tests
-------------------------
+-----------------
+
 The general aim of these tests is to understand the impact of large flow
 table size and flow lookups on throughput. The following list is not
 exhaustive but should indicate the type of tests that should be required.
@@ -1157,7 +1177,8 @@ It is expected that more will be added.
 .. 3.2.2.3.1
 
 Test ID: LTD.Scalability.Flows.RFC2544.0PacketLoss
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC 2544 0% loss Flow Scalability throughput test
 
     **Prerequisite Test**: LTD.Throughput.RFC2544.PacketLossRatio, IF the
@@ -1212,7 +1233,8 @@ Test ID: LTD.Scalability.Flows.RFC2544.0PacketLoss
 .. 3.2.2.3.2
 
 Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC 2544 0% loss Memory Bandwidth Scalability test
 
     **Prerequisite Tests**: LTD.Throughput.RFC2544.PacketLossRatio, IF the
@@ -1262,6 +1284,7 @@ Test ID: LTD.MemoryBandwidth.RFC2544.0PacketLoss.Scalability
 
 Test ID: LTD.Scalability.VNF.RFC2544.PacketLossRatio
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: VNF Scalability RFC 2544 X% packet loss ratio Throughput and
                Latency Test
 
@@ -1342,7 +1365,8 @@ Test ID: LTD.Scalability.VNF.RFC2544.PacketLossRatio
 .. 3.2.2.3.4
 
 Test ID: LTD.Scalability.VNF.RFC2544.PacketLossProfile
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
      **Title**: VNF Scalability RFC 2544 Throughput and Latency Profile
 
      **Prerequisite Test**: N/A
@@ -1421,6 +1445,7 @@ Test ID: LTD.Scalability.VNF.RFC2544.PacketLossProfile
 
 Activation tests
 ----------------
+
 The general aim of these tests is to understand the capacity of the
 and speed with which the vswitch can accommodate new flows.
 
@@ -1428,6 +1453,7 @@ and speed with which the vswitch can accommodate new flows.
 
 Test ID: LTD.Activation.RFC2889.AddressCachingCapacity
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC2889 Address Caching Capacity Test
 
     **Prerequisite Test**: N/A
@@ -1479,7 +1505,8 @@ Test ID: LTD.Activation.RFC2889.AddressCachingCapacity
 .. 3.2.2.4.2
 
 Test ID: LTD.Activation.RFC2889.AddressLearningRate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC2889 Address Learning Rate Test
 
     **Prerequisite Test**: LTD.Memory.RFC2889.AddressCachingCapacity
@@ -1516,7 +1543,8 @@ Test ID: LTD.Activation.RFC2889.AddressLearningRate
 .. 3.2.2.5
 
 Coupling between control path and datapath Tests
--------------------------------------------------------
+------------------------------------------------
+
 The following tests aim to determine how tightly coupled the datapath
 and the control path are within a virtual switch. The following list
 is not exhaustive but should indicate the type of tests that should be
@@ -1525,7 +1553,8 @@ required. It is expected that more will be added.
 .. 3.2.2.5.1
 
 Test ID: LTD.CPDPCouplingFlowAddition
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: Control Path and Datapath Coupling
 
     **Prerequisite Test**:
@@ -1573,7 +1602,8 @@ Test ID: LTD.CPDPCouplingFlowAddition
 .. 3.2.2.6
 
 CPU and memory consumption
----------------------------------
+--------------------------
+
 The following tests will profile a virtual switch's CPU and memory
 utilization under various loads and circumstances. The following
 list is not exhaustive but should indicate the type of tests that
@@ -1583,6 +1613,7 @@ should be required. It is expected that more will be added.
 
 Test ID: LTD.Stress.RFC2544.0PacketLoss
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     **Title**: RFC 2544 0% Loss CPU OR Memory Stress Test
 
     **Prerequisite Test**:
@@ -1620,7 +1651,8 @@ Test ID: LTD.Stress.RFC2544.0PacketLoss
 .. 3.2.2.7
 
 Summary List of Tests
-----------------------------
+---------------------
+
 1. Throughput tests
 
   - Test ID: LTD.Throughput.RFC2544.PacketLossRatio
