@@ -1300,20 +1300,26 @@ vsperf CI
 vsperf CI jobs are broken down into:
 
   * Daily job:
+
     * Runs everyday takes about 10 hours to complete.
     * TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan
       phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'.
     * TESTPARAM_DAILY='--test-params pkt_sizes=64,128,512,1024,1518'.
+
   * Merge job:
+
     * Runs whenever patches are merged to master.
     * Runs a basic Sanity test.
+
   * Verify job:
+
     * Runs every time a patch is pushed to gerrit.
     * Builds documentation.
 
 Scripts:
 --------
 There are 2 scripts that are part of VSPERFs CI:
+
   * build-vsperf.sh: Lives in the VSPERF repository in the ci/ directory and is
     used to run vsperf with the appropriate cli parameters.
   * vswitchperf.yml: YAML description of our jenkins job. lives in the RELENG
