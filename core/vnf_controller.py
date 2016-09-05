@@ -53,8 +53,9 @@ class VnfController(object):
             else:
                 vm_number = 2
         else:
-            raise RuntimeError('Deployment {} is not supported by '
-                               'VnfController.'.format(self._deployment))
+            # VnfController is created for all deployments, including deployments
+            # without VNFs like p2p
+            vm_number = 0
 
         if vm_number:
             self._logger.debug('Check configuration for %s guests.', vm_number)
