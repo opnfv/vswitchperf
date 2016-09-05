@@ -39,6 +39,12 @@ class QemuDpdkVhostUser(IVnfQemu):
         else:
             queue_str, mq_vector_str = '', ''
 
+        # Guest merge buffer setting
+        if S.getValue('GUEST_NIC_MERGE_BUFFERS_DISABLE')[self._number]:
+            merge_buff = 'mrg_rxbuf=off,'
+        else:
+            merge_buff = ''
+
         # calculate index of first interface, i.e. check how many
         # interfaces has been created for previous VMs, where 1st NIC
         # of 1st VM has index 0
@@ -60,7 +66,8 @@ class QemuDpdkVhostUser(IVnfQemu):
                           '-device',
                           'virtio-net-pci,mac=' +
                           self._nics[nic]['mac'] +
-                          ',netdev=' + net + ',csum=off,gso=off,' +
+                          ',netdev=' + net + ',csum=off,' + merge_buff +
+                          'gso=off,' +
                           'guest_tso4=off,guest_tso6=off,guest_ecn=off' +
                           mq_vector_str,
                          ]
