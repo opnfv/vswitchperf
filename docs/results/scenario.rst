@@ -50,13 +50,13 @@ Supported traffic generators:
 
 .. _PacketLossRatioFrameModification: http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltd.html#test-id-ltd-throughput-rfc2544-packetlossratioframemodification
 
-.. _Scalability0PacketLoss: http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltd.html#test-id-ltd-scalability-rfc2544-0packetloss
+.. _Scalability0PacketLoss: http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltd.html#test-id-ltd-scalability-flows-rfc2544-0packetloss
 
-.. _CPU0PacketLoss: http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltd.html#test-id-ltd-cpu-rfc2544-0packetloss
+.. _CPU0PacketLoss: http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltd.html#test-id-ltd-stress-rfc2544-0packetloss
 
-.. _Phy2Phy : http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltd.html#physical-port-vswitch-physical-port
+.. _Phy2Phy : http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltp.html#physical-port-vswitch-physical-port
 
-.. _PVP: http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltd.html#physical-port-vswitch-vnf-vswitch-physical-port
+.. _PVP: http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltp.html#physical-port-vswitch-vnf-vswitch-physical-port
 
-.. _PVVP: http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltd.html#physical-port-vswitch-vnf-vswitch-vnf-vswitch-physical-port
+.. _PVVP: http://artifacts.opnfv.org/vswitchperf/docs/requirements/vswitchperf_ltp.html#physical-port-vswitch-vnf-vswitch-vnf-vswitch-physical-port
 
