@@ -23,21 +23,21 @@ support in VSPERF includes:
 
 If you want to use another traffic generator, please select the Dummy generator
 option as shown in `Traffic generator instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/configguide/trafficgen.html>`__
+<http://artifacts.opnfv.org/vswitchperf/colorado/configguide/trafficgen.html>`__
 
 VSPERF Installation
 ^^^^^^^^^^^^^^^^^^^
 
 To see the supported Operating Systems, vSwitches and system requirements,
 please follow the `installation instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html>`__ to
+<http://artifacts.opnfv.org/vswitchperf/colorado/configguide/installation.html>`__ to
 install.
 
 Traffic Generator Setup
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 Follow the `Traffic generator instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/configguide/trafficgen.html>`__ to
+<http://artifacts.opnfv.org/vswitchperf/colorado/configguide/trafficgen.html>`__ to
 install and configure a suitable traffic generator.
 
 Cloning and building src dependencies
@@ -121,7 +121,7 @@ deployment scenarios. The image can be downloaded from
 Newer vloop_vnf images are available. Please reference the
 installation instructions for information on these images
 `installation instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html>`__
+<http://artifacts.opnfv.org/vswitchperf/colorado/configguide/installation.html>`__
 
 
 vloop_vnf forwards traffic through a VM using one of:
@@ -655,5 +655,5 @@ More information
 ^^^^^^^^^^^^^^^^
 
 For more information and details refer to the vSwitchPerf user guide at:
-http://artifacts.opnfv.org/vswitchperf/docs/userguide/index.html
+http://artifacts.opnfv.org/vswitchperf/colorado/userguide/index.html
 
