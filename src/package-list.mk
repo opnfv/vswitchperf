@@ -6,13 +6,11 @@
 # dpdk section
 # DPDK_URL ?= git://dpdk.org/dpdk
 DPDK_URL ?= http://dpdk.org/git/dpdk
-DPDK_TAG ?= v16.04
+DPDK_TAG ?= v16.07
 
 # OVS section
 OVS_URL ?= https://github.com/openvswitch/ovs
-#The Tag below is for OVS v2.5.0 with backwards compatibility support for Qemu
-#versions < 2.5.
-OVS_TAG ?= 31871ee3839c35e6878debfc7926afa471dbdec6
+OVS_TAG ?= ed26e3ea9995ba632e681d5990af5ee9814f650e
 
 # QEMU section
 QEMU_URL ?= https://github.com/qemu/qemu.git
