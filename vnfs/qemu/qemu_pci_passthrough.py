@@ -39,7 +39,7 @@ class QemuPciPassthrough(IVnfQemu):
         """
         super(QemuPciPassthrough, self).__init__()
         self._logger = logging.getLogger(__name__)
-        self._nics = S.getValue('NICS')
+        self._host_nics = S.getValue('NICS')
 
         # in case of SRIOV and PCI passthrough we must ensure, that MAC addresses are swapped
         if S.getValue('SRIOV_ENABLED') and not self._testpmd_fwd_mode.startswith('mac'):
@@ -47,7 +47,7 @@ class QemuPciPassthrough(IVnfQemu):
                               self._testpmd_fwd_mode, 'mac')
             self._testpmd_fwd_mode = 'mac'
 
-        for nic in self._nics:
+        for nic in self._host_nics:
             self._cmd += ['-device', 'vfio-pci,host=' + nic['pci']]
 
     def start(self):
@@ -59,12 +59,12 @@ class QemuPciPassthrough(IVnfQemu):
 
         # bind every interface to vfio-pci driver
         try:
-            nics_list = list(tmp_nic['pci'] for tmp_nic in self._nics)
+            nics_list = list(tmp_nic['pci'] for tmp_nic in self._host_nics)
             tasks.run_task(['sudo', _RTE_PCI_TOOL, '--bind=vfio-pci'] + nics_list,
                            self._logger, 'Binding NICs %s...' % nics_list, True)
 
         except subprocess.CalledProcessError:
-            self._logger.error('Unable to bind NICs %s', self._nics)
+            self._logger.error('Unable to bind NICs %s', self._host_nics)
 
         super(QemuPciPassthrough, self).start()
 
@@ -75,7 +75,7 @@ class QemuPciPassthrough(IVnfQemu):
         super(QemuPciPassthrough, self).stop()
 
         # bind original driver to every interface
-        for nic in self._nics:
+        for nic in self._host_nics:
             if nic['driver']:
                 try:
                     tasks.run_task(['sudo', _RTE_PCI_TOOL, '--bind=' + nic['driver'], nic['pci']],
