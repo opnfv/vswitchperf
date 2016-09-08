@@ -550,7 +550,7 @@ def main():
         if args['vnf'] not in vnfs:
             _LOGGER.error('there are no vnfs matching \'%s\' found in'
                           ' \'%s\'. exiting...', args['vnf'],
-                          settings.getValue('vnf_dir'))
+                          settings.getValue('VNF_DIR'))
             sys.exit(1)
 
     if args['exact_test_name'] and args['tests']:
