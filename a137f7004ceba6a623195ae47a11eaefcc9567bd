@@ -22,6 +22,30 @@
       "revId": "a137f7004ceba6a623195ae47a11eaefcc9567bd",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_65af5b95",
+        "filename": "conf/04_vnf.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-09-09T08:27:28Z",
+      "side": 1,
+      "message": "Good point, since newer virtio supports this option and we want to run with the latest and greatest I can enable it by default. I\u0027ll get this done in a day or two.",
+      "parentUuid": "1a76adc5_82d71223",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 41
+      },
+      "revId": "a137f7004ceba6a623195ae47a11eaefcc9567bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
