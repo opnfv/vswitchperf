@@ -323,6 +323,42 @@ install the package. Once installed, the scripts named with 'rest' keyword
 can be used. For example: testcenter-rfc2544-rest.py can be used to run
 RFC 2544 tests using the REST interface.
 
+Configuration:
+~~~~~~~~~~~~~~
+The mandatory configurations are enlisted below.
+
+1. The Labserver and license server addresses. These parameters applies to
+   all the tests and are mandatory.
+
+.. code-block:: console
+
+    TRAFFICGEN_STC_LAB_SERVER_ADDR = " "
+    TRAFFICGEN_STC_LICENSE_SERVER_ADDR = " "
+
+2. For RFC2544 tests, the following parameters are mandatory
+
+
+.. code-block:: console
+
+    TRAFFICGEN_STC_RFC2544_TPUT_TEST_FILE_NAME = " "
+    TRAFFICGEN_STC_EAST_CHASSIS_ADDR = " "
+    TRAFFICGEN_STC_EAST_SLOT_NUM = " "
+    TRAFFICGEN_STC_EAST_PORT_NUM = " "
+    TRAFFICGEN_STC_EAST_INTF_ADDR = " "
+    TRAFFICGEN_STC_EAST_INTF_GATEWAY_ADDR = " "
+    TRAFFICGEN_STC_WEST_CHASSIS_ADDR = ""
+    TRAFFICGEN_STC_WEST_SLOT_NUM = " "
+    TRAFFICGEN_STC_WEST_PORT_NUM = " "
+    TRAFFICGEN_STC_WEST_INTF_ADDR = " "
+    TRAFFICGEN_STC_WEST_INTF_GATEWAY_ADDR = " "
+
+3. For RFC2889 tests, specifying the locations of the ports is mandatory.
+
+.. code-block:: console
+
+    TRAFFICGEN_STC_RFC2889_TEST_FILE_NAME = " "
+    TRAFFICGEN_STC_RFC2889_LOCATIONS= " "
+
 Xena Networks
 -------------
 

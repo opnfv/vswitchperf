@@ -58,6 +58,11 @@ class ResultsConstants(object):
     SCAL_STREAM_COUNT = 'stream_count'
     SCAL_STREAM_TYPE = 'match_type'
     SCAL_PRE_INSTALLED_FLOWS = 'pre-installed_flows'
+    # RFC2889 Forwarding, Address-Caching and Congestion
+    FORWARDING_RATE_FPS = 'forwarding_rate_fps'
+    ADDRS_COUNT_FLOOD_COUNT_RATIO = 'addrs_count_flood_count_ratio'
+    CONGESTION_CONTROL_EXISTS = 'congestion_control_exists'
+    PORTS_MAP = 'ports_map'
 
     TEST_RUN_TIME = "test_execution_time"
 
