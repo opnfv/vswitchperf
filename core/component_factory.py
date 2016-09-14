@@ -16,6 +16,7 @@
 """
 
 from core.traffic_controller_rfc2544 import TrafficControllerRFC2544
+from core.traffic_controller_rfc2889 import TrafficControllerRFC2889
 from core.vswitch_controller_clean import VswitchControllerClean
 from core.vswitch_controller_p2p import VswitchControllerP2P
 from core.vswitch_controller_pxp import VswitchControllerPXP
@@ -47,7 +48,10 @@ def create_traffic(traffic_type, trafficgen_class):
     :param trafficgen_class: Reference to traffic generator class to be used.
     :return: A new ITrafficController
     """
-    return TrafficControllerRFC2544(trafficgen_class)
+    if traffic_type.lower().startswith('rfc2889'):
+        return TrafficControllerRFC2889(trafficgen_class)
+    else:
+        return TrafficControllerRFC2544(trafficgen_class)
 
 
 def create_vswitch(deployment_scenario, vswitch_class, traffic,
