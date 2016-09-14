@@ -115,6 +115,25 @@ def get_rfc2544_custom_settings(framesize, custom_tr, tests):
     return args
 
 
+def get_rfc2889_settings(framesize, tests, duration):
+    args = [settings.getValue("TRAFFICGEN_STC_PYTHON2_PATH"),
+            os.path.join(
+                settings.getValue("TRAFFICGEN_STC_TESTCENTER_PATH"),
+                settings.getValue(
+                    "TRAFFICGEN_STC_RFC2889_TEST_FILE_NAME")),
+                "--lab_server_addr",
+                settings.getValue("TRAFFICGEN_STC_LAB_SERVER_ADDR"),
+                "--license_server_addr",
+                settings.getValue("TRAFFICGEN_STC_LICENSE_SERVER_ADDR"),
+                "--location_list",
+                settings.getValue("TRAFFICGEN_STC_RFC2889_LOCATIONS"),
+                "--frame_size_list",
+                str(framesize),
+                "--num_trials",
+                str(tests)]
+    return args
+
+
 class TestCenter(trafficgen.ITrafficGenerator):
     """
     Spirent TestCenter
@@ -138,6 +157,48 @@ class TestCenter(trafficgen.ITrafficGenerator):
         Do nothing.
         """
         return None
+
+    def send_rfc2889_congestion(self, traffic=None, tests=1, duration=20):
+        """
+        Do nothing.
+        """
+        return None
+
+    def send_rfc2889_caching(self, traffic=None, tests=1, duration=20):
+        """
+        Do nothing.
+        """
+        return None
+
+    def get_rfc2889_results(self, filename):
+        """
+        Reads the CSV file and return the results
+        """
+        result = {}
+        with open(filename, "r") as csvfile:
+            csvreader = csv.DictReader(csvfile)
+            for row in csvreader:
+                self._logger.info("Row: %s", row)
+                duration = int((float(row["TxSignatureFrameCount"])) /
+                               (float(row["OfferedLoad(fps)"])))
+                tx_fps = (float(row["OfferedLoad(fps)"]))
+                rx_fps = float((float(row["RxFrameCount"])) /
+                               float(duration))
+                tx_mbps = ((tx_fps * float(row["FrameSize"])) /
+                           (1000000.0))
+                rx_mbps = ((rx_fps * float(row["FrameSize"])) /
+                           (1000000.0))
+                result[ResultsConstants.TX_RATE_FPS] = tx_fps
+                result[ResultsConstants.THROUGHPUT_RX_FPS] = rx_fps
+                result[ResultsConstants.TX_RATE_MBPS] = tx_mbps
+                result[ResultsConstants.THROUGHPUT_RX_MBPS] = rx_mbps
+                result[ResultsConstants.TX_RATE_PERCENT] = float(
+                    row["OfferedLoad(%)"])
+                result[ResultsConstants.FRAME_LOSS_PERCENT] = float(
+                    row["PercentFrameLoss(%)"])
+                result[ResultsConstants.FORWARDING_RATE_FPS] = float(
+                    row["ForwardingRate(fps)"])
+        return result
 
     def get_rfc2544_results(self, filename):
         """
@@ -210,6 +271,31 @@ class TestCenter(trafficgen.ITrafficGenerator):
             self._logger.info("file: %s", filec)
 
         return self.get_rfc2544_results(filec)
+
+    def send_rfc2889_forwarding(self, traffic=None, tests=1, duration=20):
+        """
+        Send traffic per RFC2544 throughput test specifications.
+        """
+        framesize = settings.getValue("TRAFFICGEN_STC_FRAME_SIZE")
+        if traffic and 'l2' in traffic:
+            if 'framesize' in traffic['l2']:
+                framesize = traffic['l2']['framesize']
+        args = get_rfc2889_settings(framesize, tests, duration)
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+            args.append("--verbose")
+            verbose = True
+            self._logger.debug("Arguments used to call test: %s", args)
+        subprocess.check_call(args)
+
+        filec = os.path.join(settings.getValue("TRAFFICGEN_STC_RESULTS_DIR"),
+                             settings.getValue(
+                                 "TRAFFICGEN_STC_CSV_RESULTS_FILE_PREFIX") +
+                             ".csv")
+
+        if verbose:
+            self._logger.info("file: %s", filec)
+
+        return self.get_rfc2889_results(filec)
 
     def send_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
                                 lossrate=0.0):

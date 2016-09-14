@@ -58,6 +58,11 @@ class ResultsConstants(object):
     SCAL_STREAM_COUNT = 'stream_count'
     SCAL_STREAM_TYPE = 'match_type'
     SCAL_PRE_INSTALLED_FLOWS = 'pre-installed_flows'
+    # RFC2889 Forwarding, Address-Caching and Congestion
+    FORWARDING_RATE_FPS = 'forwarding_rate_fps'
+    ADDRS_COUNT_FLOOD_COUNT_RATIO = 'addrs_count_flood_count_ratio'
+    CONGESTION_CONTROL_EXISTS = 'congestion_control_exists'
+    PORTS_MAP = 'ports_map'
 
     TEST_RUN_TIME = "test_execution_time"
 
@@ -85,3 +90,28 @@ class ResultsConstants(object):
                 ResultsConstants.MAX_LATENCY_NS,
                 ResultsConstants.AVG_LATENCY_NS,
                 ResultsConstants.FRAME_LOSS_PERCENT]
+
+    @staticmethod
+    def get_rfc2889_traffic_constants():
+        """Method returns all Constants used to store results.
+
+        These data can be used to generate final output.
+
+        :return: List of Strings which contains column names used as a result
+        This applies to any traffic(RFC2544 throughput or continuous flow)
+        operation.
+        """
+        return [ResultsConstants.TYPE,
+                ResultsConstants.ID,
+                ResultsConstants.PACKET_SIZE,
+                ResultsConstants.TX_RATE_FPS,
+                ResultsConstants.THROUGHPUT_RX_FPS,
+                ResultsConstants.TX_RATE_MBPS,
+                ResultsConstants.THROUGHPUT_RX_MBPS,
+                ResultsConstants.TX_RATE_PERCENT,
+                ResultsConstants.FRAME_LOSS_PERCENT,
+                ResultsConstants.FORWARDING_RATE_FPS,
+                ResultsConstants.ADDRS_COUNT_FLOOD_COUNT_RATIO,
+                ResultsConstants.CONGESTION_CONTROL_EXISTS,
+                ResultsConstants.PORTS_MAP,
+                ResultsConstants.TEST_RUN_TIME]
