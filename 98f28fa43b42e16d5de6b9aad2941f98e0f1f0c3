@@ -50,6 +50,74 @@
       "revId": "98f28fa43b42e16d5de6b9aad2941f98e0f1f0c3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ad96a84a",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2889-rest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-09-19T13:01:39Z",
+      "side": 1,
+      "message": "I think you want a space at the end of beginning of one of these two string pairs for the help variable? Otherwise it will print out and look incorrect when printing the help. This is seen through many of these arguments. So might want to check to see if this is needed. \n\nExample below to what I\u0027m talking about.\n\n\u003e\u003e\u003e help \u003d (\"The duration of each trial\" \"help\")\n\u003e\u003e\u003e help\n\u0027The duration of each trialhelp\u0027\n\u003e\u003e\u003e",
+      "revId": "98f28fa43b42e16d5de6b9aad2941f98e0f1f0c3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4da6f4c2",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2889-rest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-09-19T13:01:39Z",
+      "side": 1,
+      "message": "All your debug events are displayed if verbose is enabled. This one isn\u0027t and is displayed by default. Is this on purpose? Maybe change this to an info level event to keep structure for log events?",
+      "revId": "98f28fa43b42e16d5de6b9aad2941f98e0f1f0c3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_edaca0a2",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2889-rest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-09-19T13:01:39Z",
+      "side": 1,
+      "message": "Same as above comment.",
+      "revId": "98f28fa43b42e16d5de6b9aad2941f98e0f1f0c3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6d77303b",
+        "filename": "tools/pkt_gen/testcenter/testcenter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-09-19T13:01:39Z",
+      "side": 1,
+      "message": "debug level event?",
+      "revId": "98f28fa43b42e16d5de6b9aad2941f98e0f1f0c3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
