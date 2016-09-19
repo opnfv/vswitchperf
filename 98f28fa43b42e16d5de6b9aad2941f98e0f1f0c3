@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_127339b2",
+        "filename": "core/component_factory.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-09-19T08:37:06Z",
+      "side": 1,
+      "message": "In case of deployment_scenario in method below, we enforce lowercase before the check. It might be good to do the same to be more error prone,\n\ne.g.\nif traffic_type.lower().startswith(\u0027rfc2889\u0027):",
+      "revId": "98f28fa43b42e16d5de6b9aad2941f98e0f1f0c3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d2f5c1cb",
+        "filename": "core/results/results_constants.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-09-19T08:37:06Z",
+      "side": 1,
+      "message": "is this method used anywhere?",
+      "revId": "98f28fa43b42e16d5de6b9aad2941f98e0f1f0c3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b221254f",
+        "filename": "core/traffic_controller_rfc2889.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-09-19T08:37:06Z",
+      "side": 1,
+      "message": "majority of the code is shared with TrafficControllerRFC2544.__init__(). It would be good to place common code into the ITrafficController and call it from both specialized classes. In this case ITrafficController won\u0027t be an abstract class anymore, but the same had happened for other interface classes in the past.\n\nThe same logic should be applied for all other methods.",
+      "revId": "98f28fa43b42e16d5de6b9aad2941f98e0f1f0c3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
