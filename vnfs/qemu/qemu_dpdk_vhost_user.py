@@ -58,7 +58,7 @@ class QemuDpdkVhostUser(IVnfQemu):
 
             self._cmd += ['-chardev',
                           'socket,id=char' + ifi +
-                          ',path=' + S.getValue('OVS_VAR_DIR') +
+                          ',path=' + S.getValue('TOOLS')['ovs_var_tmp'] +
                           'dpdkvhostuser' + ifi,
                           '-netdev',
                           'type=vhost-user,id=' + net +

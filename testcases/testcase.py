@@ -67,17 +67,11 @@ class TestCase(object):
         self._update_settings('TEST_PARAMS', cfg.get('Parameters', S.getValue('TEST_PARAMS')))
 
         # update global settings
+        functions.settings_update_paths()
         guest_loopback = get_test_param('guest_loopback', None)
         if guest_loopback:
             # we can put just one item, it'll be expanded automatically for all VMs
             self._update_settings('GUEST_LOOPBACK', [guest_loopback])
-
-        if 'VSWITCH' in self._settings_original or 'VNF' in self._settings_original:
-            self._settings_original.update({
-                'RTE_SDK' : S.getValue('RTE_SDK'),
-                'OVS_DIR' : S.getValue('OVS_DIR'),
-            })
-            functions.settings_update_paths()
 
         # set test parameters; CLI options take precedence to testcase settings
         self._logger = logging.getLogger(__name__)
@@ -384,14 +378,19 @@ class TestCase(object):
 
         # copy sources into shared dir only if neccessary
         guest_loopback = set(S.getValue('GUEST_LOOPBACK'))
-        if 'testpmd' in guest_loopback or 'l2fwd' in guest_loopback:
+        if 'testpmd' in guest_loopback:
             try:
                 tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
-                                os.path.join(S.getValue('RTE_SDK_USER'), ''),
+                                os.path.join(S.getValue('TOOLS')['dpdk_src'], ''),
                                 os.path.join(guest_dir, 'DPDK')],
                                self._logger,
                                'Copying DPDK to shared directory...',
                                True)
+            except subprocess.CalledProcessError:
+                self._logger.error('Unable to copy DPDK to shared directory')
+                raise
+        if 'l2fwd' in guest_loopback:
+            try:
                 tasks.run_task(['rsync', '-a', '-r', '-l',
                                 os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/'),
                                 os.path.join(guest_dir, 'l2fwd')],
@@ -399,7 +398,8 @@ class TestCase(object):
                                'Copying l2fwd to shared directory...',
                                True)
             except subprocess.CalledProcessError:
-                self._logger.error('Unable to copy DPDK and l2fwd to shared directory')
+                self._logger.error('Unable to copy l2fwd to shared directory')
+                raise
 
     def _mount_hugepages(self):
         """Mount hugepages if usage of DPDK or Qemu is detected

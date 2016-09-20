@@ -17,18 +17,16 @@
 
 import logging
 import os
-import pexpect
 import re
 import time
+import datetime
+import random
+import pexpect
 
 from conf import settings
 from src.ovs import OFBridge, flow_key, flow_match
 from tools import tasks
 from vswitches.vswitch import IVSwitch
-
-_OVS_VAR_DIR = settings.getValue('OVS_VAR_DIR')
-_OVS_ETC_DIR = settings.getValue('OVS_ETC_DIR')
-
 
 class IVSwitchOvs(IVSwitch, tasks.Process):
     """Open vSwitch base class implementation
@@ -37,23 +35,26 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
     implementation. For generic information of the nature of the methods,
     see the interface.
     """
-    _logfile = os.path.join(settings.getValue('LOG_DIR'), settings.getValue('LOG_FILE_VSWITCHD'))
-    _ovsdb_pidfile_path = os.path.join(_OVS_VAR_DIR, "ovsdb-server.pid")
-    _vswitchd_pidfile_path = os.path.join(_OVS_VAR_DIR, "ovs-vswitchd.pid")
     _proc_name = 'ovs-vswitchd'
 
     def __init__(self):
         """See IVswitch for general description
         """
+        self._logfile = os.path.join(settings.getValue('LOG_DIR'),
+                                     settings.getValue('LOG_FILE_VSWITCHD'))
+        self._ovsdb_pidfile_path = os.path.join(settings.getValue('TOOLS')['ovs_var_tmp'],
+                                                "ovsdb-server.pid")
+        self._vswitchd_pidfile_path = os.path.join(settings.getValue('TOOLS')['ovs_var_tmp'],
+                                                   "{}.pid".format(self._proc_name))
         self._logger = logging.getLogger(__name__)
-        self._expect = r'bridge|INFO|ovs-vswitchd'
+        self._expect = r'bridge|INFO|{}'.format(self._proc_name)
         self._timeout = 30
         self._bridges = {}
         self._vswitchd_args = ['--pidfile=' + self._vswitchd_pidfile_path,
                                '--overwrite-pidfile', '--log-file=' + self._logfile]
         self._cmd = []
-        self._cmd_template = ['sudo', '-E', os.path.join(settings.getValue('OVS_DIR'),
-                                                         'vswitchd', 'ovs-vswitchd')]
+        self._cmd_template = ['sudo', '-E', settings.getValue('TOOLS')['ovs-vswitchd']]
+        self._stamp = None
 
     def start(self):
         """ Start ``ovsdb-server`` and ``ovs-vswitchd`` instance.
@@ -61,6 +62,10 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         :raises: pexpect.EOF, pexpect.TIMEOUT
         """
         self._logger.info("Starting vswitchd...")
+
+        # insert kernel modules if required
+        if 'vswitch_modules' in settings.getValue('TOOLS'):
+            self._module_manager.insert_modules(settings.getValue('TOOLS')['vswitch_modules'])
 
         self._cmd = self._cmd_template + self._vswitchd_args
 
@@ -123,7 +128,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         raise NotImplementedError
 
     def add_veth_pair_port(self, switch_name=None, remote_switch_name=None,
-                      local_opts=None, remote_opts=None):
+                           local_opts=None, remote_opts=None):
         """Creates veth-pair port between 'switch_name' and 'remote_switch_name'
 
         """
@@ -140,8 +145,8 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
                         'type=patch',
                         'options:peer=' + remote_port_name]
         remote_params = ['--', 'set', 'Interface', remote_port_name,
-                        'type=patch',
-                        'options:peer=' + local_port_name]
+                         'type=patch',
+                         'options:peer=' + local_port_name]
 
         if local_opts is not None:
             local_params = local_params + local_opts
@@ -296,14 +301,20 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """
         self._logger.info('Resetting system after last run...')
 
-        tasks.run_task(['sudo', 'rm', '-rf', _OVS_VAR_DIR], self._logger)
-        tasks.run_task(['sudo', 'mkdir', '-p', _OVS_VAR_DIR], self._logger)
-        tasks.run_task(['sudo', 'rm', '-rf', _OVS_ETC_DIR], self._logger)
-        tasks.run_task(['sudo', 'mkdir', '-p', _OVS_ETC_DIR], self._logger)
+        # create a backup of ovs_var_tmp and ovs_etc_tmp; It is
+        # essential for OVS installed from binary packages.
+        self._stamp = '{:%Y%m%d_%H%M%S}_{}'.format(datetime.datetime.now(),
+                                                   random.randrange(1000, 9999))
+        for tmp_dir in ['ovs_var_tmp', 'ovs_etc_tmp']:
+            if os.path.exists(settings.getValue('TOOLS')[tmp_dir]):
+                orig_dir = os.path.normpath(settings.getValue('TOOLS')[tmp_dir])
+                self._logger.info('Creating backup of %s directory...', tmp_dir)
+                tasks.run_task(['sudo', 'mv', orig_dir, '{}.{}'.format(orig_dir, self._stamp)],
+                               self._logger)
 
-        tasks.run_task(['sudo', 'rm', '-f',
-                        os.path.join(_OVS_ETC_DIR, 'conf.db')],
-                       self._logger)
+        # create fresh tmp dirs
+        tasks.run_task(['sudo', 'mkdir', '-p', settings.getValue('TOOLS')['ovs_var_tmp']], self._logger)
+        tasks.run_task(['sudo', 'mkdir', '-p', settings.getValue('TOOLS')['ovs_etc_tmp']], self._logger)
 
         self._logger.info('System reset after last run.')
 
@@ -312,21 +323,18 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
 
         :returns: None
         """
-        ovsdb_tool_bin = os.path.join(
-            settings.getValue('OVS_DIR'), 'ovsdb', 'ovsdb-tool')
+        ovsdb_tool_bin = settings.getValue('TOOLS')['ovsdb-tool']
         tasks.run_task(['sudo', ovsdb_tool_bin, 'create',
-                        os.path.join(_OVS_ETC_DIR, 'conf.db'),
-                        os.path.join(settings.getValue('OVS_DIR'), 'vswitchd',
-                                     'vswitch.ovsschema')],
+                        os.path.join(settings.getValue('TOOLS')['ovs_etc_tmp'], 'conf.db'),
+                        settings.getValue('TOOLS')['ovsschema']],
                        self._logger,
                        'Creating ovsdb configuration database...')
 
-        ovsdb_server_bin = os.path.join(
-            settings.getValue('OVS_DIR'), 'ovsdb', 'ovsdb-server')
+        ovsdb_server_bin = settings.getValue('TOOLS')['ovsdb-server']
 
         tasks.run_background_task(
             ['sudo', ovsdb_server_bin,
-             '--remote=punix:%s' % os.path.join(_OVS_VAR_DIR, 'db.sock'),
+             '--remote=punix:%s' % os.path.join(settings.getValue('TOOLS')['ovs_var_tmp'], 'db.sock'),
              '--remote=db:Open_vSwitch,Open_vSwitch,manager_options',
              '--pidfile=' + self._ovsdb_pidfile_path, '--overwrite-pidfile'],
             self._logger,
@@ -346,13 +354,24 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
             if ovsdb_pid:
                 tasks.terminate_task(ovsdb_pid, logger=self._logger)
 
+        # restore original content of ovs_var_tmp and ovs_etc_tmp; It is
+        # essential for OVS installed from binary packages.
+        if self._stamp:
+            for tmp_dir in ['ovs_var_tmp', 'ovs_etc_tmp']:
+                orig_dir = os.path.normpath(settings.getValue('TOOLS')[tmp_dir])
+                if os.path.exists('{}.{}'.format(orig_dir, self._stamp)):
+                    self._logger.info('Restoring backup of %s directory...', tmp_dir)
+                    tasks.run_task(['sudo', 'rm', '-rf', orig_dir], self._logger)
+                    tasks.run_task(['sudo', 'mv', '{}.{}'.format(orig_dir, self._stamp), orig_dir],
+                                   self._logger)
+
     @staticmethod
     def get_db_sock_path():
         """Method returns location of db.sock file
 
         :returns: path to db.sock file.
         """
-        return os.path.join(_OVS_VAR_DIR, 'db.sock')
+        return os.path.join(settings.getValue('TOOLS')['ovs_var_tmp'], 'db.sock')
 
     #
     # validate methods required for integration testcases

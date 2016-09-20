@@ -19,6 +19,7 @@ import os
 import platform
 import subprocess
 import locale
+import re
 
 from conf import settings as S
 
@@ -176,6 +177,40 @@ def pid_isalive(pid):
     """
     return os.path.isdir('/proc/' + str(pid))
 
+def get_bin_version(binary, regex):
+    """ get version of given binary selected by given regex
+
+    :returns: version string or None
+    """
+    try:
+        output = subprocess.check_output(binary, shell=True).decode().rstrip('\n')
+    except subprocess.CalledProcessError:
+        return None
+
+    versions = re.findall(regex, output)
+    if len(versions):
+        return versions[0]
+    else:
+        return None
+
+def get_git_tag(path):
+    """ get tag of recent commit from repository located at 'path'
+
+    :returns: git tag in form of string with commit hash or None if there
+        isn't any git repository at given path
+    """
+    try:
+        if os.path.isdir(path):
+            return subprocess.check_output('cd {}; git rev-parse HEAD'.format(path), shell=True,
+                                           stderr=subprocess.DEVNULL).decode().rstrip('\n')
+        elif os.path.isfile(path):
+            return subprocess.check_output('cd $(dirname {}); git log -1 --pretty="%H" {}'.format(path, path),
+                                           shell=True, stderr=subprocess.DEVNULL).decode().rstrip('\n')
+        else:
+            return None
+    except subprocess.CalledProcessError:
+        return None
+
 # This function uses long switch per purpose, so let us suppress pylint warning too-many-branches
 # pylint: disable=R0912
 def get_version(app_name):
@@ -186,45 +221,38 @@ def get_version(app_name):
 
     """
     app_version_file = {
-        'ovs' : os.path.join(S.getValue('OVS_DIR'), 'include/openvswitch/version.h'),
-        'dpdk' : os.path.join(S.getValue('RTE_SDK'), 'lib/librte_eal/common/include/rte_version.h'),
-        'qemu' : os.path.join(S.getValue('QEMU_DIR'), 'VERSION'),
-        'l2fwd' : os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/l2fwd.c'),
+        'ovs' : r'Open vSwitch\) ([0-9.]+)',
+        'testpmd' : r'RTE Version: \'\S+ ([0-9.]+)',
+        'qemu' : r'QEMU emulator version ([0-9.]+)',
+        'loopback_l2fwd' : os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/l2fwd.c'),
+        'loopback_testpmd' : os.path.join(S.getValue('TOOLS')['dpdk_src'],
+                                          'lib/librte_eal/common/include/rte_version.h'),
         'ixnet' : os.path.join(S.getValue('TRAFFICGEN_IXNET_LIB_PATH'), 'pkgIndex.tcl'),
     }
 
-
-    def get_git_tag(path):
-        """ get tag of recent commit from repository located at 'path'
-
-        :returns: git tag in form of string with commit hash or None if there
-            isn't any git repository at given path
-        """
-        try:
-            if os.path.isdir(path):
-                return subprocess.check_output('cd {}; git rev-parse HEAD'.format(path), shell=True,
-                                               stderr=subprocess.DEVNULL).decode().rstrip('\n')
-            elif os.path.isfile(path):
-                return subprocess.check_output('cd $(dirname {}); git log -1 --pretty="%H" {}'.format(path, path),
-                                               shell=True, stderr=subprocess.DEVNULL).decode().rstrip('\n')
-            else:
-                return None
-        except subprocess.CalledProcessError:
-            return None
 
 
     app_version = None
     app_git_tag = None
 
     if app_name.lower().startswith('ovs'):
-        app_version = match_line(app_version_file['ovs'], '#define OVS_PACKAGE_VERSION')
-        if app_version:
-            app_version = app_version.split('"')[1]
-        app_git_tag = get_git_tag(S.getValue('OVS_DIR'))
+        app_version = get_bin_version('{} --version'.format(S.getValue('TOOLS')['ovs-vswitchd']),
+                                      app_version_file['ovs'])
+        if 'vswitch_src' in S.getValue('TOOLS'):
+            app_git_tag = get_git_tag(S.getValue('TOOLS')['vswitch_src'])
     elif app_name.lower() in ['dpdk', 'testpmd']:
+        app_version = get_bin_version('{} -v -h'.format(S.getValue('TOOLS')['testpmd']),
+                                      app_version_file['testpmd'])
+        # we have to consult PATHS settings to be sure, that dpdk/testpmd
+        # were build from the sources
+        if S.getValue('PATHS')[app_name.lower()]['type'] == 'src':
+            app_git_tag = get_git_tag(S.getValue('TOOLS')['dpdk_src'])
+    elif app_name.lower() == 'loopback_testpmd':
+        # testpmd inside the guest is compiled from downloaded sources
+        # stored at TOOS['dpdk_src'] directory
         tmp_ver = ['', '', '']
         dpdk_16 = False
-        with open(app_version_file['dpdk']) as file_:
+        with open(app_version_file['loopback_testpmd']) as file_:
             for line in file_:
                 if not line.strip():
                     continue
@@ -263,10 +291,12 @@ def get_version(app_name):
 
         if len(tmp_ver[0]):
             app_version = '.'.join(tmp_ver)
-        app_git_tag = get_git_tag(S.getValue('RTE_SDK'))
+        app_git_tag = get_git_tag(S.getValue('TOOLS')['dpdk_src'])
     elif app_name.lower().startswith('qemu'):
-        app_version = match_line(app_version_file['qemu'], '')
-        app_git_tag = get_git_tag(S.getValue('QEMU_DIR'))
+        app_version = get_bin_version('{} --version'.format(S.getValue('TOOLS')['qemu-system']),
+                                      app_version_file['qemu'])
+        if 'qemu_src' in S.getValue('TOOLS'):
+            app_git_tag = get_git_tag(S.getValue('TOOLS')['qemu_src'])
     elif app_name.lower() == 'ixnet':
         app_version = match_line(app_version_file['ixnet'], 'package provide IxTclNetwork')
         if app_version:
@@ -283,13 +313,23 @@ def get_version(app_name):
     elif app_name.lower() == 'vswitchperf':
         app_git_tag = get_git_tag(S.getValue('ROOT_DIR'))
     elif app_name.lower() == 'l2fwd':
-        app_version = match_line(app_version_file[app_name], 'MODULE_VERSION')
+        app_version = match_line(app_version_file['loopback_l2fwd'], 'MODULE_VERSION')
         if app_version:
             app_version = app_version.split('"')[1]
-        app_git_tag = get_git_tag(app_version_file[app_name])
+        app_git_tag = get_git_tag(app_version_file['loopback_l2fwd'])
     elif app_name.lower() in ['linux_bridge', 'buildin']:
         # without login into running VM, it is not possible to check bridge_utils version
         app_version = 'NA'
         app_git_tag = 'NA'
 
     return {'name' : app_name, 'version' : app_version, 'git_tag' : app_git_tag}
+
+def get_loopback_version(loopback_app_name):
+    """ Get version of given guest loopback application and its git tag
+
+    :returns: dictionary {'name' : app_name, 'version' : app_version, 'git_tag' : app_git_tag) in case that
+        version or git tag are not known or not applicaple, than None is returned for any unknown value
+    """
+    version = get_version("loopback_{}".format(loopback_app_name))
+    version['name'] = loopback_app_name
+    return version
