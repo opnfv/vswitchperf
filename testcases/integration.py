@@ -18,12 +18,14 @@ import os
 import time
 import logging
 import copy
+import re
 
+from collections import OrderedDict
 from testcases import TestCase
 from conf import settings as S
-from collections import OrderedDict
 from tools import namespace
 from tools import veth
+from tools.teststepstools import TestStepsTools
 from core.loader import Loader
 
 CHECK_PREFIX = 'validate_'
@@ -61,17 +63,18 @@ class IntegrationTestCase(TestCase):
             """ Evaluates referrences to results from previous steps
             """
             def eval_param(param, STEP):
+                # pylint: disable=invalid-name
                 """ Helper function
                 """
                 if isinstance(param, str):
-                    tmp_param = ''
                     # evaluate every #STEP reference inside parameter itself
-                    for chunk in param.split('#'):
-                        if chunk.startswith('STEP['):
-                            tmp_param = tmp_param + str(eval(chunk))
-                        else:
-                            tmp_param = tmp_param + chunk
-                    return tmp_param
+                    macros = re.findall(r'#STEP\[[\w\[\]\-\'\"]+\]', param)
+                    if macros:
+                        for macro in macros:
+                            # pylint: disable=eval-used
+                            tmp_val = str(eval(macro[1:]))
+                            param = param.replace(macro, tmp_val)
+                    return param
                 elif isinstance(param, list) or isinstance(param, tuple):
                     tmp_list = []
                     for item in param:
@@ -136,6 +139,11 @@ class IntegrationTestCase(TestCase):
                                             test_object = namespace
                                         elif step[0] == 'veth':
                                             test_object = veth
+                                        elif step[0] == 'settings':
+                                            test_object = S
+                                        elif step[0] == 'tools':
+                                            test_object = TestStepsTools()
+                                            step[1] = step[1].title()
                                         elif step[0] == 'trafficgen':
                                             test_object = self._traffic_ctl
                                             # in case of send_traffic method, ensure that specified
@@ -149,10 +157,15 @@ class IntegrationTestCase(TestCase):
                                                 # initialize new VM
                                                 vnf_list[step[0]] = loader.get_vnf_class()()
                                             test_object = vnf_list[step[0]]
+                                        elif step[0] == 'wait':
+                                            input(os.linesep + "Step {}: Press Enter to continue with "
+                                                  "the next step...".format(i) + os.linesep + os.linesep)
+                                            continue
                                         else:
                                             self._logger.error("Unsupported test object %s", step[0])
                                             self._inttest = {'status' : False, 'details' : ' '.join(step)}
-                                            self.report_status("Step '{}'".format(' '.join(step)), self._inttest['status'])
+                                            self.report_status("Step '{}'".format(' '.join(step)),
+                                                               self._inttest['status'])
                                             break
 
                                         test_method = getattr(test_object, step[1])
@@ -163,7 +176,9 @@ class IntegrationTestCase(TestCase):
                                             callable(test_method) and callable(test_method_check):
 
                                             try:
-                                                step_params = eval_step_params(step[2:], step_result)
+                                                # eval parameters, but use only valid step_results
+                                                # to support negative indexes
+                                                step_params = eval_step_params(step[2:], step_result[:i])
                                                 step_log = '{} {}'.format(' '.join(step[:2]), step_params)
                                                 step_result[i] = test_method(*step_params)
                                                 self._logger.debug("Step %s '%s' results '%s'", i,
@@ -185,7 +200,7 @@ class IntegrationTestCase(TestCase):
                                                 for vnf in vnf_list:
                                                     vnf_list[vnf].stop()
                                                 break
-    
+
                                         self.report_status("Step {} - '{}'".format(i, step_log), step_ok)
                                         if not step_ok:
                                             self._inttest = {'status' : False, 'details' : step_log}

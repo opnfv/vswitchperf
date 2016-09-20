@@ -170,6 +170,7 @@ class Settings(object):
                 for macro, args, param, _, step in re.findall(_PARSE_PATTERN, value):
                     multi = int(step) if len(step) and int(step) else 1
                     if macro == '#EVAL':
+                        # pylint: disable=eval-used
                         tmp_result = str(eval(param))
                     elif macro == '#MAC':
                         mac_value = netaddr.EUI(param).value
@@ -204,6 +205,20 @@ class Settings(object):
         """
         return pprint.pformat(self.__dict__)
 
+    #
+    # validation methods used by step driven testcases
+    #
+    def validate_getValue(self, result, attr):
+        """Verifies, that correct value was returned
+        """
+        assert result == self.__dict__[attr]
+        return True
+
+    def validate_setValue(self, dummy_result, name, value):
+        """Verifies, that value was correctly set
+        """
+        assert value == self.__dict__[name]
+        return True
 
 settings = Settings()
 
