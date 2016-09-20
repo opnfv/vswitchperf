@@ -83,9 +83,11 @@ class IVnfQemu(IVnf):
 
         name = 'Client%d' % self._number
         vnc = ':%d' % self._number
-        # don't use taskset to affinize main qemu process; It causes hangup
-        # of 2nd VM in case of DPDK. It also slows down VM responsivnes.
-        self._cmd = ['sudo', '-E', S.getValue('TOOLS')['qemu-system'],
+        # NOTE: affinization of main qemu process can cause hangup of 2nd VM
+        # in case of DPDK usage. It can also slow down VM response time.
+        cpumask = ",".join(S.getValue('GUEST_CORE_BINDING')[self._number])
+        self._cmd = ['sudo', '-E', 'taskset', '-c', cpumask,
+                     S.getValue('TOOLS')['qemu-system'],
                      '-m', S.getValue('GUEST_MEMORY')[self._number],
                      '-smp', str(S.getValue('GUEST_SMP')[self._number]),
                      '-cpu', 'host,migratable=off',

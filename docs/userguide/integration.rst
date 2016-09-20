@@ -49,6 +49,171 @@ test will fail and terminate. The test will continue until a failure is detected
 or all steps pass. A csv report file is generated after a test completes with an
 OK or FAIL result.
 
+Test objects and their functions
+--------------------------------
+
+Every test step can call a function of one of the supported test objects. The list
+of supported objects and their most common functions follows:
+
+    * ``vswitch`` - provides functions for vSwitch configuration
+
+      List of supported functions:
+
+        * ``add_switch br_name`` - creates a new switch (bridge) with given ``br_name``
+        * ``del_switch br_name`` - deletes switch (bridge) with given ``br_name``
+        * ``add_phy_port br_name`` - adds a physical port into bridge specified by ``br_name``
+        * ``add_vport br_name`` - adds a virtual port into bridge specified by ``br_name``
+        * ``del_port br_name port_name`` - removes physical or virtual port specified by
+          ``port_name`` from bridge ``br_name``
+        * ``add_flow br_name flow`` - adds flow specified by ``flow`` dictionary into
+          the bridge ``br_name``; Content of flow dictionary will be passed to the vSwitch.
+          In case of Open vSwitch it will be passed to the ``ovs-ofctl add-flow`` command.
+          Please see Open vSwitch documentation for the list of supported flow parameters.
+        * ``del_flow br_name flow`` - deletes flow specified by ``flow`` dictionary from
+          bridge ``br_name``
+        * ``dump_flows br_name`` - dumps all flows from bridge specified by ``br_name``
+        * ``enable_stp br_name`` - enables Spanning Tree Protocol for bridge ``br_name``
+        * ``disable_stp br_name`` - disables Spanning Tree Protocol for bridge ``br_name``
+        * ``enable_rstp br_name`` - enables Rapid Spanning Tree Protocol for bridge ``br_name``
+        * ``disable_rstp br_name`` - disables Rapid Spanning Tree Protocol for bridge ``br_name``
+
+        Examples:
+
+        .. code-block:: python
+
+            ['vswitch', 'add_switch', 'int_br0']
+
+            ['vswitch', 'del_switch', 'int_br0']
+
+            ['vswitch', 'add_phy_port', 'int_br0']
+
+            ['vswitch', 'del_port', 'int_br0', '#STEP[2][0]']
+
+            ['vswitch', 'add_flow', 'int_br0', {'in_port': '1', 'actions': ['output:2'],
+             'idle_timeout': '0'}],
+
+            ['vswitch', 'enable_rstp', 'int_br0']
+
+    * ``vnf[ID]`` - provides functions for deployment and termination of VNFs; Optional
+      alfanumerical ``ID`` is used for VNF identification in case that testcase
+      deploys multiple VNFs.
+
+      List of supported functions:
+
+        * ``start`` - starts a VNF based on VSPERF configuration
+        * ``stop`` - gracefully terminates given VNF
+
+        Examples:
+
+        .. code-block:: python
+
+            ['vnf1', 'start']
+            ['vnf2', 'start']
+            ['vnf2', 'stop']
+            ['vnf1', 'stop']
+
+    * ``trafficgen`` - triggers traffic generation
+
+      List of supported functions:
+
+        * ``send_traffic traffic`` - starts a traffic based on the vsperf configuration
+          and given ``traffic`` dictionary. More details about ``traffic`` dictionary
+          and its possible values are available at `Traffic Generator Integration Guide
+          <http://artifacts.opnfv.org/vswitchperf/docs/design/trafficgen_integration_guide.html#step-5-supported-traffic-types>`__
+
+        Examples:
+
+        .. code-block:: python
+
+            ['trafficgen', 'send_traffic', {'traffic_type' : 'throughput'}]
+
+            ['trafficgen', 'send_traffic', {'traffic_type' : 'back2back', 'bidir' : 'True'}]
+
+    * ``settings`` - reads or modifies VSPERF configuration
+
+      List of supported functions:
+
+        * ``getValue param`` - returns value of given ``param``
+        * ``setValue param value`` - sets value of ``param`` to given ``value``
+
+        Examples:
+
+        .. code-block:: python
+
+            ['settings', 'getValue', 'TOOLS']
+
+            ['settings', 'setValue', 'GUEST_USERNAME', ['root']]
+
+    * ``namespace`` - creates or modifies network namespaces
+
+      List of supported functions:
+
+        * ``create_namespace name`` - creates new namespace with given ``name``
+        * ``delete_namespace name`` - deletes namespace specified by its ``name``
+        * ``assign_port_to_namespace port name [port_up]`` - assigns NIC specified by ``port``
+          into given namespace ``name``; If optional parameter ``port_up`` is set to ``True``,
+          then port will be brought up.
+        * ``add_ip_to_namespace_eth port name addr cidr`` - assigns an IP address ``addr``/``cidr``
+          to the NIC specified by ``port`` within namespace ``name``
+        * ``reset_port_to_root port name`` - returns given ``port`` from namespace ``name`` back
+          to the root namespace
+
+        Examples:
+
+        .. code-block:: python
+
+            ['namespace', 'create_namespace', 'testns']
+
+            ['namespace', 'assign_port_to_namespace', 'eth0', 'testns']
+
+    * ``veth`` - manipulates with eth and veth devices
+
+      List of supported functions:
+
+        * ``add_veth_port port peer_port`` - adds a pair of veth ports named ``port`` and
+          ``peer_port``
+        * ``del_veth_port port peer_port`` - deletes a veth port pair specified by ``port``
+          and ``peer_port``
+        * ``bring_up_eth_port eth_port [namespace]`` - brings up ``eth_port`` in (optional)
+          ``namespace``
+
+        Examples:
+
+        .. code-block:: python
+
+            ['veth', 'add_veth_port', 'veth', 'veth1']
+
+            ['veth', 'bring_up_eth_port', 'eth1']
+
+    * ``tools`` - provides a set of helper functions
+
+      List of supported functions:
+
+        * ``Assert condition`` - evaluates given ``condition`` and raises ``AssertionError``
+          in case that condition is not ``True``
+        * ``Eval expression`` - evaluates given expression as a python code and returns
+          its result
+        * ``Exec command [regex]`` - executes a shell command and filters its output by
+          (optional) regular expression
+
+        Examples:
+
+        .. code-block:: python
+
+            ['tools', 'exec', 'numactl -H', 'available: ([0-9]+)']
+            ['tools', 'assert', '#STEP[-1][0]>1']
+
+    * ``wait`` - is used for test case interruption. This object doesn't have
+      any functions. Once reached, vsperf will pause test execution and waits
+      for press of ``Enter key``. It can be used during testcase design
+      for debugging purposes.
+
+      Examples:
+
+      .. code-block:: python
+
+        ['wait']
+
 Test Macros
 -----------
 
