@@ -114,7 +114,20 @@ class IntegrationTestCase(TestCase):
                                 loader = Loader()
                                 # execute test based on TestSteps definition
                                 if self.test:
+                                    # initialize list with results
                                     step_result = [None] * len(self.test)
+
+                                    # count how many VNFs are involved in the test
+                                    for step in self.test:
+                                        if step[0].startswith('vnf'):
+                                            vnf_list[step[0]] = None
+
+                                    # check/expand GUEST configuration and copy data to shares
+                                    if len(vnf_list):
+                                        S.check_vm_settings(len(vnf_list))
+                                        self._copy_fwd_tools_for_all_guests(len(vnf_list))
+
+                                    # run test step by step...
                                     for i, step in enumerate(self.test):
                                         step_ok = False
                                         if step[0] == 'vswitch':
@@ -132,10 +145,9 @@ class IntegrationTestCase(TestCase):
                                                 tmp_traffic.update(step[2])
                                                 step[2] = tmp_traffic
                                         elif step[0].startswith('vnf'):
-                                            if not step[0] in vnf_list:
-                                                # initialize new VM and copy data to its shared dir
+                                            if not vnf_list[step[0]]:
+                                                # initialize new VM
                                                 vnf_list[step[0]] = loader.get_vnf_class()()
-                                                self._copy_fwd_tools_for_guest(len(vnf_list))
                                             test_object = vnf_list[step[0]]
                                         else:
                                             self._logger.error("Unsupported test object %s", step[0])
