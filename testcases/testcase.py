@@ -61,6 +61,11 @@ class TestCase(object):
         self._settings_paths_modified = False
         self._testcast_run_time = None
 
+        # store all GUEST_ specific settings to keep original values before their expansion
+        for key in S.__dict__:
+            if key.startswith('GUEST_'):
+                self._settings_original[key] = S.getValue(key)
+
         self._update_settings('VSWITCH', cfg.get('vSwitch', S.getValue('VSWITCH')))
         self._update_settings('VNF', cfg.get('VNF', S.getValue('VNF')))
         self._update_settings('TRAFFICGEN', cfg.get('Trafficgen', S.getValue('TRAFFICGEN')))
@@ -190,7 +195,7 @@ class TestCase(object):
         # perform guest related handling
         if self._vnf_ctl.get_vnfs_number():
             # copy sources of l2 forwarding tools into VM shared dir if needed
-            self._copy_fwd_tools_for_all_guests()
+            self._copy_fwd_tools_for_all_guests(self._vnf_ctl.get_vnfs_number())
 
             # in case of multi VM in parallel, set the number of streams to the number of VMs
             if self.deployment.startswith('pvpv'):
@@ -356,11 +361,11 @@ class TestCase(object):
                 item[ResultsConstants.TUNNEL_TYPE] = self._tunnel_type
         return results
 
-    def _copy_fwd_tools_for_all_guests(self):
+    def _copy_fwd_tools_for_all_guests(self, vm_count):
         """Copy dpdk and l2fwd code to GUEST_SHARE_DIR[s] based on selected deployment.
         """
         # consider only VNFs involved in the test
-        for guest_dir in set(S.getValue('GUEST_SHARE_DIR')[:self._vnf_ctl.get_vnfs_number()]):
+        for guest_dir in set(S.getValue('GUEST_SHARE_DIR')[:vm_count]):
             self._copy_fwd_tools_for_guest(guest_dir)
 
     def _copy_fwd_tools_for_guest(self, guest_dir):
