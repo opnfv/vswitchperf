@@ -380,8 +380,20 @@ class TestCase(object):
         guest_loopback = set(S.getValue('GUEST_LOOPBACK'))
         if 'testpmd' in guest_loopback:
             try:
-                tasks.run_task(['rsync', '-a', '-r', '-l', r'--exclude="\.git"',
-                                os.path.join(S.getValue('TOOLS')['dpdk_src'], ''),
+                # exclude whole .git/ subdirectory and all o-files;
+                # It is assumed, that the same RTE_TARGET is used in both host
+                # and VMs; This simplification significantly speeds up testpmd
+                # build. If we will need a different RTE_TARGET in VM,
+                # then we have to build whole DPDK from the scratch in VM.
+                # In that case we can copy just DPDK sources (e.g. by excluding
+                # all items obtained by git status -unormal --porcelain).
+                # NOTE: Excluding RTE_TARGET directory won't help on systems,
+                # where DPDK is built for multiple targets (e.g. for gcc & icc)
+                exclude = []
+                exclude.append(r'--exclude=.git/')
+                exclude.append(r'--exclude=*.o')
+                tasks.run_task(['rsync', '-a', '-r', '-l'] + exclude +
+                               [os.path.join(S.getValue('TOOLS')['dpdk_src'], ''),
                                 os.path.join(guest_dir, 'DPDK')],
                                self._logger,
                                'Copying DPDK to shared directory...',
