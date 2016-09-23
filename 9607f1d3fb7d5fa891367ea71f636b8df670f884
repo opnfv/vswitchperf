@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_e9d7a149",
+        "filename": "testcases/integration.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2016-09-23T15:28:11Z",
+      "side": 1,
+      "message": "Is this comment still correct? Or should it just be \"initialize new VM\"?",
+      "revId": "9607f1d3fb7d5fa891367ea71f636b8df670f884",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
