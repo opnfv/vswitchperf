@@ -29,13 +29,14 @@ from tools import tasks
 from conf import settings
 
 _OVS_BRIDGE_NAME = settings.getValue('VSWITCH_BRIDGE_NAME')
+_OVS_CMD_TIMEOUT = settings.getValue('OVS_CMD_TIMEOUT')
 
 _CACHE_FILE_NAME = '/tmp/vsperf_flows_cache'
 
 class OFBase(object):
     """Add/remove/show datapaths using ``ovs-ofctl``.
     """
-    def __init__(self, timeout=10):
+    def __init__(self, timeout=_OVS_CMD_TIMEOUT):
         """Initialise logger.
 
         :param timeout: Timeout to be used for each command
@@ -138,7 +139,7 @@ class OFBase(object):
 class OFBridge(OFBase):
     """Control a bridge instance using ``ovs-vsctl`` and ``ovs-ofctl``.
     """
-    def __init__(self, br_name=_OVS_BRIDGE_NAME, timeout=10):
+    def __init__(self, br_name=_OVS_BRIDGE_NAME, timeout=_OVS_CMD_TIMEOUT):
         """Initialise bridge.
 
         :param br_name: Bridge name
