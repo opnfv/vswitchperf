@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad5f5cf_d4cd1288",
+        "filename": "docs/userguide/integration.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2016-10-05T09:21:49Z",
+      "side": 1,
+      "message": "Can we add also the following to remove all the flows in one shot?\n        * ``del_flow br_name`` - deletes all flows from\n          bridge ``br_name``",
+      "revId": "cccfed3caa947c1b1a5c57a0b02a1bef709696fd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
