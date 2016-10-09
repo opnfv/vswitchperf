@@ -3,11 +3,11 @@ name: fuel-plugin-vsperf
 # Human-readable name for your plugin
 title: Enable VSPERF plugin
 # Plugin version
-version: '1.0.9'
+version: '1.0.10'
 # Description
 description: Deploy VSPERF code
 # Required fuel version
-fuel_version: ['9.0']
+fuel_version: ['10.0']
 # Specify license of your plugin
 licenses: ['Apache License Version 2.0']
 # Specify author or company name
@@ -21,7 +21,7 @@ groups: ['network']
 # The plugin is compatible with releases in the list
 releases:
   - os: ubuntu
-    version: mitaka-9.0
+    version: newton-10.0
     mode: ['ha']
     deployment_scripts_path: deployment_scripts/
     repository_path: repositories/ubuntu
