@@ -22,6 +22,7 @@ TestCenter command sequencer. This test supports Python 2.7.
 from __future__ import print_function
 import argparse
 import os
+from conf import settings
 
 
 def create_dir(path):
@@ -129,7 +130,7 @@ def main():
                                dest="test_session_name")
     optionalnamed.add_argument("--results_dir",
                                required=False,
-                               default="./Results",
+                               default=settings.getValue("TRAFFICGEN_STC_RESULTS_DIR"),
                                help="The directory to copy results to",
                                dest="results_dir")
     optionalnamed.add_argument("--csv_results_file_prefix",

@@ -54,11 +54,14 @@ VERBOSITY_LEVELS = {
     'critical': logging.CRITICAL
 }
 
-_TEMPLATE_RST = {'head'  : 'tools/report/report_head.rst',
-                 'foot'  : 'tools/report/report_foot.rst',
+_CURR_DIR = os.path.dirname(os.path.realpath(__file__))
+
+_TEMPLATE_RST = {'head'  : os.path.join(_CURR_DIR, 'tools/report/report_head.rst'),
+                 'foot'  : os.path.join(_CURR_DIR, 'tools/report/report_foot.rst'),
                  'final' : 'test_report.rst',
-                 'tmp'   : 'tools/report/report_tmp_caption.rst'
+                 'tmp'   : os.path.join(_CURR_DIR, 'tools/report/report_tmp_caption.rst')
                 }
+
 
 _LOGGER = logging.getLogger()
 
@@ -482,11 +485,11 @@ def main():
 
     # configure settings
 
-    settings.load_from_dir('conf')
+    settings.load_from_dir(os.path.join(_CURR_DIR, 'conf'))
 
     # Load non performance/integration tests
     if args['integration']:
-        settings.load_from_dir('conf/integration')
+        settings.load_from_dir(os.path.join(_CURR_DIR, 'conf/integration'))
 
     # load command line parameters first in case there are settings files
     # to be used
