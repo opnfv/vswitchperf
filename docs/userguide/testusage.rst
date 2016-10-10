@@ -147,6 +147,9 @@ IP addresses. l2fwd can be found in <vswitchperf_dir>/src/l2fwd
 Executing tests
 ^^^^^^^^^^^^^^^
 
+All examples inside these docs assume, that user is inside the VSPERF
+directory. VSPERF can be executed from any directory.
+
 Before running any tests make sure you have root permissions by adding
 the following line to /etc/sudoers:
 
