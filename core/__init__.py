@@ -15,5 +15,5 @@
 """Core structural interfaces and their implementations
 """
 import core.component_factory
-from core.traffic_controller import (ITrafficController)
+from core.traffic_controller import (TrafficController)
 from core.vswitch_controller import (IVswitchController)

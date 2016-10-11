@@ -46,7 +46,7 @@ def create_traffic(traffic_type, trafficgen_class):
 
     :param traffic_type: Name of traffic type
     :param trafficgen_class: Reference to traffic generator class to be used.
-    :return: A new ITrafficController
+    :return: A new TrafficController
     """
     if traffic_type.lower().startswith('rfc2889'):
         return TrafficControllerRFC2889(trafficgen_class)
@@ -87,7 +87,7 @@ def create_vswitch(deployment_scenario, vswitch_class, traffic,
         raise RuntimeError("Unknown deployment scenario '{}'.".format(deployment_scenario))
 
 
-def create_vnf(deployment_scenario, vnf_class):
+def create_vnf(deployment_scenario, vnf_class, extra_vnfs):
     """Return a new VnfController for the deployment_scenario.
 
     The returned controller is configured with the given VNF class.
@@ -96,9 +96,13 @@ def create_vnf(deployment_scenario, vnf_class):
 
     :param deployment_scenario: The deployment scenario name
     :param vswitch_class: Reference to vSwitch class to be used.
+    :param extra_vnfs: The number of VNFs not involved in given
+        deployment scenario. It will be used to correctly expand
+        configuration values and initialize shared dirs. This parameter
+        is used in case, that additional VNFs are executed by TestSteps.
     :return: VnfController for the deployment_scenario
     """
-    return VnfController(deployment_scenario, vnf_class)
+    return VnfController(deployment_scenario, vnf_class, extra_vnfs)
 
 def create_collector(collector_class, result_dir, test_name):
     """Return a new Collector of the given class

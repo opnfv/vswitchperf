@@ -11,5 +11,6 @@ VSPERF User Guide
    :maxdepth: 3
 
    testusage.rst
+   teststeps.rst
    integration.rst
    yardstick.rst
