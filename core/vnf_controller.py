@@ -31,10 +31,14 @@ class VnfController(object):
         _vnfs: A list of vnfs controlled by the controller.
     """
 
-    def __init__(self, deployment, vnf_class):
+    def __init__(self, deployment, vnf_class, extra_vnfs):
         """Sets up the VNF infrastructure based on deployment scenario
 
         :param vnf_class: The VNF class to be used.
+        :param extra_vnfs: The number of VNFs not involved in given
+            deployment scenario. It will be used to correctly expand
+            configuration values and initialize shared dirs. This parameter
+            is used in case, that additional VNFs are executed by TestSteps.
         """
         # reset VNF ID counter for each testcase
         IVnf.reset_vnf_counter()
@@ -57,9 +61,9 @@ class VnfController(object):
             # without VNFs like p2p
             vm_number = 0
 
-        if vm_number:
-            self._logger.debug('Check configuration for %s guests.', vm_number)
-            settings.check_vm_settings(vm_number)
+        if vm_number + extra_vnfs > 0:
+            self._logger.debug('Check configuration for %s guests.', vm_number + extra_vnfs)
+            settings.check_vm_settings(vm_number + extra_vnfs)
             # enforce that GUEST_NIC_NR is 1 or even number of NICs
             updated = False
             nics_nr = settings.getValue('GUEST_NICS_NR')
@@ -73,10 +77,11 @@ class VnfController(object):
                                      'was updated to GUEST_NICS_NR = %s',
                                      settings.getValue('GUEST_NICS_NR'))
 
+        if vm_number:
             self._vnfs = [vnf_class() for _ in range(vm_number)]
 
-        self._logger.debug('__init__ ' + str(len(self._vnfs)) +
-                           ' VNF[s] with ' + ' '.join(map(str, self._vnfs)))
+            self._logger.debug('__init__ ' + str(len(self._vnfs)) +
+                               ' VNF[s] with ' + ' '.join(map(str, self._vnfs)))
 
     def get_vnfs(self):
         """Returns a list of vnfs controlled by this controller.
