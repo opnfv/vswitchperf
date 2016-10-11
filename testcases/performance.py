@@ -34,5 +34,5 @@ class PerformanceTestCase(TestCase):
 
     def run_report(self):
         super(PerformanceTestCase, self).run_report()
-        if S.getValue('mode') != 'trafficgen-off':
+        if self._tc_results:
             report.generate(self._output_file, self._tc_results, self._collector.get_results(), self._type)
