@@ -151,27 +151,28 @@ class IVnfQemu(IVnf):
         """
         Stops VNF instance gracefully first.
         """
-        try:
-            # exit testpmd if needed
-            if self._guest_loopback == 'testpmd':
-                self.execute_and_wait('stop', 120, "Done")
-                self.execute_and_wait('quit', 120, "[bB]ye")
+        if self.is_running():
+            try:
+                # exit testpmd if needed
+                if self._guest_loopback == 'testpmd':
+                    self.execute_and_wait('stop', 120, "Done")
+                    self.execute_and_wait('quit', 120, "[bB]ye")
 
-            # turn off VM
-            self.execute_and_wait('poweroff', 120, "Power down")
+                # turn off VM
+                self.execute_and_wait('poweroff', 120, "Power down")
 
-        except pexpect.TIMEOUT:
-            self.kill()
+            except pexpect.TIMEOUT:
+                self.kill()
 
-        # wait until qemu shutdowns
-        self._logger.debug('Wait for QEMU to terminate')
-        for dummy in range(30):
-            time.sleep(1)
-            if not self.is_running():
-                break
+            # wait until qemu shutdowns
+            self._logger.debug('Wait for QEMU to terminate')
+            for dummy in range(30):
+                time.sleep(1)
+                if not self.is_running():
+                    break
 
-        # just for case that graceful shutdown failed
-        super(IVnfQemu, self).stop()
+            # just for case that graceful shutdown failed
+            super(IVnfQemu, self).stop()
 
     # helper functions
 
