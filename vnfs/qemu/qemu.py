@@ -401,48 +401,13 @@ class IVnfQemu(IVnf):
         self.execute_and_wait('make clean')
         self.execute_and_wait('make')
 
-        # get multi-queue settings from CLI
-        guest_testpmd_txq = int(get_test_param('guest_testpmd_txq', 0))
-        if guest_testpmd_txq:
-            override_list = [guest_testpmd_txq] * (self._number + 1)
-            S.setValue('GUEST_TESTPMD_TXQ', override_list)
+        # get testpmd settings from CLI
+        testpmd_params = get_test_param('guest_testpmd_params',
+                                        S.getValue('GUEST_TESTPMD_PARAMS')[self._number])
 
-        guest_testpmd_rxq = int(get_test_param('guest_testpmd_rxq', 0))
-        if guest_testpmd_rxq:
-            override_list = [guest_testpmd_rxq] * (self._number + 1)
-            S.setValue('GUEST_TESTPMD_RXQ', override_list)
-
-        guest_testpmd_nb_cores = \
-            int(get_test_param('guest_testpmd_nb_cores', 0))
-        if guest_testpmd_nb_cores:
-            override_list = [guest_testpmd_nb_cores] * (self._number + 1)
-            S.setValue('GUEST_TESTPMD_NB_CORES', override_list)
-
-        guest_testpmd_cpu_mask = \
-            int(get_test_param('guest_testpmd_cpu_mask', 0))
-        if guest_testpmd_cpu_mask:
-            override_list = [guest_testpmd_cpu_mask] * (self._number + 1)
-            S.setValue('GUEST_TESTPMD_CPU_MASK', override_list)
-
-        if int(S.getValue('GUEST_NIC_QUEUES')[self._number]):
-            self.execute_and_wait(
-                './testpmd {} -n4 --socket-mem 512 --'.format(
-                    S.getValue('GUEST_TESTPMD_CPU_MASK')[self._number]) +
-                ' --burst=64 -i --txqflags=0xf00 ' +
-                '--nb-cores={} --rxq={} --txq={} '.format(
-                    S.getValue('GUEST_TESTPMD_NB_CORES')[self._number],
-                    S.getValue('GUEST_TESTPMD_TXQ')[self._number],
-                    S.getValue('GUEST_TESTPMD_RXQ')[self._number]) +
-                '--disable-hw-vlan', 60, "Done")
-        else:
-            self.execute_and_wait(
-                './testpmd {} -n 4 --socket-mem 512 --'.format(
-                    S.getValue('GUEST_TESTPMD_CPU_MASK')[self._number]) +
-                ' --burst=64 -i --txqflags=0xf00 ' +
-                '--disable-hw-vlan', 60, "Done")
+        self.execute_and_wait( './testpmd {}'.format(testpmd_params), 60, "Done")
         self.execute('set fwd ' + self._testpmd_fwd_mode, 1)
-        self.execute_and_wait('start', 20,
-                              'TX RS bit threshold=.+ - TXQ flags=0xf00')
+        self.execute_and_wait('start', 20, 'testpmd>')
 
     def _configure_l2fwd(self):
         """
