@@ -16,6 +16,24 @@
       "revId": "949f3b686566623b9d86af6d653fed32cd5d0530",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_66bcb46d",
+        "filename": "core/traffic_controller_rfc2544.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-10-12T07:19:49Z",
+      "side": 1,
+      "message": "send_rfc2544* and send_cont_traffic methods are blocking, i.e. after their call, the results from traffic generator are immediately available. I assume that code in __exit__ method you\u0027re referring to, is created for send_traffic_async, where a configurable function is executed during traffic execution. In case of function failure the traffic will be stopped in __exit__ method.\n\nUsing the same mechanism in send_traffic might help in case, that an exception occurs during send_rfc2544* and send_cont_traffic methods processing. The most common case of failure of IxNetwork is, that TCL server hangs and does not respond. In case we would like to handle this situation with another call to the TCL server to stop the traffic, then it would make situation worse.\n\nNevertheless, I don\u0027t understand, why _traffic_started is not set to False after the call to self._traffic_gen_class.wait_rfc2544_throughput() at line 85. After that traffic generator should be stopped and results known. I think, that async traffic is not used, but it would be worth to do some tests to see if stopping the traffic twice might cause any troubles (with any of supported trafficgen).",
+      "parentUuid": "dad5f5cf_c6a9e07c",
+      "revId": "949f3b686566623b9d86af6d653fed32cd5d0530",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
