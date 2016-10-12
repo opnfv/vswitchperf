@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad5f5cf_fa24b8c7",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-10-12T22:27:55Z",
+      "side": 1,
+      "message": "This should be changed to -l 0,1,2,3,4 as previously stated, the first CPU with testpmd is the display cpu which doesn\u0027t spin up a PMD thread. We always use +1 CPUs for the number of NB Cores when specifying testpmd params.",
+      "revId": "475a927010459e33ed478904be74261432e3d928",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
