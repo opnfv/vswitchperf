@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dad5f5cf_3ab000dd",
+        "filename": "core/traffic_controller.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-10-12T16:00:22Z",
+      "side": 1,
+      "message": "Good catch, I\u0027ve missed it. I\u0027ll fix it.",
+      "parentUuid": "dad5f5cf_3aab208b",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 24
+      },
+      "revId": "949f3b686566623b9d86af6d653fed32cd5d0530",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad5f5cf_5ab064f4",
         "filename": "core/traffic_controller.py",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-10-12T14:44:05Z",
       "side": 1,
       "message": "would prefer if the name included a reference to mode... but I won\u0027t block on this",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 24
+      },
+      "revId": "949f3b686566623b9d86af6d653fed32cd5d0530",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_7a04487e",
+        "filename": "core/traffic_controller.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-10-12T16:00:22Z",
+      "side": 1,
+      "message": "I can rename it to something like traffic_required_by_mode. On the other hand, generic name is more future prove (and that was the idea behind it). Nevertheless, I\u0027ll happily change it, if you think, that current name can fool function user in any way.",
+      "parentUuid": "dad5f5cf_5ab064f4",
       "range": {
         "startLine": 86,
         "startChar": 8,
