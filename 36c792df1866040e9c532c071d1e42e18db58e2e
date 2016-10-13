@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad5f5cf_f0405937",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-10-13T11:46:11Z",
+      "side": 1,
+      "message": "To select the applications which will forward packets,\nthe following parameters should be configured:\n\n(I know this isn\u0027t part of the patch, but it needs fix.)",
+      "range": {
+        "startLine": 532,
+        "startChar": 0,
+        "endLine": 533,
+        "endChar": 55
+      },
+      "revId": "36c792df1866040e9c532c071d1e42e18db58e2e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
