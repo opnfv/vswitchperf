@@ -22,6 +22,30 @@
       "revId": "36c792df1866040e9c532c071d1e42e18db58e2e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_90a0edf5",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-10-13T12:12:49Z",
+      "side": 1,
+      "message": "Hi Al,\n\nsimilar sentence is also at line 406. Could you have a look and propose a fix for it too, so I can fix both at once?\n\nThanks,\nMartin",
+      "parentUuid": "dad5f5cf_f0405937",
+      "range": {
+        "startLine": 532,
+        "startChar": 0,
+        "endLine": 533,
+        "endChar": 55
+      },
+      "revId": "36c792df1866040e9c532c071d1e42e18db58e2e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
