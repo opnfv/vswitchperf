@@ -801,7 +801,7 @@ To import the template do:
 2. Click on the Traffic menu
 3. Click on the Traffic actions and click Edit Packet Templates
 4. On the Template editor window, click Import. Select the template
-   tools/pkt_gen/ixnet/GeneveIxNetTemplate.xml_ClearText.xml
+   located at ``3rd_party/ixia/GeneveIxNetTemplate.xml_ClearText.xml``
    and click import.
 5. Restart the TCL Server.
 

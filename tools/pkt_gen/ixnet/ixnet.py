@@ -151,11 +151,8 @@ class IxNet(trafficgen.ITrafficGenerator):
 
     Currently only the RFC2544 tests are implemented.
     """
-    if settings.getValue('TRAFFICGEN_IXNET_TCL_SCRIPT') == '':
-        _script = os.path.join(os.path.dirname(__file__), 'ixnetrfc2544.tcl')
-    else:
-        _script = os.path.join(os.path.dirname(__file__),
-                               settings.getValue('TRAFFICGEN_IXNET_TCL_SCRIPT'))
+    _script = os.path.join(settings.getValue('TRAFFICGEN_IXIA_3RD_PARTY'),
+                           settings.getValue('TRAFFICGEN_IXNET_TCL_SCRIPT'))
     _tclsh = tkinter.Tcl()
     _cfg = None
     _logger = logging.getLogger(__name__)
