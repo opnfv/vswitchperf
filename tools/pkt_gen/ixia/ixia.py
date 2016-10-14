@@ -131,7 +131,8 @@ class Ixia(trafficgen.ITrafficGenerator):
     Runs different traffic generator tests through an Ixia traffic
     generator chassis by generating TCL scripts from templates.
     """
-    _script = os.path.join(os.path.dirname(__file__), 'pass_fail.tcl')
+    _script = os.path.join(settings.getValue('TRAFFICGEN_IXIA_3RD_PARTY'),
+                           'pass_fail.tcl')
     _tclsh = tkinter.Tcl()
     _logger = logging.getLogger(__name__)
 
