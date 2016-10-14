@@ -16,6 +16,24 @@
       "revId": "f1aec12cb9fa8082b2d27a287413540cf240b04e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_2e3e7eb9",
+        "filename": "3rd_party/readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-10-14T14:02:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad5f5cf_7331d30a",
+      "revId": "f1aec12cb9fa8082b2d27a287413540cf240b04e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
