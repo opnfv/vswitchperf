@@ -26,6 +26,7 @@
 
 EXIT=0
 EXIT_TC_FAILED=1
+EXIT_SANITY_TC_FAILED=2
 EXIT_NO_RESULTS=10
 EXIT_NO_TEST_REPORT_LOG_DIR=11
 
@@ -37,14 +38,15 @@ VSPERF_BIN='./vsperf'
 LOG_FILE_PREFIX="/tmp/vsperf_build"
 DATE=$(date -u +"%Y-%m-%d_%H-%M-%S")
 BRANCH=${GIT_BRANCH##*/}
+VSPERFENV_DIR="$HOME/vsperfenv"
 
 # CI job specific configuration
 # VERIFY - run basic set of TCs with default settings
-TESTCASES_VERIFY="phy2phy_tput pvp_tput"
-TESTPARAM_VERIFY=""
+TESTCASES_VERIFY="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
+TESTPARAM_VERIFY="--integration"
 # MERGE - run selected TCs with default settings
-TESTCASES_MERGE="phy2phy_tput back2back phy2phy_cont pvp_tput pvvp_tput"
-TESTPARAM_MERGE=""
+TESTCASES_MERGE="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
+TESTPARAM_MERGE="--integration"
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'
 TESTPARAM_DAILY='--test-params pkt_sizes=64,128,512,1024,1518'
@@ -109,19 +111,17 @@ function terminate_vsperf() {
 #   $1 - directory with results
 function print_results() {
     for i in $TESTCASES ; do
-        if [[ $i == *"pvp"* ]]; then
-            DEPLOYMENT="pvp"
-        elif [[ $i == *"pvvp"* ]]; then
-            DEPLOYMENT="pvvp"
-        else
-            DEPLOYMENT="p2p"
-        fi
-        RES_FILE="result_${i}_${DEPLOYMENT}.csv"
+        RES_FILE=`ls -1 $1 | egrep "result_${i}_[0-9a-zA-Z\-]+.csv"`
 
-        if [ -e "${1}/${RES_FILE}" ]; then
-            printf "    %-70s %-6s\n" $RES_FILE "OK"
+        if [ "x$RES_FILE" != "x" -a -e "${1}/${RES_FILE}" ]; then
+            if grep ^FAILED "${1}/${RES_FILE}" &> /dev/null ; then
+                printf "    %-70s %-6s\n" "result_${i}" "FAILED"
+                EXIT=$EXIT_TC_FAILED
+            else
+                printf "    %-70s %-6s\n" "result_${i}" "OK"
+            fi
         else
-            printf "    %-70s %-6s\n" $RES_FILE "FAILED"
+            printf "    %-70s %-6s\n" "result_${i}" "FAILED"
             EXIT=$EXIT_TC_FAILED
         fi
     done
@@ -132,6 +132,7 @@ function print_results() {
 #   $1 - vswitch and vnf combination, one of OVS_vanilla, OVS_with_DPDK_and_vHost_User
 #   $2 - CI job type, one of verify, merge, daily
 function execute_vsperf() {
+    OPNFVPOD=""
     # figure out list of TCs and execution parameters
     case $2 in
         "verify")
@@ -143,9 +144,10 @@ function execute_vsperf() {
             TESTCASES=$TESTCASES_MERGE
             ;;
         *)
-            # by default use daily build
+            # by default use daily build and upload results to the OPNFV databse
             TESTPARAM=$TESTPARAM_DAILY
             TESTCASES=$TESTCASES_DAILY
+            OPNFVPOD="--opnfvpod=$NODE_NAME"
             ;;
     esac
 
@@ -160,16 +162,22 @@ function execute_vsperf() {
             LOG_SUBDIR="OvsVanilla"
             LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
 
-            echo "$VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsVanilla --vnf QemuVirtioNet $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE"
-            $VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsVanilla --vnf QemuVirtioNet $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
+            echo "    $VSPERF_BIN $OPNFVPOD --vswitch OvsVanilla --vnf QemuVirtioNet $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE"
+            $VSPERF_BIN $OPNFVPOD --vswitch OvsVanilla --vnf QemuVirtioNet $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
+            echo "========================="
+            cat $LOG_FILE
+            echo "========================="
             ;;
         *)
             # figure out log file name
             LOG_SUBDIR="OvsDpdkVhost"
             LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
 
-            echo "$VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
-            $VSPERF_BIN --opnfvpod="$NODE_NAME" --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
+            echo "    $VSPERF_BIN $OPNFVPOD --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
+            $VSPERF_BIN $OPNFVPOD --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
+            echo "========================="
+            cat $LOG_FILE
+            echo "========================="
             ;;
     esac
 
@@ -277,12 +285,52 @@ function initialize_logdir() {
     fi
 }
 
+# verify basic vsperf functionality
+function execute_vsperf_sanity() {
+    DATE_SUFFIX=$(date -u +"%Y-%m-%d_%H-%M-%S")
+    LOG_FILE="${LOG_FILE_PREFIX}_sanity_${DATE_SUFFIX}.log"
+    echo "Execution of VSPERF sanity checks:"
+    for PARAM in '--version' '--help' '--list-trafficgens' '--list-collectors' '--list-vswitches' '--list-fwdapps' '--list-vnfs' '--list-settings' '--list' '--integration --list'; do
+        echo -e "-------------------------------------------------------------------" >> $LOG_FILE
+        echo "$VSPERF_BIN $PARAM $CONF_FILE" >> $LOG_FILE
+        echo -e "-------------------------------------------------------------------" >> $LOG_FILE
+        $VSPERF_BIN $PARAM $CONF_FILE &>> $LOG_FILE
+        if $VSPERF_BIN $PARAM $CONF_FILE &>> $LOG_FILE ; then
+            printf "    %-70s %-6s\n" "$VSPERF_BIN $PARAM" "OK"
+        else
+            printf "    %-70s %-6s\n" "$VSPERF_BIN $PARAM" "FAILED"
+            EXIT=$EXIT_SANITY_TC_FAILED
+        fi
+        echo >> $LOG_FILE
+    done
+    echo "========================="
+    echo "Sanity log file $LOG_FILE"
+    echo "========================="
+    cat $LOG_FILE
+}
+
 #
 # main
 #
 
 # enter workspace dir
 cd $WORKSPACE
+
+# create virtualenv if needed
+if [ ! -e $VSPERFENV_DIR ] ; then
+    echo "Create VSPERF environment"
+    echo "========================="
+    virtualenv --python=python3 "$VSPERFENV_DIR"
+    echo
+fi
+
+# acivate and update virtualenv
+echo "Update VSPERF environment"
+echo "========================="
+source "$VSPERFENV_DIR"/bin/activate
+pip install -r ./requirements.txt
+echo
+
 
 # initialization
 initialize_logdir
@@ -293,7 +341,12 @@ case $1 in
         echo "VSPERF verify job"
         echo "================="
 
-        #execute_vsperf OVS_with_DPDK_and_vHost_User $1
+        terminate_vsperf
+        execute_vsperf_sanity
+        terminate_vsperf
+        execute_vsperf OVS_with_DPDK_and_vHost_User $1
+        terminate_vsperf
+        execute_vsperf OVS_vanilla $1
 
         exit $EXIT
         ;;
@@ -301,7 +354,12 @@ case $1 in
         echo "VSPERF merge job"
         echo "================"
 
-        #execute_vsperf OVS_with_DPDK_and_vHost_User $1
+        terminate_vsperf
+        execute_vsperf_sanity
+        terminate_vsperf
+        execute_vsperf OVS_with_DPDK_and_vHost_User $1
+        terminate_vsperf
+        execute_vsperf OVS_vanilla $1
 
         exit $EXIT
         ;;
