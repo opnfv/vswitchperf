@@ -475,9 +475,9 @@ One can set up this ssh access by doing the following on both servers:
 Configuration
 ~~~~~~~~~~~~~
 
-Connection information for your Xena Chassis must be supplied inside the
+Connection information for MoonGen must be supplied inside the
 ``10_custom.conf`` or ``03_custom.conf`` file. The following parameters must be
-set to allow for proper connections to the chassis.
+set to allow for proper connections to the host with MoonGen.
 
 .. code-block:: console
 
