@@ -131,6 +131,7 @@ installation instructions for information on these images
 
 
 vloop_vnf forwards traffic through a VM using one of:
+
 * DPDK testpmd
 * Linux Bridge
 * l2fwd kernel Module.
@@ -206,35 +207,30 @@ Executing Vanilla OVS tests
 
 1. If needed, recompile src for all OVS variants
 
-.. code-block:: console
+   .. code-block:: console
 
-     $ cd src
-     $ make distclean
-     $ make
+       $ cd src
+       $ make distclean
+       $ make
 
-2. Update your ''10_custom.conf'' file to use the appropriate variables
-for Vanilla OVS:
+2. Update your ``10_custom.conf`` file to use Vanilla OVS:
 
-.. code-block:: console
+   .. code-block:: python
 
-   VSWITCH = 'OvsVanilla'
-
-Where $PORT1 and $PORT2 are the Linux interfaces you'd like to bind
-to the vswitch.
+       VSWITCH = 'OvsVanilla'
 
 3. Run test:
 
-.. code-block:: console
+   .. code-block:: console
 
-     $ ./vsperf --conf-file=<path_to_custom_conf>
+       $ ./vsperf --conf-file=<path_to_custom_conf>
 
-Please note if you don't want to configure Vanilla OVS through the
-configuration file, you can pass it as a CLI argument; BUT you must
-set the ports.
+   Please note if you don't want to configure Vanilla OVS through the
+   configuration file, you can pass it as a CLI argument.
 
-.. code-block:: console
+   .. code-block:: console
 
-    $ ./vsperf --vswitch OvsVanilla
+       $ ./vsperf --vswitch OvsVanilla
 
 
 Executing tests with VMs
@@ -244,24 +240,24 @@ To run tests using vhost-user as guest access method:
 
 1. Set VHOST_METHOD and VNF of your settings file to:
 
-.. code-block:: console
+   .. code-block:: python
 
-   VSWITCH = 'OvsDpdkVhost'
-   VNF = 'QemuDpdkVhost'
+       VSWITCH = 'OvsDpdkVhost'
+       VNF = 'QemuDpdkVhost'
 
 2. If needed, recompile src for all OVS variants
 
-.. code-block:: console
+   .. code-block:: console
 
-     $ cd src
-     $ make distclean
-     $ make
+       $ cd src
+       $ make distclean
+       $ make
 
 3. Run test:
 
-.. code-block:: console
+   .. code-block:: console
 
-     $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
+       $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
 
 Executing tests with VMs using Vanilla OVS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -270,39 +266,40 @@ To run tests using Vanilla OVS:
 
 1. Set the following variables:
 
-.. code-block:: console
+   .. code-block:: python
 
-   VSWITCH = 'OvsVanilla'
-   VNF = 'QemuVirtioNet'
+       VSWITCH = 'OvsVanilla'
+       VNF = 'QemuVirtioNet'
 
-   VANILLA_TGEN_PORT1_IP = n.n.n.n
-   VANILLA_TGEN_PORT1_MAC = nn:nn:nn:nn:nn:nn
+       VANILLA_TGEN_PORT1_IP = n.n.n.n
+       VANILLA_TGEN_PORT1_MAC = nn:nn:nn:nn:nn:nn
 
-   VANILLA_TGEN_PORT2_IP = n.n.n.n
-   VANILLA_TGEN_PORT2_MAC = nn:nn:nn:nn:nn:nn
+       VANILLA_TGEN_PORT2_IP = n.n.n.n
+       VANILLA_TGEN_PORT2_MAC = nn:nn:nn:nn:nn:nn
 
-   VANILLA_BRIDGE_IP = n.n.n.n
+       VANILLA_BRIDGE_IP = n.n.n.n
 
-   or use --test-param
+   or use ``--test-params`` option
 
-   $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
-              --test-params "vanilla_tgen_tx_ip=n.n.n.n;
-                            vanilla_tgen_tx_mac=nn:nn:nn:nn:nn:nn"
+   .. code-block:: console
 
+       $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
+                  --test-params "vanilla_tgen_tx_ip=n.n.n.n;
+                                 vanilla_tgen_tx_mac=nn:nn:nn:nn:nn:nn"
 
 2. If needed, recompile src for all OVS variants
 
-.. code-block:: console
+   .. code-block:: console
 
-     $ cd src
-     $ make distclean
-     $ make
+       $ cd src
+       $ make distclean
+       $ make
 
 3. Run test:
 
-.. code-block:: console
+   .. code-block:: console
 
-     $ ./vsperf --conf-file<path_to_custom_conf>/10_custom.conf
+       $ ./vsperf --conf-file<path_to_custom_conf>/10_custom.conf
 
 .. _vfio-pci:
 
@@ -312,7 +309,7 @@ Using vfio_pci with DPDK
 To use vfio with DPDK instead of igb_uio add into your custom configuration
 file the following parameter:
 
-.. code-block:: console
+.. code-block:: python
 
     PATHS['dpdk']['src']['modules'] = ['uio', 'vfio-pci']
 
@@ -406,14 +403,14 @@ deployment.
 Selection of loopback application for tests with VMs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To select loopback application, which will perform traffic forwarding
-inside VM, following configuration parameter should be configured:
+To select the loopback applications which will forward packets inside VMs,
+the following parameter should be configured:
 
-.. code-block:: console
+.. code-block:: python
 
      GUEST_LOOPBACK = ['testpmd']
 
-or use --test-param
+or use ``--test-params`` CLI argument:
 
 .. code-block:: console
 
@@ -434,11 +431,11 @@ Guest loopback application must be configured, otherwise traffic
 will not be forwarded by VM and testcases with VM related deployments
 will fail. Guest loopback application is set to 'testpmd' by default.
 
-Note: In case that only 1 or more than 2 NICs are configured for VM,
+**NOTE:** In case that only 1 or more than 2 NICs are configured for VM,
 then 'testpmd' should be used. As it is able to forward traffic between
 multiple VM NIC pairs.
 
-Note: In case of linux_bridge, all guest NICs are connected to the same
+**NOTE:** In case of linux_bridge, all guest NICs are connected to the same
 bridge inside the guest.
 
 Multi-Queue Configuration
@@ -446,25 +443,25 @@ Multi-Queue Configuration
 
 VSPerf currently supports multi-queue with the following limitations:
 
- 1.  Requires QEMU 2.5 or greater and any OVS version higher than 2.5. The
-     default upstream package versions installed by VSPerf satisfies this
-     requirement.
+1.  Requires QEMU 2.5 or greater and any OVS version higher than 2.5. The
+    default upstream package versions installed by VSPerf satisfies this
+    requirement.
 
- 2.  Guest image must have ethtool utility installed if using l2fwd or linux
-     bridge inside guest for loopback.
+2.  Guest image must have ethtool utility installed if using l2fwd or linux
+    bridge inside guest for loopback.
 
- 3.  If using OVS versions 2.5.0 or less enable old style multi-queue as shown
-     in the ''02_vswitch.conf'' file.
+3.  If using OVS versions 2.5.0 or less enable old style multi-queue as shown
+    in the ''02_vswitch.conf'' file.
 
-  .. code-block:: console
+    .. code-block:: python
 
-     OVS_OLD_STYLE_MQ = True
+        OVS_OLD_STYLE_MQ = True
 
 To enable multi-queue for dpdk modify the ''02_vswitch.conf'' file.
 
-  .. code-block:: console
+.. code-block:: python
 
-     VSWITCH_DPDK_MULTI_QUEUES = 2
+    VSWITCH_DPDK_MULTI_QUEUES = 2
 
 **NOTE:** you should consider using the switch affinity to set a pmd cpu mask
 that can optimize your performance. Consider the numa of the NIC in use if this
@@ -478,9 +475,9 @@ port by port option.
 
 To enable multi-queue on the guest modify the ''04_vnf.conf'' file.
 
-  .. code-block:: console
+.. code-block:: python
 
-     GUEST_NIC_QUEUES = 2
+    GUEST_NIC_QUEUES = [2]
 
 Enabling multi-queue at the guest will add multiple queues to each NIC port when
 qemu launches the guest.
@@ -492,13 +489,12 @@ multi-queue on the guest is sufficient for Vanilla OVS multi-queue.
 Testpmd should be configured to take advantage of multi-queue on the guest if
 using DPDKVhostUser. This can be done by modifying the ''04_vnf.conf'' file.
 
-  .. code-block:: console
+.. code-block:: python
 
-     GUEST_TESTPMD_CPU_MASK = '-l 0,1,2,3,4'
-
-     GUEST_TESTPMD_NB_CORES = 4
-     GUEST_TESTPMD_TXQ = 2
-     GUEST_TESTPMD_RXQ = 2
+    GUEST_TESTPMD_PARAMS = ['-l 0,1,2,3,4  -n 4 --socket-mem 512 -- '
+                            '--burst=64 -i --txqflags=0xf00 '
+                            '--nb-cores=4 --rxq=2 --txq=2 '
+                            '--disable-hw-vlan']
 
 **NOTE:** The guest SMP cores must be configured to allow for testpmd to use the
 optimal number of cores to take advantage of the multiple guest queues.
@@ -508,11 +504,11 @@ by binding vhost-net threads to cpus. This can be done by enabling the affinity
 in the ''04_vnf.conf'' file. This can be done to non multi-queue enabled
 configurations as well as there will be 2 vhost-net threads.
 
-  .. code-block:: console
+.. code-block:: python
 
-     VSWITCH_VHOST_NET_AFFINITIZATION = True
+    VSWITCH_VHOST_NET_AFFINITIZATION = True
 
-     VSWITCH_VHOST_CPU_MAP = [4,5,8,11]
+    VSWITCH_VHOST_CPU_MAP = [4,5,8,11]
 
 **NOTE:** This method of binding would require a custom script in a real
 environment.
@@ -522,65 +518,64 @@ on the same numa as the NIC in use if possible/applicable. Testpmd should be
 assigned at least (nb_cores +1) total cores with the cpu mask.
 
 The following CLI parameters override the corresponding configuration settings:
-     1. guest_nic_queues, which overrides all GUEST_NIC_QUEUES values
-     2. guest_testpmd_txq, which overrides all GUEST_TESTPMD_TXQ
-     3. guest_testpmd_rxq, which overrides all GUEST_TESTPMD_RXQ
-     4. guest_testpmd_nb_cores, which overrides all GUEST_TESTPMD_NB_CORES
-        values
-     5. guest_testpmd_cpu_mask, which overrides all GUEST_TESTPMD_CPU_MASK
-        values
-     6. vswitch_dpdk_multi_queues, which overrides VSWITCH_DPDK_MULTI_QUEUES
-     7. guest_smp, which overrides all GUEST_SMP values
-     8. guest_core_binding, which overrides all GUEST_CORE_BINDING values
+
+1. ``guest_nic_queues``, which overrides all ``GUEST_NIC_QUEUES`` values
+2. ``guest_testpmd_params``, which overrides all ``GUEST_TESTPMD_PARAMS``
+   values
+3. ``vswitch_dpdk_multi_queues``, which overrides ``VSWITCH_DPDK_MULTI_QUEUES``
+4. ``guest_smp``, which overrides all ``GUEST_SMP`` values
+5. ``guest_core_binding``, which overrides all ``GUEST_CORE_BINDING`` values
 
 Executing Packet Forwarding tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To select application, which will perform packet forwarding,
-following configuration parameter should be configured:
+To select the applications which will forward packets,
+the following parameters should be configured:
 
-  .. code-block:: console
+.. code-block:: python
 
-     VSWITCH = 'none'
-     PKTFWD = 'TestPMD'
+    VSWITCH = 'none'
+    PKTFWD = 'TestPMD'
 
-     or use --vswitch and --fwdapp
+or use ``--vswitch`` and ``--fwdapp`` CLI arguments:
 
-     $ ./vsperf --conf-file user_settings.py
-              --vswitch none
-              --fwdapp TestPMD
+.. code-block:: console
+
+    $ ./vsperf --conf-file user_settings.py
+               --vswitch none
+               --fwdapp TestPMD
 
 Supported Packet Forwarding applications are:
 
-  .. code-block:: console
+.. code-block:: console
 
-     'testpmd'       - testpmd from dpdk
+    'testpmd'       - testpmd from dpdk
 
 
 1. Update your ''10_custom.conf'' file to use the appropriate variables
-for selected Packet Forwarder:
+   for selected Packet Forwarder:
 
-  .. code-block:: console
+   .. code-block:: python
 
-   # testpmd configuration
-   TESTPMD_ARGS = []
-   # packet forwarding mode supported by testpmd; Please see DPDK documentation
-   # for comprehensive list of modes supported by your version.
-   # e.g. io|mac|mac_retry|macswap|flowgen|rxonly|txonly|csum|icmpecho|...
-   # Note: Option "mac_retry" has been changed to "mac retry" since DPDK v16.07
-   TESTPMD_FWD_MODE = 'csum'
-   # checksum calculation layer: ip|udp|tcp|sctp|outer-ip
-   TESTPMD_CSUM_LAYER = 'ip'
-   # checksum calculation place: hw (hardware) | sw (software)
-   TESTPMD_CSUM_CALC = 'sw'
-   # recognize tunnel headers: on|off
-   TESTPMD_CSUM_PARSE_TUNNEL = 'off'
+      # testpmd configuration
+      TESTPMD_ARGS = []
+      # packet forwarding mode supported by testpmd; Please see DPDK documentation
+      # for comprehensive list of modes supported by your version.
+      # e.g. io|mac|mac_retry|macswap|flowgen|rxonly|txonly|csum|icmpecho|...
+      # Note: Option "mac_retry" has been changed to "mac retry" since DPDK v16.07
+      TESTPMD_FWD_MODE = 'csum'
+      # checksum calculation layer: ip|udp|tcp|sctp|outer-ip
+      TESTPMD_CSUM_LAYER = 'ip'
+      # checksum calculation place: hw (hardware) | sw (software)
+      TESTPMD_CSUM_CALC = 'sw'
+      # recognize tunnel headers: on|off
+      TESTPMD_CSUM_PARSE_TUNNEL = 'off'
 
 2. Run test:
 
-  .. code-block:: console
+   .. code-block:: console
 
-     $ ./vsperf --conf-file <path_to_settings_py>
+      $ ./vsperf --conf-file <path_to_settings_py>
 
 VSPERF modes of operation
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -665,7 +660,7 @@ By default the vswitchd is launched with 1Gb of memory, to  change
 this, modify --socket-mem parameter in conf/02_vswitch.conf to allocate
 an appropriate amount of memory:
 
-.. code-block:: console
+.. code-block:: python
 
     VSWITCHD_DPDK_ARGS = ['-c', '0x4', '-n', '4', '--socket-mem 1024,0']
     VSWITCHD_DPDK_CONFIG = {
