@@ -12,7 +12,7 @@ Intended Audience
 This document is intended to aid those who want to integrate new traffic
 generator into the vsperf code. It is expected, that reader has already
 read generic part of `VSPERF Design Document
-<http://artifacts.opnfv.org/vswitchperf/colorado/design/index.html>`__.
+<http://artifacts.opnfv.org/vswitchperf/colorado/2.0/design/index.html>`__.
 
 Let us create a sample traffic generator called **sample_tg**, step by step.
 
@@ -236,5 +236,5 @@ are defined in **ResultsConstants** implemented in
 Throughput & Continuous and for Back2Back. The same key names should
 be used by all traffic generator implementations.
 
-.. _integration tests userguide: http://artifacts.opnfv.org/vswitchperf/colorado/userguide/integration.html
+.. _integration tests userguide: http://artifacts.opnfv.org/vswitchperf/colorado/2.0/userguide/integration.html
 

@@ -46,7 +46,7 @@ image, which can be downloaded from `<http://artifacts.opnfv.org/>`__.
     $ wget http://artifacts.opnfv.org/vswitchperf/vloop-vnf-ubuntu-14.04_20151216.qcow2
 
 Please follow the `installation instructions
-<http://artifacts.opnfv.org/vswitchperf/colorado/configguide/installation.html>`__ to
+<http://artifacts.opnfv.org/vswitchperf/colorado/2.0/configguide/installation.html>`__ to
 install vswitchperf inside vloop-vnf image. As vswitchperf will be run in
 trafficgen mode, it is possible to skip installation and compilation of OVS,
 QEMU and DPDK to keep image size smaller.

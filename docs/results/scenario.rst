@@ -36,7 +36,7 @@ Loopback applications in the Guest can be:
 * `DPDK testpmd <http://dpdk.org/doc/guides/testpmd_app_ug/index.html>`_.
 * Linux Bridge.
 * `l2fwd
-  <http://artifacts.opnfv.org/vswitchperf/colorado/userguide/testusage.html#l2fwd-kernel-module>`_.
+  <http://artifacts.opnfv.org/vswitchperf/colorado/2.0/userguide/testusage.html#l2fwd-kernel-module>`_.
 
 Supported traffic generators:
 
@@ -44,19 +44,19 @@ Supported traffic generators:
 * Spirent.
 * Dummy.
 
-.. _PacketLossRatio: http://artifacts.opnfv.org/vswitchperf/colorado/requirements/vswitchperf_ltd.html#test-id-ltd-throughput-rfc2544-packetlossratio
+.. _PacketLossRatio: http://artifacts.opnfv.org/vswitchperf/colorado/2.0/requirements/vswitchperf_ltd.html#test-id-ltd-throughput-rfc2544-packetlossratio
 
-.. _BackToBackFrames: http://artifacts.opnfv.org/vswitchperf/colorado/requirements/vswitchperf_ltd.html#test-id-ltd-throughput-rfc2544-backtobackframes
+.. _BackToBackFrames: http://artifacts.opnfv.org/vswitchperf/colorado/2.0/requirements/vswitchperf_ltd.html#test-id-ltd-throughput-rfc2544-backtobackframes
 
-.. _PacketLossRatioFrameModification: http://artifacts.opnfv.org/vswitchperf/colorado/requirements/vswitchperf_ltd.html#test-id-ltd-throughput-rfc2544-packetlossratioframemodification
+.. _PacketLossRatioFrameModification: http://artifacts.opnfv.org/vswitchperf/colorado/2.0/requirements/vswitchperf_ltd.html#test-id-ltd-throughput-rfc2544-packetlossratioframemodification
 
-.. _Scalability0PacketLoss: http://artifacts.opnfv.org/vswitchperf/colorado/requirements/vswitchperf_ltd.html#test-id-ltd-scalability-flows-rfc2544-0packetloss
+.. _Scalability0PacketLoss: http://artifacts.opnfv.org/vswitchperf/colorado/2.0/requirements/vswitchperf_ltd.html#test-id-ltd-scalability-flows-rfc2544-0packetloss
 
-.. _CPU0PacketLoss: http://artifacts.opnfv.org/vswitchperf/colorado/requirements/vswitchperf_ltd.html#test-id-ltd-stress-rfc2544-0packetloss
+.. _CPU0PacketLoss: http://artifacts.opnfv.org/vswitchperf/colorado/2.0/requirements/vswitchperf_ltd.html#test-id-ltd-stress-rfc2544-0packetloss
 
-.. _Phy2Phy : http://artifacts.opnfv.org/vswitchperf/colorado/requirements/vswitchperf_ltp.html#physical-port-vswitch-physical-port
+.. _Phy2Phy : http://artifacts.opnfv.org/vswitchperf/colorado/2.0/requirements/vswitchperf_ltp.html#physical-port-vswitch-physical-port
 
-.. _PVP: http://artifacts.opnfv.org/vswitchperf/colorado/requirements/vswitchperf_ltp.html#physical-port-vswitch-vnf-vswitch-physical-port
+.. _PVP: http://artifacts.opnfv.org/vswitchperf/colorado/2.0/requirements/vswitchperf_ltp.html#physical-port-vswitch-vnf-vswitch-physical-port
 
-.. _PVVP: http://artifacts.opnfv.org/vswitchperf/colorado/requirements/vswitchperf_ltp.html#physical-port-vswitch-vnf-vswitch-vnf-vswitch-physical-port
+.. _PVVP: http://artifacts.opnfv.org/vswitchperf/colorado/2.0/requirements/vswitchperf_ltp.html#physical-port-vswitch-vnf-vswitch-vnf-vswitch-physical-port
 
