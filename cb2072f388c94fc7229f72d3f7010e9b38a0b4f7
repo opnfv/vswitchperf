@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_4973c5b1",
+        "filename": "docs/userguide/teststeps.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-10-21T19:36:46Z",
+      "side": 1,
+      "message": "This sound odd. Perhaps either \"a test scenarios\" or \"test scenarios\"",
+      "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e96719e9",
+        "filename": "docs/userguide/teststeps.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-10-21T19:36:46Z",
+      "side": 1,
+      "message": "The chosen deployment? Also about sounds strange. How about..\n\"The chosen deployment scenario will take care of the vSwitch configuration,\"",
+      "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e4af402a",
+        "filename": "docs/userguide/teststeps.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-10-21T19:36:46Z",
+      "side": 1,
+      "message": "This sentence sounds strange. \nSuggestion?\n\"In this example a command-line parameter is setup with a Linux bridge inside the guest VM.\"",
+      "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a4a93826",
+        "filename": "docs/userguide/teststeps.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-10-21T19:36:46Z",
+      "side": 1,
+      "message": "Not sure what you are stating here? Maybe re-word?",
+      "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c4a6bc53",
+        "filename": "docs/userguide/teststeps.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-10-21T19:36:46Z",
+      "side": 1,
+      "message": "This is an Example?",
+      "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
