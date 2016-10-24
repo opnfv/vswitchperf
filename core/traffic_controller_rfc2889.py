@@ -15,7 +15,7 @@
 """
 from core.traffic_controller import TrafficController
 from core.results.results import IResults
-from conf import get_test_param
+from conf import settings
 
 
 class TrafficControllerRFC2889(TrafficController, IResults):
@@ -32,7 +32,7 @@ class TrafficControllerRFC2889(TrafficController, IResults):
         """
         super(TrafficControllerRFC2889, self).__init__(traffic_gen_class)
         self._type = 'rfc2889'
-        self._trials = int(get_test_param('rfc2889_trials', 1))
+        self._trials = int(settings.getValue('TRAFFICGEN_RFC2889_TRIALS'))
 
     def send_traffic(self, traffic):
         """See TrafficController for description
@@ -83,7 +83,6 @@ class TrafficControllerRFC2889(TrafficController, IResults):
             else:
                 function['function']()
             result = self._traffic_gen_class.wait_rfc2889_forwarding(
-                        traffic, trials=self._trials, duration=self._duration)
+                traffic, trials=self._trials, duration=self._duration)
             result = self._append_results(result, packet_size)
             self._results.append(result)
-
