@@ -21,7 +21,6 @@ import time
 
 from core.results.results_constants import ResultsConstants
 from conf import settings
-from conf import get_test_param
 
 class TrafficController(object):
     """Base class which defines a common functionality for all traffic
@@ -41,20 +40,12 @@ class TrafficController(object):
         self._traffic_gen_class = traffic_gen_class()
         self._traffic_started = False
         self._traffic_started_call_count = 0
-        self._duration = int(get_test_param('duration', 30))
-        self._lossrate = float(get_test_param('lossrate', 0.0))
+        self._duration = int(settings.getValue('TRAFFICGEN_DURATION'))
+        self._lossrate = float(settings.getValue('TRAFFICGEN_LOSSRATE'))
+        self._packet_sizes = settings.getValue('TRAFFICGEN_PKT_SIZES')
+
         self._mode = settings.getValue('mode').lower()
         self._results = []
-
-        # If set, comma separated packet_sizes value from --test_params
-        # on cli takes precedence over value in settings file.
-        self._packet_sizes = None
-        packet_sizes_cli = get_test_param('pkt_sizes')
-        if packet_sizes_cli:
-            self._packet_sizes = [int(x.strip())
-                                  for x in packet_sizes_cli.split(',')]
-        else:
-            self._packet_sizes = settings.getValue('TRAFFICGEN_PKT_SIZES')
 
     def __enter__(self):
         """Call initialisation function.
