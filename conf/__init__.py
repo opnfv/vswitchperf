@@ -49,7 +49,13 @@ class Settings(object):
         """Return a settings item value
         """
         if attr in self.__dict__:
-            return getattr(self, attr)
+            if attr == 'TEST_PARAMS':
+                return getattr(self, attr)
+            else:
+                master_value = getattr(self, attr)
+                # Check if parameter value was overridden by CLI option
+                cli_value = get_test_param(attr, None)
+                return cli_value if cli_value else master_value
         else:
             raise AttributeError("%r object has no attribute %r" %
                                  (self.__class__, attr))
@@ -145,15 +151,12 @@ class Settings(object):
         """
         for key in self.__dict__:
             if key.startswith('GUEST_'):
-                if (isinstance(self.__dict__[key], str) and
-                        self.__dict__[key].find('#') >= 0):
-                    self.__dict__[key] = [self.__dict__[key]]
+                value = self.getValue(key)
+                if isinstance(value, str) and value.find('#') >= 0:
                     self._expand_vm_settings(key, 1)
-                    self.__dict__[key] = self.__dict__[key][0]
 
-                if isinstance(self.__dict__[key], list):
-                    if (len(self.__dict__[key]) < vm_number or
-                            str(self.__dict__[key][0]).find('#') >= 0):
+                if isinstance(value, list):
+                    if len(value) < vm_number or str(value[0]).find('#') >= 0:
                         # expand configuration for all VMs
                         self._expand_vm_settings(key, vm_number)
 
@@ -161,7 +164,15 @@ class Settings(object):
         """
         Expand VM option with given key for given number of VMs
         """
-        master_value = self.__dict__[key][0]
+        tmp_value = self.getValue(key)
+        if isinstance(tmp_value, str):
+            scalar = True
+            master_value = tmp_value
+            tmp_value = [tmp_value]
+        else:
+            scalar = False
+            master_value = tmp_value[0]
+
         master_value_str = str(master_value)
         if master_value_str.find('#') >= 0:
             self.__dict__[key] = []
@@ -190,8 +201,11 @@ class Settings(object):
                     value = ast.literal_eval(value)
                 self.__dict__[key].append(value)
         else:
-            for vmindex in range(len(self.__dict__[key]), vm_number):
+            for vmindex in range(len(tmp_value), vm_number):
                 self.__dict__[key].append(master_value)
+
+        if scalar:
+            self.__dict__[key] = self.__dict__[key][0]
 
         _LOGGER.debug("Expanding option: %s = %s", key, self.__dict__[key])
 
@@ -203,7 +217,11 @@ class Settings(object):
         Returns:
             A human-readable string.
         """
-        return pprint.pformat(self.__dict__)
+        tmp_dict = {}
+        for key in self.__dict__:
+            tmp_dict[key] = self.getValue(key)
+
+        return pprint.pformat(tmp_dict)
 
     #
     # validation methods used by step driven testcases
@@ -222,7 +240,6 @@ class Settings(object):
 
 settings = Settings()
 
-
 def get_test_param(key, default=None):
     """Retrieve value for test param ``key`` if available.
 
@@ -232,4 +249,16 @@ def get_test_param(key, default=None):
     :returns: Value for ``key`` if found, else ``default``.
     """
     test_params = settings.getValue('TEST_PARAMS')
-    return test_params.get(key, default) if test_params else default
+    if key in test_params:
+        if not isinstance(test_params.get(key), str):
+            return test_params.get(key)
+        else:
+            # values are passed inside string from CLI, so we must retype them accordingly
+            try:
+                return ast.literal_eval(test_params.get(key))
+            except ValueError:
+                # for backward compatibility, we have to accept strings without quotes
+                _LOGGER.warning("Adding missing quotes around string value: %s = %s", key, str(test_params.get(key)))
+                return str(test_params.get(key))
+    else:
+        return default

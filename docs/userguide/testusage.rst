@@ -85,6 +85,32 @@ contents. Any configuration item mentioned in any .conf file in
 ``./conf`` directory can be added and that item will be overridden by
 the custom configuration value.
 
+The configuration items can be overridden by command line argument
+``--test-params``. In this case, the configuration items and
+their values should be passed in form of ``item=value`` and separated
+by semicolon.
+
+Example:
+
+.. code:: console
+
+    $ ./vsperf --test-params "TRAFFICGEN_DURATION=10;TRAFFICGEN_PKT_SIZES=(128,)"
+                             "GUEST_LOOPBACK=['testpmd','l2fwd']" pvvp_tput
+
+The second option is to override configuration items by ``Parameters`` section
+of the test case definition. The configuration items can be added into ``Parameters``
+dictionary with their new values. These values will override values defined in
+configuration files or specified by ``--test-params`` command line argument.
+
+Example:
+
+.. code:: python
+
+    "Parameters" : {'TRAFFICGEN_PKT_SIZES' : (128,),
+                    'TRAFFICGEN_DURATION' : 10
+                    'GUEST_LOOPBACK' : ['testpmd','l2fwd'],
+                   }
+
 Further details about configuration files evaluation and special behaviour
 of options with ``GUEST_`` prefix could be found at `design document
 <http://artifacts.opnfv.org/vswitchperf/docs/design/vswitchperf_design.html#configuration>`__.
@@ -105,9 +131,10 @@ or via another command line argument will override both the default and
 your custom configuration files. This "priority hierarchy" can be
 described like so (1 = max priority):
 
-1. Command line arguments
-2. Environment variables
-3. Configuration file(s)
+1. Testcase definition section ``Parameters``
+2. Command line arguments
+3. Environment variables
+4. Configuration file(s)
 
 Further details about configuration files evaluation and special behaviour
 of options with ``GUEST_`` prefix could be found at `design document
@@ -194,7 +221,7 @@ Some tests allow for configurable parameters, including test duration
 
     $ ./vsperf --conf-file user_settings.py
         --tests RFC2544Tput
-        --test-params "duration=10;pkt_sizes=128"
+        --test-params "TRAFFICGEN_DURATION=10;TRAFFICGEN_PKT_SIZES=(128,)"
 
 For all available options, check out the help dialog:
 
@@ -284,8 +311,10 @@ To run tests using Vanilla OVS:
    .. code-block:: console
 
        $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
-                  --test-params "vanilla_tgen_tx_ip=n.n.n.n;
-                                 vanilla_tgen_tx_mac=nn:nn:nn:nn:nn:nn"
+                  --test-params "VANILLA_TGEN_PORT1_IP=n.n.n.n;"
+                                "VANILLA_TGEN_PORT1_MAC=nn:nn:nn:nn:nn:nn;"
+                                "VANILLA_TGEN_PORT2_IP=n.n.n.n;"
+                                "VANILLA_TGEN_PORT2_MAC=nn:nn:nn:nn:nn:nn"
 
 2. If needed, recompile src for all OVS variants
 
@@ -415,7 +444,7 @@ or use ``--test-params`` CLI argument:
 .. code-block:: console
 
         $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
-              --test-params "guest_loopback=testpmd"
+              --test-params "GUEST_LOOPBACK=['testpmd']"
 
 Supported loopback applications are:
 
@@ -549,15 +578,6 @@ environment.
 on the same numa as the NIC in use if possible/applicable. Testpmd should be
 assigned at least (nb_cores +1) total cores with the cpu mask.
 
-The following CLI parameters override the corresponding configuration settings:
-
-1. ``guest_nic_queues``, which overrides all ``GUEST_NIC_QUEUES`` values
-2. ``guest_testpmd_params``, which overrides all ``GUEST_TESTPMD_PARAMS``
-   values
-3. ``vswitch_dpdk_multi_queues``, which overrides ``VSWITCH_DPDK_MULTI_QUEUES``
-4. ``guest_smp``, which overrides all ``GUEST_SMP`` values
-5. ``guest_core_binding``, which overrides all ``GUEST_CORE_BINDING`` values
-
 Executing Packet Forwarding tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -629,7 +649,7 @@ Mode of operation is driven by configuration parameter -m or --mode
             "trafficgen-pause" - execute vSwitch and VNF but wait before traffic transmission
 
 In case, that VSPERF is executed in "trafficgen" mode, then configuration
-of traffic generator should be configured through --test-params option.
+of traffic generator should be configured through ``--test-params`` option.
 Supported CLI options useful for traffic generator configuration are:
 
 .. code-block:: console

@@ -24,7 +24,6 @@ import time
 import pexpect
 
 from conf import settings as S
-from conf import get_test_param
 from vnfs.vnf.vnf import IVnf
 
 class IVnfQemu(IVnf):
@@ -69,7 +68,6 @@ class IVnfQemu(IVnf):
         self._nics = S.getValue('GUEST_NICS')[self._number][:nics_nr]
 
         # set guest loopback application based on VNF configuration
-        # cli option take precedence to config file values
         self._guest_loopback = S.getValue('GUEST_LOOPBACK')[self._number]
 
         self._testpmd_fwd_mode = S.getValue('GUEST_TESTPMD_FWD_MODE')[self._number]
@@ -80,11 +78,6 @@ class IVnfQemu(IVnf):
             self._logger.info("SRIOV detected, forwarding mode of testpmd was changed from '%s' to '%s'",
                               self._testpmd_fwd_mode, 'io')
             self._testpmd_fwd_mode = 'io'
-
-        guest_smp = int(get_test_param('guest_smp', 0))
-        if guest_smp:
-            override_list = [guest_smp] * (self._number + 1)
-            S.setValue('GUEST_SMP', override_list)
 
         name = 'Client%d' % self._number
         vnc = ':%d' % self._number
@@ -238,18 +231,14 @@ class IVnfQemu(IVnf):
             stdin=proc.stdout)
         proc.wait()
 
-        guest_core_binding = int(get_test_param('guest_core_binding', 0))
         for cpu in range(0, int(S.getValue('GUEST_SMP')[self._number])):
             match = None
             for line in output.decode(cur_locale).split('\n'):
                 match = re.search(thread_id % cpu, line)
                 if match:
-                    if guest_core_binding:
-                        self._affinitize_pid(guest_core_binding, match.group(1))
-                    else:
-                        self._affinitize_pid(
-                            S.getValue('GUEST_CORE_BINDING')[self._number][cpu],
-                            match.group(1))
+                    self._affinitize_pid(
+                        S.getValue('GUEST_CORE_BINDING')[self._number][cpu],
+                        match.group(1))
                     break
 
             if not match:
@@ -397,10 +386,9 @@ class IVnfQemu(IVnf):
         self.execute_and_wait('make')
 
         # get testpmd settings from CLI
-        testpmd_params = get_test_param('guest_testpmd_params',
-                                        S.getValue('GUEST_TESTPMD_PARAMS')[self._number])
+        testpmd_params = S.getValue('GUEST_TESTPMD_PARAMS')[self._number]
 
-        self.execute_and_wait( './testpmd {}'.format(testpmd_params), 60, "Done")
+        self.execute_and_wait('./testpmd {}'.format(testpmd_params), 60, "Done")
         self.execute('set fwd ' + self._testpmd_fwd_mode, 1)
         self.execute_and_wait('start', 20, 'testpmd>')
 
@@ -458,17 +446,13 @@ class IVnfQemu(IVnf):
 
         # Add the arp entries for the IXIA ports and the bridge you are using.
         # Use command line values if provided.
-        trafficgen_mac = get_test_param('vanilla_tgen_port1_mac',
-                                        S.getValue('VANILLA_TGEN_PORT1_MAC'))
-        trafficgen_ip = get_test_param('vanilla_tgen_port1_ip',
-                                       S.getValue('VANILLA_TGEN_PORT1_IP'))
+        trafficgen_mac = S.getValue('VANILLA_TGEN_PORT1_MAC')
+        trafficgen_ip = S.getValue('VANILLA_TGEN_PORT1_IP')
 
         self.execute('arp -s ' + trafficgen_ip + ' ' + trafficgen_mac)
 
-        trafficgen_mac = get_test_param('vanilla_tgen_port2_mac',
-                                        S.getValue('VANILLA_TGEN_PORT2_MAC'))
-        trafficgen_ip = get_test_param('vanilla_tgen_port2_ip',
-                                       S.getValue('VANILLA_TGEN_PORT2_IP'))
+        trafficgen_mac = S.getValue('VANILLA_TGEN_PORT2_MAC')
+        trafficgen_ip = S.getValue('VANILLA_TGEN_PORT2_IP')
 
         self.execute('arp -s ' + trafficgen_ip + ' ' + trafficgen_mac)
 
