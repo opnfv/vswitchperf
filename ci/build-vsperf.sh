@@ -49,7 +49,7 @@ TESTCASES_MERGE="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_
 TESTPARAM_MERGE="--integration"
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'
-TESTPARAM_DAILY='--test-params pkt_sizes=64,128,512,1024,1518'
+TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 # check if user config file exists if not then we will use default settings
 if [ -f $HOME/vsperf-${BRANCH}.conf ] ; then
     # branch specific config was found

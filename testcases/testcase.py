@@ -66,6 +66,7 @@ class TestCase(object):
         self._step_vnf_list = {}
         self._step_result = []
         self._step_status = None
+        self._testcase_run_time = None
 
         # store all GUEST_ specific settings to keep original values before their expansion
         for key in S.__dict__:
@@ -75,14 +76,21 @@ class TestCase(object):
         self._update_settings('VSWITCH', cfg.get('vSwitch', S.getValue('VSWITCH')))
         self._update_settings('VNF', cfg.get('VNF', S.getValue('VNF')))
         self._update_settings('TRAFFICGEN', cfg.get('Trafficgen', S.getValue('TRAFFICGEN')))
-        self._update_settings('TEST_PARAMS', cfg.get('Parameters', S.getValue('TEST_PARAMS')))
+        test_params = copy.deepcopy(S.getValue('TEST_PARAMS'))
+        tc_test_params = cfg.get('Parameters', S.getValue('TEST_PARAMS'))
+        test_params.update(tc_test_params)
+        self._update_settings('TEST_PARAMS', test_params)
+        S.check_test_params()
+
+        # override all redefined GUEST_ values to have them expanded correctly
+        tmp_test_params = copy.deepcopy(S.getValue('TEST_PARAMS'))
+        for key in tmp_test_params:
+            if key.startswith('GUEST_'):
+                S.setValue(key, S.getValue(key))
+                S.getValue('TEST_PARAMS').pop(key)
 
         # update global settings
         functions.settings_update_paths()
-        guest_loopback = get_test_param('guest_loopback', None)
-        if guest_loopback:
-            # we can put just one item, it'll be expanded automatically for all VMs
-            self._update_settings('GUEST_LOOPBACK', [guest_loopback])
 
         # set test parameters; CLI options take precedence to testcase settings
         self._logger = logging.getLogger(__name__)
@@ -337,7 +345,8 @@ class TestCase(object):
             self.run_finalize()
 
         self._testcase_run_time = time.strftime("%H:%M:%S",
-                                  time.gmtime(time.time() - self._testcase_start_time))
+                                                time.gmtime(time.time() -
+                                                            self._testcase_start_time))
         logging.info("Testcase execution time: " + self._testcase_run_time)
         # report test results
         self.run_report()
@@ -352,7 +361,7 @@ class TestCase(object):
         """
         orig_value = S.getValue(param)
         if orig_value != value:
-            self._settings_original[param] = orig_value
+            self._settings_original[param] = copy.deepcopy(orig_value)
             S.setValue(param, value)
 
     def _append_results(self, results):

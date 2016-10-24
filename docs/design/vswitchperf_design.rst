@@ -53,7 +53,8 @@ for development purposes:
 
 .. code-block:: console
 
-   $ ./vsperf --test-params 'duration=10;rfc2544_tests=1;pkt_sizes=64' --tests 'pvp_tput'
+   $ ./vsperf --test-params 'TRAFFICGEN_DURATION=10;TRAFFICGEN_RFC2544_TESTS=1;' \
+                            'TRAFFICGEN_PKT_SIZES=(64,)' --tests 'pvp_tput'
 
 Typical Test Sequence
 =====================
