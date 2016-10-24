@@ -17,12 +17,10 @@
 
 import logging
 import subprocess
-import os
 
 from src.ovs import OFBridge
 from src.dpdk import dpdk
 from conf import settings
-from conf import get_test_param
 from vswitches.ovs import IVSwitchOvs
 
 class OvsDpdkVhost(IVSwitchOvs):
@@ -70,11 +68,6 @@ class OvsDpdkVhost(IVSwitchOvs):
         dpdk.init()
         super(OvsDpdkVhost, self).start()
         # old style OVS <= 2.5.0 multi-queue enable
-        vswitch_dpdk_multi_queues = \
-            int(get_test_param('vswitch_dpdk_multi_queues', 0))
-        if vswitch_dpdk_multi_queues:
-            settings.setValue('VSWITCH_DPDK_MULTI_QUEUES', \
-                vswitch_dpdk_multi_queues)
         if settings.getValue('OVS_OLD_STYLE_MQ') and \
                 int(settings.getValue('VSWITCH_DPDK_MULTI_QUEUES')):
             tmp_br = OFBridge(timeout=-1)
@@ -120,8 +113,8 @@ class OvsDpdkVhost(IVSwitchOvs):
 
         if int(settings.getValue('VSWITCH_DPDK_MULTI_QUEUES')) and \
                 not settings.getValue('OVS_OLD_STYLE_MQ'):
-                params += ['options:n_rxq={}'.format(
-                    settings.getValue('VSWITCH_DPDK_MULTI_QUEUES'))]
+            params += ['options:n_rxq={}'.format(
+                settings.getValue('VSWITCH_DPDK_MULTI_QUEUES'))]
         of_port = bridge.add_port(port_name, params)
         return (port_name, of_port)
 

@@ -15,7 +15,7 @@
 """
 from core.traffic_controller import TrafficController
 from core.results.results import IResults
-from conf import get_test_param
+from conf import settings
 
 
 class TrafficControllerRFC2544(TrafficController, IResults):
@@ -32,7 +32,7 @@ class TrafficControllerRFC2544(TrafficController, IResults):
         """
         super(TrafficControllerRFC2544, self).__init__(traffic_gen_class)
         self._type = 'rfc2544'
-        self._tests = int(get_test_param('rfc2544_tests', 1))
+        self._tests = int(settings.getValue('TRAFFICGEN_RFC2544_TESTS'))
 
     def send_traffic(self, traffic):
         """See TrafficController for description
@@ -85,4 +85,3 @@ class TrafficControllerRFC2544(TrafficController, IResults):
             result = self._traffic_gen_class.wait_rfc2544_throughput()
             result = self._append_results(result, packet_size)
             self._results.append(result)
-
