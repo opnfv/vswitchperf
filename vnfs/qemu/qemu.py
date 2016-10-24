@@ -351,7 +351,6 @@ class IVnfQemu(IVnf):
                 self.execute_and_wait("{} -t {} -F".format(iptables, table))
                 self.execute_and_wait("{} -t {} -X".format(iptables, table))
 
-
     def _configure_testpmd(self):
         """
         Configure VM to perform L2 forwarding between NICs by DPDK's testpmd
@@ -383,16 +382,11 @@ class IVnfQemu(IVnf):
         for nic in self._nics:
             self.execute_and_wait('ifdown ' + nic['device'])
 
-        # build and insert igb_uio and rebind interfaces to it
-        self.execute_and_wait('make RTE_OUTPUT=$RTE_SDK/$RTE_TARGET -C '
-                              '$RTE_SDK/lib/librte_eal/linuxapp/igb_uio')
-        self.execute_and_wait('modprobe uio')
-        self.execute_and_wait('insmod %s/kmod/igb_uio.ko' %
-                              S.getValue('RTE_TARGET'))
         self.execute_and_wait('./tools/dpdk*bind.py --status')
         pci_list = ' '.join([nic['pci'] for nic in self._nics])
         self.execute_and_wait('./tools/dpdk*bind.py -u ' + pci_list)
-        self.execute_and_wait('./tools/dpdk*bind.py -b igb_uio ' + pci_list)
+        self._bind_dpdk_driver(S.getValue(
+            'GUEST_DPDK_BIND_DRIVER')[self._number], pci_list)
         self.execute_and_wait('./tools/dpdk*bind.py --status')
 
         # build and run 'test-pmd'
@@ -485,6 +479,42 @@ class IVnfQemu(IVnf):
         self.execute('sysctl -w net.ipv4.conf.all.rp_filter=0')
         for nic in self._nics:
             self.execute('sysctl -w net.ipv4.conf.' + nic['device'] + '.rp_filter=0')
+
+    def _bind_dpdk_driver(self, driver, pci_slots):
+        """
+        Bind the virtual nics to the driver specific in the conf file
+        :return: None
+        """
+        if driver == 'uio_pci_generic':
+            if S.getValue('VNF') == 'QemuPciPassthrough':
+                # unsupported config, bind to igb_uio instead and exit the
+                # outer function after completion.
+                self._logger.error('SR-IOV does not support uio_pci_generic. '
+                                   'Igb_uio will be used instead.')
+                self._bind_dpdk_driver('igb_uio_from_src', pci_slots)
+                return
+            self.execute_and_wait('modprobe uio_pci_generic')
+            self.execute_and_wait('./tools/dpdk*bind.py -b uio_pci_generic '+
+                                  pci_slots)
+        elif driver == 'vfio_no_iommu':
+            self.execute_and_wait('modprobe -r vfio')
+            self.execute_and_wait('modprobe -r vfio_iommu_type1')
+            self.execute_and_wait('modprobe vfio enable_unsafe_noiommu_mode=Y')
+            self.execute_and_wait('modprobe vfio-pci')
+            self.execute_and_wait('./tools/dpdk*bind.py -b vfio-pci ' +
+                                  pci_slots)
+        elif driver == 'igb_uio_from_src':
+            # build and insert igb_uio and rebind interfaces to it
+            self.execute_and_wait('make RTE_OUTPUT=$RTE_SDK/$RTE_TARGET -C '
+                                  '$RTE_SDK/lib/librte_eal/linuxapp/igb_uio')
+            self.execute_and_wait('modprobe uio')
+            self.execute_and_wait('insmod %s/kmod/igb_uio.ko' %
+                                  S.getValue('RTE_TARGET'))
+            self.execute_and_wait('./tools/dpdk*bind.py -b igb_uio ' + pci_slots)
+        else:
+            self._logger.error(
+                'Unknown driver for binding specified, defaulting to igb_uio')
+            self._bind_dpdk_driver('igb_uio_from_src', pci_slots)
 
     def _set_multi_queue_nic(self):
         """

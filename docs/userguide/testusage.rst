@@ -438,6 +438,38 @@ multiple VM NIC pairs.
 **NOTE:** In case of linux_bridge, all guest NICs are connected to the same
 bridge inside the guest.
 
+Selection of dpdk binding driver for tests with VMs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To select dpdk binding driver, which will specify which driver the vm NICs will
+use for dpdk bind, the following configuration parameter should be configured:
+
+.. code-block:: console
+
+     GUEST_DPDK_BIND_DRIVER = ['igb_uio_from_src']
+
+The supported dpdk guest bind drivers are:
+
+.. code-block:: console
+
+    'uio_pci_generic'	   - Use uio_pci_generic driver
+    'igb_uio_from_src'     - Build and use the igb_uio driver from the dpdk src
+                             files
+    'vfio_no_iommu'        - Use vfio with no iommu option. This requires custom
+                             guest images that support this option. The default
+                             vloop image does not support this driver.
+
+Note: uio_pci_generic does not support sr-iov testcases with guests attached.
+This is because uio_pci_generic only supports legacy interrupts. In case
+uio_pci_generic is selected with the vnf as QemuPciPassthrough it will be
+modified to use igb_uio_from_src instead.
+
+Note: vfio_no_iommu requires kernels equal to or greater than 4.5 and dpdk
+16.04 or greater. Using this option will also taint the kernel.
+
+Please refer to the dpdk documents at http://dpdk.org/doc/guides for more
+information on these drivers.
+
 Multi-Queue Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
