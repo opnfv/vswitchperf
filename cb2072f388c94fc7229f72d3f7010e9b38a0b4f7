@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_6d4fb593",
+        "filename": "docs/userguide/teststeps.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-10-26T11:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_4973c5b1",
+      "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_e96719e9",
         "filename": "docs/userguide/teststeps.rst",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-21T19:36:46Z",
       "side": 1,
       "message": "The chosen deployment? Also about sounds strange. How about..\n\"The chosen deployment scenario will take care of the vSwitch configuration,\"",
+      "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_0d44f172",
+        "filename": "docs/userguide/teststeps.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-10-26T11:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_e96719e9",
       "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_4d31990a",
+        "filename": "docs/userguide/teststeps.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-10-26T11:14:41Z",
+      "side": 1,
+      "message": "I\u0027ve modified testcase description to be inline with other examples. Please have a look and don\u0027t hesitate to comment it again.",
+      "parentUuid": "9adffdf1_e4af402a",
+      "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_a4a93826",
         "filename": "docs/userguide/teststeps.rst",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_6d36d505",
+        "filename": "docs/userguide/teststeps.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-10-26T11:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_a4a93826",
+      "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_c4a6bc53",
         "filename": "docs/userguide/teststeps.rst",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2016-10-21T19:36:46Z",
       "side": 1,
       "message": "This is an Example?",
+      "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_ed2165b5",
+        "filename": "docs/userguide/teststeps.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-10-26T11:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_c4a6bc53",
       "revId": "cb2072f388c94fc7229f72d3f7010e9b38a0b4f7",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
