@@ -16,6 +16,24 @@
       "revId": "c021027b03649fcf23d8f6c7b2b1c55ebc3a0c08",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_50bcd26c",
+        "filename": "docs/userguide/teststeps.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-10-27T13:22:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_70630eb2",
+      "revId": "c021027b03649fcf23d8f6c7b2b1c55ebc3a0c08",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
