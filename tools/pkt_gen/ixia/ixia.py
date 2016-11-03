@@ -19,7 +19,7 @@ lifting".
 
 This requires the following settings in your config file:
 
-* TRAFFICGEN_IXIA_LIB_PATH
+* TRAFFICGEN_IXIA_ROOT_DIR
     IXIA libraries path
 * TRAFFICGEN_IXIA_HOST
     IXIA chassis IP address
@@ -39,6 +39,7 @@ import logging
 import os
 
 from collections import OrderedDict
+from tools import systeminfo
 from tools.pkt_gen import trafficgen
 from conf import settings
 from core.results.results_constants import ResultsConstants
@@ -76,7 +77,7 @@ def configure_env():
     os.environ['IXIA_LOGS_DIR'] = '/tmp/Ixia/Logs'
     os.environ['IXIA_TCL_DIR'] = os.path.expandvars('$IxiaLibPath')
     os.environ['IXIA_SAMPLES'] = os.path.expandvars('$IxiaLibPath/ixTcl1.0')
-    os.environ['IXIA_VERSION'] = '6.60.1000.11'
+    os.environ['IXIA_VERSION'] = systeminfo.get_version('Ixia')['version']
 
 
 def _build_set_cmds(values, prefix='dict set'):
@@ -299,8 +300,8 @@ class Ixia(trafficgen.ITrafficGenerator):
         # metrics so we have to return dummy values for these metrics
         result_dict[ResultsConstants.THROUGHPUT_RX_FPS] = result[4]
         result_dict[ResultsConstants.TX_RATE_FPS] = result[5]
-        result_dict[ResultsConstants.THROUGHPUT_RX_MBPS] = result[6]
-        result_dict[ResultsConstants.TX_RATE_MBPS] = result[7]
+        result_dict[ResultsConstants.THROUGHPUT_RX_MBPS] = str(round(int(result[6]) / 1000000, 3))
+        result_dict[ResultsConstants.TX_RATE_MBPS] = str(round(int(result[7]) / 1000000, 3))
         result_dict[ResultsConstants.FRAME_LOSS_PERCENT] = loss_rate
         result_dict[ResultsConstants.TX_RATE_PERCENT] = \
                                             ResultsConstants.UNKNOWN_VALUE

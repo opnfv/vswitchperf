@@ -422,7 +422,11 @@ proc sendTraffic { flowSpec trafficSpec } {
         udp setDefault
         udp config -sourcePort                            $srcPort
         udp config -destPort                              $dstPort
-        set packetSize               [dict get $trafficSpec_l3 packetsize]
+        if {[dict exists $trafficSpec_l3 packetsize]} {
+            set packetSize               [dict get $trafficSpec_l3 packetsize]
+        } else {
+            set packetSize               $frameSize
+        }
         stream config -framesize                          $packetSize
         if {[udp set $::chassis $::card $::port1]} {
             errorMsg "Error setting udp on port $::chassis.$::card.$::port1"

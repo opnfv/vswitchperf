@@ -228,6 +228,7 @@ def get_version(app_name):
         'loopback_testpmd' : os.path.join(S.getValue('TOOLS')['dpdk_src'],
                                           'lib/librte_eal/common/include/rte_version.h'),
         'ixnet' : os.path.join(S.getValue('TRAFFICGEN_IXNET_LIB_PATH'), 'pkgIndex.tcl'),
+        'ixia' : os.path.join(S.getValue('TRAFFICGEN_IXIA_ROOT_DIR'), 'lib/ixTcl1.0/ixTclHal.tcl'),
     }
 
 
@@ -299,6 +300,10 @@ def get_version(app_name):
             app_git_tag = get_git_tag(S.getValue('TOOLS')['qemu_src'])
     elif app_name.lower() == 'ixnet':
         app_version = match_line(app_version_file['ixnet'], 'package provide IxTclNetwork')
+        if app_version:
+            app_version = app_version.split(' ')[3]
+    elif app_name.lower() == 'ixia':
+        app_version = match_line(app_version_file['ixia'], 'package provide IxTclHal')
         if app_version:
             app_version = app_version.split(' ')[3]
     elif app_name.lower() == 'xena':
