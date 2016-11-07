@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_8f7e8ce3",
+        "filename": "conf/__init__.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-07T13:38:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_acbd9604",
+      "revId": "f00477fa3ea9bb057129e5ac4a1b8b00dbcf16b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_0cdaaa78",
         "filename": "docs/design/vswitchperf_design.rst",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-04T15:51:49Z",
       "side": 1,
       "message": "Do the packet sizes need to be enclosed in parenthesis when specifying them in test-params now? Just curious on the way this is presented here. Is this a new requirement? Also it appears that they are being forced to appear as a tuple since you have the comma after a single value. My only concern is someone who is not fluent in Python which I don\u0027t believe is a requirement for users of VSPerf. They may not understand this is a requirement when specifying values as tuples with single values inside of parenthesis. If it is then we should document that in the docs somewhere in my opinion.",
+      "revId": "f00477fa3ea9bb057129e5ac4a1b8b00dbcf16b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_2f83d8cd",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-07T13:38:28Z",
+      "side": 1,
+      "message": "Originally I had an explicit note, that data types of new values must match to original values. It seems, I lost it during my pre-review clean\u0026sweep updates. I\u0027ve put a note into documentation again. Let me know if it is ok or not.",
+      "parentUuid": "5ac10518_0cdaaa78",
       "revId": "f00477fa3ea9bb057129e5ac4a1b8b00dbcf16b2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
