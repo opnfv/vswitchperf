@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5ac10518_16e4fd0b",
+        "filename": "conf/04_vnf.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2016-11-08T17:26:50Z",
+      "side": 1,
+      "message": "Should \u0027SCALAR\u0027 be removed so this would be changed to \"This configuration option can be overridden by CLI option\"?",
+      "revId": "f00477fa3ea9bb057129e5ac4a1b8b00dbcf16b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_acbd9604",
         "filename": "conf/__init__.py",
         "patchSetId": 1
@@ -66,6 +83,52 @@
       "side": 1,
       "message": "Originally I had an explicit note, that data types of new values must match to original values. It seems, I lost it during my pre-review clean\u0026sweep updates. I\u0027ve put a note into documentation again. Let me know if it is ok or not.",
       "parentUuid": "5ac10518_0cdaaa78",
+      "revId": "f00477fa3ea9bb057129e5ac4a1b8b00dbcf16b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_19ad0e32",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2016-11-08T17:26:50Z",
+      "side": 1,
+      "message": "Minor comment: ending \u0027\\\u0027 is missing",
+      "range": {
+        "startLine": 97,
+        "startChar": 75,
+        "endLine": 97,
+        "endChar": 81
+      },
+      "revId": "f00477fa3ea9bb057129e5ac4a1b8b00dbcf16b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_59bb9672",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2016-11-08T17:26:50Z",
+      "side": 1,
+      "message": "Minor comment: ending \u0027\\\u0027 is missing on these lines.",
+      "range": {
+        "startLine": 109,
+        "startChar": 51,
+        "endLine": 109,
+        "endChar": 52
+      },
       "revId": "f00477fa3ea9bb057129e5ac4a1b8b00dbcf16b2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
