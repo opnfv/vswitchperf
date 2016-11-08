@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_653a6138",
+        "filename": "conf/integration/03_traffic.conf",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2016-11-08T17:26:50Z",
+      "side": 0,
+      "message": "This change will allow to use just one .tcl file for both performance and integration TCs, is that correct?",
+      "range": {
+        "startLine": 22,
+        "startChar": 31,
+        "endLine": 22,
+        "endChar": 49
+      },
+      "revId": "9c13028cf9b29da86e5b12c5d3b8c4d6bd858545",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

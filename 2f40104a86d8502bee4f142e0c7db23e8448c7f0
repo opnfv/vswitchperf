@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_4535e544",
+        "filename": "conf/04_vnf.conf",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2016-11-08T17:26:50Z",
+      "side": 1,
+      "message": "Is this still a scalar or should the comment be changed?",
+      "range": {
+        "startLine": 99,
+        "startChar": 53,
+        "endLine": 99,
+        "endChar": 59
+      },
+      "revId": "2f40104a86d8502bee4f142e0c7db23e8448c7f0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_c51f95b6",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2016-11-08T17:26:50Z",
+      "side": 1,
+      "message": "Minor comment: do we need to add the ending \u0027\\\u0027 ?",
+      "range": {
+        "startLine": 129,
+        "startChar": 80,
+        "endLine": 129,
+        "endChar": 81
+      },
+      "revId": "2f40104a86d8502bee4f142e0c7db23e8448c7f0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e51c11c4",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2016-11-08T17:26:50Z",
+      "side": 1,
+      "message": "Minor comment: do we need to add the ending \u0027\\\u0027 ?",
+      "range": {
+        "startLine": 141,
+        "startChar": 50,
+        "endLine": 141,
+        "endChar": 52
+      },
+      "revId": "2f40104a86d8502bee4f142e0c7db23e8448c7f0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
