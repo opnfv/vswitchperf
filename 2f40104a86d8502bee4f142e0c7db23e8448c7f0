@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_40ddd341",
+        "filename": "conf/04_vnf.conf",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-09T08:48:57Z",
+      "side": 1,
+      "message": "Good catch. I\u0027ll remove it completely, because every option can be overridden by CLI now on. So it would be confusing.",
+      "parentUuid": "5ac10518_4535e544",
+      "range": {
+        "startLine": 99,
+        "startChar": 53,
+        "endLine": 99,
+        "endChar": 59
+      },
+      "revId": "2f40104a86d8502bee4f142e0c7db23e8448c7f0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_c51f95b6",
         "filename": "docs/userguide/testusage.rst",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-08T17:26:50Z",
       "side": 1,
       "message": "Minor comment: do we need to add the ending \u0027\\\u0027 ?",
+      "range": {
+        "startLine": 129,
+        "startChar": 80,
+        "endLine": 129,
+        "endChar": 81
+      },
+      "revId": "2f40104a86d8502bee4f142e0c7db23e8448c7f0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_c019c323",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-09T08:48:57Z",
+      "side": 1,
+      "message": "yes and also \u0027;\u0027 is missing; I\u0027ll check other multiline examples and fix them if needed.",
+      "parentUuid": "5ac10518_c51f95b6",
       "range": {
         "startLine": 129,
         "startChar": 80,
@@ -65,6 +113,47 @@
         "endLine": 141,
         "endChar": 52
       },
+      "revId": "2f40104a86d8502bee4f142e0c7db23e8448c7f0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e0163ff1",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-09T08:48:57Z",
+      "side": 1,
+      "message": "No, this is a python code, so line escapes are not needed.",
+      "parentUuid": "5ac10518_e51c11c4",
+      "range": {
+        "startLine": 141,
+        "startChar": 50,
+        "endLine": 141,
+        "endChar": 52
+      },
+      "revId": "2f40104a86d8502bee4f142e0c7db23e8448c7f0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_ea7dbeb2",
+        "filename": "vsperf",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-09T08:48:57Z",
+      "side": 1,
+      "message": "I\u0027m aware, that lines 85-87 could be replaced by more complex regex, but it would be harder to read.",
       "revId": "2f40104a86d8502bee4f142e0c7db23e8448c7f0",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

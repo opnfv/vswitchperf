@@ -22,6 +22,30 @@
       "revId": "9c13028cf9b29da86e5b12c5d3b8c4d6bd858545",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_602b2f31",
+        "filename": "conf/integration/03_traffic.conf",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-09T08:48:57Z",
+      "side": 0,
+      "message": "It means, that by default the same TCL script will be used. However v2 of TCL script must be still used for tunneling TCs. This is enforced by TRAFFICGEN_IXNET_TCL_SCRIPT specification within TC definition file.",
+      "parentUuid": "5ac10518_653a6138",
+      "range": {
+        "startLine": 22,
+        "startChar": 31,
+        "endLine": 22,
+        "endChar": 49
+      },
+      "revId": "9c13028cf9b29da86e5b12c5d3b8c4d6bd858545",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
