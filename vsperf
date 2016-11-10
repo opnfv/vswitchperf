@@ -504,8 +504,11 @@ def main():
     # than both a settings file and environment variables
     settings.load_from_dict(args)
 
+    settings.setValue('mode', args['mode'])
+
     # set dpdk and ovs paths accorfing to VNF and VSWITCH
-    functions.settings_update_paths()
+    if settings.getValue('mode') != 'trafficgen':
+        functions.settings_update_paths()
 
     # if required, handle list-* operations
     handle_list_options(args)
@@ -583,8 +586,6 @@ def main():
     settings.setValue('NICS', nic_list)
     # for backward compatibility
     settings.setValue('WHITELIST_NICS', list(nic['pci'] for nic in nic_list))
-
-    settings.setValue('mode', args['mode'])
 
     # generate results directory name
     date = datetime.datetime.fromtimestamp(time.time())

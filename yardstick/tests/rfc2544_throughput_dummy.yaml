@@ -13,13 +13,15 @@
 # limitations under the License.
 
 # VSPERF specific configuration file for execution of RFC2544 throughput
-# traffic. Traffic executed by traffic generator is forwarded directly
-# between interfaces connected to the traffic generator. So test will only
-# benchmark the performance of OVS external bridge at controller node.
-# For details about supported test options see following file from
-# the yardstick repository:
+# traffic.
+# This test uses a dummy traffic generator, which does not execute a real
+# traffic. The purpose of this test is to demonstrate vsperf execution
+# by yardstick environment. Provided 'test_params' option can modified
+# to use a real traffic generator.
+# Details about supported test options and test case execution can be
+# found in VSPERF documentation:
 #
-# yardstick/benchmark/scenarios/networking/vsperf.py
+#   http://artifacts.opnfv.org/vswitchperf/docs/userguide/yardstick.html
 
 schema: "yardstick:task:0.1"
 
@@ -27,22 +29,28 @@ scenarios:
 -
   type: Vsperf
   options:
-    testname: 'rfc2544_p2p_tput'
+    testname: 'rfc2544_throughput'
     traffic_type: 'rfc2544'
-    pkt_sizes: '64'
+    frame_size: '64'
     bidirectional: 'True'
     iload: 100
-    duration: 30
-    trafficgen_port1: 'eth1'
-    trafficgen_port2: 'eth3'
-    external_bridge: 'br-ex'
-    conf-file: '~/vsperf-yardstick.conf'
+    test_params: 'TRAFFICGEN_DURATION=30;
+        TRAFFICGEN="Dummy";
+        TRAFFICGEN_DUMMY_RESULTS={
+            "frames tx":15000000,
+            "frames rx":15000000,
+            "tx rate %":100,
+            "rx rate %":100,
+            "min latency":1,
+            "max latency":15,
+            "avg latency":2.5,
+            "frameloss %":0,}'
 
   host: vsperf.demo
 
   runner:
     type: Sequence
-    scenario_option_name: pkt_sizes
+    scenario_option_name: frame_size
     sequence:
     - 64
     - 128
@@ -50,6 +58,10 @@ scenarios:
     - 1024
     - 1518
   sla:
+    # The throughput SLA (or any other SLA) cannot be set to a meaningful
+    # value without knowledge of the server and networking environment,
+    # possibly including prior testing in that environment to establish
+    # a baseline SLA level under well-understood circumstances.
     metrics: 'throughput_rx_fps'
     throughput_rx_fps: 500000
     action: monitor
