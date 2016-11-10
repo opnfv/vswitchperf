@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# VSPERF specific configuration file for execution of back2back traffic.
-# Traffic executed by traffic generator is forwarded directly between
-# interfaces connected to the traffic generator. So test will only
+# VSPERF specific configuration file for execution of RFC2544 throughput
+# traffic. Traffic executed by traffic generator is forwarded directly
+# between interfaces connected to the traffic generator. So test will only
 # benchmark the performance of OVS external bridge at controller node.
-# For details about supported test options see following file from
-# the yardstick repository:
+# Details about supported test options and test case execution can be
+# found in VSPERF documentation:
 #
-# yardstick/benchmark/scenarios/networking/vsperf.py
+#   http://artifacts.opnfv.org/vswitchperf/docs/userguide/yardstick.html
 
 schema: "yardstick:task:0.1"
 
@@ -27,22 +27,22 @@ scenarios:
 -
   type: Vsperf
   options:
-    testname: 'rfc2544_p2p_back2back'
-    traffic_type: 'back2back'
-    pkt_sizes: '64'
+    testname: 'p2p_rfc2544_throughput'
+    traffic_type: 'rfc2544'
+    frame_size: '64'
     bidirectional: 'True'
     iload: 100
-    duration: 30
+    test_params: 'TRAFFICGEN_DURATION=30;'
     trafficgen_port1: 'eth1'
     trafficgen_port2: 'eth3'
     external_bridge: 'br-ex'
-    conf-file: '~/vsperf-yardstick.conf'
+    conf_file: '~/vsperf-yardstick.conf'
 
   host: vsperf.demo
 
   runner:
     type: Sequence
-    scenario_option_name: pkt_sizes
+    scenario_option_name: frame_size
     sequence:
     - 64
     - 128
@@ -50,8 +50,8 @@ scenarios:
     - 1024
     - 1518
   sla:
-    metrics: 'b2b_frames'
-    b2b_frames: 1
+    metrics: 'throughput_rx_fps'
+    throughput_rx_fps: 500000
     action: monitor
 
 context:
