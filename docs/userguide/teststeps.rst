@@ -523,8 +523,8 @@ To run the test:
 
   .. code-block:: console
 
-    ./vsperf --conf-file user_settings.py --test-params
-            "guest_loopback=linux_bridge" --integration ex_pvp_rule_l3da
+    ./vsperf --conf-file user_settings.py --test-params \
+            "GUEST_LOOPBACK=['linux_bridge']" --integration ex_pvp_rule_l3da
 
 Forward packets based on UDP port
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

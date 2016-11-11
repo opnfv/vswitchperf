@@ -1304,7 +1304,7 @@ vsperf CI jobs are broken down into:
     * Runs everyday takes about 10 hours to complete.
     * TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan
       phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'.
-    * TESTPARAM_DAILY='--test-params pkt_sizes=64,128,512,1024,1518'.
+    * TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'.
 
   * Merge job:
 

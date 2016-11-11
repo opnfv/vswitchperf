@@ -21,6 +21,7 @@ import logging
 import os
 import sys
 import argparse
+import re
 import time
 import datetime
 import shutil
@@ -75,21 +76,19 @@ def parse_arguments():
 
         This expects either 'x=y', 'x=y,z' or 'x' (implicit true)
         values. For multiple overrides use a ; separated list for
-        e.g. --test-params 'x=z; y=a,b'
+        e.g. --test-params 'x=z; y=(a,b)'
         """
         def __call__(self, parser, namespace, values, option_string=None):
             results = {}
 
-            for value in values.split(';'):
-                result = [key.strip() for key in value.split('=')]
-                if len(result) == 1:
-                    results[result[0]] = True
-                elif len(result) == 2:
-                    results[result[0]] = result[1]
-                else:
-                    raise argparse.ArgumentTypeError(
-                        'expected \'%s\' to be of format \'key=val\' or'
-                        ' \'key\'' % result)
+            for param, _, value in re.findall('([^;=]+)(=([^;]+))?', values):
+                param = param.strip()
+                value = value.strip()
+                if len(param):
+                    if len(value):
+                        results[param] = value
+                    else:
+                        results[param] = True
 
             setattr(namespace, self.dest, results)
 
@@ -181,9 +180,9 @@ def parse_arguments():
     group.add_argument('--conf-file', action=_ValidateFileAction,
                        help='settings file')
     group.add_argument('--test-params', action=_SplitTestParamsAction,
-                       help='csv list of test parameters: key=val; e.g.'
-                       'including pkt_sizes=x,y; duration=x; '
-                       'rfc2544_tests=x ...')
+                       help='csv list of test parameters: key=val; e.g. '
+                       'TRAFFICGEN_PKT_SIZES=(64,128);TRAFICGEN_DURATION=30; '
+                       'GUEST_LOOPBACK=["l2fwd"] ...')
     group.add_argument('--opnfvpod', help='name of POD in opnfv')
 
     args = vars(parser.parse_args())
@@ -585,14 +584,6 @@ def main():
     # for backward compatibility
     settings.setValue('WHITELIST_NICS', list(nic['pci'] for nic in nic_list))
 
-    # update global settings
-    guest_loopback = get_test_param('guest_loopback', None)
-    if guest_loopback:
-        tmp_gl = []
-        for dummy_i in range(len(settings.getValue('GUEST_LOOPBACK'))):
-            tmp_gl.append(guest_loopback)
-        settings.setValue('GUEST_LOOPBACK', tmp_gl)
-
     settings.setValue('mode', args['mode'])
 
     # generate results directory name
@@ -612,11 +603,11 @@ def main():
         loader = Loader()
         # set traffic details, so they can be passed to traffic ctl
         traffic = copy.deepcopy(TRAFFIC_DEFAULTS)
-        traffic.update({'traffic_type': get_test_param('traffic_type', 'rfc2544'),
-                        'bidir': get_test_param('bidirectional', 'False'),
-                        'multistream': int(get_test_param('multistream', 0)),
-                        'stream_type': get_test_param('stream_type', 'L4'),
-                        'frame_rate': int(get_test_param('iload', 100))})
+        traffic.update({'traffic_type': get_test_param('traffic_type', TRAFFIC_DEFAULTS['traffic_type']),
+                        'bidir': get_test_param('bidirectional', TRAFFIC_DEFAULTS['bidir']),
+                        'multistream': int(get_test_param('multistream', TRAFFIC_DEFAULTS['multistream'])),
+                        'stream_type': get_test_param('stream_type', TRAFFIC_DEFAULTS['stream_type']),
+                        'frame_rate': int(get_test_param('iload', TRAFFIC_DEFAULTS['frame_rate']))})
 
         traffic_ctl = component_factory.create_traffic(
             traffic['traffic_type'],
