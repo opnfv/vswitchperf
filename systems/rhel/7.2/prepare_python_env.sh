@@ -17,18 +17,13 @@
 # limitations under the License.
 
 if [ -d "$VSPERFENV_DIR" ] ; then
-    echo "Directory $VSPERFENV_DIR already exists. Skipping python virtualenv \
-creation."
+    echo "Directory $VSPERFENV_DIR already exists. Skipping python virtualenv creation."
     exit
 fi
 
-# enable virtual environment in a subshell, so QEMU build can use python 2.7
-# Also make sure we know which virtualenv was installed. I've seen the file
-# name change pending on what type of installation was done.
-virtualenv_file=$(ls /usr/local/bin | awk '/virtualenv/')
-
-($virtualenv_file "$VSPERFENV_DIR"
+scl enable python33 "
+virtualenv "$VSPERFENV_DIR"
 source "$VSPERFENV_DIR"/bin/activate
-pip3.4 install -r ../requirements.txt
-pip3.4 install pylint
-)
+pip install -r ../requirements.txt
+pip install pylint
+"
