@@ -16,6 +16,24 @@
       "revId": "07230016df1e9cc889f629164ebc65478fdf91d5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_d5573e25",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2016-11-16T14:30:53Z",
+      "side": 1,
+      "message": "OK I will patch this up later and resubmit. Thanks for the suggestion.",
+      "parentUuid": "5ac10518_d5f17e96",
+      "revId": "07230016df1e9cc889f629164ebc65478fdf91d5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
