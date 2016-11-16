@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_d5f17e96",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-16T12:07:35Z",
+      "side": 1,
+      "message": "I suppose we should use RHEL 7.2 or RedHat Enterprise Linux 7.2. I don\u0027t expect that anybody will try to install vsperf on 15 years old distro, but it still might be confusing. The same would apply for recent doc changes.",
+      "revId": "07230016df1e9cc889f629164ebc65478fdf91d5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
