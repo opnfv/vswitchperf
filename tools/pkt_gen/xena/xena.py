@@ -421,7 +421,20 @@ class Xena(ITrafficGenerator):
             :return: None
             """
             stream.set_on()
-            stream.set_packet_limit(packet_limit)
+            if packet_limit != -1:
+                stream.set_packet_limit(packet_limit)
+            else:
+                speed = port.get_port_speed() / 8  # convert to bytes
+                gap = port.get_inter_frame_gap()
+                pkt_size = self._params['traffic']['l2']['framesize']
+                packets = int(((speed / (pkt_size + gap)) * self._duration) *
+                              (self._params['traffic']['frame_rate'] / 100))
+                stream.set_packet_limit(packets)
+
+            port.set_port_arp_reply(on=True)
+            port.set_port_arp_reply(on=True, v6=True)
+            port.set_port_ping_reply(on=True)
+            port.set_port_ping_reply(on=True, v6=True)
 
             stream.set_rate_fraction(
                 10000 * self._params['traffic']['frame_rate'])
@@ -431,10 +444,11 @@ class Xena(ITrafficGenerator):
                 'ETHERNET VLAN IP UDP' if self._params['traffic']['vlan'][
                     'enabled'] else 'ETHERNET IP UDP')
             stream.set_packet_length(
-                'fixed', self._params['traffic']['l2']['framesize'], 16383)
+                'fixed', self._params['traffic']['l2']['framesize'],
+                self._params['traffic']['l2']['framesize'])
             stream.set_packet_payload('incrementing', '0x00')
             stream.set_payload_id(payload_id)
-            port.set_port_time_limit(self._duration * 1000000)
+            port.set_port_time_limit(0)
 
             if self._params['traffic']['l2']['framesize'] == 64:
                 # set micro tpld
@@ -459,7 +473,7 @@ class Xena(ITrafficGenerator):
             if not self.xmanager.ports[1].traffic_on():
                 self._logger.error(
                     "Failure to start port 1. Check settings and retry.")
-        sleep(self._duration)
+        sleep(self._duration + 1)
         # getting results
         if self._params['traffic']['bidir'] == 'True':
             # need to aggregate out both ports stats and assign that data
