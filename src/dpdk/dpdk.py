@@ -139,6 +139,9 @@ def _vhost_user_cleanup():
 def _bind_nics():
     """Bind NICs using the Intel DPDK ``dpdk*bind.py`` tool.
     """
+    if not len(_NICS_PCI):
+        _LOGGER.info('NICs are not configured - nothing to bind')
+        return
     try:
         _driver = 'igb_uio'
         if 'vfio-pci' in S.getValue('TOOLS')['dpdk_modules']:
@@ -151,7 +154,7 @@ def _bind_nics():
                            True)
 
         tasks.run_task(['sudo', S.getValue('TOOLS')['bind-tool'],
-                       '--bind=' + _driver] +
+                        '--bind=' + _driver] +
                        _NICS_PCI, _LOGGER,
                        'Binding NICs %s...' % _NICS_PCI,
                        True)
@@ -161,6 +164,9 @@ def _bind_nics():
 def _unbind_nics():
     """Unbind NICs using the Intel DPDK ``dpdk*bind.py`` tool.
     """
+    if not len(_NICS_PCI):
+        _LOGGER.info('NICs are not configured - nothing to unbind')
+        return
     try:
         tasks.run_task(['sudo', S.getValue('TOOLS')['bind-tool'], '--unbind'] +
                        _NICS_PCI, _LOGGER,

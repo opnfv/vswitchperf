@@ -32,6 +32,9 @@ from core.results.results_constants import ResultsConstants
 from tools import tasks
 from tools import hugepages
 from tools import functions
+from tools import namespace
+from tools import veth
+from tools.teststepstools import TestStepsTools
 from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
 
 CHECK_PREFIX = 'validate_'
@@ -176,7 +179,9 @@ class TestCase(object):
                 self._traffic['l2'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L2')
                 self._traffic['l3'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L3')
                 self._traffic['l4'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L4')
-        elif S.getValue('NICS')[0]['type'] == 'vf' or S.getValue('NICS')[1]['type'] == 'vf':
+        elif len(S.getValue('NICS')) and \
+             (S.getValue('NICS')[0]['type'] == 'vf' or
+              S.getValue('NICS')[1]['type'] == 'vf'):
             mac1 = S.getValue('NICS')[0]['mac']
             mac2 = S.getValue('NICS')[1]['mac']
             if mac1 and mac2:
@@ -278,22 +283,20 @@ class TestCase(object):
 
         # cleanup any namespaces created
         if os.path.isdir('/tmp/namespaces'):
-            import tools.namespace
             namespace_list = os.listdir('/tmp/namespaces')
             if len(namespace_list):
                 self._logger.info('Cleaning up namespaces')
             for name in namespace_list:
-                tools.namespace.delete_namespace(name)
+                namespace.delete_namespace(name)
             os.rmdir('/tmp/namespaces')
         # cleanup any veth ports created
         if os.path.isdir('/tmp/veth'):
-            import tools.veth
             veth_list = os.listdir('/tmp/veth')
             if len(veth_list):
                 self._logger.info('Cleaning up veth ports')
             for eth in veth_list:
                 port1, port2 = eth.split('-')
-                tools.veth.del_veth_port(port1, port2)
+                veth.del_veth_port(port1, port2)
             os.rmdir('/tmp/veth')
 
     def run_report(self):

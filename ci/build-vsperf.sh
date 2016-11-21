@@ -43,10 +43,10 @@ VSPERFENV_DIR="$HOME/vsperfenv"
 # CI job specific configuration
 # VERIFY - run basic set of TCs with default settings
 TESTCASES_VERIFY="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
-TESTPARAM_VERIFY="--integration"
+TESTPARAM_VERIFY="--integration --test-params HUGEPAGE_RAM_ALLOCATION=2097152"
 # MERGE - run selected TCs with default settings
 TESTCASES_MERGE="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
-TESTPARAM_MERGE="--integration"
+TESTPARAM_MERGE="--integration --test-params HUGEPAGE_RAM_ALLOCATION=2097152"
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
@@ -319,7 +319,7 @@ function dependencies_check() {
     if [ $ID == "ubuntu" ] ; then
         echo "Dependencies check"
         echo "=================="
-        for PACKAGE in "python3-tk" ; do
+        for PACKAGE in "python3-tk" "sysstat" ; do
             if dpkg -s $PACKAGE &> /dev/null ; then
                 printf "    %-70s %-6s\n" $PACKAGE "OK"
             else

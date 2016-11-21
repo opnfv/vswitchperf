@@ -14,19 +14,10 @@
 """IntegrationTestCase class
 """
 
-import os
-import time
 import logging
-import copy
-import re
 
 from collections import OrderedDict
 from testcases import TestCase
-from conf import settings as S
-from tools import namespace
-from tools import veth
-from tools.teststepstools import TestStepsTools
-from core.loader import Loader
 
 class IntegrationTestCase(TestCase):
     """IntegrationTestCase class
