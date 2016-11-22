@@ -138,7 +138,6 @@ The following are the metrics obtained during this test:
 
 The following system statistics were collected during testcase execution:
 {% for process in test.stats %}
-| --------------------------------------------------------------- |
 | Process: {{ "%-54s |"|format('_'.join(process.split('_')[:-1])) }}
 | ------------------------------ | ------------------------------ |
 |           Statistic            |             Value              |
