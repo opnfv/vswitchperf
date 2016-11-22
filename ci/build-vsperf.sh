@@ -67,7 +67,7 @@ TEST_REPORT_PARTIAL="*_test_report.rst"
 TEST_REPORT_DIR="${WORKSPACE}/docs/results"
 TEST_REPORT_INDEX="${TEST_REPORT_DIR}/index.rst"
 TEST_REPORT_LINK_OLD="https://wiki.opnfv.org/wiki/vsperf_results"
-TEST_REPORT_FILE="${WORKSPACE}/docs_output/results/results.pdf"
+TEST_REPORT_FILE="${WORKSPACE}/docs_output/results/index.html"
 TEST_REPORT_TARBALL="vswitchperf_logs_${DATE}.tar.gz"
 
 if [[ "x${BRANCH}" == "xmaster" ]]; then
@@ -239,9 +239,9 @@ function generate_report() {
     sed -ie 's,python ,python2 ,g' ./opnfvdocs/scripts/docs-build.sh
     OPNFVDOCS_DIR='./opnfvdocs' ./opnfvdocs/scripts/docs-build.sh &> /dev/null
 
-    # store PDF with test results into dedicated directory
+    # store HTML report with test results into dedicated directory
     if [ -f $TEST_REPORT_FILE ] ; then
-        cp -a $TEST_REPORT_FILE $TEST_REPORT_LOG_DIR
+        cp -ar $TEST_REPORT_FILE $(dirname $TEST_REPORT_FILE)/_static $TEST_REPORT_LOG_DIR
         echo "Final test report has been created."
     else
         echo "FAILURE: Generation of final test report has failed."
