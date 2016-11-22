@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_93b549cf",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2016-11-22T15:17:09Z",
+      "side": 1,
+      "message": "Does \u0027dirname\u0027 refer to a global/environment variable?",
+      "range": {
+        "startLine": 244,
+        "startChar": 35,
+        "endLine": 244,
+        "endChar": 42
+      },
+      "revId": "beff14c93c2ddb4996fa7cec09e7df69138862fa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
