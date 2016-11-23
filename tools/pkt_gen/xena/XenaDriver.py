@@ -61,6 +61,10 @@ CMD_RESERVE = 'p_reservation reserve'
 CMD_RELEASE = 'p_reservation release'
 CMD_RELINQUISH = 'p_reservation relinquish'
 CMD_RESET = 'p_reset'
+CMD_SET_PORT_ARP_REPLY = 'p_arpreply'
+CMD_SET_PORT_ARP_V6_REPLY = 'p_arpv6reply'
+CMD_SET_PORT_PING_REPLY = 'p_pingreply'
+CMD_SET_PORT_PING_V6_REPLY = 'p_pingv6reply'
 CMD_SET_PORT_TIME_LIMIT = 'p_txtimelimit'
 CMD_SET_STREAM_HEADER_PROTOCOL = 'ps_headerprotocol'
 CMD_SET_STREAM_ON_OFF = 'ps_enable'
@@ -530,6 +534,30 @@ class XenaPort(object):
         :return: Boolean True if response OK, False if error.
         """
         command = make_port_command(CMD_RESET, self)
+        return self._manager.driver.ask_verify(command)
+
+    def set_port_arp_reply(self, on=True, v6=False):
+        """
+        Set the port arpreply value
+        :param on: Enable or disable the arp reply on the port
+        :param v6: set the value on the ip v6, disabled will set at ip v4
+        :return: Boolean True if response OK, False if error
+        """
+        command = make_port_command('{} {}'.format(
+            CMD_SET_PORT_ARP_V6_REPLY if v6 else CMD_SET_PORT_ARP_REPLY,
+            "on" if on else "off"), self)
+        return self._manager.driver.ask_verify(command)
+
+    def set_port_ping_reply(self, on=True, v6=False):
+        """
+        Set the port ping reply value
+        :param on: Enable or disable the ping reply on the port
+        :param v6: set the value on the ip v6, disabled will set at ip v4
+        :return: Boolean True if response OK, False if error
+        """
+        command = make_port_command('{} {}'.format(
+            CMD_SET_PORT_PING_V6_REPLY if v6 else CMD_SET_PORT_PING_REPLY,
+            "on" if on else "off"), self)
         return self._manager.driver.ask_verify(command)
 
     def set_port_ip(self, ip_addr, cidr, gateway, wild='255'):
