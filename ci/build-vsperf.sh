@@ -43,10 +43,10 @@ VSPERFENV_DIR="$HOME/vsperfenv"
 # CI job specific configuration
 # VERIFY - run basic set of TCs with default settings
 TESTCASES_VERIFY="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
-TESTPARAM_VERIFY="--integration --test-params HUGEPAGE_RAM_ALLOCATION=2097152"
+TESTPARAM_VERIFY="--integration --test-params HUGEPAGE_RAM_ALLOCATION=4194304"
 # MERGE - run selected TCs with default settings
 TESTCASES_MERGE="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
-TESTPARAM_MERGE="--integration --test-params HUGEPAGE_RAM_ALLOCATION=2097152"
+TESTPARAM_MERGE="--integration --test-params HUGEPAGE_RAM_ALLOCATION=4194304"
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
@@ -186,12 +186,10 @@ function execute_vsperf() {
         exit $EXIT_NO_RESULTS
     else
         print_results "${RES_DIR}"
-        if [ "$EXIT" -eq "$EXIT_TC_FAILED" ] ; then
-            echo "-------------------------------------------------------------------"
-            cat $LOG_FILE
-            echo "-------------------------------------------------------------------"
-        fi
     fi
+    echo "-------------------------------------------------------------------"
+    cat $LOG_FILE
+    echo "-------------------------------------------------------------------"
 
     # show detailed result figures
     for md_file in $(grep '\.md"$' $LOG_FILE | cut -d'"' -f2); do
@@ -306,11 +304,11 @@ function execute_vsperf_sanity() {
         echo >> $LOG_FILE
     done
     echo "Sanity log file $LOG_FILE"
-    if [ "$EXIT" -ne "0" ] ; then
-        echo "-------------------------------------------------------------------"
-        cat $LOG_FILE
-        echo "-------------------------------------------------------------------"
-    fi
+    #if [ "$EXIT" -ne "0" ] ; then
+    echo "-------------------------------------------------------------------"
+    cat $LOG_FILE
+    echo "-------------------------------------------------------------------"
+    #fi
 }
 
 # check and install required packages at nodes running VERIFY and MERGE jobs
@@ -368,12 +366,23 @@ case $1 in
         echo "VSPERF verify job"
         echo "================="
 
+        head /sys/devices/system/node/node*/hugepages/hugepages*/*
+        echo "-------------------------------------------------------------------"
+        mount
+        echo "-------------------------------------------------------------------"
+
         terminate_vsperf
         execute_vsperf_sanity
         terminate_vsperf
         execute_vsperf OVS_with_DPDK_and_vHost_User $1
         terminate_vsperf
         execute_vsperf OVS_vanilla $1
+
+        echo "-------------------------------------------------------------------"
+        head /sys/devices/system/node/node*/hugepages/hugepages*/*
+        echo "-------------------------------------------------------------------"
+        mount
+        echo "-------------------------------------------------------------------"
 
         exit $EXIT
         ;;
