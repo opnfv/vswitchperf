@@ -122,9 +122,9 @@ of supported objects and their most common functions follows:
 
         .. code-block:: python
 
-            ['trafficgen', 'send_traffic', {'traffic_type' : 'throughput'}]
+            ['trafficgen', 'send_traffic', {'traffic_type' : 'rfc2544_throughput'}]
 
-            ['trafficgen', 'send_traffic', {'traffic_type' : 'back2back', 'bidir' : 'True'}]
+            ['trafficgen', 'send_traffic', {'traffic_type' : 'rfc2544_back2back', 'bidir' : 'True'}]
 
     * ``settings`` - reads or modifies VSPERF configuration
 
@@ -344,7 +344,8 @@ IP address = 90.90.90.90 will be forwarded to the port created at the STEP #2.
             ['vswitch', 'add_flow', 'int_br0', {'in_port': '#STEP[1][1]', \
                 'dl_type': '0x0800', 'nw_dst': '90.90.90.90', \
                 'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
-            ['trafficgen', 'send_traffic', {'traffic_type' : 'continuous'}],
+            ['trafficgen', 'send_traffic', \
+                {'traffic_type' : 'rfc2544_continuous'}],
             ['vswitch', 'dump_flows', 'int_br0'],   # STEP 5
             ['vswitch', 'del_flow', 'int_br0'],     # STEP 7 == del-flows
             ['vswitch', 'del_port', 'int_br0', '#STEP[1][0]'],
@@ -393,7 +394,8 @@ That is accomplished by using "Stream Type" and "MultiStream" keywords.
                 'dl_type': '0x0800', 'nw_proto': '17', 'udp_dst': '3', \
                 'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
             # Send mono-dir traffic
-            ['trafficgen', 'send_traffic', {'traffic_type' : 'continuous', \
+            ['trafficgen', 'send_traffic', \
+                {'traffic_type' : 'rfc2544_continuous', \
                 'bidir' : 'False'}],
             # Clean up
             ['vswitch', 'del_flow', 'int_br0'],
@@ -505,7 +507,8 @@ loopback application by a configuration option ``GUEST_LOOPBACK``.
                 'actions': ['output:#STEP[2][1]'], 'idle_timeout': '0'}],
             # Start VMs
             ['vnf1', 'start'],
-            ['trafficgen', 'send_traffic', {'traffic_type' : 'continuous', \
+            ['trafficgen', 'send_traffic', \
+                {'traffic_type' : 'rfc2544_continuous', \
                 'bidir' : 'False'}],
             ['vnf1', 'stop'],
             # Clean up
@@ -578,7 +581,8 @@ destination UDP port.
             # Start VMs
             ['vnf1', 'start'],                          # STEP 16
             ['vnf2', 'start'],                          # STEP 17
-            ['trafficgen', 'send_traffic', {'traffic_type' : 'continuous', \
+            ['trafficgen', 'send_traffic', \
+                {'traffic_type' : 'rfc2544_continuous', \
                 'bidir' : 'False'}],
             ['vnf1', 'stop'],
             ['vnf2', 'stop'],
