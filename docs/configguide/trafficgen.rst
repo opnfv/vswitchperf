@@ -113,7 +113,7 @@ when the setup is complete.
             "proto": "tcp",
             "dstip": "90.90.90.90"
         },
-        "traffic_type": "continuous",
+        "traffic_type": "rfc2544_continuous",
         "multistream": 0,
         "bidir": "True",
         "vlan": {
