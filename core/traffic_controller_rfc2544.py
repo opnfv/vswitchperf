@@ -50,10 +50,10 @@ class TrafficControllerRFC2544(TrafficController, IResults):
             else:
                 traffic['l2'] = {'framesize': packet_size}
 
-            if traffic['traffic_type'] == 'back2back':
+            if traffic['traffic_type'] == 'rfc2544_back2back':
                 result = self._traffic_gen_class.send_rfc2544_back2back(
                     traffic, tests=self._tests, duration=self._duration, lossrate=self._lossrate)
-            elif traffic['traffic_type'] == 'continuous':
+            elif traffic['traffic_type'] == 'rfc2544_continuous':
                 result = self._traffic_gen_class.send_cont_traffic(
                     traffic, duration=self._duration)
             else:

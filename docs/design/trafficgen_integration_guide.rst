@@ -196,7 +196,8 @@ functions:
       which are discussed in detail at `integration tests userguide`_
 
       * param **traffic_type**: One of the supported traffic types,
-        e.g. **rfc2544**, **continuous** or **back2back**.
+        e.g. **rfc2544_throughput**, **rfc2544)continuous** 
+        or **rfc2544_back2back**.
       * param **frame_rate**: Defines desired percentage of frame
         rate used during continuous stream tests. It can be set by test
         parameter iLoad or by CLI parameter iload.
