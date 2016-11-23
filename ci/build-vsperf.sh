@@ -306,11 +306,11 @@ function execute_vsperf_sanity() {
         echo >> $LOG_FILE
     done
     echo "Sanity log file $LOG_FILE"
-    if [ "$EXIT" -ne "0" ] ; then
-        echo "-------------------------------------------------------------------"
-        cat $LOG_FILE
-        echo "-------------------------------------------------------------------"
-    fi
+    #if [ "$EXIT" -ne "0" ] ; then
+    echo "-------------------------------------------------------------------"
+    cat $LOG_FILE
+    echo "-------------------------------------------------------------------"
+    #fi
 }
 
 # check and install required packages at nodes running VERIFY and MERGE jobs
