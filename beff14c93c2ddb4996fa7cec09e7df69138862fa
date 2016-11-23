@@ -22,6 +22,30 @@
       "revId": "beff14c93c2ddb4996fa7cec09e7df69138862fa",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e9e61a44",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-23T08:43:29Z",
+      "side": 1,
+      "message": "$TEST_REPORT_FILE is a full path to the index.html and \"dirname $TEST_REPORT_FILE\" will return just a directory where index.html and other files are stored\n\nPOD3 related example:\n$ export TEST_REPORT_FILE\u003d\"/home/jenkins/opnfv/slave_root/workspace/vswitchperf-daily-master/docs_output/results/index.html\"\n\n$ dirname $TEST_REPORT_FILE\n/home/jenkins/opnfv/slave_root/workspace/vswitchperf-daily-master/docs_output/results\n\nIn case, this construct is confusing, I can refactor it a bit, e.g. to replace TEST_REPORT_FILE by TEST_REPORT_FINAL_DIR and then modify copy command to\n\n\"cp -ar $TEST_REPORT_FINAL_DIR/index.html $TEST_REPORT_FINAL_DIR/_static $TEST_REPORT_LOG_DIR\n\nLet me know, what solution you would prefer or feel free to propose a different one.",
+      "parentUuid": "5ac10518_93b549cf",
+      "range": {
+        "startLine": 244,
+        "startChar": 35,
+        "endLine": 244,
+        "endChar": 42
+      },
+      "revId": "beff14c93c2ddb4996fa7cec09e7df69138862fa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
