@@ -186,12 +186,10 @@ function execute_vsperf() {
         exit $EXIT_NO_RESULTS
     else
         print_results "${RES_DIR}"
-        if [ "$EXIT" -eq "$EXIT_TC_FAILED" ] ; then
-            echo "-------------------------------------------------------------------"
-            cat $LOG_FILE
-            echo "-------------------------------------------------------------------"
-        fi
     fi
+    echo "-------------------------------------------------------------------"
+    cat $LOG_FILE
+    echo "-------------------------------------------------------------------"
 
     # show detailed result figures
     for md_file in $(grep '\.md"$' $LOG_FILE | cut -d'"' -f2); do
@@ -306,11 +304,11 @@ function execute_vsperf_sanity() {
         echo >> $LOG_FILE
     done
     echo "Sanity log file $LOG_FILE"
-    if [ "$EXIT" -ne "0" ] ; then
-        echo "-------------------------------------------------------------------"
-        cat $LOG_FILE
-        echo "-------------------------------------------------------------------"
-    fi
+    #if [ "$EXIT" -ne "0" ] ; then
+    echo "-------------------------------------------------------------------"
+    cat $LOG_FILE
+    echo "-------------------------------------------------------------------"
+    #fi
 }
 
 # check and install required packages at nodes running VERIFY and MERGE jobs
@@ -368,12 +366,31 @@ case $1 in
         echo "VSPERF verify job"
         echo "================="
 
+        sudo umount /dev/hugepages
+        mount | grep huge
+        sudo bash -c "echo 0 > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages"
+        sudo bash -c "echo 0 > /sys/devices/system/node/node1/hugepages/hugepages-2048kB/nr_hugepages"
+        sudo bash -c "echo 2048 > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages"
+        sudo bash -c "echo 2048 > /sys/devices/system/node/node1/hugepages/hugepages-2048kB/nr_hugepages"
+        sudo umount /dev/hugepages
+        mount | grep huge
+        head /sys/devices/system/node/node*/hugepages/hugepages*/*
+        echo "-------------------------------------------------------------------"
+        mount
+        echo "-------------------------------------------------------------------"
+
         terminate_vsperf
         execute_vsperf_sanity
         terminate_vsperf
         execute_vsperf OVS_with_DPDK_and_vHost_User $1
         terminate_vsperf
         execute_vsperf OVS_vanilla $1
+
+        echo "-------------------------------------------------------------------"
+        head /sys/devices/system/node/node*/hugepages/hugepages*/*
+        echo "-------------------------------------------------------------------"
+        mount
+        echo "-------------------------------------------------------------------"
 
         exit $EXIT
         ;;
