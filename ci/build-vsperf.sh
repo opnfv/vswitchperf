@@ -43,10 +43,10 @@ VSPERFENV_DIR="$HOME/vsperfenv"
 # CI job specific configuration
 # VERIFY - run basic set of TCs with default settings
 TESTCASES_VERIFY="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
-TESTPARAM_VERIFY="--integration --test-params HUGEPAGE_RAM_ALLOCATION=2097152"
+TESTPARAM_VERIFY="--integration"
 # MERGE - run selected TCs with default settings
 TESTCASES_MERGE="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
-TESTPARAM_MERGE="--integration --test-params HUGEPAGE_RAM_ALLOCATION=2097152"
+TESTPARAM_MERGE="--integration"
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
@@ -170,8 +170,10 @@ function execute_vsperf() {
             LOG_SUBDIR="OvsDpdkVhost"
             LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
 
+            hugepages_info > $LOG_FILE
             echo "    $VSPERF_BIN $OPNFVPOD --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
-            $VSPERF_BIN $OPNFVPOD --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &> $LOG_FILE
+            $VSPERF_BIN $OPNFVPOD --vswitch OvsDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &>> $LOG_FILE
+            hugepages_info >> $LOG_FILE
             ;;
     esac
 
@@ -331,6 +333,19 @@ function dependencies_check() {
     fi
 }
 
+# configure hugepages
+function configure_hugepages() {
+    sudo bash -c "echo 2048 > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages"
+    sudo bash -c "echo 0 > /sys/devices/system/node/node1/hugepages/hugepages-2048kB/nr_hugepages"
+}
+
+# dump hugepages configuration
+function hugepages_info() {
+    echo "-------------------------------------------------------------------"
+    head /sys/devices/system/node/node*/hugepages/hugepages*/*
+    echo "-------------------------------------------------------------------"
+}
+
 #
 # main
 #
@@ -360,6 +375,9 @@ dependencies_check
 
 # initialization
 initialize_logdir
+
+# configure hugepages
+configure_hugepages
 
 # execute job based on passed parameter
 case $1 in
