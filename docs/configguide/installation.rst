@@ -13,7 +13,7 @@ Supported Operating Systems
 * Fedora 20
 * Fedora 21
 * Fedora 22
-* RedHat 7.2
+* RedHat 7.2 Enterprise
 * Ubuntu 14.04
 
 Supported vSwitches
@@ -99,8 +99,8 @@ reside in a directory called **vsperfenv** in $HOME.
 You will need to activate the virtual environment every time you start a
 new shell session. Its activation is specific to your OS:
 
-CentOS 7
-========
+CentOS 7 and RedHat
+===================
 
 .. code:: bash
 
@@ -108,8 +108,8 @@ CentOS 7
     $ cd $HOME/vsperfenv
     $ source bin/activate
 
-Fedora, RedHat and Ubuntu
-=========================
+Fedora and Ubuntu
+=================
 
 .. code:: bash
 

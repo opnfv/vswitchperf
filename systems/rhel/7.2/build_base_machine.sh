@@ -78,23 +78,15 @@ if [ "${#failedinstall[*]}" -gt 0 ]; then
     exit 1
 fi
 
-# python34 is not yet available to Red Hat customers so we will just build
-# it as an alternate install in usr/local for use with VSPerf. This prevents
-# any functionality issues with pre-installed packages using python.
-wget https://www.python.org/ftp/python/3.4.2/Python-3.4.2.tar.xz
-tar -xf Python-3.4.2.tar.xz
-cd Python-3.4.2
-./configure
-make
-make altinstall
-cd ..
+# install SCL for python33
+wget https://www.softwarecollections.org/en/scls/rhscl/python33/epel-7-x86_64/download/rhscl-python33-epel-7-x86_64.noarch.rpm
+rpm -i rhscl-python33-epel-7-x86_64.noarch.rpm
 
-# cleanup
-rm -Rf Python-3.4.2
-rm -f Python-3.4.2.tar.xz
-
-# need virtualenv
-pip3.4 install virtualenv
+# install python33 packages and git-review tool
+yum -y install $(echo "
+python33
+python33-python-tkinter
+" | grep -v ^#)
 
 # Create hugepage dirs
 mkdir -p /dev/hugepages
