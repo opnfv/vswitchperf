@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_667ed0b0",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-11-28T22:09:21Z",
+      "side": 1,
+      "message": "white space trailing...",
+      "revId": "0255672c1f13448f6b7be97e40a2307e851b3cd5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_064b4c88",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-11-28T22:09:21Z",
+      "side": 1,
+      "message": "trailing white space",
+      "revId": "0255672c1f13448f6b7be97e40a2307e851b3cd5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
