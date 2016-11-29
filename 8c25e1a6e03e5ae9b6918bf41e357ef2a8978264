@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_10db811c",
+        "filename": "yardstick/tests/rfc2544_continuous_dummy.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-11-29T21:35:25Z",
+      "side": 1,
+      "message": "I suggest to add a comment: The throughput SLA (or any other SLA) cannot be set to a meaningful value without knowledge of the server and networking environment, possibly including prior testing in that environment to establish a baseline SLA level under well-understood circumstances.",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "8c25e1a6e03e5ae9b6918bf41e357ef2a8978264",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_f0091596",
+        "filename": "yardstick/tests/rfc2544_throughput_dummy.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2016-11-29T21:35:25Z",
+      "side": 1,
+      "message": "same as previous, add comment.",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "8c25e1a6e03e5ae9b6918bf41e357ef2a8978264",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
