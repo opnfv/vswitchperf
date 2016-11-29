@@ -2,6 +2,108 @@
   "comments": [
     {
       "key": {
+        "uuid": "5ac10518_bd49268d",
+        "filename": "conf/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-29T21:02:52Z",
+      "side": 1,
+      "message": "update needed",
+      "revId": "0255672c1f13448f6b7be97e40a2307e851b3cd5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_5d5e0247",
+        "filename": "conf/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-29T21:02:52Z",
+      "side": 1,
+      "message": "update needed",
+      "revId": "0255672c1f13448f6b7be97e40a2307e851b3cd5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_bd404657",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-29T21:02:52Z",
+      "side": 1,
+      "message": "What about TCs description? May be we should update them too as they are explicitly using RFC2544 continuous/throughput/back2back tests, so we should mention it explicitly in the description too.\n\nIn case you would agree, then all TCs must be checked and updated accordingly.",
+      "revId": "0255672c1f13448f6b7be97e40a2307e851b3cd5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_7d5bbe54",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-29T21:02:52Z",
+      "side": 1,
+      "message": "update needed",
+      "revId": "0255672c1f13448f6b7be97e40a2307e851b3cd5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_dd31920c",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-29T21:02:52Z",
+      "side": 1,
+      "message": "update needed",
+      "revId": "0255672c1f13448f6b7be97e40a2307e851b3cd5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_5d25a2c0",
+        "filename": "core/traffic_controller_rfc2544.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-29T21:02:52Z",
+      "side": 1,
+      "message": "I recommend to update it to catch TCs with wrong (old) traffic type. Just for case, that vsperf users\u0027 are using their own tests.\n\ne.g.\nelif traffic[\u0027traffic_type\u0027] \u003d\u003d \u0027rfc2544_throughput\u0027:\n...\nelse:\n   raise RuntimeError(\"Unsupported traffic type {} was detected\".format(traffic[\u0027traffic_type\u0027])",
+      "revId": "0255672c1f13448f6b7be97e40a2307e851b3cd5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_667ed0b0",
         "filename": "docs/design/trafficgen_integration_guide.rst",
         "patchSetId": 1
@@ -13,6 +115,24 @@
       "writtenOn": "2016-11-28T22:09:21Z",
       "side": 1,
       "message": "white space trailing...",
+      "revId": "0255672c1f13448f6b7be97e40a2307e851b3cd5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_dd18b286",
+        "filename": "docs/design/trafficgen_integration_guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-11-29T21:02:52Z",
+      "side": 1,
+      "message": "and a typo rfc2544)continuous \u003d\u003e should be rfc2544_continuous",
+      "parentUuid": "5ac10518_667ed0b0",
       "revId": "0255672c1f13448f6b7be97e40a2307e851b3cd5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
