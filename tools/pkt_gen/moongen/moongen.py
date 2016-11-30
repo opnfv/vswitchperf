@@ -222,7 +222,7 @@ class Moongen(ITrafficGenerator):
                           "@" + self._moongen_host_ip_addr
 
         cmd_find_moongen = connect_moongen + " ls " + \
-                           self._moongen_base_dir + "/examples/opnfv-vsperf.lua"
+                           self._moongen_base_dir + "/trafficgen.lua"
 
         find_moongen = subprocess.Popen(cmd_find_moongen,
                                         shell=True,
@@ -367,7 +367,7 @@ class Moongen(ITrafficGenerator):
             self._moongen_host_ip_addr
 
         cmd_moongen = " 'cd " + self._moongen_base_dir + \
-            "; ./build/MoonGen examples/opnfv-vsperf.lua | tee moongen_log.txt'"
+            "; ./MoonGen/build/MoonGen trafficgen.lua | tee moongen_log.txt'"
 
         cmd_start_moongen = connect_moongen + cmd_moongen
 
