@@ -443,23 +443,22 @@ https://github.com/emmericp/MoonGen
 
 * Note:  Today, MoonGen with VSPERF only supports 10Gbps line speeds.
 
-For VSPerf use, MoonGen should be cloned from here (as opposed to the previously
-mentioned GitHub):
+For VSPERF use, MoonGen should be cloned from here (as opposed to the
+previously mentioned GitHub):
 
-git clone https://github.com/atheurer/MoonGen
+git clone https://github.com/atheurer/lua-trafficgen
 
-and use the opnfv-stable branch:
+and use the master branch:
 
-git checkout opnfv-stable
+git checkout master
 
-VSPerf uses a particular example script under the examples directory within
-the MoonGen project:
+VSPERF uses a particular Lua script with the MoonGen project:
 
-MoonGen/examples/opnfv-vsperf.lua
+trafficgen.lua
 
-Follow MoonGen set up instructions here:
+Follow MoonGen set up and execution instructions here:
 
-https://github.com/atheurer/MoonGen/blob/opnfv-stable/MoonGenSetUp.html
+https://github.com/atheurer/lua-trafficgen/blob/master/README.md
 
 Note one will need to set up ssh login to not use passwords between the server
 running MoonGen and the device under test (running the VSPERF test
