@@ -25,6 +25,7 @@ own.
 
 import json
 
+from conf import settings
 from tools.pkt_gen import trafficgen
 from core.results.results_constants import ResultsConstants
 
@@ -76,7 +77,10 @@ def get_user_traffic(traffic_type, traffic_conf, flow_conf, traffic_stats):
           % (traffic_type, traffic_conf, json.dumps(flow_conf, indent=4)))
 
     for stat in traffic_stats:
-        results.append(_get_user_traffic_stat(stat))
+        if stat in settings.getValue('TRAFFICGEN_DUMMY_RESULTS'):
+            results.append(settings.getValue('TRAFFICGEN_DUMMY_RESULTS')[stat])
+        else:
+            results.append(_get_user_traffic_stat(stat))
 
     return results
 
@@ -206,6 +210,33 @@ class Dummy(trafficgen.ITrafficGenerator):
         result[ResultsConstants.FRAME_LOSS_PERCENT] = float(results[7])
         return result
 
+    def send_rfc2544_back2back(self, traffic=None, tests=1, duration=2,
+                               lossrate=0.0):
+        """
+        Send traffic per RFC2544 back2back test specifications.
+        """
+        traffic_ = self.traffic_defaults.copy()
+        result = {}
+
+        if traffic:
+            traffic_ = trafficgen.merge_spec(traffic_, traffic)
+
+        results = get_user_traffic(
+            'back2back',
+            '%d tests, %d seconds iterations, %f packet loss, multistream '
+            '%s' % (tests, duration, lossrate, traffic['multistream']),
+            traffic_,
+            ('b2b frames', 'b2b frame loss %'))
+
+        framesize = traffic_['l2']['framesize']
+
+        # builds results by using user-supplied values
+        # and guessing remainder using available info
+        result[ResultsConstants.B2B_FRAMES] = float(results[0])
+        result[ResultsConstants.B2B_FRAME_LOSS_PERCENT] = float(results[1])
+        return result
+
+
 
 if __name__ == '__main__':
     TRAFFIC = {
@@ -219,4 +250,6 @@ if __name__ == '__main__':
     with Dummy() as dev:
         print(dev.send_burst_traffic(traffic=TRAFFIC))
         print(dev.send_cont_traffic(traffic=TRAFFIC))
+        print(dev.send_rfc2544_throughput(traffic=TRAFFIC))
+        print(dev.send_rfc2544_back2back(traffic=TRAFFIC))
         print(dev.send_rfc(traffic=TRAFFIC))
