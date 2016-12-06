@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Bill Michalowski <bmichalo@redhat.com>
+Code-Review+1: Al Morton <acmorton@att.com>
+Code-Review+2: Christian Trautman <ctrautma@redhat.com>
+Submitted-by: Christian Trautman <ctrautma@redhat.com>
+Submitted-at: Tue, 06 Dec 2016 19:01:14 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/25275
+Project: vswitchperf
+Branch: refs/heads/master
