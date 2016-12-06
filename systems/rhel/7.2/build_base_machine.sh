@@ -78,15 +78,28 @@ if [ "${#failedinstall[*]}" -gt 0 ]; then
     exit 1
 fi
 
-# install SCL for python33
-wget https://www.softwarecollections.org/en/scls/rhscl/python33/epel-7-x86_64/download/rhscl-python33-epel-7-x86_64.noarch.rpm
-rpm -i rhscl-python33-epel-7-x86_64.noarch.rpm
+# install SCL for python33 by adding a repo to find its location to install it
+cat <<'EOT' >> /etc/yum.repos.d/python33.repo
+[rhscl-python33-el7]
+name=Copr repo for python33-el7 owned by rhscl
+baseurl=https://copr-be.cloud.fedoraproject.org/results/rhscl/python33-el7/epel-7-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/rhscl/python33-el7/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+EOT
 
 # install python33 packages and git-review tool
 yum -y install $(echo "
 python33
 python33-python-tkinter
 " | grep -v ^#)
+
+# cleanup python 33 repo file
+rm -f /etc/yum.repos.d/python33.repo
 
 # Create hugepage dirs
 mkdir -p /dev/hugepages

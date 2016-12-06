@@ -69,8 +69,7 @@ epel-release
 " | grep -v ^#)
 
 # install SCL for python33
-wget https://www.softwarecollections.org/en/scls/rhscl/python33/epel-7-x86_64/download/rhscl-python33-epel-7-x86_64.noarch.rpm
-rpm -i rhscl-python33-epel-7-x86_64.noarch.rpm
+sudo yum -y install centos-release-scl
 
 # install python33 packages and git-review tool
 yum -y install $(echo "
