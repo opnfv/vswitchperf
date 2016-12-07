@@ -674,9 +674,10 @@ Supported CLI options useful for traffic generator configuration are:
 
 .. code-block:: console
 
-    'traffic_type'  - One of the supported traffic types. E.g. rfc2544,
-                      back2back or continuous
-                      Default value is "rfc2544".
+    'traffic_type'  - One of the supported traffic types. E.g.
+                      rfc2544_throughput,
+                      rfc2544_back2back or rfc2544_continuous
+                      Default value is "rfc2544_throughput".
     'bidirectional' - Specifies if generated traffic will be full-duplex (true)
                       or half-duplex (false)
                       Default value is "false".
@@ -697,7 +698,7 @@ Example of execution of VSPERF in "trafficgen" mode:
 .. code-block:: console
 
     $ ./vsperf -m trafficgen --trafficgen IxNet --conf-file vsperf.conf \
-        --test-params "traffic_type=continuous;bidirectional=True;iload=60"
+        --test-params "traffic_type=rfc2544_continuous;bidirectional=True;iload=60"
 
 Code change verification by pylint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
