@@ -19,9 +19,11 @@
 # Contributors:
 #   Aihua Li, Huawei Technologies.
 #   Martin Klozik, Intel Corporation.
+#   Christian Trautman, Red Hat Inc.
 
 include ../mk/master.mk
 include ../package-list.mk
+include /etc/os-release
 
 .PHONY: install force_make
 
@@ -76,6 +78,12 @@ ifdef CONFIG_FILE_BASE
 else
 	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_VHOST_USER=.\+/CONFIG_RTE_LIBRTE_VHOST_USER=$(VHOST_USER)/g' $(CONFIG_FILE_LINUXAPP)
 	$(AT)sed -i -e 's/CONFIG_RTE_BUILD_COMBINE_LIBS=./CONFIG_RTE_BUILD_COMBINE_LIBS=y/g' $(CONFIG_FILE_LINUXAPP)
+endif
+# RHEL Enterprise 7.3 specific config changes to compile
+ifeq ($(ID),"rhel")
+ifeq ($(VERSION_ID),"7.3")
+	$(AT)sed -i.bak s@'SRCS-y += ethtool/igb/igb_main.c'@'#SRCS-y += ethtool/igb/igb_main.c'@g $(WORK_DIR)/lib/librte_eal/linuxapp/kni/Makefile
+endif
 endif
 	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_VHOST=./CONFIG_RTE_LIBRTE_VHOST=y/g' $(CONFIG_FILE_LINUXAPP)
 	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_KNI=./CONFIG_RTE_LIBRTE_KNI=n/g' $(CONFIG_FILE_LINUXAPP)

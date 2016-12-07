@@ -257,6 +257,57 @@ that DPDK sources are not available, then vsperf will continue with test executi
 but testpmd can't be used as a guest loopback. This is useful in case, that other guest
 loopback applications (e.g. buildin or l2fwd) are used.
 
+Note: In case of Rhel 7.3 OS usage, binary package configuration is required
+for Vanilla OVS tests. With the installation of a supported rpm for OVS the
+following modification to the ``02_vswitch.conf`` file will work.
+
+Note: The modification for the openvswitch.ko file path will depend on your
+kernel version.
+
+.. code-block:: python
+
+    PATHS['vswitch'] = {
+        'none' : {      # used by SRIOV tests
+            'type' : 'src',
+            'src' : {},
+        },
+        'OvsDpdkVhost': {
+            'type' : 'bin',
+            'src': {
+                'path': os.path.join(ROOT_DIR, 'src/ovs/ovs/'),
+                'ovs-vswitchd': 'vswitchd/ovs-vswitchd',
+                'ovsdb-server': 'ovsdb/ovsdb-server',
+                'ovsdb-tool': 'ovsdb/ovsdb-tool',
+                'ovsschema': 'vswitchd/vswitch.ovsschema',
+                'ovs-vsctl': 'utilities/ovs-vsctl',
+                'ovs-ofctl': 'utilities/ovs-ofctl',
+                'ovs-dpctl': 'utilities/ovs-dpctl',
+                'ovs-appctl': 'utilities/ovs-appctl',
+            },
+        'bin': {
+                'ovs-vswitchd': 'ovs-vswitchd',
+                'ovsdb-server': 'ovsdb-server',
+                'ovsdb-tool': 'ovsdb-tool',
+                'ovsschema': '/usr/share/openvswitch/vswitch.ovsschema',
+                'ovs-vsctl': 'ovs-vsctl',
+                'ovs-ofctl': 'ovs-ofctl',
+                'ovs-dpctl': 'ovs-dpctl',
+                'ovs-appctl': 'ovs-appctl',
+            }
+        },
+        'ovs_var_tmp': '/var/run/openvswitch/',
+        'ovs_etc_tmp': '/etc/openvswitch/',
+    }
+
+    PATHS['vswitch'].update({'OvsVanilla' : copy.deepcopy(PATHS['vswitch']['OvsDpdkVhost'])})
+    PATHS['vswitch']['OvsVanilla']['src']['path'] = os.path.join(ROOT_DIR, 'src_vanilla/ovs/ovs/')
+    PATHS['vswitch']['OvsVanilla']['src']['modules'] = ['datapath/linux/openvswitch.ko']
+    PATHS['vswitch']['OvsVanilla']['bin']['modules'] = [
+        'libcrc32c', 'ip_tunnel', 'vxlan', 'gre', 'nf_nat', 'nf_nat_ipv6',
+        'nf_nat_ipv4', 'nf_conntrack', 'nf_defrag_ipv4', 'nf_defrag_ipv6',
+        '/usr/lib/modules/3.10.0-514.el7.x86_64/kernel/net/openvswitch/openvswitch.ko']
+
+
 .. _VSPERF installation scripts: http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html#other-requirements
 
 Configuration of GUEST options
