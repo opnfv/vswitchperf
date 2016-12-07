@@ -16,6 +16,57 @@
       "revId": "aae6397d642edbcaff8310b2c899981b88c7f08f",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_9490b8ed",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-12-07T09:01:27Z",
+      "side": 1,
+      "message": "update still needed! throughput\u003d\u003erfc2544_throughput",
+      "revId": "aae6397d642edbcaff8310b2c899981b88c7f08f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_34bd4469",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-12-07T09:01:27Z",
+      "side": 1,
+      "message": "update still needed! continuous\u003d\u003erfc2544_continuous",
+      "revId": "aae6397d642edbcaff8310b2c899981b88c7f08f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_1982c14f",
+        "filename": "core/traffic_controller_rfc2544.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-12-07T09:01:27Z",
+      "side": 1,
+      "message": "syntax error - missing closing parentheses \u0027)\u0027 \u003d\u003e error is visible in output of verify job",
+      "revId": "aae6397d642edbcaff8310b2c899981b88c7f08f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
