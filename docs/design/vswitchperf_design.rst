@@ -257,6 +257,10 @@ that DPDK sources are not available, then vsperf will continue with test executi
 but testpmd can't be used as a guest loopback. This is useful in case, that other guest
 loopback applications (e.g. buildin or l2fwd) are used.
 
+Note: In case of Rhel 7.3 OS usage, binary package configuration is required
+for Vanilla OVS tests. With the installation of a supported rpm for OVS there is
+a section in the ``conf\10_custom.conf`` file that can be used.
+
 .. _VSPERF installation scripts: http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html#other-requirements
 
 Configuration of GUEST options
