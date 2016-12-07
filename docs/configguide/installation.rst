@@ -13,7 +13,8 @@ Supported Operating Systems
 * Fedora 20
 * Fedora 21
 * Fedora 22
-* RedHat 7.2 Enterprise
+* RedHat 7.2 Enterprise Linux
+* RedHat 7.3 Enterprise Linux
 * Ubuntu 14.04
 
 Supported vSwitches
@@ -26,15 +27,15 @@ The vSwitch must support Open Flow 1.3 or greater.
 Supported Hypervisors
 ---------------------
 
-* Qemu version 2.3.
+* Qemu version 2.3 or greater.
 
 Available VNFs
 --------------
 A simple VNF that forwards traffic through a VM, using:
 
 * DPDK testpmd
-* Linux Brigde
-* custom l2fwd module
+* Linux Bridge
+* Custom l2fwd module
 
 The official VM image is called vloop-vnf and it is available for free
 download at OPNFV website.
@@ -89,18 +90,22 @@ automatically.
 
 Script **build_base_machine.sh** will install all the vsperf dependencies
 in terms of system packages, Python 3.x and required Python modules.
-In case of CentOS 7 it will install Python 3.3 from an additional repository
-provided by Software Collections (`a link`_). In case of RedHat 7 it will
-install Python 3.4 as an alternate installation in /usr/local/bin. Installation
-script will also use `virtualenv`_ to create a vsperf virtual environment,
-which is isolated from the default Python environment. This environment will
-reside in a directory called **vsperfenv** in $HOME.
+In case of CentOS 7 or RHEL it will install Python 3.3 from an additional
+repository provided by Software Collections (`a link`_). Installation script
+will also use `virtualenv`_ to create a vsperf virtual environment, which is
+isolated from the default Python environment. This environment will reside in a
+directory called **vsperfenv** in $HOME.
+
+**Please Note**: For Rhel 7.3 Enterprise OVS Vanilla is not built from upstream
+source due to kernel incompatibilities. Please see the instructions in the
+vswitchperf_design document for details on configuring OVS Vanilla for binary
+package usage.
 
 You will need to activate the virtual environment every time you start a
 new shell session. Its activation is specific to your OS:
 
-CentOS 7 and RedHat
-===================
+CentOS 7 and RHEL
+=================
 
 .. code:: bash
 
