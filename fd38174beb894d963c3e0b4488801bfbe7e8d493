@@ -73,6 +73,29 @@
       "revId": "fd38174beb894d963c3e0b4488801bfbe7e8d493",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_7e4646c1",
+        "filename": "systems/rhel/7.3/prepare_python_env.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2016-12-08T13:58:29Z",
+      "side": 1,
+      "message": "7.3",
+      "range": {
+        "startLine": 3,
+        "startChar": 60,
+        "endLine": 3,
+        "endChar": 61
+      },
+      "revId": "fd38174beb894d963c3e0b4488801bfbe7e8d493",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
