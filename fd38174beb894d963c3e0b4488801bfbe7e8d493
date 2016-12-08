@@ -22,6 +22,57 @@
       "revId": "fd38174beb894d963c3e0b4488801bfbe7e8d493",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_7ed8861d",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-12-08T12:45:28Z",
+      "side": 1,
+      "message": "I would rather recommend to put configuration changes to the 10_custom.conf. In that case you don\u0027t need to repeat all the options and their default values below, but (probably) just mention the need to enforce binary version of \"OvsVanilla\" (see next comment). It seems, that the rest of PATHS configuration is untouched.\n\nThe whole section with all default values might look a bit scary...",
+      "revId": "fd38174beb894d963c3e0b4488801bfbe7e8d493",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_beceee58",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-12-08T12:45:28Z",
+      "side": 1,
+      "message": "It can be simplified just to [\u0027openvswitch\u0027]. Vsperf will use modprobe to load openvswitch module and all its dependencies.\n\nWe should add also following to enforce bin usage for Vanilla:\nPATHS[\u0027vswitch\u0027][\u0027OvsVanilla\u0027][\u0027type\u0027] \u003d \u0027bin\u0027",
+      "revId": "fd38174beb894d963c3e0b4488801bfbe7e8d493",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_dee73ae3",
+        "filename": "systems/rhel/7.3/build_base_machine.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-12-08T12:45:28Z",
+      "side": 1,
+      "message": "RHEL 7.3",
+      "revId": "fd38174beb894d963c3e0b4488801bfbe7e8d493",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
