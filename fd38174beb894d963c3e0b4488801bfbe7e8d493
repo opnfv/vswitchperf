@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5ac10518_1775a597",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5467
+      },
+      "writtenOn": "2016-12-09T16:33:14Z",
+      "side": 1,
+      "message": "Just a small cosmetic change:\n\nRed Hat Enterprise Linux 7.2\nRed Hat Enterprise Linux 7.3",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "fd38174beb894d963c3e0b4488801bfbe7e8d493",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_f77339af",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5467
+      },
+      "writtenOn": "2016-12-09T16:33:14Z",
+      "side": 1,
+      "message": "RHEL",
+      "range": {
+        "startLine": 93,
+        "startChar": 23,
+        "endLine": 93,
+        "endChar": 27
+      },
+      "revId": "fd38174beb894d963c3e0b4488801bfbe7e8d493",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_ab954e41",
         "filename": "docs/configguide/installation.rst",
         "patchSetId": 3
@@ -18,6 +64,52 @@
         "startChar": 56,
         "endLine": 99,
         "endChar": 70
+      },
+      "revId": "fd38174beb894d963c3e0b4488801bfbe7e8d493",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_d76e3dc9",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5467
+      },
+      "writtenOn": "2016-12-09T16:33:14Z",
+      "side": 1,
+      "message": "RHEL",
+      "range": {
+        "startLine": 107,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 19
+      },
+      "revId": "fd38174beb894d963c3e0b4488801bfbe7e8d493",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_b765b1e2",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5467
+      },
+      "writtenOn": "2016-12-09T16:33:14Z",
+      "side": 1,
+      "message": "RHEL",
+      "range": {
+        "startLine": 260,
+        "startChar": 17,
+        "endLine": 260,
+        "endChar": 21
       },
       "revId": "fd38174beb894d963c3e0b4488801bfbe7e8d493",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
