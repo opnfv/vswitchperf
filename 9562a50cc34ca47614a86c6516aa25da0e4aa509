@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_48270765",
+        "filename": "systems/ubuntu/16.04",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-12-13T12:06:51Z",
+      "side": 1,
+      "message": "installation scripts for Ubuntu 14.04 works well for both 16.04 and 16.10. Thus only a symlinks were created to avoid a copy of the same file.\n\ndrwxr-xr-x 2 mklozikx intelall 4096 Dec 12 14:39 14.04\nlrwxrwxrwx 1 mklozikx intelall    5 Dec 12 14:39 16.04 -\u003e 14.04\nlrwxrwxrwx 1 mklozikx intelall    5 Dec 12 14:39 16.10 -\u003e 16.04",
+      "revId": "9562a50cc34ca47614a86c6516aa25da0e4aa509",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
