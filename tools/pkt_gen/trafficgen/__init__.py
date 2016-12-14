@@ -16,4 +16,3 @@
 """
 
 from tools.pkt_gen.trafficgen.trafficgen import *
-from tools.pkt_gen.trafficgen.trafficgenhelper import *

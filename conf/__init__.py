@@ -20,6 +20,7 @@ and any user provided settings file.
 
 # pylint: disable=invalid-name
 
+import copy
 import os
 import re
 import logging
@@ -30,8 +31,7 @@ import netaddr
 _LOGGER = logging.getLogger(__name__)
 
 # Special test parameters which are not part of standard VSPERF configuration
-_EXTRA_TEST_PARAMS = ['bidirectional', 'traffic_type', 'iload', 'tunnel_type',
-                      'multistream', 'stream_type', 'pre-installed_flows']
+_EXTRA_TEST_PARAMS = ['TUNNEL_TYPE']
 
 # regex to parse configuration macros from 04_vnf.conf
 # it will select all patterns starting with # sign
@@ -57,9 +57,19 @@ class Settings(object):
                 return getattr(self, attr)
             else:
                 master_value = getattr(self, attr)
-                # Check if parameter value was overridden by CLI option
+                # Check if parameter value was modified by CLI option
                 cli_value = get_test_param(attr, None)
-                return cli_value if cli_value else master_value
+                if cli_value:
+                    # TRAFFIC dictionary is not overridden by CLI option
+                    # but only updated by specified values
+                    if attr == 'TRAFFIC':
+                        tmp_value = copy.deepcopy(master_value)
+                        tmp_value = merge_spec(tmp_value, cli_value)
+                        return tmp_value
+                    else:
+                        return cli_value
+                else:
+                    return master_value
         else:
             raise AttributeError("%r object has no attribute %r" %
                                  (self.__class__, attr))
@@ -137,7 +147,12 @@ class Settings(object):
         """
         for key in conf:
             if conf[key] is not None:
-                setattr(self, key.upper(), conf[key])
+                if isinstance(conf[key], dict):
+                    # recursively update dict items, e.g. TEST_PARAMS
+                    setattr(self, key.upper(),
+                            merge_spec(getattr(self, key.upper()), conf[key]))
+                else:
+                    setattr(self, key.upper(), conf[key])
 
     def load_from_env(self):
         """
@@ -271,17 +286,33 @@ def get_test_param(key, default=None):
     :returns: Value for ``key`` if found, else ``default``.
     """
     test_params = settings.getValue('TEST_PARAMS')
-    if key in test_params:
-        if not isinstance(test_params.get(key), str):
-            return test_params.get(key)
+    return test_params.get(key, default) if test_params else default
+
+def merge_spec(orig, new):
+    """Merges ``new`` dict with ``orig`` dict, and returns orig.
+
+    This takes into account nested dictionaries. Example:
+
+        >>> old = {'foo': 1, 'bar': {'foo': 2, 'bar': 3}}
+        >>> new = {'foo': 6, 'bar': {'foo': 7}}
+        >>> merge_spec(old, new)
+        {'foo': 6, 'bar': {'foo': 7, 'bar': 3}}
+
+    You'll notice that ``bar.bar`` is not removed. This is the desired result.
+    """
+    for key in orig:
+        if key not in new:
+            continue
+
+        # Not allowing derived dictionary types for now
+        # pylint: disable=unidiomatic-typecheck
+        if type(orig[key]) == dict:
+            orig[key] = merge_spec(orig[key], new[key])
         else:
-            # values are passed inside string from CLI, so we must retype them accordingly
-            try:
-                return ast.literal_eval(test_params.get(key))
-            except ValueError:
-                # for backward compatibility, we have to accept strings without quotes
-                _LOGGER.warning("Adding missing quotes around string value: %s = %s",
-                                key, str(test_params.get(key)))
-                return str(test_params.get(key))
-    else:
-        return default
+            orig[key] = new[key]
+
+    for key in new:
+        if key not in orig:
+            orig[key] = new[key]
+
+    return orig

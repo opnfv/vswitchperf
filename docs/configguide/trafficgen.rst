@@ -28,20 +28,27 @@ and configure the various traffic generators.
 
 Background Information
 ----------------------
-The traffic default configuration can be found in
-tools/pkt_gen/trafficgen/trafficgenhelper.py, and is configured as
-follows:
+The traffic default configuration can be found in **conf/03_traffic.conf**,
+and is configured as follows:
 
 .. code-block:: console
 
-    TRAFFIC_DEFAULTS = {
+    TRAFFIC = {
+        'traffic_type' : 'rfc2544_throughput',
+        'frame_rate' : 100,
+        'bidir' : 'True',  # will be passed as string in title format to tgen
+        'multistream' : 0,
+        'stream_type' : 'L4',
+        'pre_installed_flows' : 'No',           # used by vswitch implementation
+        'flow_type' : 'port',                   # used by vswitch implementation
+
         'l2': {
             'framesize': 64,
             'srcmac': '00:00:00:00:00:00',
             'dstmac': '00:00:00:00:00:00',
         },
         'l3': {
-            'proto': 'tcp',
+            'proto': 'udp',
             'srcip': '1.1.1.1',
             'dstip': '90.90.90.90',
         },

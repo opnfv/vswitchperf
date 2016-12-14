@@ -25,7 +25,7 @@ import time
 import subprocess
 
 from conf import settings as S
-from conf import get_test_param
+from conf import get_test_param, merge_spec
 import core.component_factory as component_factory
 from core.loader import Loader
 from core.results.results_constants import ResultsConstants
@@ -35,7 +35,6 @@ from tools import functions
 from tools import namespace
 from tools import veth
 from tools.teststepstools import TestStepsTools
-from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
 
 CHECK_PREFIX = 'validate_'
 
@@ -81,7 +80,7 @@ class TestCase(object):
         self._update_settings('TRAFFICGEN', cfg.get('Trafficgen', S.getValue('TRAFFICGEN')))
         test_params = copy.deepcopy(S.getValue('TEST_PARAMS'))
         tc_test_params = cfg.get('Parameters', S.getValue('TEST_PARAMS'))
-        test_params.update(tc_test_params)
+        test_params = merge_spec(test_params, tc_test_params)
         self._update_settings('TEST_PARAMS', test_params)
         S.check_test_params()
 
@@ -101,18 +100,11 @@ class TestCase(object):
         self.desc = cfg.get('Description', 'No description given.')
         self.test = cfg.get('TestSteps', None)
 
-        bidirectional = cfg.get('biDirectional', TRAFFIC_DEFAULTS['bidir'])
-        bidirectional = get_test_param('bidirectional', bidirectional)
-        if not isinstance(bidirectional, str):
+        bidirectional = S.getValue('TRAFFIC')['bidir']
+        if not isinstance(S.getValue('TRAFFIC')['bidir'], str):
             raise TypeError(
-                'Bi-dir value must be of type string in testcase configuration')
+                'Bi-dir value must be of type string')
         bidirectional = bidirectional.title()  # Keep things consistent
-
-        traffic_type = cfg.get('Traffic Type', TRAFFIC_DEFAULTS['traffic_type'])
-        traffic_type = get_test_param('traffic_type', traffic_type)
-
-        framerate = cfg.get('iLoad', TRAFFIC_DEFAULTS['frame_rate'])
-        framerate = get_test_param('iload', framerate)
 
         self.deployment = cfg['Deployment']
         self._frame_mod = cfg.get('Frame Modification', None)
@@ -125,17 +117,8 @@ class TestCase(object):
 
             if 'Tunnel Type' in cfg:
                 self._tunnel_type = cfg['Tunnel Type']
-                self._tunnel_type = get_test_param('tunnel_type',
+                self._tunnel_type = get_test_param('TUNNEL_TYPE',
                                                    self._tunnel_type)
-
-        # read configuration of streams; CLI parameter takes precedence to
-        # testcase definition
-        multistream = cfg.get('MultiStream', TRAFFIC_DEFAULTS['multistream'])
-        multistream = get_test_param('multistream', multistream)
-        stream_type = cfg.get('Stream Type', TRAFFIC_DEFAULTS['stream_type'])
-        stream_type = get_test_param('stream_type', stream_type)
-        pre_installed_flows = cfg.get('Pre-installed Flows', TRAFFIC_DEFAULTS['pre_installed_flows'])
-        pre_installed_flows = get_test_param('pre-installed_flows', pre_installed_flows)
 
         # check if test requires background load and which generator it uses
         self._load_cfg = cfg.get('Load', None)
@@ -150,15 +133,9 @@ class TestCase(object):
         self._results_dir = S.getValue('RESULTS_PATH')
 
         # set traffic details, so they can be passed to vswitch and traffic ctls
-        self._traffic = copy.deepcopy(TRAFFIC_DEFAULTS)
-        self._traffic.update({'traffic_type': traffic_type,
-                              'flow_type': cfg.get('Flow Type', TRAFFIC_DEFAULTS['flow_type']),
-                              'bidir': bidirectional,
-                              'tunnel_type': self._tunnel_type,
-                              'multistream': int(multistream),
-                              'stream_type': stream_type,
-                              'pre_installed_flows' : pre_installed_flows,
-                              'frame_rate': int(framerate)})
+        self._traffic = copy.deepcopy(S.getValue('TRAFFIC'))
+        self._traffic.update({'bidir': bidirectional,
+                              'tunnel_type': self._tunnel_type,})
 
         # Packet Forwarding mode
         self._vswitch_none = 'none' == S.getValue('VSWITCH').strip().lower()
