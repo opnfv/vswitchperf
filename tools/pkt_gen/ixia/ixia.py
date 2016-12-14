@@ -42,6 +42,7 @@ from collections import OrderedDict
 from tools import systeminfo
 from tools.pkt_gen import trafficgen
 from conf import settings
+from conf import merge_spec
 from core.results.results_constants import ResultsConstants
 
 _ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -203,7 +204,7 @@ class Ixia(trafficgen.ITrafficGenerator):
         params['traffic'] = self.traffic_defaults.copy()
 
         if traffic:
-            params['traffic'] = trafficgen.merge_spec(
+            params['traffic'] = merge_spec(
                 params['traffic'], traffic)
 
         for cmd in _build_set_cmds(params):
@@ -268,7 +269,7 @@ class Ixia(trafficgen.ITrafficGenerator):
         params['traffic'] = self.traffic_defaults.copy()
 
         if traffic:
-            params['traffic'] = trafficgen.merge_spec(
+            params['traffic'] = merge_spec(
                 params['traffic'], traffic)
 
         for cmd in _build_set_cmds(params):

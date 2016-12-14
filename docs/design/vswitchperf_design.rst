@@ -259,6 +259,130 @@ loopback applications (e.g. buildin or l2fwd) are used.
 
 .. _VSPERF installation scripts: http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html#other-requirements
 
+Configuration of TRAFFIC dictionary
+-----------------------------------
+
+TRAFFIC dictionary is used for configuration of traffic generator. Default values
+can be found in configuration file ``conf/03_traffic.conf``. These default values
+can be modified by (first option has the highest priorty):
+
+    1. ``Parameters`` section of testcase defintion
+    2. command line options specified by ``--test-params`` argument
+    3. custom configuration file
+
+It is to note, that in case of option 1 and 2, it is possible to specify only
+values, which should be changed. In case of custom configuration file, it is
+required to specify whole ``TRAFFIC`` dictionary with its all values or explicitly
+call and update() method of ``TRAFFIC`` dictionary.
+
+Detailed description of ``TRAFFIC`` dictionary items follows:
+
+.. code-block:: console
+
+    'traffic_type'  - One of the supported traffic types.
+                      E.g. rfc2544_throughput, rfc2544_back2back
+                      or rfc2544_continuous
+                      Data type: str
+                      Default value: "rfc2544_throughput".
+    'bidir'         - Specifies if generated traffic will be full-duplex (True)
+                      or half-duplex (False)
+                      Data type: str
+                      Supported values: "True", "False"
+                      Default value: "False".
+    'frame_rate'    - Defines desired percentage of frame rate used during
+                      continuous stream tests.
+                      Data type: int
+                      Default value: 100.
+    'multistream'   - Defines number of flows simulated by traffic generator.
+                      Value 0 disables multistream feature
+                      Data type: int
+                      Supported values: 0-65535
+                      Default value: 0.
+    'stream_type'   - Stream type is an extension of the "multistream" feature.
+                      If multistream is disabled, then stream type will be
+                      ignored. Stream type defines ISO OSI network layer used
+                      for simulation of multiple streams.
+                      Data type: str
+                      Supported values:
+                         "L2" - iteration of destination MAC address
+                         "L3" - iteration of destination IP address
+                         "L4" - iteration of destination port
+                                of selected transport protocol
+                      Default value: "L4".
+    'pre_installed_flows'
+                   -  Pre-installed flows is an extension of the multistream"
+                      feature. If multistream is disabled, then pre-installed
+                      flows will be ignored. It defines if stream specific flows
+                      will be inserted into OVS or not.
+                      Data type: str
+                      Supported values:
+                         "Yes" - flows will be inserted into OVS
+                         "No"  - flows won't be inserted into OVS
+                      Default value: "No".
+    'flow_type'     - Defines flows complexity.
+                      Data type: str
+                      Supported values:
+                         "port" - flow is defined by ingress ports
+                         "IP"   - flow is defined by ingress ports
+                                  and src and dst IP addresses
+                      Default value: "port"
+    'l2'            - A dictionary with l2 network layer details.Supported
+                      values are:
+        'srcmac'    - Specifies source MAC address filled by traffic generator.
+                      NOTE: It can be modified by vsperf in some scenarios.
+                      Data type: str
+                      Default value: "00:00:00:00:00:00".
+        'dstmac'    - Specifies destination MAC address filled by traffic generator.
+                      NOTE: It can be modified by vsperf in some scenarios.
+                      Data type: str
+                      Default value: "00:00:00:00:00:00".
+        'framesize' - Specifies defalut frame size. This value should not be
+                      changed directly. It will be overridden during testcase
+                      execution by values specified by list TRAFFICGEN_PKT_SIZES.
+                      Data type: int
+                      Default value: 64
+    'l3'            - A dictionary with l3 network layer details. Supported
+                      values are:
+        'srcip'     - Specifies source MAC address filled by traffic generator.
+                      NOTE: It can be modified by vsperf in some scenarios.
+                      Data type: str
+                      Default value: "1.1.1.1".
+        'dstip'     - Specifies destination MAC address filled by traffic generator.
+                      NOTE: It can be modified by vsperf in some scenarios.
+                      Data type: str
+                      Default value: "90.90.90.90".
+        'proto'     - Specifies deflaut protocol type.
+                      Please check particular traffic generator impelementation
+                      for supported protocol types.
+                      Data type: str
+                      Default value: "udp".
+    'l4'            - A dictionary with l4 network layer details. Supported
+                      values are:
+        'srcport'   - Specifies source port of selected transport protocol.
+                      NOTE: It can be modified by vsperf in some scenarios.
+                      Data type: int
+                      Default value: 3000
+        'dstport'   - Specifies destination port of selected transport protocol.
+                      NOTE: It can be modified by vsperf in some scenarios.
+                      Data type: int
+                      Default value: 3001
+    'vlan'          - A dictionary with vlan encapsulation details. Supported
+                      values are:
+        'enabled'   - Specifies if vlan encapsulation should be enalbed or
+                      disabled.
+                      Data type: bool
+                      Default value: False
+        'id'        - Specifies vlan id.
+                      Data type: int (NOTE: must fit to 12 bits)
+                      Default value: 0
+        'priority'  - Specifies a vlan priority (PCP header field).
+                      Data type: int (NOTE: must fit to 3 bits)
+                      Default value: 0
+        'cfi'       - Specifies if frames can or cannot be dropped during
+                      congestion (DEI header field).
+                      Data type: int (NOTE: must fit to 1 bit)
+                      Default value: 0
+
 Configuration of GUEST options
 ------------------------------
 

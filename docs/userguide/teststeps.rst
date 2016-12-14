@@ -374,8 +374,12 @@ That is accomplished by using "Stream Type" and "MultiStream" keywords.
         "Name": "multistream_l4",
         "Description": "Multistream on UDP ports",
         "Deployment": "clean",
-        "Stream Type": "L4",
-        "MultiStream": 4,
+        "Parameters": {
+            'TRAFFIC' : {
+                "multistream": 4,
+                "stream_type": "L4",
+            },
+        },
         "TestSteps": [
             ['vswitch', 'add_switch', 'int_br0'],   # STEP 0
             ['vswitch', 'add_phy_port', 'int_br0'], # STEP 1
@@ -542,8 +546,12 @@ destination UDP port.
         "Name": "ex_2pvp_rule_l4dp",
         "Description": "2 PVP with flows on L4 Dest Port",
         "Deployment": "clean",
-        "Stream Type": "L4",    # loop UDP ports
-        "MultiStream": 2,
+        "Parameters": {
+            'TRAFFIC' : {
+                "multistream": 2,
+                "stream_type": "L4",
+            },
+        },
         "TestSteps": [
             ['vswitch', 'add_switch', 'int_br0'],       # STEP 0
             ['vswitch', 'add_phy_port', 'int_br0'],     # STEP 1
@@ -622,12 +630,14 @@ and available in both csv and rst report files.
 
     {
         "Name": "pvvp_pvp_cont",
-        "Traffic Type": "continuous",
         "Deployment": "pvvp",
         "Description": "PVVP and PVP in parallel with Continuous Stream",
-        "biDirectional": "True",
-        "iLoad": "100",
-        "MultiStream": "2",
+        "Parameters" : {
+            "TRAFFIC" : {
+                "traffic_type" : "rfc2544_continuous",
+                "multistream": 2,
+            },
+        },
         "TestSteps": [
                         ['vswitch', 'add_vport', 'br0'],
                         ['vswitch', 'add_vport', 'br0'],
