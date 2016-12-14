@@ -30,12 +30,12 @@ scenarios:
   type: Vsperf
   options:
     testname: 'rfc2544_continuous'
-    traffic_type: 'rfc2544_continuous'
     frame_size: '64'
-    bidirectional: 'True'
-    iload: 100
     test_params: 'TRAFFICGEN_DURATION=30;
         TRAFFICGEN="Dummy";
+        TRAFFIC={
+            "traffic_type":"rfc2544_continuous"
+        };
         TRAFFICGEN_DUMMY_RESULTS={
             "frames tx":15000000,
             "frames rx":15000000,

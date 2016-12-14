@@ -36,10 +36,8 @@ import scapy.layers.inet as inet
 
 # VSPerf imports
 from conf import settings
+from conf import merge_spec
 from core.results.results_constants import ResultsConstants
-from tools.pkt_gen.trafficgen.trafficgenhelper import (
-    TRAFFIC_DEFAULTS,
-    merge_spec)
 from tools.pkt_gen.trafficgen.trafficgen import ITrafficGenerator
 
 # Xena module imports
@@ -56,10 +54,10 @@ class Xena(ITrafficGenerator):
     """
     Xena Traffic generator wrapper class
     """
-    _traffic_defaults = TRAFFIC_DEFAULTS.copy()
     _logger = logging.getLogger(__name__)
 
     def __init__(self):
+        super().__init__()
         self.mono_pipe = None
         self.xmanager = None
         self._params = {}
@@ -71,7 +69,7 @@ class Xena(ITrafficGenerator):
 
         user_home = os.path.expanduser('~')
         self._log_path = '{}/Xena/Xena2544-2G/Logs/xena2544.log'.format(
-                user_home)
+            user_home)
 
         # make the folder and log file if they doesn't exist
         if not os.path.exists(self._log_path):
@@ -79,18 +77,6 @@ class Xena(ITrafficGenerator):
 
         # empty the file contents
         open(self._log_path, 'w').close()
-
-
-    @property
-    def traffic_defaults(self):
-        """Default traffic values.
-
-        These can be expected to be constant across traffic generators,
-        so no setter is provided. Changes to the structure or contents
-        will likely break traffic generator implementations or tests
-        respectively.
-        """
-        return self._traffic_defaults
 
     @staticmethod
     def _create_throughput_result(root):
@@ -703,4 +689,3 @@ class Xena(ITrafficGenerator):
 
 if __name__ == "__main__":
     pass
-

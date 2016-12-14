@@ -26,6 +26,7 @@ own.
 import json
 
 from conf import settings
+from conf import merge_spec
 from tools.pkt_gen import trafficgen
 from core.results.results_constants import ResultsConstants
 
@@ -116,7 +117,7 @@ class Dummy(trafficgen.ITrafficGenerator):
         result = {}
 
         if traffic:
-            traffic_ = trafficgen.merge_spec(traffic_, traffic)
+            traffic_ = merge_spec(traffic_, traffic)
 
         results = get_user_traffic(
             'burst',
@@ -135,7 +136,7 @@ class Dummy(trafficgen.ITrafficGenerator):
         result[ResultsConstants.PAYLOAD_ERR] = results[1]
         result[ResultsConstants.SEQ_ERR] = results[2]
 
-        return trafficgen.BurstResult(*results)
+        return results
 
     def send_cont_traffic(self, traffic=None, duration=30):
         """
@@ -145,7 +146,7 @@ class Dummy(trafficgen.ITrafficGenerator):
         result = {}
 
         if traffic:
-            traffic_ = trafficgen.merge_spec(traffic_, traffic)
+            traffic_ = merge_spec(traffic_, traffic)
 
         results = get_user_traffic(
             'continuous',
@@ -182,7 +183,7 @@ class Dummy(trafficgen.ITrafficGenerator):
         result = {}
 
         if traffic:
-            traffic_ = trafficgen.merge_spec(traffic_, traffic)
+            traffic_ = merge_spec(traffic_, traffic)
 
         results = get_user_traffic(
             'throughput',
@@ -219,7 +220,7 @@ class Dummy(trafficgen.ITrafficGenerator):
         result = {}
 
         if traffic:
-            traffic_ = trafficgen.merge_spec(traffic_, traffic)
+            traffic_ = merge_spec(traffic_, traffic)
 
         results = get_user_traffic(
             'back2back',

@@ -28,11 +28,8 @@ scenarios:
   type: Vsperf
   options:
     testname: 'p2p_rfc2544_throughput'
-    traffic_type: 'rfc2544_throughput'
     frame_size: '64'
-    bidirectional: 'True'
-    iload: 100
-    test_params: 'TRAFFICGEN_DURATION=30;'
+    test_params: 'TRAFFICGEN_DURATION=30;TRAFFIC={"traffic_type":"rfc2544_throughput"}'
     trafficgen_port1: 'eth1'
     trafficgen_port2: 'eth3'
     external_bridge: 'br-ex'

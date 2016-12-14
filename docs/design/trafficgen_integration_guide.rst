@@ -81,29 +81,28 @@ Step 3 - configuration
 
 All configuration values, required for correct traffic generator function, are passed
 from VSPERF to the traffic generator in a dictionary. Default values shared among
-all traffic generators are defined in **tools/pkt_gen/trafficgen/trafficgenhelper.py**
-as **TRAFFIC_DEFAULTS** dictionary. Default values are loaded by **ITrafficGenerator**
-interface class automatically, so it is not needed to load them explicitly. In case
-that there are any traffic generator specific default values, then they should
-be set within class specific **__init__** function.
+all traffic generators are defined in **conf/03_traffic.conf** within **TRAFFIC**
+dictionary. Default values are loaded by **ITrafficGenerator** interface class
+automatically, so it is not needed to load them explicitly. In case that there are
+any traffic generator specific default values, then they should be set within class
+specific **__init__** function.
 
 VSPERF passes test specific configuration within **traffic** dictionary to every
 start and send function. So implementation of these functions must ensure,
 that default values are updated with the testcase specific values. Proper merge
-of values is assured by call of **merge_spec** function from **trafficgenhelper**
-module.
+of values is assured by call of **merge_spec** function from **conf** module.
 
 Example of **merge_spec** usage in **tools/pkt_gen/sample_tg/sample_tg.py** module:
 
 .. code-block:: python
 
-    from tools.pkt_gen.trafficgen.trafficgenhelper import merge_spec
+    from conf import merge_spec
 
     def start_rfc2544_throughput(self, traffic=None, duration=30):
         self._params = {}
         self._params['traffic'] = self.traffic_defaults.copy()
         if traffic:
-            self._params['traffic'] = trafficgen.merge_spec(
+            self._params['traffic'] = merge_spec(
                 self._params['traffic'], traffic)
 
 
@@ -199,8 +198,7 @@ functions:
         e.g. **rfc2544_throughput**, **rfc2544_continuous**
         or **rfc2544_back2back**.
       * param **frame_rate**: Defines desired percentage of frame
-        rate used during continuous stream tests. It can be set by test
-        parameter iLoad or by CLI parameter iload.
+        rate used during continuous stream tests.
       * param **bidir**: Specifies if generated traffic will be full-duplex
         (true) or half-duplex (false).
       * param **multistream**: Defines number of flows simulated by traffic
