@@ -30,7 +30,7 @@ scenarios:
   type: Vsperf
   options:
     testname: 'rfc2544_continuous'
-    traffic_type: 'continuous'
+    traffic_type: 'rfc2544_continuous'
     frame_size: '64'
     bidirectional: 'True'
     iload: 100

@@ -30,7 +30,7 @@ scenarios:
   type: Vsperf
   options:
     testname: 'rfc2544_throughput'
-    traffic_type: 'rfc2544'
+    traffic_type: 'rfc2544_throughput'
     frame_size: '64'
     bidirectional: 'True'
     iload: 100

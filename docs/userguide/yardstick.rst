@@ -146,7 +146,7 @@ Example of yaml file:
       type: Vsperf
       options:
         testname: 'p2p_rfc2544_throughput'
-        traffic_type: 'rfc2544'
+        traffic_type: 'rfc2544_throughput'
         frame_size '64'
         bidirectional: 'True'
         iload: 100
@@ -183,7 +183,8 @@ are identical to the vswitchperf parameters passed through ``--test-params``
 argument. Following options are supported:
 
 - **traffic_type** - specifies the type of traffic executed by traffic generator;
-  valid values are "rfc2544", "continuous" and "back2back"; Default: 'rfc2544'
+  Valid values are ``rfc2544_throughput``, ``rfc2544_continuous`` and ``rfc2544_back2back``.
+  Default: ``rfc2544_throughput``
 - **frame_size** - a packet size for which test should be executed;
   Multiple packet sizes can be tested by modification of Sequence runner
   section inside YAML definition. Default: '64'

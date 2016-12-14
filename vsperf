@@ -506,7 +506,7 @@ def main():
 
     settings.setValue('mode', args['mode'])
 
-    # set dpdk and ovs paths accorfing to VNF and VSWITCH
+    # set dpdk and ovs paths according to VNF and VSWITCH
     if settings.getValue('mode') != 'trafficgen':
         functions.settings_update_paths()
 

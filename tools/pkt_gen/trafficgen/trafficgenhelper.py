@@ -21,7 +21,7 @@ from collections import namedtuple
 
 CMD_PREFIX = 'gencmd : '
 TRAFFIC_DEFAULTS = {
-    'traffic_type' : 'rfc2544',
+    'traffic_type' : 'rfc2544_throughput',
     'frame_rate' : 100,
     'bidir' : 'False',  # will be passed as string in title format to tgen
     'multistream' : 0,

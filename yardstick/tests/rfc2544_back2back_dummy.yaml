@@ -30,7 +30,7 @@ scenarios:
   type: Vsperf
   options:
     testname: 'rfc2544_back2back'
-    traffic_type: 'back2back'
+    traffic_type: 'rfc2544_back2back'
     frame_size: '64'
     bidirectional: 'True'
     iload: 100
