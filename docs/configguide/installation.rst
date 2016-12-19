@@ -15,6 +15,8 @@ Supported Operating Systems
 * Fedora 22
 * RedHat 7.2 Enterprise
 * Ubuntu 14.04
+* Ubuntu 16.04
+* Ubuntu 16.10 (kernel 4.8 requires DPDK 16.11 and newer)
 
 Supported vSwitches
 -------------------
