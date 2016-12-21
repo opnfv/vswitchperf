@@ -16,6 +16,23 @@
       "revId": "d89c33408276b9dd8b9376d6a5aede499caa607d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_d672ac7b",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-12-21T17:48:03Z",
+      "side": 1,
+      "message": "Hi Sridhar,\n\nneither traffic controller nor traffic classes are impacted by this change. Both of them receives traffic dictionary constructed by testcase class. So my changes affects how traffic dictionary at testcase class is collected, but its content and thus also its usage by traffic controller and traffic generators is the same.\n\nAnyhow, it would be great if you would be to execute a few simple tests with Spirent traffic generator.\n\nThank you,\nMartin",
+      "revId": "d89c33408276b9dd8b9376d6a5aede499caa607d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
