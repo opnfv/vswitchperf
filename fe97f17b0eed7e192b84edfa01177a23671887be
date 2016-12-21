@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_b3e05297",
+        "filename": "conf/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-12-21T13:35:53Z",
+      "side": 0,
+      "message": "I wanted to avoid another level of configuration for selected \"traffic\" items, thus I\u0027ve removed old testcase parameters (and their CLI counterparts). So configuration changes are now consistent and can be performed at three different levels:\n\n1) configuration file (lowest priority)\n2) CLI (via --test-params)\n3) testcase definition (will override any values from 1 or 2)\n\nTestcase definition might look a bit cumbersome now - as some parameters are defined inside \"Parameters\" section, but in return we got:\n\n* configuration flexibility\n* consistent parameter naming between \"standard\" and \"step driven\" testcases",
+      "revId": "fe97f17b0eed7e192b84edfa01177a23671887be",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

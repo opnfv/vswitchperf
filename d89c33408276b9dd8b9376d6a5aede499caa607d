@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_53efae87",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2016-12-21T13:35:53Z",
+      "side": 1,
+      "message": "In the past only strings were supported by CLI. As we can set any data type, i.e. also bool via CLI, we should probably refactor \u0027bidir\u0027 usage. It means to use bool value through the vsperf code. If so, I would recommend to do it as a separate ticket.",
+      "revId": "d89c33408276b9dd8b9376d6a5aede499caa607d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
