@@ -490,8 +490,13 @@ def main():
         resultsdb = args.results_dir + \
             lab_server_resultsdb.split("/Results")[1]
 
-        logger.info(
-            "The local summary DB file has been saved to %s", resultsdb)
+        if not os.path.exists(resultsdb):
+            resultsdb = lab_server_resultsdb
+            logger.info("Failed to create the local summary DB File, using"
+                        " the remote DB file instead.")
+        else:
+            logger.info(
+                "The local summary DB file has been saved to %s", resultsdb)
 
         # The returns the "RFC2544ThroughputTestResultDetailedSummaryView"
         # table view from the results database.
