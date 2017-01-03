@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_b5fcad3f",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-03T14:24:13Z",
+      "side": 1,
+      "message": "May be the message should explain, what it means, e.g. \"Failed to create the local summary DB file, thus remote results DB will be used.\", etc.",
+      "revId": "f2022b22ba740af0e0931b5ca55ec103ed5ee00d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
