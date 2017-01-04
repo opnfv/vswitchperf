@@ -158,14 +158,14 @@ class VswitchControllerP2P(IVswitchController):
                 dst_ip_value = netaddr.IPAddress(self._traffic['l3']['dstip']).value
                 for i in range(int(self._traffic['multistream'])):
                     tmp_ip = netaddr.IPAddress(dst_ip_value + i)
-                    flow_template.update({'dl_type':'0x800', 'nw_dst':tmp_ip})
+                    flow_template.update({'dl_type':'0x0800', 'nw_dst':tmp_ip})
                     # optimize flow insertion by usage of cache
                     self._vswitch.add_flow(bridge, flow_template, cache='on')
             elif self._traffic['stream_type'] == 'L4':
                 # read transport protocol from configuration and iterate through its destination port
                 proto = _PROTO_TCP if self._traffic['l3']['proto'].lower() == 'tcp' else _PROTO_UDP
                 for i in range(int(self._traffic['multistream'])):
-                    flow_template.update({'dl_type':'0x800', 'nw_proto':proto, 'tp_dst':i})
+                    flow_template.update({'dl_type':'0x0800', 'nw_proto':proto, 'tp_dst':i})
                     # optimize flow insertion by usage of cache
                     self._vswitch.add_flow(bridge, flow_template, cache='on')
             else:

@@ -679,7 +679,8 @@ class TestCase(object):
         """ Stop all VNFs started by TestSteps
         """
         for vnf in self._step_vnf_list:
-            self._step_vnf_list[vnf].stop()
+            if self._step_vnf_list[vnf]:
+                self._step_vnf_list[vnf].stop()
 
     @staticmethod
     def step_eval_param(param, STEP):

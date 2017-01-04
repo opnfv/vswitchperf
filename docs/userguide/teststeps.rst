@@ -633,10 +633,10 @@ and available in both csv and rst report files.
                         ['vswitch', 'add_vport', 'br0'],
                         # priority must be higher than default 32768, otherwise flows won't match
                         ['vswitch', 'add_flow', 'br0',
-                         {'in_port': '1', 'actions': ['output:#STEP[-2][1]'], 'idle_timeout': '0', 'dl_type':'0x800',
+                         {'in_port': '1', 'actions': ['output:#STEP[-2][1]'], 'idle_timeout': '0', 'dl_type':'0x0800',
                                                       'nw_proto':'17', 'tp_dst':'0', 'priority': '33000'}],
                         ['vswitch', 'add_flow', 'br0',
-                         {'in_port': '2', 'actions': ['output:#STEP[-2][1]'], 'idle_timeout': '0', 'dl_type':'0x800',
+                         {'in_port': '2', 'actions': ['output:#STEP[-2][1]'], 'idle_timeout': '0', 'dl_type':'0x0800',
                                                       'nw_proto':'17', 'tp_dst':'0', 'priority': '33000'}],
                         ['vswitch', 'add_flow', 'br0', {'in_port': '#STEP[-4][1]', 'actions': ['output:1'],
                                                         'idle_timeout': '0'}],

@@ -156,9 +156,9 @@ class VswitchControllerPXP(IVswitchController):
                             flow_p.update({'dl_dst':tmp_mac})
                         elif self._traffic['stream_type'] == 'L3':
                             tmp_ip = netaddr.IPAddress(dst_ip_value + stream)
-                            flow_p.update({'dl_type':'0x800', 'nw_dst':tmp_ip})
+                            flow_p.update({'dl_type':'0x0800', 'nw_dst':tmp_ip})
                         elif self._traffic['stream_type'] == 'L4':
-                            flow_p.update({'dl_type':'0x800', 'nw_proto':proto, 'tp_dst':stream})
+                            flow_p.update({'dl_type':'0x0800', 'nw_proto':proto, 'tp_dst':stream})
                         else:
                             raise RuntimeError('Unknown stream_type {}'.format(self._traffic['stream_type']))
 
