@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_0b855eac",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-01-04T22:10:30Z",
+      "side": 1,
+      "message": "RHEL 7.3 for consistency",
+      "range": {
+        "startLine": 260,
+        "startChar": 17,
+        "endLine": 260,
+        "endChar": 25
+      },
+      "revId": "865716231d8c7827dae9d4d781c45e4c3c9bea9b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_ab93eaf8",
+        "filename": "src/dpdk/Makefile",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-01-04T22:10:30Z",
+      "side": 1,
+      "message": "RHEL 7.3  (Enterprise is in the acronym)",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 21
+      },
+      "revId": "865716231d8c7827dae9d4d781c45e4c3c9bea9b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_cb8e76d0",
+        "filename": "systems/rhel/7.3/build_base_machine.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-01-04T22:10:30Z",
+      "side": 1,
+      "message": "7.3 elsewhere",
+      "range": {
+        "startLine": 3,
+        "startChar": 27,
+        "endLine": 3,
+        "endChar": 35
+      },
+      "revId": "865716231d8c7827dae9d4d781c45e4c3c9bea9b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_6bbd0268",
+        "filename": "systems/rhel/7.3/prepare_python_env.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-01-04T22:10:30Z",
+      "side": 1,
+      "message": "RHEL 7.3 again",
+      "range": {
+        "startLine": 3,
+        "startChar": 53,
+        "endLine": 3,
+        "endChar": 64
+      },
+      "revId": "865716231d8c7827dae9d4d781c45e4c3c9bea9b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
