@@ -108,7 +108,11 @@ class OvsDpdkVhost(IVSwitchOvs):
         bridge = self._bridges[switch_name]
         dpdk_count = self._get_port_count('type=dpdk')
         port_name = 'dpdk' + str(dpdk_count)
-        params = ['--', 'set', 'Interface', port_name, 'type=dpdk']
+        # PCI info. Please note there must be no blank space, eg must be
+        # like 'options:dpdk-devargs=0000:06:00.0'
+        _NICS = settings.getValue('NICS')
+        nic_pci = 'options:dpdk-devargs=' + _NICS[dpdk_count]['pci']
+        params = ['--', 'set', 'Interface', port_name, 'type=dpdk', nic_pci]
         # multi-queue enable
 
         if int(settings.getValue('VSWITCH_DPDK_MULTI_QUEUES')) and \
