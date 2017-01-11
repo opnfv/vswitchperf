@@ -7,6 +7,7 @@ OPNFV D Release
 * Remove support for vhost cuse
 * Add Vanilla OVS Multi-queue with non testpmd options
 * Add support for Multi-queue with OVS 2.5.0 or less
+* Add TestPMD as a switch option for pvp topology testing with vhostuser
 
 OPNFV Colorado Release
 ======================

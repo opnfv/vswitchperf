@@ -649,6 +649,56 @@ Supported Packet Forwarding applications are:
 
       $ ./vsperf --conf-file <path_to_settings_py>
 
+Executing Packet Forwarding tests with one guest
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TestPMD with DPDK 16.11 or greater can be used to forward packets as a switch to a single guest using vhostuser.  To
+set this configuration the following parameters should be used.
+
+    .. code-block:: python
+
+        VSWITCH = 'none'
+        PKTFWD = 'TestPMD'
+
+or use ``--vswitch`` and ``--fwdapp`` CLI arguments:
+
+    .. code-block:: console
+
+        $ ./vsperf --conf-file user_settings.py \
+                   --vswitch none \
+                   --fwdapp TestPMD
+
+Guest forwarding application only supports TestPMD in this configuration.
+
+    .. code-block:: python
+
+        GUEST_LOOPBACK = ['testpmd']
+
+For optimal performance one cpu per port +1 should be used for TestPMD. Also set additional params for packet forwarding
+application to use the correct number of nb-cores.
+
+    .. code-block:: python
+
+        VSWITCHD_DPDK_ARGS = ['-l', '46,44,42,40,38', '-n', '4', '--socket-mem 1024,0']
+        TESTPMD_ARGS = ['--nb-cores=4', '--txq=1', '--rxq=1']
+
+For guest TestPMD 3 VCpus should be assigned with the following TestPMD params.
+
+    .. code-block:: python
+
+        GUEST_TESTPMD_PARAMS = ['-l 0,1,2 -n 4 --socket-mem 1024 -- '
+                                '--burst=64 -i --txqflags=0xf00 '
+                                '--disable-hw-vlan --nb-cores=2 --txq=1 --rxq=1']
+
+Execution of TestPMD can be run with the following command line
+
+    .. code-block:: console
+
+        ./vsperf pvp_tput --vswitch=none --fwdapp=TestPMD --conf-file <path_to_settings_py>
+
+**NOTE:** To achieve the best 0% loss numbers with rfc2544 throughput testing, other tunings should be applied to host
+and guest such as tuned profiles and CPU tunings to prevent possible interrupts to worker threads.
+
 VSPERF modes of operation
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
