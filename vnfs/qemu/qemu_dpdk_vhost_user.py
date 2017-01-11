@@ -56,9 +56,16 @@ class QemuDpdkVhostUser(IVnfQemu):
             ifi = str(index)
             net = 'net' + str(index + 1)
 
+            # In case of testpmd as switch, path to vhost netdev folder will be set
+            # to tmp location instead of default ovs_var_tmp folder.
+            if S.getValue('VSWITCH') == 'none':
+                vhost_folder = '/tmp/'
+            else:
+                vhost_folder = S.getValue('TOOLS')['ovs_var_tmp']
+
             self._cmd += ['-chardev',
                           'socket,id=char' + ifi +
-                          ',path=' + S.getValue('TOOLS')['ovs_var_tmp'] +
+                          ',path=' + vhost_folder +
                           'dpdkvhostuser' + ifi,
                           '-netdev',
                           'type=vhost-user,id=' + net +

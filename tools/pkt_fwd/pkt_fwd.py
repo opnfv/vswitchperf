@@ -44,6 +44,12 @@ class IPktFwd(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
+    def start_for_guest(self):
+        """Start the packet forward for guest config
+
+        :returns: None
+        """
+
     def stop(self):
         """Stop the packet forwarder.
 
