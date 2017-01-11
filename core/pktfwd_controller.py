@@ -32,7 +32,7 @@ class PktFwdController(object):
         self._deployment = deployment
         self._logger = logging.getLogger(__name__)
         self._pktfwd_class = pktfwd_class
-        self._pktfwd = pktfwd_class()
+        self._pktfwd = pktfwd_class(guest=True if deployment.find("pvp") == 0 else False)
         self._logger.debug('Creation using ' + str(self._pktfwd_class))
 
     def setup(self):
@@ -46,6 +46,17 @@ class PktFwdController(object):
             self._pktfwd.stop()
             raise
 
+    def setup_for_guest(self):
+        """Sets up the packet forwarder for pvp.
+        """
+        self._logger.debug('Setup using ' + str(self._pktfwd_class))
+
+        try:
+            self._pktfwd.start_for_guest()
+        except:
+            self._pktfwd.stop()
+            raise
+
     def stop(self):
         """Tears down the packet forwarder created in setup().
         """
@@ -55,9 +66,13 @@ class PktFwdController(object):
     def __enter__(self):
         if self._deployment.find("p2p") == 0:
             self.setup()
+        elif self._deployment.find("pvp") == 0:
+            self.setup_for_guest()
 
     def __exit__(self, type_, value, traceback):
         if self._deployment.find("p2p") == 0:
+            self.stop()
+        elif self._deployment.find("pvp") == 0:
             self.stop()
 
     def get_pktfwd(self):

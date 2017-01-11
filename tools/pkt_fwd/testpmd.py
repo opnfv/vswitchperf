@@ -24,6 +24,8 @@ from tools.pkt_fwd.pkt_fwd import IPktFwd
 
 _LOGGER = logging.getLogger(__name__)
 _VSWITCHD_CONST_ARGS = ['--', '-i']
+_TESTPMD_PVP_CONST_ARGS = ['--vdev', 'net_vhost0,iface=/tmp/dpdkvhostuser0',
+                           '--vdev', 'net_vhost1,iface=/tmp/dpdkvhostuser1',]
 
 class TestPMD(IPktFwd):
     """TestPMD implementation (only phy2phy deployment is supported)
@@ -37,8 +39,10 @@ class TestPMD(IPktFwd):
 
     _logger = logging.getLogger()
 
-    def __init__(self):
+    def __init__(self, guest=False):
         vswitchd_args = settings.getValue('VSWITCHD_DPDK_ARGS')
+        if guest:
+            vswitchd_args += _TESTPMD_PVP_CONST_ARGS
         vswitchd_args += _VSWITCHD_CONST_ARGS
         vswitchd_args += settings.getValue('TESTPMD_ARGS')
 
@@ -67,6 +71,19 @@ class TestPMD(IPktFwd):
                 self._csum_layer, self._csum_calc, port), 1)
             self._testpmd.send('csum parse_tunnel {} {}'.format(
                 self._csum_tunnel, port), 1)
+
+        self._testpmd.send('start', 1)
+
+    def start_for_guest(self):
+        """See IPktFwd for general description
+
+        Activates testpmd for guest config
+        """
+        self._logger.info("Starting TestPMD for one guest...")
+        dpdk.init()
+        self._testpmd.start()
+        self._logger.info("TestPMD...Started.")
+        self._testpmd.send('set portlist 0,2,1,3')
 
         self._testpmd.send('start', 1)
 
