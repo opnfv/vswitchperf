@@ -145,8 +145,8 @@ Test ID: LTD.Throughput.RFC2544.PacketLossRatio
     Note: Other values can be tested if required by the user.
 
     The selected frame sizes are those previously defined under `Default
-    Test Parameters <#DefaultParams>`__. The test can also be used to
-    determine the average latency of the traffic.
+    Test Parameters <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__.
+    The test can also be used to determine the average latency of the traffic.
 
     Under the `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__
     test methodology, the test duration will
@@ -197,8 +197,8 @@ Test ID: LTD.Throughput.RFC2544.PacketLossRatioFrameModification
     Note: Other values can be tested if required by the user.
 
     The selected frame sizes are those previously defined under `Default
-    Test Parameters <#DefaultParams>`__. The test can also be used to
-    determine the average latency of the traffic.
+    Test Parameters <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__.
+    The test can also be used to determine the average latency of the traffic.
 
     Under the `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__
     test methodology, the test duration will
@@ -268,7 +268,7 @@ Test ID: LTD.Throughput.RFC2544.Profile
     and severe.
 
     The selected frame sizes are those previously defined under `Default
-    Test Parameters <#DefaultParams>`__.
+    Test Parameters <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__.
 
     The offered traffic rate is described as a percentage delta with respect
     to the DUT's RFC 2544 Throughput as determined by
@@ -319,7 +319,8 @@ Test ID: LTD.Throughput.RFC2544.SystemRecoveryTime
     The aim of this test is to determine the length of time it takes the DUT
     to recover from an overload condition for a constant load (fixed length
     frames at a fixed interval time). The selected frame sizes are those
-    previously defined under `Default Test Parameters <#DefaultParams>`__,
+    previously defined under `Default Test Parameters
+    <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__,
     traffic should be sent to the DUT under normal conditions. During the
     duration of the test and while the traffic flows are passing though the
     DUT, at least one situation leading to an overload condition for the DUT
@@ -371,7 +372,9 @@ Test ID: LTD.Throughput.RFC2544.BackToBackFrames
 
     The aim of this test is to characterize the ability of the DUT to
     process back-to-back frames. For each frame size previously defined
-    under `Default Test Parameters <#DefaultParams>`__, a burst of traffic
+    under `Default Test Parameters
+    <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__,
+    a burst of traffic
     is sent to the DUT with the minimum inter-frame gap between each frame.
     If the number of received frames equals the number of frames that were
     transmitted, the burst size should be increased and traffic is sent to
@@ -525,7 +528,8 @@ Test ID: LTD.Throughput.RFC6201.ResetTime
     Both reset methods SHOULD be exercised.
 
     For each frame size previously defined under `Default Test
-    Parameters <#DefaultParams>`__, traffic should be sent to the DUT under
+    Parameters <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__,
+    traffic should be sent to the DUT under
     normal conditions. During the duration of the test and while the traffic
     flows are passing through the DUT, the DUT should be reset and the Reset
     time measured. The Reset time is the total time that a device is
@@ -610,7 +614,8 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRate
     is varied between the throughput and the Maximum Offered Load for fixed
     length frames at a fixed time interval. The selected frame sizes are
     those previously defined under `Default Test
-    Parameters <#DefaultParams>`__. The throughput is the maximum offered
+    Parameters <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__.
+    The throughput is the maximum offered
     load with 0% frame loss (measured by the prerequisite test), and the
     Maximum Offered Load (as defined by
     `RFC2285 <https://www.rfc-editor.org/rfc/rfc2285.txt>`__) is *"the highest
@@ -744,7 +749,8 @@ Test ID: LTD.Throughput.RFC2889.BroadcastFrameForwarding
 
     The aim of this test is to determine the maximum forwarding rate of the
     DUT when forwarding broadcast traffic. For each frame previously defined
-    under `Default Test Parameters <#DefaultParams>`__, the traffic should
+    under `Default Test Parameters <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__,
+    the traffic should
     be set up as broadcast traffic. The traffic throughput of the DUT should
     be measured.
 
@@ -912,7 +918,7 @@ Test ID: LTD.Throughput.Overlay.Network.<tech>.RFC2544.PacketLossRatio
       - Switch the packet to the correct port
 
     The selected frame sizes are those previously defined under `Default
-    Test Parameters <#DefaultParams>`__.
+    Test Parameters <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__.
 
     Thus, each test comprises an overlay technology, a network function,
     and a packet size *with* overlay network overhead included
@@ -1202,8 +1208,8 @@ Test ID: LTD.Scalability.Flows.RFC2544.0PacketLoss
     before passing traffic.
 
     For each frame size previously defined under `Default Test
-    Parameters <#DefaultParams>`__ and for each of the following number of
-    flows:
+    Parameters <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__
+    and for each of the following number of flows:
 
     -  1,000
     -  2,000
@@ -1331,8 +1337,8 @@ Test ID: LTD.Scalability.VNF.RFC2544.PacketLossRatio
     approach used needs to be documented as part of the test report.
 
     The selected frame sizes are those previously defined under `Default
-    Test Parameters <#DefaultParams>`__. The test can also be used to
-    determine the average latency of the traffic.
+    Test Parameters <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__.
+    The test can also be used to determine the average latency of the traffic.
 
     Under the `RFC2544 <https://www.rfc-editor.org/rfc/rfc2544.txt>`__
     test methodology, the test duration will
@@ -1392,7 +1398,7 @@ Test ID: LTD.Scalability.VNF.RFC2544.PacketLossProfile
      be tested is 3.
 
      The selected frame sizes are those previously defined under `Default
-     Test Parameters <#DefaultParams>`__.
+     Test Parameters <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__.
 
      The offered traffic rate is described as a percentage delta with respect
      to the DUT's RFC 2544 Throughput as determined by
@@ -1473,7 +1479,8 @@ Test ID: LTD.Activation.RFC2889.AddressCachingCapacity
     MAC learning. The aim of this test is to determine the address caching
     capacity of the DUT for a constant load (fixed length frames at a fixed
     interval time). The selected frame sizes are those previously defined
-    under `Default Test Parameters <#DefaultParams>`__.
+    under `Default Test Parameters
+    <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__.
 
     In order to run this test the aging time, that is the maximum time the
     DUT will keep a learned address in its flow table, and a set of initial
@@ -1526,7 +1533,8 @@ Test ID: LTD.Activation.RFC2889.AddressLearningRate
     MAC learning. The aim of this test is to determine the rate of address
     learning of the DUT for a constant load (fixed length frames at a fixed
     interval time). The selected frame sizes are those previously defined
-    under `Default Test Parameters <#DefaultParams>`__, traffic should be
+    under `Default Test Parameters <http://artifacts.opnfv.org/vswitchperf/docs/index.html#default-test-parameters>`__,
+    traffic should be
     sent with each IPv4/IPv6 address incremented by one. The rate at which
     the DUT learns a new address should be measured. The maximum caching
     capacity from LTD.Memory.RFC2889.AddressCachingCapacity should be taken
