@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_a3730a14",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-12T09:19:53Z",
+      "side": 1,
+      "message": "On an online rst editor on this line I get the error:\n\"System Message: WARNING/2 (\u003cstring\u003e, line 8); backlink\nInline interpreted text or phrase reference start-string without end-string.\"\nI guess that\u0027s because\n\"...`Default \nTest Parameters \u003chttp...\" \nis split into 2 lines. \n\nInstead if I write\n\"...`Default Test Parameters \u003chttp...\" \nthe error disappears. \nMaybe what matters is just to keep on the same line the final hyperlink text \"Default Test Parameters\".",
+      "range": {
+        "startLine": 147,
+        "startChar": 64,
+        "endLine": 148,
+        "endChar": 19
+      },
+      "revId": "5c56eb0b9a969340564cec5e4ee8b1d1b2fe4fa9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_c355f650",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-12T09:19:53Z",
+      "side": 1,
+      "message": "Same as previous comment on splitting the final hyperlink text.",
+      "range": {
+        "startLine": 199,
+        "startChar": 65,
+        "endLine": 200,
+        "endChar": 19
+      },
+      "revId": "5c56eb0b9a969340564cec5e4ee8b1d1b2fe4fa9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e3503260",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-12T09:19:53Z",
+      "side": 1,
+      "message": "Same as previous comment",
+      "range": {
+        "startLine": 270,
+        "startChar": 64,
+        "endLine": 271,
+        "endChar": 19
+      },
+      "revId": "5c56eb0b9a969340564cec5e4ee8b1d1b2fe4fa9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_834feebc",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-12T09:19:53Z",
+      "side": 1,
+      "message": "This sentence doesn\u0027t give any error.",
+      "range": {
+        "startLine": 322,
+        "startChar": 30,
+        "endLine": 322,
+        "endChar": 53
+      },
+      "revId": "5c56eb0b9a969340564cec5e4ee8b1d1b2fe4fa9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_43c90625",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-12T09:19:53Z",
+      "side": 1,
+      "message": "Also this hyperlink doesn\u0027t give any error.",
+      "range": {
+        "startLine": 375,
+        "startChar": 11,
+        "endLine": 375,
+        "endChar": 34
+      },
+      "revId": "5c56eb0b9a969340564cec5e4ee8b1d1b2fe4fa9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_63cc4236",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-12T09:19:53Z",
+      "side": 1,
+      "message": "This split gives the same error as above.",
+      "range": {
+        "startLine": 530,
+        "startChar": 50,
+        "endLine": 531,
+        "endChar": 14
+      },
+      "revId": "5c56eb0b9a969340564cec5e4ee8b1d1b2fe4fa9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_23d63ac6",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-12T09:19:53Z",
+      "side": 1,
+      "message": "I would have expected an error here, but for some reason this is not giving any error.",
+      "range": {
+        "startLine": 616,
+        "startChar": 35,
+        "endLine": 617,
+        "endChar": 14
+      },
+      "revId": "5c56eb0b9a969340564cec5e4ee8b1d1b2fe4fa9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_c3dc16e7",
+        "filename": "docs/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-12T09:19:53Z",
+      "side": 1,
+      "message": "ok",
+      "range": {
+        "startLine": 752,
+        "startChar": 10,
+        "endLine": 752,
+        "endChar": 34
+      },
+      "revId": "5c56eb0b9a969340564cec5e4ee8b1d1b2fe4fa9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
