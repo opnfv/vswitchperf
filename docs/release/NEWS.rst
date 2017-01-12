@@ -2,15 +2,56 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
-OPNFV D Release
-===============
-* Remove support for vhost cuse
-* Add Vanilla OVS Multi-queue with non testpmd options
-* Add support for Multi-queue with OVS 2.5.0 or less
-* Add TestPMD as a switch option for pvp topology testing with vhostuser
+OPNFV Danube Release
+====================
+
+* Support for testpmd as a vswitch for PVP scenario with vHost User
+* Traffic type naming harmonized with RFC2544
+* Support for step driven performance testcases
+* Scripts with licenses not compatible with Apache 2.0 were isolated
+  in 3rd_party directory
+* Several bugfixes, CI script and documentation updates
+* Installation scripts:
+
+  * Support for Ubuntu 16.04 LTS and 16.10
+  * Support for RHEL7.3
+  * Support for CentOS7.3
+
+* Traffic Generators:
+
+  * Spirent Testcenter: Support for RFC2889 tests
+  * Xena: bugfixes and improvements of RFC2544 continuous accuracy
+  * MoonGen: bugfixes, code clean up and update of usage instructions
+  * Dummy: Support for preconfigured test results
+  * Ixia: bugfixes
+
+* Integration tests:
+
+  * New tests for multi VM scenarios
+  * New test for numa vHost awareness feature
+
+* Configuration changes:
+
+  * Support for OVS, DPDK or QEMU installed from binary packages
+  * Support for modification of any configuration parameter or traffic
+    detail via CLI option --test-params or via "Parameters" section
+    of testcase definition
+
+* Guest specific:
+
+  * Support for multi VM scenarios with VM connected in serial or in parallel
+  * Support for VM with 1, 2, 4, 6... network interfaces
+  * Support for driver binding option
+  * Support for flexible testpmd configuration
+  * Support for configurable merge-buffers
+  * Support for configurable drive options
+  * Support for multi-queue with non testpmd options by Vanilla OVS
+  * Support for multi-queue with OVS 2.5.0 or less
+  * Remove support for vHost Cuse
 
 OPNFV Colorado Release
 ======================
+
 * Support for DPDK v16.07
 * Support for yardstick testing framework
 * Support for stp/rstp configuration
@@ -24,10 +65,12 @@ OPNFV Colorado Release
 * Support for Red Hat Enterprise Linux
 * Support for mode of operation (trafficgen, trafficgen-off)
 * Support for Integration tests for OVS with DPDK including:
+
   * Physical ports.
   * Virtual ports (vhost user and vhost cuse).
   * Flow addition and removal tests.
   * Overlay (VXLAN, GRE and NVGRE) encapsulation and decapsulation tests.
+
 * Supporting configuration of OVS with DPDK through the OVS DB as well as the
   legacy commandline arguments.
 * Support for VM loopback (SR-IOV) benchmarking.
@@ -36,6 +79,7 @@ OPNFV Colorado Release
 
 OPNFV Brahmaputra Release
 =========================
+
 Supports both OVS and OVS with DPDK.
 
 Available tests:
