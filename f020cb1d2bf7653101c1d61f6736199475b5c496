@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_122d89fe",
+        "filename": "core/pktfwd_controller.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-13T15:51:34Z",
+      "side": 1,
+      "message": "I would recommend to explicitly check for deployemnt \u003d\u003d \u0027pvp\u0027 to avoid match on \"pvpv\" or \"pvpv[0-9]+\" deployments. Until it will be really supported.\n\nThe same apply for all other checks below.",
+      "revId": "f020cb1d2bf7653101c1d61f6736199475b5c496",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_d20dc191",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-13T15:51:34Z",
+      "side": 1,
+      "message": "I suppose, that testcase name should be specified to have example complete, e.g. pvp_tput.\n\nIt would be great, if you will also update examples for TestPMD for phy2phy tests above, i.e. to add phy2phy_tput as example into console code-block.",
+      "revId": "f020cb1d2bf7653101c1d61f6736199475b5c496",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_f210fda9",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-13T15:51:34Z",
+      "side": 1,
+      "message": "I know, that it is not \"caused\" by this patch, but could you please update particular comment at conf/02_vswitch.conf? I mean to update comment for VSWITCHD_DPDK_ARGS, that this option is used by TestPMD, so users won\u0027t consider it as deprecated option.",
+      "revId": "f020cb1d2bf7653101c1d61f6736199475b5c496",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
