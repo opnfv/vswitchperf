@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Antonio Fischetti <antonio.fischetti@intel.com>
+Code-Review+2: Martin Klozik <martinx.klozik@intel.com>
+Submitted-by: Martin Klozik <martinx.klozik@intel.com>
+Submitted-at: Mon, 16 Jan 2017 07:37:23 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/26927
+Project: vswitchperf
+Branch: refs/heads/master
