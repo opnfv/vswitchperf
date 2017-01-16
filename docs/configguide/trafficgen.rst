@@ -10,8 +10,7 @@ Overview
 ---------------------
 VSPERF supports the following traffic generators:
 
-  * Dummy (DEFAULT): Allows you to use your own external
-    traffic generator.
+  * Dummy (DEFAULT)
   * IXIA (IxNet and IxOS)
   * Spirent TestCenter
   * Xena Networks
@@ -85,7 +84,6 @@ Dummy Setup
 To select the Dummy generator please add the following to your
 custom configuration file ``10_custom.conf``.
 
-
 .. code-block:: console
 
      TRAFFICGEN = 'Dummy'
@@ -143,16 +141,73 @@ to verify the input:
 
 Please answer with y OR n.
 
-VPSERF will ask you for:
-  * Result for 'frames tx'
-  * Result for 'frames rx'
-  * Result for 'min latency'
-  * Result for 'max latency'
-  * Result for 'avg latency'
-
+VPSERF will ask you for values relevant for selected type of RFC2544 traffic.
 Finally vsperf will print out the results for your test and generate the
 appropriate logs and csv files.
 
+.. _traffic-type-results:
+
+Result values for supported RFC2544 traffic types
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+List of result values for each of supported traffic type is listed below.
+
+RFC2544 Throughput and Continuous:
+
+  * frames tx
+  * frames rx
+  * min latency
+  * max latency
+  * avg latency
+  * frameloss
+
+RFC2544 Back2back:
+
+  * b2b frames
+  * b2b frame loss %
+
+Dummy result pre-configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is possible to pre-configure results, which should be reported by Dummy
+traffic generator. This is useful for creation of demo testcases, which
+do not require a hardware traffic generator. Such testcase can be executed
+by any user and it will still generate all reports and results files.
+
+Result values can be specified within ``TRAFFICGEN_DUMMY_RESULTS`` dictionary,
+where every of result types must be properly defined. Please check the list
+of traffic-type-results_.
+
+Dictionary with dummy results can be passed by CLI argument ``--test-params``
+or specified in ``Parameters`` section of testcase definition.
+
+Example of testcase execution with pre-configured dummy results:
+
+.. code-block:: console
+
+    $ ./vsperf back2back --trafficgen Dummy --test-params \
+      "TRAFFICGEN_DUMMY_RESULTS={'b2b frames':'3000','b2b frame loss %':'0.0'}"
+
+Example of testcase definition with pre-configured dummy results:
+
+.. code-block:: python
+
+    {
+        "Name": "back2back",
+        "Traffic Type": "rfc2544_back2back",
+        "Deployment": "p2p",
+        "biDirectional": "True",
+        "Description": "LTD.Throughput.RFC2544.BackToBackFrames",
+        "Parameters" : {
+            'TRAFFICGEN' : 'Dummy',
+            'TRAFFICGEN_DUMMY_RESULTS' : {'b2b frames':'3000','b2b frame loss %':'0.0'}
+        },
+    },
+
+**NOTE:** In this example usage of Dummy traffic generator is enforced by testcase
+definition. In case, that TRAFFICGEN won't be specified, then pre-configured values
+would be used only in case, that user will choose Dummy traffic generator by CLI
+or by custom configuration file.
 
 IXIA Setup
 ----------
