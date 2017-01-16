@@ -10,8 +10,7 @@ Overview
 ---------------------
 VSPERF supports the following traffic generators:
 
-  * Dummy (DEFAULT): Allows you to use your own external
-    traffic generator.
+  * Dummy (DEFAULT)
   * IXIA (IxNet and IxOS)
   * Spirent TestCenter
   * Xena Networks
@@ -87,11 +86,24 @@ commandline above to:
     $ ./vsperf --test-params "TRAFFICGEN_PKT_SIZES=(x,y);TRAFFICGEN_DURATION=10;" \
                              "TRAFFICGEN_RFC2544_TESTS=1" $TESTNAME
 
-Dummy Setup
-------------
+Dummy
+-----
+
+The Dummy traffic generator can be used to test VSPERF installation or
+to demonstrate VSPERF functionality at DUT without connection
+to the real traffic generator.
+
+You could also use the Dummy generator in case, that your external
+traffic generator is not supported by VSPERF. In such case you could
+use VSPERF to setup your test scenario and then transmit the traffic.
+After the transmission is completed you could specify values for all
+collected metrics and VSPERF will use them to generate final reports.
+
+Setup
+~~~~~
+
 To select the Dummy generator please add the following to your
 custom configuration file ``10_custom.conf``.
-
 
 .. code-block:: console
 
@@ -140,8 +152,8 @@ when the setup is complete.
     }
     What was the result for 'frames tx'?
 
-When your traffic gen has completed traffic transmission and provided
-the results please input these at the vsperf prompt. vsperf will try
+When your traffic generator has completed traffic transmission and provided
+the results please input these at the VSPERF prompt. VSPERF will try
 to verify the input:
 
 .. code-block:: console
@@ -150,16 +162,73 @@ to verify the input:
 
 Please answer with y OR n.
 
-VPSERF will ask you for:
-  * Result for 'frames tx'
-  * Result for 'frames rx'
-  * Result for 'min latency'
-  * Result for 'max latency'
-  * Result for 'avg latency'
-
+VSPERF will ask you to provide a value for every of collected metrics. The list
+of metrics can be found at traffic-type-metrics_.
 Finally vsperf will print out the results for your test and generate the
-appropriate logs and csv files.
+appropriate logs and report files.
 
+.. _traffic-type-metrics:
+
+Metrics collected for supported traffic types
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Below you could find a list of metrics collected by VSPERF for each of supported
+traffic types.
+
+RFC2544 Throughput and Continuous:
+
+  * frames tx
+  * frames rx
+  * min latency
+  * max latency
+  * avg latency
+  * frameloss
+
+RFC2544 Back2back:
+
+  * b2b frames
+  * b2b frame loss %
+
+Dummy result pre-configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In case of a Dummy traffic generator it is possible to pre-configure the test
+results. This is useful for creation of demo testcases, which do not require
+a real traffic generator. Such testcase can be run by any user and it will still
+generate all reports and result files.
+
+Result values can be specified within ``TRAFFICGEN_DUMMY_RESULTS`` dictionary,
+where every of collected metrics must be properly defined. Please check the list
+of traffic-type-metrics_.
+
+Dictionary with dummy results can be passed by CLI argument ``--test-params``
+or specified in ``Parameters`` section of testcase definition.
+
+Example of testcase execution with dummy results defined by CLI argument:
+
+.. code-block:: console
+
+    $ ./vsperf back2back --trafficgen Dummy --test-params \
+      "TRAFFICGEN_DUMMY_RESULTS={'b2b frames':'3000','b2b frame loss %':'0.0'}"
+
+Example of testcase definition with pre-configured dummy results:
+
+.. code-block:: python
+
+    {
+        "Name": "back2back",
+        "Traffic Type": "rfc2544_back2back",
+        "Deployment": "p2p",
+        "biDirectional": "True",
+        "Description": "LTD.Throughput.RFC2544.BackToBackFrames",
+        "Parameters" : {
+            'TRAFFICGEN_DUMMY_RESULTS' : {'b2b frames':'3000','b2b frame loss %':'0.0'}
+        },
+    },
+
+**NOTE:** Pre-configured results for the Dummy traffic generator will be used only
+in case, that the Dummy traffic generator is used. Otherwise the option
+``TRAFFICGEN_DUMMY_RESULTS`` will be ignored.
 
 IXIA Setup
 ----------
