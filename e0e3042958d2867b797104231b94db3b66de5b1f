@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_ab22fcfe",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-16T17:39:31Z",
+      "side": 1,
+      "message": "Or would it be better to say \u0027measurements\u0027?\nVSPERF will ask you which measurements are relevant for the selected type of RFC2544 traffic.",
+      "range": {
+        "startLine": 144,
+        "startChar": 24,
+        "endLine": 144,
+        "endChar": 30
+      },
+      "revId": "e0e3042958d2867b797104231b94db3b66de5b1f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_4b2118fa",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-16T17:39:31Z",
+      "side": 1,
+      "message": "Or better to say \u0027measurements\u0027?",
+      "range": {
+        "startLine": 153,
+        "startChar": 8,
+        "endLine": 153,
+        "endChar": 21
+      },
+      "revId": "e0e3042958d2867b797104231b94db3b66de5b1f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_6b1c14c2",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-16T17:39:31Z",
+      "side": 1,
+      "message": "Trying to reword this as:\nIn case of a Dummy traffic generator it is possible to pre-configure the test results.",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 18
+      },
+      "revId": "e0e3042958d2867b797104231b94db3b66de5b1f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_0b7b10f6",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-16T17:39:31Z",
+      "side": 1,
+      "message": "Such testcases can be run by any user and will still generate all reports and results files.",
+      "range": {
+        "startLine": 174,
+        "startChar": 45,
+        "endLine": 175,
+        "endChar": 69
+      },
+      "revId": "e0e3042958d2867b797104231b94db3b66de5b1f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_2b7e0ce5",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-16T17:39:31Z",
+      "side": 1,
+      "message": "Example of a CLI to execute a testcase with pre-configured dummy results:",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 29
+      },
+      "revId": "e0e3042958d2867b797104231b94db3b66de5b1f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_8b270012",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-16T17:39:31Z",
+      "side": 1,
+      "message": "Can we reword it with something like:\nIn the last example the usage of a Dummy traffic generator is explicitly enforced by the testcase definition itself. Otherwise, when TRAFFICGEN is not speficied, the selected traffic generator will be determined by CLI or by the custom configuration file.",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 32
+      },
+      "revId": "e0e3042958d2867b797104231b94db3b66de5b1f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
