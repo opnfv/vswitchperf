@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_063a2736",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-17T09:33:48Z",
+      "side": 1,
+      "message": "Or simply we could say \"VSPERF will prompt you to select which measurements should be included in the final report. A list of available measurements for each traffic types can be found at..\"?",
+      "parentUuid": "5ac10518_86a9377d",
+      "range": {
+        "startLine": 144,
+        "startChar": 24,
+        "endLine": 144,
+        "endChar": 30
+      },
+      "revId": "e0e3042958d2867b797104231b94db3b66de5b1f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_46bb4fc4",
         "filename": "docs/configguide/trafficgen.rst",
         "patchSetId": 1
@@ -271,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_a640f3a5",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-17T09:33:48Z",
+      "side": 1,
+      "message": "yes it sounds good",
+      "parentUuid": "5ac10518_a6cb1352",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 29
+      },
+      "revId": "e0e3042958d2867b797104231b94db3b66de5b1f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_8b270012",
         "filename": "docs/configguide/trafficgen.rst",
         "patchSetId": 1
@@ -306,6 +354,30 @@
       "side": 1,
       "message": "This omits the main reason for my note, i.e. that TRAFFICGEN_DUMMY_RESULTS make sense also in case that TRAFFICGEN is not enforced to Dummy. In such case, TC can be executed with any real traffic generator and it will provide the correct results. Only in case, that Dummy traffic generator is enforced via CLI argument or custom configuration file, then TRAFFICGEN_DUMMY_RESULTS from TC definition will be used to feed Dummy TG with results.\n\nSo user can prepare a TC, which can be executed with both real and Dummy traffic generators and it will still run without any user interaction (i.e. manual specification of measured values).",
       "parentUuid": "5ac10518_8b270012",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 32
+      },
+      "revId": "e0e3042958d2867b797104231b94db3b66de5b1f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_c622df00",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-17T09:33:48Z",
+      "side": 1,
+      "message": "Oh I see. \nWould something like this make sense?\n\"In the last example the usage of a Dummy traffic generator is explicitly enforced by the testcase definition itself. If TRAFFICGEN is instead omitted - while TRAFFICGEN_DUMMY_RESULTS is still present - you could run the TC as with a Dummy as with any real traffic generator. In case the Dummy traffic generator is enforced via CLI argument or your custom configuration file, then the TRAFFICGEN_DUMMY_RESULTS parameter from the TC definition will be used to feed the final results.\"",
+      "parentUuid": "5ac10518_46310fa1",
       "range": {
         "startLine": 207,
         "startChar": 0,
