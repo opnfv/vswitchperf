@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_c65adf4f",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-17T12:42:33Z",
+      "side": 1,
+      "message": "I think that it could be misleading. User could think, that he can select which of \"frames tx, frames rx, ...\" will be included in the report. However all these \"items\" must be included and user must provide values for all of them.",
+      "parentUuid": "5ac10518_063a2736",
+      "range": {
+        "startLine": 144,
+        "startChar": 24,
+        "endLine": 144,
+        "endChar": 30
+      },
+      "revId": "e0e3042958d2867b797104231b94db3b66de5b1f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_46bb4fc4",
         "filename": "docs/configguide/trafficgen.rst",
         "patchSetId": 1
