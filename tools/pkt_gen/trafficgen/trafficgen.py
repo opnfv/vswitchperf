@@ -15,16 +15,18 @@
 
 This is an abstract class for traffic generators.
 """
+import copy
+from conf import settings
 
-#TODO update Back2Back method description when Result implementation will
-#be ready.
-
-from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
+CMD_PREFIX = 'gencmd : '
 
 class ITrafficGenerator(object):
     """Model of a traffic generator device.
     """
-    _traffic_defaults = TRAFFIC_DEFAULTS.copy()
+    def __init__(self):
+        """Initialization of interface
+        """
+        self._default_traffic = copy.deepcopy(settings.getValue('TRAFFIC'))
 
     @property
     def traffic_defaults(self):
@@ -35,7 +37,7 @@ class ITrafficGenerator(object):
         will likely break traffic generator implementations or tests
         respectively.
         """
-        return self._traffic_defaults
+        return self._default_traffic
 
     def __enter__(self):
         """Connect to the traffic generator.

@@ -30,14 +30,15 @@ scenarios:
   type: Vsperf
   options:
     testname: 'rfc2544_back2back'
-    traffic_type: 'rfc2544_back2back'
     frame_size: '64'
-    bidirectional: 'True'
-    iload: 100
     test_params: 'TRAFFICGEN="Dummy";
+        TRAFFIC={
+            "traffic_type":"rfc2544_back2back"
+        };
         TRAFFICGEN_DUMMY_RESULTS={
             "b2b frames":"10000",
-            "b2b frame loss %":"0.0"}'
+            "b2b frame loss %":"0.0",
+        }'
 
   host: vsperf.demo
 

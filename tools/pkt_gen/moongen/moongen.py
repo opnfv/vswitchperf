@@ -28,19 +28,17 @@ import subprocess
 
 # VSPerf imports
 from conf import settings
+from conf import merge_spec
 from core.results.results_constants import ResultsConstants
-from tools.pkt_gen.trafficgen.trafficgenhelper import (
-    TRAFFIC_DEFAULTS,
-    merge_spec)
 from tools.pkt_gen.trafficgen.trafficgen import ITrafficGenerator
 
 class Moongen(ITrafficGenerator):
     """Moongen Traffic generator wrapper."""
-    _traffic_defaults = TRAFFIC_DEFAULTS.copy()
     _logger = logging.getLogger(__name__)
 
     def __init__(self):
         """Moongen class constructor."""
+        super().__init__()
         self._logger.info("In moongen __init__ method")
         self._params = {}
         self._moongen_host_ip_addr = (
@@ -56,18 +54,6 @@ class Moongen(ITrafficGenerator):
             raise RuntimeError(
                 'MOONGEN: Invalid line speed in configuration ' + \
                 'file (today 10Gbps supported)')
-
-    @property
-    def traffic_defaults(self):
-        """Default traffic values.
-
-        These can be expected to be constant across traffic generators,
-        so no setter is provided. Changes to the structure or contents
-        will likely break traffic generator implementations or tests
-        respectively.
-        """
-        self._logger.info("In Moongen traffic_defaults method")
-        return self._traffic_defaults
 
     def create_moongen_cfg_file(self, traffic, duration=60,
                                 acceptable_loss_pct=1, one_shot=0):

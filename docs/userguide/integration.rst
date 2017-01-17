@@ -82,21 +82,21 @@ To run VXLAN encapsulation tests:
   .. code-block:: console
 
     ./vsperf --conf-file user_settings.py --integration \
-             --test-params 'tunnel_type=vxlan' overlay_p2p_tput
+             --test-params 'TUNNEL_TYPE=vxlan' overlay_p2p_tput
 
 To run GRE encapsulation tests:
 
   .. code-block:: console
 
     ./vsperf --conf-file user_settings.py --integration \
-             --test-params 'tunnel_type=gre' overlay_p2p_tput
+             --test-params 'TUNNEL_TYPE=gre' overlay_p2p_tput
 
 To run GENEVE encapsulation tests:
 
   .. code-block:: console
 
     ./vsperf --conf-file user_settings.py --integration \
-             --test-params 'tunnel_type=geneve' overlay_p2p_tput
+             --test-params 'TUNNEL_TYPE=geneve' overlay_p2p_tput
 
 To run OVS NATIVE tunnel tests (VXLAN/GRE/GENEVE):
 
@@ -128,7 +128,7 @@ To run OVS NATIVE tunnel tests (VXLAN/GRE/GENEVE):
   .. code-block:: console
 
     ./vsperf --conf-file user_settings.py --integration \
-             --test-params 'tunnel_type=vxlan' overlay_p2p_tput
+             --test-params 'TUNNEL_TYPE=vxlan' overlay_p2p_tput
 
 
 Executing VXLAN decapsulation tests
@@ -189,7 +189,7 @@ To run GRE decapsulation tests:
 
   .. code-block:: console
 
-    ./vsperf --conf-file user_settings.py --test-params 'tunnel_type=gre' \
+    ./vsperf --conf-file user_settings.py --test-params 'TUNNEL_TYPE=gre' \
              --integration overlay_p2p_decap_cont
 
 

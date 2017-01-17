@@ -88,6 +88,7 @@ import csv
 from collections import OrderedDict
 from tools.pkt_gen import trafficgen
 from conf import settings
+from conf import merge_spec
 from core.results.results_constants import ResultsConstants
 
 _ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -155,6 +156,7 @@ class IxNet(trafficgen.ITrafficGenerator):
     def __init__(self):
         """Initialize IXNET members
         """
+        super().__init__()
         self._script = os.path.join(settings.getValue('TRAFFICGEN_IXIA_3RD_PARTY'),
                                     settings.getValue('TRAFFICGEN_IXNET_TCL_SCRIPT'))
         self._tclsh = tkinter.Tcl()
@@ -227,7 +229,7 @@ class IxNet(trafficgen.ITrafficGenerator):
         self._params['traffic'] = self.traffic_defaults.copy()
 
         if traffic:
-            self._params['traffic'] = trafficgen.merge_spec(
+            self._params['traffic'] = merge_spec(
                 self._params['traffic'], traffic)
         self._cfg['bidir'] = self._bidir
 
@@ -281,7 +283,7 @@ class IxNet(trafficgen.ITrafficGenerator):
         self._params['traffic'] = self.traffic_defaults.copy()
 
         if traffic:
-            self._params['traffic'] = trafficgen.merge_spec(
+            self._params['traffic'] = merge_spec(
                 self._params['traffic'], traffic)
         self._cfg['bidir'] = self._bidir
 
@@ -418,7 +420,7 @@ class IxNet(trafficgen.ITrafficGenerator):
         self._params['traffic'] = self.traffic_defaults.copy()
 
         if traffic:
-            self._params['traffic'] = trafficgen.merge_spec(
+            self._params['traffic'] = merge_spec(
                 self._params['traffic'], traffic)
         self._cfg['bidir'] = self._bidir
 

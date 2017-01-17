@@ -26,16 +26,14 @@ import time
 import datetime
 import shutil
 import unittest
-import xmlrunner
 import locale
 import copy
 import glob
 import subprocess
-
-sys.dont_write_bytecode = True
-
+import ast
+import xmlrunner
 from conf import settings
-from conf import get_test_param
+import core.component_factory as component_factory
 from core.loader import Loader
 from testcases import PerformanceTestCase
 from testcases import IntegrationTestCase
@@ -44,8 +42,8 @@ from tools import networkcard
 from tools import functions
 from tools.pkt_gen import trafficgen
 from tools.opnfvdashboard import opnfvdashboard
-from tools.pkt_gen.trafficgen.trafficgenhelper import TRAFFIC_DEFAULTS
-import core.component_factory as component_factory
+
+sys.dont_write_bytecode = True
 
 VERBOSITY_LEVELS = {
     'debug': logging.DEBUG,
@@ -86,7 +84,14 @@ def parse_arguments():
                 value = value.strip()
                 if len(param):
                     if len(value):
-                        results[param] = value
+                        # values are passed inside string from CLI, so we must retype them accordingly
+                        try:
+                            results[param] = ast.literal_eval(value)
+                        except ValueError:
+                            # for backward compatibility, we have to accept strings without quotes
+                            _LOGGER.warning("Adding missing quotes around string value: %s = %s",
+                                            param, str(value))
+                            results[param] = str(value)
                     else:
                         results[param] = True
 
@@ -345,8 +350,7 @@ def enable_sriov(nic_list):
                 or networkcard.get_sriov_numvfs(nic) <= sriov_nic[nic]:
                 # if not, enable and set appropriate number of VFs
                 if not networkcard.set_sriov_numvfs(nic, sriov_nic[nic] + 1):
-                    _LOGGER.error("SRIOV cannot be enabled for NIC %s", nic)
-                    raise
+                    raise RuntimeError('SRIOV cannot be enabled for NIC {}'.format(nic))
                 else:
                     _LOGGER.debug("SRIOV enabled for NIC %s", nic)
 
@@ -375,8 +379,7 @@ def disable_sriov(nic_list):
     for nic in nic_list:
         if networkcard.is_sriov_nic(nic):
             if not networkcard.set_sriov_numvfs(nic.split('|')[0], 0):
-                _LOGGER.error("SRIOV cannot be disabled for NIC %s", nic)
-                raise
+                raise RuntimeError('SRIOV cannot be disabled for NIC {}'.format(nic))
             else:
                 _LOGGER.debug("SRIOV disabled for NIC %s", nic.split('|')[0])
 
@@ -579,9 +582,8 @@ def main():
                              'driver' : networkcard.get_driver(tmp_nic),
                              'device' : networkcard.get_device_name(tmp_nic)})
         else:
-            _LOGGER.error("Invalid network card PCI ID: '%s'", nic)
             vsperf_finalize()
-            raise
+            raise RuntimeError("Invalid network card PCI ID: '{}'".format(nic))
 
     settings.setValue('NICS', nic_list)
     # for backward compatibility
@@ -603,12 +605,7 @@ def main():
         _LOGGER.debug("Executing traffic generator:")
         loader = Loader()
         # set traffic details, so they can be passed to traffic ctl
-        traffic = copy.deepcopy(TRAFFIC_DEFAULTS)
-        traffic.update({'traffic_type': get_test_param('traffic_type', TRAFFIC_DEFAULTS['traffic_type']),
-                        'bidir': get_test_param('bidirectional', TRAFFIC_DEFAULTS['bidir']),
-                        'multistream': int(get_test_param('multistream', TRAFFIC_DEFAULTS['multistream'])),
-                        'stream_type': get_test_param('stream_type', TRAFFIC_DEFAULTS['stream_type']),
-                        'frame_rate': int(get_test_param('iload', TRAFFIC_DEFAULTS['frame_rate']))})
+        traffic = copy.deepcopy(settings.getValue('TRAFFIC'))
 
         traffic_ctl = component_factory.create_traffic(
             traffic['traffic_type'],
@@ -689,4 +686,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

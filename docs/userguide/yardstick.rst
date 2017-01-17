@@ -146,14 +146,10 @@ Example of yaml file:
       type: Vsperf
       options:
         testname: 'p2p_rfc2544_throughput'
-        traffic_type: 'rfc2544_throughput'
-        frame_size '64'
-        bidirectional: 'True'
-        iload: 100
         trafficgen_port1: 'eth1'
         trafficgen_port2: 'eth3'
         external_bridge: 'br-ex'
-        test_params: 'TRAFFICGEN_DURATION=30;'
+        test_params: 'TRAFFICGEN_DURATION=30;TRAFFIC={'traffic_type':'rfc2544_throughput}'
         conf_file: '~/vsperf-yardstick.conf'
 
       host: vsperf.demo
@@ -182,19 +178,9 @@ Section **option** defines details of vswitchperf test scenario. Lot of options
 are identical to the vswitchperf parameters passed through ``--test-params``
 argument. Following options are supported:
 
-- **traffic_type** - specifies the type of traffic executed by traffic generator;
-  Valid values are ``rfc2544_throughput``, ``rfc2544_continuous`` and ``rfc2544_back2back``.
-  Default: ``rfc2544_throughput``
 - **frame_size** - a packet size for which test should be executed;
   Multiple packet sizes can be tested by modification of Sequence runner
   section inside YAML definition. Default: '64'
-- **bidirectional** - specifies if traffic will be uni (False) or bi-directional
-  (True); Default: False
-- **iload** - specifies frame rate; Default: 100
-- **multistream** - specifies the number of simulated streams; Default: 0 (i.e.
-  multistream feature is disabled)
-- **stream_type** - specifies network layer used for multistream simulation
-  the valid values are "L4", "L3" and "L2"; Default: 'L4'
 - **conf_file** - sets path to the vswitchperf configuration file, which will be
   uploaded to VM; Default: '~/vsperf-yardstick.conf'
 - **setup_script** - sets path to the setup script, which will be executed
@@ -208,8 +194,10 @@ argument. Following options are supported:
 - **test_params** - specifies a string with a list of vsperf configuration
   parameters, which will be passed to the ``--test-params`` CLI argument;
   Parameters should be stated in the form of ``param=value`` and separated
-  by a semicolon. Please check VSPERF documentation for details about
-  available configuration parameters and their data types.
+  by a semicolon. Configuration of traffic generator is driven by ``TRAFFIC``
+  dictionary, which can be also updated by values defined by ``test_params``.
+  Please check VSPERF documentation for details about available configuration
+  parameters and their data types.
   In case that both **test_params** and **conf_file** are specified,
   then values from **test_params** will override values defined
   in the configuration file.
@@ -220,7 +208,7 @@ expected, that OVS runs at the same node, where the testcase is executed. In cas
 of more complex OpenStack installation or a need of additional OVS configuration,
 **setup_script** can be used.
 
-Note: It is essential to specify a configuration for selected traffic generator.
+**NOTE** It is essential to specify a configuration for selected traffic generator.
 In case, that standalone testcase is created, then traffic generator can be
 selected and configured directly in YAML file by **test_params**. On the other
 hand, if multiple testcases should be executed with the same traffic generator
@@ -259,3 +247,8 @@ In case that any of defined metrics will be lower than defined value, then
 testcase will be marked as failed. Based on ``action`` policy, yardstick
 will either stop test execution (value ``assert``) or it will run next test
 (value ``monitor``).
+
+**NOTE** The throughput SLA (or any other SLA) cannot be set to a meaningful
+value without knowledge of the server and networking environment, possibly
+including prior testing in that environment to establish a baseline SLA level
+under well-understood circumstances.

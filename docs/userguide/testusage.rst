@@ -719,36 +719,19 @@ Mode of operation is driven by configuration parameter -m or --mode
             "trafficgen-pause" - execute vSwitch and VNF but wait before traffic transmission
 
 In case, that VSPERF is executed in "trafficgen" mode, then configuration
-of traffic generator should be configured through ``--test-params`` option.
-Supported CLI options useful for traffic generator configuration are:
-
-.. code-block:: console
-
-    'traffic_type'  - One of the supported traffic types. E.g.
-                      rfc2544_throughput,
-                      rfc2544_back2back or rfc2544_continuous
-                      Default value is "rfc2544_throughput".
-    'bidirectional' - Specifies if generated traffic will be full-duplex (true)
-                      or half-duplex (false)
-                      Default value is "false".
-    'iload'         - Defines desired percentage of frame rate used during
-                      continuous stream tests.
-                      Default value is 100.
-    'multistream'   - Defines number of flows simulated by traffic generator.
-                      Value 0 disables MultiStream feature
-                      Default value is 0.
-    'stream_type'   - Stream Type is an extension of the "MultiStream" feature.
-                      If MultiStream is disabled, then Stream Type will be
-                      ignored. Stream Type defines ISO OSI network layer used
-                      for simulation of multiple streams.
-                      Default value is "L4".
+of traffic generator can be modified through ``TRAFFIC`` dictionary passed to the
+``--test-params`` option. It is not needed to specify all values of ``TRAFFIC``
+dictionary. It is sufficient to specify only values, which should be changed.
+Detailed description of ``TRAFFIC`` dictionary can be found at
+`Configuration of TRAFFIC dictionary
+<http://artifacts.opnfv.org/vswitchperf/docs/index.html#configuration-of-traffic-dictionary>`__
 
 Example of execution of VSPERF in "trafficgen" mode:
 
 .. code-block:: console
 
     $ ./vsperf -m trafficgen --trafficgen IxNet --conf-file vsperf.conf \
-        --test-params "traffic_type=rfc2544_continuous;bidirectional=True;iload=60"
+        --test-params "TRAFFIC={'traffic_type':'rfc2544_continuous','bidir':'False','framerate':60}"
 
 Code change verification by pylint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
