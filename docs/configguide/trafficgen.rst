@@ -7,15 +7,16 @@
 ===========================
 
 Overview
----------------------
+--------
+
 VSPERF supports the following traffic generators:
 
-  * Dummy (DEFAULT): Allows you to use your own external
+  * Dummy_ (DEFAULT): Allows you to use your own external
     traffic generator.
-  * IXIA (IxNet and IxOS)
-  * Spirent TestCenter
-  * Xena Networks
-  * MoonGen
+  * Ixia_
+  * `Spirent TestCenter`_
+  * `Xena Networks`_
+  * MoonGen_
 
 To see the list of traffic gens from the cli:
 
@@ -86,6 +87,8 @@ commandline above to:
 
     $ ./vsperf --test-params "TRAFFICGEN_PKT_SIZES=(x,y);TRAFFICGEN_DURATION=10;" \
                              "TRAFFICGEN_RFC2544_TESTS=1" $TESTNAME
+
+.. _Dummy:
 
 Dummy Setup
 ------------
@@ -161,61 +164,66 @@ Finally vsperf will print out the results for your test and generate the
 appropriate logs and csv files.
 
 
-IXIA Setup
-----------
+.. _Ixia:
 
-On the CentOS 7 system
-~~~~~~~~~~~~~~~~~~~~~~
+Ixia
+----
 
-You need to install IxNetworkTclClient$(VER\_NUM)Linux.bin.tgz.
+VSPERF can use both IxNetwork and IxExplorer TCL servers to control Ixia chassis.
+However usage of IxNetwork TCL server is a preferred option. Following sections
+will describe installation and configuration of IxNetwork components used by VSPERF.
 
-On the IXIA client software system
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Installation
+~~~~~~~~~~~~
 
-Find the IxNetwork TCL server app (start -> All Programs -> IXIA ->
-IxNetwork -> IxNetwork\_$(VER\_NUM) -> IxNetwork TCL Server)
+On the system under the test you need to install IxNetworkTclClient$(VER\_NUM)Linux.bin.tgz.
 
-Right click on IxNetwork TCL Server, select properties - Under shortcut tab in
-the Target dialogue box make sure there is the argument "-tclport xxxx"
-where xxxx is your port number (take note of this port number as you will
-need it for the 10\_custom.conf file).
+On the IXIA client software system you need to install IxNetwork TCL server. After its
+intallation you should configure it as follows:
 
-.. image:: TCLServerProperties.png
+    1. Find the IxNetwork TCL server app (start -> All Programs -> IXIA ->
+       IxNetwork -> IxNetwork\_$(VER\_NUM) -> IxNetwork TCL Server)
+    2. Right click on IxNetwork TCL Server, select properties - Under shortcut tab in
+       the Target dialogue box make sure there is the argument "-tclport xxxx"
+       where xxxx is your port number (take note of this port number as you will
+       need it for the 10\_custom.conf file).
 
-Hit Ok and start the TCL server application
+       .. image:: TCLServerProperties.png
+
+    3. Hit Ok and start the TCL server application
 
 VSPERF configuration
 ~~~~~~~~~~~~~~~~~~~~
 
-There are several configuration options specific to the IxNetworks traffic generator
+There are several configuration options specific to the IxNetwork traffic generator
 from IXIA. It is essential to set them correctly, before the VSPERF is executed
 for the first time.
 
 Detailed description of options follows:
 
- * TRAFFICGEN_IXNET_MACHINE - IP address of server, where IxNetwork TCL Server is running
- * TRAFFICGEN_IXNET_PORT - PORT, where IxNetwork TCL Server is accepting connections from
+ * ``TRAFFICGEN_IXNET_MACHINE`` - IP address of server, where IxNetwork TCL Server is running
+ * ``TRAFFICGEN_IXNET_PORT`` - PORT, where IxNetwork TCL Server is accepting connections from
    TCL clients
- * TRAFFICGEN_IXNET_USER - username, which will be used during communication with IxNetwork
+ * ``TRAFFICGEN_IXNET_USER`` - username, which will be used during communication with IxNetwork
    TCL Server and IXIA chassis
- * TRAFFICGEN_IXIA_HOST - IP address of IXIA traffic generator chassis
- * TRAFFICGEN_IXIA_CARD - identification of card with dedicated ports at IXIA chassis
- * TRAFFICGEN_IXIA_PORT1 - identification of the first dedicated port at TRAFFICGEN_IXIA_CARD
+ * ``TRAFFICGEN_IXIA_HOST`` - IP address of IXIA traffic generator chassis
+ * ``TRAFFICGEN_IXIA_CARD`` - identification of card with dedicated ports at IXIA chassis
+ * ``TRAFFICGEN_IXIA_PORT1`` - identification of the first dedicated port at ``TRAFFICGEN_IXIA_CARD``
    at IXIA chassis; VSPERF uses two separated ports for traffic generation. In case of
    unidirectional traffic, it is essential to correctly connect 1st IXIA port to the 1st NIC
-   at DUT, i.e. to the first PCI handle from WHITELIST_NICS list. Otherwise traffic may not
+   at DUT, i.e. to the first PCI handle from ``WHITELIST_NICS`` list. Otherwise traffic may not
    be able to pass through the vSwitch.
- * TRAFFICGEN_IXIA_PORT2 - identification of the second dedicated port at TRAFFICGEN_IXIA_CARD
+ * ``TRAFFICGEN_IXIA_PORT2`` - identification of the second dedicated port at ``TRAFFICGEN_IXIA_CARD``
    at IXIA chassis; VSPERF uses two separated ports for traffic generation. In case of
    unidirectional traffic, it is essential to correctly connect 2nd IXIA port to the 2nd NIC
-   at DUT, i.e. to the second PCI handle from WHITELIST_NICS list. Otherwise traffic may not
+   at DUT, i.e. to the second PCI handle from ``WHITELIST_NICS`` list. Otherwise traffic may not
    be able to pass through the vSwitch.
- * TRAFFICGEN_IXNET_LIB_PATH - path to the DUT specific installation of IxNetwork TCL API
- * TRAFFICGEN_IXNET_TCL_SCRIPT - name of the TCL script, which VSPERF will use for
+ * ``TRAFFICGEN_IXNET_LIB_PATH`` - path to the DUT specific installation of IxNetwork TCL API
+ * ``TRAFFICGEN_IXNET_TCL_SCRIPT`` - name of the TCL script, which VSPERF will use for
    communication with IXIA TCL server
- * TRAFFICGEN_IXNET_TESTER_RESULT_DIR - folder accessible from IxNetwork TCL server,
+ * ``TRAFFICGEN_IXNET_TESTER_RESULT_DIR`` - folder accessible from IxNetwork TCL server,
    where test results are stored, e.g. ``c:/ixia_results``; see test-results-share_
- * TRAFFICGEN_IXNET_DUT_RESULT_DIR - directory accessible from the DUT, where test
+ * ``TRAFFICGEN_IXNET_DUT_RESULT_DIR`` - directory accessible from the DUT, where test
    results from IxNetwork TCL server are stored, e.g. ``/mnt/ixia_results``; see
    test-results-share_
 
@@ -244,7 +252,7 @@ Example of sharing configuration:
        TRAFFICGEN_IXNET_TESTER_RESULT_DIR = 'c:/ixia_results'
        TRAFFICGEN_IXNET_DUT_RESULT_DIR = '/mnt/ixia_results'
 
-   Note: It is essential to use slashes '/' also in path
+   **NOTE:** It is essential to use slashes '/' also in path
    configured by ``TRAFFICGEN_IXNET_TESTER_RESULT_DIR`` parameter.
  * Install cifs-utils package.
 
@@ -265,6 +273,8 @@ Example of sharing configuration:
 
 It is recommended to verify, that any new file inserted into ``c:/ixia_results`` folder
 is visible at DUT inside ``/mnt/ixia_results`` directory.
+
+.. _`Spirent TestCenter`:
 
 Spirent Setup
 -------------
@@ -366,6 +376,8 @@ The mandatory configurations are enlisted below.
 
     TRAFFICGEN_STC_RFC2889_TEST_FILE_NAME = " "
     TRAFFICGEN_STC_RFC2889_LOCATIONS= " "
+
+.. _`Xena Networks`:
 
 Xena Networks
 -------------
