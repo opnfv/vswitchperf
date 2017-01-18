@@ -487,6 +487,18 @@ multiple VM NIC pairs.
 **NOTE:** In case of linux_bridge, all guest NICs are connected to the same
 bridge inside the guest.
 
+Mergable Buffers Options with QEMU
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Mergable buffers can be disabled with VSPerf within QEMU. This option can
+increase performance significantly when not using jumbo frame sized packets.
+By default VSPerf disables mergable buffers. If you wish to enable it you
+can modify the setting in the ``conf/04_vnf.conf`` file.
+
+.. code-block:: python
+
+    GUEST_NIC_MERGE_BUFFERS_DISABLE = [False]
+
 Selection of dpdk binding driver for tests with VMs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
