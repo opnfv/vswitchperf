@@ -17,7 +17,8 @@ Performance and Test group and its associated projects, as part of OPNFV
 Platform and VNF level testing and validation.
 
 * Project Wiki: https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases
-* Project Repository: https://gerrit.opnfv.org/gerrit/#/q/vswitchperf
+* Project Repository: https://git.opnfv.org/vswitchperf
+* Project Artifacts: https://artifacts.opnfv.org/vswitchperf.html
 * Continuous Integration https://build.opnfv.org/ci/view/vswitchperf/
 
 .. toctree::
@@ -34,4 +35,3 @@ Platform and VNF level testing and validation.
 Indices
 =======
 * :ref:`search`
-
