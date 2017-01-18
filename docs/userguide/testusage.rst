@@ -487,6 +487,18 @@ multiple VM NIC pairs.
 **NOTE:** In case of linux_bridge, all guest NICs are connected to the same
 bridge inside the guest.
 
+Mergable Buffers Options with QEMU
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Mergable buffers can be disabled with VSPerf within QEMU. This option can
+increase performance significantly when not using jumbo frame sized packets.
+By default VSPerf disables mergable buffers. If you wish to enable it you
+can modify the setting in the ``conf/04_vnf.conf`` file.
+
+.. code-block:: python
+
+    GUEST_NIC_MERGE_BUFFERS_DISABLE = [False]
+
 Selection of dpdk binding driver for tests with VMs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -715,6 +727,19 @@ Example of manual pylint invocation:
 
 GOTCHAs:
 ^^^^^^^^
+
+Custom image fails to boot
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Using custom VM images may not boot within VSPerf pxp testing because of
+the drive boot and shared type. Your VM image may have been built using
+ide devices. In case of issues you can try changing the drive boot type
+to ide.
+
+.. code-block:: python
+
+    GUEST_BOOT_DRIVE_TYPE = ['ide']
+    GUEST_SHARED_DRIVE_TYPE = ['ide']
 
 OVS with DPDK and QEMU
 ~~~~~~~~~~~~~~~~~~~~~~~
