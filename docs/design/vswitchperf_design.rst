@@ -314,10 +314,11 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
                                 of selected transport protocol
                       Default value: "L4".
     'pre_installed_flows'
-                   -  Pre-installed flows is an extension of the multistream"
-                      feature. If multistream is disabled, then pre-installed
-                      flows will be ignored. It defines if stream specific flows
-                      will be inserted into OVS or not.
+                   -  Pre-installed flows is an extension of the "multistream"
+                      feature. If enabled, it will implicitly insert a flow
+                      for each stream. If multistream is disabled, then
+                      pre-installed flows will be ignored.
+                      Note: It is supported only for p2p deployment scenario.
                       Data type: str
                       Supported values:
                          "Yes" - flows will be inserted into OVS
