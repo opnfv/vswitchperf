@@ -6,6 +6,39 @@
 Installing vswitchperf
 ======================
 
+Downloading vswitchperf
+-----------------------
+
+The vswitchperf can be downloaded from its official git repository, which is
+hosted by OPNFV. It is necessary to install a ``git`` at your DUT before downloading
+vswitchperf. Installation of ``git`` is specific to the packaging system used by
+Linux OS installed at DUT.
+
+Example of installation of GIT package and its dependencies:
+
+* in case of OS based on RedHat Linux:
+
+  .. code:: bash
+
+     sudo yum install git
+
+
+* in case of Ubuntu or Debian:
+
+  .. code:: bash
+
+     sudo apt-get install git
+
+After the ``git`` is successfully installed at DUT, then vswitchperf can be downloaded
+as follows:
+
+.. code:: bash
+
+   git clone http://git.opnfv.org/vswitchperf
+
+The last command will create a directory ``vswitchperf`` with a local copy of vswitchperf
+repository.
+
 Supported Operating Systems
 ---------------------------
 
@@ -21,72 +54,94 @@ Supported Operating Systems
 
 Supported vSwitches
 -------------------
+
 The vSwitch must support Open Flow 1.3 or greater.
 
-* OVS (built from source).
-* OVS with DPDK (built from source).
+* Open vSwitch
+* Open vSwitch with DPDK support
+* TestPMD application from DPDK (supports p2p and pvp scenarios)
 
 Supported Hypervisors
 ---------------------
 
-* Qemu version 2.3 or greater.
+* Qemu version 2.3 or greater (version 2.5.0 is recommended)
 
-Available VNFs
+Supported VNFs
 --------------
-A simple VNF that forwards traffic through a VM, using:
+
+In theory, it is possible to use any VNF image, which is compatible
+with supported hypervisor. However such VNF must ensure, that appropriate
+number of network interfaces is configured and that traffic is properly
+forwarded among them. For new vswitchperf users it is recommended to start
+with official vloop-vnf_ image, which is maintained by vswitchperf community.
+
+.. _vloop-vnf:
+
+vloop-vnf
+=========
+
+The official VM image is called vloop-vnf and it is available for free download
+from OPNFV artifactory. This image is based on Linux Ubuntu distribution and it
+supports following applications for traffic forwarding:
 
 * DPDK testpmd
 * Linux Bridge
 * Custom l2fwd module
 
-The official VM image is called vloop-vnf and it is available for free
-download at OPNFV website.
+The vloop-vnf can be downloaded to DUT, for example by ``wget``:
 
-vloop-vnf changelog:
-====================
+  .. code:: bash
 
-* `vloop-vnf-ubuntu-14.04_20160823`_
+     wget http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20160823.qcow2
 
-  * ethtool installed
-  * only 1 NIC is configured by default to speed up boot with 1 NIC setup
-  * security updates applied
+**NOTE:** In case that ``wget`` is not installed at your DUT, you could install it at RPM
+based system by ``sudo yum install wget`` or at DEB based system by ``sudo apt-get install
+wget``.
 
-* `vloop-vnf-ubuntu-14.04_20160804`_
+Changelog of vloop-vnf:
 
-  * Linux kernel 4.4.0 installed
-  * libnuma-dev installed
-  * security updates applied
+  * `vloop-vnf-ubuntu-14.04_20160823`_
 
-* `vloop-vnf-ubuntu-14.04_20160303`_
+    * ethtool installed
+    * only 1 NIC is configured by default to speed up boot with 1 NIC setup
+    * security updates applied
 
-  * snmpd service is disabled by default to avoid error messages during VM boot
-  * security updates applied
+  * `vloop-vnf-ubuntu-14.04_20160804`_
 
-* `vloop-vnf-ubuntu-14.04_20151216`_
+    * Linux kernel 4.4.0 installed
+    * libnuma-dev installed
+    * security updates applied
 
-  * version with development tools required for build of DPDK and l2fwd
+  * `vloop-vnf-ubuntu-14.04_20160303`_
 
-Other Requirements
-------------------
-The test suite requires Python 3.3 and relies on a number of other
-packages. These need to be installed for the test suite to function.
+    * snmpd service is disabled by default to avoid error messages during VM boot
+    * security updates applied
+
+  * `vloop-vnf-ubuntu-14.04_20151216`_
+
+    * version with development tools required for build of DPDK and l2fwd
+
+Installation
+------------
+
+The test suite requires Python 3.3 or newer and relies on a number of other
+system and python packages. These need to be installed for the test suite
+to function.
 
 Installation of required packages, preparation of Python 3 virtual
 environment and compilation of OVS, DPDK and QEMU is performed by
 script **systems/build_base_machine.sh**. It should be executed under
 user account, which will be used for vsperf execution.
 
-**Please Note**: Password-less sudo access must be configured for given
+**NOTE:** Password-less sudo access must be configured for given
 user account before script is executed.
-
-Execution of installation script:
 
 .. code:: bash
 
     $ cd systems
     $ ./build_base_machine.sh
 
-**Please Note**: you don't need to go into any of the systems subdirectories,
+**NOTE:** you don't need to go into any of the systems subdirectories,
 simply run the top level **build_base_machine.sh**, your OS will be detected
 automatically.
 
@@ -96,52 +151,65 @@ In case of CentOS 7 or RHEL it will install Python 3.3 from an additional
 repository provided by Software Collections (`a link`_). Installation script
 will also use `virtualenv`_ to create a vsperf virtual environment, which is
 isolated from the default Python environment. This environment will reside in a
-directory called **vsperfenv** in $HOME.
+directory called **vsperfenv** in $HOME. It will ensure, that system wide Python
+installation is not modified or broken by VSPERF installation. The complete list
+of Python packages installed inside virtualenv can be found at file
+``requirements.txt``, which is located at vswitchperf repository.
 
-**Please Note**: For RHEL 7.3 Enterprise OVS Vanilla is not built from upstream
+**NOTE:** For RHEL 7.3 Enterprise OVS Vanilla is not built from upstream
 source due to kernel incompatibilities. Please see the instructions in the
 vswitchperf_design document for details on configuring OVS Vanilla for binary
 package usage.
 
+Using vswitchperf
+-----------------
+
 You will need to activate the virtual environment every time you start a
 new shell session. Its activation is specific to your OS:
 
-CentOS 7 and RHEL
-=================
+* CentOS 7 and RHEL
 
-.. code:: bash
+  .. code:: bash
 
-    $ scl enable python33 bash
-    $ cd $HOME/vsperfenv
-    $ source bin/activate
+     $ scl enable python33 bash
+     $ source $HOME/vsperfenv/bin/activate
 
-Fedora and Ubuntu
-=================
+* Fedora and Ubuntu
 
-.. code:: bash
+  .. code:: bash
 
-    $ cd $HOME/vsperfenv
-    $ source bin/activate
+     $ source $HOME/vsperfenv/bin/activate
+
+After the virtual environment is configued, then VSPERF can be used.
+For example:
+
+  .. code:: bash
+
+     (vsperfenv) $ cd vswitchperf
+     (vsperfenv) $ ./vsperf --help
 
 Gotcha
-^^^^^^
+======
+
+In case you will see following error during environment activation:
+
 .. code:: bash
 
-   $ source bin/activate
+   $ source $HOME/vsperfenv/bin/activate
    Badly placed ()'s.
 
-Check what type of shell you are using
+then check what type of shell you are using:
 
 .. code:: bash
 
-   echo $shell
+   $ echo $SHELL
    /bin/tcsh
 
 See what scripts are available in $HOME/vsperfenv/bin
 
 .. code:: bash
 
-   $ ls bin/
+   $ ls $HOME/vsperfenv/bin/
    activate          activate.csh      activate.fish     activate_this.py
 
 source the appropriate script
@@ -195,11 +263,11 @@ your configuration in the ``02_vswitch.conf`` file.
         'dpdk-socket-mem' : '1024,1024',
     }
 
-Note: Option VSWITCHD_DPDK_ARGS is used for vswitchd, which supports --dpdk
-parameter. In recent vswitchd versions, option VSWITCHD_DPDK_CONFIG will be
-used to configure vswitchd via ovs-vsctl calls.
+**NOTE:** Option ``VSWITCHD_DPDK_ARGS`` is used for vswitchd, which supports ``--dpdk``
+parameter. In recent vswitchd versions, option ``VSWITCHD_DPDK_CONFIG`` is
+used to configure vswitchd via ``ovs-vsctl`` calls.
 
-With the --socket-mem argument set to use 1 hugepage on the specified sockets as
+With the ``--socket-mem`` argument set to use 1 hugepage on the specified sockets as
 seen above, the configuration will need 10 hugepages total to run all tests
 within vsperf if the pagesize is set correctly to 1GB.
 
@@ -207,7 +275,7 @@ VSPerf will verify hugepage amounts are free before executing test
 environments. In case of hugepage amounts not being free, test initialization
 will fail and testing will stop.
 
-**Please Note**: In some instances on a test failure dpdk resources may not
+**NOTE:** In some instances on a test failure dpdk resources may not
 release hugepages used in dpdk configuration. It is recommended to configure a
 few extra hugepages to prevent a false detection by VSPerf that not enough free
 hugepages are available to execute the test environment. Normally dpdk would use
@@ -227,6 +295,6 @@ You can review your hugepage amounts by executing the following command
     cat /proc/meminfo | grep Huge
 
 If no hugepages are available vsperf will try to automatically allocate some.
-Allocation is controlled by HUGEPAGE_RAM_ALLOCATION configuration parameter in
+Allocation is controlled by ``HUGEPAGE_RAM_ALLOCATION`` configuration parameter in
 ``02_vswitch.conf`` file. Default is 2GB, resulting in either 2 1GB hugepages
 or 1024 2MB hugepages.
