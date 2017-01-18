@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_77edd7ee",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-18T12:29:04Z",
+      "side": 1,
+      "message": "I would either recommend to modify parameter inside custom configuration file or (preferred) just put a generic statement, that parameter can be changed (as it can be changed also via CLI argument --test-params if needed).",
+      "revId": "c2c724c41d824358acf06b39168ea912078e44d3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_f7e1c7fe",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-18T12:29:04Z",
+      "side": 1,
+      "message": "AFAIK, the root cause is a missing scsi driver in kernel boot image.",
+      "range": {
+        "startLine": 735,
+        "startChar": 32,
+        "endLine": 736,
+        "endChar": 11
+      },
+      "revId": "c2c724c41d824358acf06b39168ea912078e44d3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
