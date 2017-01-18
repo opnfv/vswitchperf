@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_f705467a",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-18T18:36:13Z",
+      "side": 1,
+      "message": "We should keep original data type - bool, i.e.: \"GUEST_NIC_MERGE_BUFFERS_DISABLE\u003d[False]\"",
+      "revId": "02749132e9dd02c976fad5f77dc33321899299d3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
