@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_174c939d",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-01-18T15:22:41Z",
+      "side": 1,
+      "message": "change the to a?\n\nThe sentence just makes it sound like we only use one type of real traffic generator.\n\n\"VSPERF functionality at DUT without connection\nto a real traffic generator.\"",
+      "revId": "f9372fa857c33d35fbc4378daa722e80b48c32fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
