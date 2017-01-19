@@ -16,6 +16,7 @@
 """
 
 import logging
+from conf import settings
 
 class PktFwdController(object):
     """Packet forwarder controller for P2P deployment scenario.
@@ -32,7 +33,8 @@ class PktFwdController(object):
         self._deployment = deployment
         self._logger = logging.getLogger(__name__)
         self._pktfwd_class = pktfwd_class
-        self._pktfwd = pktfwd_class(guest=True if deployment == "pvp" else False)
+        self._pktfwd = pktfwd_class(guest=True if deployment == "pvp" and
+                                    settings.getValue('VNF') != "QemuPciPassthrough" else False)
         self._logger.debug('Creation using ' + str(self._pktfwd_class))
 
     def setup(self):
@@ -66,13 +68,13 @@ class PktFwdController(object):
     def __enter__(self):
         if self._deployment.find("p2p") == 0:
             self.setup()
-        elif self._deployment == "pvp":
+        elif self._deployment == "pvp" and settings.getValue('VNF') != "QemuPciPassthrough":
             self.setup_for_guest()
 
     def __exit__(self, type_, value, traceback):
         if self._deployment.find("p2p") == 0:
             self.stop()
-        elif self._deployment == "pvp":
+        elif self._deployment == "pvp" and settings.getValue('VNF') != "QemuPciPassthrough":
             self.stop()
 
     def get_pktfwd(self):
