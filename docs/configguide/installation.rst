@@ -9,7 +9,7 @@ Installing vswitchperf
 Supported Operating Systems
 ---------------------------
 
-* CentOS 7
+* CentOS 7.3
 * Fedora 20
 * Fedora 21
 * Fedora 22
@@ -98,10 +98,10 @@ will also use `virtualenv`_ to create a vsperf virtual environment, which is
 isolated from the default Python environment. This environment will reside in a
 directory called **vsperfenv** in $HOME.
 
-**Please Note**: For RHEL 7.3 Enterprise OVS Vanilla is not built from upstream
-source due to kernel incompatibilities. Please see the instructions in the
-vswitchperf_design document for details on configuring OVS Vanilla for binary
-package usage.
+**Please Note**: For RHEL 7.3 Enterprise and CentOS 7.3 OVS Vanilla is not
+built from upstream source due to kernel incompatibilities. Please see the
+instructions in the vswitchperf_design document for details on configuring
+OVS Vanilla for binary package usage.
 
 You will need to activate the virtual environment every time you start a
 new shell session. Its activation is specific to your OS:

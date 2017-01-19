@@ -79,6 +79,12 @@ else
 	$(AT)sed -i -e 's/CONFIG_RTE_LIBRTE_VHOST_USER=.\+/CONFIG_RTE_LIBRTE_VHOST_USER=$(VHOST_USER)/g' $(CONFIG_FILE_LINUXAPP)
 	$(AT)sed -i -e 's/CONFIG_RTE_BUILD_COMBINE_LIBS=./CONFIG_RTE_BUILD_COMBINE_LIBS=y/g' $(CONFIG_FILE_LINUXAPP)
 endif
+# CentOS 7.3 specific config changes to compile
+ifeq ($(ID),"centos")
+ifeq ($(VERSION_ID),"7")
+	$(AT)sed -i.bak s@'SRCS-y += ethtool/igb/igb_main.c'@'#SRCS-y += ethtool/igb/igb_main.c'@g $(WORK_DIR)/lib/librte_eal/linuxapp/kni/Makefile
+endif
+endif
 # RHEL 7.3 specific config changes to compile
 ifeq ($(ID),"rhel")
 ifeq ($(VERSION_ID),"7.3")

@@ -77,3 +77,5 @@ python33
 python33-python-tkinter
 git-review
 " | grep -v ^#)
+# prevent ovs vanilla from building from source due to kernel incompatibilities
+sed -i s/'SUBBUILDS = src_vanilla'/'#SUBBUILDS = src_vanilla'/ ../src/Makefile
