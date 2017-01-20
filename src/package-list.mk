@@ -6,11 +6,11 @@
 # dpdk section
 # DPDK_URL ?= git://dpdk.org/dpdk
 DPDK_URL ?= http://dpdk.org/git/dpdk
-DPDK_TAG ?= v16.07
+DPDK_TAG ?= v16.11
 
 # OVS section
 OVS_URL ?= https://github.com/openvswitch/ovs
-OVS_TAG ?= ed26e3ea9995ba632e681d5990af5ee9814f650e
+OVS_TAG ?= 04de404e1bfa63706237aa78ee065d67538f8fe9
 
 # QEMU section
 QEMU_URL ?= https://github.com/qemu/qemu.git
