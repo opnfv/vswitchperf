@@ -1387,20 +1387,20 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_field $ixNetSG_Stack(3)/field:"ethernet.header.sourceAddress-2"
     ixNet setMultiAttrs $sg_field \
-     -singleValue {00:00:00:00:00:00} \
+     -singleValue $srcMac \
      -seed {1} \
      -optionalEnabled True \
      -fullMesh False \
      -valueList {{00:00:00:00:00:00}} \
      -stepValue {00:00:00:00:00:00} \
      -fixedBits {00:00:00:00:00:00} \
-     -fieldValue {00:00:00:00:00:00} \
+     -fieldValue $srcMac \
      -auto False \
      -randomMask {00:00:00:00:00:00} \
      -trackingEnabled False \
      -valueType singleValue \
      -activeFieldChoice False \
-     -startValue {00:00:00:00:00:00} \
+     -startValue $srcMac \
      -countValue {1}
     sg_commit
     set sg_field [lindex [ixNet remapIds $sg_field] 0]
@@ -2806,20 +2806,20 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_field $ixNetSG_Stack(3)/field:"udp.header.srcPort-1"
     ixNet setMultiAttrs $sg_field \
-     -singleValue {63} \
+     -singleValue $srcPort \
      -seed {1} \
      -optionalEnabled True \
      -fullMesh False \
      -valueList {{63}} \
      -stepValue {63} \
      -fixedBits {63} \
-     -fieldValue {Default} \
-     -auto True \
+     -fieldValue $srcPort \
+     -auto False \
      -randomMask {63} \
      -trackingEnabled False \
      -valueType singleValue \
      -activeFieldChoice False \
-     -startValue {63} \
+     -startValue $srcPort \
      -countValue {1}
     sg_commit
     set sg_field [lindex [ixNet remapIds $sg_field] 0]
@@ -2829,14 +2829,14 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_field $ixNetSG_Stack(3)/field:"udp.header.dstPort-2"
     ixNet setMultiAttrs $sg_field \
-     -singleValue {63} \
+     -singleValue $dstPort \
      -seed {1} \
      -optionalEnabled True \
      -fullMesh False \
      -valueList {{63}} \
      -stepValue {1} \
      -fixedBits {63} \
-     -fieldValue {Default} \
+     -fieldValue $dstPort \
      -auto False \
      -randomMask {63} \
      -trackingEnabled False \
