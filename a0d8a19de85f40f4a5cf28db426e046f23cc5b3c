@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_6055054f",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-01-23T19:07:35Z",
+      "side": 1,
+      "message": "could \u003d can?\n\nSounds better I think",
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_8c086d2e",
         "filename": "docs/configguide/installation.rst",
         "patchSetId": 1
