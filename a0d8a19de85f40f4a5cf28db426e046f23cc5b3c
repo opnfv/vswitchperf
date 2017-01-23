@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_6c5f4142",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-23T10:55:31Z",
+      "side": 1,
+      "message": "Just wondering if we could explain better here something like \"It implicitly sets flows to match all the configured streams.\"\n?",
+      "range": {
+        "startLine": 58,
+        "startChar": 46,
+        "endLine": 59,
+        "endChar": 56
+      },
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_8c086d2e",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-23T10:55:31Z",
+      "side": 1,
+      "message": "Or better \"The last command will..\"?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 8
+      },
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_606985bd",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-23T10:55:31Z",
+      "side": 1,
+      "message": "Same comment as in conf/03_traffic.conf",
+      "range": {
+        "startLine": 319,
+        "startChar": 45,
+        "endLine": 320,
+        "endChar": 54
+      },
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e0757598",
+        "filename": "docs/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5139
+      },
+      "writtenOn": "2017-01-23T10:55:31Z",
+      "side": 1,
+      "message": "Is this an https address? I see it works with just\nhttp://artifacts.opnfv.org/vswitchperf.html\n?",
+      "range": {
+        "startLine": 21,
+        "startChar": 21,
+        "endLine": 21,
+        "endChar": 65
+      },
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
