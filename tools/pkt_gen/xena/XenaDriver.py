@@ -57,6 +57,7 @@ CMD_LOGOFF = 'c_logoff'
 CMD_OWNER = 'c_owner'
 CMD_PORT = ';Port:'
 CMD_PORT_IP = 'p_ipaddress'
+CMD_PORT_LEARNING = 'p_autotrain'
 CMD_RESERVE = 'p_reservation reserve'
 CMD_RELEASE = 'p_reservation release'
 CMD_RELINQUISH = 'p_reservation relinquish'
@@ -558,6 +559,14 @@ class XenaPort(object):
         command = make_port_command('{} {}'.format(
             CMD_SET_PORT_PING_V6_REPLY if v6 else CMD_SET_PORT_PING_REPLY,
             "on" if on else "off"), self)
+        return self._manager.driver.ask_verify(command)
+
+    def set_port_learning(self, interval):
+        """Start port learning with the interval in seconds specified. 0 disables port learning
+        :param: interval as int
+        :return: Boolean True if response OK, False if error.
+        """
+        command = make_port_command('{} {}'.format(CMD_PORT_LEARNING, interval), self)
         return self._manager.driver.ask_verify(command)
 
     def set_port_ip(self, ip_addr, cidr, gateway, wild='255'):

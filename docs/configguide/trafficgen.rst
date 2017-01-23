@@ -516,6 +516,19 @@ Each value modifies the behavior of rfc 2544 throughput testing. Refer to your
 Xena documentation to understand the behavior changes in modifying these
 values.
 
+Continuous Traffic Testing
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Xena continuous traffic by default does a 3 second learning preemption to allow
+the DUT to receive learning packets before a continuous test is performed. If
+a custom test case requires this learning be disabled, you can disable the option
+or modify the length of the learning by modifying the following settings.
+
+.. code-block:: console
+
+    TRAFFICGEN_XENA_CONT_PORT_LEARNING_ENABLED = False
+    TRAFFICGEN_XENA_CONT_PORT_LEARNING_DURATION = 3
+
 MoonGen
 -------
 
