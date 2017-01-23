@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_e0001503",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-23T10:12:31Z",
+      "side": 1,
+      "message": "Is it possible to install current (D-rel) VSPERF at old Fedoras? If not, I suggest to remove them from the list of officially supported distros.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "6460d87bf78caca03ef316fa5b96244371dfc138",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_4c02850c",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-23T10:12:31Z",
+      "side": 1,
+      "message": "We should use the same version format for both Fedora 24 and Ubuntu; e.g. change v16.11 -\u003e 16.11 for Fedora 24",
+      "range": {
+        "startLine": 16,
+        "startChar": 38,
+        "endLine": 16,
+        "endChar": 44
+      },
+      "revId": "6460d87bf78caca03ef316fa5b96244371dfc138",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_60142544",
+        "filename": "src/package-list.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-23T10:12:31Z",
+      "side": 1,
+      "message": "Please abandon changes of package-list.mk file. It was not agreed yet to use newer DPDK version by default for all distros. The same apply for OVS version.",
+      "revId": "6460d87bf78caca03ef316fa5b96244371dfc138",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_201e1d64",
+        "filename": "systems/fedora/24/build_base_machine.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-23T10:12:31Z",
+      "side": 1,
+      "message": "You should list yourself. Another option is to remove this section as it is a new file.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "6460d87bf78caca03ef316fa5b96244371dfc138",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
