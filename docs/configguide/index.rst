@@ -11,4 +11,5 @@ VSPERF Installation Guide
    :maxdepth: 3
 
    installation.rst
+   upgrade.rst
    trafficgen.rst
