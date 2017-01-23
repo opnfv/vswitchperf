@@ -188,9 +188,10 @@ class Xena(ITrafficGenerator):
             result_dict[ResultsConstants.TX_FRAMES] = self.tx_stats.data[
                 self.tx_stats.pt_stream_keys[0]]['packets']
             result_dict[ResultsConstants.TX_RATE_FPS] = self.tx_stats.data[
-                self.tx_stats.pt_stream_keys[0]]['pps']
-            result_dict[ResultsConstants.TX_RATE_MBPS] = self.tx_stats.data[
-                self.tx_stats.pt_stream_keys[0]]['bps'] / 1000000
+                self.tx_stats.pt_stream_keys[0]]['packets'] / self._duration
+            result_dict[ResultsConstants.TX_RATE_MBPS] = ((
+                self.tx_stats.data[self.tx_stats.pt_stream_keys[0]]['bytes']
+                * 8) / 1000000) / self._duration
             result_dict[ResultsConstants.TX_BYTES] = self.tx_stats.data[
                 self.tx_stats.pt_stream_keys[0]]['bytes']
             # tx rate percent may need to be halved if bi directional
@@ -214,10 +215,11 @@ class Xena(ITrafficGenerator):
                 'pr_tpldstraffic']['0']['packets']
             result_dict[
                 ResultsConstants.THROUGHPUT_RX_FPS] = self.rx_stats.data[
-                    'pr_tpldstraffic']['0']['pps']
+                    'pr_tpldstraffic']['0']['packets'] / self._duration
             result_dict[
-                ResultsConstants.THROUGHPUT_RX_MBPS] = self.rx_stats.data[
-                    'pr_tpldstraffic']['0']['bps'] / 1000000
+                ResultsConstants.THROUGHPUT_RX_MBPS] = ((
+                    self.rx_stats.data['pr_tpldstraffic']['0']['bytes']
+                    *8) / 1000000) / self._duration
             result_dict[ResultsConstants.RX_BYTES] = self.rx_stats.data[
                 'pr_tpldstraffic']['0']['bytes']
             # throughput percent may need to be halved if bi directional
@@ -395,6 +397,8 @@ class Xena(ITrafficGenerator):
             settings.getValue('TRAFFICGEN_XENA_PORT1_IP'),
             settings.getValue('TRAFFICGEN_XENA_PORT1_CIDR'),
             settings.getValue('TRAFFICGEN_XENA_PORT1_GATEWAY'))
+        self.xmanager.ports[0].set_port_time_limit(self._duration * 1000000)
+        self.xmanager.ports[1].set_port_time_limit(self._duration * 1000000)
 
         def setup_stream(stream, port, payload_id, flip_addr=False):
             """
@@ -459,7 +463,7 @@ class Xena(ITrafficGenerator):
             if not self.xmanager.ports[1].traffic_on():
                 self._logger.error(
                     "Failure to start port 1. Check settings and retry.")
-        sleep(self._duration + 1)
+        sleep(self._duration + 5) # the extra 5 seconds is to allow packets in flight to complete
         # getting results
         if self._params['traffic']['bidir'] == 'True':
             # need to aggregate out both ports stats and assign that data
