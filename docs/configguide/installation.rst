@@ -47,6 +47,7 @@ Supported Operating Systems
 * Fedora 21
 * Fedora 22
 * Fedora 24 (kernel 4.8 requires DPDK 16.11 and newer)
+* Fedora 25 (kernel 4.9 requires DPDK 16.11 and newer)
 * RedHat 7.2 Enterprise Linux
 * RedHat 7.3 Enterprise Linux
 * Ubuntu 14.04
