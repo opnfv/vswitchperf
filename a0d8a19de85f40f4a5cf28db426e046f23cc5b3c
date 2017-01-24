@@ -65,6 +65,29 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_0331aba1",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-01-24T03:48:40Z",
+      "side": 1,
+      "message": "The vloop-vnf can be downloaded to DUT, for example by using ``wget`` command:",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 63
+      },
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_606985bd",
         "filename": "docs/design/vswitchperf_design.rst",
         "patchSetId": 1
