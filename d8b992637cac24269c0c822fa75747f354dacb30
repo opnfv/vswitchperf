@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "5ac10518_231b871c",
+        "filename": "docs/configguide/upgrade.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-01-24T04:08:18Z",
+      "side": 1,
+      "message": "then",
+      "revId": "d8b992637cac24269c0c822fa75747f354dacb30",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_4316d3f2",
+        "filename": "docs/configguide/upgrade.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-01-24T04:08:18Z",
+      "side": 1,
+      "message": "Same as Christian\u0027s comment below",
+      "revId": "d8b992637cac24269c0c822fa75747f354dacb30",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_03d8cb51",
+        "filename": "docs/configguide/upgrade.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-01-24T04:08:18Z",
+      "side": 1,
+      "message": "then",
+      "revId": "d8b992637cac24269c0c822fa75747f354dacb30",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_606e6531",
         "filename": "docs/configguide/upgrade.rst",
         "patchSetId": 1
