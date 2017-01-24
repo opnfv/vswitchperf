@@ -383,6 +383,15 @@ class Xena(ITrafficGenerator):
         # Clear port configuration for a clean start
         self.xmanager.ports[0].reset_port()
         self.xmanager.ports[1].reset_port()
+        if settings.getValue('TRAFFICGEN_XENA_CONT_PORT_LEARNING_ENABLED'):
+            # turn on port learning
+            self.xmanager.ports[0].set_port_learning(1)
+            self.xmanager.ports[1].set_port_learning(1)
+            sleep(settings.getValue('TRAFFICGEN_XENA_CONT_PORT_LEARNING_DURATION'))
+            # turn off port learning
+            self.xmanager.ports[0].set_port_learning(0)
+            self.xmanager.ports[1].set_port_learning(0)
+            sleep(1)
         self.xmanager.ports[0].clear_stats()
         self.xmanager.ports[1].clear_stats()
 
