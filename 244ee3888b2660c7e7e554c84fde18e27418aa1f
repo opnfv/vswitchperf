@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_76acef35",
+        "filename": "systems/fedora/24/build_base_machine.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-24T18:20:27Z",
+      "side": 1,
+      "message": "\u0027#\u0027 to be removed",
+      "revId": "244ee3888b2660c7e7e554c84fde18e27418aa1f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
