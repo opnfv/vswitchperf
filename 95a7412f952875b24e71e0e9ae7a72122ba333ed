@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_83d7dbbe",
+        "filename": "conf/10_custom.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-24T08:07:55Z",
+      "side": 1,
+      "message": "As far as I know, it was set to \"\" by purpose - to enforce user to properly set the target before the first vsperf execution.\n\nHowever I agree, that since DPDK 1.7 the vsperf Makefile script builds DPDK for x86_64-native-linuxapp-gcc target. So it make sense to make it default. It might change with multi arch support in the future.\n\nAnyhow, it is not handy to have RTE_TARGET default value defined at two places. Thus I suggest to comment it out at 10_custom.conf, so user is aware, that it can be changed if needed.\n\ne.g. something like:\n#RTE_TARGET \u003d \u0027\u0027 # override default DPDK build target set in 02_vswitch.conf",
+      "revId": "95a7412f952875b24e71e0e9ae7a72122ba333ed",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
