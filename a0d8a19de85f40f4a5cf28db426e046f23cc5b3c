@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_83503b5f",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-24T07:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_6c5f4142",
+      "range": {
+        "startLine": 58,
+        "startChar": 46,
+        "endLine": 59,
+        "endChar": 56
+      },
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_6055054f",
         "filename": "docs/configguide/installation.rst",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_e3133fb6",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-24T07:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_6055054f",
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_8c086d2e",
         "filename": "docs/configguide/installation.rst",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2017-01-23T10:55:31Z",
       "side": 1,
       "message": "Or better \"The last command will..\"?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 8
+      },
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_a30d3792",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-24T07:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_8c086d2e",
       "range": {
         "startLine": 39,
         "startChar": 0,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_c31083aa",
+        "filename": "docs/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-24T07:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_0331aba1",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 63
+      },
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_606985bd",
         "filename": "docs/design/vswitchperf_design.rst",
         "patchSetId": 1
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_63274f13",
+        "filename": "docs/design/vswitchperf_design.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-24T07:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_606985bd",
+      "range": {
+        "startLine": 319,
+        "startChar": 45,
+        "endLine": 320,
+        "endChar": 54
+      },
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_e0757598",
         "filename": "docs/index.rst",
         "patchSetId": 1
@@ -122,6 +236,30 @@
       "writtenOn": "2017-01-23T10:55:31Z",
       "side": 1,
       "message": "Is this an https address? I see it works with just\nhttp://artifacts.opnfv.org/vswitchperf.html\n?",
+      "range": {
+        "startLine": 21,
+        "startChar": 21,
+        "endLine": 21,
+        "endChar": 65
+      },
+      "revId": "a0d8a19de85f40f4a5cf28db426e046f23cc5b3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_c35e4376",
+        "filename": "docs/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-24T07:48:03Z",
+      "side": 1,
+      "message": "It works for both http and https. As vsperf user is going to download a VNF image from this page, I\u0027ve selected an http protocol for his better protection. The only problem is, that certificate used for this site is signed for generic google storage domains and not for artifacts.opnfv.org. So user is enforced to add an exception for this site. However I still think that it\u0027s worth to use https.",
+      "parentUuid": "5ac10518_e0757598",
       "range": {
         "startLine": 21,
         "startChar": 21,
