@@ -1,13 +1,14 @@
-Project: Characterize vSwitch Performance for Telco NFV Use Cases
+Project: Data-plane performance testing and benchmarking
 Creation Date: December 16th, 2014
 Category: Integration & Testing
-Lifecycle State: Incubation
-Primary Contact: Mike Lynch
-Project Lead: maryam.tahhan@intel.com
-Jira name vSwitch Characterization Project
+Lifecycle State: Mature
+Primary Contact: Trevor Cooper
+Project Lead: (Trevor Cooper) trevor.cooper@intel.com
+Jira name vSwitch Characterization
 JIRA tag : VSPERF
-Mailing list tag: [vsperf]
 Repository: vswitchperf
+Mailing list tag: [vsperf]
+IRC: Server:freenode.net Channel: #opnfv-vswitchperf
 
 Commiters:
 maryam.tahhan@intel.com
@@ -16,6 +17,7 @@ ctrautma@redhat.com
 martinx.klozik@intel.com
 sridhar.rao@spirent.com
 bmichalo@redhat.com
+trevor.cooper@intel.com
 
 Link to TSC approval of the project: http://meetbot.opnfv.org/meetings/opnfv-meeting/
 Link(s) to approval of additional submitters:
