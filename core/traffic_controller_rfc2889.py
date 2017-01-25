@@ -50,13 +50,13 @@ class TrafficControllerRFC2889(TrafficController, IResults):
             else:
                 traffic['l2'] = {'framesize': packet_size}
 
-            if traffic['traffic_type'] == 'caching':
+            if traffic['traffic_type'] == 'rfc2889_caching':
                 result = self._traffic_gen_class.send_rfc2889_caching(
-                    traffic, trials=self._trials, duration=self._duration)
-            elif traffic['traffic_type'] == 'congestion':
-                result = self._traffic_gen_class.send_rfc2889_congestion(
-                    traffic, duration=self._duration)
-            else:
+                    traffic, tests=self._trials, duration=self._duration)
+            elif traffic['traffic_type'] == 'rfc2889_learning':
+                result = self._traffic_gen_class.send_rfc2889_learning(
+                    traffic, tests=self._trials, duration=self._duration)
+            elif traffic['traffic_type'] == 'rfc2889_forwarding':
                 result = self._traffic_gen_class.send_rfc2889_forwarding(
                     traffic, tests=self._trials, duration=self._duration)
 
