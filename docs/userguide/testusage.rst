@@ -21,23 +21,19 @@ support in VSPERF includes:
 - Moongen software traffic generator. Requires a separate machine running
   moongen to execute packet generation.
 
-If you want to use another traffic generator, please select the Dummy generator
-option as shown in `Traffic generator instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/configguide/trafficgen.html>`__
+If you want to use another traffic generator, please select the :ref:`trafficgen-dummy`
+generator.
 
 VSPERF Installation
 ^^^^^^^^^^^^^^^^^^^
 
 To see the supported Operating Systems, vSwitches and system requirements,
-please follow the `installation instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html>`__ to
-install.
+please follow the `installation instructions <vsperf-installation>`.
 
 Traffic Generator Setup
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Follow the `Traffic generator instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/configguide/trafficgen.html>`__ to
+Follow the `Traffic generator instructions <trafficgen-installation>` to
 install and configure a suitable traffic generator.
 
 Cloning and building src dependencies
@@ -86,8 +82,8 @@ contents. Any configuration item mentioned in any .conf file in
 the custom configuration value.
 
 Further details about configuration files evaluation and special behaviour
-of options with ``GUEST_`` prefix could be found at `design document
-<http://artifacts.opnfv.org/vswitchperf/docs/design/vswitchperf_design.html#configuration>`__.
+of options with ``GUEST_`` prefix could be found at :ref:`design document
+<design-configuration>`.
 
 Using a custom settings file
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -111,8 +107,10 @@ described like so (1 = max priority):
 4. Configuration file(s)
 
 Further details about configuration files evaluation and special behaviour
-of options with ``GUEST_`` prefix could be found at `design document
-<http://artifacts.opnfv.org/vswitchperf/docs/design/vswitchperf_design.html#configuration>`__.
+of options with ``GUEST_`` prefix could be found at :ref:`design document
+<design-configuration>`.
+
+.. _overriding-parameters-documentation:
 
 Overriding values defined in configuration files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -163,27 +161,14 @@ section of test case definition. It is also forbidden to redefine a value of
 vloop_vnf
 ^^^^^^^^^
 
-vsperf uses a VM image called vloop_vnf for looping traffic in the deployment
+VSPERF uses a VM image called vloop_vnf for looping traffic in the deployment
 scenarios involving VMs. The image can be downloaded from
 `<http://artifacts.opnfv.org/>`__.
 
-.. code-block:: console
+Please see the installation instructions for information on :ref:`vloop-vnf`
+images.
 
-    $ wget http://artifacts.opnfv.org/vswitchperf/vloop-vnf-ubuntu-14.04_20151216.qcow2
-
-Newer vloop_vnf images are available. Please reference the
-installation instructions for information on these images
-`installation instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html>`__
-
-
-vloop_vnf forwards traffic through a VM using one of:
-
-* DPDK testpmd
-* Linux Bridge
-* l2fwd kernel Module.
-
-Alternatively you can use your own QEMU image.
+.. _l2fwd-module:
 
 l2fwd Kernel Module
 ^^^^^^^^^^^^^^^^^^^
@@ -748,8 +733,7 @@ of traffic generator can be modified through ``TRAFFIC`` dictionary passed to th
 ``--test-params`` option. It is not needed to specify all values of ``TRAFFIC``
 dictionary. It is sufficient to specify only values, which should be changed.
 Detailed description of ``TRAFFIC`` dictionary can be found at
-`Configuration of TRAFFIC dictionary
-<http://artifacts.opnfv.org/vswitchperf/docs/index.html#configuration-of-traffic-dictionary>`__
+:ref:`configuration-of-traffic-dictionary`.
 
 Example of execution of VSPERF in "trafficgen" mode:
 
@@ -821,6 +805,5 @@ used to configure vswitchd via ovs-vsctl calls.
 More information
 ^^^^^^^^^^^^^^^^
 
-For more information and details refer to the vSwitchPerf user guide at:
-http://artifacts.opnfv.org/vswitchperf/docs/userguide/index.html
+For more information and details refer to the rest of vSwitchPerfuser documentation.
 

@@ -11,8 +11,7 @@ Intended Audience
 
 This document is intended to aid those who want to integrate new traffic
 generator into the vsperf code. It is expected, that reader has already
-read generic part of `VSPERF Design Document
-<http://artifacts.opnfv.org/vswitchperf/docs/design/index.html>`__.
+read generic part of :ref:`vsperf-design`.
 
 Let us create a sample traffic generator called **sample_tg**, step by step.
 
@@ -132,6 +131,8 @@ Example in **tools/pkt_gen/sample_tg/sample_tg.py** module:
     def disconnect(self):
         pass
 
+.. _step-5-supported-traffic-types:
+
 Step 5 - supported traffic types
 ================================
 
@@ -192,7 +193,7 @@ functions:
       which are not listed below.
 
       Note: There are parameters specific to testing of tunnelling protocols,
-      which are discussed in detail at `integration tests userguide`_
+      which are discussed in detail at :ref:`integration-tests` userguide.
 
       * param **traffic_type**: One of the supported traffic types,
         e.g. **rfc2544_throughput**, **rfc2544_continuous**
@@ -234,6 +235,4 @@ are defined in **ResultsConstants** implemented in
 **core/results/results_constants.py**. Please check sections for RFC2544
 Throughput & Continuous and for Back2Back. The same key names should
 be used by all traffic generator implementations.
-
-.. _integration tests userguide: http://artifacts.opnfv.org/vswitchperf/docs/userguide/integration.html
 

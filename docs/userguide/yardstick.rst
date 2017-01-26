@@ -65,14 +65,10 @@ Preparation of custom VM image
 
 In general, any Linux distribution supported by vswitchperf can be used as
 a base image for vswitchperf. One of the possibilities is to modify vloop-vnf
-image, which can be downloaded from `<http://artifacts.opnfv.org/vswitchperf.html/>`__.
+image, which can be downloaded from `<http://artifacts.opnfv.org/vswitchperf.html/>`__
+(see :ref:`vloop-vnf`).
 
-.. code-block:: console
-
-    $ wget http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20160823.qcow2
-
-Please follow the `installation instructions
-<http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html>`__ to
+Please follow the :ref:`vsperf-installation` to
 install vswitchperf inside vloop-vnf image. As vswitchperf will be run in
 trafficgen mode, it is possible to skip installation and compilation of OVS,
 QEMU and DPDK to keep image size smaller.

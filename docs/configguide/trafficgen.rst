@@ -2,6 +2,8 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
+.. _trafficgen-installation:
+
 ===========================
 'vsperf' Traffic Gen Guide
 ===========================
@@ -86,6 +88,8 @@ commandline above to:
 
     $ ./vsperf --test-params "TRAFFICGEN_PKT_SIZES=(x,y);TRAFFICGEN_DURATION=10;" \
                              "TRAFFICGEN_RFC2544_TESTS=1" $TESTNAME
+
+.. _trafficgen-dummy:
 
 Dummy
 -----

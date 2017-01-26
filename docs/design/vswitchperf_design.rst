@@ -2,6 +2,8 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
+.. _vsperf-design:
+
 ======================
 VSPERF Design Document
 ======================
@@ -63,6 +65,7 @@ This is a typical flow of control for a test.
 
 .. image:: vsperf.png
 
+.. _design-configuration:
 
 Configuration
 =============
@@ -101,11 +104,13 @@ The values in the file specified by ``--conf-file`` takes precedence over all
 the other configuration files and does not have to follow the naming
 convention.
 
+.. _paths-documentation:
+
 Configuration of PATHS dictionary
 ---------------------------------
 
 VSPERF uses external tools like Open vSwitch and Qemu for execution of testcases. These
-tools may be downloaded and built automatically by `VSPERF installation scripts`_
+tools may be downloaded and built automatically (see :ref:`vsperf-installation-script`)
 or installed manually by user from binary packages. It is also possible to use a combination
 of both approaches, but it is essential to correctly set paths to all required tools.
 These paths are stored within a PATHS dictionary, which is evaluated before execution
@@ -261,7 +266,7 @@ Note: In case of RHEL 7.3 OS usage, binary package configuration is required
 for Vanilla OVS tests. With the installation of a supported rpm for OVS there is
 a section in the ``conf\10_custom.conf`` file that can be used.
 
-.. _VSPERF installation scripts: http://artifacts.opnfv.org/vswitchperf/docs/configguide/installation.html#other-requirements
+.. _configuration-of-traffic-dictionary:
 
 Configuration of TRAFFIC dictionary
 -----------------------------------
@@ -387,6 +392,8 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
                       congestion (DEI header field).
                       Data type: int (NOTE: must fit to 1 bit)
                       Default value: 0
+
+.. _configuration-of-guest-options:
 
 Configuration of GUEST options
 ------------------------------
