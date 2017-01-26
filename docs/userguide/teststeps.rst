@@ -115,8 +115,8 @@ of supported objects and their most common functions follows:
 
         * ``send_traffic traffic`` - starts a traffic based on the vsperf configuration
           and given ``traffic`` dictionary. More details about ``traffic`` dictionary
-          and its possible values are available at `Traffic Generator Integration Guide
-          <http://artifacts.opnfv.org/vswitchperf/docs/design/trafficgen_integration_guide.html#step-5-supported-traffic-types>`__
+          and its possible values are available at :ref:`Traffic Generator Integration Guide
+          <step-5-supported-traffic-types>`
 
         Examples:
 

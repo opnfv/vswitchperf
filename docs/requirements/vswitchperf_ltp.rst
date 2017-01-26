@@ -303,6 +303,8 @@ datapaths to physical ports (to NICs) and to logical ports (to VNFs):
 
 .. 3.2.5.1.1
 
+.. _Phy2Phy:
+
 Physical port → vSwitch → physical port
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: console
@@ -325,6 +327,8 @@ Physical port → vSwitch → physical port
        +--------------------------------------------------+
 
 .. 3.2.5.1.2
+
+.. _PVP:
 
 Physical port → vSwitch → VNF → vSwitch → physical port
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -364,6 +368,8 @@ Physical port → vSwitch → VNF → vSwitch → physical port
        +--------------------------------------------------+
 
 .. 3.2.5.1.3
+
+.. _PVVP:
 
 Physical port → vSwitch → VNF → vSwitch → VNF → vSwitch → physical port
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -638,6 +644,8 @@ underlying characteristics and behaviour can be measured and validated.
 Suitable real Telco workload VNFs are yet to be identified.
 
 .. 3.2.5.2.1
+
+.. _default-test-parameters:
 
 Default Test Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -120,9 +120,7 @@ options:
 
 In case that any of these options is defined, then configuration must be updated.
 All paths to the tools are now stored inside ``PATHS`` dictionary. Please
-refer to the paths-documentation_ and update your configuration where necessary.
-
-.. _paths-documentation: http://artifacts.opnfv.org/vswitchperf/docs/index.html#configuration-of-paths-dictionary
+refer to the :ref:`cosi kdesi <paths-documentation>` and update your configuration where necessary.
 
 Configuration change via CLI
 ============================
@@ -134,7 +132,7 @@ possible to modify any configuration parameter via CLI or via **Parameters**
 section of the testcase definition. Old configuration options were obsoleted
 and it is required to specify configuration parameter name in the same form
 as it is defined inside configuration file, i.e. in uppercase. Please
-refer to the overriding-parameters-documentation_ for additional details.
+refer to the :ref:`overriding-parameters-documentation` for additional details.
 
 **NOTE:** In case that execution of VSPERF is automated by scripts (e.g. for
 CI purposes), then these scripts must be checked and updated too. It means,
@@ -154,11 +152,8 @@ match to data types of original values from configuration files.
 
 In case that ``guest_nic1_name`` or ``guest_nic2_name`` is changed,
 then new dictionary ``GUEST_NICS`` must be modified accordingly.
-Please see guest-configuration_ and ``conf/04_vnf.conf`` for additional
+Please see :ref:`configuration-of-guest-options` and ``conf/04_vnf.conf`` for additional
 details.
-
-.. _overriding-parameters-documentation: http://artifacts.opnfv.org/vswitchperf/docs/index.html#overriding-values-defined-in-configuration-files
-.. _guest-configuration: http://artifacts.opnfv.org/vswitchperf/docs/index.html#configuration-of-guest-options
 
 Traffic configuration via CLI
 =============================
@@ -167,7 +162,7 @@ In previous releases it was possible to modify selected attributes of generated
 traffic via command line interface. This concept has been enhanced in Danube
 release and it is now possible to modify all traffic specific options via
 CLI or by ``TRAFFIC`` dictionary in configuration file. Detailed description
-is available at configuration-of-traffic-dictionary_ section of documentation.
+is available at :ref:`configuration-of-traffic-dictionary` section of documentation.
 
 Please check your automated scripts for VSPERF execution for following CLI
 parameters and update them according to the documentation:
@@ -186,4 +181,3 @@ parameters and update them according to the documentation:
    stream_type
    traffic_type
 
-.. _configuration-of-traffic-dictionary: http://artifacts.opnfv.org/vswitchperf/docs/index.html#configuration-of-traffic-dictionary
