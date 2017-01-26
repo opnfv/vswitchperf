@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_a5a9b7e0",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-26T15:00:23Z",
+      "side": 1,
+      "message": "probably a typo",
+      "range": {
+        "startLine": 414,
+        "startChar": 45,
+        "endLine": 414,
+        "endChar": 46
+      },
+      "revId": "28c35a1666d4c951bc2c414b895e58e5189f29f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_65abcfd6",
+        "filename": "docs/configguide/trafficgen.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-01-26T15:00:23Z",
+      "side": 1,
+      "message": "a typo - ouputs -\u003e outputs",
+      "range": {
+        "startLine": 516,
+        "startChar": 26,
+        "endLine": 516,
+        "endChar": 32
+      },
+      "revId": "28c35a1666d4c951bc2c414b895e58e5189f29f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
