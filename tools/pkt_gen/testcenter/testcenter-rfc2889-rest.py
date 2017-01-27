@@ -15,7 +15,7 @@
 '''
 @author Spirent Communications
 
-This test automates the RFC2544 tests using the Spirent
+This test automates the RFC2889 tests using the Spirent
 TestCenter REST APIs. This test supports Python 3.4
 
 '''
@@ -92,9 +92,9 @@ def main():
     optional_named.add_argument("--metric",
                                 required=False,
                                 help=("One among - Forwarding,\
-                                      Address Caching and Congestion"),
+                                      Address Caching and Learning"),
                                 choices=["forwarding", "caching",
-                                         "congestion"],
+                                         "learning"],
                                 default="forwarding",
                                 dest="metric")
     optional_named.add_argument("--test_session_name",
@@ -103,7 +103,6 @@ def main():
                                 help=("The friendly name to identify "
                                       "the Spirent Lab Server test session"),
                                 dest="test_session_name")
-
     optional_named.add_argument("--test_user_name",
                                 required=False,
                                 default="Rfc2889Usr",
@@ -147,6 +146,42 @@ def main():
                                 default=[256],
                                 help="A comma-delimited list of frame sizes",
                                 dest="frame_size_list")
+    optional_named.add_argument("--min_learning_rate",
+                                type=positive_int,
+                                required=False,
+                                default=1488,
+                                help="Lowest learning rate for test",
+                                dest="min_learning_rate")
+    optional_named.add_argument("--max_learning_rate",
+                                type=positive_int,
+                                required=False,
+                                default=14880,
+                                help="Highest learning rate for test",
+                                dest="max_learning_rate")
+    optional_named.add_argument("--min_num_addrs",
+                                type=positive_int,
+                                required=False,
+                                default=1,
+                                help="lowest number of addrs sent to DUT",
+                                dest="min_num_addrs")
+    optional_named.add_argument("--max_num_addrs",
+                                type=positive_int,
+                                required=False,
+                                default=1000,
+                                help="Highest number of addrs sent to DUT",
+                                dest="max_num_addrs")
+    optional_named.add_argument("--ac_learning_rate",
+                                type=positive_int,
+                                required=False,
+                                default=1000,
+                                help="Number of learning frames per sec",
+                                dest="ac_learning_rate")
+    optional_named.add_argument("--frame_size",
+                                type=positive_int,
+                                required=False,
+                                default=64,
+                                help="Frame size for address test",
+                                dest="frame_size")
     parser.add_argument("-v",
                         "--verbose",
                         required=False,
@@ -187,7 +222,7 @@ def main():
         if args.verbose:
             logger.debug("license_mgr = %s", license_mgr)
         stc.create("LicenseServer", under=license_mgr, attributes={
-                   "server": args.license_server_addr})
+            "server": args.license_server_addr})
 
         # Create the root project object
         if args.verbose:
@@ -224,12 +259,27 @@ def main():
                             "GenParams": gen_params})
 
         if args.verbose:
-            logger.debug("Set up the RFC2889 Forwarding test...")
-        stc.perform("Rfc2889SetupMaxForwardingRateTestCommand",
-                    params={"Duration": args.trial_duration_sec,
-                            "FrameSizeList": args.frame_size_list,
-                            "NumOfTrials": args.num_trials,
-                            "TrafficPattern": args.traffic_pattern})
+            logger.debug("Set up the RFC2889 test...")
+
+        if args.metric == "learning":
+            stc.perform("Rfc2889SetupAddressLearningRateTestCommand",
+                        params={"FrameSize": args.frame_size,
+                                "MinLearningRate": args.min_learning_rate,
+                                "MaxLearningRate": args.max_learning_rate,
+                                "NumOfTrials": args.num_trials})
+        elif args.metric == "caching":
+            stc.perform("Rfc2889SetupAddressCachingCapacityTestCommand",
+                        params={"FrameSize": args.frame_size,
+                                "MinNumAddrs": args.min_num_addrs,
+                                "MaxNumAddrs": args.max_num_addrs,
+                                "LearningRate": args.ac_learning_rate,
+                                "NumOfTrials": args.num_trials})
+        else:
+            stc.perform("Rfc2889SetupMaxForwardingRateTestCommand",
+                        params={"Duration": args.trial_duration_sec,
+                                "FrameSizeList": args.frame_size_list,
+                                "NumOfTrials": args.num_trials,
+                                "TrafficPattern": args.traffic_pattern})
 
         # Save the configuration
         stc.perform("SaveToTcc", params={"Filename": "2889.tcc"})
@@ -259,28 +309,34 @@ def main():
             logger.debug("The lab server results database is %s",
                          lab_server_resultsdb)
 
-        stc.perform("CSSynchronizeFiles",
-                    params={"DefaultDownloadDir": args.results_dir})
-
-        resultsdb = args.results_dir + \
-            lab_server_resultsdb.split("/Results")[1]
-
-        if not os.path.exists(resultsdb):
-            resultsdb = lab_server_resultsdb
-            logger.info("Failed to create the local summary DB file, using"
-                        " the remote DB file instead.")
+        if args.metric == "learning":
+            resultsdict = (
+                stc.perform("QueryResult",
+                            params={
+                                "DatabaseConnectionString":
+                                lab_server_resultsdb,
+                                "ResultPath":
+                                ("RFC2889AddressLearningRateTestResultDetailed"
+                                 "SummaryView")}))
+        elif args.metric == "caching":
+            resultsdict = (
+                stc.perform("QueryResult",
+                            params={
+                                "DatabaseConnectionString":
+                                lab_server_resultsdb,
+                                "ResultPath":
+                                ("RFC2889AddressCachingCapacityTestResult"
+                                 "DetailedSummaryView")}))
         else:
-            logger.info(
-                "The local summary DB file has been saved to %s", resultsdb)
+            resultsdict = (
+                stc.perform("QueryResult",
+                            params={
+                                "DatabaseConnectionString":
+                                lab_server_resultsdb,
+                                "ResultPath":
+                                ("RFC2889MaxForwardingRateTestResultDetailed"
+                                 "SummaryView")}))
 
-        resultsdict = (
-            stc.perform("QueryResult",
-                        params={
-                            "DatabaseConnectionString":
-                            resultsdb,
-                            "ResultPath":
-                            ("RFC2889MaxForwardingRateTestResultDetailed"
-                             "SummaryView")}))
         if args.verbose:
             logger.debug("resultsdict[\"Columns\"]: %s",
                          resultsdict["Columns"])

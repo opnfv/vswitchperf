@@ -115,22 +115,52 @@ def get_rfc2544_custom_settings(framesize, custom_tr, tests):
     return args
 
 
-def get_rfc2889_settings(framesize, tests, duration):
+def get_rfc2889_common_settings(framesize, tests, metric):
+    """
+    Return RFC2889 common Settings
+    """
+    new_metric = metric.replace('rfc2889_', '')
     args = [settings.getValue("TRAFFICGEN_STC_PYTHON2_PATH"),
             os.path.join(
                 settings.getValue("TRAFFICGEN_STC_TESTCENTER_PATH"),
                 settings.getValue(
                     "TRAFFICGEN_STC_RFC2889_TEST_FILE_NAME")),
-                "--lab_server_addr",
-                settings.getValue("TRAFFICGEN_STC_LAB_SERVER_ADDR"),
-                "--license_server_addr",
-                settings.getValue("TRAFFICGEN_STC_LICENSE_SERVER_ADDR"),
-                "--location_list",
-                settings.getValue("TRAFFICGEN_STC_RFC2889_LOCATIONS"),
-                "--frame_size_list",
-                str(framesize),
-                "--num_trials",
-                str(tests)]
+            "--lab_server_addr",
+            settings.getValue("TRAFFICGEN_STC_LAB_SERVER_ADDR"),
+            "--license_server_addr",
+            settings.getValue("TRAFFICGEN_STC_LICENSE_SERVER_ADDR"),
+            "--location_list",
+            settings.getValue("TRAFFICGEN_STC_RFC2889_LOCATIONS"),
+            "--test_session_name",
+            settings.getValue("TRAFFICGEN_STC_TEST_SESSION_NAME"),
+            "--results_dir",
+            settings.getValue("TRAFFICGEN_STC_RESULTS_DIR"),
+            "--csv_results_file_prefix",
+            settings.getValue("TRAFFICGEN_STC_CSV_RESULTS_FILE_PREFIX"),
+            "--frame_size_list",
+            str(framesize),
+            "--metric",
+            str(new_metric),
+            "--num_trials",
+            str(tests)]
+
+    return args
+
+
+def get_rfc2889_custom_settings():
+    """
+    Return RFC2889 Custom Settings
+    """
+    args = ["--min_learning_rate",
+            settings.getValue("TRAFFICGEN_STC_RFC2889_MIN_LR"),
+            "--max_learning_rate",
+            settings.getValue("TRAFFICGEN_STC_RFC2889_MAX_LR"),
+            "--min_num_addrs",
+            settings.getValue("TRAFFICGEN_STC_RFC2889_MIN_ADDRS"),
+            "--max_num_addrs",
+            settings.getValue("TRAFFICGEN_STC_RFC2889_MAX_ADDRS"),
+            "--ac_learning_rate",
+            settings.getValue("TRAFFICGEN_STC_RFC2889_AC_LR")]
     return args
 
 
@@ -158,19 +188,35 @@ class TestCenter(trafficgen.ITrafficGenerator):
         """
         return None
 
-    def send_rfc2889_congestion(self, traffic=None, tests=1, duration=20):
+    def get_rfc2889_addr_learning_results(self, filename):
         """
-        Do nothing.
+        Reads the CSV file and return the results
         """
-        return None
+        result = {}
+        with open(filename, "r") as csvfile:
+            csvreader = csv.DictReader(csvfile)
+            for row in csvreader:
+                self._logger.info("Row: %s", row)
+                learn_rate = float(row["OptimalLearningRate"])
+                result[ResultsConstants.OPTIMAL_LEARNING_RATE_FPS] = learn_rate
+        return result
 
-    def send_rfc2889_caching(self, traffic=None, tests=1, duration=20):
+    def get_rfc2889_addr_caching_results(self, filename):
         """
-        Do nothing.
+        Reads the CSV file and return the results
         """
-        return None
+        result = {}
+        with open(filename, "r") as csvfile:
+            csvreader = csv.DictReader(csvfile)
+            for row in csvreader:
+                self._logger.info("Row: %s", row)
+                caching_cap = float(row["RxFrameCount"])
+                learn_per = (100.0 - (float(row["PercentFrameLoss(%)"])))
+                result[ResultsConstants.CACHING_CAPACITY_ADDRS] = caching_cap
+                result[ResultsConstants.ADDR_LEARNED_PERCENT] = learn_per
+        return result
 
-    def get_rfc2889_results(self, filename):
+    def get_rfc2889_forwarding_results(self, filename):
         """
         Reads the CSV file and return the results
         """
@@ -199,6 +245,90 @@ class TestCenter(trafficgen.ITrafficGenerator):
                 result[ResultsConstants.FORWARDING_RATE_FPS] = float(
                     row["ForwardingRate(fps)"])
         return result
+
+    def send_rfc2889_forwarding(self, traffic=None, tests=1, duration=20):
+        """
+        Send traffic per RFC2889 Forwarding test specifications.
+        """
+        framesize = settings.getValue("TRAFFICGEN_STC_FRAME_SIZE")
+        if traffic and 'l2' in traffic:
+            if 'framesize' in traffic['l2']:
+                framesize = traffic['l2']['framesize']
+        args = get_rfc2889_common_settings(framesize, tests,
+                                           traffic['traffic_type'])
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+            args.append("--verbose")
+            verbose = True
+            self._logger.debug("Arguments used to call test: %s", args)
+        subprocess.check_call(args)
+
+        filec = os.path.join(settings.getValue("TRAFFICGEN_STC_RESULTS_DIR"),
+                             settings.getValue(
+                                 "TRAFFICGEN_STC_CSV_RESULTS_FILE_PREFIX") +
+                             ".csv")
+
+        if verbose:
+            self._logger.info("file: %s", filec)
+
+        return self.get_rfc2889_forwarding_results(filec)
+
+    def send_rfc2889_caching(self, traffic=None, tests=1, duration=20):
+        """
+        Send as per RFC2889 Addr-Caching test specifications.
+        """
+        framesize = settings.getValue("TRAFFICGEN_STC_FRAME_SIZE")
+        if traffic and 'l2' in traffic:
+            if 'framesize' in traffic['l2']:
+                framesize = traffic['l2']['framesize']
+        common_args = get_rfc2889_common_settings(framesize, tests,
+                                                  traffic['traffic_type'])
+        custom_args = get_rfc2889_custom_settings()
+        args = common_args + custom_args
+
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+            args.append("--verbose")
+            verbose = True
+            self._logger.debug("Arguments used to call test: %s", args)
+        subprocess.check_call(args)
+
+        filec = os.path.join(settings.getValue("TRAFFICGEN_STC_RESULTS_DIR"),
+                             settings.getValue(
+                                 "TRAFFICGEN_STC_CSV_RESULTS_FILE_PREFIX") +
+                             ".csv")
+
+        if verbose:
+            self._logger.info("file: %s", filec)
+
+        return self.get_rfc2889_addr_caching_results(filec)
+
+    def send_rfc2889_learning(self, traffic=None, tests=1, duration=20):
+        """
+        Send traffic per RFC2889 Addr-Learning test specifications.
+        """
+        framesize = settings.getValue("TRAFFICGEN_STC_FRAME_SIZE")
+        if traffic and 'l2' in traffic:
+            if 'framesize' in traffic['l2']:
+                framesize = traffic['l2']['framesize']
+        common_args = get_rfc2889_common_settings(framesize, tests,
+                                                  traffic['traffic_type'])
+        custom_args = get_rfc2889_custom_settings()
+        args = common_args + custom_args
+
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+            args.append("--verbose")
+            verbose = True
+            self._logger.debug("Arguments used to call test: %s", args)
+        subprocess.check_call(args)
+
+        filec = os.path.join(settings.getValue("TRAFFICGEN_STC_RESULTS_DIR"),
+                             settings.getValue(
+                                 "TRAFFICGEN_STC_CSV_RESULTS_FILE_PREFIX") +
+                             ".csv")
+
+        if verbose:
+            self._logger.info("file: %s", filec)
+
+        return self.get_rfc2889_addr_learning_results(filec)
 
     def get_rfc2544_results(self, filename):
         """
@@ -271,31 +401,6 @@ class TestCenter(trafficgen.ITrafficGenerator):
             self._logger.info("file: %s", filec)
 
         return self.get_rfc2544_results(filec)
-
-    def send_rfc2889_forwarding(self, traffic=None, tests=1, duration=20):
-        """
-        Send traffic per RFC2544 throughput test specifications.
-        """
-        framesize = settings.getValue("TRAFFICGEN_STC_FRAME_SIZE")
-        if traffic and 'l2' in traffic:
-            if 'framesize' in traffic['l2']:
-                framesize = traffic['l2']['framesize']
-        args = get_rfc2889_settings(framesize, tests, duration)
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
-            args.append("--verbose")
-            verbose = True
-            self._logger.debug("Arguments used to call test: %s", args)
-        subprocess.check_call(args)
-
-        filec = os.path.join(settings.getValue("TRAFFICGEN_STC_RESULTS_DIR"),
-                             settings.getValue(
-                                 "TRAFFICGEN_STC_CSV_RESULTS_FILE_PREFIX") +
-                             ".csv")
-
-        if verbose:
-            self._logger.debug("file: %s", filec)
-
-        return self.get_rfc2889_results(filec)
 
     def send_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
                                 lossrate=0.0):

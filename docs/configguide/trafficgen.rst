@@ -410,22 +410,23 @@ RFC 2544 tests using the REST interface.
 
 Configuration:
 ~~~~~~~~~~~~~~
-The mandatory configurations are enlisted below.
 
 1. The Labserver and license server addresses. These parameters applies to
-   all the tests and are mandatory.
+   all the tests, and are mandatory for all tests.
 
 .. code-block:: console
 
     TRAFFICGEN_STC_LAB_SERVER_ADDR = " "
     TRAFFICGEN_STC_LICENSE_SERVER_ADDR = " "
+    TRAFFICGEN_STC_PYTHON2_PATH = " "
+    TRAFFICGEN_STC_TESTCENTER_PATH = " "
+    TRAFFICGEN_STC_TEST_SESSION_NAME = " "
+    TRAFFICGEN_STC_CSV_RESULTS_FILE_PREFIX = " "
 
 2. For RFC2544 tests, the following parameters are mandatory
 
-
 .. code-block:: console
 
-    TRAFFICGEN_STC_RFC2544_TPUT_TEST_FILE_NAME = " "
     TRAFFICGEN_STC_EAST_CHASSIS_ADDR = " "
     TRAFFICGEN_STC_EAST_SLOT_NUM = " "
     TRAFFICGEN_STC_EAST_PORT_NUM = " "
@@ -436,13 +437,91 @@ The mandatory configurations are enlisted below.
     TRAFFICGEN_STC_WEST_PORT_NUM = " "
     TRAFFICGEN_STC_WEST_INTF_ADDR = " "
     TRAFFICGEN_STC_WEST_INTF_GATEWAY_ADDR = " "
+    TRAFFICGEN_STC_RFC2544_TPUT_TEST_FILE_NAME
 
-3. For RFC2889 tests, specifying the locations of the ports is mandatory.
+3. RFC2889 tests: Currently, the forwarding, address-caching, and
+   address-learning-rate tests of RFC2889 are supported.
+   The testcenter-rfc2889-rest.py script implements the rfc2889 tests.
+   The configuration for RFC2889 involves test-case definition, and parameter
+   definition, as described below. New results-constants, as shown below, are
+   added to support these tests.
+
+Example of testcase definition for RFC2889 tests:
+
+.. code-block:: python
+
+    {
+        "Name": "phy2phy_forwarding",
+        "Deployment": "p2p",
+        "Description": "LTD.Forwarding.RFC2889.MaxForwardingRate",
+        "Parameters" : {
+            "TRAFFIC" : {
+                "traffic_type" : "rfc2889_forwarding",
+            },
+        },
+    }
+
+For RFC2889 tests, specifying the locations for the monitoring ports is mandatory.
+Necessary parameters are:
+
+.. code-block:: console
+    TRAFFICGEN_STC_RFC2889_TEST_FILE_NAME
+    TRAFFICGEN_STC_EAST_CHASSIS_ADDR = " "
+    TRAFFICGEN_STC_EAST_SLOT_NUM = " "
+    TRAFFICGEN_STC_EAST_PORT_NUM = " "
+    TRAFFICGEN_STC_EAST_INTF_ADDR = " "
+    TRAFFICGEN_STC_EAST_INTF_GATEWAY_ADDR = " "
+    TRAFFICGEN_STC_WEST_CHASSIS_ADDR = ""
+    TRAFFICGEN_STC_WEST_SLOT_NUM = " "
+    TRAFFICGEN_STC_WEST_PORT_NUM = " "
+    TRAFFICGEN_STC_WEST_INTF_ADDR = " "
+    TRAFFICGEN_STC_WEST_INTF_GATEWAY_ADDR = " "
+    TRAFFICGEN_STC_VERBOSE = "True"
+    TRAFFICGEN_STC_RFC2889_LOCATIONS="//10.1.1.1/1/1,//10.1.1.1/2/2"
+
+Other Configurations are :
 
 .. code-block:: console
 
-    TRAFFICGEN_STC_RFC2889_TEST_FILE_NAME = " "
-    TRAFFICGEN_STC_RFC2889_LOCATIONS= " "
+    TRAFFICGEN_STC_RFC2889_MIN_LR = 1488
+    TRAFFICGEN_STC_RFC2889_MAX_LR = 14880
+    TRAFFICGEN_STC_RFC2889_MIN_ADDRS = 1000
+    TRAFFICGEN_STC_RFC2889_MAX_ADDRS = 65536
+    TRAFFICGEN_STC_RFC2889_AC_LR = 1000
+
+The first 2 values are for address-learning test where as other 3 values are
+for the Address caching capacity test. LR: Learning Rate. AC: Address Caching.
+Maximum value for address is 16777216. Whereas, maximum for LR is 4294967295.
+
+Results for RFC2889 Tests: Forwarding tests outputs following values:
+
+.. code-block:: console
+
+    TX_RATE_FPS : "Transmission Rate in Frames/sec"
+    THROUGHPUT_RX_FPS: "Received Throughput Frames/sec"
+    TX_RATE_MBPS : " Transmission rate in MBPS"
+    THROUGHPUT_RX_MBPS: "Received Throughput in MBPS"
+    TX_RATE_PERCENT: "Transmission Rate in Percentage"
+    FRAME_LOSS_PERCENT: "Frame loss in Percentage"
+    FORWARDING_RATE_FPS: " Maximum Forwarding Rate in FPS"
+
+
+Whereas, the address caching test outputs following values,
+
+.. code-block:: console
+
+    CACHING_CAPACITY_ADDRS = 'Number of address it can cache'
+    ADDR_LEARNED_PERCENT = 'Percentage of address successfully learned'
+
+and address learning test outputs just a single value:
+
+.. code-block:: console
+
+    OPTIMAL_LEARNING_RATE_FPS = 'Optimal learning rate in fps'
+
+Note that 'FORWARDING_RATE_FPS', 'CACHING_CAPACITY_ADDRS',
+'ADDR_LEARNED_PERCENT' and 'OPTIMAL_LEARNING_RATE_FPS' are the new
+result-constants added to support RFC2889 tests.
 
 .. _`Xena Networks`:
 
