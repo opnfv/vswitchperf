@@ -27,6 +27,7 @@
 EXIT=0
 EXIT_TC_FAILED=1
 EXIT_SANITY_TC_FAILED=2
+EXIT_PYLINT_FAILED=3
 EXIT_NO_RESULTS=10
 EXIT_NO_TEST_REPORT_LOG_DIR=11
 
@@ -315,13 +316,20 @@ function execute_vsperf_sanity() {
     fi
 }
 
+# execute pylint to check code quality
+function execute_vsperf_pylint_check() {
+    if ! ./check ; then
+        EXIT=$EXIT_PYLINT_FAILED
+    fi
+}
+
 # check and install required packages at nodes running VERIFY and MERGE jobs
 function dependencies_check() {
     . /etc/os-release
     if [ $ID == "ubuntu" ] ; then
         echo "Dependencies check"
         echo "=================="
-        for PACKAGE in "python3-tk" "sysstat" ; do
+        for PACKAGE in "python3-tk" "sysstat" "bc" ; do
             if dpkg -s $PACKAGE &> /dev/null ; then
                 printf "    %-70s %-6s\n" $PACKAGE "OK"
             else
@@ -386,6 +394,7 @@ case $1 in
         echo "VSPERF verify job"
         echo "================="
 
+        execute_vsperf_pylint_check
         terminate_vsperf
         execute_vsperf_sanity
         terminate_vsperf
@@ -400,6 +409,7 @@ case $1 in
         echo "VSPERF merge job"
         echo "================"
 
+        execute_pylint_check
         terminate_vsperf
         execute_vsperf_sanity
         terminate_vsperf
