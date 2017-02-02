@@ -27,8 +27,9 @@
 EXIT=0
 EXIT_TC_FAILED=1
 EXIT_SANITY_TC_FAILED=2
-EXIT_NO_RESULTS=10
-EXIT_NO_TEST_REPORT_LOG_DIR=11
+EXIT_PYLINT_FAILED=4
+EXIT_NO_RESULTS=128
+EXIT_NO_TEST_REPORT_LOG_DIR=256
 
 #
 # configuration
@@ -188,7 +189,7 @@ function execute_vsperf() {
         exit $EXIT_NO_RESULTS
     else
         print_results "${RES_DIR}"
-        if [ "$EXIT" -eq "$EXIT_TC_FAILED" ] ; then
+        if [ $(($EXIT & $EXIT_TC_FAILED)) -gt 0 ] ; then
             echo "-------------------------------------------------------------------"
             cat $LOG_FILE
             echo "-------------------------------------------------------------------"
@@ -308,10 +309,17 @@ function execute_vsperf_sanity() {
         echo >> $LOG_FILE
     done
     echo "Sanity log file $LOG_FILE"
-    if [ "$EXIT" -ne "0" ] ; then
+    if [ $(($EXIT & $EXIT_SANITY_TC_FAILED)) -gt 0 ] ; then
         echo "-------------------------------------------------------------------"
         cat $LOG_FILE
         echo "-------------------------------------------------------------------"
+    fi
+}
+
+# execute pylint to check code quality
+function execute_vsperf_pylint_check() {
+    if ! ./check -b ; then
+        EXIT=$EXIT_PYLINT_FAILED
     fi
 }
 
@@ -321,12 +329,22 @@ function dependencies_check() {
     if [ $ID == "ubuntu" ] ; then
         echo "Dependencies check"
         echo "=================="
-        for PACKAGE in "python3-tk" "sysstat" ; do
+        # install system packages
+        for PACKAGE in "python3-tk" "sysstat" "bc" ; do
             if dpkg -s $PACKAGE &> /dev/null ; then
                 printf "    %-70s %-6s\n" $PACKAGE "OK"
             else
                 printf "    %-70s %-6s\n" $PACKAGE "missing"
                 sudo apt-get install -y $PACKAGE
+            fi
+        done
+        # install additional python packages into python environment
+        for PACKAGE in "pylint" ; do
+            if pip show $PACKAGE &> /dev/null ; then
+                printf "    %-70s %-6s\n" $PACKAGE "OK"
+            else
+                printf "    %-70s %-6s\n" $PACKAGE "missing"
+                pip install $PACKAGE
             fi
         done
         echo
@@ -386,6 +404,7 @@ case $1 in
         echo "VSPERF verify job"
         echo "================="
 
+        execute_vsperf_pylint_check
         terminate_vsperf
         execute_vsperf_sanity
         terminate_vsperf
@@ -400,6 +419,7 @@ case $1 in
         echo "VSPERF merge job"
         echo "================"
 
+        execute_pylint_check
         terminate_vsperf
         execute_vsperf_sanity
         terminate_vsperf
