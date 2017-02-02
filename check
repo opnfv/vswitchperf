@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2015 Intel Corporation.
+# Copyright 2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,9 +19,10 @@
 PYLINT="pylint"
 PYLINT_RC='pylintrc'
 PYLINT_RATING_GATE="10"
-FILE_REGEX="(vsperf|.*\.py)"
-FIND_OPTIONS="-regextype posix-egrep -iregex (./)?$FILE_REGEX"
+PYLINT_RATING_MIN=$PYLINT_RATING_GATE
+FILE_REGEX="(^vsperf|\.py)$"
 FILE_LIST="/tmp/vsperf_check_list.txt"
+BC=`which bc`
 
 # print usage if requested
 function usage() {
@@ -64,9 +65,27 @@ EOM
 # compare pylint result with predefined gate
 function rating_is_ok() {
     # bc is not part of basic Centos installation
-    # so let us do integer comparison only
-    int_rating=`echo $1 | sed -e 's/\..*$//'`
-    [ $int_rating -ge $PYLINT_RATING_GATE ]
+    # so let us check if it is available
+    if [ "x$BC" == "x" ] ; then
+        # no bc, so do integer comparison only
+        int_rating=`echo $1 | sed -e 's/\..*$//'`
+        int_rating_min=`echo $PYLINT_RATING_MIN | sed -e 's/\..*$//'`
+        [ $int_rating -lt $int_rating_min ] && PYLINT_RATING_MIN=$int_rating
+        if [ $int_rating -lt $PYLINT_RATING_GATE ] ; then
+            return 1
+        else
+            return 0
+        fi
+    else
+        if (( $(echo "$1<$PYLINT_RATING_MIN" | bc -l) )) ; then
+            PYLINT_RATING_MIN=$1
+        fi
+        if (( $(echo "$1<$PYLINT_RATING_GATE" | bc -l) )) ; then
+            return 1
+        else
+            return 0
+        fi
+    fi
 }
 
 ##### MAIN #####
@@ -95,14 +114,14 @@ EXCLUDED_MODULES=`grep "^ *EXCLUDE_MODULES" conf/00_common.conf | tr '"' "'"`
 rm $FILE_LIST &> /dev/null
 if [ "x$1" == "x-m" -o "x$1" == "x--modified" ] ; then
     # check of modified files requested
-    git status --porcelain | cut -b4- | egrep -i "^${FILE_REGEX}$" > $FILE_LIST
+    git status --porcelain | cut -b4- | egrep -i "${FILE_REGEX}" | sort > $FILE_LIST
 elif [ "x$*" == "x" ] ; then
     # list is empty, check all python files
-    find . -type f $FIND_OPTIONS > $FILE_LIST
+    git ls-tree --name-only -r HEAD | egrep -i "${FILE_REGEX}" | sort > $FILE_LIST
 else
     for item in $* ; do
         if [ -d $item ] ; then
-            find $item -type f $FIND_OPTIONS >> $FILE_LIST
+            git ls-tree --name-only -r HEAD $item | egrep -i "${FILE_REGEX}" | sort >> $FILE_LIST
         elif [ -f $item ] ; then
             echo $item >> $FILE_LIST
         else
@@ -113,22 +132,26 @@ else
 fi
 
 # check if there is anything to check
+echo "Execution of pylint checks:"
 if [ -s $FILE_LIST ] ; then
     for pyfile in `cat $FILE_LIST | sort` ; do
         # get base name
         pyfile_basename="'"`basename $pyfile .py`"'"
         # and check if it should be excluded or not
         if ( echo $EXCLUDED_MODULES | grep -w $pyfile_basename > /dev/null ) ; then
-            printf "%-70s \e[32m%-6s\e[0m\n" $pyfile "EXCLUDED"
+            printf "    %-70s %-6s\n" $pyfile "EXCLUDED"
             continue
         fi
         # run pylint and extract final rating
         rating=`$PYLINT --rcfile $PYLINT_RC $pyfile 2>/dev/null | tail -n3 | grep rated | sed -e 's/^.*rated at \([0-9.]*\).*$/\1/'`
         # evaluate and display aquired rating
-        if rating_is_ok $rating ; then
-            printf "%-70s \e[32m%-6s\e[0m\n" $pyfile "OK"
+        if [ "x$rating" == "x" ] ; then
+            # rating is not available for files without python statements
+            printf "    %-70s %-6s\n" $pyfile "NA"
+        elif rating_is_ok $rating ; then
+            printf "    %-70s \e[32m%-6s\e[0m\n" $pyfile "OK"
         else
-            printf "%-70s \e[31m%-6s\e[0m\n" $pyfile $rating
+            printf "    %-70s \e[31m%-6s\e[0m\n" $pyfile $rating
         fi
     done
 else
@@ -139,5 +162,10 @@ fi
 # clean up
 rm $FILE_LIST &> /dev/null
 
-exit 0
+if [ "$PYLINT_RATING_MIN" != "$PYLINT_RATING_GATE" ] ; then
+    echo -e "Pylint check has failed. All files must have score ${PYLINT_RATING_GATE}.\n"
+    exit 1
+else
+    exit 0
+fi
 ##### MAIN end #####
