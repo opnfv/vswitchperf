@@ -1,0 +1,10 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Sridhar Rao <sridhar.rao@spirent.com>
+Code-Review+1: Christian Trautman <ctrautma@redhat.com>
+Code-Review+1: Aric Gardner <agardner@linuxfoundation.org>
+Code-Review+1: Sofia Wallin <sofia.wallin@ericsson.com>
+Submitted-by: Martin Klozik <martinx.klozik@intel.com>
+Submitted-at: Wed, 08 Feb 2017 16:56:02 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/27621
+Project: vswitchperf
+Branch: refs/heads/master
