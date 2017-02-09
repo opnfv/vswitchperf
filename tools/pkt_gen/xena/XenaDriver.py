@@ -1,4 +1,4 @@
-# Copyright 2016 Red Hat Inc & Xena Networks.
+# Copyright 2016-2017 Red Hat Inc & Xena Networks.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ import struct
 import sys
 import threading
 import time
-
+# pylint: disable=too-many-lines
 # Xena Socket Commands
 CMD_CLEAR_RX_STATS = 'pr_clear'
 CMD_CLEAR_TX_STATS = 'pt_clear'
@@ -371,7 +371,7 @@ class XenaManager(object):
         """
         return self.driver.ask_verify(make_manager_command(CMD_OWNER, username))
 
-
+# pylint: disable=too-many-public-methods
 class XenaPort(object):
     """
     Xena Port emulator class
@@ -537,7 +537,7 @@ class XenaPort(object):
         command = make_port_command(CMD_RESET, self)
         return self._manager.driver.ask_verify(command)
 
-    def set_port_arp_reply(self, on=True, v6=False):
+    def set_port_arp_reply(self, is_on=True, ipv6=False):
         """
         Set the port arpreply value
         :param on: Enable or disable the arp reply on the port
@@ -545,11 +545,11 @@ class XenaPort(object):
         :return: Boolean True if response OK, False if error
         """
         command = make_port_command('{} {}'.format(
-            CMD_SET_PORT_ARP_V6_REPLY if v6 else CMD_SET_PORT_ARP_REPLY,
-            "on" if on else "off"), self)
+            CMD_SET_PORT_ARP_V6_REPLY if ipv6 else CMD_SET_PORT_ARP_REPLY,
+            "on" if is_on else "off"), self)
         return self._manager.driver.ask_verify(command)
 
-    def set_port_ping_reply(self, on=True, v6=False):
+    def set_port_ping_reply(self, is_on=True, ipv6=False):
         """
         Set the port ping reply value
         :param on: Enable or disable the ping reply on the port
@@ -557,8 +557,8 @@ class XenaPort(object):
         :return: Boolean True if response OK, False if error
         """
         command = make_port_command('{} {}'.format(
-            CMD_SET_PORT_PING_V6_REPLY if v6 else CMD_SET_PORT_PING_REPLY,
-            "on" if on else "off"), self)
+            CMD_SET_PORT_PING_V6_REPLY if ipv6 else CMD_SET_PORT_PING_REPLY,
+            "on" if is_on else "off"), self)
         return self._manager.driver.ask_verify(command)
 
     def set_port_learning(self, interval):
@@ -885,6 +885,7 @@ class XenaRXStats(object):
         """
         return self._time
 
+    # pylint: disable=too-many-branches
     def parse_stats(self):
         """ Parse the stats from pr all command
         :return: Dictionary of all stats
@@ -1040,7 +1041,7 @@ class XenaTXStats(object):
 
 def aggregate_stats(stat1, stat2):
     """
-    Judge whether stat1 and stat2 both have same key, if both have same key, 
+    Judge whether stat1 and stat2 both have same key, if both have same key,
     call the aggregate fuction, else use the stat1's value
     """
     newstat = dict()

@@ -1,7 +1,7 @@
 """
 vsperf2dashboard
 """
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,12 +15,10 @@ vsperf2dashboard
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 import os
 import csv
-import requests
-import json
 import logging
+import requests
 
 def results2opnfv_dashboard(results_path, int_data):
     """
@@ -66,7 +64,7 @@ def _push_results(reader, int_data):
                 version_ovs = line.replace(' ', '')
                 version_ovs = version_ovs.replace('OVS_TAG?=', '')
             if "DPDK_TAG" in line:
-                if int_data['vanilla'] == False:
+                if int_data['vanilla'] is False:
                     version_dpdk = line.replace(' ', '')
                     version_dpdk = version_dpdk.replace('DPDK_TAG?=', '')
                 else:
@@ -81,8 +79,8 @@ def _push_results(reader, int_data):
             "version": version,
             "details": details}
 
-    myData = requests.post(url, json=body)
-    logging.info("Results for %s sent to opnfv, http response: %s", casename, myData)
+    my_data = requests.post(url, json=body)
+    logging.info("Results for %s sent to opnfv, http response: %s", casename, my_data)
     logging.debug("opnfv url: %s", db_url)
     logging.debug("the body sent to opnfv")
     logging.debug(body)
@@ -111,7 +109,7 @@ def _generate_test_name(testcase, int_data):
     for name, name_list in names.items():
         if name != testcase:
             continue
-        if vanilla == True:
+        if vanilla is True:
             res_name = name_list[1]
         else:
             res_name = name_list[0]

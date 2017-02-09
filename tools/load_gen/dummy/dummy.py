@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 from tools.load_gen.load_gen import ILoadGenerator
 
+# pylint: disable=super-init-not-called
 class DummyLoadGen(ILoadGenerator):
     """Dummy load generator, which doesn't generate any load"""
     def __init__(self, stress_config):
@@ -26,6 +27,6 @@ class DummyLoadGen(ILoadGenerator):
         """Start stress load if it was requested"""
         pass
 
-    def kill(self, signal='-15', sleep=2):
+    def kill(self, dummy_signal='-15', dummy_sleep=2):
         """Kill stress load if it is active"""
         pass

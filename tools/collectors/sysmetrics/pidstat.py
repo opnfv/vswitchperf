@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,8 +42,8 @@ import time
 from collections import OrderedDict
 from tools import tasks
 from tools import systeminfo
-from conf import settings
 from tools.collectors.collector import collector
+from conf import settings
 
 _ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 

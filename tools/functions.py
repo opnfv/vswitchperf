@@ -1,4 +1,4 @@
-# Copyright 2016 Intel Corporation.
+# Copyright 2016-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ from conf import settings as S
 #
 # Support functions
 #
-
+# pylint: disable=too-many-branches
 def settings_update_paths():
     """ Configure paths to OVS, DPDK and QEMU sources and binaries based on
         selected vswitch type and src/binary switch. Data are taken from
@@ -74,6 +74,7 @@ def settings_update_paths():
     paths['paths']['ovs_etc_tmp'] = S.getValue('PATHS')['vswitch']['ovs_etc_tmp']
 
     tools = {}
+    # pylint: disable=too-many-nested-blocks
     for path_class in paths:
         for tool in paths[path_class]:
             tmp_tool = paths[path_class][tool]
@@ -123,8 +124,8 @@ def settings_update_paths():
                     tmp_tool = tmp_glob[0]
             elif not os.path.exists(tmp_tool):
                 if tool.endswith('_tmp'):
-                    logging.getLogger().debug('Temporary path to the {} does not '
-                                              'exist: {}.'.format(tool, tmp_tool))
+                    logging.getLogger().debug('Temporary path to the %s does not '
+                                              'exist: %s', tool, tmp_tool)
                 else:
                     raise RuntimeError('Path to the {} is not valid: {}'.format(tool, tmp_tool))
 

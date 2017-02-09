@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -131,9 +131,10 @@ def generate(input_file, tc_results, tc_stats, test_type='performance'):
             'tests': tests,
         }
         i = 0
+        # pylint: disable=no-member
         for output_file in output_files:
             template = template_env.get_template(_TEMPLATE_FILES[i])
-            output_text = template.render(template_vars) #pylint: disable=no-member
+            output_text = template.render(template_vars)
             with open(output_file, 'w') as file_:
                 file_.write(output_text)
                 logging.info('Test report written to "%s"', output_file)

@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@ Much of this code is based on ``ovs-lib.py`` from Open Stack:
 
 https://github.com/openstack/neutron/blob/6eac1dc99124ca024d6a69b3abfa3bc69c735667/neutron/agent/linux/ovs_lib.py
 """
-
-import os
 import logging
 import string
 import re
@@ -177,7 +175,7 @@ class OFBridge(OFBase):
 
         :return: None
         """
-        tmp_timeout = self.timeout if timeout == None else timeout
+        tmp_timeout = self.timeout if timeout is None else timeout
         cmd = ['sudo', settings.getValue('TOOLS')['ovs-ofctl'], '-O',
                'OpenFlow13', '--timeout', str(tmp_timeout)] + args
         return tasks.run_task(
@@ -292,7 +290,7 @@ class OFBridge(OFBase):
         """
         # insert flows from cache into OVS if needed
         if cache == 'flush':
-            if self._cache_file == None:
+            if self._cache_file is None:
                 self.logger.error('flow cache flush called, but nothing is cached')
                 return
             self.logger.debug('flows cached in %s will be added to the bridge', _CACHE_FILE_NAME)
@@ -311,7 +309,7 @@ class OFBridge(OFBase):
         # insert flow to the cache or OVS
         if cache == 'on':
             # create and open cache file if needed
-            if self._cache_file == None:
+            if self._cache_file is None:
                 self._cache_file = open(_CACHE_FILE_NAME, 'w')
             self._cache_file.write(_flow_key + '\n')
         else:

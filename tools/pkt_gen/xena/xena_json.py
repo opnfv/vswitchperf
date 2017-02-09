@@ -1,4 +1,4 @@
-# Copyright 2016 Red Hat Inc & Xena Networks.
+# Copyright 2016-2017 Red Hat Inc & Xena Networks.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -232,10 +232,13 @@ class XenaJSON(object):
         """
         self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
             'Enabled'] = 'true'
-
+    # pylint: disable=too-many-arguments
     def modify_2544_tput_options(self, initial_value, minimum_value,
                                  maximum_value, value_resolution,
                                  use_pass_threshhold, pass_threshhold):
+        """
+        modify_2544_tput_options
+        """
         self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
             'RateIterationOptions']['InitialValue'] = initial_value
         self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
@@ -638,4 +641,3 @@ if __name__ == "__main__":
     write_json_file(JSON.json_data, './testthis.x2544')
     JSON = XenaJSON('./testthis.x2544')
     print_json_report(JSON.json_data)
-

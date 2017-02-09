@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,6 +44,7 @@ _NICS_PCI = []
 def init():
     """Setup system for DPDK.
     """
+    # pylint: disable=global-statement
     global _NICS
     global _NICS_PCI
     _NICS = S.getValue('NICS')

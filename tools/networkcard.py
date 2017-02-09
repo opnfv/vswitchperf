@@ -1,4 +1,4 @@
-# Copyright 2016 Intel Corporation.
+# Copyright 2016-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -263,4 +263,3 @@ def reinit_vfs(pf_pci_handle):
                 _LOGGER.warning('Error during reinitialization of VF %s', vf_nic)
         else:
             _LOGGER.warning("Can't detect driver for VF %s", vf_nic)
-

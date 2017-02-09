@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@
 
 from conf import settings
 from core.loader.loader_servant import LoaderServant
-from tools.pkt_gen.trafficgen import ITrafficGenerator
 from tools.collectors.collector import ICollector
+from tools.pkt_fwd.pkt_fwd import IPktFwd
+from tools.pkt_gen.trafficgen import ITrafficGenerator
 from vswitches.vswitch import IVSwitch
 from vnfs.vnf.vnf import IVnf
-from tools.pkt_fwd.pkt_fwd import IPktFwd
 
 class Loader(object):
     """Loader class - main object context holder.
