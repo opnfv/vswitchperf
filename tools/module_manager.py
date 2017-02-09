@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -143,8 +143,7 @@ class ModuleManager(object):
 
         return None
 
-    @staticmethod
-    def get_module_dependecies(module):
+    def get_module_dependecies(self, module):
         """Return list of modules, which must be loaded before module itself
 
         :param module: a name of kernel module

@@ -1,4 +1,4 @@
-# Copyright 2016 Spirent Communications.
+# Copyright 2016-2017 Spirent Communications.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,7 +11,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+#
+# Invalid name of file, must be used '_' instead '-'
+# pylint: disable=invalid-name
 '''
 @author Spirent Communications
 
@@ -25,7 +27,7 @@ import os
 from conf import settings
 
 
-logger = logging.getLogger(__name__)
+_LOGGER = logging.getLogger(__name__)
 
 
 def create_dir(path):
@@ -33,8 +35,8 @@ def create_dir(path):
     if not os.path.exists(path):
         try:
             os.makedirs(path)
-        except OSError as e:
-            logger.error("Failed to create directory %s: %s", path, str(e))
+        except OSError as ex:
+            _LOGGER.error("Failed to create directory %s: %s", path, str(ex))
             raise
 
 
@@ -43,11 +45,11 @@ def write_query_results_to_csv(results_path, csv_results_file_prefix,
     """ Write the results of the query to the CSV """
     create_dir(results_path)
     filec = os.path.join(results_path, csv_results_file_prefix + ".csv")
-    with open(filec, "wb") as f:
-        f.write(query_results["Columns"].replace(" ", ",") + "\n")
+    with open(filec, "wb") as result_file:
+        result_file.write(query_results["Columns"].replace(" ", ",") + "\n")
         for row in (query_results["Output"].replace("} {", ",").
                     replace("{", "").replace("}", "").split(",")):
-            f.write(row.replace(" ", ",") + "\n")
+            result_file.write(row.replace(" ", ",") + "\n")
 
 
 def positive_int(value):
@@ -67,7 +69,7 @@ def percent_float(value):
             "%s not in range [0.0, 100.0]" % pvalue)
     return pvalue
 
-
+# pylint: disable=too-many-branches, too-many-statements
 def main():
     """ Read the arguments, Invoke Test and Return the results"""
     parser = argparse.ArgumentParser()
@@ -278,12 +280,12 @@ def main():
     args = parser.parse_args()
 
     if args.verbose:
-        logger.debug("Creating results directory")
+        _LOGGER.debug("Creating results directory")
     create_dir(args.results_dir)
 
     session_name = args.test_session_name
     user_name = args.test_user_name
-
+    # pylint: disable=import-error
     try:
         # Load Spirent REST Library
         from stcrestclient import stchttp
@@ -291,8 +293,8 @@ def main():
         stc = stchttp.StcHttp(args.lab_server_addr)
         session_id = stc.new_session(user_name, session_name)
         stc.join_session(session_id)
-    except RuntimeError as e:
-        logger.error(e)
+    except RuntimeError as err:
+        _LOGGER.error(err)
         raise
 
     # Get STC system info.
@@ -305,43 +307,43 @@ def main():
 
     # Retrieve and display the server information
     if args.verbose:
-        logger.debug("SpirentTestCenter system version: %s",
-                     stc.get("system1", "version"))
+        _LOGGER.debug("SpirentTestCenter system version: %s",
+                      stc.get("system1", "version"))
 
     try:
         device_list = []
         port_list = []
         if args.verbose:
-            logger.debug("Bring up license server")
+            _LOGGER.debug("Bring up license server")
         license_mgr = stc.get("system1", "children-licenseservermanager")
         if args.verbose:
-            logger.debug("license_mgr = %s", license_mgr)
+            _LOGGER.debug("license_mgr = %s", license_mgr)
         stc.create("LicenseServer", under=license_mgr, attributes={
-                   "server": args.license_server_addr})
+            "server": args.license_server_addr})
 
         # Create the root project object
         if args.verbose:
-            logger.debug("Creating project ...")
+            _LOGGER.debug("Creating project ...")
         project = stc.get("System1", "children-Project")
 
         # Configure any custom traffic parameters
         if args.traffic_custom == "cont":
             if args.verbose:
-                logger.debug("Configure Continuous Traffic")
+                _LOGGER.debug("Configure Continuous Traffic")
             stc.create("ContinuousTestConfig", under=project)
 
         # Create ports
         if args.verbose:
-            logger.debug("Creating ports ...")
+            _LOGGER.debug("Creating ports ...")
         east_chassis_port = stc.create('port', project)
         if args.verbose:
-            logger.debug("Configuring TX port ...")
+            _LOGGER.debug("Configuring TX port ...")
         stc.config(east_chassis_port, {'location': tx_port_loc})
         port_list.append(east_chassis_port)
 
         west_chassis_port = stc.create('port', project)
         if args.verbose:
-            logger.debug("Configuring RX port ...")
+            _LOGGER.debug("Configuring RX port ...")
         stc.config(west_chassis_port, {'location': rx_port_loc})
         port_list.append(west_chassis_port)
 
@@ -387,12 +389,12 @@ def main():
         # Append to the device list
         device_list.append(device_gen_config['ReturnList'])
         if args.verbose:
-            logger.debug(device_list)
+            _LOGGER.debug(device_list)
 
         # Create the RFC 2544 'metric test
         if args.metric == "throughput":
             if args.verbose:
-                logger.debug("Set up the RFC2544 throughput test...")
+                _LOGGER.debug("Set up the RFC2544 throughput test...")
             stc.perform("Rfc2544SetupThroughputTestCommand",
                         params={"AcceptableFrameLoss":
                                 args.acceptable_frame_loss_pct,
@@ -463,26 +465,26 @@ def main():
             "system1.project", "children-port"), "autoConnect": "TRUE"})
         # Apply configuration.
         if args.verbose:
-            logger.debug("Apply configuration...")
+            _LOGGER.debug("Apply configuration...")
         stc.apply()
 
         if args.verbose:
-            logger.debug("Starting the sequencer...")
+            _LOGGER.debug("Starting the sequencer...")
         stc.perform("SequencerStart")
 
         # Wait for sequencer to finish
-        logger.info(
+        _LOGGER.info(
             "Starting test... Please wait for the test to complete...")
         stc.wait_until_complete()
-        logger.info("The test has completed... Saving results...")
+        _LOGGER.info("The test has completed... Saving results...")
 
         # Determine what the results database filename is...
         lab_server_resultsdb = stc.get(
             "system1.project.TestResultSetting", "CurrentResultFileName")
 
         if args.verbose:
-            logger.debug("The lab server results database is %s",
-                         lab_server_resultsdb)
+            _LOGGER.debug("The lab server results database is %s",
+                          lab_server_resultsdb)
 
         stc.perform("CSSynchronizeFiles",
                     params={"DefaultDownloadDir": args.results_dir})
@@ -492,10 +494,10 @@ def main():
 
         if not os.path.exists(resultsdb):
             resultsdb = lab_server_resultsdb
-            logger.info("Failed to create the local summary DB File, using"
-                        " the remote DB file instead.")
+            _LOGGER.info("Failed to create the local summary DB File, using"
+                         " the remote DB file instead.")
         else:
-            logger.info(
+            _LOGGER.info(
                 "The local summary DB file has been saved to %s", resultsdb)
 
         # The returns the "RFC2544ThroughputTestResultDetailedSummaryView"
@@ -551,26 +553,26 @@ def main():
                                 ("RFC2544FrameLossTestResultDetailed"
                                  "SummaryView")}))
         if args.verbose:
-            logger.debug("resultsdict[\"Columns\"]: %s",
-                         resultsdict["Columns"])
-            logger.debug("resultsdict[\"Output\"]: %s", resultsdict["Output"])
-            logger.debug("Result paths: %s",
-                         stc.perform("GetTestResultSettingPaths"))
+            _LOGGER.debug("resultsdict[\"Columns\"]: %s",
+                          resultsdict["Columns"])
+            _LOGGER.debug("resultsdict[\"Output\"]: %s", resultsdict["Output"])
+            _LOGGER.debug("Result paths: %s",
+                          stc.perform("GetTestResultSettingPaths"))
 
             # Write results to csv
-            logger.debug("Writing CSV file to results directory %s",
-                         args.results_dir)
+            _LOGGER.debug("Writing CSV file to results directory %s",
+                          args.results_dir)
         write_query_results_to_csv(
             args.results_dir, args.csv_results_file_prefix, resultsdict)
 
     except RuntimeError as e:
-        logger.error(e)
+        _LOGGER.error(e)
 
     if args.verbose:
-        logger.debug("Destroy session on lab server")
+        _LOGGER.debug("Destroy session on lab server")
     stc.end_session()
 
-    logger.info("Test complete!")
+    _LOGGER.info("Test complete!")
 
 if __name__ == "__main__":
     main()

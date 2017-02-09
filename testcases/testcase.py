@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,11 +38,13 @@ from tools.teststepstools import TestStepsTools
 
 CHECK_PREFIX = 'validate_'
 
+# pylint: disable=too-many-instance-attributes
 class TestCase(object):
     """TestCase base class
 
     In this basic form runs RFC2544 throughput test
     """
+    # pylint: disable=too-many-statements
     def __init__(self, cfg):
         """Pull out fields from test config
 
@@ -138,7 +140,7 @@ class TestCase(object):
                               'tunnel_type': self._tunnel_type,})
 
         # Packet Forwarding mode
-        self._vswitch_none = 'none' == S.getValue('VSWITCH').strip().lower()
+        self._vswitch_none = S.getValue('VSWITCH').strip().lower() == 'none'
 
         # trafficgen configuration required for tests of tunneling protocols
         if self.deployment == "op2p":
@@ -428,6 +430,7 @@ class TestCase(object):
     def _mount_hugepages(self):
         """Mount hugepages if usage of DPDK or Qemu is detected
         """
+        # pylint: disable=too-many-boolean-expressions
         # hugepages are needed by DPDK and Qemu
         if not self._hugepages_mounted and \
             (self.deployment.count('v') or \
@@ -505,8 +508,8 @@ class TestCase(object):
             else:
                 result3 = True
 
-            logging.info('Need a total of {} total hugepages'.format(
-                hugepages_needed + sock1_mem + sock0_mem))
+            logging.info('Need a total of %s total hugepages',
+                         hugepages_needed + sock1_mem + sock0_mem)
 
             # The only drawback here is sometimes dpdk doesn't release
             # its hugepages on a test failure. This could cause a test
@@ -561,7 +564,7 @@ class TestCase(object):
         """Add flows to the vswitch
         """
         vswitch = self._vswitch_ctl.get_vswitch()
-        # TODO BOM 15-08-07 the frame mod code assumes that the
+        # NOTE BOM 15-08-07 the frame mod code assumes that the
         # physical ports are ports 1 & 2. The actual numbers
         # need to be retrived from the vSwitch and the metadata value
         # updated accordingly.
@@ -627,7 +630,7 @@ class TestCase(object):
                                 'goto_table:3']}
             vswitch.add_flow(bridge, flow)
         elif self._frame_mod == "ip_port":
-            # TODO BOM 15-08-27 The traffic generated is assumed
+            # NOTE BOM 15-08-27 The traffic generated is assumed
             # to be UDP (nw_proto 17d) which is the default case but
             # we will need to pick up the actual traffic params in use.
             flow = {'table':'2', 'priority':'1000', 'metadata':'2',
@@ -711,6 +714,9 @@ class TestCase(object):
         # initialize list with results
         self._step_result = [None] * len(self.test)
 
+        # We have to suppress pylint report, because test_object has to be set according
+        # to the test step definition
+        # pylint: disable=redefined-variable-type
         # run test step by step...
         for i, step in enumerate(self.test):
             step_ok = not self._step_check

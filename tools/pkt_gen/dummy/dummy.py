@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -58,7 +58,6 @@ def _get_user_traffic_stat(stat_type):
                 break
             else:
                 print('Please respond with \'yes\' or \'no\' ', end='')
-
 
 def get_user_traffic(traffic_type, traffic_conf, flow_conf, traffic_stats):
     """
@@ -229,15 +228,36 @@ class Dummy(trafficgen.ITrafficGenerator):
             traffic_,
             ('b2b frames', 'b2b frame loss %'))
 
-        framesize = traffic_['l2']['framesize']
-
         # builds results by using user-supplied values
         # and guessing remainder using available info
         result[ResultsConstants.B2B_FRAMES] = float(results[0])
         result[ResultsConstants.B2B_FRAME_LOSS_PERCENT] = float(results[1])
         return result
 
+    def start_cont_traffic(self, traffic=None, duration=20):
+        return NotImplementedError('Dummy does not implement start_cont_traffic')
 
+    def stop_cont_traffic(self):
+        return NotImplementedError(
+            'Dummy does not implement stop_cont_traffic')
+
+    def start_rfc2544_back2back(self, traffic=None, tests=1, duration=20,
+                                lossrate=0.0):
+        return NotImplementedError(
+            'Dummy does not implement start_rfc2544_back2back')
+
+    def wait_rfc2544_back2back(self):
+        return NotImplementedError(
+            'Dummy does not implement stop_cont_traffic')
+
+    def start_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
+                                 lossrate=0.0):
+        return NotImplementedError(
+            'Dummy does not implement start_rfc2544_throughput')
+
+    def wait_rfc2544_throughput(self):
+        return NotImplementedError(
+            'Dummy does not implement wait_rfc2544_throughput')
 
 if __name__ == '__main__':
     TRAFFIC = {

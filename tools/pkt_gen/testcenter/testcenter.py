@@ -246,6 +246,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
                     row["ForwardingRate(fps)"])
         return result
 
+    # pylint: disable=unused-argument
     def send_rfc2889_forwarding(self, traffic=None, tests=1, duration=20):
         """
         Send traffic per RFC2889 Forwarding test specifications.
@@ -466,6 +467,26 @@ class TestCenter(trafficgen.ITrafficGenerator):
             self._logger.debug("file: %s", filecs)
 
         return self.get_rfc2544_results(filecs)
+
+    def start_cont_traffic(self, traffic=None, duration=30):
+        raise NotImplementedError('TestCenter start_cont_traffic not implement.')
+
+    def stop_cont_traffic(self):
+        raise NotImplementedError('TestCenter stop_cont_traffic not implement.')
+
+    def start_rfc2544_back2back(self, traffic=None, tests=1, duration=20,
+                                lossrate=0.0):
+        raise NotImplementedError('TestCenter start_rfc2544_back2back not implement.')
+
+    def wait_rfc2544_back2back(self):
+        raise NotImplementedError('TestCenter wait_rfc2544_back2back not implement.')
+
+    def start_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
+                                 lossrate=0.0):
+        raise NotImplementedError('TestCenter start_rfc2544_throughput not implement.')
+
+    def wait_rfc2544_throughput(self):
+        raise NotImplementedError('TestCenter wait_rfc2544_throughput not implement.')
 
 if __name__ == '__main__':
     TRAFFIC = {

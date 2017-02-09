@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -78,7 +78,6 @@ does not give any feedback as to the status of tests. As such, it can
 be expected that the user have access to the IxNetwork machine should
 this trafficgen need to be debugged.
 """
-
 import tkinter
 import logging
 import os
@@ -122,18 +121,15 @@ def _build_set_cmds(values, prefix='dict set'):
     for key in values:
         value = values[key]
 
-        # Not allowing derived dictionary types for now
-        # pylint: disable=unidiomatic-typecheck
-        if type(value) == dict:
+        if isinstance(value, dict):
             _prefix = ' '.join([prefix, key]).strip()
             for subkey in _build_set_cmds(value, _prefix):
                 yield subkey
             continue
 
-        # pylint: disable=unidiomatic-typecheck
         # tcl doesn't recognise the strings "True" or "False", only "1"
         # or "0". Special case to convert them
-        if type(value) == bool:
+        if isinstance(value, bool):
             value = str(int(value))
         else:
             value = str(value)
@@ -511,6 +507,8 @@ class IxNet(trafficgen.ITrafficGenerator):
 
         return parse_ixnet_rfc_results(parse_result_string(output[0]))
 
+    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
+        return NotImplementedError('IxNet does not implement send_burst_traffic')
 
 if __name__ == '__main__':
     TRAFFIC = {

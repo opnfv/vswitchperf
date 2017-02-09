@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -479,7 +479,7 @@ class MockTestCase(unittest.TestCase):
         on how self.is_pass was set in the constructor"""
         self.assertTrue(self.is_pass, self.msg)
 
-
+# pylint: disable=too-many-locals, too-many-branches, too-many-statements
 def main():
     """Main function.
     """
@@ -532,7 +532,7 @@ def main():
 
     # configuration validity checks
     if args['vswitch']:
-        vswitch_none = 'none' == args['vswitch'].strip().lower()
+        vswitch_none = args['vswitch'].strip().lower() == 'none'
         if vswitch_none:
             settings.setValue('VSWITCH', 'none')
         else:
@@ -642,6 +642,9 @@ def main():
             sys.exit(1)
 
         # run tests
+        # Add pylint exception: Redefinition of test type from
+        # testcases.integration.IntegrationTestCase to testcases.performance.PerformanceTestCase
+        # pylint: disable=redefined-variable-type
         suite = unittest.TestSuite()
         for cfg in selected_tests:
             test_name = cfg.get('Name', '<Name not set>')
@@ -652,7 +655,7 @@ def main():
                     test = PerformanceTestCase(cfg)
                 test.run()
                 suite.addTest(MockTestCase('', True, test.name))
-            #pylint: disable=broad-except
+            # pylint: disable=broad-except
             except (Exception) as ex:
                 _LOGGER.exception("Failed to run test: %s", test_name)
                 suite.addTest(MockTestCase(str(ex), False, test_name))

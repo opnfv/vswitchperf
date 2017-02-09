@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,10 +15,8 @@
 """Automation of QEMU hypervisor with direct access to host NICs via
    PCI passthrough.
 """
-
 import logging
 import subprocess
-import os
 
 from conf import settings as S
 from vnfs.qemu.qemu import IVnfQemu

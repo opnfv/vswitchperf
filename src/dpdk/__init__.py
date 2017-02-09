@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,4 +20,3 @@ and removing drivers and binding/unbinding NICs.
 
 from src.dpdk.dpdk import *
 from src.dpdk.testpmd_proc import TestPMDProcess
-

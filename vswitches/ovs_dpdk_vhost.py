@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -110,8 +110,8 @@ class OvsDpdkVhost(IVSwitchOvs):
         port_name = 'dpdk' + str(dpdk_count)
         # PCI info. Please note there must be no blank space, eg must be
         # like 'options:dpdk-devargs=0000:06:00.0'
-        _NICS = settings.getValue('NICS')
-        nic_pci = 'options:dpdk-devargs=' + _NICS[dpdk_count]['pci']
+        _nics = settings.getValue('NICS')
+        nic_pci = 'options:dpdk-devargs=' + _nics[dpdk_count]['pci']
         params = ['--', 'set', 'Interface', port_name, 'type=dpdk', nic_pci]
         # multi-queue enable
 

@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -68,6 +68,7 @@ def create_vswitch(deployment_scenario, vswitch_class, traffic,
     :param tunnel_operation encapsulation/decapsulation or None
     :return: IVSwitchController for the deployment_scenario
     """
+    # pylint: disable=too-many-return-statements
     deployment_scenario = deployment_scenario.lower()
     if deployment_scenario.startswith("p2p"):
         return VswitchControllerP2P(vswitch_class, traffic)
@@ -124,6 +125,7 @@ def create_loadgen(loadgen_type, loadgen_cfg):
     :param loadgen_class: Reference to load generator class to be used.
     :return: A new ILoadGenerator class
     """
+    # pylint: disable=too-many-function-args
     loadgen_type = loadgen_type.lower()
     if loadgen_type.find("dummy") >= 0:
         return DummyLoadGen(loadgen_cfg)

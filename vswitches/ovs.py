@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,9 +25,10 @@ import pexpect
 
 from conf import settings
 from src.ovs import OFBridge, flow_key, flow_match
-from tools import tasks
 from vswitches.vswitch import IVSwitch
-
+from tools import tasks
+from tools.module_manager import ModuleManager
+# pylint: disable=too-many-public-methods
 class IVSwitchOvs(IVSwitch, tasks.Process):
     """Open vSwitch base class implementation
 
@@ -55,6 +56,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         self._cmd = []
         self._cmd_template = ['sudo', '-E', settings.getValue('TOOLS')['ovs-vswitchd']]
         self._stamp = None
+        self._module_manager = ModuleManager()
 
     def start(self):
         """ Start ``ovsdb-server`` and ``ovs-vswitchd`` instance.
@@ -138,7 +140,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         bridge = self._bridges[switch_name]
         remote_bridge = self._bridges[remote_switch_name]
         pcount = str(self._get_port_count('type=patch'))
-        # TODO ::: What if interface name longer than allowed width??
+        # NOTE ::: What if interface name longer than allowed width??
         local_port_name = switch_name + '-' + remote_switch_name + '-' + pcount
         remote_port_name = remote_switch_name + '-' + switch_name + '-' + pcount
         local_params = ['--', 'set', 'Interface', local_port_name,
@@ -376,8 +378,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
     #
     # validate methods required for integration testcases
     #
-
-    def validate_add_switch(self, result, switch_name, params=None):
+    def validate_add_switch(self, dummy_result, switch_name, dummy_params=None):
         """Validate - Create a new logical switch with no ports
         """
         bridge = self._bridges[switch_name]
@@ -386,7 +387,9 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         assert re.search('Bridge ["\']?%s["\']?' % switch_name, output[0]) is not None
         return True
 
-    def validate_del_switch(self, result, switch_name):
+    # Method could be a function
+    # pylint: disable=no-self-use
+    def validate_del_switch(self, dummy_result, switch_name):
         """Validate removal of switch
         """
         bridge = OFBridge('tmp')
@@ -410,7 +413,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """
         return self.validate_add_phy_port(result, switch_name)
 
-    def validate_del_port(self, result, switch_name, port_name):
+    def validate_del_port(self, dummy_result, switch_name, port_name):
         """ Validate that port_name was removed from bridge.
         """
         bridge = self._bridges[switch_name]
@@ -419,11 +422,12 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         assert 'Port "%s"' % port_name not in output[0]
         return True
 
-    def validate_add_flow(self, result, switch_name, flow, cache='off'):
+    def validate_add_flow(self, dummy_result, switch_name, flow, dummy_cache='off'):
         """ Validate insertion of the flow into the switch
         """
+
         if 'idle_timeout' in flow:
-            del(flow['idle_timeout'])
+            del flow['idle_timeout']
 
         # Note: it should be possible to call `ovs-ofctl dump-flows switch flow`
         # to verify flow insertion, but it doesn't accept the same flow syntax
@@ -439,38 +443,38 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
                 return True
         return False
 
-    def validate_del_flow(self, result, switch_name, flow=None):
+    def validate_del_flow(self, dummy_result, switch_name, flow=None):
         """ Validate removal of the flow
         """
         if not flow:
             # what else we can do?
             return True
-        return not self.validate_add_flow(result, switch_name, flow)
+        return not self.validate_add_flow(dummy_result, switch_name, flow)
 
-    def validate_dump_flows(self, result, switch_name):
+    def validate_dump_flows(self, dummy_result, dummy_switch_name):
         """ Validate call of flow dump
         """
         return True
 
-    def validate_disable_rstp(self, result, switch_name):
+    def validate_disable_rstp(self, dummy_result, switch_name):
         """ Validate rstp disable
         """
         bridge = self._bridges[switch_name]
         return 'rstp_enable         : false' in ''.join(bridge.bridge_info())
 
-    def validate_enable_rstp(self, result, switch_name):
+    def validate_enable_rstp(self, dummy_result, switch_name):
         """ Validate rstp enable
         """
         bridge = self._bridges[switch_name]
         return 'rstp_enable         : true' in ''.join(bridge.bridge_info())
 
-    def validate_disable_stp(self, result, switch_name):
+    def validate_disable_stp(self, dummy_result, switch_name):
         """ Validate stp disable
         """
         bridge = self._bridges[switch_name]
         return 'stp_enable          : false' in ''.join(bridge.bridge_info())
 
-    def validate_enable_stp(self, result, switch_name):
+    def validate_enable_stp(self, dummy_result, switch_name):
         """ Validate stp enable
         """
         bridge = self._bridges[switch_name]

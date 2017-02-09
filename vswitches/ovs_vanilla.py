@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import logging
 from conf import settings
 from vswitches.ovs import IVSwitchOvs
 from src.ovs import DPCtl
-from tools.module_manager import ModuleManager
 from tools import tasks
 
 class OvsVanilla(IVSwitchOvs):
@@ -41,7 +40,6 @@ class OvsVanilla(IVSwitchOvs):
         self._logger = logging.getLogger(__name__)
         self._vswitchd_args += ["unix:%s" % self.get_db_sock_path()]
         self._vswitchd_args += settings.getValue('VSWITCHD_VANILLA_ARGS')
-        self._module_manager = ModuleManager()
 
     def stop(self):
         """See IVswitch for general description
@@ -75,8 +73,7 @@ class OvsVanilla(IVSwitchOvs):
             self._logger.error("Can't add port! There are only " +
                                len(self._ports) + " ports " +
                                "defined in config!")
-            raise
-
+            raise RuntimeError('Failed to add phy port')
         if not self._ports[self._current_id]:
             self._logger.error("Can't detect device name for NIC %s", self._current_id)
             raise ValueError("Invalid device name for %s" % self._current_id)
@@ -128,5 +125,3 @@ class OvsVanilla(IVSwitchOvs):
         bridge = self._bridges[switch_name]
         of_port = bridge.add_port(tap_name, [])
         return (tap_name, of_port)
-
-
