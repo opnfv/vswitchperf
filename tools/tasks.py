@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,12 +18,12 @@
 import select
 import subprocess
 import logging
-import pexpect
 import threading
 import sys
 import os
 import locale
 import time
+import pexpect
 
 from conf import settings
 from tools import systeminfo
@@ -73,8 +73,8 @@ def run_task(cmd, logger, msg=None, check_error=False):
     if msg:
         logger.info(msg)
 
+    # pylint: disable=too-many-nested-blocks
     logger.debug('%s%s', CMD_PREFIX, ' '.join(cmd))
-
     try:
         proc = subprocess.Popen(map(os.path.expanduser, cmd),
                                 stdout=subprocess.PIPE,

@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ This requires the following settings in your config file:
 If any of these don't exist, the application will raise an exception
 (EAFP).
 """
-
 import tkinter
 import logging
 import os
@@ -106,9 +105,7 @@ def _build_set_cmds(values, prefix='dict set'):
     for key in values:
         value = values[key]
 
-        # Not allowing derived dictionary types for now
-        # pylint: disable=unidiomatic-typecheck
-        if type(value) == dict:
+        if isinstance(value, dict):
             _prefix = ' '.join([prefix, key]).strip()
             for subkey in _build_set_cmds(value, _prefix):
                 yield subkey
@@ -116,7 +113,7 @@ def _build_set_cmds(values, prefix='dict set'):
 
         # tcl doesn't recognise the strings "True" or "False", only "1"
         # or "0". Special case to convert them
-        if type(value) == bool:
+        if isinstance(value, bool):
             value = str(int(value))
         else:
             value = str(value)
@@ -137,6 +134,29 @@ class Ixia(trafficgen.ITrafficGenerator):
                            'pass_fail.tcl')
     _tclsh = tkinter.Tcl()
     _logger = logging.getLogger(__name__)
+
+    def start_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
+                                 lossrate=0.0):
+        return NotImplementedError(
+            'Ixia start throughput traffic not implemented')
+
+    def wait_rfc2544_throughput(self):
+        return NotImplementedError(
+            'Ixia wait throughput traffic not implemented')
+
+    def start_rfc2544_back2back(self, traffic=None, tests=1, duration=20,
+                                lossrate=0.0):
+        return NotImplementedError(
+            'Ixia start back2back traffic not implemented')
+
+    def send_rfc2544_back2back(self, traffic=None, duration=60,
+                               lossrate=0.0, tests=1):
+        return NotImplementedError(
+            'Ixia send back2back traffic not implemented')
+
+    def wait_rfc2544_back2back(self):
+        return NotImplementedError(
+            'Ixia wait back2back traffic not implemented')
 
     def run_tcl(self, cmd):
         """Run a TCL script using the TCL interpreter found in ``tkinter``.
@@ -228,7 +248,7 @@ class Ixia(trafficgen.ITrafficGenerator):
 
         assert len(result) == 6  # fail-fast if underlying Tcl code changes
 
-        #TODO - implement Burst results setting via TrafficgenResults.
+        #NOTE - implement Burst results setting via TrafficgenResults.
 
     def send_cont_traffic(self, traffic=None, duration=30):
         """See ITrafficGenerator for description

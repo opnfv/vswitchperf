@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -67,10 +67,10 @@ class VnfController(object):
             # enforce that GUEST_NIC_NR is 1 or even number of NICs
             updated = False
             nics_nr = settings.getValue('GUEST_NICS_NR')
-            for index in range(len(nics_nr)):
-                if nics_nr[index] > 1 and nics_nr[index] % 2:
+            for index, value in enumerate(nics_nr):
+                if value > 1 and value % 2:
                     updated = True
-                    nics_nr[index] = int(nics_nr[index] / 2) * 2
+                    nics_nr[index] = int(value / 2) * 2
             if updated:
                 settings.setValue('GUEST_NICS_NR', nics_nr)
                 self._logger.warning('Odd number of NICs was detected. Configuration '

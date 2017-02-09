@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -125,6 +125,7 @@ class IVnf(tasks.Process):
         self.execute(cmd)
         self.wait(prompt=prompt, timeout=timeout)
 
+    # pylint: disable=simplifiable-if-statement
     def validate_start(self, dummy_result):
         """ Validate call of VNF start()
         """
@@ -146,4 +147,3 @@ class IVnf(tasks.Process):
         This method is static
         """
         IVnf._number_vnfs = 0
-

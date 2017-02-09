@@ -1,4 +1,4 @@
-# Copyright 2016 Intel Corporation.
+# Copyright 2016-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,10 +15,7 @@
 """Wrapper for an OVS dpctl (``ovs-dpctl``) for managing datapaths.
 
 """
-
-import os
 import logging
-import string
 
 from tools import tasks
 from conf import settings
@@ -65,4 +62,3 @@ class DPCtl(object):
         """
         self.logger.debug('delete datapath ' + dp_name)
         self.run_dpctl(['del-dp', dp_name])
-

@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ from tools import tasks
 from conf import settings
 
 _LOGGER = logging.getLogger(__name__)
-_allocated_hugepages = False
+_ALLOCATED_HUGEPAGES = False
 #
 # hugepage management
 #
@@ -37,13 +37,15 @@ def get_hugepage_size():
     """
     hugepage_size_re = re.compile(r'^Hugepagesize:\s+(?P<size_hp>\d+)\s+kB',
                                   re.IGNORECASE)
-    with open('/proc/meminfo', 'r') as fh:
-        data = fh.readlines()
+    with open('/proc/meminfo', 'r') as result_file:
+        data = result_file.readlines()
         for line in data:
             match = hugepage_size_re.search(line)
             if match:
                 _LOGGER.info('Hugepages size: %s kb', match.group('size_hp'))
                 return int(match.group('size_hp'))
+        # expected behavior, instead break is return statement
+        # pylint: disable=useless-else-on-loop
         else:
             _LOGGER.error('Could not parse for hugepage size')
             return 0
@@ -54,19 +56,20 @@ def allocate_hugepages():
     """
     hp_size = get_hugepage_size()
     if hp_size > 0:
-       nr_hp = int(math.ceil(settings.getValue('HUGEPAGE_RAM_ALLOCATION')/hp_size))
-       _LOGGER.info('Will allocate %s hugepages.', nr_hp)
+        nr_hp = int(math.ceil(settings.getValue('HUGEPAGE_RAM_ALLOCATION')/hp_size))
+        _LOGGER.info('Will allocate %s hugepages.', nr_hp)
 
-       nr_hugepages = 'vm.nr_hugepages=' + str(nr_hp)
-       try:
-           tasks.run_task(['sudo', 'sysctl', nr_hugepages],
-                          _LOGGER, 'Trying to allocate hugepages..', True)
-       except subprocess.CalledProcessError:
-           _LOGGER.error('Unable to allocate hugepages.')
-           return False
-       global _allocated_hugepages
-       _allocated_hugepages = True
-       return True
+        nr_hugepages = 'vm.nr_hugepages=' + str(nr_hp)
+        try:
+            tasks.run_task(['sudo', 'sysctl', nr_hugepages],
+                           _LOGGER, 'Trying to allocate hugepages..', True)
+        except subprocess.CalledProcessError:
+            _LOGGER.error('Unable to allocate hugepages.')
+            return False
+        # pylint: disable=global-statement
+        global _ALLOCATED_HUGEPAGES
+        _ALLOCATED_HUGEPAGES = True
+        return True
 
     else:
         _LOGGER.error('Division by 0 will be supported in next release')
@@ -75,8 +78,9 @@ def allocate_hugepages():
 def deallocate_hugepages():
     """De-allocate hugepages that were allocated on the fly
     """
-    global _allocated_hugepages
-    if _allocated_hugepages:
+    # pylint: disable=global-statement
+    global _ALLOCATED_HUGEPAGES
+    if _ALLOCATED_HUGEPAGES:
         nr_hugepages = 'vm.nr_hugepages= 0'
         try:
             tasks.run_task(['sudo', 'sysctl', nr_hugepages],
@@ -84,7 +88,7 @@ def deallocate_hugepages():
         except subprocess.CalledProcessError:
             _LOGGER.error('Unable to de-allocate hugepages.')
             return False
-        _allocated_hugepages = False
+        _ALLOCATED_HUGEPAGES = False
     return True
 
 
@@ -102,19 +106,21 @@ def get_free_hugepages(socket=None):
             meminfo_path = '/sys/devices/system/node/node{}/meminfo'.format(
                 socket)
         else:
-            _LOGGER.info('No hugepage info found for socket {}'.format(socket))
+            _LOGGER.info('No hugepage info found for socket %s', socket)
             return 0
     else:
         meminfo_path = '/proc/meminfo'
 
-    with open(meminfo_path, 'r') as fh:
-        data = fh.readlines()
+    with open(meminfo_path, 'r') as result_file:
+        data = result_file.readlines()
         for line in data:
             match = hugepage_free_re.search(line)
             if match:
                 _LOGGER.info('Hugepages free: %s %s', match.group('free_hp'),
                              'on socket {}'.format(socket) if socket else '')
                 return int(match.group('free_hp'))
+        # expected behavior, instead break is return statement
+        # pylint: disable=useless-else-on-loop
         else:
             _LOGGER.info('Could not parse for hugepage size')
             return 0

@@ -1,4 +1,4 @@
-# Copyright 2016 Spirent Communications.
+# Copyright 2016-2017 Spirent Communications.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+# pylint: disable=invalid-name
 '''
 @author Spirent Communications
 
@@ -66,7 +66,7 @@ def percent_float(value):
             "%s not in range [0.0, 100.0]" % pvalue)
     return pvalue
 
-
+# pylint: disable=too-many-statements
 def main():
     """ Read the arguments, Invoke Test and Return the results"""
     parser = argparse.ArgumentParser()
@@ -199,6 +199,7 @@ def main():
     session_name = args.test_session_name
     user_name = args.test_user_name
 
+    # pylint: disable=import-error
     try:
         # Load Spirent REST Library
         from stcrestclient import stchttp

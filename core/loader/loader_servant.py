@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -142,7 +142,7 @@ class LoaderServant(object):
             # find all classes derived from given interface, but suppress
             # interface itself and any abstract class starting with iface name
             gens = dict((k, v) for (k, v) in list(mod.__dict__.items())
-                        if type(v) == type and
+                        if isinstance(v, type) and
                         issubclass(v, interface) and
                         not k.startswith(interface.__name__))
             if gens:

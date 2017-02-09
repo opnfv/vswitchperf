@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import platform
 import subprocess
 import locale
 import re
+import distro
 
 from conf import settings as S
 
@@ -46,7 +47,7 @@ def get_os():
 
     :returns: Return distro name as a string
     """
-    return ' '.join(platform.dist())
+    return ' '.join(distro.linux_distribution())
 
 def get_kernel():
     """Get kernel version.
@@ -212,7 +213,7 @@ def get_git_tag(path):
         return None
 
 # This function uses long switch per purpose, so let us suppress pylint warning too-many-branches
-# pylint: disable=R0912
+# pylint: disable=too-many-branches, too-many-statements
 def get_version(app_name):
     """ Get version of given application and its git tag
 
