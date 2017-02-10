@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1acb0d3e_57e8327c",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-02-10T14:42:47Z",
+      "side": 1,
+      "message": "Should we just be disabling this warning or fix the actual code to what pylint wants? This looks pretty easy to fix to have pylint be satisfied.",
+      "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acb0d3e_77ed2e8b",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-02-10T14:42:47Z",
+      "side": 1,
+      "message": "again here.",
+      "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acb0d3e_1702aa3e",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-02-10T14:42:47Z",
+      "side": 1,
+      "message": "Do you know what the complaint was here? I\u0027m not sure why changing this was necessary.",
+      "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
