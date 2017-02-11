@@ -50,6 +50,24 @@
       "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acb0d3e_b26884f6",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-02-11T14:12:58Z",
+      "side": 1,
+      "message": "After looking at about 10 different files, I came to the same conclusion. Can you post the pylint output these changes address (on the wiki or other temporary spot?).",
+      "parentUuid": "1acb0d3e_1702aa3e",
+      "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
