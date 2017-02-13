@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_4912e1b5",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-02-13T08:28:58Z",
+      "side": 1,
+      "message": "Pylint is a bit confused in this case, because code is valid and else is not useless. So Martin has chosen to suppress the warning. However you are right. We can remove else part and keep the code from else at end of function bodies to achieve the same behavior. It will be also more readable for people with non-python background.",
+      "parentUuid": "1acb0d3e_57e8327c",
+      "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1acb0d3e_77ed2e8b",
         "filename": "tools/hugepages.py",
         "patchSetId": 1
@@ -65,6 +83,24 @@
       "side": 1,
       "message": "After looking at about 10 different files, I came to the same conclusion. Can you post the pylint output these changes address (on the wiki or other temporary spot?).",
       "parentUuid": "1acb0d3e_1702aa3e",
+      "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_89f1b997",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-02-13T08:28:58Z",
+      "side": 1,
+      "message": "Hi Christian and Al,\n\nthanks for the comment I had a similar one during our internal review, but Martin has pointed out, that on line 160 below is a call to \"self._logger.info()\", so pylint has pointed it out. There were two options - define a static global _LOGGER variable, as it is done in other modules and keep this method static (and change all other calls of self._logger within this file). Second option was to remove static decorator and thus get access to self members. Martin has checked, that get_module_dependencies is called only from non-static methods, so he has chosen the second solution.",
+      "parentUuid": "1acb0d3e_b26884f6",
       "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
