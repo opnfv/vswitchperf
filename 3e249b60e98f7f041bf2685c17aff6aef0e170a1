@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1acb0d3e_d780a28d",
+        "filename": "tools/hugepages.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6593
+      },
+      "writtenOn": "2017-02-13T14:32:50Z",
+      "side": 1,
+      "message": "Pylint expected, that after else statement in for cycle will be break statment istead return, but we want return statement",
+      "parentUuid": "1acb0d3e_57e8327c",
+      "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1acb0d3e_77ed2e8b",
         "filename": "tools/hugepages.py",
         "patchSetId": 1
@@ -101,6 +119,42 @@
       "side": 1,
       "message": "Hi Christian and Al,\n\nthanks for the comment I had a similar one during our internal review, but Martin has pointed out, that on line 160 below is a call to \"self._logger.info()\", so pylint has pointed it out. There were two options - define a static global _LOGGER variable, as it is done in other modules and keep this method static (and change all other calls of self._logger within this file). Second option was to remove static decorator and thus get access to self members. Martin has checked, that get_module_dependencies is called only from non-static methods, so he has chosen the second solution.",
       "parentUuid": "1acb0d3e_b26884f6",
+      "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_098389cd",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 6593
+      },
+      "writtenOn": "2017-02-13T14:32:50Z",
+      "side": 1,
+      "message": "When the code was returned to the original state like master, pylint gives these messages:\nW:161,17: Access to a protected member _logger of a client class (protected-access)\nE:161,12: Undefined variable \u0027self\u0027 (undefined-variable)",
+      "parentUuid": "1acb0d3e_b26884f6",
+      "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acb0d3e_77720ee7",
+        "filename": "tools/module_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 6593
+      },
+      "writtenOn": "2017-02-13T14:32:50Z",
+      "side": 1,
+      "message": "Because this method is used like normal method and not like static method.",
+      "parentUuid": "1acb0d3e_1702aa3e",
       "revId": "3e249b60e98f7f041bf2685c17aff6aef0e170a1",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
