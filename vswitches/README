@@ -1,6 +1,0 @@
-This folder contains various vswitches to be tested
-
-Required API for each vswitch:
-    add_switch
-    add_port
-    add_flow
