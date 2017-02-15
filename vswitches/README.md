@@ -3,7 +3,9 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 http://creativecommons.org/licenses/by/4.0
 -->
 
-fuel-plugin-vsperf
-==================
+This folder contains various vswitches to be tested
 
-Install VSPERF tool as part of OVSNFV deployment.
+Required API for each vswitch:
+    add_switch
+    add_port
+    add_flow

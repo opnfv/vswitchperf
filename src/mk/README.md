@@ -3,7 +3,5 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 http://creativecommons.org/licenses/by/4.0
 -->
 
-fuel-plugin-vsperf
-==================
+This folder contains top level makefile defintions
 
-Install VSPERF tool as part of OVSNFV deployment.

@@ -3,7 +3,4 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 http://creativecommons.org/licenses/by/4.0
 -->
 
-fuel-plugin-vsperf
-==================
-
-Install VSPERF tool as part of OVSNFV deployment.
+This folder contains various tool sets for vswitch performance
