@@ -1,5 +1,5 @@
-
 # mscgen file
+
 msc {
   #Options
   hscale = "1.5";
@@ -22,9 +22,9 @@ msc {
   traffic_gen note traffic_gen [ label = "Actual test starts here. Details of interactions between traffic_gen class actual traffic generator (HwSwTrafficGen) are hidden to vsperf"];
   traffic_gen <=> HwSwTrafficGen [ label = "..."];
   traffic_gen => traffic_gen [ label = "wait_rfc2544_throughput()"];
-  traffic_ctlr << traffic_gen [ label = "results (string/value pairs)"];  
+  traffic_ctlr << traffic_gen [ label = "results (string/value pairs)"]; 
   traffic_ctlr note traffic_ctlr [ label = "store_results()" ];
-  --- [ label = "end foreach"];  
+  --- [ label = "end foreach"]; 
   testcase => traffic_ctlr [label = "get_results()"];
   testcase => testcase [label = "write_results_to_file"];
 }

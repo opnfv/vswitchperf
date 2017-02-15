@@ -1,3 +1,8 @@
+<!---
+This work is licensed under a Creative Commons Attribution 4.0 International License.
+http://creativecommons.org/licenses/by/4.0
+-->
+
 ### Purpose of this folder - Quickview
 
 1. contains place holders for upstream source code package.
