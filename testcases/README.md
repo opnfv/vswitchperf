@@ -1,3 +1,8 @@
+<!---
+This work is licensed under a Creative Commons Attribution 4.0 International License.
+http://creativecommons.org/licenses/by/4.0
+-->
+
 ### This folder contains various test cases for performance test.
 
 * P2P:  packets flow from PHY -> vSwitch -> PHY
