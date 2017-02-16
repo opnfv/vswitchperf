@@ -51,6 +51,8 @@ TESTPARAM_MERGE="--integration"
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
+TESTCASES_SRIOV='pvp_tput'
+TESTPARAM_SRIOV='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 # check if user config file exists if not then we will use default settings
 if [ -f $HOME/vsperf-${BRANCH}.conf ] ; then
     # branch specific config was found
@@ -61,6 +63,12 @@ else
     else
         CONF_FILE=""
     fi
+fi
+# check if sriov specific config file exists if not then use default configuration
+if [ -f $HOME/vsperf-${BRANCH}.conf.sriov ] ; then
+    CONF_FILE_SRIOV="${CONF_FILE}.sriov"
+else
+    CONF_FILE_SRIOV=$CONF_FILE
 fi
 
 # Test report related configuration
@@ -158,6 +166,17 @@ function execute_vsperf() {
     DATE_SUFFIX=$(date -u +"%Y-%m-%d_%H-%M-%S")
 
     case $1 in
+        "SRIOV")
+            # use SRIOV specific TCs and configuration
+            TESTPARAM=$TESTPARAM_SRIOV
+            TESTCASES=$TESTCASES_SRIOV
+            # figure out log file name
+            LOG_SUBDIR="SRIOV"
+            LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
+
+            echo "    $VSPERF_BIN --vswitch none --vnf QemuPciPassthrough $CONF_FILE_SRIOV $TESTPARAM $TESTCASES &> $LOG_FILE"
+            $VSPERF_BIN --vswitch none --vnf QemuPciPassthrough $CONF_FILE_SRIOV $TESTPARAM $TESTCASES &> $LOG_FILE
+            ;;
         "OVS_vanilla")
             # figure out log file name
             LOG_SUBDIR="OvsVanilla"
@@ -438,6 +457,8 @@ case $1 in
         execute_vsperf OVS_with_DPDK_and_vHost_User $1
         terminate_vsperf
         execute_vsperf OVS_vanilla $1
+        terminate_vsperf
+        execute_vsperf SRIOV $1
         terminate_vsperf
 
         generate_report
