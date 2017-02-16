@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_46b403f2",
+        "filename": "LICENSE",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-02-16T16:53:48Z",
+      "side": 1,
+      "message": "You\u0027re right. It was wrongly indented in original file, but it should be fixed.",
+      "parentUuid": "dabed58f_e65177d9",
+      "revId": "8d9d5a558c03451f7e5f41c8d604090f20c3a4d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_865e7be8",
         "filename": "docs/msc/traffic_controller.msc",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-16T16:10:58Z",
       "side": 1,
       "message": "trailing white space in a few spots in this file.",
+      "revId": "8d9d5a558c03451f7e5f41c8d604090f20c3a4d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_a6bfffcf",
+        "filename": "docs/msc/traffic_controller.msc",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-02-16T16:53:48Z",
+      "side": 1,
+      "message": "Hi Christian, this file should not be included in the patch and it will be removed.\nIt is an export from 3rd party application, so I suggest to keep it as it is. Next export would probably introduce regeneration of whitespaces.",
+      "parentUuid": "dabed58f_865e7be8",
       "revId": "8d9d5a558c03451f7e5f41c8d604090f20c3a4d9",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
