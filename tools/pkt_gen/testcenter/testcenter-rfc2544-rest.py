@@ -24,7 +24,6 @@ TestCenter REST APIs. This test supports Python 3.4
 import argparse
 import logging
 import os
-from conf import settings
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -144,7 +143,7 @@ def main():
                                 dest="test_user_name")
     optional_named.add_argument("--results_dir",
                                 required=False,
-                                default=settings.getValue("TRAFFICGEN_STC_RESULTS_DIR"),
+                                default="./Results",
                                 help="The directory to copy results to",
                                 dest="results_dir")
     optional_named.add_argument("--csv_results_file_prefix",

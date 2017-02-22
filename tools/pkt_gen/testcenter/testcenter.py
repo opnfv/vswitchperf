@@ -385,7 +385,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
         rfc2544_common_args = get_rfc2544_common_settings()
         rfc2544_custom_args = get_rfc2544_custom_settings(framesize,
                                                           custom, 1)
-        args = stc_common_args + rfc2544_common_args + rfc2544_custom_args
+        args = rfc2544_common_args + stc_common_args + rfc2544_custom_args
 
         if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
             args.append("--verbose")
@@ -418,7 +418,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
         rfc2544_common_args = get_rfc2544_common_settings()
         rfc2544_custom_args = get_rfc2544_custom_settings(framesize, '',
                                                           tests)
-        args = stc_common_args + rfc2544_common_args + rfc2544_custom_args
+        args = rfc2544_common_args + stc_common_args + rfc2544_custom_args
 
         if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
             args.append("--verbose")
@@ -451,7 +451,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
         rfc2544_common_args = get_rfc2544_common_settings()
         rfc2544_custom_args = get_rfc2544_custom_settings(framesize, '',
                                                           tests)
-        args = stc_common_args + rfc2544_common_args + rfc2544_custom_args
+        args = rfc2544_common_args + stc_common_args + rfc2544_custom_args
 
         if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
             args.append("--verbose")
