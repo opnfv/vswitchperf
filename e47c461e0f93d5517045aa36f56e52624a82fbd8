@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_b9a154ab",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-02-22T16:17:40Z",
+      "side": 1,
+      "message": "In general vsperf can be executed from any directory, which means, that ./Results will be created in e.g. /home/user/Results or /tmp/Results, etc, which might be confusing.\nI\u0027m ok to keep it as it is in Danube, but it would be good to think about using a configuration value to store results in defined paths.",
+      "revId": "e47c461e0f93d5517045aa36f56e52624a82fbd8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
