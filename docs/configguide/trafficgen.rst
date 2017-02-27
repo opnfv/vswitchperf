@@ -469,6 +469,7 @@ For RFC2889 tests, specifying the locations for the monitoring ports is mandator
 Necessary parameters are:
 
 .. code-block:: console
+
     TRAFFICGEN_STC_RFC2889_TEST_FILE_NAME
     TRAFFICGEN_STC_EAST_CHASSIS_ADDR = " "
     TRAFFICGEN_STC_EAST_SLOT_NUM = " "

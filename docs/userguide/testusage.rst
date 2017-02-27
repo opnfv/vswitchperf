@@ -335,6 +335,43 @@ To run tests using Vanilla OVS:
 
        $ ./vsperf --conf-file<path_to_custom_conf>/10_custom.conf
 
+.. _vpp-test:
+
+Executing VPP tests
+^^^^^^^^^^^^^^^^^^^
+
+Currently it is not possible to use standard scenario deployments for execution of
+tests with VPP. It means, that deployments ``p2p``, ``pvp``, ``pvvp`` and in general any
+:ref:`pxp-deployment` won't work with VPP. However it is possible to use VPP in
+:ref:`step-driven-tests`. A basic set of VPP testcases covering ``phy2phy``, ``pvp``
+and ``pvvp`` tests are already prepared.
+
+List of performance tests with VPP support follows:
+
+* phy2phy_tput_vpp:              VPP: LTD.Throughput.RFC2544.PacketLossRatio
+* phy2phy_cont_vpp:              VPP: Phy2Phy Continuous Stream
+* phy2phy_back2back_vpp:         VPP: LTD.Throughput.RFC2544.BackToBackFrames
+* pvp_tput_vpp:                  VPP: LTD.Throughput.RFC2544.PacketLossRatio
+* pvp_cont_vpp:                  VPP: PVP Continuous Stream
+* pvp_back2back_vpp:             VPP: LTD.Throughput.RFC2544.BackToBackFrames
+* pvvp_tput_vpp:                 VPP: LTD.Throughput.RFC2544.PacketLossRatio
+* pvvp_cont_vpp:                 VPP: PVP Continuous Stream
+* pvvp_back2back_vpp:            VPP: LTD.Throughput.RFC2544.BackToBackFrames
+
+In order to execute testcases with VPP it is required to:
+
+* install VPP manually, see :ref:`vpp-installation`
+* configure ``WHITELIST_NICS``, with two physical NICs connected to the traffic generator
+* configure traffic generator, see :ref:`trafficgen-installation`
+
+After that it is possible to execute VPP testcases listed above.
+
+For example:
+
+.. code-block:: console
+
+    $ ./vsperf --conf-file=<path_to_custom_conf> phy2phy_tput_vpp
+
 .. _vfio-pci:
 
 Using vfio_pci with DPDK
@@ -689,7 +726,8 @@ application to use the correct number of nb-cores.
 
     .. code-block:: python
 
-        VSWITCHD_DPDK_ARGS = ['-l', '46,44,42,40,38', '-n', '4', '--socket-mem 1024,0']
+        DPDK_SOCKET_MEM = ['1024', '0']
+        VSWITCHD_DPDK_ARGS = ['-l', '46,44,42,40,38', '-n', '4']
         TESTPMD_ARGS = ['--nb-cores=4', '--txq=1', '--rxq=1']
 
 For guest TestPMD 3 VCpus should be assigned with the following TestPMD params.
@@ -790,16 +828,17 @@ an appropriate amount of memory:
 
 .. code-block:: python
 
-    VSWITCHD_DPDK_ARGS = ['-c', '0x4', '-n', '4', '--socket-mem 1024,0']
+    DPDK_SOCKET_MEM = ['1024', '0']
+    VSWITCHD_DPDK_ARGS = ['-c', '0x4', '-n', '4']
     VSWITCHD_DPDK_CONFIG = {
         'dpdk-init' : 'true',
         'dpdk-lcore-mask' : '0x4',
         'dpdk-socket-mem' : '1024,0',
     }
 
-Note: Option VSWITCHD_DPDK_ARGS is used for vswitchd, which supports --dpdk
-parameter. In recent vswitchd versions, option VSWITCHD_DPDK_CONFIG will be
-used to configure vswitchd via ovs-vsctl calls.
+Note: Option ``VSWITCHD_DPDK_ARGS`` is used for vswitchd, which supports ``--dpdk``
+parameter. In recent vswitchd versions, option ``VSWITCHD_DPDK_CONFIG`` will be
+used to configure vswitchd via ``ovs-vsctl`` calls.
 
 
 More information

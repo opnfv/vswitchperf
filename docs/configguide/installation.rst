@@ -165,6 +165,22 @@ built from upstream source due to kernel incompatibilities. Please see the
 instructions in the vswitchperf_design document for details on configuring
 OVS Vanilla for binary package usage.
 
+.. _vpp-installation:
+
+VPP installation
+================
+
+Currently vswitchperf installation scripts do not support automatic build
+of VPP. In order to execute tests with VPP, it is required to install it
+manually. Please refer to the official documentation of `fd.io`_ project to
+install VPP from `packages`_ or from the `sources`_.
+
+See details about :ref:`vpp-test`.
+
+.. _fd.io: https://fd.io/
+.. _packages: https://wiki.fd.io/view/VPP/Installing_VPP_binaries_from_packages
+.. _sources: https://wiki.fd.io/view/VPP/Build,_install,_and_test_images
+
 Using vswitchperf
 -----------------
 
@@ -260,20 +276,10 @@ your configuration in the ``02_vswitch.conf`` file.
 
 .. code:: bash
 
-    VSWITCHD_DPDK_ARGS = ['-c', '0x4', '-n', '4', '--socket-mem 1024,1024']
-    VSWITCHD_DPDK_CONFIG = {
-        'dpdk-init' : 'true',
-        'dpdk-lcore-mask' : '0x4',
-        'dpdk-socket-mem' : '1024,1024',
-    }
+    DPDK_SOCKET_MEM = ['1024', '0']
 
-**NOTE:** Option ``VSWITCHD_DPDK_ARGS`` is used for vswitchd, which supports ``--dpdk``
-parameter. In recent vswitchd versions, option ``VSWITCHD_DPDK_CONFIG`` is
-used to configure vswitchd via ``ovs-vsctl`` calls.
-
-With the ``--socket-mem`` argument set to use 1 hugepage on the specified sockets as
-seen above, the configuration will need 10 hugepages total to run all tests
-within vsperf if the pagesize is set correctly to 1GB.
+**NOTE:** Option ``DPDK_SOCKET_MEM`` is used by all vSwitches with DPDK support.
+It means Open vSwitch, VPP and TestPMD.
 
 VSPerf will verify hugepage amounts are free before executing test
 environments. In case of hugepage amounts not being free, test initialization

@@ -285,6 +285,28 @@ def check_and_set_locale():
         _LOGGER.warning("Locale was not properly configured. Default values were set. Old locale: %s, New locale: %s",
                         system_locale, locale.getdefaultlocale())
 
+def get_vswitch_names(rst_files):
+    """ Function will return a list of vSwitches detected in given ``rst_files``.
+    """
+    vswitch_names = set()
+    if len(rst_files):
+        try:
+            output = subprocess.check_output(['grep', '-h', '^* vSwitch'] + rst_files).decode().splitlines()
+            for line in output:
+                match = re.search(r'^\* vSwitch: ([^,]+)', str(line))
+                if match:
+                    vswitch_names.add(match.group(1))
+
+            if len(vswitch_names):
+                return list(vswitch_names)
+
+        except subprocess.CalledProcessError:
+            _LOGGER.warning('Cannot detect vSwitches used during testing.')
+
+    # fallback to the default value
+    return ['vSwitch']
+
+
 
 def generate_final_report():
     """ Function will check if partial test results are available
@@ -294,18 +316,15 @@ def generate_final_report():
     path = settings.getValue('RESULTS_PATH')
     # check if there are any results in rst format
     rst_results = glob.glob(os.path.join(path, 'result*rst'))
+    pkt_processors = get_vswitch_names(rst_results)
     if len(rst_results):
         try:
-            test_report = os.path.join(path, '{}_{}'.format(settings.getValue('VSWITCH'), _TEMPLATE_RST['final']))
+            test_report = os.path.join(path, '{}_{}'.format('_'.join(pkt_processors), _TEMPLATE_RST['final']))
             # create report caption directly - it is not worth to execute jinja machinery
-            if settings.getValue('VSWITCH').lower() != 'none':
-                pkt_processor = Loader().get_vswitches()[settings.getValue('VSWITCH')].__doc__.strip().split('\n')[0]
-            else:
-                pkt_processor = Loader().get_pktfwds()[settings.getValue('PKTFWD')].__doc__.strip().split('\n')[0]
             report_caption = '{}\n{} {}\n{}\n\n'.format(
                 '============================================================',
                 'Performance report for',
-                pkt_processor,
+                ', '.join(pkt_processors),
                 '============================================================')
 
             with open(_TEMPLATE_RST['tmp'], 'w') as file_:
