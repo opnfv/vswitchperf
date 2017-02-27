@@ -498,6 +498,8 @@ Other Configuration
 
 ``conf.settings`` also loads configuration from the command line and from the environment.
 
+.. _pxp-deployment:
+
 PXP Deployment
 ==============
 

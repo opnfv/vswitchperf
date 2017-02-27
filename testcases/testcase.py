@@ -257,9 +257,6 @@ class TestCase(object):
         # umount hugepages if mounted
         self._umount_hugepages()
 
-        # restore original settings
-        S.load_from_dict(self._settings_original)
-
         # cleanup any namespaces created
         if os.path.isdir('/tmp/namespaces'):
             namespace_list = os.listdir('/tmp/namespaces')
@@ -332,6 +329,9 @@ class TestCase(object):
         logging.info("Testcase execution time: " + self._testcase_run_time)
         # report test results
         self.run_report()
+
+        # restore original settings
+        S.load_from_dict(self._settings_original)
 
     def _update_settings(self, param, value):
         """ Check value of given configuration parameter
@@ -460,26 +460,11 @@ class TestCase(object):
 
         # get hugepage amounts for each socket on dpdk
         sock0_mem, sock1_mem = 0, 0
+
         if S.getValue('VSWITCH').lower().count('dpdk'):
-            # the import below needs to remain here and not put into the module
-            # imports because of an exception due to settings not yet loaded
-            from vswitches import ovs_dpdk_vhost
-            if ovs_dpdk_vhost.OvsDpdkVhost.old_dpdk_config():
-                match = re.search(
-                    r'-socket-mem\s+(\d+),(\d+)',
-                    ''.join(S.getValue('VSWITCHD_DPDK_ARGS')))
-                if match:
-                    sock0_mem, sock1_mem = (int(match.group(1)) * 1024 / hugepage_size,
-                                            int(match.group(2)) * 1024 / hugepage_size)
-                else:
-                    logging.info(
-                        'Could not parse socket memory config in dpdk params.')
-            else:
-                sock0_mem, sock1_mem = (
-                    S.getValue(
-                        'VSWITCHD_DPDK_CONFIG')['dpdk-socket-mem'].split(','))
-                sock0_mem, sock1_mem = (int(sock0_mem) * 1024 / hugepage_size,
-                                        int(sock1_mem) * 1024 / hugepage_size)
+            sock_mem = S.getValue('DPDK_SOCKET_MEM')
+            sock0_mem, sock1_mem = (int(sock_mem[0]) * 1024 / hugepage_size,
+                                    int(sock_mem[1]) * 1024 / hugepage_size)
 
         # If hugepages needed, verify the amounts are free
         if any([hugepages_needed, sock0_mem, sock1_mem]):
