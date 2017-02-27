@@ -125,3 +125,18 @@ class OvsVanilla(IVSwitchOvs):
         bridge = self._bridges[switch_name]
         of_port = bridge.add_port(tap_name, [])
         return (tap_name, of_port)
+
+    def add_connection(self, switch_name, port1, port2, bidir=False):
+        """See IVswitch for general description
+        """
+        raise NotImplementedError()
+
+    def del_connection(self, switch_name, port1, port2, bidir=False):
+        """See IVswitch for general description
+        """
+        raise NotImplementedError()
+
+    def dump_connections(self, switch_name):
+        """See IVswitch for general description
+        """
+        raise NotImplementedError()

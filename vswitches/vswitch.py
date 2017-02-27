@@ -130,6 +130,39 @@ class IVSwitch(object):
         """
         raise NotImplementedError()
 
+    def add_connection(self, switch_name, port1, port2, bidir=False):
+        """Creates connection between given ports.
+
+        :param switch_name: switch on which to operate
+        :param port1: port to be used in connection
+        :param port2: port to be used in connection
+        :param bidir: switch between uni and bidirectional traffic
+
+        :raises: RuntimeError
+        """
+        raise NotImplementedError()
+
+    def del_connection(self, switch_name, port1, port2, bidir=False):
+        """Remove connection between two interfaces.
+
+        :param switch_name: switch on which to operate
+        :param port1: port to be used in connection
+        :param port2: port to be used in connection
+        :param bidir: switch between uni and bidirectional traffic
+
+        :raises: RuntimeError
+        """
+        raise NotImplementedError()
+
+    def dump_connections(self, switch_name):
+        """Dump connections between interfaces.
+
+        :param switch_name: switch on which to operate
+
+        :raises: RuntimeError
+        """
+        raise NotImplementedError()
+
     def dump_flows(self, switch_name):
         """Dump flows from the logical switch
 
