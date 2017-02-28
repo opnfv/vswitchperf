@@ -430,10 +430,10 @@ class Xena(ITrafficGenerator):
                               (self._params['traffic']['frame_rate'] / 100))
                 stream.set_packet_limit(packets)
 
-            port.set_port_arp_reply(on=True)
-            port.set_port_arp_reply(on=True, v6=True)
-            port.set_port_ping_reply(on=True)
-            port.set_port_ping_reply(on=True, v6=True)
+            port.set_port_arp_reply(is_on=True)
+            port.set_port_arp_reply(is_on=True, ipv6=True)
+            port.set_port_ping_reply(is_on=True)
+            port.set_port_ping_reply(is_on=True, ipv6=True)
 
             stream.set_rate_fraction(
                 10000 * self._params['traffic']['frame_rate'])
