@@ -2,9 +2,9 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
-***********
-VSPERF News
-***********
+********************
+VSPERF Release Notes
+********************
 
 OPNFV Danube Release
 ====================
@@ -20,6 +20,7 @@ OPNFV Danube Release
   * Support for Ubuntu 16.04 LTS and 16.10
   * Support for RHEL7.3
   * Support for CentOS7.3
+  * Support for openSUSE Leap 42.2
 
 * Traffic Generators:
 
