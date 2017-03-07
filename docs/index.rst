@@ -78,12 +78,6 @@ VSPERF Requirements
    ./requirements/vswitchperf_ltp.rst
    ./requirements/vswitchperf_ltd.rst
 
-.. toctree::
-   :titlesonly:
-   :maxdepth: 3
-
-   ./release/NEWS.rst
-
 **************
 VSPERF Results
 **************
