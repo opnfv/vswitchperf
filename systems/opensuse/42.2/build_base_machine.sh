@@ -32,6 +32,7 @@ fuse
 fuse-devel
 glib2-devel
 zlib-devel
+ncurses-devel
 kernel-default
 kernel-default-devel
 pkg-config
@@ -54,10 +55,8 @@ python3
 python-pip
 python3-pip
 python3-setuptools
-python3-dbus
-python3-dev
+python3-devel
 python3-tk
-python3-reportlab
 
 # libraries
 libnuma1
@@ -67,8 +66,9 @@ libpixman-1-0-devel
 libtool
 libpcap-devel
 libnet9
-libncurses5-dev
-libcurl4-openssl-dev
+libncurses5
+libcurl4
+libcurl-devel
 libxml2
 libfuse2
 libopenssl1_0_0
@@ -82,8 +82,12 @@ updatedb
 # fix for the Ixia TclClient
 ln -sf $(locate libc.so.6) /lib/libc.so.6
 
-# virtual environemtn for python
+# virtual environment for python
 pip3 install virtualenv
 
 # hugepages setup
 mkdir -p /dev/hugepages
+
+# fix for non-utf8 characters in file
+cp /etc/services /etc/services.bak
+iconv -o /etc/services -f utf-8 -t utf-8 -c /etc/services.bak
