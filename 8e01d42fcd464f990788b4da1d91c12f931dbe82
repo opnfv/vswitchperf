@@ -46,6 +46,29 @@
       "revId": "8e01d42fcd464f990788b4da1d91c12f931dbe82",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_46f131cc",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 6737
+      },
+      "writtenOn": "2017-03-10T14:12:30Z",
+      "side": 1,
+      "message": "This should read \u0027VPP\u0027?",
+      "range": {
+        "startLine": 345,
+        "startChar": 70,
+        "endLine": 345,
+        "endChar": 73
+      },
+      "revId": "8e01d42fcd464f990788b4da1d91c12f931dbe82",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
