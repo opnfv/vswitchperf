@@ -22,6 +22,30 @@
       "revId": "8e01d42fcd464f990788b4da1d91c12f931dbe82",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_06d1f956",
+        "filename": "conf/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-03-10T12:56:19Z",
+      "side": 1,
+      "message": "The idea is to redesign current VSPERF code, so any TC could be executed by any supported vSwitch. Currently generic TCs can be executed with OvsVanilla, OvsDpdkVhost and TestPMD (p2p and pvp only). After redesign, VPP specific tests will be removed and all other TCs should be executable with OVS, VPP, testpmd (including PXP) and probably by linux bridge.",
+      "parentUuid": "dabed58f_4be5baa6",
+      "range": {
+        "startLine": 162,
+        "startChar": 17,
+        "endLine": 162,
+        "endChar": 29
+      },
+      "revId": "8e01d42fcd464f990788b4da1d91c12f931dbe82",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
