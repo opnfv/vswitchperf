@@ -69,6 +69,30 @@
       "revId": "8e01d42fcd464f990788b4da1d91c12f931dbe82",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_66c1d52d",
+        "filename": "docs/userguide/testusage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-03-10T15:35:00Z",
+      "side": 1,
+      "message": "Good catch! Thanks, I\u0027ll fix it.",
+      "parentUuid": "dabed58f_46f131cc",
+      "range": {
+        "startLine": 345,
+        "startChar": 70,
+        "endLine": 345,
+        "endChar": 73
+      },
+      "revId": "8e01d42fcd464f990788b4da1d91c12f931dbe82",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
