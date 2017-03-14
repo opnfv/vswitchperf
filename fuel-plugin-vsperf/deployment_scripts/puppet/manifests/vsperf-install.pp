@@ -5,8 +5,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 
-$fuel_settings = parseyaml(file('/etc/astute.yaml'))
-$master_ip = $::fuel_settings['master_ip']
+$master_ip      = hiera('master_ip')
 
 exec { "install vsperf":
     command => "mkdir -p /opt/vswitchperf; curl http://$master_ip:8080/plugins/fuel-plugin-vsperf-1.0/repositories/ubuntu/vswitchperf.tgz | tar xzv -C /opt/vswitchperf",
