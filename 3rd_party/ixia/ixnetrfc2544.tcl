@@ -1,7 +1,7 @@
 #!/usr/bin/env tclsh
 
 # Copyright (c) 2014, Ixia
-# Copyright (c) 2015-2016, Intel Corporation
+# Copyright (c) 2015-2017, Intel Corporation
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -120,8 +120,6 @@ proc startRfc2544Test { testSpec trafficSpec } {
 
     if {($multipleStreams < 0)} {
         set multipleStreams     0
-    } elseif {($multipleStreams > 65535)} {
-        set multipleStreams     65535
     }
 
     if {$multipleStreams} {

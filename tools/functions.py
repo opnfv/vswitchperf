@@ -21,6 +21,8 @@ import glob
 import shutil
 from conf import settings as S
 
+MAX_L4_FLOWS = 65536
+
 #
 # Support functions
 #
@@ -139,3 +141,15 @@ def settings_update_paths():
         tools['dpdk_src'] = S.getValue('PATHS')['dpdk']['src']['path']
 
     S.setValue('TOOLS', tools)
+
+def check_traffic(traffic):
+    """Check traffic definition and correct it if needed.
+    """
+    # in case of UDP ports we have only 65536 (0-65535) unique options
+    if traffic['multistream'] > MAX_L4_FLOWS and \
+       traffic['stream_type'] == 'L4':
+        logging.getLogger().warning('Requested amount of L4 flows %s is bigger than '
+                                    'number of transport protocol ports. It was set '
+                                    'to %s.', traffic['multistream'], MAX_L4_FLOWS)
+        traffic['multistream'] = MAX_L4_FLOWS
+    return traffic

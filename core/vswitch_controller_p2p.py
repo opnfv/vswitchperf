@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -147,7 +147,7 @@ class VswitchControllerP2P(IVswitchController):
             if self._traffic['stream_type'] == 'L2':
                 # iterate through destimation MAC address
                 dst_mac_value = netaddr.EUI(self._traffic['l2']['dstmac']).value
-                for i in range(int(self._traffic['multistream'])):
+                for i in range(self._traffic['multistream']):
                     tmp_mac = netaddr.EUI(dst_mac_value + i)
                     tmp_mac.dialect = netaddr.mac_unix_expanded
                     flow_template.update({'dl_dst':tmp_mac})
@@ -156,7 +156,7 @@ class VswitchControllerP2P(IVswitchController):
             elif self._traffic['stream_type'] == 'L3':
                 # iterate through destimation IP address
                 dst_ip_value = netaddr.IPAddress(self._traffic['l3']['dstip']).value
-                for i in range(int(self._traffic['multistream'])):
+                for i in range(self._traffic['multistream']):
                     tmp_ip = netaddr.IPAddress(dst_ip_value + i)
                     flow_template.update({'dl_type':'0x0800', 'nw_dst':tmp_ip})
                     # optimize flow insertion by usage of cache
@@ -164,7 +164,7 @@ class VswitchControllerP2P(IVswitchController):
             elif self._traffic['stream_type'] == 'L4':
                 # read transport protocol from configuration and iterate through its destination port
                 proto = _PROTO_TCP if self._traffic['l3']['proto'].lower() == 'tcp' else _PROTO_UDP
-                for i in range(int(self._traffic['multistream'])):
+                for i in range(self._traffic['multistream']):
                     flow_template.update({'dl_type':'0x0800', 'nw_proto':proto, 'tp_dst':i})
                     # optimize flow insertion by usage of cache
                     self._vswitch.add_flow(bridge, flow_template, cache='on')
