@@ -305,7 +305,8 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
     'multistream'   - Defines number of flows simulated by traffic generator.
                       Value 0 disables multistream feature
                       Data type: int
-                      Supported values: 0-65535
+                      Supported values: 0-65536 for 'L4' stream type
+                                        unlimited for 'L2' and 'L3' stream types
                       Default value: 0.
     'stream_type'   - Stream type is an extension of the "multistream" feature.
                       If multistream is disabled, then stream type will be
