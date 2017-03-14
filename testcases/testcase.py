@@ -139,6 +139,8 @@ class TestCase(object):
         self._traffic.update({'bidir': bidirectional,
                               'tunnel_type': self._tunnel_type,})
 
+        self._traffic = functions.check_traffic(self._traffic)
+
         # Packet Forwarding mode
         self._vswitch_none = S.getValue('VSWITCH').strip().lower() == 'none'
 

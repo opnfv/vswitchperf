@@ -626,6 +626,8 @@ def main():
         # set traffic details, so they can be passed to traffic ctl
         traffic = copy.deepcopy(settings.getValue('TRAFFIC'))
 
+        traffic = functions.check_traffic(traffic)
+
         traffic_ctl = component_factory.create_traffic(
             traffic['traffic_type'],
             loader.get_trafficgen_class())
