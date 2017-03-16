@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_498898e7",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-03-16T19:31:35Z",
+      "side": 1,
+      "message": "This looks a bit circular to me...",
+      "range": {
+        "startLine": 142,
+        "startChar": 8,
+        "endLine": 142,
+        "endChar": 62
+      },
+      "revId": "1c2a06a0baba460bf7316f41c57c27fb30c73bce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
