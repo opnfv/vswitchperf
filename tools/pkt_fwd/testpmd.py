@@ -41,6 +41,14 @@ class TestPMD(IPktFwd):
 
     def __init__(self, guest=False):
         vswitchd_args = settings.getValue('VSWITCHD_DPDK_ARGS')
+
+        # override socket-mem settings
+        for tmp_arg in vswitchd_args:
+            if tmp_arg.startswith('--socket-mem'):
+                vswitchd_args.remove(tmp_arg)
+        vswitchd_args += ['--socket-mem ' +
+                          ','.join(settings.getValue('DPDK_SOCKET_MEM'))]
+
         if guest:
             vswitchd_args += _TESTPMD_PVP_CONST_ARGS
         vswitchd_args += _VSWITCHD_CONST_ARGS

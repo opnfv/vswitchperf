@@ -86,7 +86,8 @@ class LoaderServant(object):
                                 interface=self._interface)
         results = []
 
-        for (name, mod) in list(out.items()):
+        # sort modules to produce the same output everytime
+        for (name, mod) in sorted(out.items()):
             desc = (mod.__doc__ or 'No description').strip().split('\n')[0]
             results.append((name, desc))
 
