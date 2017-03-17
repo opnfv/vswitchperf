@@ -77,7 +77,7 @@ def configure_env():
     os.environ['IXIA_LOGS_DIR'] = '/tmp/Ixia/Logs'
     os.environ['IXIA_TCL_DIR'] = os.path.expandvars('$IxiaLibPath')
     os.environ['IXIA_SAMPLES'] = os.path.expandvars('$IxiaLibPath/ixTcl1.0')
-    os.environ['IXIA_VERSION'] = systeminfo.get_version('Ixia')['version']
+    os.environ['IXIA_VERSION'] = systeminfo.get_version('Ixia').get()['version']
 
 
 def _build_set_cmds(values, prefix='dict set'):

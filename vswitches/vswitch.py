@@ -20,6 +20,14 @@ class IVSwitch(object):
 
     Other methods are called only between start() and stop()
     """
+    def get_version(self):
+        """Return version of vSwitch and DPDK (if used by vSwitch)
+           This method should be implemented in case, that version
+           of vswitch or DPDK can be read only during vSwitch runtime.
+           Otherwise it can be implemented inside tools/systeminfo.py.
+        """
+        raise NotImplementedError()
+
     def start(self):
         """Start the vSwitch
 

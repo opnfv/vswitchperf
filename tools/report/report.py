@@ -18,7 +18,6 @@ vSwitch Characterization Report Generation.
 Generate reports in format defined by X.
 """
 
-import sys
 import os
 import logging
 import jinja2
@@ -31,7 +30,7 @@ _TEMPLATE_FILES = ['report.jinja', 'report_rst.jinja']
 _ROOT_DIR = os.path.normpath(os.path.dirname(os.path.realpath(__file__)))
 
 
-def _get_env(result):
+def _get_env(result, versions):
     """
     Get system configuration.
 
@@ -44,6 +43,16 @@ def _get_env(result):
                 'nic': 'NIC'}
 
     """
+    def _get_version(name, versions):
+        """Returns version of tool with given `name` if version was not read
+        during runtime (not inside given `versions` list), then it will be
+        obtained by call of systeminfo.get_version()
+        """
+        for version in versions:
+            if version.get()['name'] == name:
+                return version
+
+        return systeminfo.get_version(name)
 
     env = {
         'os': systeminfo.get_os(),
@@ -55,11 +64,11 @@ def _get_env(result):
         'platform': systeminfo.get_platform(),
         'vsperf': systeminfo.get_version('vswitchperf'),
         'traffic_gen': systeminfo.get_version(S.getValue('TRAFFICGEN')),
-        'vswitch': systeminfo.get_version(S.getValue('VSWITCH')),
+        'vswitch': _get_version(S.getValue('VSWITCH'), versions),
     }
 
     if S.getValue('VSWITCH').lower().count('dpdk'):
-        env.update({'dpdk': systeminfo.get_version('dpdk')})
+        env.update({'dpdk': _get_version('dpdk', versions)})
 
     if result[ResultsConstants.DEPLOYMENT].count('v'):
         env.update({'vnf': systeminfo.get_version(S.getValue('VNF')),
@@ -71,7 +80,7 @@ def _get_env(result):
     return env
 
 
-def generate(input_file, tc_results, tc_stats, test_type='performance'):
+def generate(testcase):
     """Generate actual report.
 
     Generate a Markdown and RST formatted files using results of tests and some
@@ -84,33 +93,30 @@ def generate(input_file, tc_results, tc_stats, test_type='performance'):
     :param tc_stats: System statistics collected during testcase execution.
         These statistics are overall statistics for all specified packet
         sizes.
+    :param traffic: Dictionary with traffic definition used by TC to control
+        traffic generator.
     :test_type: Specifies type of the testcase. Supported values are
         'performance' and 'integration'.
 
     :returns: Path to generated report
     """
-    output_files = [('.'.join([os.path.splitext(input_file)[0], 'md'])),
-                    ('.'.join([os.path.splitext(input_file)[0], 'rst']))]
+    output_files = [('.'.join([os.path.splitext(testcase.get_output_file())[0], 'md'])),
+                    ('.'.join([os.path.splitext(testcase.get_output_file())[0], 'rst']))]
     template_loader = jinja2.FileSystemLoader(searchpath=_ROOT_DIR)
     template_env = jinja2.Environment(loader=template_loader)
 
     tests = []
     try:
-        for result in tc_results:
-            test_config = {}
-            if test_type == 'performance':
-                for tc_conf in S.getValue('PERFORMANCE_TESTS'):
-                    if tc_conf['Name'] == result[ResultsConstants.ID]:
-                        test_config = tc_conf
-                        break
-            elif test_type == 'integration':
-                for tc_conf in S.getValue('INTEGRATION_TESTS'):
-                    if tc_conf['Name'] == result[ResultsConstants.ID]:
-                        test_config = tc_conf
-                        break
-            else:
-                logging.error("Unsupported test type '%s'. Test details are not known.", test_type)
+        # there might be multiple test results, but they are produced
+        # by the same test, only traffic details (e.g. packet size)
+        # differs
+        # in case that multiple TC conf values will be needed, then
+        # testcase refactoring should be made to store updated cfg
+        # options into testcase._cfg dictionary
+        test_config = {'Description' : testcase.get_desc(),
+                       'bidir' : testcase.get_traffic()['bidir']}
 
+        for result in testcase.get_tc_results():
             # pass test results, env details and configuration to template
             tests.append({
                 'ID': result[ResultsConstants.ID].upper(),
@@ -118,8 +124,8 @@ def generate(input_file, tc_results, tc_stats, test_type='performance'):
                 'deployment': result[ResultsConstants.DEPLOYMENT],
                 'conf': test_config,
                 'result': result,
-                'env': _get_env(result),
-                'stats': tc_stats
+                'env': _get_env(result, testcase.get_versions()),
+                'stats': testcase.get_collector().get_results(),
             })
 
             # remove id and deployment from results before rendering
@@ -142,12 +148,6 @@ def generate(input_file, tc_results, tc_stats, test_type='performance'):
 
     except KeyError:
         logging.info("Report: Ignoring file (Wrongly defined columns): %s",
-                     (input_file))
+                     testcase.get_output_file())
         raise
     return output_files
-
-
-if __name__ == '__main__':
-    S.load_from_dir('conf')
-    OUT = generate(sys.argv[1], '', '')
-    print('Test report written to "%s"...' % OUT)

@@ -23,6 +23,7 @@ import re
 import distro
 
 from conf import settings as S
+from tools.version import Version
 
 def match_line(file_name, pattern):
     """ loops through given file and returns first line matching given pattern
@@ -328,7 +329,7 @@ def get_version(app_name):
         app_version = 'NA'
         app_git_tag = 'NA'
 
-    return {'name' : app_name, 'version' : app_version, 'git_tag' : app_git_tag}
+    return Version(app_name, app_version, app_git_tag)
 
 def get_loopback_version(loopback_app_name):
     """ Get version of given guest loopback application and its git tag
@@ -337,5 +338,5 @@ def get_loopback_version(loopback_app_name):
         version or git tag are not known or not applicaple, than None is returned for any unknown value
     """
     version = get_version("loopback_{}".format(loopback_app_name))
-    version['name'] = loopback_app_name
+    version.set_value('name', loopback_app_name)
     return version

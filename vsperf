@@ -336,7 +336,7 @@ def generate_final_report():
             if retval == 0 and os.path.isfile(test_report):
                 _LOGGER.info('Overall test report written to "%s"', test_report)
             else:
-                _LOGGER.error('Generatrion of overall test report has failed.')
+                _LOGGER.error('Generation of overall test report has failed.')
 
             # remove temporary file
             os.remove(_TEMPLATE_RST['tmp'])
