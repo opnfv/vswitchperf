@@ -22,6 +22,30 @@
       "revId": "1c2a06a0baba460bf7316f41c57c27fb30c73bce",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_ff67bae8",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-03-17T08:40:59Z",
+      "side": 1,
+      "message": "Hi Al,\n\nI wanted to avoid a copy of the same code at two places. Thus I\u0027ve put the code to the separate function. I was not able to find a better place common for both vsperf and testcase class, so I\u0027ve put it to generic functions.\nAs far as I know, python doesn\u0027t support a concept of function parameters being passed by reference (actually a way how python process function parameters is a bit tricky). In case that passed dictionary would be only modified, than we don\u0027t need this assignment. However I can imagine that in the future someone would do a more complex traffic dict checks and in case that new dict with modified values will be created, then new dict has to be return[ed] back. Thus I did it safe from the beginning to spare someone a headache in the future... (I don\u0027t expect that warning in method comment would prevent that.)",
+      "parentUuid": "9ab8dda7_498898e7",
+      "range": {
+        "startLine": 142,
+        "startChar": 8,
+        "endLine": 142,
+        "endChar": 62
+      },
+      "revId": "1c2a06a0baba460bf7316f41c57c27fb30c73bce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
