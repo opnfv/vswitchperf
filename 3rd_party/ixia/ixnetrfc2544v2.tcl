@@ -1402,20 +1402,20 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_field $ixNetSG_Stack(3)/field:"ethernet.header.destinationAddress-1"
     ixNet setMultiAttrs $sg_field \
-     -singleValue {00:00:00:00:00:00} \
+     -singleValue $dstMac \
      -seed {1} \
      -optionalEnabled True \
      -fullMesh False \
      -valueList {{00:00:00:00:00:00}} \
-     -stepValue {00:00:00:00:00:00} \
+     -stepValue {00:00:00:00:00:01} \
      -fixedBits {00:00:00:00:00:00} \
-     -fieldValue {00:00:00:00:00:00} \
+     -fieldValue $dstMac \
      -auto False \
      -randomMask {00:00:00:00:00:00} \
      -trackingEnabled False \
      -valueType singleValue \
      -activeFieldChoice False \
-     -startValue {00:00:00:00:00:00} \
+     -startValue $dstMac \
      -countValue {1}
     sg_commit
     set sg_field [lindex [ixNet remapIds $sg_field] 0]
@@ -1425,20 +1425,20 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_field $ixNetSG_Stack(3)/field:"ethernet.header.sourceAddress-2"
     ixNet setMultiAttrs $sg_field \
-     -singleValue {00:00:00:00:00:00} \
+     -singleValue $srcMac \
      -seed {1} \
      -optionalEnabled True \
      -fullMesh False \
      -valueList {{00:00:00:00:00:00}} \
      -stepValue {00:00:00:00:00:00} \
      -fixedBits {00:00:00:00:00:00} \
-     -fieldValue {00:00:00:00:00:00} \
+     -fieldValue $srcMac \
      -auto False \
      -randomMask {00:00:00:00:00:00} \
      -trackingEnabled False \
      -valueType singleValue \
      -activeFieldChoice False \
-     -startValue {00:00:00:00:00:00} \
+     -startValue $srcMac \
      -countValue {1}
     sg_commit
     set sg_field [lindex [ixNet remapIds $sg_field] 0]
@@ -1568,16 +1568,16 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -optionalEnabled True \
      -fullMesh False \
      -valueList {{0.0.0.0}} \
-     -stepValue {0.0.0.0} \
+     -stepValue {0.0.0.1} \
      -fixedBits {0.0.0.0} \
      -fieldValue $dstIp \
      -auto False \
      -randomMask {0.0.0.0} \
      -trackingEnabled False \
-     -valueType singleValue \
+     -valueType $multipleStreams \
      -activeFieldChoice False \
-     -startValue {0.0.0.0} \
-     -countValue {1}
+     -startValue $dstIp \
+     -countValue $numflows
     #sg_commit
     #set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
@@ -1630,13 +1630,13 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -valueList {{63}} \
          -stepValue {63} \
          -fixedBits {63} \
-         -fieldValue {$srcPort} \
-         -auto True \
+         -fieldValue $srcPort \
+         -auto False \
          -randomMask {63} \
          -trackingEnabled False \
          -valueType singleValue \
          -activeFieldChoice False \
-         -startValue {63} \
+         -startValue $srcPort \
          -countValue {1}
 
         #
@@ -1742,7 +1742,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
             -trackingEnabled false \
             -valueType singleValue \
             -activeFieldChoice false \
-            -startValue 60 \
+            -startValue 0 \
             -countValue 1
 
         set sg_field $ixNetSG_Stack(3)/field:"tcp.header.sequenceNumber-3"
