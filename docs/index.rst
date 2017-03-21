@@ -30,7 +30,7 @@ setup of the network and/or for control of the traffic-generator and test execut
 * Continuous Integration status: https://build.opnfv.org/ci/view/vswitchperf/
 
 ******************************
-VSPERF User Guide
+VSPERF User Guides
 ******************************
 
 .. toctree::
@@ -38,18 +38,18 @@ VSPERF User Guide
    :maxdepth: 5
    :numbered: 5
 
-   ./user/configguide/installation.rst
-   ./user/configguide/upgrade.rst
-   ./user/configguide/trafficgen.rst
+   ./testing/user/configguide/installation.rst
+   ./testing/user/configguide/upgrade.rst
+   ./testing/user/configguide/trafficgen.rst
 
-   ./user/userguide/testusage.rst
-   ./user/userguide/teststeps.rst
-   ./user/userguide/integration.rst
-   Yardstick integration <./userguide/yardstick.rst>
+   ./testing/user/userguide/testusage.rst
+   ./testing/user/userguide/teststeps.rst
+   ./testing/user/userguide/integration.rst
+   Yardstick integration <./testing/user/userguide/yardstick.rst>
 
 
 ****************************
-VSPERF Developer
+VSPERF Developer Guides
 ****************************
 
 .. toctree::
@@ -57,11 +57,11 @@ VSPERF Developer
    :maxdepth: 5
    :numbered: 5
 
-   ./developer/design/trafficgen_integration_guide.rst
-   ./developer/design/vswitchperf_design.rst
+   ./testing/developer/design/trafficgen_integration_guide.rst
+   ./testing/developer/design/vswitchperf_design.rst
 
-   ./developer/requirements/vswitchperf_ltd.rst
-   ./developer/requirements/vswitchperf_ltp.rst
+   ./testing/developer/requirements/vswitchperf_ltd.rst
+   ./testing/developer/requirements/vswitchperf_ltp.rst
    IETF Internet Draft: Benchmarking Virtual Switches in OPNFV <./requirements/ietf_draft/>
 
 
@@ -74,8 +74,8 @@ VSPERF Results
    :maxdepth: 3
    :numbered: 3
 
-   ./developer/results/scenario.rst
-   ./developer/results/results.rst
+   ./testing/developer/results/scenario.rst
+   ./testing/developer/results/results.rst
 
 Indices
 =======
