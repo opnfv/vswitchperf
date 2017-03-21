@@ -2,12 +2,23 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
-OPNFV Brahmaputra Scenarios
+OPNFV VSPERF Scenarios
 ===========================
-Available Tests and aspects of scenarios:
+
+Predefined network topologies:
+
+* :ref:`Phy2Phy <Phy2Phy>`: Physical port -> vSwitch -> Physical port.
+* :ref:`PVP <PVP>`: Physical port -> vSwitch -> VNF -> vSwitch -> Physical port.
+* :ref:`PVVP <PVVP>`: Physical port -> vSwitch -> VNF -> vSwitch -> VNF -> vSwitch ->
+  Physical port.
+
+Loopback applications in the Guest can be:
+* `DPDK testpmd <http://dpdk.org/doc/guides/testpmd_app_ug/index.html>`_.
+* Linux Bridge.
+* :ref:`l2fwd-module`
 
 ===================== ===========================================================
-   Framework Test                          Definition
+   Testcase                          Definition
 ===================== ===========================================================
 phy2phy_tput          :ref:`PacketLossRatio <PacketLossRatio>` for :ref:`Phy2Phy <Phy2Phy>`
 back2back             :ref:`BackToBackFrames <BackToBackFrames>` for :ref:`Phy2Phy <Phy2Phy>`
@@ -23,23 +34,3 @@ pvvp_back2back        :ref:`BackToBackFrames <BackToBackFrames>` for :ref:`PVVP 
 phy2phy_cpu_load      :ref:`CPU0PacketLoss <CPU0PacketLoss>` for :ref:`Phy2Phy <Phy2Phy>`
 phy2phy_mem_load      Same as :ref:`CPU0PacketLoss <CPU0PacketLoss>` but using a memory intensive app
 ===================== ===========================================================
-
-Supported deployment scenarios:
-
-* :ref:`Phy2Phy <Phy2Phy>`: Physical port -> vSwitch -> Physical port.
-* :ref:`PVP <PVP>`: Physical port -> vSwitch -> VNF -> vSwitch -> Physical port.
-* :ref:`PVVP <PVVP>`: Physical port -> vSwitch -> VNF -> vSwitch -> VNF -> vSwitch ->
-  Physical port.
-
-Loopback applications in the Guest can be:
-
-* `DPDK testpmd <http://dpdk.org/doc/guides/testpmd_app_ug/index.html>`_.
-* Linux Bridge.
-* :ref:`l2fwd-module`
-
-Supported traffic generators:
-
-* Ixia: IxOS and IxNet.
-* Spirent.
-* Dummy.
-
