@@ -7,7 +7,6 @@
 ======
 VSPERF
 ======
-
 VSPERF is an OPNFV testing project.
 
 VSPERF provides an automated test-framework and comprehensive test suite based on
