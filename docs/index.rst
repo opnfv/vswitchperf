@@ -7,27 +7,38 @@
 ======
 VSPERF
 ======
-
 VSPERF is an OPNFV testing project.
 
-VSPERF provides a configurable and automated test-framework with test cases based on
-industry standard network benchmarks applicable to NFVI. This includes the network
-tolpology with physical and virtual network interfaces as well as the switching
-technology. The VSPERF architecture was designed to be switch and traffic generator
-agnostic and provides control of NFVI software components, switch configurations and
-test-case customization.
+VSPERF provides an automated test-framework and comprehensive test suite based on
+industry standards for measuring data-plane performance of Telco NFV switching
+technologies as well as physical and virtual network interfaces (NFVI). The VSPERF
+architecture is switch and traffic generator agnostic and provides full control of
+software component versions and configurations as well as test-case customization.
 
 The Danube release of VSPERF includes improvements in documentation and capabilities.
-This includes additional test-cases such as RFC 5481 (latency tests) and RFC-2889
-(address-learning-rate test). Hardware traffic generator support is now provided for
+This includes additional test-cases such as RFC 5481 Latency test and RFC-2889
+address-learning-rate test. Hardware traffic generator support is now provided for
 Spirent and Xena in addition to Ixia. The Moongen software traffic generator is also
-now supported. VSPERF can be used in a variety of modes for configuration and
-setup of the network and/or for control of the traffic-generator and test execution.
+now fully supported. VSPERF can be used in a variety of modes for configuration and
+setup of the network and/or for control of the test-generator and test execution.
 
 * Wiki: https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases
 * Repository: https://git.opnfv.org/vswitchperf
 * Artifacts: https://artifacts.opnfv.org/vswitchperf.html
 * Continuous Integration status: https://build.opnfv.org/ci/view/vswitchperf/
+
+******************************
+VSPERF Installation Guide
+******************************
+
+.. toctree::
+   :caption: VSPERF Installation Guide
+   :maxdepth: 5
+   :numbered: 5
+
+   ./configguide/installation.rst
+   ./configguide/upgrade.rst
+   ./configguide/trafficgen.rst
 
 ******************************
 VSPERF User Guide
@@ -38,44 +49,44 @@ VSPERF User Guide
    :maxdepth: 5
    :numbered: 5
 
-   ./user/configguide/installation.rst
-   ./user/configguide/upgrade.rst
-   ./user/configguide/trafficgen.rst
-
-   ./user/userguide/testusage.rst
-   ./user/userguide/teststeps.rst
-   ./user/userguide/integration.rst
+   ./userguide/testusage.rst
+   ./userguide/teststeps.rst
+   ./userguide/integration.rst
    Yardstick integration <./userguide/yardstick.rst>
 
-
-****************************
-VSPERF Developer
-****************************
+**************
+VSPERF Design
+**************
 
 .. toctree::
-   :caption: VSPERF Developer Guide
+   :caption: VSPERF Design
    :maxdepth: 5
    :numbered: 5
 
-   ./developer/design/trafficgen_integration_guide.rst
-   ./developer/design/vswitchperf_design.rst
+   ./design/vswitchperf_design.rst
+   ./design/trafficgen_integration_guide.rst
 
-   ./developer/requirements/vswitchperf_ltd.rst
-   ./developer/requirements/vswitchperf_ltp.rst
-   IETF Internet Draft: Benchmarking Virtual Switches in OPNFV <./requirements/ietf_draft/>
-
-
-******************************
-VSPERF Results
-******************************
+*******************
+VSPERF Requirements
+*******************
 
 .. toctree::
-   :caption: VSPERF Scenarios and Test Cases
-   :maxdepth: 3
-   :numbered: 3
+   :caption: VSPERF Requirements
+   :maxdepth: 5
+   :numbered: 5
 
-   ./developer/results/scenario.rst
-   ./developer/results/results.rst
+   ./requirements/vswitchperf_ltp.rst
+   ./requirements/vswitchperf_ltd.rst
+
+**************
+VSPERF Results
+**************
+
+.. toctree::
+   :maxdepth: 3
+
+   ./results/scenario.rst
+   ./results/results.rst
 
 Indices
 =======
