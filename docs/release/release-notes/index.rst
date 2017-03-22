@@ -1,21 +1,12 @@
-.. _vswitchperf-releasenotes:
-
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation and others.
 
-====================
-VSPERF Release Notes
-====================
+==================================================
+OPNFV VSPERF Release Notes
+==================================================
 
 .. toctree::
-   :numbered:
-   :maxdepth: 2
+   :maxdepth: 1
 
-   release-notes.rst
-
-Revision: _sha1_
-
-:Author: Trevor Cooper (trevor.cooper@intel.com)
-
-Build date: |today|
+   release-notes

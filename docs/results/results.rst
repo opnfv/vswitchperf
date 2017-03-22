@@ -2,10 +2,10 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
-OPNFV VSPERF CI Results
+OPNFV Brahmaputra Results
 =========================
-The VSPERF CI jobs are run daily through Jenkins. Result samples can be found at
-https://wiki.opnfv.org/display/vsperf/Vsperf+Results
+The vsperf CI jobs that were used to obtain the
+results can be found at https://wiki.opnfv.org/wiki/vsperf_results.
 
 The following table maps the results in the test dashboard to the appropriate
 test case in the VSPERF Framework and specifies the metric the vertical/Y axis
