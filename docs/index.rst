@@ -28,19 +28,6 @@ setup of the network and/or for control of the test-generator and test execution
 * Continuous Integration status: https://build.opnfv.org/ci/view/vswitchperf/
 
 ******************************
-VSPERF Installation Guide
-******************************
-
-.. toctree::
-   :caption: VSPERF Installation Guide
-   :maxdepth: 5
-   :numbered: 5
-
-   ./configguide/installation.rst
-   ./configguide/upgrade.rst
-   ./configguide/trafficgen.rst
-
-******************************
 VSPERF User Guide
 ******************************
 
@@ -49,44 +36,54 @@ VSPERF User Guide
    :maxdepth: 5
    :numbered: 5
 
-   ./userguide/testusage.rst
-   ./userguide/teststeps.rst
-   ./userguide/integration.rst
-   Yardstick integration <./userguide/yardstick.rst>
+   ./testing/user/configguide/installation.rst
+   ./testing/user/configguide/upgrade.rst
+   ./testing/user/configguide/trafficgen.rst
 
-**************
-VSPERF Design
-**************
+   ./testing/user/userguide/testusage.rst
+   ./testing/user/userguide/teststeps.rst
+   ./testing/user/userguide/integration.rst
+   ./testing/user/userguide/yardstick.rst
+
+****************************
+VSPERF Developer Guide
+****************************
 
 .. toctree::
-   :caption: VSPERF Design
+   :caption: VSPERF Developer Guide
    :maxdepth: 5
    :numbered: 5
 
-   ./design/vswitchperf_design.rst
-   ./design/trafficgen_integration_guide.rst
+   ./testing/developer/design/trafficgen_integration_guide.rst
+   ./testing/developer/design/vswitchperf_design.rst
 
-*******************
-VSPERF Requirements
-*******************
+   ./testing/developer/requirements/vswitchperf_ltd.rst
+   ./testing/developer/requirements/vswitchperf_ltp.rst
+
+*****************************
+VSPERF - IETF Internet Draft
+*****************************
 
 .. toctree::
-   :caption: VSPERF Requirements
+   :caption: IETF Internet Draft
    :maxdepth: 5
    :numbered: 5
 
-   ./requirements/vswitchperf_ltp.rst
-   ./requirements/vswitchperf_ltd.rst
+`Benchmarking Virtual Switches in OPNFV <https://tools.ietf.org/html/draft-ietf-bmwg-vswitch-opnfv-01>`_
 
-**************
-VSPERF Results
-**************
+Location of xml drafts :doc:`./testing/developer/requirements/ietf_draft/`
+
+********************************
+VSPERF Scenarios and CI Results
+********************************
 
 .. toctree::
-   :maxdepth: 3
+   :caption: VSPERF Scenarios & Results
+   :maxdepth: 5
+   :numbered: 5
 
-   ./results/scenario.rst
-   ./results/results.rst
+   ./testing/developer/results/scenario.rst
+   ./testing/developer/results/results.rst
 
 Indices
 =======

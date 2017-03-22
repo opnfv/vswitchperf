@@ -2,12 +2,13 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
-OPNFV Brahmaputra Scenarios
-===========================
-Available Tests and aspects of scenarios:
+VSPERF Test Scenarios
+=====================
+
+Predefined Tests run with CI:
 
 ===================== ===========================================================
-   Framework Test                          Definition
+   Test                          Definition
 ===================== ===========================================================
 phy2phy_tput          :ref:`PacketLossRatio <PacketLossRatio>` for :ref:`Phy2Phy <Phy2Phy>`
 back2back             :ref:`BackToBackFrames <BackToBackFrames>` for :ref:`Phy2Phy <Phy2Phy>`
@@ -24,14 +25,14 @@ phy2phy_cpu_load      :ref:`CPU0PacketLoss <CPU0PacketLoss>` for :ref:`Phy2Phy <
 phy2phy_mem_load      Same as :ref:`CPU0PacketLoss <CPU0PacketLoss>` but using a memory intensive app
 ===================== ===========================================================
 
-Supported deployment scenarios:
+Deployment topologies:
 
 * :ref:`Phy2Phy <Phy2Phy>`: Physical port -> vSwitch -> Physical port.
 * :ref:`PVP <PVP>`: Physical port -> vSwitch -> VNF -> vSwitch -> Physical port.
 * :ref:`PVVP <PVVP>`: Physical port -> vSwitch -> VNF -> vSwitch -> VNF -> vSwitch ->
   Physical port.
 
-Loopback applications in the Guest can be:
+Loopback applications in the Guest:
 
 * `DPDK testpmd <http://dpdk.org/doc/guides/testpmd_app_ug/index.html>`_.
 * Linux Bridge.
@@ -39,7 +40,8 @@ Loopback applications in the Guest can be:
 
 Supported traffic generators:
 
+* Spirent Testcenter
 * Ixia: IxOS and IxNet.
-* Spirent.
-* Dummy.
-
+* Xena
+* MoonGen
+* Dummy

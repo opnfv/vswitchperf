@@ -2,12 +2,12 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
-OPNFV Brahmaputra Results
+OPNFV Test Results
 =========================
-The vsperf CI jobs that were used to obtain the
-results can be found at https://wiki.opnfv.org/wiki/vsperf_results.
+VSPERF CI jobs are run daily and sample results can be found at
+https://wiki.opnfv.org/display/vsperf/Vsperf+Results
 
-The following table maps the results in the test dashboard to the appropriate
+The following example maps the results in the test dashboard to the appropriate
 test case in the VSPERF Framework and specifies the metric the vertical/Y axis
 is plotting. **Please note**, the presence of dpdk within a test name signifies
 that the vswitch under test was OVS with DPDK, while its absence indicates that
@@ -34,5 +34,5 @@ pvvp_b2b_ovsdpdkuser  pvvp_back2back        Throughput (FPS)   vhost-user
 pvvp_b2b_ovsvirtio    pvvp_back2back        Throughput (FPS)   virtio-net
 ===================== ===================== ================== ===============
 
-The loopback application in the VNF used for PVP and PVVP scenarios was DPDK
+The loopback application in the VNF was used for PVP and PVVP scenarios was DPDK
 testpmd.
