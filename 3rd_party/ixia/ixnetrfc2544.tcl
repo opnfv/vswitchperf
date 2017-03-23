@@ -75,6 +75,12 @@ proc startRfc2544Test { testSpec trafficSpec } {
     global sg_rfc2544throughput
     global sg_rfc2544back2back
 
+    # Suffix for stack names
+    # This variable should be incremented after setting sg_stack like:
+    # set sg_stack $ixNetSG_Stack(2)/stack:"protocolnamehere-$stack_number"
+    # incr stack_number
+    set stack_number    1
+
     # flow spec
 
     set rfc2544TestType         [dict get $testSpec rfc2544TestType]
@@ -156,6 +162,17 @@ proc startRfc2544Test { testSpec trafficSpec } {
     set srcIp                   [dict get $trafficSpec_l3 srcip]
     set dstIp                   [dict get $trafficSpec_l3 dstip]
 
+    set vlanEnabled             [dict get $trafficSpec_vlan enabled]
+    if {$vlanEnabled == 1 } {
+        # these keys won't exist if vlan wasn't enabled
+        set vlanId                  [dict get $trafficSpec_vlan id]
+        set vlanUserPrio            [dict get $trafficSpec_vlan priority]
+        set vlanCfi                 [dict get $trafficSpec_vlan cfi]
+    } else {
+        set vlanId                  0
+        set vlanUserPrio            0
+        set vlanCfi                 0
+    }
 
     if {$frameSize < 68 } {
         if {$rfc2544TestType == "back2back"} {
@@ -1352,10 +1369,11 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ethernet-1"
     #
-    set sg_stack $ixNetSG_Stack(2)/stack:"ethernet-1"
+    set sg_stack $ixNetSG_Stack(2)/stack:"ethernet-$stack_number"
     sg_commit
     set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
     set ixNetSG_Stack(3) $sg_stack
+    incr stack_number
 
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ethernet-1"/field:"ethernet.header.destinationAddress-1"
@@ -1449,13 +1467,94 @@ proc startRfc2544Test { testSpec trafficSpec } {
     sg_commit
     set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
+    if {$vlanEnabled == 1 } {
+        set sg_stack $ixNetSG_Stack(2)/stack:"vlan-$stack_number"
+        sg_commit
+        set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+        set ixNetSG_Stack(3) $sg_stack
+        incr stack_number
+
+        set sg_field $ixNetSG_Stack(3)/field:"vlan.header.vlanTag.vlanUserPriority-1"
+        ixNet setMultiAttrs $sg_field \
+                -singleValue $vlanUserPrio \
+                -seed 1 \
+                -optionalEnabled true \
+                -fullMesh false \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue $vlanUserPrio \
+                -auto false \
+                -randomMask 0 \
+                -trackingEnabled false \
+                -valueType singleValue \
+                -activeFieldChoice false \
+                -startValue 0 \
+                -countValue 1
+
+        set sg_field $ixNetSG_Stack(3)/field:"vlan.header.vlanTag.cfi-2"
+        ixNet setMultiAttrs $sg_field \
+                -singleValue $vlanCfi \
+                -seed 1 \
+                -optionalEnabled true \
+                -fullMesh false \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue $vlanCfi \
+                -auto false \
+                -randomMask 0 \
+                -trackingEnabled false \
+                -valueType singleValue \
+                -activeFieldChoice false \
+                -startValue 0 \
+                -countValue 1
+
+        set sg_field $ixNetSG_Stack(3)/field:"vlan.header.vlanTag.vlanID-3"
+        ixNet setMultiAttrs $sg_field \
+                -singleValue $vlanId \
+                -seed 1 \
+                -optionalEnabled true \
+                -fullMesh false \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue $vlanId \
+                -auto false \
+                -randomMask 0 \
+                -trackingEnabled false \
+                -valueType singleValue \
+                -activeFieldChoice false \
+                -startValue 0 \
+                -countValue 1
+
+        set sg_field $ixNetSG_Stack(3)/field:"vlan.header.protocolID-4"
+        ixNet setMultiAttrs $sg_field \
+                -singleValue ffff \
+                -seed 1 \
+                -optionalEnabled true \
+                -fullMesh false \
+                -valueList [list 0xffff] \
+                -stepValue 0xffff \
+                -fixedBits 0xffff \
+                -fieldValue ffff \
+                -auto true \
+                -randomMask 0xffff \
+                -trackingEnabled false \
+                -valueType singleValue \
+                -activeFieldChoice false \
+                -startValue 0xffff \
+                -countValue 1
+    }
+
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"
     #
-    set sg_stack $ixNetSG_Stack(2)/stack:"ipv4-2"
+    set sg_stack $ixNetSG_Stack(2)/stack:"ipv4-$stack_number"
     sg_commit
     set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
     set ixNetSG_Stack(3) $sg_stack
+    incr stack_number
 
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.version-1"
@@ -2794,10 +2893,11 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"
     #
-    set sg_stack $ixNetSG_Stack(2)/stack:"udp-3"
+    set sg_stack $ixNetSG_Stack(2)/stack:"udp-$stack_number"
     sg_commit
     set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
     set ixNetSG_Stack(3) $sg_stack
+    incr stack_number
 
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"/field:"udp.header.srcPort-1"
@@ -2894,10 +2994,11 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"fcs-4"
     #
-    set sg_stack $ixNetSG_Stack(2)/stack:"fcs-4"
+    set sg_stack $ixNetSG_Stack(2)/stack:"fcs-$stack_number"
     sg_commit
     set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
     set ixNetSG_Stack(3) $sg_stack
+    incr stack_number
 
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"fcs-4"/field:"ethernet.fcs-1"
@@ -2985,12 +3086,18 @@ proc startRfc2544Test { testSpec trafficSpec } {
     set ixNetSG_Stack(2) $sg_highLevelStream
 
     #
+    # Reset stack_number after configElement processing before highLevelStream processing starts
+    #
+    set stack_number    1
+
+    #
     # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ethernet-1"
     #
-    set sg_stack $ixNetSG_Stack(2)/stack:"ethernet-1"
+    set sg_stack $ixNetSG_Stack(2)/stack:"ethernet-$stack_number"
     sg_commit
     set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
     set ixNetSG_Stack(3) $sg_stack
+    incr stack_number
 
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ethernet-1"/field:"ethernet.header.destinationAddress-1"
@@ -3084,13 +3191,94 @@ proc startRfc2544Test { testSpec trafficSpec } {
     sg_commit
     set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
+    if {$vlanEnabled == 1 } {
+        set sg_stack $ixNetSG_Stack(2)/stack:"vlan-$stack_number"
+        sg_commit
+        set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+        set ixNetSG_Stack(3) $sg_stack
+        incr stack_number
+
+        set sg_field $ixNetSG_Stack(3)/field:"vlan.header.vlanTag.vlanUserPriority-1"
+        ixNet setMultiAttrs $sg_field \
+                -singleValue $vlanUserPrio \
+                -seed 1 \
+                -optionalEnabled true \
+                -fullMesh false \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue $vlanUserPrio \
+                -auto false \
+                -randomMask 0 \
+                -trackingEnabled false \
+                -valueType singleValue \
+                -activeFieldChoice false \
+                -startValue 0 \
+                -countValue 1
+
+        set sg_field $ixNetSG_Stack(3)/field:"vlan.header.vlanTag.cfi-2"
+        ixNet setMultiAttrs $sg_field \
+                -singleValue $vlanCfi \
+                -seed 1 \
+                -optionalEnabled true \
+                -fullMesh false \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue $vlanCfi \
+                -auto false \
+                -randomMask 0 \
+                -trackingEnabled false \
+                -valueType singleValue \
+                -activeFieldChoice false \
+                -startValue 0 \
+                -countValue 1
+
+        set sg_field $ixNetSG_Stack(3)/field:"vlan.header.vlanTag.vlanID-3"
+        ixNet setMultiAttrs $sg_field \
+                -singleValue $vlanId \
+                -seed 1 \
+                -optionalEnabled true \
+                -fullMesh false \
+                -valueList [list 0] \
+                -stepValue 0 \
+                -fixedBits 0 \
+                -fieldValue $vlanId \
+                -auto false \
+                -randomMask 0 \
+                -trackingEnabled false \
+                -valueType singleValue \
+                -activeFieldChoice false \
+                -startValue 0 \
+                -countValue 1
+
+        set sg_field $ixNetSG_Stack(3)/field:"vlan.header.protocolID-4"
+        ixNet setMultiAttrs $sg_field \
+                -singleValue ffff \
+                -seed 1 \
+                -optionalEnabled true \
+                -fullMesh false \
+                -valueList [list 0xffff] \
+                -stepValue 0xffff \
+                -fixedBits 0xffff \
+                -fieldValue ffff \
+                -auto true \
+                -randomMask 0xffff \
+                -trackingEnabled false \
+                -valueType singleValue \
+                -activeFieldChoice false \
+                -startValue 0xffff \
+                -countValue 1
+    }
+
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"
     #
-    set sg_stack $ixNetSG_Stack(2)/stack:"ipv4-2"
+    set sg_stack $ixNetSG_Stack(2)/stack:"ipv4-$stack_number"
     sg_commit
     set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
     set ixNetSG_Stack(3) $sg_stack
+    incr stack_number
 
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.version-1"
@@ -4429,10 +4617,11 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"
     #
-    set sg_stack $ixNetSG_Stack(2)/stack:"udp-3"
+    set sg_stack $ixNetSG_Stack(2)/stack:"udp-$stack_number"
     sg_commit
     set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
     set ixNetSG_Stack(3) $sg_stack
+    incr stack_number
 
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"/field:"udp.header.srcPort-1"
@@ -4529,10 +4718,11 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"fcs-4"
     #
-    set sg_stack $ixNetSG_Stack(2)/stack:"fcs-4"
+    set sg_stack $ixNetSG_Stack(2)/stack:"fcs-$stack_number"
     sg_commit
     set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
     set ixNetSG_Stack(3) $sg_stack
+    incr stack_number
 
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"fcs-4"/field:"ethernet.fcs-1"
