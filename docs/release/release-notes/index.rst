@@ -14,8 +14,4 @@ VSPERF Release Notes
 
    release-notes.rst
 
-Revision: _sha1_
-
-:Author: Trevor Cooper (trevor.cooper@intel.com)
-
 Build date: |today|
