@@ -37,54 +37,14 @@ VSPERF User Guide
    :maxdepth: 5
    :numbered: 5
 
-   ./testing/user/configguide/installation.rst
-   ./testing/user/configguide/upgrade.rst
-   ./testing/user/configguide/trafficgen.rst
+   ./installation.rst
+   ./upgrade.rst
+   ./trafficgen.rst
 
-   ./testing/user/userguide/testusage.rst
-   ./testing/user/userguide/teststeps.rst
-   ./testing/user/userguide/integration.rst
-   ./testing/user/userguide/yardstick.rst
-
-****************************
-VSPERF Developer Guide
-****************************
-
-.. toctree::
-   :caption: VSPERF Developer Guide
-   :maxdepth: 5
-   :numbered: 5
-
-   ./testing/developer/design/trafficgen_integration_guide.rst
-   ./testing/developer/design/vswitchperf_design.rst
-
-   ./testing/developer/requirements/vswitchperf_ltd.rst
-   ./testing/developer/requirements/vswitchperf_ltp.rst
-
-*****************************
-VSPERF - IETF Internet Draft
-*****************************
-
-.. toctree::
-   :caption: IETF Internet Draft
-   :maxdepth: 5
-   :numbered: 5
-
-`Benchmarking Virtual Switches in OPNFV <https://tools.ietf.org/html/draft-ietf-bmwg-vswitch-opnfv-01>`_
-
-Location of xml drafts :doc:`./testing/developer/requirements/ietf_draft/`
-
-********************************
-VSPERF Scenarios and CI Results
-********************************
-
-.. toctree::
-   :caption: VSPERF Scenarios & Results
-   :maxdepth: 5
-   :numbered: 5
-
-   ./testing/developer/results/scenario.rst
-   ./testing/developer/results/results.rst
+   ../userguide/testusage.rst
+   ../userguide/teststeps.rst
+   ../userguide/integration.rst
+   ../userguide/yardstick.rst
 
 Indices
 =======
