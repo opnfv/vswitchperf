@@ -2,9 +2,6 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
-********************
-VSPERF Release Notes
-********************
 
 OPNFV Danube Release
 ====================
@@ -205,9 +202,3 @@ follow once the community has digested the initial release.
 -  Framework support for different VNFs
 -  Python3
 -  Support for biDirectional functionality for ixnet interface
-
-Missing
-=======
-
--  xmlunit output is currently disabled
-
