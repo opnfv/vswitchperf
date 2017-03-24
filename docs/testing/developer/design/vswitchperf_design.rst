@@ -354,6 +354,10 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
                       Default value: 64
     'l3'            - A dictionary with l3 network layer details. Supported
                       values are:
+        'enabled'   - Specifies if l3 layer should be enabled or disabled.
+                      Data type: bool
+                      Default value: True
+                      NOTE: Supported only by IxNet trafficgen class
         'srcip'     - Specifies source MAC address filled by traffic generator.
                       NOTE: It can be modified by vsperf in some scenarios.
                       Data type: str
@@ -369,6 +373,10 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
                       Default value: "udp".
     'l4'            - A dictionary with l4 network layer details. Supported
                       values are:
+        'enabled'   - Specifies if l4 layer should be enabled or disabled.
+                      Data type: bool
+                      Default value: True
+                      NOTE: Supported only by IxNet trafficgen class
         'srcport'   - Specifies source port of selected transport protocol.
                       NOTE: It can be modified by vsperf in some scenarios.
                       Data type: int

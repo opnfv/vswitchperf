@@ -50,11 +50,13 @@ and is configured as follows:
             'dstmac': '00:00:00:00:00:00',
         },
         'l3': {
+            'enabled': True,
             'proto': 'udp',
             'srcip': '1.1.1.1',
             'dstip': '90.90.90.90',
         },
         'l4': {
+            'enabled': True,
             'srcport': 3000,
             'dstport': 3001,
         },
@@ -133,8 +135,9 @@ when the setup is complete.
     {
         "flow_type": "port",
         "l3": {
+            "enabled": True,
             "srcip": "1.1.1.1",
-            "proto": "tcp",
+            "proto": "udp",
             "dstip": "90.90.90.90"
         },
         "traffic_type": "rfc2544_continuous",
@@ -144,12 +147,15 @@ when the setup is complete.
             "cfi": 0,
             "priority": 0,
             "id": 0,
-            "enabled": false
+            "enabled": False
+        },
+        "l4": {
+            "enabled": True,
+            "srcport": 3000,
+            "dstport": 3001,
         },
         "frame_rate": 90,
         "l2": {
-            "dstport": 3001,
-            "srcport": 3000,
             "dstmac": "00:00:00:00:00:00",
             "srcmac": "00:00:00:00:00:00",
             "framesize": 64

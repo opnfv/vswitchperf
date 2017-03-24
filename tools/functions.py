@@ -143,13 +143,35 @@ def settings_update_paths():
     S.setValue('TOOLS', tools)
 
 def check_traffic(traffic):
-    """Check traffic definition and correct it if needed.
+    """Check traffic definition and correct it if possible.
     """
-    # in case of UDP ports we have only 65536 (0-65535) unique options
-    if traffic['multistream'] > MAX_L4_FLOWS and \
-       traffic['stream_type'] == 'L4':
-        logging.getLogger().warning('Requested amount of L4 flows %s is bigger than '
-                                    'number of transport protocol ports. It was set '
-                                    'to %s.', traffic['multistream'], MAX_L4_FLOWS)
-        traffic['multistream'] = MAX_L4_FLOWS
+    # check if requested networking layers make sense
+    if traffic['vlan']['enabled']:
+        if not (traffic['l3']['enabled'] and traffic['l4']['enabled']):
+            raise RuntimeError('TRAFFIC misconfiguration: both l3 and l4 must '
+                               'be enabled if vlan is enabled.')
+    if traffic['l4']['enabled']:
+        if not traffic['l3']['enabled']:
+            raise RuntimeError('TRAFFIC misconfiguration: l3 must be enabled '
+                               'if l4 is enabled.')
+
+    # check if multistream configuration makes sense
+    if traffic['multistream']:
+        if traffic['stream_type'] == 'L3':
+            if not traffic['l3']['enabled']:
+                raise RuntimeError('TRAFFIC misconfiguration: l3 must be '
+                                   'enabled if l3 streams are requested.')
+        if traffic['stream_type'] == 'L4':
+            if not traffic['l4']['enabled']:
+                raise RuntimeError('TRAFFIC misconfiguration: l4 must be '
+                                   'enabled if l4 streams are requested.')
+
+            # in case of UDP ports we have only 65536 (0-65535) unique options
+            if traffic['multistream'] > MAX_L4_FLOWS:
+                logging.getLogger().warning(
+                    'Requested amount of L4 flows %s is bigger than number of '
+                    'transport protocol ports. It was set to %s.',
+                    traffic['multistream'], MAX_L4_FLOWS)
+                traffic['multistream'] = MAX_L4_FLOWS
+
     return traffic
