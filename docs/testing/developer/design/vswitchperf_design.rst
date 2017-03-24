@@ -21,11 +21,11 @@ Usage
 Example Connectivity to DUT
 ---------------------------
 
-Establish connectivity to the VSPERF DUT Linux host, such as the DUT in Pod 3,
-by following the steps in `Testbed POD3
-<https://wiki.opnfv.org/get_started/pod_3_-_characterize_vswitch_performance>`__
+Establish connectivity to the VSPERF DUT Linux host. If this is in an OPNFV lab
+following the steps provided by `Pharos <https://www.opnfv.org/community/projects/pharos>`_
+ to `access the POD <https://wiki.opnfv.org/display/pharos/Pharos+Lab+Support>`_
 
-The steps cover booking the DUT and establishing the VSPERF environment.
+The followign steps establish the VSPERF environment.
 
 Example Command Lines
 ---------------------
