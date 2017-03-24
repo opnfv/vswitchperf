@@ -1295,13 +1295,9 @@ vsperf also identified an alternative configuration for the final step:
 
 Environment/infrastructure
 ============================
-Intel is providing a hosted test-bed with nine bare-metal environments
-allocated to different OPNFV projects. Currently a number of servers in
-`Intel POD 3 <https://wiki.opnfv.org/display/pharos/Intel+Pod3>`__ are
-allocated to vsperf:
-
-  * pod3-wcp-node3 and pod3-wcp-node4 which are used for CI jobs.
-  * pod3-node6 which is used as a vsperf sandbox environment.
+VSPERF CI jobs are run using the OPNFV lab infrastructure as described by the
+'Pharos Project <https://www.opnfv.org/community/projects/pharos>`_ .
+A VSPERF POD is described here https://wiki.opnfv.org/display/pharos/VSPERF+in+Intel+Pharos+Lab+-+Pod+12
 
 vsperf CI
 ---------
