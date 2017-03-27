@@ -65,6 +65,7 @@ class TestCase(object):
         self._settings_original = {}
         self._settings_paths_modified = False
         self._testcast_run_time = None
+        self._versions = []
         # initialization of step driven specific members
         self._step_check = False    # by default don't check result for step driven testcases
         self._step_vnf_list = {}
@@ -305,6 +306,8 @@ class TestCase(object):
                     if not self._vswitch_none:
                         self._add_flows()
 
+                    self._versions += self._vswitch_ctl.get_vswitch().get_version()
+
                     with self._traffic_ctl:
                         # execute test based on TestSteps definition if needed...
                         if self.step_run():
@@ -360,6 +363,7 @@ class TestCase(object):
         for item in results:
             item[ResultsConstants.ID] = self.name
             item[ResultsConstants.DEPLOYMENT] = self.deployment
+            item[ResultsConstants.VSWITCH] = S.getValue('VSWITCH')
             item[ResultsConstants.TRAFFIC_TYPE] = self._traffic['l3']['proto']
             item[ResultsConstants.TEST_RUN_TIME] = self._testcase_run_time
             if self._traffic['multistream']:
@@ -776,3 +780,36 @@ class TestCase(object):
 
         # all steps processed without any issue
         return True
+
+    #
+    # get methods for TestCase members, which needs to be publicly available
+    #
+    def get_output_file(self):
+        """Return content of self._output_file member
+        """
+        return self._output_file
+
+    def get_desc(self):
+        """Return content of self.desc member
+        """
+        return self.desc
+
+    def get_versions(self):
+        """Return content of self.versions member
+        """
+        return self._versions
+
+    def get_traffic(self):
+        """Return content of self._traffic member
+        """
+        return self._traffic
+
+    def get_tc_results(self):
+        """Return content of self._tc_results member
+        """
+        return self._tc_results
+
+    def get_collector(self):
+        """Return content of self._collector member
+        """
+        return self._collector

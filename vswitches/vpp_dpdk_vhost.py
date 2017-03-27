@@ -25,6 +25,7 @@ from src.dpdk import dpdk
 from conf import settings as S
 from vswitches.vswitch import IVSwitch
 from tools import tasks
+from tools.version import Version
 
 # pylint: disable=too-many-public-methods
 class VppDpdkVhost(IVSwitch, tasks.Process):
@@ -110,7 +111,6 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         self._logger.debug("VPP CLI args: %s", cli_args)
         return cli_args
 
-
     def start(self):
         """Activates DPDK kernel modules and starts VPP
 
@@ -155,6 +155,25 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         # in case, that pid was not detected or sudo envelope
         # has not been terminated yet
         tasks.Process.kill(self, signal, sleep)
+
+    def get_version(self):
+        """See IVswitch for general description
+        """
+        versions = []
+        output = self.run_vppctl(['show', 'version', 'verbose'])
+        if output[1]:
+            self._logger.warning("VPP version can not be read!")
+            return versions
+
+        match = re.search(r'Version:\s*(.+)', output[0])
+        if match:
+            versions.append(Version(S.getValue('VSWITCH'), match.group(1)))
+
+        match = re.search(r'DPDK Version:\s*DPDK (.+)', output[0])
+        if match:
+            versions.append(Version('dpdk', match.group(1)))
+
+        return versions
 
     def add_switch(self, switch_name, dummy_params=None):
         """See IVswitch for general description

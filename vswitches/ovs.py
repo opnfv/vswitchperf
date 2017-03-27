@@ -95,6 +95,14 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """
         pass
 
+    # Method could be a function
+    # pylint: disable=no-self-use
+    def get_version(self):
+        """See IVswitch for general description
+        """
+        # OVS version can be read offline
+        return []
+
     def stop(self):
         """See IVswitch for general description
         """

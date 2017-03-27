@@ -21,6 +21,7 @@ class ResultsConstants(object):
     ID = 'id'
     PACKET_SIZE = 'packet_size'
     DEPLOYMENT = 'deployment'
+    VSWITCH = 'vswitch'
     TRAFFIC_TYPE = 'traffic_type'
     GUEST_LOOPBACK = 'guest_loopback_app'
     TUNNEL_TYPE = 'tunnel_type'
