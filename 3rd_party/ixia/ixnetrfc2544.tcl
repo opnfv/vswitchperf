@@ -155,14 +155,18 @@ proc startRfc2544Test { testSpec trafficSpec } {
     set frameSize               [dict get $trafficSpec_l2 framesize]
     set srcMac                  [dict get $trafficSpec_l2 srcmac]
     set dstMac                  [dict get $trafficSpec_l2 dstmac]
-    set srcPort                 [dict get $trafficSpec_l4 srcport]
-    set dstPort                 [dict get $trafficSpec_l4 dstport]
 
     set proto                   [dict get $trafficSpec_l3 proto]
     set srcIp                   [dict get $trafficSpec_l3 srcip]
     set dstIp                   [dict get $trafficSpec_l3 dstip]
 
+    set srcPort                 [dict get $trafficSpec_l4 srcport]
+    set dstPort                 [dict get $trafficSpec_l4 dstport]
+
+    set l3Enabled               [dict get $trafficSpec_l3 enabled]
+    set l4Enabled               [dict get $trafficSpec_l4 enabled]
     set vlanEnabled             [dict get $trafficSpec_vlan enabled]
+
     if {$vlanEnabled == 1 } {
         # these keys won't exist if vlan wasn't enabled
         set vlanId                  [dict get $trafficSpec_vlan id]
@@ -1547,1449 +1551,1453 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -countValue 1
     }
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"
-    #
-    set sg_stack $ixNetSG_Stack(2)/stack:"ipv4-$stack_number"
-    sg_commit
-    set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
-    set ixNetSG_Stack(3) $sg_stack
-    incr stack_number
+    if {$l3Enabled == 1 } {
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"
+        #
+        set sg_stack $ixNetSG_Stack(2)/stack:"ipv4-$stack_number"
+        sg_commit
+        set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+        set ixNetSG_Stack(3) $sg_stack
+        incr stack_number
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.version-1"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.version-1"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {4} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{4}} \
-     -stepValue {4} \
-     -fixedBits {4} \
-     -fieldValue {4} \
-     -auto False \
-     -randomMask {4} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {4} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.version-1"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.version-1"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {4} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{4}} \
+         -stepValue {4} \
+         -fixedBits {4} \
+         -fieldValue {4} \
+         -auto False \
+         -randomMask {4} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {4} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.headerLength-2"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.headerLength-2"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {5} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {5} \
-     -auto True \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.headerLength-2"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.headerLength-2"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {5} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {5} \
+         -auto True \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.raw-3"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.raw-3"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.raw-3"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.raw-3"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.precedence-4"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.precedence-4"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {000 Routine} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.precedence-4"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.precedence-4"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {000 Routine} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.delay-5"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.delay-5"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Normal} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.delay-5"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.delay-5"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Normal} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.throughput-6"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.throughput-6"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Normal} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.throughput-6"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.throughput-6"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Normal} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.reliability-7"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.reliability-7"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Normal} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.reliability-7"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.reliability-7"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Normal} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.monetary-8"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.monetary-8"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Normal} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.monetary-8"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.monetary-8"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Normal} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.unused-9"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.unused-9"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.unused-9"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.unused-9"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.defaultPHB.defaultPHB-10"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.defaultPHB.defaultPHB-10"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.defaultPHB.defaultPHB-10"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.defaultPHB.defaultPHB-10"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.defaultPHB.unused-11"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.defaultPHB.unused-11"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.defaultPHB.unused-11"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.defaultPHB.unused-11"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.classSelectorPHB.classSelectorPHB-12"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.classSelectorPHB.classSelectorPHB-12"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {8} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{8}} \
-     -stepValue {8} \
-     -fixedBits {8} \
-     -fieldValue {Precedence 1} \
-     -auto False \
-     -randomMask {8} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {8} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.classSelectorPHB.classSelectorPHB-12"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.classSelectorPHB.classSelectorPHB-12"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {8} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{8}} \
+         -stepValue {8} \
+         -fixedBits {8} \
+         -fieldValue {Precedence 1} \
+         -auto False \
+         -randomMask {8} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {8} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.classSelectorPHB.unused-13"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.classSelectorPHB.unused-13"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.classSelectorPHB.unused-13"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.classSelectorPHB.unused-13"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.assuredForwardingPHB-14"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.assuredForwardingPHB-14"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {10} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{10}} \
-     -stepValue {10} \
-     -fixedBits {10} \
-     -fieldValue {Class 1, Low drop precedence} \
-     -auto False \
-     -randomMask {10} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {10} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.assuredForwardingPHB-14"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.assuredForwardingPHB-14"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {10} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{10}} \
+         -stepValue {10} \
+         -fixedBits {10} \
+         -fieldValue {Class 1, Low drop precedence} \
+         -auto False \
+         -randomMask {10} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {10} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.unused-15"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.unused-15"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.unused-15"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.unused-15"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.expeditedForwardingPHB-16"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.expeditedForwardingPHB-16"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {46} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{46}} \
-     -stepValue {46} \
-     -fixedBits {46} \
-     -fieldValue {46} \
-     -auto False \
-     -randomMask {46} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {46} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.expeditedForwardingPHB-16"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.expeditedForwardingPHB-16"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {46} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{46}} \
+         -stepValue {46} \
+         -fixedBits {46} \
+         -fieldValue {46} \
+         -auto False \
+         -randomMask {46} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {46} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.unused-17"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.unused-17"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.unused-17"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.unused-17"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.totalLength-18"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.totalLength-18"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {46} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{20}} \
-     -stepValue {20} \
-     -fixedBits {20} \
-     -fieldValue {46} \
-     -auto True \
-     -randomMask {20} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {20} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.totalLength-18"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.totalLength-18"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {46} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{20}} \
+         -stepValue {20} \
+         -fixedBits {20} \
+         -fieldValue {46} \
+         -auto True \
+         -randomMask {20} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {20} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.identification-19"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.identification-19"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.identification-19"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.identification-19"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.flags.reserved-20"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.reserved-20"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.flags.reserved-20"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.reserved-20"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.flags.fragment-21"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.fragment-21"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {May fragment} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.flags.fragment-21"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.fragment-21"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {May fragment} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.flags.lastFragment-22"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.lastFragment-22"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Last fragment} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.flags.lastFragment-22"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.lastFragment-22"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Last fragment} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.fragmentOffset-23"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.fragmentOffset-23"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.fragmentOffset-23"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.fragmentOffset-23"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.ttl-24"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.ttl-24"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {64} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{64}} \
-     -stepValue {64} \
-     -fixedBits {64} \
-     -fieldValue {64} \
-     -auto False \
-     -randomMask {64} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {64} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.ttl-24"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.ttl-24"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {64} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{64}} \
+         -stepValue {64} \
+         -fixedBits {64} \
+         -fieldValue {64} \
+         -auto False \
+         -randomMask {64} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {64} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.protocol-25"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.protocol-25"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {17} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{61}} \
-     -stepValue {61} \
-     -fixedBits {61} \
-     -fieldValue {UDP} \
-     -auto True \
-     -randomMask {61} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {61} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.protocol-25"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.protocol-25"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {17} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{61}} \
+         -stepValue {61} \
+         -fixedBits {61} \
+         -fieldValue {UDP} \
+         -auto True \
+         -randomMask {61} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {61} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.checksum-26"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.checksum-26"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto True \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.checksum-26"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.checksum-26"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto True \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.srcIp-27"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.srcIp-27"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue $srcIp \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0.0.0.0}} \
-     -stepValue {0.0.0.0} \
-     -fixedBits {0.0.0.0} \
-     -fieldValue $srcIp \
-     -auto False \
-     -randomMask {0.0.0.0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0.0.0.0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.srcIp-27"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.srcIp-27"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue $srcIp \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0.0.0.0}} \
+         -stepValue {0.0.0.0} \
+         -fixedBits {0.0.0.0} \
+         -fieldValue $srcIp \
+         -auto False \
+         -randomMask {0.0.0.0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0.0.0.0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.dstIp-28"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.dstIp-28"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue $dstIp \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0.0.0.0}} \
-     -stepValue {0.0.0.1} \
-     -fixedBits {0.0.0.0} \
-     -fieldValue $dstIp \
-     -auto False \
-     -randomMask {0.0.0.0} \
-     -trackingEnabled False \
-     -valueType $L3ValueType \
-     -activeFieldChoice False \
-     -startValue $dstIp \
-     -countValue $L3CountValue
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.dstIp-28"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.dstIp-28"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue $dstIp \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0.0.0.0}} \
+         -stepValue {0.0.0.1} \
+         -fixedBits {0.0.0.0} \
+         -fieldValue $dstIp \
+         -auto False \
+         -randomMask {0.0.0.0} \
+         -trackingEnabled False \
+         -valueType $L3ValueType \
+         -activeFieldChoice False \
+         -startValue $dstIp \
+         -countValue $L3CountValue
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.nop-29"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.nop-29"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {1} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{1}} \
-     -stepValue {1} \
-     -fixedBits {1} \
-     -fieldValue {1} \
-     -auto False \
-     -randomMask {1} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {1} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.nop-29"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.nop-29"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {1} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{1}} \
+         -stepValue {1} \
+         -fixedBits {1} \
+         -fieldValue {1} \
+         -auto False \
+         -randomMask {1} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {1} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.type-30"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.type-30"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {130} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{130}} \
-     -stepValue {130} \
-     -fixedBits {130} \
-     -fieldValue {130} \
-     -auto False \
-     -randomMask {130} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {130} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.type-30"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.type-30"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {130} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{130}} \
+         -stepValue {130} \
+         -fixedBits {130} \
+         -fieldValue {130} \
+         -auto False \
+         -randomMask {130} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {130} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.length-31"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.length-31"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {11} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{11}} \
-     -stepValue {11} \
-     -fixedBits {11} \
-     -fieldValue {11} \
-     -auto False \
-     -randomMask {11} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {11} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.length-31"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.length-31"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {11} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{11}} \
+         -stepValue {11} \
+         -fixedBits {11} \
+         -fieldValue {11} \
+         -auto False \
+         -randomMask {11} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {11} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.security-32"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.security-32"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Unclassified} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.security-32"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.security-32"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Unclassified} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.compartments-33"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.compartments-33"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.compartments-33"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.compartments-33"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.handling-34"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.handling-34"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.handling-34"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.handling-34"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.tcc-35"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.tcc-35"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.tcc-35"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.tcc-35"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.lsrr.type-36"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.lsrr.type-36"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {131} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{131}} \
-     -stepValue {131} \
-     -fixedBits {131} \
-     -fieldValue {131} \
-     -auto False \
-     -randomMask {131} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {131} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.lsrr.type-36"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.lsrr.type-36"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {131} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{131}} \
+         -stepValue {131} \
+         -fixedBits {131} \
+         -fieldValue {131} \
+         -auto False \
+         -randomMask {131} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {131} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.lsrr.length-37"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.lsrr.length-37"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {8} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{8}} \
-     -stepValue {8} \
-     -fixedBits {8} \
-     -fieldValue {8} \
-     -auto False \
-     -randomMask {8} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {8} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.lsrr.length-37"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.lsrr.length-37"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {8} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{8}} \
+         -stepValue {8} \
+         -fixedBits {8} \
+         -fieldValue {8} \
+         -auto False \
+         -randomMask {8} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {8} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.pointer-38"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.pointer-38"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {4} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{4}} \
-     -stepValue {4} \
-     -fixedBits {4} \
-     -fieldValue {4} \
-     -auto False \
-     -randomMask {4} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {4} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.pointer-38"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.pointer-38"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {4} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{4}} \
+         -stepValue {4} \
+         -fixedBits {4} \
+         -fieldValue {4} \
+         -auto False \
+         -randomMask {4} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {4} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routeData-39"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routeData-39"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routeData-39"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routeData-39"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.ssrr.type-40"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.ssrr.type-40"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {137} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{137}} \
-     -stepValue {137} \
-     -fixedBits {137} \
-     -fieldValue {137} \
-     -auto False \
-     -randomMask {137} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {137} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.ssrr.type-40"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.ssrr.type-40"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {137} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{137}} \
+         -stepValue {137} \
+         -fixedBits {137} \
+         -fieldValue {137} \
+         -auto False \
+         -randomMask {137} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {137} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.ssrr.length-41"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.ssrr.length-41"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {8} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{8}} \
-     -stepValue {8} \
-     -fixedBits {8} \
-     -fieldValue {8} \
-     -auto False \
-     -randomMask {8} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {8} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.ssrr.length-41"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.ssrr.length-41"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {8} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{8}} \
+         -stepValue {8} \
+         -fixedBits {8} \
+         -fieldValue {8} \
+         -auto False \
+         -randomMask {8} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {8} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.recordRoute.type-42"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.recordRoute.type-42"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {7} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{7}} \
-     -stepValue {7} \
-     -fixedBits {7} \
-     -fieldValue {7} \
-     -auto False \
-     -randomMask {7} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {7} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.recordRoute.type-42"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.recordRoute.type-42"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {7} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{7}} \
+         -stepValue {7} \
+         -fixedBits {7} \
+         -fieldValue {7} \
+         -auto False \
+         -randomMask {7} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {7} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.recordRoute.length-43"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.recordRoute.length-43"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {8} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{8}} \
-     -stepValue {8} \
-     -fixedBits {8} \
-     -fieldValue {8} \
-     -auto False \
-     -randomMask {8} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {8} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.recordRoute.length-43"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.recordRoute.length-43"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {8} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{8}} \
+         -stepValue {8} \
+         -fixedBits {8} \
+         -fieldValue {8} \
+         -auto False \
+         -randomMask {8} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {8} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.type-44"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.type-44"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {136} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{136}} \
-     -stepValue {136} \
-     -fixedBits {136} \
-     -fieldValue {136} \
-     -auto False \
-     -randomMask {136} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {136} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.type-44"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.type-44"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {136} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{136}} \
+         -stepValue {136} \
+         -fixedBits {136} \
+         -fieldValue {136} \
+         -auto False \
+         -randomMask {136} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {136} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.length-45"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.length-45"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {4} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{4}} \
-     -stepValue {4} \
-     -fixedBits {4} \
-     -fieldValue {4} \
-     -auto False \
-     -randomMask {4} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {4} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.length-45"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.length-45"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {4} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{4}} \
+         -stepValue {4} \
+         -fixedBits {4} \
+         -fieldValue {4} \
+         -auto False \
+         -randomMask {4} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {4} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.id-46"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.id-46"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.id-46"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.id-46"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.type-47"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.type-47"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {68} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{68}} \
-     -stepValue {68} \
-     -fixedBits {68} \
-     -fieldValue {68} \
-     -auto False \
-     -randomMask {68} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {68} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.type-47"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.type-47"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {68} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{68}} \
+         -stepValue {68} \
+         -fixedBits {68} \
+         -fieldValue {68} \
+         -auto False \
+         -randomMask {68} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {68} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.length-48"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.length-48"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {12} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{12}} \
-     -stepValue {12} \
-     -fixedBits {12} \
-     -fieldValue {12} \
-     -auto False \
-     -randomMask {12} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {12} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.length-48"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.length-48"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {12} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{12}} \
+         -stepValue {12} \
+         -fixedBits {12} \
+         -fieldValue {12} \
+         -auto False \
+         -randomMask {12} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {12} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pointer-49"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pointer-49"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {5} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{5}} \
-     -stepValue {5} \
-     -fixedBits {5} \
-     -fieldValue {5} \
-     -auto False \
-     -randomMask {5} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {5} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pointer-49"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pointer-49"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {5} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{5}} \
+         -stepValue {5} \
+         -fixedBits {5} \
+         -fieldValue {5} \
+         -auto False \
+         -randomMask {5} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {5} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.overflow-50"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.overflow-50"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.overflow-50"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.overflow-50"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.flags-51"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.flags-51"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Timestamps only, in consecutive 32-bit words} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.flags-51"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.flags-51"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Timestamps only, in consecutive 32-bit words} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pair.address-52"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pair.address-52"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pair.address-52"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pair.address-52"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pair.timestamp-53"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pair.timestamp-53"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pair.timestamp-53"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pair.timestamp-53"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.last-54"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.last-54"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.last-54"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.last-54"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.type-55"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.type-55"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {94} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0x94}} \
-     -stepValue {0x94} \
-     -fixedBits {0x94} \
-     -fieldValue {94} \
-     -auto False \
-     -randomMask {0x94} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0x94} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.type-55"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.type-55"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {94} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0x94}} \
+         -stepValue {0x94} \
+         -fixedBits {0x94} \
+         -fieldValue {94} \
+         -auto False \
+         -randomMask {0x94} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0x94} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.length-56"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.length-56"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {4} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0x04}} \
-     -stepValue {0x04} \
-     -fixedBits {0x04} \
-     -fieldValue {4} \
-     -auto False \
-     -randomMask {0x04} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0x04} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.length-56"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.length-56"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {4} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0x04}} \
+         -stepValue {0x04} \
+         -fixedBits {0x04} \
+         -fieldValue {4} \
+         -auto False \
+         -randomMask {0x04} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0x04} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.value-57"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.value-57"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Router shall examine packet} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.value-57"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.value-57"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Router shall examine packet} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.pad-58"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.pad-58"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto True \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"ipv4-2"/field:"ipv4.header.options.pad-58"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.pad-58"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto True \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
+    }
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"
-    #
-    set sg_stack $ixNetSG_Stack(2)/stack:"udp-$stack_number"
-    sg_commit
-    set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
-    set ixNetSG_Stack(3) $sg_stack
-    incr stack_number
+    if {$l4Enabled == 1 } {
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"
+        #
+        set sg_stack $ixNetSG_Stack(2)/stack:"udp-$stack_number"
+        sg_commit
+        set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+        set ixNetSG_Stack(3) $sg_stack
+        incr stack_number
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"/field:"udp.header.srcPort-1"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"udp.header.srcPort-1"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue $srcPort \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{63}} \
-     -stepValue {63} \
-     -fixedBits {63} \
-     -fieldValue $srcPort \
-     -auto False \
-     -randomMask {63} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue $srcPort \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"/field:"udp.header.srcPort-1"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"udp.header.srcPort-1"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue $srcPort \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{63}} \
+         -stepValue {63} \
+         -fixedBits {63} \
+         -fieldValue $srcPort \
+         -auto False \
+         -randomMask {63} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue $srcPort \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"/field:"udp.header.dstPort-2"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"udp.header.dstPort-2"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue $dstPort \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{63}} \
-     -stepValue {1} \
-     -fixedBits {63} \
-     -fieldValue $dstPort \
-     -auto False \
-     -randomMask {63} \
-     -trackingEnabled False \
-     -valueType $L4ValueType \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue $L4CountValue
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"/field:"udp.header.dstPort-2"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"udp.header.dstPort-2"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue $dstPort \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{63}} \
+         -stepValue {1} \
+         -fixedBits {63} \
+         -fieldValue $dstPort \
+         -auto False \
+         -randomMask {63} \
+         -trackingEnabled False \
+         -valueType $L4ValueType \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue $L4CountValue
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"/field:"udp.header.length-3"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"udp.header.length-3"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {26} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{8}} \
-     -stepValue {8} \
-     -fixedBits {8} \
-     -fieldValue {26} \
-     -auto True \
-     -randomMask {8} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {8} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"/field:"udp.header.length-3"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"udp.header.length-3"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {26} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{8}} \
+         -stepValue {8} \
+         -fixedBits {8} \
+         -fieldValue {26} \
+         -auto True \
+         -randomMask {8} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {8} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"/field:"udp.header.checksum-4"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"udp.header.checksum-4"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto True \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"/field:"udp.header.checksum-4"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"udp.header.checksum-4"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto True \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
+    }
 
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"fcs-4"
@@ -3271,1449 +3279,1453 @@ proc startRfc2544Test { testSpec trafficSpec } {
                 -countValue 1
     }
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"
-    #
-    set sg_stack $ixNetSG_Stack(2)/stack:"ipv4-$stack_number"
-    sg_commit
-    set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
-    set ixNetSG_Stack(3) $sg_stack
-    incr stack_number
+    if {$l3Enabled == 1 } {
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"
+        #
+        set sg_stack $ixNetSG_Stack(2)/stack:"ipv4-$stack_number"
+        sg_commit
+        set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+        set ixNetSG_Stack(3) $sg_stack
+        incr stack_number
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.version-1"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.version-1"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {4} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{4}} \
-     -stepValue {4} \
-     -fixedBits {4} \
-     -fieldValue {4} \
-     -auto False \
-     -randomMask {4} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {4} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.version-1"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.version-1"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {4} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{4}} \
+         -stepValue {4} \
+         -fixedBits {4} \
+         -fieldValue {4} \
+         -auto False \
+         -randomMask {4} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {4} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.headerLength-2"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.headerLength-2"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {5} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {5} \
-     -auto True \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.headerLength-2"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.headerLength-2"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {5} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {5} \
+         -auto True \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.raw-3"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.raw-3"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.raw-3"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.raw-3"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.precedence-4"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.precedence-4"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {000 Routine} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.precedence-4"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.precedence-4"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {000 Routine} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.delay-5"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.delay-5"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Normal} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.delay-5"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.delay-5"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Normal} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.throughput-6"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.throughput-6"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Normal} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.throughput-6"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.throughput-6"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Normal} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.reliability-7"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.reliability-7"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Normal} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.reliability-7"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.reliability-7"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Normal} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.monetary-8"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.monetary-8"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Normal} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.monetary-8"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.monetary-8"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Normal} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.unused-9"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.unused-9"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.tos.unused-9"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.tos.unused-9"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.defaultPHB.defaultPHB-10"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.defaultPHB.defaultPHB-10"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.defaultPHB.defaultPHB-10"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.defaultPHB.defaultPHB-10"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.defaultPHB.unused-11"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.defaultPHB.unused-11"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.defaultPHB.unused-11"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.defaultPHB.unused-11"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.classSelectorPHB.classSelectorPHB-12"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.classSelectorPHB.classSelectorPHB-12"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {8} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{8}} \
-     -stepValue {8} \
-     -fixedBits {8} \
-     -fieldValue {Precedence 1} \
-     -auto False \
-     -randomMask {8} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {8} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.classSelectorPHB.classSelectorPHB-12"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.classSelectorPHB.classSelectorPHB-12"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {8} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{8}} \
+         -stepValue {8} \
+         -fixedBits {8} \
+         -fieldValue {Precedence 1} \
+         -auto False \
+         -randomMask {8} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {8} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.classSelectorPHB.unused-13"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.classSelectorPHB.unused-13"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.classSelectorPHB.unused-13"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.classSelectorPHB.unused-13"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.assuredForwardingPHB-14"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.assuredForwardingPHB-14"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {10} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{10}} \
-     -stepValue {10} \
-     -fixedBits {10} \
-     -fieldValue {Class 1, Low drop precedence} \
-     -auto False \
-     -randomMask {10} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {10} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.assuredForwardingPHB-14"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.assuredForwardingPHB-14"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {10} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{10}} \
+         -stepValue {10} \
+         -fixedBits {10} \
+         -fieldValue {Class 1, Low drop precedence} \
+         -auto False \
+         -randomMask {10} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {10} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.unused-15"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.unused-15"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.unused-15"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.assuredForwardingPHB.unused-15"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.expeditedForwardingPHB-16"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.expeditedForwardingPHB-16"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {46} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{46}} \
-     -stepValue {46} \
-     -fixedBits {46} \
-     -fieldValue {46} \
-     -auto False \
-     -randomMask {46} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {46} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.expeditedForwardingPHB-16"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.expeditedForwardingPHB-16"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {46} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{46}} \
+         -stepValue {46} \
+         -fixedBits {46} \
+         -fieldValue {46} \
+         -auto False \
+         -randomMask {46} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {46} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.unused-17"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.unused-17"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.unused-17"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.priority.ds.phb.expeditedForwardingPHB.unused-17"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.totalLength-18"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.totalLength-18"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {46} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{20}} \
-     -stepValue {20} \
-     -fixedBits {20} \
-     -fieldValue {46} \
-     -auto True \
-     -randomMask {20} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {20} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.totalLength-18"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.totalLength-18"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {46} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{20}} \
+         -stepValue {20} \
+         -fixedBits {20} \
+         -fieldValue {46} \
+         -auto True \
+         -randomMask {20} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {20} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.identification-19"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.identification-19"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.identification-19"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.identification-19"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.flags.reserved-20"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.reserved-20"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.flags.reserved-20"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.reserved-20"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.flags.fragment-21"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.fragment-21"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {May fragment} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.flags.fragment-21"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.fragment-21"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {May fragment} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.flags.lastFragment-22"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.lastFragment-22"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Last fragment} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.flags.lastFragment-22"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.flags.lastFragment-22"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Last fragment} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.fragmentOffset-23"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.fragmentOffset-23"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.fragmentOffset-23"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.fragmentOffset-23"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.ttl-24"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.ttl-24"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {64} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{64}} \
-     -stepValue {64} \
-     -fixedBits {64} \
-     -fieldValue {64} \
-     -auto False \
-     -randomMask {64} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {64} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.ttl-24"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.ttl-24"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {64} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{64}} \
+         -stepValue {64} \
+         -fixedBits {64} \
+         -fieldValue {64} \
+         -auto False \
+         -randomMask {64} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {64} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.protocol-25"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.protocol-25"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {17} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{61}} \
-     -stepValue {61} \
-     -fixedBits {61} \
-     -fieldValue {UDP} \
-     -auto True \
-     -randomMask {61} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {61} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.protocol-25"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.protocol-25"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {17} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{61}} \
+         -stepValue {61} \
+         -fixedBits {61} \
+         -fieldValue {UDP} \
+         -auto True \
+         -randomMask {61} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {61} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.checksum-26"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.checksum-26"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto True \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.checksum-26"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.checksum-26"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto True \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.srcIp-27"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.srcIp-27"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue $srcIp \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0.0.0.0}} \
-     -stepValue {0.0.0.0} \
-     -fixedBits {0.0.0.0} \
-     -fieldValue {1.1.1.1} \
-     -auto False \
-     -randomMask {0.0.0.0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0.0.0.0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.srcIp-27"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.srcIp-27"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue $srcIp \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0.0.0.0}} \
+         -stepValue {0.0.0.0} \
+         -fixedBits {0.0.0.0} \
+         -fieldValue {1.1.1.1} \
+         -auto False \
+         -randomMask {0.0.0.0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0.0.0.0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.dstIp-28"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.dstIp-28"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue $dstIp \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0.0.0.0}} \
-     -stepValue {0.0.0.1} \
-     -fixedBits {0.0.0.0} \
-     -fieldValue $dstIp \
-     -auto False \
-     -randomMask {0.0.0.0} \
-     -trackingEnabled False \
-     -valueType $L3ValueType \
-     -activeFieldChoice False \
-     -startValue $dstIp \
-     -countValue $L3CountValue
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.dstIp-28"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.dstIp-28"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue $dstIp \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0.0.0.0}} \
+         -stepValue {0.0.0.1} \
+         -fixedBits {0.0.0.0} \
+         -fieldValue $dstIp \
+         -auto False \
+         -randomMask {0.0.0.0} \
+         -trackingEnabled False \
+         -valueType $L3ValueType \
+         -activeFieldChoice False \
+         -startValue $dstIp \
+         -countValue $L3CountValue
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.nop-29"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.nop-29"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {1} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{1}} \
-     -stepValue {1} \
-     -fixedBits {1} \
-     -fieldValue {1} \
-     -auto False \
-     -randomMask {1} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice True \
-     -startValue {1} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.nop-29"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.nop-29"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {1} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{1}} \
+         -stepValue {1} \
+         -fixedBits {1} \
+         -fieldValue {1} \
+         -auto False \
+         -randomMask {1} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice True \
+         -startValue {1} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.type-30"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.type-30"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {130} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{130}} \
-     -stepValue {130} \
-     -fixedBits {130} \
-     -fieldValue {130} \
-     -auto False \
-     -randomMask {130} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {130} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.type-30"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.type-30"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {130} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{130}} \
+         -stepValue {130} \
+         -fixedBits {130} \
+         -fieldValue {130} \
+         -auto False \
+         -randomMask {130} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {130} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.length-31"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.length-31"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {11} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{11}} \
-     -stepValue {11} \
-     -fixedBits {11} \
-     -fieldValue {11} \
-     -auto False \
-     -randomMask {11} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {11} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.length-31"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.length-31"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {11} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{11}} \
+         -stepValue {11} \
+         -fixedBits {11} \
+         -fieldValue {11} \
+         -auto False \
+         -randomMask {11} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {11} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.security-32"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.security-32"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Unclassified} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.security-32"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.security-32"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Unclassified} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.compartments-33"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.compartments-33"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.compartments-33"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.compartments-33"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.handling-34"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.handling-34"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.handling-34"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.handling-34"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.tcc-35"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.tcc-35"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.security.tcc-35"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.security.tcc-35"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.lsrr.type-36"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.lsrr.type-36"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {131} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{131}} \
-     -stepValue {131} \
-     -fixedBits {131} \
-     -fieldValue {131} \
-     -auto False \
-     -randomMask {131} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {131} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.lsrr.type-36"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.lsrr.type-36"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {131} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{131}} \
+         -stepValue {131} \
+         -fixedBits {131} \
+         -fieldValue {131} \
+         -auto False \
+         -randomMask {131} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {131} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.lsrr.length-37"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.lsrr.length-37"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {8} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{8}} \
-     -stepValue {8} \
-     -fixedBits {8} \
-     -fieldValue {8} \
-     -auto False \
-     -randomMask {8} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {8} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.lsrr.length-37"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.lsrr.length-37"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {8} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{8}} \
+         -stepValue {8} \
+         -fixedBits {8} \
+         -fieldValue {8} \
+         -auto False \
+         -randomMask {8} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {8} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.pointer-38"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.pointer-38"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {4} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{4}} \
-     -stepValue {4} \
-     -fixedBits {4} \
-     -fieldValue {4} \
-     -auto False \
-     -randomMask {4} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {4} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.pointer-38"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.pointer-38"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {4} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{4}} \
+         -stepValue {4} \
+         -fixedBits {4} \
+         -fieldValue {4} \
+         -auto False \
+         -randomMask {4} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {4} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routeData-39"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routeData-39"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routeData-39"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routeData-39"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.ssrr.type-40"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.ssrr.type-40"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {137} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{137}} \
-     -stepValue {137} \
-     -fixedBits {137} \
-     -fieldValue {137} \
-     -auto False \
-     -randomMask {137} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {137} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.ssrr.type-40"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.ssrr.type-40"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {137} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{137}} \
+         -stepValue {137} \
+         -fixedBits {137} \
+         -fieldValue {137} \
+         -auto False \
+         -randomMask {137} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {137} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.ssrr.length-41"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.ssrr.length-41"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {8} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{8}} \
-     -stepValue {8} \
-     -fixedBits {8} \
-     -fieldValue {8} \
-     -auto False \
-     -randomMask {8} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {8} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.ssrr.length-41"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.ssrr.length-41"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {8} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{8}} \
+         -stepValue {8} \
+         -fixedBits {8} \
+         -fieldValue {8} \
+         -auto False \
+         -randomMask {8} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {8} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.recordRoute.type-42"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.recordRoute.type-42"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {7} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{7}} \
-     -stepValue {7} \
-     -fixedBits {7} \
-     -fieldValue {7} \
-     -auto False \
-     -randomMask {7} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {7} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.recordRoute.type-42"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.recordRoute.type-42"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {7} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{7}} \
+         -stepValue {7} \
+         -fixedBits {7} \
+         -fieldValue {7} \
+         -auto False \
+         -randomMask {7} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {7} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.recordRoute.length-43"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.recordRoute.length-43"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {8} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{8}} \
-     -stepValue {8} \
-     -fixedBits {8} \
-     -fieldValue {8} \
-     -auto False \
-     -randomMask {8} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {8} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.recordRoute.length-43"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.recordRoute.length-43"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {8} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{8}} \
+         -stepValue {8} \
+         -fixedBits {8} \
+         -fieldValue {8} \
+         -auto False \
+         -randomMask {8} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {8} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.type-44"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.type-44"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {136} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{136}} \
-     -stepValue {136} \
-     -fixedBits {136} \
-     -fieldValue {136} \
-     -auto False \
-     -randomMask {136} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {136} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.type-44"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.type-44"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {136} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{136}} \
+         -stepValue {136} \
+         -fixedBits {136} \
+         -fieldValue {136} \
+         -auto False \
+         -randomMask {136} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {136} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.length-45"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.length-45"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {4} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{4}} \
-     -stepValue {4} \
-     -fixedBits {4} \
-     -fieldValue {4} \
-     -auto False \
-     -randomMask {4} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {4} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.length-45"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.length-45"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {4} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{4}} \
+         -stepValue {4} \
+         -fixedBits {4} \
+         -fieldValue {4} \
+         -auto False \
+         -randomMask {4} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {4} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.id-46"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.id-46"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.streamId.id-46"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.streamId.id-46"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.type-47"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.type-47"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {68} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{68}} \
-     -stepValue {68} \
-     -fixedBits {68} \
-     -fieldValue {68} \
-     -auto False \
-     -randomMask {68} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {68} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.type-47"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.type-47"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {68} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{68}} \
+         -stepValue {68} \
+         -fixedBits {68} \
+         -fieldValue {68} \
+         -auto False \
+         -randomMask {68} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {68} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.length-48"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.length-48"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {12} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{12}} \
-     -stepValue {12} \
-     -fixedBits {12} \
-     -fieldValue {12} \
-     -auto False \
-     -randomMask {12} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {12} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.length-48"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.length-48"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {12} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{12}} \
+         -stepValue {12} \
+         -fixedBits {12} \
+         -fieldValue {12} \
+         -auto False \
+         -randomMask {12} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {12} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pointer-49"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pointer-49"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {5} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{5}} \
-     -stepValue {5} \
-     -fixedBits {5} \
-     -fieldValue {5} \
-     -auto False \
-     -randomMask {5} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {5} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pointer-49"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pointer-49"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {5} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{5}} \
+         -stepValue {5} \
+         -fixedBits {5} \
+         -fieldValue {5} \
+         -auto False \
+         -randomMask {5} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {5} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.overflow-50"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.overflow-50"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.overflow-50"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.overflow-50"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.flags-51"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.flags-51"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Timestamps only, in consecutive 32-bit words} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.flags-51"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.flags-51"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Timestamps only, in consecutive 32-bit words} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pair.address-52"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pair.address-52"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pair.address-52"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pair.address-52"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pair.timestamp-53"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pair.timestamp-53"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.timestamp.pair.timestamp-53"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.timestamp.pair.timestamp-53"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.last-54"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.last-54"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.last-54"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.last-54"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.type-55"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.type-55"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {94} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0x94}} \
-     -stepValue {0x94} \
-     -fixedBits {0x94} \
-     -fieldValue {94} \
-     -auto False \
-     -randomMask {0x94} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0x94} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.type-55"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.type-55"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {94} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0x94}} \
+         -stepValue {0x94} \
+         -fixedBits {0x94} \
+         -fieldValue {94} \
+         -auto False \
+         -randomMask {0x94} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0x94} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.length-56"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.length-56"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {4} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0x04}} \
-     -stepValue {0x04} \
-     -fixedBits {0x04} \
-     -fieldValue {4} \
-     -auto False \
-     -randomMask {0x04} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0x04} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.length-56"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.length-56"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {4} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0x04}} \
+         -stepValue {0x04} \
+         -fixedBits {0x04} \
+         -fieldValue {4} \
+         -auto False \
+         -randomMask {0x04} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0x04} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.value-57"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.value-57"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {Router shall examine packet} \
-     -auto False \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.nextOption.option.routerAlert.value-57"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.nextOption.option.routerAlert.value-57"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {Router shall examine packet} \
+         -auto False \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.pad-58"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.pad-58"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled False \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto True \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"ipv4-2"/field:"ipv4.header.options.pad-58"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.pad-58"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled False \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto True \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
+    }
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"
-    #
-    set sg_stack $ixNetSG_Stack(2)/stack:"udp-$stack_number"
-    sg_commit
-    set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
-    set ixNetSG_Stack(3) $sg_stack
-    incr stack_number
+    if {$l4Enabled == 1 } {
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"
+        #
+        set sg_stack $ixNetSG_Stack(2)/stack:"udp-$stack_number"
+        sg_commit
+        set sg_stack [lindex [ixNet remapIds $sg_stack] 0]
+        set ixNetSG_Stack(3) $sg_stack
+        incr stack_number
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"/field:"udp.header.srcPort-1"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"udp.header.srcPort-1"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {63} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{63}} \
-     -stepValue {63} \
-     -fixedBits {63} \
-     -fieldValue {Default} \
-     -auto True \
-     -randomMask {63} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {63} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"/field:"udp.header.srcPort-1"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"udp.header.srcPort-1"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {63} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{63}} \
+         -stepValue {63} \
+         -fixedBits {63} \
+         -fieldValue {Default} \
+         -auto True \
+         -randomMask {63} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {63} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"/field:"udp.header.dstPort-2"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"udp.header.dstPort-2"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {63} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{63}} \
-     -stepValue {1} \
-     -fixedBits {63} \
-     -fieldValue {Default} \
-     -auto False \
-     -randomMask {63} \
-     -trackingEnabled False \
-     -valueType $L4ValueType \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue $L4CountValue
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"/field:"udp.header.dstPort-2"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"udp.header.dstPort-2"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {63} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{63}} \
+         -stepValue {1} \
+         -fixedBits {63} \
+         -fieldValue {Default} \
+         -auto False \
+         -randomMask {63} \
+         -trackingEnabled False \
+         -valueType $L4ValueType \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue $L4CountValue
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"/field:"udp.header.length-3"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"udp.header.length-3"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {26} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{8}} \
-     -stepValue {8} \
-     -fixedBits {8} \
-     -fieldValue {26} \
-     -auto True \
-     -randomMask {8} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {8} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"/field:"udp.header.length-3"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"udp.header.length-3"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {26} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{8}} \
+         -stepValue {8} \
+         -fixedBits {8} \
+         -fieldValue {26} \
+         -auto True \
+         -randomMask {8} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {8} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
-    #
-    # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"/field:"udp.header.checksum-4"
-    #
-    set sg_field $ixNetSG_Stack(3)/field:"udp.header.checksum-4"
-    ixNet setMultiAttrs $sg_field \
-     -singleValue {0} \
-     -seed {1} \
-     -optionalEnabled True \
-     -fullMesh False \
-     -valueList {{0}} \
-     -stepValue {0} \
-     -fixedBits {0} \
-     -fieldValue {0} \
-     -auto True \
-     -randomMask {0} \
-     -trackingEnabled False \
-     -valueType singleValue \
-     -activeFieldChoice False \
-     -startValue {0} \
-     -countValue {1}
-    sg_commit
-    set sg_field [lindex [ixNet remapIds $sg_field] 0]
+        #
+        # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"udp-3"/field:"udp.header.checksum-4"
+        #
+        set sg_field $ixNetSG_Stack(3)/field:"udp.header.checksum-4"
+        ixNet setMultiAttrs $sg_field \
+         -singleValue {0} \
+         -seed {1} \
+         -optionalEnabled True \
+         -fullMesh False \
+         -valueList {{0}} \
+         -stepValue {0} \
+         -fixedBits {0} \
+         -fieldValue {0} \
+         -auto True \
+         -randomMask {0} \
+         -trackingEnabled False \
+         -valueType singleValue \
+         -activeFieldChoice False \
+         -startValue {0} \
+         -countValue {1}
+        sg_commit
+        set sg_field [lindex [ixNet remapIds $sg_field] 0]
+    }
 
     #
     # configuring the object that corresponds to /traffic/trafficItem:1/highLevelStream:1/stack:"fcs-4"

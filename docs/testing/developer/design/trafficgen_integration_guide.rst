@@ -215,9 +215,9 @@ functions:
       * param **l2**: A dictionary with data link layer details, e.g. **srcmac**,
         **dstmac** and **framesize**.
       * param **l3**: A dictionary with network layer details, e.g. **srcip**,
-        **dstip** and **proto**.
-      * param **l3**: A dictionary with transport layer details, e.g. **srcport**,
-        **dstport**.
+        **dstip**, **proto** and l3 on/off switch **enabled**.
+      * param **l4**: A dictionary with transport layer details, e.g. **srcport**,
+        **dstport** and l4 on/off switch **enabled**.
       * param **vlan**: A dictionary with vlan specific parameters,
         e.g. **priority**, **cfi**, **id** and vlan on/off switch **enabled**.
 
