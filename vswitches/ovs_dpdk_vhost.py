@@ -128,6 +128,9 @@ class OvsDpdkVhost(IVSwitchOvs):
                 not S.getValue('OVS_OLD_STYLE_MQ'):
             params += ['options:n_rxq={}'.format(
                 S.getValue('VSWITCH_DPDK_MULTI_QUEUES'))]
+        if S.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
+            params += ['mtu_request={}'.format(
+                S.getValue('VSWITCH_JUMBO_FRAMES_SIZE'))]
         of_port = bridge.add_port(port_name, params)
         return (port_name, of_port)
 
@@ -142,6 +145,9 @@ class OvsDpdkVhost(IVSwitchOvs):
         vhost_count = self._get_port_count('type=dpdkvhostuser')
         port_name = 'dpdkvhostuser' + str(vhost_count)
         params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostuser']
+        if S.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
+            params += ['mtu_request={}'.format(
+                S.getValue('VSWITCH_JUMBO_FRAMES_SIZE'))]
         of_port = bridge.add_port(port_name, params)
 
         return (port_name, of_port)

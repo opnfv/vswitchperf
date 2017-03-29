@@ -54,6 +54,11 @@ class TestPMD(IPktFwd):
         vswitchd_args += _VSWITCHD_CONST_ARGS
         vswitchd_args += settings.getValue('TESTPMD_ARGS')
 
+        # need to give mbufs a larger size for jumbo frames based on the setting
+        if settings.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
+            vswitchd_args += ['--mbuf-size={}'.format(int(
+                settings.getValue('VSWITCH_JUMBO_FRAMES_SIZE')) + 500)]
+
         self._nports = len(settings.getValue('NICS'))
         self._fwdmode = settings.getValue('TESTPMD_FWD_MODE')
         self._csum_layer = settings.getValue('TESTPMD_CSUM_LAYER')
@@ -74,6 +79,12 @@ class TestPMD(IPktFwd):
 
         self._testpmd.send('set fwd {}'.format(self._fwdmode), 1)
 
+        if settings.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
+            self._testpmd.send('port stop all', 1)  # ports must be stopped to set mtu
+            self._testpmd.send('port config all max-pkt-len {}'.format(
+                settings.getValue('VSWITCH_JUMBO_FRAMES_SIZE')), 1)
+            self._testpmd.send('port start all', 1)
+
         for port in range(self._nports):
             self._testpmd.send('csum set {} {} {}'.format(
                 self._csum_layer, self._csum_calc, port), 1)
@@ -91,7 +102,18 @@ class TestPMD(IPktFwd):
         dpdk.init()
         self._testpmd.start()
         self._logger.info("TestPMD...Started.")
-        self._testpmd.send('set portlist 0,2,1,3')
+
+        if settings.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
+            self._testpmd.send('port stop all', 1)  # ports must be stopped to set mtu
+            self._testpmd.send('port config all max-pkt-len {}'.format(
+                settings.getValue('VSWITCH_JUMBO_FRAMES_SIZE')), 1)
+            # conflicting info if scatter needs to be enabled or not
+            self._testpmd.send('port config all scatter on', 1)
+            self._testpmd.send('port start all', 1)
+            self._testpmd.wait(timeout=60)  # port startup can take a few seconds
+
+        self._testpmd.send('set portlist 0,2,1,3', 1)
+        self._testpmd.send('set fwd {}'.format(self._fwdmode), 1)
 
         self._testpmd.send('start', 1)
 
@@ -108,3 +130,13 @@ class TestPMD(IPktFwd):
         except pexpect.EOF:
             pass
         dpdk.cleanup()
+
+    # Method could be a function
+    # pylint: disable=no-self-use
+    def get_version(self):
+        """
+        Get product version
+        :return: None
+        """
+        # No way to read TestPMD version
+        return []

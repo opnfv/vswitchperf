@@ -41,7 +41,12 @@ class QemuDpdkVhostUser(IVnfQemu):
 
         # Guest merge buffer setting
         if S.getValue('GUEST_NIC_MERGE_BUFFERS_DISABLE')[self._number]:
-            merge_buff = 'mrg_rxbuf=off,'
+            if S.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
+                self._logger.warning(
+                    'Mergable buffers must be enabled for jumbo frames. Overriding.')
+                merge_buff = ''
+            else:
+                merge_buff = 'mrg_rxbuf=off,'
         else:
             merge_buff = ''
 
