@@ -3,8 +3,3 @@
 .. (c) OPNFV, Intel Corporation, AT&T, Red Hat, Spirent, Ixia  and others.
 
 .. OPNFV VSPERF Documentation master file.
-
-
-Indices
-=======
-* :ref:`search`
