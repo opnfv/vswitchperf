@@ -174,7 +174,7 @@ class IxNet(trafficgen.ITrafficGenerator):
 
         return output.split()
 
-    def connect(self):
+    def configure(self):
         """Configure system for IxNetwork.
         """
         self._cfg = {
@@ -194,7 +194,10 @@ class IxNet(trafficgen.ITrafficGenerator):
 
         self._logger.debug('IXIA configuration configuration : %s', self._cfg)
 
-        return self
+    def connect(self):
+        """Connect to IxNetwork - nothing to be done here
+        """
+        pass
 
     def disconnect(self):
         """Disconnect from Ixia chassis.
@@ -211,6 +214,7 @@ class IxNet(trafficgen.ITrafficGenerator):
     def start_cont_traffic(self, traffic=None, duration=30):
         """Start transmission.
         """
+        self.configure()
         self._bidir = traffic['bidir']
         self._params = {}
 
@@ -264,6 +268,7 @@ class IxNet(trafficgen.ITrafficGenerator):
                                  lossrate=0.0):
         """Start transmission.
         """
+        self.configure()
         self._bidir = traffic['bidir']
         self._params = {}
 
@@ -401,6 +406,7 @@ class IxNet(trafficgen.ITrafficGenerator):
                                 lossrate=0.0):
         """Start transmission.
         """
+        self.configure()
         self._bidir = traffic['bidir']
         self._params = {}
 
