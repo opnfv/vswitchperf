@@ -34,7 +34,7 @@ VSPERF Developer Guide
 ****************************
 
 .. toctree::
-   :caption: Traffic Gen Integration, VSPERF Design, Test Design, Test Plan 
+   :caption: Traffic Gen Integration, VSPERF Design, Test Design, Test Plan
    :maxdepth: 1
    :numbered: 1
 
