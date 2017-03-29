@@ -48,6 +48,11 @@ class PktFwdController(object):
             self._pktfwd.stop()
             raise
 
+    def get_vswitch(self):
+        """See IVswitchController for description
+        """
+        return self._pktfwd
+
     def setup_for_guest(self):
         """Sets up the packet forwarder for pvp.
         """
