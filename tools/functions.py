@@ -146,10 +146,6 @@ def check_traffic(traffic):
     """Check traffic definition and correct it if possible.
     """
     # check if requested networking layers make sense
-    if traffic['vlan']['enabled']:
-        if not (traffic['l3']['enabled'] and traffic['l4']['enabled']):
-            raise RuntimeError('TRAFFIC misconfiguration: both l3 and l4 must '
-                               'be enabled if vlan is enabled.')
     if traffic['l4']['enabled']:
         if not traffic['l3']['enabled']:
             raise RuntimeError('TRAFFIC misconfiguration: l3 must be enabled '
