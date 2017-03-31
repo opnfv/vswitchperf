@@ -34,8 +34,8 @@ VSPERF User Guide
 
 .. toctree::
    :caption: VSPERF Install, Upgrade, Traffic Generator Guide, Test Suite Guide
-   :maxdepth: 1
-   :numbered: 1
+   :maxdepth: 2
+   :numbered: 
 
    ./installation.rst
    ./upgrade.rst
@@ -45,7 +45,3 @@ VSPERF User Guide
    ../userguide/teststeps.rst
    ../userguide/integration.rst
    ../userguide/yardstick.rst
-
-Indices
-=======
-* :ref:`search`

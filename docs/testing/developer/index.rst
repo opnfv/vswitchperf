@@ -35,8 +35,8 @@ VSPERF Developer Guide
 
 .. toctree::
    :caption: Traffic Gen Integration, VSPERF Design, Test Design, Test Plan
-   :maxdepth: 1
-   :numbered: 1
+   :maxdepth: 2
+   :numbered: 2
 
    ./design/trafficgen_integration_guide.rst
    ./design/vswitchperf_design.rst
@@ -50,8 +50,8 @@ VSPERF IETF Internet Draft
 
 .. toctree::
    :caption: vSwitch Internet Draft
-   :maxdepth: 1
-   :numbered: 1
+   :maxdepth: 2
+   :numbered: 
 
 This IETF INternet Draft on `Benchmarking Virtual Switches in OPNFV <https://tools.ietf.org/html/draft-ietf-bmwg-vswitch-opnfv-01>`_ was developed by VSPERF contributors and is  maintained in the IETF repo. at https://tools.ietf.org/html/
 
@@ -61,12 +61,8 @@ VSPERF Scenarios and CI Results
 
 .. toctree::
    :caption: VSPERF Scenarios & Results
-   :maxdepth: 1
-   :numbered: 1
+   :maxdepth: 2
+   :numbered: 
 
    ./results/scenario.rst
    ./results/results.rst
-
-Indices
-=======
-* :ref:`search`
