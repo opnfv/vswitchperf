@@ -645,6 +645,65 @@ environment.
 on the same numa as the NIC in use if possible/applicable. Testpmd should be
 assigned at least (nb_cores +1) total cores with the cpu mask.
 
+Jumbo Frame Testing
+^^^^^^^^^^^^^^^^^^^
+
+VSPERF provides options to support jumbo frame testing with a jumbo frame supported
+NIC and traffic generator for the following vswitches:
+
+1.  OVSVanilla
+
+2.  OvsDpdkVhostUser
+
+3.  TestPMD loopback with or without a guest
+
+**NOTE:** There is currently no support for SR-IOV or VPP at this time with jumbo
+frames.
+
+All packet forwarding applications for pxp testing is supported.
+
+To enable jumbo frame testing simply enable the option in the conf files and set the
+maximum size that will be used.
+
+.. code-block:: python
+
+    VSWITCH_JUMBO_FRAMES_ENABLED = True
+    VSWITCH_JUMBO_FRAMES_SIZE = 9000
+
+To enable jumbo frame testing with OVSVanilla the NIC in test on the host must have
+its mtu size changed manually using ifconfig or applicable tools:
+
+.. code-block:: console
+
+    ifconfig eth1 mtu 9000 up
+
+**NOTE:** To make the setting consistent across reboots you should reference the OS
+documents as it differs from distribution to distribution.
+
+To start a test for jumbo frames modify the conf file packet sizes or pass the option
+through the VSPERF command line.
+
+.. code-block:: python
+
+    TEST_PARAMS = {'TRAFFICGEN_PKT_SIZES':(2000,9000)}
+
+.. code-block:: python
+
+    ./vsperf --test-params "TRAFFICGEN_PKT_SIZES=2000,9000"
+
+It is recommended to increase the memory size for OvsDpdkVhostUser testing from the default
+1024. Your size required may vary depending on the number of guests in your testing. 4096
+appears to work well for most typical testing scenarios.
+
+.. code-block:: python
+
+    DPDK_SOCKET_MEM = ['4096', '0']
+
+**NOTE:** For Jumbo frames to work with DpdkVhostUser, mergable buffers will be enabled by
+default. If testing with mergable buffers in QEMU is desired, disable Jumbo Frames and only
+test non jumbo frame sizes. Test Jumbo Frames sizes separately to avoid this collision.
+
+
 Executing Packet Forwarding tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

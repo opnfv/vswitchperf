@@ -387,6 +387,9 @@ class IVnfQemu(IVnf):
 
         # get testpmd settings from CLI
         testpmd_params = S.getValue('GUEST_TESTPMD_PARAMS')[self._number]
+        if S.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
+            testpmd_params += ' --max-pkt-len={}'.format(S.getValue(
+                'VSWITCH_JUMBO_FRAMES_SIZE'))
 
         self.execute_and_wait('./testpmd {}'.format(testpmd_params), 60, "Done")
         self.execute('set fwd ' + self._testpmd_fwd_mode, 1)
@@ -405,6 +408,9 @@ class IVnfQemu(IVnf):
         for nic in self._nics:
             self.execute('ip addr add ' +
                          nic['ip'] + ' dev ' + nic['device'])
+            if S.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
+                self.execute('ifconfig {} mtu {}'.format(
+                    nic['device'], S.getValue('VSWITCH_JUMBO_FRAMES_SIZE')))
             self.execute('ip link set dev ' + nic['device'] + ' up')
 
         # build and configure system for l2fwd
@@ -436,6 +442,9 @@ class IVnfQemu(IVnf):
         for nic in self._nics:
             self.execute('ip addr add ' +
                          nic['ip'] + ' dev ' + nic['device'])
+            if S.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
+                self.execute('ifconfig {} mtu {}'.format(
+                    nic['device'], S.getValue('VSWITCH_JUMBO_FRAMES_SIZE')))
             self.execute('ip link set dev ' + nic['device'] + ' up')
             self.execute('brctl addif br0 ' + nic['device'])
 

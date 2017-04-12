@@ -116,6 +116,10 @@ class OvsVanilla(IVSwitchOvs):
             tap_cmd_list += ['multi_queue']
         tasks.run_task(tap_cmd_list, self._logger,
                        'Creating tap device...', False)
+        if settings.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
+            tasks.run_task(['ifconfig', tap_name, 'mtu',
+                            str(settings.getValue('VSWITCH_JUMBO_FRAMES_SIZE'))],
+                           self._logger, 'Setting mtu size', False)
 
         tasks.run_task(['sudo', 'ip', 'addr', 'flush', 'dev', tap_name],
                        self._logger, 'Remove IP', False)
