@@ -112,7 +112,7 @@ class Moongen(ITrafficGenerator):
 
         out_file.write("VSPERF {\n")
 
-        out_file.write("testType = \"throughput\",\n")
+        out_file.write("testType = \"throughput-latency\",\n")
 
         out_file.write("runBidirec = " + \
             traffic['bidir'].lower() + ",\n")
