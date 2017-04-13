@@ -606,6 +606,37 @@ Each value modifies the behavior of rfc 2544 throughput testing. Refer to your
 Xena documentation to understand the behavior changes in modifying these
 values.
 
+Xena RFC2544 testing inside VSPerf also includes a final verification option.
+This option allows for a faster binary search with a longer final verification
+of the binary search result. This feature can be enabled in the configuration
+files as well as the length of the final verification in seconds.
+
+..code-block:: python
+
+    TRAFFICGEN_XENA_RFC2544_VERIFY = False
+    TRAFFICGEN_XENA_RFC2544_VERIFY_DURATION = 120
+
+If the final verification does not pass the test with the lossrate specified
+it will continue the binary search from its previous point. If the smart search
+option is enabled the search will continue by taking the current pass rate minus
+the minimum and divided by 2. The maximum is set to the last pass rate minus the
+threshold value set.
+
+For example if the settings are as follows
+
+..code-block:: python
+
+    TRAFFICGEN_XENA_RFC2544_BINARY_RESTART_SMART_SEARCH = True
+    TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE = '0.5'
+    TRAFFICGEN_XENA_2544_TPUT_VALUE_RESOLUTION = '0.5'
+
+and the verification attempt was 64.5, smart search would take 64.5 - 0.5 / 2.
+This would continue the search at 32 but still have a maximum possible value of
+64.
+
+If smart is not enabled it will just resume at the last pass rate minus the
+threshold value.
+
 Continuous Traffic Testing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
