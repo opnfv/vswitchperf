@@ -114,6 +114,9 @@ class Moongen(ITrafficGenerator):
 
         out_file.write("testType = \"throughput\",\n")
 
+        out_file.write("nrFlows = " + \
+            str(traffic['multistream']) + ",\n")
+
         out_file.write("runBidirec = " + \
             traffic['bidir'].lower() + ",\n")
 
