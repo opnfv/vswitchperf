@@ -366,7 +366,7 @@ class Xena(ITrafficGenerator):
         settings.setValue('XENA_VERSION', 'XENA Socket API - {}'.format(
             self.xmanager.get_version()))
 
-        if not len(self.xmanager.ports):
+        if not self.xmanager.ports:
             self.xmanager.ports[0] = self.xmanager.add_module_port(
                 settings.getValue('TRAFFICGEN_XENA_MODULE1'),
                 settings.getValue('TRAFFICGEN_XENA_PORT1'))
@@ -435,8 +435,8 @@ class Xena(ITrafficGenerator):
             port.set_port_ping_reply(is_on=True)
             port.set_port_ping_reply(is_on=True, ipv6=True)
 
-            stream.set_rate_fraction(
-                10000 * self._params['traffic']['frame_rate'])
+            stream.set_rate_fraction(int(
+                10000 * self._params['traffic']['frame_rate']))
             stream.set_packet_header(self._build_packet_header(
                 reverse=flip_addr))
             stream.set_header_protocol(
@@ -447,7 +447,7 @@ class Xena(ITrafficGenerator):
                 self._params['traffic']['l2']['framesize'])
             stream.set_packet_payload('incrementing', '0x00')
             stream.set_payload_id(payload_id)
-            port.set_port_time_limit(0)
+            port.set_port_time_limit(self._duration)
 
             if self._params['traffic']['l2']['framesize'] == 64:
                 # set micro tpld
@@ -632,6 +632,81 @@ class Xena(ITrafficGenerator):
         self._wait_xena_2544_complete()
 
         root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
+
+        if settings.getValue('TRAFFICGEN_XENA_RFC2544_VERIFY'):
+            # record the previous settings so we can revert to them if needed to
+            # run the binary search again if the verify fails.
+            old_tests = tests
+            old_duration = self._duration
+            old_min = settings.getValue('TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE')
+
+            for attempt in range(
+                    1, settings.getValue(
+                        'TRAFFICGEN_XENA_RFC2544_MAXIMUM_VERIFY_ATTEMPTS')+1):
+                self._logger.info('Running verify attempt %s', attempt)
+                # get the last pass tx rate from the binary search
+                pass_rate = float(root[0][1][0].get('TotalTxRatePcnt'))
+                # run a one pass rfc2544 with the pass rate to see if it passes
+                # the verify duration
+                settings.setValue(
+                    'TRAFFICGEN_XENA_2544_TPUT_INIT_VALUE', pass_rate)
+                settings.setValue(
+                    'TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE', pass_rate)
+                settings.setValue(
+                    'TRAFFICGEN_XENA_2544_TPUT_MAX_VALUE', pass_rate)
+                self.start_rfc2544_throughput(
+                    traffic, 1, settings.getValue(
+                        'TRAFFICGEN_XENA_RFC2544_VERIFY_DURATION'), lossrate)
+                self.wait_rfc2544_throughput()
+                root = ET.parse(
+                    r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
+
+                # If it passed, report the number of lost frames and exit the
+                # loop
+                if root[0][1][0].get('TestState') == "PASS":
+                    self._logger.info('Verify passed, packets lost = %s',
+                                      root[0][1][0].get('TotalLossFrames'))
+                    break
+                elif attempt < settings.getValue(
+                        'TRAFFICGEN_XENA_RFC2544_MAXIMUM_VERIFY_ATTEMPTS'):
+                    self._logger.info(
+                        'Verify failed, resuming binary search, packets lost = %s',
+                        root[0][1][0].get('TotalLossFrames'))
+                    settings.setValue(
+                        'TRAFFICGEN_XENA_2544_TPUT_MAX_VALUE',
+                        pass_rate - float(settings.getValue(
+                            'TRAFFICGEN_XENA_2544_TPUT_VALUE_RESOLUTION')))
+                    if settings.getValue(
+                            'TRAFFICGEN_XENA_RFC2544_BINARY_RESTART_SMART_SEARCH'):
+                        settings.setValue(
+                            'TRAFFICGEN_XENA_2544_TPUT_INIT_VALUE',
+                            (pass_rate - float(old_min)) / 2)
+                    else:
+                        settings.setValue(
+                            'TRAFFICGEN_XENA_2544_TPUT_INIT_VALUE',
+                            pass_rate - float(settings.getValue(
+                                'TRAFFICGEN_XENA_2544_TPUT_VALUE_RESOLUTION')))
+                    settings.setValue(
+                        'TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE', old_min)
+                    self._logger.debug(
+                        'RFC2544 Initial rate: %s',
+                        settings.getValue('TRAFFICGEN_XENA_2544_TPUT_INIT_VALUE'))
+                    self._logger.debug(
+                        'RFC2544 Maximum rate: %s',
+                        settings.getValue('TRAFFICGEN_XENA_2544_TPUT_MAX_VALUE'))
+                    self._logger.debug(
+                        'RFC2544 Minimum rate: %s',
+                        settings.getValue('TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE'))
+                    self._duration = old_duration
+                    self.start_rfc2544_throughput(
+                        traffic, old_tests, self._duration, lossrate)
+                    self.wait_rfc2544_throughput()
+                    root = ET.parse(
+                        r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
+                else:
+                    self._logger.error(
+                        'Maximum number of verify attempts reached. Reporting last result')
+
         return Xena._create_throughput_result(root)
 
     def start_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
