@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_c45d0a17",
+        "filename": "conf/10_custom.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-04-18T07:39:05Z",
+      "side": 1,
+      "message": "It is a duplicity of lines 104-107 below, isn\u0027t it?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 47
+      },
+      "revId": "1f07785b88d83672ba3bd54193db35ceb8dc93a8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_849f12b4",
+        "filename": "docs/testing/user/configguide/trafficgen.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-04-18T07:39:05Z",
+      "side": 1,
+      "message": "It can be/This feature can be/etc",
+      "range": {
+        "startLine": 611,
+        "startChar": 29,
+        "endLine": 611,
+        "endChar": 36
+      },
+      "revId": "1f07785b88d83672ba3bd54193db35ceb8dc93a8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
