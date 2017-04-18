@@ -16,6 +16,24 @@
       "revId": "829841df58ed61532db3fac92dd7ccc9d2f6474c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_44711adf",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-04-18T12:23:59Z",
+      "side": 1,
+      "message": "Actually the numbers are there, but not displayed by review, which is strange. I\u0027ve reformatted these long lines to avoid this issue.",
+      "parentUuid": "9ab8dda7_d81c147a",
+      "revId": "829841df58ed61532db3fac92dd7ccc9d2f6474c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
