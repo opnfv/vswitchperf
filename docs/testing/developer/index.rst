@@ -51,7 +51,7 @@ VSPERF IETF Internet Draft
 .. toctree::
    :caption: vSwitch Internet Draft
    :maxdepth: 2
-   :numbered: 
+   :numbered:
 
 This IETF INternet Draft on `Benchmarking Virtual Switches in OPNFV <https://tools.ietf.org/html/draft-ietf-bmwg-vswitch-opnfv-01>`_ was developed by VSPERF contributors and is  maintained in the IETF repo. at https://tools.ietf.org/html/
 
@@ -62,7 +62,7 @@ VSPERF Scenarios and CI Results
 .. toctree::
    :caption: VSPERF Scenarios & Results
    :maxdepth: 2
-   :numbered: 
+   :numbered:
 
    ./results/scenario.rst
    ./results/results.rst

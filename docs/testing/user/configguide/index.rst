@@ -35,7 +35,7 @@ VSPERF User Guide
 .. toctree::
    :caption: VSPERF Install, Upgrade, Traffic Generator Guide, Test Suite Guide
    :maxdepth: 2
-   :numbered: 
+   :numbered:
 
    ./installation.rst
    ./upgrade.rst
