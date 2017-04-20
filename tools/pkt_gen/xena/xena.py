@@ -422,13 +422,6 @@ class Xena(ITrafficGenerator):
             stream.set_on()
             if packet_limit != -1:
                 stream.set_packet_limit(packet_limit)
-            else:
-                speed = port.get_port_speed() / 8  # convert to bytes
-                gap = port.get_inter_frame_gap()
-                pkt_size = self._params['traffic']['l2']['framesize']
-                packets = int(((speed / (pkt_size + gap)) * self._duration) *
-                              (self._params['traffic']['frame_rate'] / 100))
-                stream.set_packet_limit(packets)
 
             port.set_port_arp_reply(is_on=True)
             port.set_port_arp_reply(is_on=True, ipv6=True)
@@ -447,7 +440,7 @@ class Xena(ITrafficGenerator):
                 self._params['traffic']['l2']['framesize'])
             stream.set_packet_payload('incrementing', '0x00')
             stream.set_payload_id(payload_id)
-            port.set_port_time_limit(0)
+            port.set_port_time_limit(self._duration)
 
             if self._params['traffic']['l2']['framesize'] == 64:
                 # set micro tpld
