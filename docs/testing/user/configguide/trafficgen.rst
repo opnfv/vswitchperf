@@ -290,11 +290,19 @@ Detailed description of options follows:
    unidirectional traffic, it is essential to correctly connect 1st IXIA port to the 1st NIC
    at DUT, i.e. to the first PCI handle from ``WHITELIST_NICS`` list. Otherwise traffic may not
    be able to pass through the vSwitch.
+   **NOTE**: In case that ``TRAFFICGEN_IXIA_PORT1`` and ``TRAFFICGEN_IXIA_PORT2`` are set to the
+   same value, then VSPERF will assume, that there is only one port connection between IXIA
+   and DUT. In this case it must be ensured, that chosen IXIA port is physically connected to the
+   first NIC from ``WHITELIST_NICS`` list.
  * ``TRAFFICGEN_IXIA_PORT2`` - identification of the second dedicated port at ``TRAFFICGEN_IXIA_CARD``
    at IXIA chassis; VSPERF uses two separated ports for traffic generation. In case of
    unidirectional traffic, it is essential to correctly connect 2nd IXIA port to the 2nd NIC
    at DUT, i.e. to the second PCI handle from ``WHITELIST_NICS`` list. Otherwise traffic may not
    be able to pass through the vSwitch.
+   **NOTE**: In case that ``TRAFFICGEN_IXIA_PORT1`` and ``TRAFFICGEN_IXIA_PORT2`` are set to the
+   same value, then VSPERF will assume, that there is only one port connection between IXIA
+   and DUT. In this case it must be ensured, that chosen IXIA port is physically connected to the
+   first NIC from ``WHITELIST_NICS`` list.
  * ``TRAFFICGEN_IXNET_LIB_PATH`` - path to the DUT specific installation of IxNetwork TCL API
  * ``TRAFFICGEN_IXNET_TCL_SCRIPT`` - name of the TCL script, which VSPERF will use for
    communication with IXIA TCL server
