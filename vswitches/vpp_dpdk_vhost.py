@@ -63,6 +63,9 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         tmp_args['dpdk'].append('socket-mem ' +
                                 ','.join(S.getValue('DPDK_SOCKET_MEM')))
 
+        # configure path to the plugins
+        tmp_args['plugin_path'] = S.getValue('TOOLS')['vpp_plugin_path']
+
         for nic in S.getValue('NICS'):
             tmp_args['dpdk'].append("dev {}".format(nic['pci']))
         self._vswitch_args = self._process_vpp_args(tmp_args)
@@ -84,6 +87,8 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         keyidx = keys.index(key)
         for iface in ifaces[1:]:
             tmpif = iface.split()
+            if not tmpif:
+                continue
             # get PCI address of given interface
             output = self.run_vppctl(['show', 'hardware', tmpif[1], 'detail'])
             match = re.search(r'pci address:\s*([\d:\.]+)', output[0])
@@ -106,7 +111,10 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         cli_args = []
         for cfg_key in args:
             cli_args.append(cfg_key)
-            cli_args.append("{{ {} }}".format(' '.join(args[cfg_key])))
+            if isinstance(args[cfg_key], str):
+                cli_args.append(args[cfg_key])
+            else:
+                cli_args.append("{{ {} }}".format(' '.join(args[cfg_key])))
 
         self._logger.debug("VPP CLI args: %s", cli_args)
         return cli_args
@@ -214,7 +222,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         socket_name = S.getValue('TOOLS')['ovs_var_tmp'] + 'dpdkvhostuser' + str(len(self._virt_ports))
         output = self.run_vppctl(['create', 'vhost-user', 'socket', socket_name, 'server'] +
                                  S.getValue('VSWITCH_VPP_VHOSTUSER_ARGS'))
-        nic_name = output[0]
+        nic_name = output[0].strip()
         self._virt_ports.append(nic_name)
         self.run_vppctl(['set', 'int', 'state', nic_name, 'up'])
         return (nic_name, None)
@@ -375,6 +383,23 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         """ Validate that port_name was removed from bridge.
         """
         return not (port_name in self._phy_ports or port_name in self._virt_ports)
+
+    def validate_add_connection(self, dummy_result, dummy_switch_name, dummy_port1,
+                                dummy_port2, dummy_bidir=False):
+        """ Validate that connection was added
+        """
+        return True
+
+    def validate_del_connection(self, dummy_result, dummy_switch_name, dummy_port1,
+                                dummy_port2, dummy_bidir=False):
+        """ Validate that connection was deleted
+        """
+        return True
+
+    def validate_dump_connections(self, dummy_result, dummy_switch_name):
+        """ Validate dump connections call
+        """
+        return True
 
     # pylint: disable=no-self-use
     def validate_run_vppctl(self, result, dummy_args, dummy_check_error=False):
