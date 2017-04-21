@@ -19,6 +19,10 @@ DPDK_TAG ?= v16.07
 OVS_URL ?= https://github.com/openvswitch/ovs
 OVS_TAG ?= ed26e3ea9995ba632e681d5990af5ee9814f650e
 
+# VPP section
+VPP_URL ?= https://git.fd.io/vpp
+VPP_TAG ?= v17.04
+
 # QEMU section
 QEMU_URL ?= https://github.com/qemu/qemu.git
 QEMU_TAG ?= v2.5.0

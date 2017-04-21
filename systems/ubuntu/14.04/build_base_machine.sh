@@ -83,6 +83,9 @@ libnuma-dev
 
 # install git-review tool
 git-review
+
+# VPP dependencies
+openjdk-8-jdk-headless
 " | grep -v ^#)
 
 # fix: Ixia TclClient installation: cannot find 'libc.s0.6'

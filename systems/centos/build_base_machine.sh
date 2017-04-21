@@ -66,6 +66,9 @@ vim-X11
 
 # install epel release required for git-review
 epel-release
+
+# VPP dependencies
+java-1.8.0-openjdk-devel
 " | grep -v ^#)
 
 # install SCL for python33
