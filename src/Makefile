@@ -40,6 +40,7 @@ SUBDIRS += l2fwd
 SUBDIRS += dpdk
 SUBDIRS += ovs
 SUBDIRS += qemu
+SUBDIRS += vpp
 ovs: dpdk
 WITH_LINUX =
 VHOST_USER = y
