@@ -45,9 +45,13 @@ VSPERFENV_DIR="$HOME/vsperfenv"
 # VERIFY - run basic set of TCs with default settings
 TESTCASES_VERIFY="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
 TESTPARAM_VERIFY="--integration"
+TESTCASES_VERIFY_VPP="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_connection_vpp"
+TESTPARAM_VERIFY_VPP=$TESTPARAM_VERIFY
 # MERGE - run selected TCs with default settings
-TESTCASES_MERGE="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
-TESTPARAM_MERGE="--integration"
+TESTCASES_MERGE=$TESTCASES_VERIFY
+TESTPARAM_MERGE=$TESTPARAM_VERIFY
+TESTCASES_MERGE_VPP=$TESTCASES_VERIFY_VPP
+TESTPARAM_MERGE_VPP=$TESTPARAM_VERIFY_VPP
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
@@ -145,12 +149,22 @@ function execute_vsperf() {
     # figure out list of TCs and execution parameters
     case $2 in
         "verify")
-            TESTPARAM=$TESTPARAM_VERIFY
-            TESTCASES=$TESTCASES_VERIFY
+            if [ "$1" == "VPP" ] ; then
+                TESTPARAM=$TESTPARAM_VERIFY_VPP
+                TESTCASES=$TESTCASES_VERIFY_VPP
+            else
+                TESTPARAM=$TESTPARAM_VERIFY
+                TESTCASES=$TESTCASES_VERIFY
+            fi
             ;;
         "merge")
-            TESTPARAM=$TESTPARAM_MERGE
-            TESTCASES=$TESTCASES_MERGE
+            if [ "$1" == "VPP" ] ; then
+                TESTPARAM=$TESTPARAM_MERGE_VPP
+                TESTCASES=$TESTCASES_MERGE_VPP
+            else
+                TESTPARAM=$TESTPARAM_MERGE
+                TESTCASES=$TESTCASES_MERGE
+            fi
             ;;
         *)
             # by default use daily build and upload results to the OPNFV databse
@@ -176,6 +190,16 @@ function execute_vsperf() {
 
             echo "    $VSPERF_BIN --vswitch none --vnf QemuPciPassthrough $CONF_FILE_SRIOV $TESTPARAM $TESTCASES &> $LOG_FILE"
             $VSPERF_BIN --vswitch none --vnf QemuPciPassthrough $CONF_FILE_SRIOV $TESTPARAM $TESTCASES &> $LOG_FILE
+            ;;
+        "VPP")
+            # figure out log file name
+            LOG_SUBDIR="VppDpdkVhost"
+            LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
+
+            hugepages_info > $LOG_FILE
+            echo "    $VSPERF_BIN $OPNFVPOD --vswitch VppDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
+            $VSPERF_BIN $OPNFVPOD --vswitch VppDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &>> $LOG_FILE
+            hugepages_info >> $LOG_FILE
             ;;
         "OVS_vanilla")
             # figure out log file name
@@ -430,6 +454,9 @@ case $1 in
         execute_vsperf OVS_with_DPDK_and_vHost_User $1
         terminate_vsperf
         execute_vsperf OVS_vanilla $1
+        terminate_vsperf
+        execute_vsperf VPP $1
+        terminate_vsperf
 
         exit $EXIT
         ;;
@@ -445,6 +472,9 @@ case $1 in
         execute_vsperf OVS_with_DPDK_and_vHost_User $1
         terminate_vsperf
         execute_vsperf OVS_vanilla $1
+        terminate_vsperf
+        execute_vsperf VPP $1
+        terminate_vsperf
 
         exit $EXIT
         ;;
