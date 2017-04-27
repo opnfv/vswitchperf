@@ -252,6 +252,16 @@ class XenaJSON(object):
         self.json_data['TestOptions']['TestTypeOptionMap']['Throughput'][
             'RateIterationOptions']['PassThreshold'] = pass_threshhold
 
+    def remove_port(self, port_number):
+        """
+        Remove a port from the config.
+        :param port_number: port to remove from json config as int
+        :return: None
+        """
+        del self.json_data['PortHandler']['EntityList'][port_number]
+        del self.json_data['StreamHandler']['StreamConnectionList'][0][
+            'Port{}Id'.format(port_number + 1)]
+
     def set_chassis_info(self, hostname, pwd):
         """
         Set the chassis info
@@ -452,6 +462,20 @@ class XenaJSON(object):
             'PortGroup'] = "UNDEFINED"
         self.json_data['PortHandler']['EntityList'][1][
             'PortGroup'] = "UNDEFINED"
+
+    def set_topology_pairs(self):
+        """
+        Set the test topology to loopback pairs for packets that need to return
+        to the same port they are sent from
+        :return: None
+        """
+        self.json_data['TestOptions']['TopologyConfig']['Topology'] = 'PAIRS'
+        self.json_data['TestOptions']['TopologyConfig'][
+            'Direction'] = 'WEST_EAST'
+        self.json_data['PortHandler']['EntityList'][0][
+            'PortGroup'] = "WEST"
+        self.json_data['PortHandler']['EntityList'][1][
+            'PortGroup'] = "WEST"
 
     def write_config(self, path='./2bUsed.x2544'):
         """
