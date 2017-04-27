@@ -28,26 +28,25 @@ import logging
 import os
 import subprocess
 import sys
-from time import sleep
 import xml.etree.ElementTree as ET
 from collections import OrderedDict
-# scapy imports
+from time import sleep
+
 import scapy.layers.inet as inet
 
-# VSPerf imports
-from conf import settings
 from conf import merge_spec
+from conf import settings
 from core.results.results_constants import ResultsConstants
 from tools.pkt_gen.trafficgen.trafficgen import ITrafficGenerator
-
-# Xena module imports
-from tools.pkt_gen.xena.xena_json import XenaJSON
 from tools.pkt_gen.xena.XenaDriver import (
     aggregate_stats,
     line_percentage,
     XenaSocketDriver,
     XenaManager,
     )
+from tools.pkt_gen.xena.json.xena_json_mesh import XenaJSONMesh
+from tools.pkt_gen.xena.json.xena_json_blocks import XenaJSONBlocks
+from tools.pkt_gen.xena.json.xena_json_pairs import XenaJSONPairs
 
 
 class Xena(ITrafficGenerator):
@@ -263,16 +262,26 @@ class Xena(ITrafficGenerator):
 
         return result_dict
 
-    def _setup_json_config(self, tests, loss_rate, testtype=None):
+    def _setup_json_config(self, tests, loss_rate, testtype=None,
+                           bonding_test=False):
         """
         Create a 2bUsed json file that will be used for xena2544.exe execution.
         :param tests: Number of tests
         :param loss_rate: The acceptable loss rate as float
         :param testtype: Either '2544_b2b' or '2544_throughput' as string
+        :param bonding_test: Specify if the test is a bonding test which will
+        enable the pairs topology
         :return: None
         """
         try:
-            j_file = XenaJSON('./tools/pkt_gen/xena/profiles/baseconfig.x2544')
+            # set duplex mode
+            if self._params['traffic']['bidir'] == "True":
+                j_file = XenaJSONMesh()
+            elif self._params['traffic']['bidir'] == "False":
+                j_file = XenaJSONBlocks()
+            elif bonding_test:
+                j_file = XenaJSONPairs()
+
             j_file.set_chassis_info(
                 settings.getValue('TRAFFICGEN_XENA_IP'),
                 settings.getValue('TRAFFICGEN_XENA_PASSWORD')
@@ -337,11 +346,6 @@ class Xena(ITrafficGenerator):
             j_file.add_header_segments(
                 flows=self._params['traffic']['multistream'],
                 multistream_layer=self._params['traffic']['stream_type'])
-            # set duplex mode
-            if self._params['traffic']['bidir'] == "True":
-                j_file.set_topology_mesh()
-            else:
-                j_file.set_topology_blocks()
 
             j_file.write_config('./tools/pkt_gen/xena/profiles/2bUsed.x2544')
         except Exception as exc:
