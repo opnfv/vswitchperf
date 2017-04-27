@@ -28,27 +28,27 @@ import logging
 import os
 import subprocess
 import sys
-from time import sleep
 import xml.etree.ElementTree as ET
 from collections import OrderedDict
-# scapy imports
+from time import sleep
+
 import scapy.layers.inet as inet
 
-# VSPerf imports
-from conf import settings
 from conf import merge_spec
+from conf import settings
 from core.results.results_constants import ResultsConstants
 from tools.pkt_gen.trafficgen.trafficgen import ITrafficGenerator
-
-# Xena module imports
-from tools.pkt_gen.xena.xena_json import XenaJSON
 from tools.pkt_gen.xena.XenaDriver import (
     aggregate_stats,
     line_percentage,
     XenaSocketDriver,
     XenaManager,
     )
+from tools.pkt_gen.xena.json.xena_json_mesh import XenaJSONMesh
+from tools.pkt_gen.xena.json.xena_json_blocks import XenaJSONBlocks
+from tools.pkt_gen.xena.json.xena_json_pairs import XenaJSONPairs
 
+_CURR_DIR = os.path.dirname(os.path.realpath(__file__))
 
 class Xena(ITrafficGenerator):
     """
@@ -263,16 +263,28 @@ class Xena(ITrafficGenerator):
 
         return result_dict
 
-    def _setup_json_config(self, tests, loss_rate, testtype=None):
+    def _setup_json_config(self, tests, loss_rate, testtype=None,
+                           bonding_test=False):
         """
         Create a 2bUsed json file that will be used for xena2544.exe execution.
         :param tests: Number of tests
         :param loss_rate: The acceptable loss rate as float
         :param testtype: Either '2544_b2b' or '2544_throughput' as string
+        :param bonding_test: Specify if the test is a bonding test which will
+        enable the pairs topology
         :return: None
         """
         try:
-            j_file = XenaJSON('./tools/pkt_gen/xena/profiles/baseconfig.x2544')
+            # set duplex mode, this code is valid, pylint complaining with a
+            # warning that many have complained about online.
+            # pylint: disable=redefined-variable-type
+            if self._params['traffic']['bidir'] == "True":
+                j_file = XenaJSONMesh()
+            elif self._params['traffic']['bidir'] == "False":
+                j_file = XenaJSONBlocks()
+            elif bonding_test:
+                j_file = XenaJSONPairs()
+
             j_file.set_chassis_info(
                 settings.getValue('TRAFFICGEN_XENA_IP'),
                 settings.getValue('TRAFFICGEN_XENA_PASSWORD')
@@ -337,13 +349,9 @@ class Xena(ITrafficGenerator):
             j_file.add_header_segments(
                 flows=self._params['traffic']['multistream'],
                 multistream_layer=self._params['traffic']['stream_type'])
-            # set duplex mode
-            if self._params['traffic']['bidir'] == "True":
-                j_file.set_topology_mesh()
-            else:
-                j_file.set_topology_blocks()
 
-            j_file.write_config('./tools/pkt_gen/xena/profiles/2bUsed.x2544')
+            j_file.write_config(os.path.join(
+                _CURR_DIR, 'profiles/2bUsed.x2544'))
         except Exception as exc:
             self._logger.exception("Error during Xena JSON setup: %s", exc)
             raise
@@ -488,9 +496,9 @@ class Xena(ITrafficGenerator):
         Start the xena2544 exe.
         :return: None
         """
-        args = ["mono", "./tools/pkt_gen/xena/Xena2544.exe", "-c",
-                "./tools/pkt_gen/xena/profiles/2bUsed.x2544", "-e", "-r",
-                "./tools/pkt_gen/xena", "-u",
+        args = ["mono", os.path.join(_CURR_DIR, "Xena2544.exe"), "-c",
+                os.path.join(_CURR_DIR, "profiles/2bUsed.x2544"), "-e", "-r",
+                _CURR_DIR, "-u",
                 settings.getValue('TRAFFICGEN_XENA_USER')]
         # Sometimes Xena2544.exe completes, but mono holds the process without
         # releasing it, this can cause a deadlock of the main thread. Use the
@@ -624,7 +632,7 @@ class Xena(ITrafficGenerator):
         self._start_xena_2544()
         self._wait_xena_2544_complete()
 
-        root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
+        root = ET.parse(os.path.join(_CURR_DIR, "xena2544-report.xml")).getroot()
 
         if settings.getValue('TRAFFICGEN_XENA_RFC2544_VERIFY'):
             # record the previous settings so we can revert to them if needed to
@@ -652,7 +660,7 @@ class Xena(ITrafficGenerator):
                         'TRAFFICGEN_XENA_RFC2544_VERIFY_DURATION'), lossrate)
                 self.wait_rfc2544_throughput()
                 root = ET.parse(
-                    r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
+                    os.path.join(_CURR_DIR, "xena2544-report.xml")).getroot()
 
                 # If it passed, report the number of lost frames and exit the
                 # loop
@@ -695,7 +703,7 @@ class Xena(ITrafficGenerator):
                         traffic, old_tests, self._duration, lossrate)
                     self.wait_rfc2544_throughput()
                     root = ET.parse(
-                        r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
+                        os.path.join(_CURR_DIR, "xena2544-report.xml")).getroot()
                 else:
                     self._logger.error(
                         'Maximum number of verify attempts reached. Reporting last result')
@@ -723,7 +731,7 @@ class Xena(ITrafficGenerator):
         See ITrafficGenerator for description
         """
         self._wait_xena_2544_complete()
-        root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
+        root = ET.parse(os.path.join(_CURR_DIR, "xena2544-report.xml")).getroot()
         return Xena._create_throughput_result(root)
 
     def send_rfc2544_back2back(self, traffic=None, tests=1, duration=20,
@@ -742,7 +750,7 @@ class Xena(ITrafficGenerator):
         self._setup_json_config(tests, lossrate, '2544_b2b')
         self._start_xena_2544()
         self._wait_xena_2544_complete()
-        root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
+        root = ET.parse(os.path.join(_CURR_DIR, "xena2544-report.xml")).getroot()
         return Xena._create_throughput_result(root)
 
     def start_rfc2544_back2back(self, traffic=None, tests=1, duration=20,
@@ -764,7 +772,7 @@ class Xena(ITrafficGenerator):
         """Wait and set results of RFC2544 test.
         """
         self._wait_xena_2544_complete()
-        root = ET.parse(r'./tools/pkt_gen/xena/xena2544-report.xml').getroot()
+        root = ET.parse(os.path.join(_CURR_DIR, "xena2544-report.xml")).getroot()
         return Xena._create_throughput_result(root)
 
 

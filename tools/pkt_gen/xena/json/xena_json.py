@@ -23,31 +23,35 @@
 Xena JSON module
 """
 
-import base64
 from collections import OrderedDict
-import json
 import locale
 import logging
-import uuid
+import os
 
 import scapy.layers.inet as inet
+
+from tools.pkt_gen.xena.json import json_utilities
 
 _LOGGER = logging.getLogger(__name__)
 _LOCALE = locale.getlocale()[1]
 
+_CURR_DIR = os.path.dirname(os.path.realpath(__file__))
+
 
 class XenaJSON(object):
     """
-    Class to modify and read Xena JSON configuration files.
+    Parent Class to modify and read Xena JSON configuration files.
     """
-    def __init__(self, json_path='./profiles/baseconfig.x2544'):
+    def __init__(self,
+                 json_path=os.path.join(
+                     _CURR_DIR, '../profiles/baseconfig.x2544')):
         """
         Constructor
         :param json_path: path to JSON file to read. Expected files must have
          two module ports with each port having its own stream config profile.
         :return: XenaJSON object
         """
-        self.json_data = read_json_file(json_path)
+        self.json_data = json_utilities.read_json_file(json_path)
 
         self.packet_data = OrderedDict()
         self.packet_data['layer2'] = None
@@ -131,16 +135,18 @@ class XenaJSON(object):
         if self.packet_data['layer2']:
             # slice out the layer 2 bytes from the packet header byte array
             layer2 = packet[0][header_pos: len(self.packet_data['layer2'][0])]
-            seg = create_segment(
-                "ETHERNET", encode_byte_array(layer2).decode(_LOCALE))
+            seg = json_utilities.create_segment(
+                "ETHERNET", json_utilities.encode_byte_array(layer2).decode(
+                    _LOCALE))
             if multistream_layer == 'L2' and flows > 0:
                 self._add_multistream_layer(entity=0, seg_uuid=seg['ItemID'],
                                             stop_value=flows, layer=2)
             segment1.append(seg)
             # now do the other port data with reversed src, dst info
             layer2 = packet[1][header_pos: len(self.packet_data['layer2'][1])]
-            seg = create_segment(
-                "ETHERNET", encode_byte_array(layer2).decode(_LOCALE))
+            seg = json_utilities.create_segment(
+                "ETHERNET", json_utilities.encode_byte_array(layer2).decode(
+                    _LOCALE))
             segment2.append(seg)
             if multistream_layer == 'L2' and flows > 0:
                 self._add_multistream_layer(entity=1, seg_uuid=seg['ItemID'],
@@ -150,17 +156,17 @@ class XenaJSON(object):
             # slice out the vlan bytes from the packet header byte array
             vlan = packet[0][header_pos: len(
                 self.packet_data['vlan'][0]) + header_pos]
-            segment1.append(create_segment(
-                "VLAN", encode_byte_array(vlan).decode(_LOCALE)))
-            segment2.append(create_segment(
-                "VLAN", encode_byte_array(vlan).decode(_LOCALE)))
+            segment1.append(json_utilities.create_segment(
+                "VLAN", json_utilities.encode_byte_array(vlan).decode(_LOCALE)))
+            segment2.append(json_utilities.create_segment(
+                "VLAN", json_utilities.encode_byte_array(vlan).decode(_LOCALE)))
             header_pos += len(vlan)
         if self.packet_data['layer3']:
             # slice out the layer 3 bytes from the packet header byte array
             layer3 = packet[0][header_pos: len(
                 self.packet_data['layer3'][0]) + header_pos]
-            seg = create_segment(
-                "IP", encode_byte_array(layer3).decode(_LOCALE))
+            seg = json_utilities.create_segment(
+                "IP", json_utilities.encode_byte_array(layer3).decode(_LOCALE))
             segment1.append(seg)
             if multistream_layer == 'L3' and flows > 0:
                 self._add_multistream_layer(entity=0, seg_uuid=seg['ItemID'],
@@ -168,8 +174,8 @@ class XenaJSON(object):
             # now do the other port data with reversed src, dst info
             layer3 = packet[1][header_pos: len(
                 self.packet_data['layer3'][1]) + header_pos]
-            seg = create_segment(
-                "IP", encode_byte_array(layer3).decode(_LOCALE))
+            seg = json_utilities.create_segment(
+                "IP", json_utilities.encode_byte_array(layer3).decode(_LOCALE))
             segment2.append(seg)
             if multistream_layer == 'L3' and flows > 0:
                 self._add_multistream_layer(entity=1, seg_uuid=seg['ItemID'],
@@ -179,8 +185,8 @@ class XenaJSON(object):
             # slice out the layer 4 bytes from the packet header byte array
             layer4 = packet[0][header_pos: len(
                 self.packet_data['layer4'][0]) + header_pos]
-            seg = create_segment(
-                "UDP", encode_byte_array(layer4).decode(_LOCALE))
+            seg = json_utilities.create_segment(
+                "UDP", json_utilities.encode_byte_array(layer4).decode(_LOCALE))
             segment1.append(seg)
             if multistream_layer == 'L4' and flows > 0:
                 self._add_multistream_layer(entity=0, seg_uuid=seg['ItemID'],
@@ -188,8 +194,8 @@ class XenaJSON(object):
             # now do the other port data with reversed src, dst info
             layer4 = packet[1][header_pos: len(
                 self.packet_data['layer4'][1]) + header_pos]
-            seg = create_segment(
-                "UDP", encode_byte_array(layer4).decode(_LOCALE))
+            seg = json_utilities.create_segment(
+                "UDP", json_utilities.encode_byte_array(layer4).decode(_LOCALE))
             segment2.append(seg)
             if multistream_layer == 'L4' and flows > 0:
                 self._add_multistream_layer(entity=1, seg_uuid=seg['ItemID'],
@@ -427,217 +433,11 @@ class XenaJSON(object):
         self.json_data['TestOptions']['TestTypeOptionMap']['Back2Back'][
             'RateSweepOptions']['EndValue'] = endvalue
 
-    def set_topology_blocks(self):
-        """
-        Set the test topology to a West to East config for half duplex flow with
-        port 0 as the sender and port 1 as the receiver.
-        :return: None
-        """
-        self.json_data['TestOptions']['TopologyConfig']['Topology'] = 'BLOCKS'
-        self.json_data['TestOptions']['TopologyConfig'][
-            'Direction'] = 'WEST_EAST'
-        self.json_data['PortHandler']['EntityList'][0][
-            'PortGroup'] = "WEST"
-        self.json_data['PortHandler']['EntityList'][1][
-            'PortGroup'] = "EAST"
-
-    def set_topology_mesh(self):
-        """
-        Set the test topology to Mesh for bi directional full duplex flow
-        :return: None
-        """
-        self.json_data['TestOptions']['TopologyConfig']['Topology'] = 'MESH'
-        self.json_data['TestOptions']['TopologyConfig']['Direction'] = 'BIDIR'
-        self.json_data['PortHandler']['EntityList'][0][
-            'PortGroup'] = "UNDEFINED"
-        self.json_data['PortHandler']['EntityList'][1][
-            'PortGroup'] = "UNDEFINED"
-
     def write_config(self, path='./2bUsed.x2544'):
         """
         Write the config to out as file
         :param path: Output file to export the json data to
         :return: None
         """
-        if not write_json_file(self.json_data, path):
+        if not json_utilities.write_json_file(self.json_data, path):
             raise RuntimeError("Could not write out file, please check config")
-
-
-def create_segment(header_type, encode_64_string):
-    """
-    Create segment for JSON file
-    :param header_type: Type of header as string
-    :param encode_64_string: 64 byte encoded string value of the hex bytes
-    :return: segment as dictionary
-    """
-    return {
-        "SegmentType": header_type.upper(),
-        "SegmentValue": encode_64_string,
-        "ItemID": str(uuid.uuid4()),
-        "ParentID": "",
-        "Label": ""}
-
-
-def decode_byte_array(enc_str):
-    """ Decodes the base64-encoded string to a byte array
-    :param enc_str: The base64-encoded string representing a byte array
-    :return: The decoded byte array
-    """
-    dec_string = base64.b64decode(enc_str)
-    barray = bytearray()
-    barray.extend(dec_string)
-    return barray
-
-
-def encode_byte_array(byte_arr):
-    """ Encodes the byte array as a base64-encoded string
-    :param byte_arr: A bytearray containing the bytes to convert
-    :return: A base64 encoded string
-    """
-    enc_string = base64.b64encode(bytes(byte_arr))
-    return enc_string
-
-
-def print_json_report(json_data):
-    """
-    Print out info from the json data for testing purposes only.
-    :param json_data: json loaded data from json.loads
-    :return: None
-    """
-    print("<<Xena JSON Config Report>>\n")
-    try:
-        print("### Chassis Info ###")
-        print("Chassis IP: {}".format(json_data['ChassisManager'][
-            'ChassisList'][0]['HostName']))
-        print("Chassis Password: {}".format(json_data['ChassisManager'][
-            'ChassisList'][0]['Password']))
-        print("### Port Configuration ###")
-        print("Port 1 IPv4:{}/{} gateway:{}".format(
-            json_data['PortHandler']['EntityList'][0]["IpV4Address"],
-            json_data['PortHandler']['EntityList'][0]["IpV4RoutingPrefix"],
-            json_data['PortHandler']['EntityList'][0]["IpV4Gateway"]))
-        print("Port 1 IPv6:{}/{} gateway:{}".format(
-            json_data['PortHandler']['EntityList'][0]["IpV6Address"],
-            json_data['PortHandler']['EntityList'][0]["IpV6RoutingPrefix"],
-            json_data['PortHandler']['EntityList'][0]["IpV6Gateway"]))
-        print("Port 2 IPv4:{}/{} gateway:{}".format(
-            json_data['PortHandler']['EntityList'][1]["IpV4Address"],
-            json_data['PortHandler']['EntityList'][1]["IpV4RoutingPrefix"],
-            json_data['PortHandler']['EntityList'][1]["IpV4Gateway"]))
-        print("Port 2 IPv6:{}/{} gateway:{}".format(
-            json_data['PortHandler']['EntityList'][1]["IpV6Address"],
-            json_data['PortHandler']['EntityList'][1]["IpV6RoutingPrefix"],
-            json_data['PortHandler']['EntityList'][1]["IpV6Gateway"]))
-        print("Port 1: {}/{} group: {}".format(
-            json_data['PortHandler']['EntityList'][0]['PortRef']['ModuleIndex'],
-            json_data['PortHandler']['EntityList'][0]['PortRef']['PortIndex'],
-            json_data['PortHandler']['EntityList'][0]['PortGroup']))
-        print("Port 2: {}/{} group: {}".format(
-            json_data['PortHandler']['EntityList'][1]['PortRef']['ModuleIndex'],
-            json_data['PortHandler']['EntityList'][1]['PortRef']['PortIndex'],
-            json_data['PortHandler']['EntityList'][1]['PortGroup']))
-        print("### Tests Enabled ###")
-        print("Back2Back Enabled: {}".format(json_data['TestOptions'][
-            'TestTypeOptionMap']['Back2Back']['Enabled']))
-        print("Throughput Enabled: {}".format(json_data['TestOptions'][
-            'TestTypeOptionMap']['Throughput']['Enabled']))
-        print("### Test Options ###")
-        print("Test topology: {}/{}".format(
-            json_data['TestOptions']['TopologyConfig']['Topology'],
-            json_data['TestOptions']['TopologyConfig']['Direction']))
-        print("Packet Sizes: {}".format(json_data['TestOptions'][
-            'PacketSizes']['CustomPacketSizes']))
-        print("Test duration: {}".format(json_data['TestOptions'][
-            'TestTypeOptionMap']['Throughput']['Duration']))
-        print("Acceptable loss rate: {}".format(json_data['TestOptions'][
-            'TestTypeOptionMap']['Throughput']['RateIterationOptions'][
-                'AcceptableLoss']))
-        print("Micro TPLD enabled: {}".format(json_data['TestOptions'][
-            'FlowCreationOptions']['UseMicroTpldOnDemand']))
-        print("Test iterations: {}".format(json_data['TestOptions'][
-            'TestTypeOptionMap']['Throughput']['Iterations']))
-        if 'StreamConfig' in json_data['StreamProfileHandler']['EntityList'][0]:
-            print("### Header segments ###")
-            for seg in json_data['StreamProfileHandler']['EntityList']:
-                for header in seg['StreamConfig']['HeaderSegments']:
-                    print("Type: {}".format(
-                        header['SegmentType']))
-                    print("Value: {}".format(decode_byte_array(
-                        header['SegmentValue'])))
-            print("### Multi Stream config ###")
-            for seg in json_data['StreamProfileHandler']['EntityList']:
-                for header in seg['StreamConfig']['HwModifiers']:
-                    print(header)
-    except KeyError as exc:
-        print("Error setting not found in JSON data: {}".format(exc))
-
-
-def read_json_file(json_file):
-    """
-    Read the json file path and return a dictionary of the data
-    :param json_file: path to json file
-    :return: dictionary of json data
-    """
-    try:
-        with open(json_file, 'r', encoding=_LOCALE) as data_file:
-            file_data = json.loads(data_file.read())
-    except ValueError as exc:
-        # general json exception, Python 3.5 adds new exception type
-        _LOGGER.exception("Exception with json read: %s", exc)
-        raise
-    except IOError as exc:
-        _LOGGER.exception(
-            'Exception during file open: %s file=%s', exc, json_file)
-        raise
-    return file_data
-
-
-def write_json_file(json_data, output_path):
-    """
-    Write out the dictionary of data to a json file
-    :param json_data: dictionary of json data
-    :param output_path: file path to write output
-    :return: Boolean if success
-    """
-    try:
-        with open(output_path, 'w', encoding=_LOCALE) as fileh:
-            json.dump(json_data, fileh, indent=2, sort_keys=True,
-                      ensure_ascii=True)
-        return True
-    except ValueError as exc:
-        # general json exception, Python 3.5 adds new exception type
-        _LOGGER.exception(
-            "Exception with json write: %s", exc)
-        return False
-    except IOError as exc:
-        _LOGGER.exception(
-            'Exception during file write: %s file=%s', exc, output_path)
-        return False
-
-
-if __name__ == "__main__":
-    print("Running UnitTest for XenaJSON")
-    JSON = XenaJSON()
-    print_json_report(JSON.json_data)
-    JSON.set_chassis_info('192.168.0.5', 'vsperf')
-    JSON.set_port(0, 1, 0)
-    JSON.set_port(1, 1, 1)
-    JSON.set_port_ip_v4(0, '192.168.240.10', 32, '192.168.240.1')
-    JSON.set_port_ip_v4(1, '192.168.240.11', 32, '192.168.240.1')
-    JSON.set_port_ip_v6(0, 'a1a1:a2a2:a3a3:a4a4:a5a5:a6a6:a7a7:a8a8', 128,
-                        'a1a1:a2a2:a3a3:a4a4:a5a5:a6a6:a7a7:1111')
-    JSON.set_port_ip_v6(1, 'b1b1:b2b2:b3b3:b4b4:b5b5:b6b6:b7b7:b8b8', 128,
-                        'b1b1:b2b2:b3b3:b4b4:b5b5:b6b6:b7b7:1111')
-    JSON.set_header_layer2(dst_mac='dd:dd:dd:dd:dd:dd',
-                           src_mac='ee:ee:ee:ee:ee:ee')
-    JSON.set_header_vlan(vlan_id=5)
-    JSON.set_header_layer3(src_ip='192.168.100.2', dst_ip='192.168.100.3',
-                           protocol='udp')
-    JSON.set_header_layer4_udp(source_port=3000, destination_port=3001)
-    JSON.set_test_options_tput(packet_sizes=[64], duration=10, iterations=1,
-                               loss_rate=0.0, micro_tpld=True)
-    JSON.add_header_segments(flows=4000, multistream_layer='L4')
-    JSON.set_topology_blocks()
-    write_json_file(JSON.json_data, './testthis.x2544')
-    JSON = XenaJSON('./testthis.x2544')
-    print_json_report(JSON.json_data)
