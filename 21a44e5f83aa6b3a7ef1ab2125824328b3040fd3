@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_abdc55e5",
+        "filename": "check",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-05-02T06:56:35Z",
+      "side": 1,
+      "message": "May be it would be more logical to show \"error\" output before the score, so score would close the module section. What do you think?",
+      "revId": "21a44e5f83aa6b3a7ef1ab2125824328b3040fd3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
