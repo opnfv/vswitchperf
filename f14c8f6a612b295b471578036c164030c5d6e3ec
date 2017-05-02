@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_0e9ecf56",
+        "filename": "ci/build-vsperf.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-05-02T13:41:29Z",
+      "side": 1,
+      "message": "It would be good to execute VPP related performance tests also as part of Daily job. However there is an open question, how test results should be reported into results database (VPP related TCs would need another name mapping table). So I prefer to solve current reporting and results visualization discussions first.\n\nAnother point is, that current daily job already takes over 1 day (sometimes 2 days) to finish. Execution of VPP tests could increase execution by another 40%. There is something odd at POD12, because the same set of tests took approx. 10hrs in the past. This is another issue to be solved before additional load will be added to already overloaded CI.",
+      "revId": "f14c8f6a612b295b471578036c164030c5d6e3ec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_ce78b72d",
+        "filename": "src/vpp/Makefile",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-05-02T13:41:29Z",
+      "side": 1,
+      "message": "I don\u0027t consider it as an ideal solution, but it is better then keeping track with VPP makefile and their list of dependencies.\nOf course it works only for platforms supported by VPP, so currently, there is a gap - some of systems supported by VSPERF installation scripts won\u0027t be able to install VPP automatically. One would have to figure and install required dependencies manually.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "f14c8f6a612b295b471578036c164030c5d6e3ec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
