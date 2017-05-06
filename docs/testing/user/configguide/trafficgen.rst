@@ -18,6 +18,7 @@ VSPERF supports the following traffic generators:
   * `Spirent TestCenter`_
   * `Xena Networks`_
   * MoonGen_
+  * Trex_
 
 To see the list of traffic gens from the cli:
 
@@ -714,3 +715,60 @@ set to allow for proper connections to the host with MoonGen.
     TRAFFICGEN_MOONGEN_BASE_DIR = ""
     TRAFFICGEN_MOONGEN_PORTS = ""
     TRAFFICGEN_MOONGEN_LINE_SPEED_GBPS = ""
+
+Trex
+-------
+
+Installation
+~~~~~~~~~~~~
+
+Trex architecture overview and general installation instructions
+can be found here:
+
+https://trex-tgn.cisco.com/trex/doc/
+
+You can directly download from GitHub:
+
+.. code-block:: console
+
+    git clone https://github.com/cisco-system-traffic-generator/trex-core
+
+and use the master branch:
+
+.. code-block:: console
+
+    git checkout master
+
+or Trex latest realease you can download from here:
+
+.. code-block:: console
+
+    wget --no-cache http://trex-tgn.cisco.com/trex/release/latest
+
+* Note: One will need to set up ssh login to not use passwords between the server
+running Trex and the device under test (running the VSPERF test
+infrastructure). This is because VSPERF on one server uses 'ssh' to
+configure and run Trex upon the other server.
+
+One can set up this ssh access by doing the following on both servers:
+
+.. code-block:: console
+
+    ssh-keygen -b 2048 -t rsa
+    ssh-copy-id <other server>
+
+Configuration
+~~~~~~~~~~~~~
+
+Connection information for Trex must be supplied inside the
+custom configuration file. The following parameters must be
+set to allow for proper connections to the host with Trex.
+
+.. code-block:: console
+
+    TRAFFICGEN_TREX_HOST_IP_ADDR = ''
+    TRAFFICGEN_TREX_USER = ''
+    TRAFFICGEN_TREX_BASE_DIR = ''
+
+TRAFFICGEN_TREX_USER have to have sudo permission and passwordless access.
+TRAFFICGEN_TREX_BASE_DIR is the place, where is stored 't-rex-64' file.
