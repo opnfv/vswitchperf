@@ -41,6 +41,7 @@ SUBDIRS += dpdk
 SUBDIRS += ovs
 SUBDIRS += qemu
 SUBDIRS += vpp
+SUBDIRS += trex
 ovs: dpdk
 WITH_LINUX =
 VHOST_USER = y
