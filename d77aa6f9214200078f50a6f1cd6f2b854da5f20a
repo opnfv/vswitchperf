@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_c0a63610",
+        "filename": "tools/pkt_gen/xena/json/__init__.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-05-10T15:19:01Z",
+      "side": 1,
+      "message": "2015-2017",
+      "revId": "d77aa6f9214200078f50a6f1cd6f2b854da5f20a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_80b03e44",
+        "filename": "tools/pkt_gen/xena/json/xena_json.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-05-10T15:19:01Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this will work if vsperf will be executed from different directory (this support has been added some time ago by Oto). Could you verify it and if it really doesn\u0027t work, then to check Oto\u0027s changes to make it work?",
+      "revId": "d77aa6f9214200078f50a6f1cd6f2b854da5f20a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
