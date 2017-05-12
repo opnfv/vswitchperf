@@ -54,7 +54,9 @@ TESTCASES_MERGE_VPP=$TESTCASES_VERIFY_VPP
 TESTPARAM_MERGE_VPP=$TESTPARAM_VERIFY_VPP
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'
+TESTCASES_DAILY_VPP='phy2phy_tput_vpp back2back_vpp pvp_tput_vpp pvp_back2back_vpp pvvp_tput_vpp pvvp_back2back_vpp'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
+TESTPARAM_DAILY_VPP=$TESTPARAM_DAILY
 TESTCASES_SRIOV='pvp_tput'
 TESTPARAM_SRIOV='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 # check if user config file exists if not then we will use default settings
@@ -168,9 +170,17 @@ function execute_vsperf() {
             ;;
         *)
             # by default use daily build and upload results to the OPNFV databse
-            TESTPARAM=$TESTPARAM_DAILY
-            TESTCASES=$TESTCASES_DAILY
-            OPNFVPOD="--opnfvpod=$NODE_NAME"
+            if [ "$1" == "VPP" ] ; then
+                TESTPARAM=$TESTPARAM_DAILY_VPP
+                TESTCASES=$TESTCASES_DAILY_VPP
+                # don't report VPP results into testresults DB, until TC name mapping
+                # for VPP tests will be defined
+                #OPNFVPOD="--opnfvpod=$NODE_NAME"
+            else
+                TESTPARAM=$TESTPARAM_DAILY
+                TESTCASES=$TESTCASES_DAILY
+                OPNFVPOD="--opnfvpod=$NODE_NAME"
+            fi
             ;;
     esac
 
@@ -487,6 +497,8 @@ case $1 in
         execute_vsperf OVS_with_DPDK_and_vHost_User $1
         terminate_vsperf
         execute_vsperf OVS_vanilla $1
+        terminate_vsperf
+        execute_vsperf VPP $1
         terminate_vsperf
         execute_vsperf SRIOV $1
         terminate_vsperf
