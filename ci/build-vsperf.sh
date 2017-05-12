@@ -54,7 +54,7 @@ TESTCASES_MERGE_VPP=$TESTCASES_VERIFY_VPP
 TESTPARAM_MERGE_VPP=$TESTPARAM_VERIFY_VPP
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'
-TESTCASES_DAILY_VPP='phy2phy_tput_vpp back2back_vpp pvp_tput_vpp pvp_back2back_vpp pvvp_tput_vpp pvvp_back2back_vpp'
+TESTCASES_DAILY_VPP='phy2phy_tput_vpp phy2phy_back2back_vpp pvp_tput_vpp pvp_back2back_vpp pvvp_tput_vpp pvvp_back2back_vpp'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 TESTPARAM_DAILY_VPP=$TESTPARAM_DAILY
 TESTCASES_SRIOV='pvp_tput'
