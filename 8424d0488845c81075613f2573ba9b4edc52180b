@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_e0f7baf3",
+        "filename": "docs/testing/user/configguide/trafficgen.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-05-15T08:51:13Z",
+      "side": 1,
+      "message": "it should be **NOTE:**",
+      "revId": "8424d0488845c81075613f2573ba9b4edc52180b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
