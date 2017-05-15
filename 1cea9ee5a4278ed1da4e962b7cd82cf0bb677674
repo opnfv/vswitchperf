@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_b7a02244",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2017-05-15T10:25:49Z",
+      "side": 1,
+      "message": "Are these YAML files going to be contributed to VSPERF? or pushed somewhere to a TREX repo?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 60
+      },
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_d7a3564d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2017-05-15T10:25:49Z",
+      "side": 1,
+      "message": "So for now the size is defined from the pcap file? I would clearly document this. Is there a plan/have you updated the VSPERF documentation?",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 72
+      },
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_9785deae",
+        "filename": "conf/10_custom.conf",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2017-05-15T10:25:49Z",
+      "side": 1,
+      "message": "I think you should provide some reasonable defaults here? like Moongen does?",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 29
+      },
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_379432e1",
+        "filename": "docs/testing/user/configguide/trafficgen.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2017-05-15T10:25:49Z",
+      "side": 1,
+      "message": "should use the appropriate note directive\n.. note::",
+      "range": {
+        "startLine": 748,
+        "startChar": 0,
+        "endLine": 748,
+        "endChar": 6
+      },
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_f7bd3a69",
+        "filename": "docs/testing/user/configguide/trafficgen.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2017-05-15T10:25:49Z",
+      "side": 1,
+      "message": "might be worth naming the config file specifically - 9 times out of 10 people are just going to read the traffic gen section that they are interested in - so give them as much info as possible",
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_578f66cc",
+        "filename": "docs/testing/user/configguide/trafficgen.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2017-05-15T10:25:49Z",
+      "side": 1,
+      "message": "I think it\u0027s worth mentioning in a note the pcap file comment that is in the commit message as well as any other limitation that may exits with the integration today",
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_77b14a8e",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2017-05-15T10:25:49Z",
+      "side": 1,
+      "message": "is this the same default duration in other traffic gens?",
+      "range": {
+        "startLine": 99,
+        "startChar": 55,
+        "endLine": 99,
+        "endChar": 56
+      },
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_f7645a23",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2017-05-15T10:25:49Z",
+      "side": 1,
+      "message": "on disconnect it would be good to delete or get rid of this directory...",
+      "range": {
+        "startLine": 177,
+        "startChar": 20,
+        "endLine": 177,
+        "endChar": 39
+      },
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
