@@ -128,6 +128,24 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_72cb9853",
+        "filename": "docs/testing/user/configguide/trafficgen.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-05-15T16:00:27Z",
+      "side": 1,
+      "message": "these two setting comments sound awkward. Perhaps we can reword them differently. Just some suggestions below.\n\nTRAFFICGEN_TREX_USER - Username for ssh connection to TRex server. Must have sudo access with the user account used.\nTRAFFICGEN_TREX_BASE_DIR - Relative path to where the\u0027t-rex-64\u0027 file is stored on the T-Rex server.",
+      "parentUuid": "9ab8dda7_578f66cc",
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_77b14a8e",
         "filename": "tools/pkt_gen/trex/trex.py",
         "patchSetId": 3
@@ -145,6 +163,47 @@
         "endLine": 99,
         "endChar": 56
       },
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_727dd81b",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-05-15T16:00:27Z",
+      "side": 1,
+      "message": "I believe 20 is what I see in other tgen code for a default.",
+      "parentUuid": "9ab8dda7_77b14a8e",
+      "range": {
+        "startLine": 99,
+        "startChar": 55,
+        "endLine": 99,
+        "endChar": 56
+      },
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_32c5203c",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-05-15T16:00:27Z",
+      "side": 1,
+      "message": "nitpick..this exceeds the column length rule",
       "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
