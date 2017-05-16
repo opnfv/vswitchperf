@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_2607251e",
+        "filename": "conf/10_custom.conf",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 6593
+      },
+      "writtenOn": "2017-05-16T18:00:28Z",
+      "side": 1,
+      "message": "I think that this examples default values:\n# Example: TRAFFICGEN_TREX_HOST_IP_ADDR \u003d \"192.10.1.1\"\n# Example: TRAFFICGEN_TREX_BASE_DIR \u003d \"/root/trex/\"\n# Example: TRAFFICGEN_TREX_USER \u003d \"root\"\nare clear enough",
+      "parentUuid": "9ab8dda7_9785deae",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 29
+      },
+      "revId": "1cea9ee5a4278ed1da4e962b7cd82cf0bb677674",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_379432e1",
         "filename": "docs/testing/user/configguide/trafficgen.rst",
         "patchSetId": 3
