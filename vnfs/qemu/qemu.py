@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -73,7 +73,7 @@ class IVnfQemu(IVnf):
         self._testpmd_fwd_mode = S.getValue('GUEST_TESTPMD_FWD_MODE')[self._number]
         # in case of SRIOV we must ensure, that MAC addresses are not swapped
         if S.getValue('SRIOV_ENABLED') and self._testpmd_fwd_mode.startswith('mac') and \
-           not S.getValue('VNF').endswith('PciPassthrough'):
+           not str(S.getValue('VNF')).endswith('PciPassthrough'):
 
             self._logger.info("SRIOV detected, forwarding mode of testpmd was changed from '%s' to '%s'",
                               self._testpmd_fwd_mode, 'io')

@@ -1,4 +1,4 @@
-# Copyright 2016 Spirent Communications, Intel Corporation.
+# Copyright 2016-2017 Spirent Communications, Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,6 +42,9 @@ class TrafficControllerRFC2889(TrafficController, IResults):
         self._logger.debug('send_traffic with ' +
                            str(self._traffic_gen_class))
 
+        # update type with detailed traffic value
+        self._type = traffic['traffic_type']
+
         for packet_size in self._packet_sizes:
             # Merge framesize with the default traffic definition
             if 'l2' in traffic:
@@ -70,6 +73,9 @@ class TrafficControllerRFC2889(TrafficController, IResults):
             return
         self._logger.debug('send_traffic_async with ' +
                            str(self._traffic_gen_class))
+
+        # update type with detailed traffic value
+        self._type = traffic['traffic_type']
 
         for packet_size in self._packet_sizes:
             traffic['l2'] = {'framesize': packet_size}

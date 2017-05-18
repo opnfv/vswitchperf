@@ -112,6 +112,32 @@ of options with ``GUEST_`` prefix could be found at :ref:`design document
 
 .. _overriding-parameters-documentation:
 
+Referencing parameter values
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to use a special macro ``#PARAM()`` to refer to the value of
+another configuration parameter. This reference is evaluated during
+access of the parameter value (by ``settings.getValue()`` call), so it
+can refer to parameters created during VSPERF runtime, e.g. NICS dictionary.
+It can be used to reflect DUT HW details in the testcase definition.
+
+Example:
+
+.. code:: python
+
+    {
+        ...
+        "Name": "testcase",
+        "Parameters" : {
+            "TRAFFIC" : {
+                'l2': {
+                    # set destination MAC to the MAC of the first
+                    # interface from WHITELIST_NICS list
+                    'dstmac' : '#PARAM(NICS[0]["mac"])',
+                },
+            },
+        ...
+
 Overriding values defined in configuration files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

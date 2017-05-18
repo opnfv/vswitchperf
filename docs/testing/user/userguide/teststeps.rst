@@ -192,14 +192,16 @@ of supported objects and their most common functions follows:
           in case that condition is not ``True``
         * ``Eval expression`` - evaluates given expression as a python code and returns
           its result
-        * ``Exec command [regex]`` - executes a shell command and filters its output by
+        * ``Exec_Shell command [regex]`` - executes a shell command and filters its output by
           (optional) regular expression
+        * ``Exec_Python code`` - executes a python code
+
 
         Examples:
 
         .. code-block:: python
 
-            ['tools', 'exec', 'numactl -H', 'available: ([0-9]+)']
+            ['tools', 'exec_shell', 'numactl -H', 'available: ([0-9]+)']
             ['tools', 'assert', '#STEP[-1][0]>1']
 
     * ``wait`` - is used for test case interruption. This object doesn't have
@@ -212,6 +214,14 @@ of supported objects and their most common functions follows:
       .. code-block:: python
 
         ['wait']
+
+    * ``sleep`` - is used to pause testcase execution for defined number of seconds.
+
+      Examples:
+
+      .. code-block:: python
+
+        ['sleep', '60']
 
 Test Macros
 -----------

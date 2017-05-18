@@ -143,7 +143,7 @@ class TestCase(object):
         self._traffic = functions.check_traffic(self._traffic)
 
         # Packet Forwarding mode
-        self._vswitch_none = S.getValue('VSWITCH').strip().lower() == 'none'
+        self._vswitch_none = str(S.getValue('VSWITCH')).strip().lower() == 'none'
 
         # trafficgen configuration required for tests of tunneling protocols
         if self.deployment == "op2p":
@@ -289,8 +289,31 @@ class TestCase(object):
             self._logger.debug("Traffic Results:")
             self._traffic_ctl.print_results()
 
+        if self._tc_results is None:
             self._tc_results = self._append_results(results)
-            TestCase.write_result_to_file(self._tc_results, self._output_file)
+        else:
+            # integration step driven tests have their status and possible
+            # failure details stored inside self._tc_results
+            results = self._append_results(results)
+            if len(self._tc_results) < len(results):
+                if len(self._tc_results) > 1:
+                    raise RuntimeError('Testcase results do not match:'
+                                       'results: {}\n'
+                                       'trafficgen results: {}\n',
+                                       self._tc_results,
+                                       results)
+                else:
+                    tmp_results = copy.deepcopy(self._tc_results[0])
+                    self._tc_results = []
+                    for res in results:
+                        tmp_res = copy.deepcopy(tmp_results)
+                        tmp_res.update(res)
+                        self._tc_results.append(tmp_res)
+            else:
+                for i, result in enumerate(results):
+                    self._tc_results[i].update(result)
+
+        TestCase.write_result_to_file(self._tc_results, self._output_file)
 
     def run(self):
         """Run the test
@@ -440,7 +463,7 @@ class TestCase(object):
         # hugepages are needed by DPDK and Qemu
         if not self._hugepages_mounted and \
             (self.deployment.count('v') or \
-             S.getValue('VSWITCH').lower().count('dpdk') or \
+             str(S.getValue('VSWITCH')).lower().count('dpdk') or \
              self._vswitch_none or \
              self.test and 'vnf' in [step[0][0:3] for step in self.test]):
             hugepages.mount_hugepages()
@@ -467,7 +490,7 @@ class TestCase(object):
         # get hugepage amounts for each socket on dpdk
         sock0_mem, sock1_mem = 0, 0
 
-        if S.getValue('VSWITCH').lower().count('dpdk'):
+        if str(S.getValue('VSWITCH')).lower().count('dpdk'):
             sock_mem = S.getValue('DPDK_SOCKET_MEM')
             sock0_mem, sock1_mem = (int(sock_mem[0]) * 1024 / hugepage_size,
                                     int(sock_mem[1]) * 1024 / hugepage_size)
@@ -739,6 +762,10 @@ class TestCase(object):
                 input(os.linesep + "Step {}: Press Enter to continue with "
                       "the next step...".format(i) + os.linesep + os.linesep)
                 continue
+            elif step[0] == 'sleep':
+                self._logger.debug("Sleep %s seconds", step[1])
+                time.sleep(int(step[1]))
+                continue
             else:
                 self._logger.error("Unsupported test object %s", step[0])
                 self._step_status = {'status' : False, 'details' : ' '.join(step)}
@@ -762,7 +789,7 @@ class TestCase(object):
                 self._step_result[i] = test_method(*step_params)
                 self._logger.debug("Step %s '%s' results '%s'", i,
                                    step_log, self._step_result[i])
-                time.sleep(5)
+                time.sleep(S.getValue('TEST_STEP_DELAY'))
                 if self._step_check:
                     step_ok = test_method_check(self._step_result[i], *step_params)
             except (AssertionError, AttributeError, IndexError) as ex:

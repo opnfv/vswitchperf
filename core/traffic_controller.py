@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ class TrafficController(object):
         self._lossrate = float(settings.getValue('TRAFFICGEN_LOSSRATE'))
         self._packet_sizes = settings.getValue('TRAFFICGEN_PKT_SIZES')
 
-        self._mode = settings.getValue('mode').lower()
+        self._mode = str(settings.getValue('mode')).lower()
         self._results = []
 
     def __enter__(self):
