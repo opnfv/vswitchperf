@@ -170,16 +170,16 @@ OVS Vanilla for binary package usage.
 VPP installation
 ================
 
-Currently vswitchperf installation scripts do not support automatic build
-of VPP. In order to execute tests with VPP, it is required to install it
-manually. Please refer to the official documentation of `fd.io`_ project to
-install VPP from `packages`_ or from the `sources`_.
+VPP installation is now included as part of the VSPerf installation scripts.
 
-See details about :ref:`vpp-test`.
+In case of an error message about a missing file such as
+"Couldn't open file /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7" you can resolve this
+issue by simply downloading the file.
 
-.. _fd.io: https://fd.io/
-.. _packages: https://wiki.fd.io/view/VPP/Installing_VPP_binaries_from_packages
-.. _sources: https://wiki.fd.io/view/VPP/Build,_install,_and_test_images
+  .. code:: bash
+
+    $ wget https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+
 
 Using vswitchperf
 -----------------
