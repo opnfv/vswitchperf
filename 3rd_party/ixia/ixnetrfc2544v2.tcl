@@ -83,6 +83,13 @@ proc startRfc2544Test { testSpec trafficSpec } {
 
     set duration                [dict get $testSpec duration]
 
+    set L2CountValue            1
+    set L2Increment             False
+    set L3ValueType             singleValue
+    set L3CountValue            1
+    set L4ValueType             singleValue
+    set L4CountValue            1
+
     # RFC2544 to IXIA terminology mapping (it affects Ixia configuration inside this script):
     # Test    => Trial
     # Trial   => Iteration
@@ -109,16 +116,23 @@ proc startRfc2544Test { testSpec trafficSpec } {
     }
 
     set multipleStreams         [dict get $testSpec multipleStreams]
+    set streamType              [dict get $testSpec streamType]
+
     if {($multipleStreams < 0)} {
-        set multipleStreams    0
+        set multipleStreams     0
     }
-    set numflows               64000
 
     if {$multipleStreams} {
-        set numflows       $multipleStreams
-        set multipleStreams     increment
-    } else {
-        set multipleStreams     singleValue
+        if {($streamType == "L2")} {
+            set L2CountValue    $multipleStreams
+            set L2Increment     True
+        } elseif {($streamType == "L3")} {
+            set L3ValueType     increment
+            set L3CountValue    $multipleStreams
+        } else {
+            set L4ValueType     increment
+            set L4CountValue    $multipleStreams
+        }
     }
 
     set fastConvergence         True
@@ -742,9 +756,9 @@ proc startRfc2544Test { testSpec trafficSpec } {
     set sg_lan [ixNet add $ixNetSG_Stack(1)/protocols/static lan]
     ixNet setMultiAttrs $sg_lan \
      -atmEncapsulation ::ixNet::OBJ-null \
-     -count 1 \
+     -count $L2CountValue \
      -countPerVc 1 \
-     -enableIncrementMac False \
+     -enableIncrementMac $L2Increment \
      -enableIncrementVlan False \
      -enableSiteId False \
      -enableVlan False \
@@ -1122,9 +1136,9 @@ proc startRfc2544Test { testSpec trafficSpec } {
     set sg_lan [ixNet add $ixNetSG_Stack(1)/protocols/static lan]
     ixNet setMultiAttrs $sg_lan \
      -atmEncapsulation ::ixNet::OBJ-null \
-     -count 1 \
+     -count $L2CountValue \
      -countPerVc 1 \
-     -enableIncrementMac False \
+     -enableIncrementMac $L2Increment \
      -enableIncrementVlan False \
      -enableSiteId False \
      -enableVlan False \
@@ -1570,10 +1584,10 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -auto False \
      -randomMask {0.0.0.0} \
      -trackingEnabled False \
-     -valueType $multipleStreams \
+     -valueType $L3ValueType \
      -activeFieldChoice False \
      -startValue $dstIp \
-     -countValue $numflows
+     -countValue $L3CountValue
     #sg_commit
     #set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
@@ -1651,10 +1665,10 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -auto False \
          -randomMask {63} \
          -trackingEnabled False \
-         -valueType $multipleStreams \
+         -valueType $L4ValueType \
          -activeFieldChoice False \
          -startValue {0} \
-         -countValue $numflows
+         -countValue $L4CountValue
 
         #
         # configuring the object that corresponds to /traffic/trafficItem:1/configElement:1/stack:"udp-3"/field:"udp.header.length-3"

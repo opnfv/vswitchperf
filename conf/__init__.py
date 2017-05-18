@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -49,6 +49,40 @@ class Settings(object):
     def __init__(self):
         pass
 
+    def _eval_param(self, param):
+        # pylint: disable=invalid-name
+        """ Helper function for expansion of references to vsperf parameters
+        """
+        if isinstance(param, str):
+            # evaluate every #PARAM reference inside parameter itself
+            macros = re.findall(r'#PARAM\((([\w\-]+)(\[[\w\[\]\-\'\"]+\])*)\)', param)
+            if macros:
+                for macro in macros:
+                    # pylint: disable=eval-used
+                    try:
+                        tmp_val = str(eval("self.getValue('{}'){}".format(macro[1], macro[2])))
+                        param = param.replace('#PARAM({})'.format(macro[0]), tmp_val)
+                    # silently ignore that option required by PARAM macro can't be evaluated;
+                    # It is possible, that referred parameter will be constructed during runtime
+                    # and re-read later.
+                    except IndexError:
+                        pass
+                    except AttributeError:
+                        pass
+            return param
+        elif isinstance(param, list) or isinstance(param, tuple):
+            tmp_list = []
+            for item in param:
+                tmp_list.append(self._eval_param(item))
+            return tmp_list
+        elif isinstance(param, dict):
+            tmp_dict = {}
+            for (key, value) in param.items():
+                tmp_dict[key] = self._eval_param(value)
+            return tmp_dict
+        else:
+            return param
+
     def getValue(self, attr):
         """Return a settings item value
         """
@@ -65,11 +99,11 @@ class Settings(object):
                     if attr == 'TRAFFIC':
                         tmp_value = copy.deepcopy(master_value)
                         tmp_value = merge_spec(tmp_value, cli_value)
-                        return tmp_value
+                        return self._eval_param(tmp_value)
                     else:
-                        return cli_value
+                        return self._eval_param(cli_value)
                 else:
-                    return master_value
+                    return self._eval_param(master_value)
         else:
             raise AttributeError("%r object has no attribute %r" %
                                  (self.__class__, attr))
@@ -167,6 +201,7 @@ class Settings(object):
         existence. In case that non existing vsperf parmeter name
         is detected, then VSPER will raise a runtime error.
         """
+        return
         unknown_keys = []
         for key in settings.getValue('TEST_PARAMS'):
             if key == 'TEST_PARAMS':
@@ -266,7 +301,9 @@ class Settings(object):
     def validate_getValue(self, result, attr):
         """Verifies, that correct value was returned
         """
-        assert result == self.__dict__[attr]
+        # getValue must be called to expand macros and apply
+        # values from TEST_PARAM option
+        assert result == self.getValue(attr)
         return True
 
     def validate_setValue(self, dummy_result, name, value):
