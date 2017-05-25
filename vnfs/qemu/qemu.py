@@ -88,7 +88,7 @@ class IVnfQemu(IVnf):
                      S.getValue('TOOLS')['qemu-system'],
                      '-m', S.getValue('GUEST_MEMORY')[self._number],
                      '-smp', str(S.getValue('GUEST_SMP')[self._number]),
-                     '-cpu', 'host,migratable=off',
+                     '-cpu', str(S.getValue('GUEST_CPU_OPTIONS')[self._number]),
                      '-drive', 'if={},file='.format(S.getValue(
                          'GUEST_BOOT_DRIVE_TYPE')[self._number]) +
                      S.getValue('GUEST_IMAGE')[self._number],
@@ -233,11 +233,13 @@ class IVnfQemu(IVnf):
 
         for cpu in range(0, int(S.getValue('GUEST_SMP')[self._number])):
             match = None
+            if not GUEST_THREAD_BINDING:
+                GUEST_THREAD_BINDING = S.getValue('GUEST_CORE_BINDING')[self._number]
             for line in output.decode(cur_locale).split('\n'):
                 match = re.search(thread_id % cpu, line)
                 if match:
                     self._affinitize_pid(
-                        S.getValue('GUEST_CORE_BINDING')[self._number][cpu],
+                        S.getValue('GUEST_THREAD_BINDING')[self._number][cpu],
                         match.group(1))
                     break
 
