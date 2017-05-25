@@ -448,7 +448,7 @@ class Xena(ITrafficGenerator):
                 self._params['traffic']['l2']['framesize'])
             stream.set_packet_payload('incrementing', '0x00')
             stream.set_payload_id(payload_id)
-            port.set_port_time_limit(self._duration)
+            port.set_port_time_limit(self._duration * 1000000)
 
             if self._params['traffic']['l2']['framesize'] == 64:
                 # set micro tpld
