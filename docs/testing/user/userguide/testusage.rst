@@ -570,6 +570,46 @@ Note: vfio_no_iommu requires kernels equal to or greater than 4.5 and dpdk
 Please refer to the dpdk documents at http://dpdk.org/doc/guides for more
 information on these drivers.
 
+Guest Core and Thread Binding
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+VSPERF provides options to achieve better performance by guest core binding and
+guest vCPU thread binding as well. Core binding is to bind all the qemu threads.
+Thread binding is to bind the house keeping threads to some CPU and vCPU thread to
+some other CPU, this helps to reduce the noise from qemu house keeping threads.
+
+
+.. code-block:: python
+
+   GUEST_CORE_BINDING = [('#EVAL(6+2*#VMINDEX)', '#EVAL(7+2*#VMINDEX)')]
+
+**NOTE** By default the GUEST_THREAD_BINDING will be none, which means same as
+the GUEST_CORE_BINDING, i.e. the vcpu threads are sharing the physical CPUs with
+the house keeping threads. Better performance using vCPU thread binding can be
+achieved by enabling affinity in the ''04_vnf.conf'' file.
+
+For example, if an environment requires 32,33 to be core binded and 29,30&31 for
+guest thread binding to achieve better performance.
+
+.. code-block:: python
+
+   VNF_AFFINITIZATION_ON = True
+   GUEST_CORE_BINDING = [('32','33')]
+   GUEST_THREAD_BINDING = [('29', '30', '31')]
+
+Qemu CPU features
+^^^^^^^^^^^^^^^^^
+
+QEMU default to a compatible subset of performance enhancing cpu features.
+To pass all available host processor features to the guest.
+
+.. code-block:: python
+
+   GUEST_CPU_OPTIONS = ['host,migratable=off']
+
+**NOTE** To enhance the performance, cpu features tsc deadline timer for guest,
+the guest PMU, the invariant TSC can be provided in the ''04_vnf.conf'' file.
+
 Multi-Queue Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
