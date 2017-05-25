@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "5aaae553_4e5c2226",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-05-25T13:10:23Z",
+      "side": 1,
+      "message": "qemu: Mechanism to pass extra qemu cpu features and pin vCPU threads",
+      "revId": "80abf329b0f41df670379680da4e0687d8e4a288",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aaae553_ee406e37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-05-25T13:10:23Z",
+      "side": 1,
+      "message": "I\u0027ve created a Jira for this improvement. So please add a link to it as follows:\n\nJIRA: VSPERF-510",
+      "revId": "80abf329b0f41df670379680da4e0687d8e4a288",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aaae553_4e0e6236",
         "filename": "vnfs/qemu/qemu.py",
         "patchSetId": 3
