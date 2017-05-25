@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aaae553_daa2119a",
+        "filename": "conf/04_vnf.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-05-25T12:48:49Z",
+      "side": 1,
+      "message": "I would add a note, that it has the same format/values as GUEST_CORE_BINDING; Also a default value should be something more explicit, e.g. None; If I got it correctly, the settings you\u0027re using is something like\nGUEST_CORE_BINDING \u003d [(4)]\nGUEST_THREAD_BINDING \u003d [(5,6)]\n\nIt would be worth to mention it as combined example and explain it in documentation",
+      "revId": "9e1d3a041e9cacbf5022a9aefad09ab27741f1e9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
