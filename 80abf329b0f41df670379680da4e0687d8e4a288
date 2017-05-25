@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aaae553_4e0e6236",
+        "filename": "vnfs/qemu/qemu.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-05-25T12:48:49Z",
+      "side": 1,
+      "message": "if you will use None as a default (previous comment), that condition should be changed to if guest_thread_binding is None:",
+      "revId": "80abf329b0f41df670379680da4e0687d8e4a288",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aaae553_3aa48556",
+        "filename": "vnfs/qemu/qemu.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-05-25T12:48:49Z",
+      "side": 1,
+      "message": "almost there, but you should remove quotes",
+      "revId": "80abf329b0f41df670379680da4e0687d8e4a288",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
