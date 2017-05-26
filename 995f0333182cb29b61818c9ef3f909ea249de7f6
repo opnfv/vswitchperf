@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5aaae553_e4408f37",
+        "filename": "docs/testing/user/userguide/testusage.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-05-26T07:31:36Z",
+      "side": 1,
+      "message": "Will update that to make it correct. Working on it.",
+      "parentUuid": "5aaae553_a43377f5",
+      "revId": "995f0333182cb29b61818c9ef3f909ea249de7f6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aaae553_c430f3ea",
         "filename": "docs/testing/user/userguide/testusage.rst",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-26T07:24:14Z",
       "side": 1,
       "message": "I would rather mention, that changes should be done in \"custom configuration file\" rather than 04_vnf.conf.",
+      "revId": "995f0333182cb29b61818c9ef3f909ea249de7f6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aaae553_043e0bb9",
+        "filename": "docs/testing/user/userguide/testusage.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 5765
+      },
+      "writtenOn": "2017-05-26T07:31:36Z",
+      "side": 1,
+      "message": "Will update that to make it correct. Working on it.",
+      "parentUuid": "5aaae553_c430f3ea",
       "revId": "995f0333182cb29b61818c9ef3f909ea249de7f6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
