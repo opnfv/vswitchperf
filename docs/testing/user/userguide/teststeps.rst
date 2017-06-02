@@ -143,6 +143,43 @@ of supported objects and their most common functions follows:
 
             ['settings', 'setValue', 'GUEST_USERNAME', ['root']]
 
+        It is possible and more convenient to access any VSPERF configuration option directly
+        via ``$NAME`` notation. Option evaluation is done during runtime and vsperf will
+        automatically translate it to the appropriate call of ``settings.getValue``.
+        In case, that referred parameter does not exist, then vsperf will keep ``$NAME``
+        string untouched and it will continue with testcase execution. The reason is to
+        avoid test execution failure in case that ``$`` sign has been used from different
+        reason than vsperf parameter evaluation.
+
+        **NOTE:** It is recommended to use ``${NAME}`` notation for any shell parameters
+        used within ``Exec_Shell`` call to avoid a clash with configuration parameter
+        evaluation.
+
+        **NOTE:** It is possible to refer to vsperf parameter value by ``#PARAM()`` macro
+        (see :ref:`overriding-parameters-documentation`. However ``#PARAM()`` macro is
+        evaluated at the beginning of vsperf execution and it will not reflect any changes
+        made to the vsperf configuration during runtime. On the other hand ``$NAME``
+        notation is evaluated during test execution and thus it contains any modifications
+        to the configuration parameter made by vsperf (e.g. ``TOOLS`` and ``NICS``
+        dictionaries) or by testcase definition (e.g. ``TRAFFIC`` dictionary).
+
+        Examples:
+
+        .. code-block:: python
+
+            ['tools', 'exec_shell', "$TOOLS['ovs-vsctl'] show"]
+
+            ['settings', 'setValue', 'TRAFFICGEN_IXIA_PORT2', '$TRAFFICGEN_IXIA_PORT1'],
+
+            ['vswitch', 'add_flow', 'int_br0',
+             {'in_port': '#STEP[1][1]',
+              'dl_type': '0x800',
+              'nw_proto': '17',
+              'nw_dst': '$TRAFFIC["l3"]["dstip"]/8',
+              'actions': ['output:#STEP[2][1]']
+             }
+            ]
+
     * ``namespace`` - creates or modifies network namespaces
 
       List of supported functions:

@@ -148,14 +148,15 @@ class Settings(object):
 
         :returns: None
         """
-        regex = re.compile("^(?P<digit_part>[0-9]+).*.conf$")
+        regex = re.compile("^(?P<digit_part>[0-9]+)(?P<alfa_part>[a-z]?)_.*.conf$")
 
         def get_prefix(filename):
             """
             Provide a suitable function for sort's key arg
             """
             match_object = regex.search(os.path.basename(filename))
-            return int(match_object.group('digit_part'))
+            return [int(match_object.group('digit_part')),
+                    match_object.group('alfa_part')]
 
         # get full file path to all files & dirs in dir_path
         file_paths = os.listdir(dir_path)
@@ -166,7 +167,7 @@ class Settings(object):
         file_paths = [x for x in file_paths if os.path.isfile(x) and
                       regex.search(os.path.basename(x))]
 
-        # sort ascending on the leading digits
+        # sort ascending on the leading digits and afla (e.g. 03_, 05a_)
         file_paths.sort(key=get_prefix)
 
         # load settings from each file in turn
