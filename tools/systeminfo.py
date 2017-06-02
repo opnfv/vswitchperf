@@ -227,8 +227,6 @@ def get_version(app_name):
         'testpmd' : r'RTE Version: \'\S+ ([0-9.]+)',
         'qemu' : r'QEMU emulator version ([0-9.]+)',
         'loopback_l2fwd' : os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/l2fwd.c'),
-        'loopback_testpmd' : os.path.join(S.getValue('TOOLS')['dpdk_src'],
-                                          'lib/librte_eal/common/include/rte_version.h'),
         'ixnet' : os.path.join(S.getValue('TRAFFICGEN_IXNET_LIB_PATH'), 'pkgIndex.tcl'),
         'ixia' : os.path.join(S.getValue('TRAFFICGEN_IXIA_ROOT_DIR'), 'lib/ixTcl1.0/ixTclHal.tcl'),
     }
@@ -255,7 +253,12 @@ def get_version(app_name):
         # stored at TOOS['dpdk_src'] directory
         tmp_ver = ['', '', '']
         dpdk_16 = False
-        with open(app_version_file['loopback_testpmd']) as file_:
+        # TOOLS dictionary is created during runtime and it is not
+        # available in some vsperf modes (e.g. -m trafficgen), thus
+        # following definition can't be part of app_version_file dict above
+        app_file = os.path.join(S.getValue('TOOLS')['dpdk_src'],
+                                'lib/librte_eal/common/include/rte_version.h')
+        with open(app_file) as file_:
             for line in file_:
                 if not line.strip():
                     continue
