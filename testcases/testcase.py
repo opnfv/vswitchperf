@@ -45,14 +45,18 @@ class TestCase(object):
     In this basic form runs RFC2544 throughput test
     """
     # pylint: disable=too-many-statements
-    def __init__(self, cfg):
+    def __init__(self, test_cfg):
         """Pull out fields from test config
 
-        :param cfg: A dictionary of string-value pairs describing the test
+        :param test_cfg: A dictionary of string-value pairs describing the test
             configuration. Both the key and values strings use well-known
             values.
         :param results_dir: Where the csv formatted results are written.
         """
+        # make a local copy of test configuration to avoid modification of
+        # original content used in vsperf main script
+        cfg = copy.deepcopy(test_cfg)
+
         self._testcase_start_time = time.time()
         self._hugepages_mounted = False
         self._traffic_ctl = None
@@ -336,7 +340,8 @@ class TestCase(object):
         self.run_report()
 
         # restore original settings
-        S.load_from_dict(self._settings_original)
+        for key in self._settings_original:
+            S.setValue(key, self._settings_original[key])
 
     def _update_settings(self, param, value):
         """ Check value of given configuration parameter
