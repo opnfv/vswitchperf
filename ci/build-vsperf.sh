@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ LOG_FILE_PREFIX="/tmp/vsperf_build"
 DATE=$(date -u +"%Y-%m-%d_%H-%M-%S")
 BRANCH=${GIT_BRANCH##*/}
 VSPERFENV_DIR="$HOME/vsperfenv"
+RESULTS_ARCHIVE="$HOME/ci_results_archive"
 
 # CI job specific configuration
 # VERIFY - run basic set of TCs with default settings
@@ -282,8 +283,8 @@ function generate_report() {
 
     # prepare final tarball with all logs...
     tar --exclude "${TEST_REPORT_TARBALL}" -czf "${TEST_REPORT_LOG_DIR}/${TEST_REPORT_TARBALL}" $(find "${TEST_REPORT_LOG_DIR}" -mindepth 1 -maxdepth 1 -type d)
-    # ...and remove original log files
-    find "${TEST_REPORT_LOG_DIR}" -mindepth 1 -maxdepth 1 -type d -exec rm -rf \{\} \;
+    # ...and move original log files to the archive directory
+    find "${TEST_REPORT_LOG_DIR}" -mindepth 1 -maxdepth 1 -type d -exec mv \{\} ${RESULTS_ARCHIVE} \;
 
     # clone opnfvdocs repository
     echo "Cloning opnfvdocs repository..."
@@ -301,6 +302,19 @@ function generate_report() {
         echo "Final test report has been created."
     else
         echo "FAILURE: Generation of final test report has failed."
+    fi
+}
+
+# generates graphs from recent test results
+function generate_and_push_graphs() {
+    # create graphs from results in archive directory
+    ./ci/plot-results.sh "phy2phy_tput back2back pvp_tput pvvp_tput" ",OvsDpdkVhost," $RESULTS_ARCHIVE
+
+    # push graphs into artifactory
+    if ls *png &> /dev/null ; then
+        gsutil cp *png gs://artifacts.opnfv.org/logs/vswitchperf/intel-pod12/graphs/
+    else
+        echo "Graphs were not created."
     fi
 }
 
@@ -506,6 +520,8 @@ case $1 in
         generate_report
 
         push_results_to_artifactory
+
+        generate_and_push_graphs
 
         cleanup
 
