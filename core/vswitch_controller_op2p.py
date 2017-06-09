@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import logging
 
 from core.vswitch_controller import IVswitchController
 from vswitches.utils import add_ports_to_flow
-from conf import settings
+from conf import settings as S
 from tools import tasks
 
 _FLOW_TEMPLATE = {
@@ -55,7 +55,7 @@ class VswitchControllerOP2P(IVswitchController):
         if self._tunnel_operation == "encapsulation":
             self._setup_encap()
         else:
-            if settings.getValue('VSWITCH').endswith('Vanilla'):
+            if str(S.getValue('VSWITCH')).endswith('Vanilla'):
                 self._setup_decap_vanilla()
             else:
                 self._setup_decap()
@@ -70,17 +70,17 @@ class VswitchControllerOP2P(IVswitchController):
 
         try:
             self._vswitch.start()
-            bridge = settings.getValue('TUNNEL_INTEGRATION_BRIDGE')
-            bridge_ext = settings.getValue('TUNNEL_EXTERNAL_BRIDGE')
-            bridge_ext_ip = settings.getValue('TUNNEL_EXTERNAL_BRIDGE_IP')
-            tg_port2_mac = settings.getValue('TRAFFICGEN_PORT2_MAC')
-            vtep_ip2 = settings.getValue('VTEP_IP2')
+            bridge = S.getValue('TUNNEL_INTEGRATION_BRIDGE')
+            bridge_ext = S.getValue('TUNNEL_EXTERNAL_BRIDGE')
+            bridge_ext_ip = S.getValue('TUNNEL_EXTERNAL_BRIDGE_IP')
+            tg_port2_mac = S.getValue('TRAFFICGEN_PORT2_MAC')
+            vtep_ip2 = S.getValue('VTEP_IP2')
             self._vswitch.add_switch(bridge)
 
             tasks.run_task(['sudo', 'ip', 'addr', 'add',
-                            settings.getValue('VTEP_IP1'), 'dev', bridge],
+                            S.getValue('VTEP_IP1'), 'dev', bridge],
                            self._logger, 'Assign ' +
-                           settings.getValue('VTEP_IP1') + ' to ' + bridge,
+                           S.getValue('VTEP_IP1') + ' to ' + bridge,
                            False)
             tasks.run_task(['sudo', 'ip', 'link', 'set', 'dev', bridge, 'up'],
                            self._logger, 'Bring up ' + bridge, False)
@@ -104,10 +104,10 @@ class VswitchControllerOP2P(IVswitchController):
                            'Set ' + bridge_ext + 'status to up')
 
             self._vswitch.add_route(bridge,
-                                    settings.getValue('VTEP_IP2_SUBNET'),
+                                    S.getValue('VTEP_IP2_SUBNET'),
                                     bridge_ext)
 
-            if settings.getValue('VSWITCH').endswith('Vanilla'):
+            if str(S.getValue('VSWITCH')).endswith('Vanilla'):
                 tasks.run_task(['sudo', 'arp', '-s', vtep_ip2, tg_port2_mac],
                                self._logger,
                                'Set ' + bridge_ext + ' status to up')
@@ -133,16 +133,16 @@ class VswitchControllerOP2P(IVswitchController):
 
         try:
             self._vswitch.start()
-            bridge = settings.getValue('TUNNEL_INTEGRATION_BRIDGE')
-            bridge_ext = settings.getValue('TUNNEL_EXTERNAL_BRIDGE')
-            bridge_ext_ip = settings.getValue('TUNNEL_EXTERNAL_BRIDGE_IP')
-            tgen_ip1 = settings.getValue('TRAFFICGEN_PORT1_IP')
+            bridge = S.getValue('TUNNEL_INTEGRATION_BRIDGE')
+            bridge_ext = S.getValue('TUNNEL_EXTERNAL_BRIDGE')
+            bridge_ext_ip = S.getValue('TUNNEL_EXTERNAL_BRIDGE_IP')
+            tgen_ip1 = S.getValue('TRAFFICGEN_PORT1_IP')
             self._vswitch.add_switch(bridge)
 
             tasks.run_task(['sudo', 'ip', 'addr', 'add',
-                            settings.getValue('VTEP_IP1'), 'dev', bridge],
+                            S.getValue('VTEP_IP1'), 'dev', bridge],
                            self._logger, 'Assign ' +
-                           settings.getValue('VTEP_IP1') + ' to ' + bridge, False)
+                           S.getValue('VTEP_IP1') + ' to ' + bridge, False)
             tasks.run_task(['sudo', 'ip', 'link', 'set', 'dev', bridge, 'up'],
                            self._logger, 'Bring up ' + bridge, False)
 
@@ -152,7 +152,7 @@ class VswitchControllerOP2P(IVswitchController):
             self._vswitch.add_phy_port(bridge)
             (_, phy2_number) = self._vswitch.add_phy_port(bridge_ext)
             if tunnel_type == "vxlan":
-                vxlan_vni = 'options:key=' + settings.getValue('VXLAN_VNI')
+                vxlan_vni = 'options:key=' + S.getValue('VXLAN_VNI')
                 (_, phy3_number) = self._vswitch.add_tunnel_port(bridge_ext,
                                                                  tgen_ip1,
                                                                  tunnel_type,
@@ -174,7 +174,7 @@ class VswitchControllerOP2P(IVswitchController):
                            'Set ' + bridge_ext + ' status to up')
 
             self._vswitch.set_tunnel_arp(tgen_ip1,
-                                         settings.getValue('TRAFFICGEN_PORT1_MAC'),
+                                         S.getValue('TRAFFICGEN_PORT1_MAC'),
                                          bridge)
             # Test is unidirectional for now
             self._vswitch.del_flow(bridge_ext)
@@ -193,16 +193,16 @@ class VswitchControllerOP2P(IVswitchController):
 
         try:
             self._vswitch.start()
-            bridge = settings.getValue('TUNNEL_INTEGRATION_BRIDGE')
-            bridge_ext = settings.getValue('TUNNEL_EXTERNAL_BRIDGE')
-            bridge_ext_ip = settings.getValue('TUNNEL_EXTERNAL_BRIDGE_IP')
-            tgen_ip1 = settings.getValue('TRAFFICGEN_PORT1_IP')
+            bridge = S.getValue('TUNNEL_INTEGRATION_BRIDGE')
+            bridge_ext = S.getValue('TUNNEL_EXTERNAL_BRIDGE')
+            bridge_ext_ip = S.getValue('TUNNEL_EXTERNAL_BRIDGE_IP')
+            tgen_ip1 = S.getValue('TRAFFICGEN_PORT1_IP')
             self._vswitch.add_switch(bridge)
 
             tasks.run_task(['sudo', 'ip', 'addr', 'add',
-                            settings.getValue('TUNNEL_INT_BRIDGE_IP'), 'dev', bridge],
+                            S.getValue('TUNNEL_INT_BRIDGE_IP'), 'dev', bridge],
                            self._logger, 'Assign ' +
-                           settings.getValue('TUNNEL_INT_BRIDGE_IP') + ' to ' + bridge, False)
+                           S.getValue('TUNNEL_INT_BRIDGE_IP') + ' to ' + bridge, False)
             tasks.run_task(['sudo', 'ip', 'link', 'set', 'dev', bridge, 'up'],
                            self._logger, 'Bring up ' + bridge, False)
 
@@ -213,7 +213,7 @@ class VswitchControllerOP2P(IVswitchController):
             (_, phy2_number) = self._vswitch.add_phy_port(bridge)
 
             if tunnel_type == "vxlan":
-                vxlan_vni = 'options:key=' + settings.getValue('VXLAN_VNI')
+                vxlan_vni = 'options:key=' + S.getValue('VXLAN_VNI')
                 self._vswitch.add_tunnel_port(bridge, tgen_ip1, tunnel_type,
                                               params=[vxlan_vni])
             else:
@@ -231,15 +231,15 @@ class VswitchControllerOP2P(IVswitchController):
                            self._logger,
                            'Set ' + bridge_ext + ' status to up')
 
-            tg_port2_mac = settings.getValue('TRAFFICGEN_PORT2_MAC')
-            vtep_ip2 = settings.getValue('TRAFFICGEN_PORT2_IP')
+            tg_port2_mac = S.getValue('TRAFFICGEN_PORT2_MAC')
+            vtep_ip2 = S.getValue('TRAFFICGEN_PORT2_IP')
 
             self._vswitch.set_tunnel_arp(vtep_ip2,
                                          tg_port2_mac,
                                          bridge_ext)
 
             self._vswitch.add_route(bridge,
-                                    settings.getValue('VTEP_IP2_SUBNET'),
+                                    S.getValue('VTEP_IP2_SUBNET'),
                                     bridge)
 
 
@@ -278,10 +278,16 @@ class VswitchControllerOP2P(IVswitchController):
     def get_ports_info(self):
         """See IVswitchController for description
         """
-        self._logger.debug('get_ports_info  using ' + str(self._vswitch_class))
-        return self._vswitch.get_ports(settings.getValue('VSWITCH_BRIDGE_NAME'))
+        self._logger.debug('get_ports_info for bridges: %s, %s',
+                           S.getValue('TUNNEL_INTEGRATION_BRIDGE'),
+                           S.getValue('TUNNEL_EXTERNAL_BRIDGE'))
+        return self._vswitch.get_ports(
+            S.getValue('TUNNEL_INTEGRATION_BRIDGE')) +\
+                self._vswitch.get_ports(
+                    S.getValue('TUNNEL_EXTERNAL_BRIDGE'))
 
     def dump_vswitch_flows(self):
         """See IVswitchController for description
         """
-        self._vswitch.dump_flows(settings.getValue('VSWITCH_BRIDGE_NAME'))
+        self._vswitch.dump_flows(S.getValue('TUNNEL_INTEGRATION_BRIDGE'))
+        self._vswitch.dump_flows(S.getValue('TUNNEL_EXTERNAL_BRIDGE'))

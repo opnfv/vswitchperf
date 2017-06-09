@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,10 +36,13 @@ class IntegrationTestCase(TestCase):
         """ Report test results
         """
         if self.test:
-            results = OrderedDict()
-            results['status'] = 'OK' if self._step_status['status'] else 'FAILED'
-            results['details'] = self._step_status['details']
-            TestCase.write_result_to_file([results], self._output_file)
+            tmp_results = OrderedDict()
+            tmp_results['status'] = 'OK' if self._step_status['status'] else 'FAILED'
+            tmp_results['details'] = self._step_status['details']
+            self._tc_results = [tmp_results]
+
+            super(IntegrationTestCase, self).run_report()
+
             self.step_report_status("Test '{}'".format(self.name), self._step_status['status'])
             # inform vsperf about testcase failure
             if not self._step_status['status']:

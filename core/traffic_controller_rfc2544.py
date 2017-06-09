@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2017 Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,6 +42,9 @@ class TrafficControllerRFC2544(TrafficController, IResults):
         self._logger.debug('send_traffic with ' +
                            str(self._traffic_gen_class))
 
+        # update type with detailed traffic value
+        self._type = traffic['traffic_type']
+
         for packet_size in self._packet_sizes:
             # Merge framesize with the default traffic definition
             if 'l2' in traffic:
@@ -60,8 +63,8 @@ class TrafficControllerRFC2544(TrafficController, IResults):
                 result = self._traffic_gen_class.send_rfc2544_throughput(
                     traffic, tests=self._tests, duration=self._duration, lossrate=self._lossrate)
             else:
-                raise RuntimeError("Unsupported traffic type {} was \
-                                   detected".format(traffic['traffic_type']))
+                raise RuntimeError("Unsupported traffic type {} was "
+                                   "detected".format(traffic['traffic_type']))
 
             result = self._append_results(result, packet_size)
             self._results.append(result)
@@ -73,6 +76,9 @@ class TrafficControllerRFC2544(TrafficController, IResults):
             return
         self._logger.debug('send_traffic_async with ' +
                            str(self._traffic_gen_class))
+
+        # update type with detailed traffic value
+        self._type = traffic['traffic_type']
 
         for packet_size in self._packet_sizes:
             traffic['l2'] = {'framesize': packet_size}

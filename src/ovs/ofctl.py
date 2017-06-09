@@ -22,6 +22,7 @@ https://github.com/openstack/neutron/blob/6eac1dc99124ca024d6a69b3abfa3bc69c7356
 import logging
 import string
 import re
+import netaddr
 
 from tools import tasks
 from conf import settings
@@ -30,6 +31,9 @@ _OVS_BRIDGE_NAME = settings.getValue('VSWITCH_BRIDGE_NAME')
 _OVS_CMD_TIMEOUT = settings.getValue('OVS_CMD_TIMEOUT')
 
 _CACHE_FILE_NAME = '/tmp/vsperf_flows_cache'
+
+# only simple regex is used; validity of IPv4 is not checked by regex
+_IPV4_REGEX = r"([0-9]{1,3}(\.[0-9]{1,3}){3}(\/[0-9]{1,2})?)"
 
 class OFBase(object):
     """Add/remove/show datapaths using ``ovs-ofctl``.
@@ -446,10 +450,17 @@ def flow_match(flow_dump, flow_src):
     flow_src = flow_src.replace('udp_dst', 'tp_dst')
     flow_src = flow_src.replace('tcp_src', 'tp_src')
     flow_src = flow_src.replace('tcp_dst', 'tp_dst')
+    flow_src = flow_src.replace('0x800', '0x0800')
+
+    # modify IPv4 CIDR to real network addresses
+    for ipv4_cidr in re.findall(_IPV4_REGEX, flow_src):
+        if ipv4_cidr[2]:
+            tmp_cidr = str(netaddr.IPNetwork(ipv4_cidr[0]).cidr)
+            flow_src = flow_src.replace(ipv4_cidr[0], tmp_cidr)
 
     # split flow strings into lists of comparable elements
-    flow_dump_list = re.findall(r"[\w.:=()]+", flow_dump)
-    flow_src_list = re.findall(r"[\w.:=()]+", flow_src)
+    flow_dump_list = re.findall(r"[\w.:=()/]+", flow_dump)
+    flow_src_list = re.findall(r"[\w.:=()/]+", flow_src)
 
     # check if all items from source flow are present in dump flow
     flow_src_ctrl = list(flow_src_list)

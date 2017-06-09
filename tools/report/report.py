@@ -67,7 +67,7 @@ def _get_env(result, versions):
         'vswitch': _get_version(S.getValue('VSWITCH'), versions),
     }
 
-    if S.getValue('VSWITCH').lower().count('dpdk'):
+    if str(S.getValue('VSWITCH')).lower().count('dpdk'):
         env.update({'dpdk': _get_version('dpdk', versions)})
 
     if result[ResultsConstants.DEPLOYMENT].count('v'):
