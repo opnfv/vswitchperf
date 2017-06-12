@@ -283,8 +283,10 @@ function generate_report() {
 
     # prepare final tarball with all logs...
     tar --exclude "${TEST_REPORT_TARBALL}" -czf "${TEST_REPORT_LOG_DIR}/${TEST_REPORT_TARBALL}" $(find "${TEST_REPORT_LOG_DIR}" -mindepth 1 -maxdepth 1 -type d)
-    # ...and move original log files to the archive directory
-    find "${TEST_REPORT_LOG_DIR}" -mindepth 1 -maxdepth 1 -type d -exec mv \{\} ${RESULTS_ARCHIVE} \;
+    # ...and move original log files to the archive directory...
+    find "${TEST_REPORT_LOG_DIR}" -maxdepth 2 -name "results_*" -type d -exec mv \{\} ${RESULTS_ARCHIVE} \;
+    # ...and remove the rest
+    find "${TEST_REPORT_LOG_DIR}" -mindepth 1 -maxdepth 1 -type d -exec rm -rf \{\} \;
 
     # clone opnfvdocs repository
     echo "Cloning opnfvdocs repository..."
@@ -308,7 +310,7 @@ function generate_report() {
 # generates graphs from recent test results
 function generate_and_push_graphs() {
     # create graphs from results in archive directory
-    ./ci/plot-results.sh "phy2phy_tput back2back pvp_tput pvvp_tput" ",OvsDpdkVhost," $RESULTS_ARCHIVE
+    ./ci/plot-results.sh $1 $2 $RESULTS_ARCHIVE
 
     # push graphs into artifactory
     if ls *png &> /dev/null ; then
@@ -521,7 +523,10 @@ case $1 in
 
         push_results_to_artifactory
 
-        generate_and_push_graphs
+        generate_and_push_graphs "$TESTCASES_DAILY" ",OvsDpdkVhost,"
+        generate_and_push_graphs "$TESTCASES_DAILY" ",OvsVanilla,"
+        generate_and_push_graphs "$TESTCASES_DAILY_VPP" ",VppDpdkVhost,"
+        generate_and_push_graphs "$TESTCASES_DAILY_SRIOV" ",none,"
 
         cleanup
 

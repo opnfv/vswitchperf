@@ -38,7 +38,7 @@
 
 TESTS="phy2phy_tput"    # default set of TCs to be plotted
 FILTER=",OvsDpdkVhost," # default filter to be applied on matching CSV files
-NUMBER_OF_RESULTS=5     # max number of recent results to be compared in graph
+NUMBER_OF_RESULTS=50    # max number of recent results to be compared in graph
 CSV_RESULT_COL=2        # column number with result to be plotted, e.g. 2 for rx_throughput_fps
 B2B_CSV_RESULT_COL=1    # column number with result to be plotted for back2back TCs
 CSV_PKT_SIZE_COL=12     # column number with frame/packet size
