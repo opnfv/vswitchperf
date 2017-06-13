@@ -310,7 +310,7 @@ function generate_report() {
 # generates graphs from recent test results
 function generate_and_push_graphs() {
     # create graphs from results in archive directory
-    ./ci/plot-results.sh $1 $2 $RESULTS_ARCHIVE
+    ./ci/plot-results.sh "$1" "$2" "$RESULTS_ARCHIVE"
 
     # push graphs into artifactory
     if ls *png &> /dev/null ; then
