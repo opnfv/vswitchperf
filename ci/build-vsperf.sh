@@ -526,7 +526,7 @@ case $1 in
         generate_and_push_graphs "$TESTCASES_DAILY" ",OvsDpdkVhost,"
         generate_and_push_graphs "$TESTCASES_DAILY" ",OvsVanilla,"
         generate_and_push_graphs "$TESTCASES_DAILY_VPP" ",VppDpdkVhost,"
-        generate_and_push_graphs "$TESTCASES_DAILY_SRIOV" ",none,"
+        generate_and_push_graphs "$TESTCASES_SRIOV" ",none,"
 
         cleanup
 
