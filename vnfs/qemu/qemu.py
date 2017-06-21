@@ -373,12 +373,12 @@ class IVnfQemu(IVnf):
         for nic in self._nics:
             self.execute_and_wait('ifdown ' + nic['device'])
 
-        self.execute_and_wait('./tools/dpdk*bind.py --status')
+        self.execute_and_wait('./*tools/dpdk*bind.py --status')
         pci_list = ' '.join([nic['pci'] for nic in self._nics])
-        self.execute_and_wait('./tools/dpdk*bind.py -u ' + pci_list)
+        self.execute_and_wait('./*tools/dpdk*bind.py -u ' + pci_list)
         self._bind_dpdk_driver(S.getValue(
             'GUEST_DPDK_BIND_DRIVER')[self._number], pci_list)
-        self.execute_and_wait('./tools/dpdk*bind.py --status')
+        self.execute_and_wait('./*tools/dpdk*bind.py --status')
 
         # build and run 'test-pmd'
         self.execute_and_wait('cd ' + S.getValue('GUEST_OVS_DPDK_DIR')[self._number] +
@@ -489,14 +489,14 @@ class IVnfQemu(IVnf):
                 self._bind_dpdk_driver('igb_uio_from_src', pci_slots)
                 return
             self.execute_and_wait('modprobe uio_pci_generic')
-            self.execute_and_wait('./tools/dpdk*bind.py -b uio_pci_generic '+
+            self.execute_and_wait('./*tools/dpdk*bind.py -b uio_pci_generic '+
                                   pci_slots)
         elif driver == 'vfio_no_iommu':
             self.execute_and_wait('modprobe -r vfio')
             self.execute_and_wait('modprobe -r vfio_iommu_type1')
             self.execute_and_wait('modprobe vfio enable_unsafe_noiommu_mode=Y')
             self.execute_and_wait('modprobe vfio-pci')
-            self.execute_and_wait('./tools/dpdk*bind.py -b vfio-pci ' +
+            self.execute_and_wait('./*tools/dpdk*bind.py -b vfio-pci ' +
                                   pci_slots)
         elif driver == 'igb_uio_from_src':
             # build and insert igb_uio and rebind interfaces to it
@@ -505,7 +505,7 @@ class IVnfQemu(IVnf):
             self.execute_and_wait('modprobe uio')
             self.execute_and_wait('insmod %s/kmod/igb_uio.ko' %
                                   S.getValue('RTE_TARGET'))
-            self.execute_and_wait('./tools/dpdk*bind.py -b igb_uio ' + pci_slots)
+            self.execute_and_wait('./*tools/dpdk*bind.py -b igb_uio ' + pci_slots)
         else:
             self._logger.error(
                 'Unknown driver for binding specified, defaulting to igb_uio')
