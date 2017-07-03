@@ -185,7 +185,8 @@ def get_bin_version(binary, regex):
     :returns: version string or None
     """
     try:
-        output = subprocess.check_output(binary, shell=True).decode().rstrip('\n')
+        output = str(subprocess.check_output(
+            binary, stderr=subprocess.STDOUT, shell=True).decode().rstrip('\n'))
     except subprocess.CalledProcessError:
         return None
 
