@@ -47,6 +47,7 @@ NUMBER_OF_PKT_SIZES=0   # to be detected automatically
 MAX_NUMBER_OF_PKT_SIZES=10
 DIR="/tmp"              # directory where vsperf results are stored
 PNG_PREFIX='vsperf_'
+TYPE="TPUT"             # customization of graph for TPUT or B2B
 
 function clean_data() {
     rm -rf *csv
@@ -69,12 +70,14 @@ function prepare_data() {
                 if grep back2back ${result_file} &> /dev/null ; then
                     PKT_SIZE_COL=$B2B_CSV_PKT_SIZE_COL
                     RES_COL=$B2B_CSV_RESULT_COL
+                    TYPE="B2B"
                 else
                     PKT_SIZE_COL=$CSV_PKT_SIZE_COL
                     RES_COL=$CSV_RESULT_COL
+                    TYPE="TPUT"
                 fi
                 RESULT_HEADER=`tail -n+2 ${result_file} | head -n ${NUMBER_OF_PKT_SIZES} | cut -d',' -f${PKT_SIZE_COL} | paste -d',' -s`
-                echo "Date/PKT Size [B],${RESULT_HEADER}" > "${test_name}.csv"
+                echo "[$TYPE] Date/PKT Size [B],${RESULT_HEADER}" > "${test_name}.csv"
                 FIRST=0
             fi
             RESULT_4ALL_PKT_SIZES=`tail -n+2 ${result_file} | head -n ${NUMBER_OF_PKT_SIZES} | cut -d',' -f${RES_COL} | paste -d',' -s`
@@ -97,10 +100,18 @@ set timefmt "%Y-%m-%d_%H:%M:%S"
 set format x "%m-%d"
 set xlabel "date"
 set format y "%8.0f"
-set ylabel "fps"
-set yrange [0:]
 set term png size 1024,768
 EOM
+
+        if grep '^\[B2B\]' ${TEST_CSV} &> /dev/null ; then
+            echo 'set ylabel "frames"' >> $OUTPUT
+            echo 'set log y' >> $OUTPUT
+            echo 'set yrange [1:]' >> $OUTPUT
+        else
+            echo 'set ylabel "fps"' >> $OUTPUT
+            echo 'set yrange [0:]' >> $OUTPUT
+        fi
+
         iter=0
         echo "set title \"$TEST_NAME\"" >> $OUTPUT
         echo "set output \"${PNG_PREFIX}${TEST_NAME}.png\"" >> $OUTPUT
