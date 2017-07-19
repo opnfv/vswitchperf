@@ -80,10 +80,10 @@ fi
 
 # Test report related configuration
 TEST_REPORT_PARTIAL="*_test_report.rst"
-TEST_REPORT_DIR="${WORKSPACE}/docs/results"
+TEST_REPORT_DIR="${WORKSPACE}/docs/testing/developer/results"
 TEST_REPORT_INDEX="${TEST_REPORT_DIR}/index.rst"
 TEST_REPORT_LINK_OLD="https://wiki.opnfv.org/wiki/vsperf_results"
-TEST_REPORT_FILE="${WORKSPACE}/docs_output/results/index.html"
+TEST_REPORT_FILE="${WORKSPACE}/docs_output/testing/developer/results/index.html"
 TEST_REPORT_TARBALL="vswitchperf_logs_${DATE}.tar.gz"
 
 if [[ "x${BRANCH}" == "xmaster" ]]; then
