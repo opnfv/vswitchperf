@@ -142,9 +142,18 @@ class OvsDpdkVhost(IVSwitchOvs):
         from 0
         """
         bridge = self._bridges[switch_name]
-        vhost_count = self._get_port_count('type=dpdkvhostuser')
+
+        if S.getValue('VSWITCH_VHOSTUSER_SERVER_MODE'):
+            nic_type = 'dpdkvhostuser'
+        else:
+            nic_type = 'dpdkvhostuserclient'
+
+        vhost_count = self._get_port_count('type={}'.format(nic_type))
         port_name = 'dpdkvhostuser' + str(vhost_count)
-        params = ['--', 'set', 'Interface', port_name, 'type=dpdkvhostuser']
+        params = ['--', 'set', 'Interface', port_name, 'type={}'.format(nic_type)]
+        if not S.getValue('VSWITCH_VHOSTUSER_SERVER_MODE'):
+            params += ['--', 'set', 'Interface', port_name, 'options:vhost-server-path='
+                       '{}{}'.format(S.getValue('TOOLS')['ovs_var_tmp'], port_name)]
         if S.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
             params += ['mtu_request={}'.format(
                 S.getValue('VSWITCH_JUMBO_FRAMES_SIZE'))]

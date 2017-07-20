@@ -296,7 +296,7 @@ Executing tests with VMs
 
 To run tests using vhost-user as guest access method:
 
-1. Set VHOST_METHOD and VNF of your settings file to:
+1. Set VSWITCH and VNF of your settings file to:
 
    .. code-block:: python
 
@@ -316,6 +316,10 @@ To run tests using vhost-user as guest access method:
    .. code-block:: console
 
        $ ./vsperf --conf-file=<path_to_custom_conf>/10_custom.conf
+
+**NOTE:** By default vSwitch is acting as a server for dpdk vhost-user sockets.
+In case, that QEMU should be a server for vhost-user sockets, then parameter
+``VSWITCH_VHOSTUSER_SERVER_MODE`` should be set to ``False``.
 
 Executing tests with VMs using Vanilla OVS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

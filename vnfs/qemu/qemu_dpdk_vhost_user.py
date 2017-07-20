@@ -68,10 +68,11 @@ class QemuDpdkVhostUser(IVnfQemu):
             else:
                 vhost_folder = S.getValue('TOOLS')['ovs_var_tmp']
 
+            nic_mode = '' if S.getValue('VSWITCH_VHOSTUSER_SERVER_MODE') else ',server'
             self._cmd += ['-chardev',
                           'socket,id=char' + ifi +
                           ',path=' + vhost_folder +
-                          'dpdkvhostuser' + ifi,
+                          'dpdkvhostuser' + ifi + nic_mode,
                           '-netdev',
                           'type=vhost-user,id=' + net +
                           ',chardev=char' + ifi + ',vhostforce' + queue_str,

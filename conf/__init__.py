@@ -93,7 +93,7 @@ class Settings(object):
                 master_value = getattr(self, attr)
                 # Check if parameter value was modified by CLI option
                 cli_value = get_test_param(attr, None)
-                if cli_value:
+                if cli_value is not None:
                     # TRAFFIC dictionary is not overridden by CLI option
                     # but only updated by specified values
                     if attr == 'TRAFFIC':

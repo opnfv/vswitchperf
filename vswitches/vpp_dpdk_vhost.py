@@ -225,7 +225,11 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         """See IVswitch for general description
         """
         socket_name = S.getValue('TOOLS')['ovs_var_tmp'] + 'dpdkvhostuser' + str(len(self._virt_ports))
-        output = self.run_vppctl(['create', 'vhost-user', 'socket', socket_name, 'server'] +
+        if S.getValue('VSWITCH_VHOSTUSER_SERVER_MODE'):
+            mode = ['server']
+        else:
+            mode = []
+        output = self.run_vppctl(['create', 'vhost-user', 'socket', socket_name] + mode +
                                  S.getValue('VSWITCH_VPP_VHOSTUSER_ARGS'))
         if output[0].find('returned') >= 0:
             raise RuntimeError('VPP VhostUser interface cannot be created.')
