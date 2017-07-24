@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa4ed85_cedbfb19",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-07-24T18:21:13Z",
+      "side": 1,
+      "message": "It looks like this line is causing build failures. Might need to wrap this into some code checking to make sure this environmental variable is set in the OS.",
+      "revId": "b9699762e9544af2293b858bba9f3fbc8c8bbaa5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
