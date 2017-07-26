@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa4ed85_80138c0c",
+        "filename": "docs/testing/user/userguide/teststeps.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-07-26T11:57:26Z",
+      "side": 1,
+      "message": "If the referred parameter ...",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 21
+      },
+      "revId": "282258d432a6316f6508bb55e475b03acebdcd81",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
