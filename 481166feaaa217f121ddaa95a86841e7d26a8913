@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa4ed85_031b211c",
+        "filename": "docs/testing/user/configguide/trafficgen.rst",
+        "patchSetId": 9
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-07-28T11:40:59Z",
+      "side": 1,
+      "message": "s/have/has/",
+      "range": {
+        "startLine": 773,
+        "startChar": 21,
+        "endLine": 773,
+        "endChar": 25
+      },
+      "revId": "481166feaaa217f121ddaa95a86841e7d26a8913",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
