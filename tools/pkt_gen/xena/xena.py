@@ -274,10 +274,11 @@ class Xena(ITrafficGenerator):
         enable the pairs topology
         :return: None
         """
+        # set duplex mode, this code is valid, pylint complaining with a
+        # warning that many have complained about online.
+        # pylint: disable=redefined-variable-type
+        
         try:
-            # set duplex mode, this code is valid, pylint complaining with a
-            # warning that many have complained about online.
-            # pylint: disable=redefined-variable-type
             if self._params['traffic']['bidir'] == "True":
                 j_file = XenaJSONMesh()
             elif self._params['traffic']['bidir'] == "False":
@@ -590,6 +591,42 @@ class Xena(ITrafficGenerator):
 
         self._params.clear()
         self._params['traffic'] = self.traffic_defaults.copy()
+
+From: "Marco Patalano" <mpatalan@redhat.com>
+To: "Christian Trautman" <ctrautma@redhat.com>
+Sent: Tuesday, August 8, 2017 2:26:51 PM
+Subject: git problems
+
+[mpatalan@mpatalan dt_stress_panic]$ git status
+# On branch master
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	"../../misc/toolbox/\\"
+nothing added to commit but untracked files present (use "git add" to track)
+[mpatalan@mpatalan dt_stress_panic]$
+
+
+
+mpatalan@mpatalan toolbox]$ pwd
+/home/mpatalan/git/kernel/storage/misc/toolbox
+[mpatalan@mpatalan toolbox]$ ls -lrt
+total 164
+-rwxrwxr-x.  1 mpatalan mpatalan    323 Jun  2 14:38 check_san_switch
+-rw-rw-r--.  1 mpatalan mpatalan   3256 Jun  2 14:38 ilo_top.conf
+-rwxrwxr-x.  1 mpatalan mpatalan   4308 Jun  2 14:38 gen_st_pods
+-rwxrwxr-x.  1 mpatalan mpatalan  10510 Jun  2 14:38 stlio
+-rwxrwxr-x.  1 mpatalan mpatalan   5349 Jun  2 14:38 stilo
+-rwxrwxr-x.  1 mpatalan mpatalan   4735 Jun  2 14:38 stcli
+drwxrwxr-x.  3 mpatalan mpatalan   4096 Jun  2 14:38 vim_settings
+drwxrwxr-x. 15 mpatalan mpatalan   4096 Jul  5 08:52 test_conf
+-rw-rw-r--.  1 mpatalan mpatalan   6436 Jul 24 09:43 \
+-rwxrwxr-x.  1 mpatalan mpatalan 102326 Jul 28 07:19 stbkr
+drwxrwxr-x.  3 mpatalan mpatalan   4096 Jul 28 07:19 host_conf
+
+
+
+
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
@@ -635,11 +672,24 @@ class Xena(ITrafficGenerator):
         root = ET.parse(os.path.join(_CURR_DIR, "xena2544-report.xml")).getroot()
 
         if settings.getValue('TRAFFICGEN_XENA_RFC2544_VERIFY'):
+            # make sure we have a pass before even trying the verify. No need
+            # to run verify on a failed iteration.
+            root = ET.parse(
+                os.path.join(_CURR_DIR, "xena2544-report.xml")).getroot()
+            if root[0][1][0].get('TestState') == "FAIL":
+                self._logger.info('Test failed, skipping verify')
+                return Xena._create_throughput_result(root)
+
             # record the previous settings so we can revert to them if needed to
             # run the binary search again if the verify fails.
             old_tests = tests
             old_duration = self._duration
             old_min = settings.getValue('TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE')
+
+            # record the original values to restore after execution
+            orig_min = settings.getValue('TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE')
+            orig_max = settings.getValue('TRAFFICGEN_XENA_2544_TPUT_MAX_VALUE')
+            orig_init = settings.getValue('TRAFFICGEN_XENA_2544_TPUT_INIT_VALUE')
 
             for attempt in range(
                     1, settings.getValue(
@@ -707,6 +757,11 @@ class Xena(ITrafficGenerator):
                 else:
                     self._logger.error(
                         'Maximum number of verify attempts reached. Reporting last result')
+
+            #restore original values
+            settings.setValue('TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE', orig_min)
+            settings.setValue('TRAFFICGEN_XENA_2544_TPUT_MAX_VALUE', orig_max)
+            settings.setValue('TRAFFICGEN_XENA_2544_TPUT_INIT_VALUE', orig_init)
 
         return Xena._create_throughput_result(root)
 
