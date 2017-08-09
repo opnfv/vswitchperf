@@ -138,7 +138,7 @@ def _vhost_user_cleanup():
 
 
 def _bind_nics():
-    """Bind NICs using the Intel DPDK ``dpdk*bind.py`` tool.
+    """Bind NICs using the bind tool specified in the configuration.
     """
     if not len(_NICS_PCI):
         _LOGGER.info('NICs are not configured - nothing to bind')
@@ -153,26 +153,41 @@ def _bind_nics():
             tasks.run_task(['sudo', 'chmod', '-R', '666', '/dev/vfio/'],
                            _LOGGER, 'Setting VFIO permissions .. 0666',
                            True)
-
-        tasks.run_task(['sudo', S.getValue('TOOLS')['bind-tool'],
-                        '--bind=' + _driver] +
-                       _NICS_PCI, _LOGGER,
-                       'Binding NICs %s...' % _NICS_PCI,
-                       True)
+        if 'driverctl' in S.getValue('TOOLS')['bind-tool'].lower():
+            for nic in _NICS_PCI:
+                tasks.run_task(['sudo', 'driverctl', '-v', 'set-override'] + [
+                    nic] + [_driver], _LOGGER,
+                               'Binding NICs %s...' % _NICS_PCI,
+                               True)
+        else:
+            tasks.run_task(['sudo', S.getValue('TOOLS')['bind-tool'],
+                            '--bind=' + _driver] +
+                           _NICS_PCI, _LOGGER,
+                           'Binding NICs %s...' % _NICS_PCI,
+                           True)
     except subprocess.CalledProcessError:
         _LOGGER.error('Unable to bind NICs %s', str(_NICS_PCI))
 
+
 def _unbind_nics():
-    """Unbind NICs using the Intel DPDK ``dpdk*bind.py`` tool.
+    """Unbind NICs using the bind tool specified in the configuration.
     """
     if not len(_NICS_PCI):
         _LOGGER.info('NICs are not configured - nothing to unbind')
         return
     try:
-        tasks.run_task(['sudo', S.getValue('TOOLS')['bind-tool'], '--unbind'] +
-                       _NICS_PCI, _LOGGER,
-                       'Unbinding NICs %s...' % str(_NICS_PCI),
-                       True)
+        if 'driverctl' in S.getValue('TOOLS')['bind-tool'].lower():
+            for nic in _NICS_PCI:
+                tasks.run_task(['sudo', 'driverctl', '-v', 'unset-override'] + [
+                    nic], _LOGGER,
+                               'Binding NICs %s...' % _NICS_PCI,
+                               True)
+        else:
+            tasks.run_task(['sudo', S.getValue('TOOLS')['bind-tool'],
+                            '--unbind'] +
+                           _NICS_PCI, _LOGGER,
+                           'Unbinding NICs %s...' % str(_NICS_PCI),
+                           True)
     except subprocess.CalledProcessError:
         _LOGGER.error('Unable to unbind NICs %s', str(_NICS_PCI))
     # Rebind NICs to their original drivers
@@ -180,14 +195,20 @@ def _unbind_nics():
     for nic in _NICS:
         try:
             if nic['driver']:
-                tasks.run_task(['sudo', S.getValue('TOOLS')['bind-tool'], '--bind',
-                                nic['driver'], nic['pci']],
-                               _LOGGER, 'Binding NIC %s to %s...' %
-                               (nic['pci'], nic['driver']),
-                               True)
+                if 'driverctl' in S.getValue('TOOLS')['bind-tool'].lower():
+                    # driverctl restores the driver automatically on unset
+                    break
+                else:
+                    tasks.run_task(['sudo', S.getValue('TOOLS')['bind-tool'],
+                                    '--bind',
+                                    nic['driver'], nic['pci']],
+                                   _LOGGER, 'Binding NIC %s to %s...' %
+                                   (nic['pci'], nic['driver']),
+                                   True)
         except subprocess.CalledProcessError:
             _LOGGER.error('Unable to bind NIC %s to driver %s',
                           nic['pci'], nic['driver'])
+
 
 class Dpdk(object):
     """A context manager for the system init/cleanup.
