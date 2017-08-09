@@ -256,6 +256,19 @@ running any of the above. For example:
 .. _vloop-vnf-ubuntu-14.04_20160303: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20160303.qcow2
 .. _vloop-vnf-ubuntu-14.04_20151216: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20151216.qcow2
 
+Bind Tools DPDK
+===============
+
+VSPerf supports the default DPDK bind tool, but also supports driverctl. The
+driverctl tool is a new tool being used that allows driver binding to be
+persistent across reboots. The driverctl tool is not provided by VSPerf, but can
+be downloaded from upstream sources. Once installed set the bind tool to
+driverctl to allow VSPERF to correctly bind cards for DPDK tests.
+
+.. code:: python
+
+    PATHS['dpdk']['src']['bind-tool'] = 'driverctl'
+
 Hugepage Configuration
 ----------------------
 
