@@ -73,6 +73,9 @@ def _push_results(reader, int_data):
 
     # Build body
     body = {"project_name": "vsperf",
+            "scenario": "vsperf",
+            "start_date": int_data['start_date'],
+            "stop_date": int_data['stop_date'],
             "case_name": casename,
             "pod_name": int_data['pod'],
             "installer": int_data['installer'],
