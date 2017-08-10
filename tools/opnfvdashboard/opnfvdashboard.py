@@ -17,8 +17,10 @@ vsperf2dashboard
 
 import os
 import csv
+from datetime import datetime as dt
 import logging
 import requests
+
 
 def results2opnfv_dashboard(results_path, int_data):
     """
@@ -32,6 +34,7 @@ def results2opnfv_dashboard(results_path, int_data):
         with open(resfile, 'r') as in_file:
             reader = csv.DictReader(in_file)
             _push_results(reader, int_data)
+
 
 def _push_results(reader, int_data):
     """
@@ -70,9 +73,16 @@ def _push_results(reader, int_data):
                 else:
                     version_dpdk = "not used"
     version = "OVS " + version_ovs.replace('\n', '') + " DPDK " + version_dpdk.replace('\n', '')
+    test_start = dt.fromtimestamp(
+        int_data['start_date']).strftime('%Y-%m-%d %H:%M:%S')
+    test_stop = dt.fromtimestamp(
+        int_data['stop_date']).strftime('%Y-%m-%d %H:%M:%S')
 
     # Build body
     body = {"project_name": "vsperf",
+            "scenario": "vsperf",
+            "start_date": test_start,
+            "stop_date": test_stop,
             "case_name": casename,
             "pod_name": int_data['pod'],
             "installer": int_data['installer'],
@@ -80,10 +90,12 @@ def _push_results(reader, int_data):
             "details": details}
 
     my_data = requests.post(url, json=body)
-    logging.info("Results for %s sent to opnfv, http response: %s", casename, my_data)
+    logging.info("Results for %s sent to opnfv, http response: %s",
+                 casename, my_data)
     logging.debug("opnfv url: %s", db_url)
     logging.debug("the body sent to opnfv")
     logging.debug(body)
+
 
 def _generate_test_name(testcase, int_data):
     """
@@ -94,7 +106,8 @@ def _generate_test_name(testcase, int_data):
 
     names = {'phy2phy_tput': ["tput_ovsdpdk", "tput_ovs"],
              'back2back': ["b2b_ovsdpdk", "b2b_ovs"],
-             'phy2phy_tput_mod_vlan': ["tput_mod_vlan_ovsdpdk", "tput_mod_vlan_ovs"],
+             'phy2phy_tput_mod_vlan': ["tput_mod_vlan_ovsdpdk",
+                                       "tput_mod_vlan_ovs"],
              'phy2phy_cont': ["cont_ovsdpdk", "cont_ovs"],
              'pvp_cont': ["pvp_cont_ovsdpdkuser", "pvp_cont_ovsvirtio"],
              'pvvp_cont': ["pvvp_cont_ovsdpdkuser", "pvvp_cont_ovsvirtio"],
