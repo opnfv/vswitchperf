@@ -19,6 +19,8 @@ import os
 import csv
 import logging
 import requests
+from datetime import datetime as dt
+
 
 def results2opnfv_dashboard(results_path, int_data):
     """
@@ -70,9 +72,14 @@ def _push_results(reader, int_data):
                 else:
                     version_dpdk = "not used"
     version = "OVS " + version_ovs.replace('\n', '') + " DPDK " + version_dpdk.replace('\n', '')
+    test_start = dt.fromtimestamp(int_data['start_date']).strftime('%Y-%m-%d %H:%M:%S')
+    test_stop = dt.fromtimestamp(int_data['stop_date']).strftime('%Y-%m-%d %H:%M:%S')
 
     # Build body
     body = {"project_name": "vsperf",
+            "scenario": "vsperf",
+            "start_date": test_start,
+            "stop_date": test_stop,
             "case_name": casename,
             "pod_name": int_data['pod'],
             "installer": int_data['installer'],
