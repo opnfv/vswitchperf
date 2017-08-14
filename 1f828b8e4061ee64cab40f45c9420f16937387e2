@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_2213b15d",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-08-14T14:33:48Z",
+      "side": 1,
+      "message": "S.getValue(\u0027TOOLS\u0027)[\u0027bind-tool\u0027] should be used instead of hardoced \"drivectl\" in sudo command.\n\nIt will be consistent with \"PATH\" dict usage. It will also work in case, that user will install drivectl into custom path (which is not listed in system PATHS env).",
+      "revId": "1f828b8e4061ee64cab40f45c9420f16937387e2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_02102d4d",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-08-14T14:33:48Z",
+      "side": 1,
+      "message": "same comment as above",
+      "revId": "1f828b8e4061ee64cab40f45c9420f16937387e2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
