@@ -681,8 +681,7 @@ class TestCase(object):
             if self._step_vnf_list[vnf]:
                 self._step_vnf_list[vnf].stop()
 
-    @staticmethod
-    def step_eval_param(param, STEP):
+    def step_eval_param(self, param, STEP):
         # pylint: disable=invalid-name
         """ Helper function for #STEP macro evaluation
         """
@@ -694,28 +693,40 @@ class TestCase(object):
                     # pylint: disable=eval-used
                     tmp_val = str(eval(macro[1:]))
                     param = param.replace(macro, tmp_val)
+
+            # evaluate references to vsperf configuration options
+            macros = re.findall(r'\$(([\w\-]+)(\[[\w\[\]\-\'\"]+\])*)', param)
+            if macros:
+                for macro in macros:
+                    # pylint: disable=eval-used
+                    try:
+                        tmp_val = str(eval("S.getValue('{}'){}".format(macro[1], macro[2])))
+                        param = param.replace('${}'.format(macro[0]), tmp_val)
+                    # ignore that required option can't be evaluated
+                    except (IndexError, KeyError, AttributeError):
+                        self._logger.debug("Skipping %s as it isn't a configuration "
+                                           "parameter.", '${}'.format(macro[0]))
             return param
         elif isinstance(param, list) or isinstance(param, tuple):
             tmp_list = []
             for item in param:
-                tmp_list.append(TestCase.step_eval_param(item, STEP))
+                tmp_list.append(self.step_eval_param(item, STEP))
             return tmp_list
         elif isinstance(param, dict):
             tmp_dict = {}
             for (key, value) in param.items():
-                tmp_dict[key] = TestCase.step_eval_param(value, STEP)
+                tmp_dict[key] = self.step_eval_param(value, STEP)
             return tmp_dict
         else:
             return param
 
-    @staticmethod
-    def step_eval_params(params, step_result):
+    def step_eval_params(self, params, step_result):
         """ Evaluates referrences to results from previous steps
         """
         eval_params = []
         # evaluate all parameters if needed
         for param in params:
-            eval_params.append(TestCase.step_eval_param(param, step_result))
+            eval_params.append(self.step_eval_param(param, step_result))
         return eval_params
 
     def step_run(self):
@@ -788,7 +799,7 @@ class TestCase(object):
             try:
                 # eval parameters, but use only valid step_results
                 # to support negative indexes
-                step_params = TestCase.step_eval_params(step[2:], self._step_result[:i])
+                step_params = self.step_eval_params(step[2:], self._step_result[:i])
                 step_log = '{} {}'.format(' '.join(step[:2]), step_params)
                 self._logger.debug("Step %s '%s' start", i, step_log)
                 self._step_result[i] = test_method(*step_params)

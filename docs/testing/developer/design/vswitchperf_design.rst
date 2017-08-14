@@ -94,11 +94,13 @@ Configuration Procedure and Precedence
 --------------------------------------
 
 Configuration files follow a strict naming convention that allows them to be
-processed in a specific order. All the .conf files are named ``NN_name.conf``,
-where NN is a decimal number. The files are processed in order from 00_name.conf
-to 99_name.conf so that if the name setting is given in both a lower and higher
-numbered conf file then the higher numbered file is the effective setting as it
-is processed after the setting in the lower numbered file.
+processed in a specific order. All the .conf files are named ``NNx_name.conf``,
+where ``NN`` is a decimal number and ``x`` is an optional alphabetical suffix.
+The files are processed in order from ``00_name.conf`` to ``99_name.conf``
+(and from ``00a_name`` to ``00z_name``), so that if the name setting is given
+in both a lower and higher numbered conf file then the higher numbered file
+is the effective setting as it is processed after the setting in the lower
+numbered file.
 
 The values in the file specified by ``--conf-file`` takes precedence over all
 the other configuration files and does not have to follow the naming
