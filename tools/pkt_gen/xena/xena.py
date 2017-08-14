@@ -274,10 +274,11 @@ class Xena(ITrafficGenerator):
         enable the pairs topology
         :return: None
         """
+        # set duplex mode, this code is valid, pylint complaining with a
+        # warning that many have complained about online.
+        # pylint: disable=redefined-variable-type
+
         try:
-            # set duplex mode, this code is valid, pylint complaining with a
-            # warning that many have complained about online.
-            # pylint: disable=redefined-variable-type
             if self._params['traffic']['bidir'] == "True":
                 j_file = XenaJSONMesh()
             elif self._params['traffic']['bidir'] == "False":
@@ -635,11 +636,24 @@ class Xena(ITrafficGenerator):
         root = ET.parse(os.path.join(_CURR_DIR, "xena2544-report.xml")).getroot()
 
         if settings.getValue('TRAFFICGEN_XENA_RFC2544_VERIFY'):
+            # make sure we have a pass before even trying the verify. No need
+            # to run verify on a failed iteration.
+            root = ET.parse(
+                os.path.join(_CURR_DIR, "xena2544-report.xml")).getroot()
+            if root[0][1][0].get('TestState') == "FAIL":
+                self._logger.info('Test failed, skipping verify')
+                return Xena._create_throughput_result(root)
+
             # record the previous settings so we can revert to them if needed to
             # run the binary search again if the verify fails.
             old_tests = tests
             old_duration = self._duration
             old_min = settings.getValue('TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE')
+
+            # record the original values to restore after execution
+            orig_min = settings.getValue('TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE')
+            orig_max = settings.getValue('TRAFFICGEN_XENA_2544_TPUT_MAX_VALUE')
+            orig_init = settings.getValue('TRAFFICGEN_XENA_2544_TPUT_INIT_VALUE')
 
             for attempt in range(
                     1, settings.getValue(
@@ -707,6 +721,11 @@ class Xena(ITrafficGenerator):
                 else:
                     self._logger.error(
                         'Maximum number of verify attempts reached. Reporting last result')
+
+            #restore original values
+            settings.setValue('TRAFFICGEN_XENA_2544_TPUT_MIN_VALUE', orig_min)
+            settings.setValue('TRAFFICGEN_XENA_2544_TPUT_MAX_VALUE', orig_max)
+            settings.setValue('TRAFFICGEN_XENA_2544_TPUT_INIT_VALUE', orig_init)
 
         return Xena._create_throughput_result(root)
 
