@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_1174f897",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-08-16T07:15:25Z",
+      "side": 1,
+      "message": "One small comment I\u0027ve missed during my first review, sorry for that.\n\nYou\u0027re printing log for every nic, so you should put \"% nic\" instead of \"% _NICS_PCI\" into \u0027Binding NICs %s...\u0027 log, am I right?",
+      "revId": "0e778d088379e51a43e59c10fcb24d516e43a059",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_7168e4ba",
+        "filename": "src/dpdk/dpdk.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-08-16T07:15:25Z",
+      "side": 1,
+      "message": "same comment as above",
+      "revId": "0e778d088379e51a43e59c10fcb24d516e43a059",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
