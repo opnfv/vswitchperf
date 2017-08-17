@@ -306,7 +306,18 @@ def get_vswitch_names(rst_files):
     # fallback to the default value
     return ['vSwitch']
 
+def get_build_tag():
+    """ Function will return a Jenkins job ID environment variable.
+    """
 
+    try:
+        build_tag = os.environ['BUILD_TAG']
+
+    except KeyError:
+        _LOGGER.warning('Cannot detect Jenkins job ID')
+        build_tag = "none"
+
+    return build_tag
 
 def generate_final_report():
     """ Function will check if partial test results are available
@@ -674,7 +685,9 @@ def main():
                     test = IntegrationTestCase(cfg)
                 else:
                     test = PerformanceTestCase(cfg)
+                start_time = time.time()
                 test.run()
+                stop_time = time.time()
                 suite.addTest(MockTestCase('', True, test.name))
             # pylint: disable=broad-except
             except (Exception) as ex:
@@ -695,10 +708,16 @@ def main():
             installer_name = settings.getValue('OPNFV_INSTALLER')
             opnfv_url = settings.getValue('OPNFV_URL')
             pkg_list = settings.getValue('PACKAGE_LIST')
+            criteria = "PASS"
+            build_tag = get_build_tag()
 
             int_data = {'vanilla': False,
                         'pod': pod_name,
-                        'installer': installer_name,
+                        'start_date': start_time,
+                        'stop_date': stop_time,
+                        'criteria': criteria,
+                        'build_tag': build_tag,
+                        'installer': installer_name.lower(),
                         'pkg_list': pkg_list,
                         'db_url': opnfv_url}
             if str(settings.getValue('VSWITCH')).endswith('Vanilla'):
