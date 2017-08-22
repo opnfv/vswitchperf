@@ -4,9 +4,13 @@
 
 .. OPNFV VSPERF Documentation master file.
 
-======
-VSPERF
-======
+***********************************
+VSPERF Configuration and User Guide
+***********************************
+
+============
+Introduction
+============
 
 VSPERF is an OPNFV testing project.
 
@@ -28,18 +32,27 @@ setup of the network and/or for control of the test-generator and test execution
 * Artifacts: https://artifacts.opnfv.org/vswitchperf.html
 * Continuous Integration status: https://build.opnfv.org/ci/view/vswitchperf/
 
-******************************
-VSPERF User Guide
-******************************
+================================
+VSPERF Install and Configuration
+================================
 
 .. toctree::
-   :caption: VSPERF Install, Upgrade, Traffic Generator Guide, Test Suite Guide
+   :caption: VSPERF Install, Upgrade, Traffic Generator Guide
    :maxdepth: 2
    :numbered:
 
    ./installation.rst
    ./upgrade.rst
    ./trafficgen.rst
+
+=================
+VSPERF Test Guide
+=================
+
+.. toctree::
+   :caption: VSPERF Test Execution
+   :maxdepth: 2
+   :numbered:
 
    ../userguide/testusage.rst
    ../userguide/teststeps.rst
