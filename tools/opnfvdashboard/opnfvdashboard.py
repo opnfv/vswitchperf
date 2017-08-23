@@ -45,11 +45,19 @@ def _push_results(reader, int_data):
     version = ""
     allowed_pkt = ["64", "128", "512", "1024", "1518"]
     details = {"64": '', "128": '', "512": '', "1024": '', "1518": ''}
+    test_start = None
+    test_stop = None
 
     for row_reader in reader:
         if allowed_pkt.count(row_reader['packet_size']) == 0:
             logging.error("The framesize is not supported in opnfv dashboard")
             continue
+
+        # test execution time includes all frame sizes, so start & stop time
+        # is the same (repeated) for every framesize in CSV file
+        if test_start is None:
+            test_start = row_reader['start_time']
+            test_stop = row_reader['stop_time']
 
         casename = _generate_test_name(row_reader['id'], int_data)
         if "back2back" in row_reader['id']:
@@ -73,10 +81,15 @@ def _push_results(reader, int_data):
 
     # Build body
     body = {"project_name": "vsperf",
+            "scenario": "vsperf",
+            "start_date": test_start,
+            "stop_date": test_stop,
             "case_name": casename,
             "pod_name": int_data['pod'],
             "installer": int_data['installer'],
             "version": version,
+            "build_tag": int_data['build_tag'],
+            "criteria": int_data['criteria'],
             "details": details}
 
     my_data = requests.post(url, json=body)

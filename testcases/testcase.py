@@ -24,6 +24,7 @@ import re
 import time
 import subprocess
 
+from datetime import datetime as dt
 from conf import settings as S
 from conf import get_test_param, merge_spec
 import core.component_factory as component_factory
@@ -58,6 +59,7 @@ class TestCase(object):
         cfg = copy.deepcopy(test_cfg)
 
         self._testcase_start_time = time.time()
+        self._testcase_stop_time = self._testcase_start_time
         self._hugepages_mounted = False
         self._traffic_ctl = None
         self._vnf_ctl = None
@@ -355,8 +357,9 @@ class TestCase(object):
             # tear down test execution environment and log results
             self.run_finalize()
 
+        self._testcase_stop_time = time.time()
         self._testcase_run_time = time.strftime("%H:%M:%S",
-                                                time.gmtime(time.time() -
+                                                time.gmtime(self._testcase_stop_time -
                                                             self._testcase_start_time))
         logging.info("Testcase execution time: " + self._testcase_run_time)
         # report test results
@@ -394,6 +397,11 @@ class TestCase(object):
             item[ResultsConstants.VSWITCH] = S.getValue('VSWITCH')
             item[ResultsConstants.TRAFFIC_TYPE] = self._traffic['l3']['proto']
             item[ResultsConstants.TEST_RUN_TIME] = self._testcase_run_time
+            # convert timestamps to human readable format
+            item[ResultsConstants.TEST_START_TIME] = dt.fromtimestamp(
+                self._testcase_start_time).strftime('%Y-%m-%d %H:%M:%S')
+            item[ResultsConstants.TEST_STOP_TIME] = dt.fromtimestamp(
+                self._testcase_stop_time).strftime('%Y-%m-%d %H:%M:%S')
             if self._traffic['multistream']:
                 item[ResultsConstants.SCAL_STREAM_COUNT] = self._traffic['multistream']
                 item[ResultsConstants.SCAL_STREAM_TYPE] = self._traffic['stream_type']
