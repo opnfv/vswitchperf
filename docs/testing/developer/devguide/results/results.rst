@@ -32,6 +32,12 @@ pvvp_tput_ovsdpdkuser pvvp_tput             Throughput (FPS)   vhost-user
 pvvp_tput_ovsvirtio   pvvp_tput             Throughput (FPS)   virtio-net
 pvvp_b2b_ovsdpdkuser  pvvp_back2back        Throughput (FPS)   vhost-user
 pvvp_b2b_ovsvirtio    pvvp_back2back        Throughput (FPS)   virtio-net
+tput_vppdpdk          phy2phy_tput_vpp      Throughput (FPS)   N/A
+b2b_vppdpdk           phy2phy_back2back_vpp Back-to-back value N/A
+pvp_tput_vppdpdkuser  pvp_tput_vpp          Throughput (FPS)   vhost-user
+pvp_b2b_vppdpdkuser   pvp_back2back_vpp     Back-to-back value vhost-user
+pvvp_tput_vppdpdkuser pvvp_tput_vpp         Throughput (FPS)   vhost-user
+pvvp_b2b_vppdpdkuser  pvvp_back2back_vpp    Throughput (FPS)   vhost-user
 ===================== ===================== ================== ===============
 
 The loopback application in the VNF was used for PVP and PVVP scenarios was DPDK
