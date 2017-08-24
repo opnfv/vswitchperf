@@ -40,13 +40,14 @@ def _push_results(reader, int_data):
     db_url = int_data['db_url']
     url = db_url + "/results"
     casename = ""
-    version_ovs = ""
+    version_vswitch = ""
     version_dpdk = ""
     version = ""
     allowed_pkt = ["64", "128", "512", "1024", "1518"]
     details = {"64": '', "128": '', "512": '', "1024": '', "1518": ''}
     test_start = None
     test_stop = None
+    vswitch = None
 
     for row_reader in reader:
         if allowed_pkt.count(row_reader['packet_size']) == 0:
@@ -58,8 +59,10 @@ def _push_results(reader, int_data):
         if test_start is None:
             test_start = row_reader['start_time']
             test_stop = row_reader['stop_time']
+            # CI job executes/reports TCs per vswitch type
+            vswitch = row_reader['vswitch']
 
-        casename = _generate_test_name(row_reader['id'], int_data)
+        casename = "{}_{}".format(row_reader['id'], row_reader['vswitch'].lower())
         if "back2back" in row_reader['id']:
             details[row_reader['packet_size']] = row_reader['b2b_frames']
         else:
@@ -68,16 +71,19 @@ def _push_results(reader, int_data):
     # Create version field
     with open(int_data['pkg_list'], 'r') as pkg_file:
         for line in pkg_file:
-            if "OVS_TAG" in line:
-                version_ovs = line.replace(' ', '')
-                version_ovs = version_ovs.replace('OVS_TAG?=', '')
+            if "OVS_TAG" in line and vswitch.startswith('Ovs'):
+                version_vswitch = line.replace(' ', '')
+                version_vswitch = "OVS " + version_vswitch.replace('OVS_TAG?=', '')
+            if "VPP_TAG" in line and vswitch.startswith('Vpp'):
+                version_vswitch = line.replace(' ', '')
+                version_vswitch = "VPP " + version_vswitch.replace('VPP_TAG?=', '')
             if "DPDK_TAG" in line:
-                if int_data['vanilla'] is False:
+                # DPDK_TAG is not used by VPP, it downloads its onw DPDK version
+                if vswitch == "OvsDpdkVhost":
                     version_dpdk = line.replace(' ', '')
-                    version_dpdk = version_dpdk.replace('DPDK_TAG?=', '')
-                else:
-                    version_dpdk = "not used"
-    version = "OVS " + version_ovs.replace('\n', '') + " DPDK " + version_dpdk.replace('\n', '')
+                    version_dpdk = " DPDK {}".format(
+                        version_dpdk.replace('DPDK_TAG?=', ''))
+    version = version_vswitch.replace('\n', '') + version_dpdk.replace('\n', '')
 
     # Build body
     body = {"project_name": "vsperf",
@@ -97,35 +103,3 @@ def _push_results(reader, int_data):
     logging.debug("opnfv url: %s", db_url)
     logging.debug("the body sent to opnfv")
     logging.debug(body)
-
-def _generate_test_name(testcase, int_data):
-    """
-    the method generates testcase name for releng
-    """
-    vanilla = int_data['vanilla']
-    res_name = ""
-
-    names = {'phy2phy_tput': ["tput_ovsdpdk", "tput_ovs"],
-             'back2back': ["b2b_ovsdpdk", "b2b_ovs"],
-             'phy2phy_tput_mod_vlan': ["tput_mod_vlan_ovsdpdk", "tput_mod_vlan_ovs"],
-             'phy2phy_cont': ["cont_ovsdpdk", "cont_ovs"],
-             'pvp_cont': ["pvp_cont_ovsdpdkuser", "pvp_cont_ovsvirtio"],
-             'pvvp_cont': ["pvvp_cont_ovsdpdkuser", "pvvp_cont_ovsvirtio"],
-             'phy2phy_scalability': ["scalability_ovsdpdk", "scalability_ovs"],
-             'pvp_tput': ["pvp_tput_ovsdpdkuser", "pvp_tput_ovsvirtio"],
-             'pvp_back2back': ["pvp_b2b_ovsdpdkuser", "pvp_b2b_ovsvirtio"],
-             'pvvp_tput': ["pvvp_tput_ovsdpdkuser", "pvvp_tput_ovsvirtio"],
-             'pvvp_back2back': ["pvvp_b2b_ovsdpdkuser", "pvvp_b2b_ovsvirtio"],
-             'phy2phy_cpu_load': ["cpu_load_ovsdpdk", "cpu_load_ovs"],
-             'phy2phy_mem_load': ["mem_load_ovsdpdk", "mem_load_ovs"]}
-
-    for name, name_list in names.items():
-        if name != testcase:
-            continue
-        if vanilla is True:
-            res_name = name_list[1]
-        else:
-            res_name = name_list[0]
-        break
-
-    return res_name
