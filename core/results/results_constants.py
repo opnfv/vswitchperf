@@ -66,6 +66,8 @@ class ResultsConstants(object):
     OPTIMAL_LEARNING_RATE_FPS = 'optimal_learning_rate_fps'
 
     TEST_RUN_TIME = "test_execution_time"
+    TEST_START_TIME = "start_time"
+    TEST_STOP_TIME = "stop_time"
 
     @staticmethod
     def get_traffic_constants():
