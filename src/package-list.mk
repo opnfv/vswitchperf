@@ -26,3 +26,7 @@ VPP_TAG ?= v17.04
 # QEMU section
 QEMU_URL ?= https://github.com/qemu/qemu.git
 QEMU_TAG ?= v2.5.0
+
+# TREX section
+TREX_URL ?= https://github.com/cisco-system-traffic-generator/trex-core.git
+TREX_TAG ?= 8bf9c16556843e55c232b64d9a5061bf588fad42
