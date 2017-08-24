@@ -230,6 +230,7 @@ def get_version(app_name):
         'loopback_l2fwd' : os.path.join(S.getValue('ROOT_DIR'), 'src/l2fwd/l2fwd.c'),
         'ixnet' : os.path.join(S.getValue('TRAFFICGEN_IXNET_LIB_PATH'), 'pkgIndex.tcl'),
         'ixia' : os.path.join(S.getValue('TRAFFICGEN_IXIA_ROOT_DIR'), 'lib/ixTcl1.0/ixTclHal.tcl'),
+        'trex' : os.path.join(S.getValue('ROOT_DIR'), 'src/trex/trex'),
     }
 
 
@@ -312,6 +313,9 @@ def get_version(app_name):
         app_version = match_line(app_version_file['ixia'], 'package provide IxTclHal')
         if app_version:
             app_version = app_version.split(' ')[3]
+    elif app_name.lower() == 'trex':
+        app_version = match_line(os.path.join(app_version_file['trex'], 'VERSION'), 'v')
+        app_git_tag = get_git_tag(app_version_file['trex'])
     elif app_name.lower() == 'xena':
         try:
             app_version = S.getValue('XENA_VERSION')
