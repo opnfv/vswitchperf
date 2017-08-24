@@ -18,6 +18,7 @@ VSPERF supports the following traffic generators:
   * `Spirent TestCenter`_
   * `Xena Networks`_
   * MoonGen_
+  * Trex_
 
 To see the list of traffic gens from the cli:
 
@@ -714,3 +715,98 @@ set to allow for proper connections to the host with MoonGen.
     TRAFFICGEN_MOONGEN_BASE_DIR = ""
     TRAFFICGEN_MOONGEN_PORTS = ""
     TRAFFICGEN_MOONGEN_LINE_SPEED_GBPS = ""
+
+Trex
+----
+
+Installation
+~~~~~~~~~~~~
+
+Trex architecture overview and general installation instructions
+can be found here:
+
+https://trex-tgn.cisco.com/trex/doc/trex_stateless.html
+
+You can directly download from GitHub:
+
+.. code-block:: console
+
+    git clone https://github.com/cisco-system-traffic-generator/trex-core
+
+and use the master branch:
+
+.. code-block:: console
+
+    git checkout master
+
+or Trex latest realease you can download from here:
+
+.. code-block:: console
+
+    wget --no-cache http://trex-tgn.cisco.com/trex/release/latest
+
+After download, Trex repo has to be built:
+
+.. code-block:: console
+
+   cd trex-core/linux_dpdk
+   ./b configure   (run only once)
+   ./b build
+
+Next step is to create a minimum configuration file. It can be created by script ``dpdk_setup_ports.py``.
+The script with parameter ``-i`` will run in interactive mode and it will create file ``/etc/trex_cfg.yaml``.
+
+.. code-block:: console
+
+   cd trex-core/scripts
+   sudo ./dpdk_setup_ports.py -i
+
+Or example of configuration file can be found at location below, but it must be updated manually:
+
+.. code-block:: console
+
+   cp trex-core/scripts/cfg/simple_cfg /etc/trex_cfg.yaml
+
+For additional information about configuration file see official documentation (chapter 3.1.2):
+
+https://trex-tgn.cisco.com/trex/doc/trex_manual.html#_creating_minimum_configuration_file
+
+After compilation and configuration it is possible to run trex server in stateless mode.
+It is neccesary for proper connection between Trex server and VSPERF.
+
+.. code-block:: console
+
+   cd trex-core/scripts/
+   ./t-rex-64 -i
+
+For additional information about Trex stateless mode see Trex stateless documentation:
+
+https://trex-tgn.cisco.com/trex/doc/trex_stateless.html
+
+**NOTE:** One will need to set up ssh login to not use passwords between the server
+running Trex and the device under test (running the VSPERF test
+infrastructure). This is because VSPERF on one server uses 'ssh' to
+configure and run Trex upon the other server.
+
+One can set up this ssh access by doing the following on both servers:
+
+.. code-block:: console
+
+    ssh-keygen -b 2048 -t rsa
+    ssh-copy-id <other server>
+
+Configuration
+~~~~~~~~~~~~~
+
+Connection information for Trex must be supplied inside the custom configuration
+file. The following parameters must be set to allow for proper connections to the host with Trex.
+Example of this configuration is in conf/03_traffic.conf or conf/10_custom.conf.
+
+.. code-block:: console
+
+    TRAFFICGEN_TREX_HOST_IP_ADDR = ''
+    TRAFFICGEN_TREX_USER = ''
+    TRAFFICGEN_TREX_BASE_DIR = ''
+
+TRAFFICGEN_TREX_USER has to have sudo permission and passwordless access.
+TRAFFICGEN_TREX_BASE_DIR is the place, where is stored 't-rex-64' file.
