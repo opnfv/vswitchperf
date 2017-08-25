@@ -68,7 +68,7 @@ sanity:
 $(WORK_DIR)/configure: $(TAG_DONE_FLAG)
 
 $(WORK_DIR):
-	$(AT)git clone $(QEMU_URL)
+	$(AT)git clone $(QEMU_URL) qemu
 
 $(TAG_DONE_FLAG): $(WORK_DIR)
 	$(AT)cd $(WORK_DIR); git checkout $(QEMU_TAG)
