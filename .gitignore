@@ -64,6 +64,16 @@ target/
 /src/dpdk/dpdk/
 /src/ovs/ovs/
 /src/qemu/qemu/
+/src/vpp/vpp/
 /src_cuse/
 /src_vanilla/
 .vagrant
+tags
+
+# Ignore all files in l2fwd except those prefaced by "!"
+/src/l2fwd
+!/src/l2fwd/gen_debian_package.sh
+!/src/l2fwd/l2fwd.c
+!/src/l2fwd/LICENSE.txt
+!/src/l2fwd/Makefile
+
