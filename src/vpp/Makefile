@@ -66,7 +66,7 @@ sanity:
 $(WORK_DIR)/configure: $(TAG_DONE_FLAG)
 
 $(WORK_DIR):
-	$(AT)git clone $(VPP_URL)
+	$(AT)git clone $(VPP_URL) vpp
 
 $(TAG_DONE_FLAG): $(WORK_DIR)
 	$(AT)cd vpp; git checkout $(VPP_TAG)

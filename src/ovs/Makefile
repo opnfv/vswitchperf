@@ -111,7 +111,7 @@ boot $(WORK_DIR)/configure:
 boot $(WORK_DIR)/configure: $(TAG_DONE_FLAG)
 
 $(WORK_DIR):
-	$(AT)git clone $(OVS_URL)
+	$(AT)git clone $(OVS_URL) ovs
 	$(AT)mkdir -p $(OVS_VANILLA)
 	$(AT)cp -rf ./* $(OVS_VANILLA)
 

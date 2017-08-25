@@ -99,9 +99,6 @@ ifdef CONFIG_FILE_BASE
 	$(AT)cd `dirname $(CONFIG_FILE_BASE)` && git checkout `basename $(CONFIG_FILE_BASE)` && cd -
 endif
 	$(AT)echo "VHOST_USER = $(VHOST_USER)"
-ifeq ($(VHOST_USER),n)
-	$(AT)cd $(WORK_DIR)/lib/librte_vhost/eventfd_link; make
-endif
 	@echo "Make done"
 
 install: $(INSTALL_TARGET)
@@ -126,7 +123,7 @@ sanity:
 	@echo "Make sanity in $(WORK_DIR) (stub) "
 
 $(WORK_DIR):
-	$(AT)git clone $(DPDK_URL)
+	$(AT)git clone $(DPDK_URL) dpdk
 
 $(TAG_DONE_FLAG): $(WORK_DIR)
 	$(AT)cd $(WORK_DIR); git checkout $(DPDK_TAG)
