@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_8ab1c1e3",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 15
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-08-29T15:35:28Z",
+      "side": 1,
+      "message": "Wow, I\u0027d like to hear more about this, especially *what* was affected...   \ns/perfomence/performance/",
+      "range": {
+        "startLine": 433,
+        "startChar": 2,
+        "endLine": 433,
+        "endChar": 71
+      },
+      "revId": "98d3b053a14565e27943dd7da5f448cac2ee8334",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
