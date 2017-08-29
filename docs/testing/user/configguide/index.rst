@@ -58,3 +58,4 @@ VSPERF Test Guide
    ../userguide/teststeps.rst
    ../userguide/integration.rst
    ../userguide/yardstick.rst
+   ../userguide/testlist.rst

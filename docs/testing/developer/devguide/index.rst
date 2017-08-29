@@ -56,9 +56,9 @@ VSPERF IETF RFC 8204
    :maxdepth: 2
    :numbered:
 
-The VSPERF test specification was summarized in a 23 page Internet Draft ... `Benchmarking Virtual Switches in OPNFV
-<https://tools.ietf.org/html/draft-ietf-bmwg-vswitch-opnfv-01>`_
- which was contributed to the IETF Benchmarking Methodology Working Group (BMWG). The BMWG was re-chartered in 2014
+The VSPERF test specification was summarized in a 23 page Internet Draft ...
+`Benchmarking Virtual Switches in OPNFV <https://tools.ietf.org/html/draft-ietf-bmwg-vswitch-opnfv-01>`_
+which was contributed to the IETF Benchmarking Methodology Working Group (BMWG). The BMWG was re-chartered in 2014
 to include benchmarking for Virtualized Network Functions (VNFs) and their infrastructure. The Internet Engineering
 Steering Group of the IETF has approved the most recent version for publication as RFC 8204.
 
