@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_dbc39d55",
+        "filename": "docs/testing/user/configguide/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-08-30T10:00:16Z",
+      "side": 1,
+      "message": "This section seems to work in documentation rendered for docs.opnfv.org, but these relative parts do not work for documentation rendered locally or by jenkins jobs (triggered by gerrit).",
+      "revId": "655e93e08c230068ec1408bb612ef543fd5e5c17",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_3ba289ae",
+        "filename": "docs/testing/user/userguide/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-08-30T10:00:16Z",
+      "side": 1,
+      "message": "This index is probably not used by doc version rendered for docs.opnfv.org, but it is used by doc generated locally or by jenkins. Thus I\u0027ve added content, so we can see changes of these RST files both locally and in jenkins/artifactory.",
+      "revId": "655e93e08c230068ec1408bb612ef543fd5e5c17",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
