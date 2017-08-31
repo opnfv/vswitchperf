@@ -444,18 +444,36 @@ def handle_list_options(args):
         sys.exit(0)
 
     if args['list']:
-        # configure tests
-        if args['integration']:
-            testcases = settings.getValue('INTEGRATION_TESTS')
-        else:
-            testcases = settings.getValue('PERFORMANCE_TESTS')
-
-        print("Available Tests:")
-        print("================")
-
-        for test in testcases:
-            print('* %-30s %s' % ('%s:' % test['Name'], test['Description']))
+        list_testcases(args)
         sys.exit(0)
+
+
+def list_testcases(args):
+    """ Print list of testcases requested by --list CLI argument
+
+    :param args: A dictionary with all CLI arguments
+    """
+    # configure tests
+    if args['integration']:
+        testcases = settings.getValue('INTEGRATION_TESTS')
+    else:
+        testcases = settings.getValue('PERFORMANCE_TESTS')
+
+    print("Available Tests:")
+    print("================")
+
+    for test in testcases:
+        description = functions.format_description(test['Description'], 70)
+        if len(test['Name']) < 40:
+            print('* {:40} {}'.format('{}:'.format(test['Name']), description[0]))
+        else:
+            print('* {}'.format('{}:'.format(test['Name'])))
+            print('  {:40} {}'.format('', description[0]))
+        for i in range(1, len(description)):
+            print('  {:40} {}'.format('', description[i]))
+
+
+
 
 
 def vsperf_finalize():
@@ -678,6 +696,7 @@ def main():
         # testcases.integration.IntegrationTestCase to testcases.performance.PerformanceTestCase
         # pylint: disable=redefined-variable-type
         suite = unittest.TestSuite()
+        settings_snapshot = copy.deepcopy(settings.__dict__)
         for cfg in selected_tests:
             test_name = cfg.get('Name', '<Name not set>')
             try:
@@ -692,6 +711,8 @@ def main():
                 _LOGGER.exception("Failed to run test: %s", test_name)
                 suite.addTest(MockTestCase(str(ex), False, test_name))
                 _LOGGER.info("Continuing with next test...")
+            finally:
+                settings.restore_from_dict(settings_snapshot)
 
         # generate final rst report with results of all executed TCs
         generate_final_report()

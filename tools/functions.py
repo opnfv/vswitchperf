@@ -19,6 +19,7 @@ import os
 import logging
 import glob
 import shutil
+import re
 from conf import settings as S
 
 MAX_L4_FLOWS = 65536
@@ -171,3 +172,44 @@ def check_traffic(traffic):
                 traffic['multistream'] = MAX_L4_FLOWS
 
     return traffic
+
+def filter_output(output, regex):
+    """Filter output by defined regex. Output can be either string, list or tuple.
+       Every string is split into list line by line. After that regex is applied
+       to filter only matching lines, which are returned back.
+
+       :returns: list of matching records
+    """
+    result = []
+    if isinstance(output, str):
+        for line in output.split('\n'):
+            result += re.findall(regex, line)
+        return result
+    elif isinstance(output, list) or isinstance(output, tuple):
+        tmp_res = []
+        for item in output:
+            tmp_res.append(filter_output(item, regex))
+        return tmp_res
+    else:
+        raise RuntimeError('Only strings and lists are supported by filter_output(), '
+                           'but output has type {}'.format(type(output)))
+
+def format_description(desc, length):
+    """ Split description into multiple lines based on given line length.
+
+    :param desc: A string with testcase description
+    :param length: A maximum line length
+    """
+    # split description to multiple lines
+    words = desc.split()
+    output = []
+    line = ''
+    for word in words:
+        if len(line) + len(word) < length:
+            line += '{} '.format(word)
+        else:
+            output.append(line.strip())
+            line = '{} '.format(word)
+
+    output.append(line.strip())
+    return output

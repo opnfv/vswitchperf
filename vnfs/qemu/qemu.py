@@ -146,13 +146,14 @@ class IVnfQemu(IVnf):
         """
         if self.is_running():
             try:
-                # exit testpmd if needed
-                if self._guest_loopback == 'testpmd':
-                    self.execute_and_wait('stop', 120, "Done")
-                    self.execute_and_wait('quit', 120, "[bB]ye")
+                if self._login_active:
+                    # exit testpmd if needed
+                    if self._guest_loopback == 'testpmd':
+                        self.execute_and_wait('stop', 120, "Done")
+                        self.execute_and_wait('quit', 120, "[bB]ye")
 
-                # turn off VM
-                self.execute_and_wait('poweroff', 120, "Power down")
+                    # turn off VM
+                    self.execute_and_wait('poweroff', 120, "Power down")
 
             except pexpect.TIMEOUT:
                 self.kill()
@@ -169,7 +170,7 @@ class IVnfQemu(IVnf):
 
     # helper functions
 
-    def _login(self, timeout=120):
+    def login(self, timeout=120):
         """
         Login to QEMU instance.
 
@@ -178,8 +179,11 @@ class IVnfQemu(IVnf):
 
         :param timeout: Timeout to wait for login to complete.
 
-        :returns: None
+        :returns: True if login is active
         """
+        if self._login_active:
+            return self._login_active
+
         # if no timeout was set, we likely started QEMU without waiting for it
         # to boot. This being the case, we best check that it has finished
         # first.
@@ -191,21 +195,8 @@ class IVnfQemu(IVnf):
         self._child.sendline(S.getValue('GUEST_PASSWORD')[self._number])
 
         self._expect_process(S.getValue('GUEST_PROMPT')[self._number], timeout=5)
-
-    def send_and_pass(self, cmd, timeout=30):
-        """
-        Send ``cmd`` and wait ``timeout`` seconds for it to pass.
-
-        :param cmd: Command to send to guest.
-        :param timeout: Time to wait for prompt before checking return code.
-
-        :returns: None
-        """
-        self.execute(cmd)
-        self.wait(S.getValue('GUEST_PROMPT')[self._number], timeout=timeout)
-        self.execute('echo $?')
-        self._child.expect('^0$', timeout=1)  # expect a 0
-        self.wait(S.getValue('GUEST_PROMPT')[self._number], timeout=timeout)
+        self._login_active = True
+        return self._login_active
 
     def _affinitize(self):
         """
@@ -277,29 +268,31 @@ class IVnfQemu(IVnf):
         """
         Configure VM to run VNF, e.g. port forwarding application based on the configuration
         """
+        if self._guest_loopback == 'buildin':
+            return
+
+        self.login()
+
         if self._guest_loopback == 'testpmd':
-            self._login()
             self._configure_testpmd()
         elif self._guest_loopback == 'l2fwd':
-            self._login()
             self._configure_l2fwd()
         elif self._guest_loopback == 'linux_bridge':
-            self._login()
             self._configure_linux_bridge()
-        elif self._guest_loopback != 'buildin':
-            self._logger.error('Unsupported guest loopback method "%s" was specified. Option'
-                               ' "buildin" will be used as a fallback.', self._guest_loopback)
+        elif self._guest_loopback != 'clean':
+            raise RuntimeError('Unsupported guest loopback method "%s" was specified.',
+                               self._guest_loopback)
 
     def wait(self, prompt=None, timeout=30):
         if prompt is None:
             prompt = S.getValue('GUEST_PROMPT')[self._number]
-        super(IVnfQemu, self).wait(prompt=prompt, timeout=timeout)
+        return super(IVnfQemu, self).wait(prompt=prompt, timeout=timeout)
 
     def execute_and_wait(self, cmd, timeout=30, prompt=None):
         if prompt is None:
             prompt = S.getValue('GUEST_PROMPT')[self._number]
-        super(IVnfQemu, self).execute_and_wait(cmd, timeout=timeout,
-                                               prompt=prompt)
+        return super(IVnfQemu, self).execute_and_wait(cmd, timeout=timeout,
+                                                      prompt=prompt)
 
     def _modify_dpdk_makefile(self):
         """
@@ -393,7 +386,7 @@ class IVnfQemu(IVnf):
                 'VSWITCH_JUMBO_FRAMES_SIZE'))
 
         self.execute_and_wait('./testpmd {}'.format(testpmd_params), 60, "Done")
-        self.execute('set fwd ' + self._testpmd_fwd_mode, 1)
+        self.execute_and_wait('set fwd ' + self._testpmd_fwd_mode, 20, 'testpmd>')
         self.execute_and_wait('start', 20, 'testpmd>')
 
     def _configure_l2fwd(self):
@@ -407,12 +400,12 @@ class IVnfQemu(IVnf):
 
         # configure all interfaces
         for nic in self._nics:
-            self.execute('ip addr add ' +
-                         nic['ip'] + ' dev ' + nic['device'])
+            self.execute_and_wait('ip addr add ' +
+                                  nic['ip'] + ' dev ' + nic['device'])
             if S.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
-                self.execute('ifconfig {} mtu {}'.format(
+                self.execute_and_wait('ifconfig {} mtu {}'.format(
                     nic['device'], S.getValue('VSWITCH_JUMBO_FRAMES_SIZE')))
-            self.execute('ip link set dev ' + nic['device'] + ' up')
+            self.execute_and_wait('ip link set dev ' + nic['device'] + ' up')
 
         # build and configure system for l2fwd
         self.execute_and_wait('cd ' + S.getValue('GUEST_OVS_DPDK_DIR')[self._number] +
@@ -437,43 +430,42 @@ class IVnfQemu(IVnf):
         self._configure_disable_firewall()
 
         # configure linux bridge
-        self.execute('brctl addbr br0')
+        self.execute_and_wait('brctl addbr br0')
 
         # add all NICs into the bridge
         for nic in self._nics:
-            self.execute('ip addr add ' +
-                         nic['ip'] + ' dev ' + nic['device'])
+            self.execute_and_wait('ip addr add ' + nic['ip'] + ' dev ' + nic['device'])
             if S.getValue('VSWITCH_JUMBO_FRAMES_ENABLED'):
-                self.execute('ifconfig {} mtu {}'.format(
+                self.execute_and_wait('ifconfig {} mtu {}'.format(
                     nic['device'], S.getValue('VSWITCH_JUMBO_FRAMES_SIZE')))
-            self.execute('ip link set dev ' + nic['device'] + ' up')
-            self.execute('brctl addif br0 ' + nic['device'])
+            self.execute_and_wait('ip link set dev ' + nic['device'] + ' up')
+            self.execute_and_wait('brctl addif br0 ' + nic['device'])
 
-        self.execute('ip addr add ' +
-                     S.getValue('GUEST_BRIDGE_IP')[self._number] +
-                     ' dev br0')
-        self.execute('ip link set dev br0 up')
+        self.execute_and_wait('ip addr add {} dev br0'.format(
+            S.getValue('GUEST_BRIDGE_IP')[self._number]))
+        self.execute_and_wait('ip link set dev br0 up')
 
         # Add the arp entries for the IXIA ports and the bridge you are using.
         # Use command line values if provided.
         trafficgen_mac = S.getValue('VANILLA_TGEN_PORT1_MAC')
         trafficgen_ip = S.getValue('VANILLA_TGEN_PORT1_IP')
 
-        self.execute('arp -s ' + trafficgen_ip + ' ' + trafficgen_mac)
+        self.execute_and_wait('arp -s ' + trafficgen_ip + ' ' + trafficgen_mac)
 
         trafficgen_mac = S.getValue('VANILLA_TGEN_PORT2_MAC')
         trafficgen_ip = S.getValue('VANILLA_TGEN_PORT2_IP')
 
-        self.execute('arp -s ' + trafficgen_ip + ' ' + trafficgen_mac)
+        self.execute_and_wait('arp -s ' + trafficgen_ip + ' ' + trafficgen_mac)
 
         # Enable forwarding
-        self.execute('sysctl -w net.ipv4.ip_forward=1')
+        self.execute_and_wait('sysctl -w net.ipv4.ip_forward=1')
 
         # Controls source route verification
         # 0 means no source validation
-        self.execute('sysctl -w net.ipv4.conf.all.rp_filter=0')
+        self.execute_and_wait('sysctl -w net.ipv4.conf.all.rp_filter=0')
         for nic in self._nics:
-            self.execute('sysctl -w net.ipv4.conf.' + nic['device'] + '.rp_filter=0')
+            self.execute_and_wait('sysctl -w net.ipv4.conf.' + nic['device'] +
+                                  '.rp_filter=0')
 
     def _bind_dpdk_driver(self, driver, pci_slots):
         """
