@@ -140,13 +140,7 @@ To run VXLAN decapsulation tests:
 
 1. Set the variables used in "Executing Tunnel encapsulation tests"
 
-2. Set dstmac of DUT_NIC2_MAC to the MAC adddress of the 2nd NIC of your DUT
-
-  .. code-block:: python
-
-    DUT_NIC2_MAC = '<DUT NIC2 MAC>'
-
-3. Run test:
+2. Run test:
 
   .. code-block:: console
 
@@ -181,13 +175,7 @@ To run GRE decapsulation tests:
 
 1. Set the variables used in "Executing Tunnel encapsulation tests"
 
-2. Set dstmac of DUT_NIC2_MAC to the MAC adddress of the 2nd NIC of your DUT
-
-  .. code-block:: python
-
-    DUT_NIC2_MAC = '<DUT NIC2 MAC>'
-
-3. Run test:
+2. Run test:
 
   .. code-block:: console
 
@@ -238,13 +226,7 @@ To run GENEVE decapsulation tests:
 
 1. Set the variables used in "Executing Tunnel encapsulation tests"
 
-2. Set dstmac of DUT_NIC2_MAC to the MAC adddress of the 2nd NIC of your DUT
-
-  .. code-block:: python
-
-    DUT_NIC2_MAC = '<DUT NIC2 MAC>'
-
-3. Run test:
+2. Run test:
 
   .. code-block:: console
 
@@ -289,8 +271,6 @@ To run VXLAN decapsulation tests:
         'datapath/linux/openvswitch.ko',
     ]
 
-    DUT_NIC1_MAC = '<DUT NIC1 MAC ADDRESS>'
-
     TRAFFICGEN_PORT1_IP = '172.16.1.2'
     TRAFFICGEN_PORT2_IP = '192.168.1.11'
 
@@ -302,7 +282,8 @@ To run VXLAN decapsulation tests:
 
     VXLAN_FRAME_L2 = {'srcmac':
                       '01:02:03:04:05:06',
-                      'dstmac': DUT_NIC1_MAC
+                      'dstmac':
+                      '06:05:04:03:02:01',
                      }
 
     VXLAN_FRAME_L3 = {'proto': 'udp',
@@ -349,8 +330,6 @@ To run GRE decapsulation tests:
         'datapath/linux/openvswitch.ko',
     ]
 
-    DUT_NIC1_MAC = '<DUT NIC1 MAC ADDRESS>'
-
     TRAFFICGEN_PORT1_IP = '172.16.1.2'
     TRAFFICGEN_PORT2_IP = '192.168.1.11'
 
@@ -362,7 +341,8 @@ To run GRE decapsulation tests:
 
     GRE_FRAME_L2 = {'srcmac':
                     '01:02:03:04:05:06',
-                    'dstmac': DUT_NIC1_MAC
+                    'dstmac':
+                    '06:05:04:03:02:01',
                    }
 
     GRE_FRAME_L3 = {'proto': 'udp',
@@ -408,8 +388,6 @@ To run GENEVE decapsulation tests:
         'datapath/linux/openvswitch.ko',
     ]
 
-    DUT_NIC1_MAC = '<DUT NIC1 MAC ADDRESS>'
-
     TRAFFICGEN_PORT1_IP = '172.16.1.2'
     TRAFFICGEN_PORT2_IP = '192.168.1.11'
 
@@ -421,7 +399,8 @@ To run GENEVE decapsulation tests:
 
     GENEVE_FRAME_L2 = {'srcmac':
                        '01:02:03:04:05:06',
-                       'dstmac': DUT_NIC1_MAC
+                       'dstmac':
+                       '06:05:04:03:02:01',
                       }
 
     GENEVE_FRAME_L3 = {'proto': 'udp',

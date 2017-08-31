@@ -339,6 +339,18 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
                          "IP"   - flow is defined by ingress ports
                                   and src and dst IP addresses
                       Default value: "port"
+    'flow_control'  - Controls flow control support by traffic generator.
+                      Supported values:
+                         False  - flow control is disabled
+                         True   - flow control is enabled
+                      Default value: False
+                      Note: Currently it is supported by IxNet only
+    'learning_frames' - Controls learning frames support by traffic generator.
+                      Supported values:
+                         False  - learning freames are disabled
+                         True   - learning freames are enabled
+                      Default value: True
+                      Note: Currently it is supported by IxNet only
     'l2'            - A dictionary with l2 network layer details. Supported
                       values are:
         'srcmac'    - Specifies source MAC address filled by traffic generator.

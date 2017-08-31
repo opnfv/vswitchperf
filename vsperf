@@ -444,18 +444,56 @@ def handle_list_options(args):
         sys.exit(0)
 
     if args['list']:
-        # configure tests
-        if args['integration']:
-            testcases = settings.getValue('INTEGRATION_TESTS')
-        else:
-            testcases = settings.getValue('PERFORMANCE_TESTS')
-
-        print("Available Tests:")
-        print("================")
-
-        for test in testcases:
-            print('* %-30s %s' % ('%s:' % test['Name'], test['Description']))
+        list_testcases(args)
         sys.exit(0)
+
+
+def list_testcases(args):
+    """ Print lis of testcases requested by --list CLI argument
+
+    :param args: A dictionary with all CLI arguments
+    """
+    def format_description(desc, length):
+        """ Split description into multiple lines based on given line length.
+
+        :param desc: A string with testcase description
+        :param length: A maximum line length
+        """
+        # split description to multiple lines
+        words = desc.split()
+        output = []
+        line = ''
+        for word in words:
+            if len(line) + len(word) < length:
+                line += '{} '.format(word)
+            else:
+                output.append(line.strip())
+                line = '{} '.format(word)
+
+        output.append(line.strip())
+        return output
+
+    # configure tests
+    if args['integration']:
+        testcases = settings.getValue('INTEGRATION_TESTS')
+    else:
+        testcases = settings.getValue('PERFORMANCE_TESTS')
+
+    print("Available Tests:")
+    print("================")
+
+    for test in testcases:
+        description = format_description(test['Description'], 70)
+        if len(test['Name']) < 40:
+            print('* {:40} {}'.format('{}:'.format(test['Name']), description[0]))
+        else:
+            print('* {}'.format('{}:'.format(test['Name'])))
+            print('  {:40} {}'.format('', description[0]))
+        for i in range(1, len(description)):
+            print('  {:40} {}'.format('', description[i]))
+
+
+
 
 
 def vsperf_finalize():

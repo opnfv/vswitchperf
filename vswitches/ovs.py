@@ -91,6 +91,27 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
 
         self._logger.info("Vswitchd...Started.")
 
+    def restart(self):
+        """ Restart ``ovs-vswitchd`` instance. ``ovsdb-server`` is not restarted.
+
+        :raises: pexpect.EOF, pexpect.TIMEOUT
+        """
+        self._logger.info("Restarting vswitchd...")
+        if os.path.isfile(self._vswitchd_pidfile_path):
+            self._logger.info('Killing ovs-vswitchd...')
+            with open(self._vswitchd_pidfile_path, "r") as pidfile:
+                vswitchd_pid = pidfile.read().strip()
+                tasks.terminate_task(vswitchd_pid, logger=self._logger)
+
+        try:
+            tasks.Process.start(self)
+            self.relinquish()
+        except (pexpect.EOF, pexpect.TIMEOUT) as exc:
+            logging.error("Exception during VSwitch start.")
+            self._kill_ovsdb()
+            raise exc
+        self._logger.info("Vswitchd...Started.")
+
     def configure(self):
         """ Configure vswitchd through ovsdb if needed
         """
@@ -109,6 +130,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """
         self._logger.info("Terminating vswitchd...")
         self.kill()
+        self._bridges = {}
         self._logger.info("Vswitchd...Terminated.")
 
     def add_switch(self, switch_name, params=None):
@@ -488,3 +510,8 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """
         bridge = self._bridges[switch_name]
         return 'stp_enable          : true' in ''.join(bridge.bridge_info())
+
+    def validate_restart(self, dummy_result):
+        """ Validate restart
+        """
+        return True
