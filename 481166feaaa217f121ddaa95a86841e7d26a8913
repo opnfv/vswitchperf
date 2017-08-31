@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1aa4ed85_e3d7e521",
+        "filename": "docs/testing/user/configguide/trafficgen.rst",
+        "patchSetId": 9
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 6593
+      },
+      "writtenOn": "2017-08-31T09:20:30Z",
+      "side": 1,
+      "message": "Thank you Al, you have right. I will fix it in the next patch",
+      "parentUuid": "1aa4ed85_031b211c",
+      "range": {
+        "startLine": 773,
+        "startChar": 21,
+        "endLine": 773,
+        "endChar": 25
+      },
+      "revId": "481166feaaa217f121ddaa95a86841e7d26a8913",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_b47c3174",
         "filename": "tools/pkt_gen/trex/trex.py",
         "patchSetId": 9
