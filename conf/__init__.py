@@ -189,6 +189,18 @@ class Settings(object):
                 else:
                     setattr(self, key.upper(), conf[key])
 
+    def restore_from_dict(self, conf):
+        """
+        Restore ``settings`` with values found in ``conf``.
+
+        Method will drop all configuration options and restore their
+        values from conf dictionary
+        """
+        self.__dict__.clear()
+        tmp_conf = copy.deepcopy(conf)
+        for key in tmp_conf:
+            self.setValue(key, tmp_conf[key])
+
     def load_from_env(self):
         """
         Update ``settings`` with values found in the environment.

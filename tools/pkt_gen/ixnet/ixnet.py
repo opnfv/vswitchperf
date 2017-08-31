@@ -153,9 +153,8 @@ class IxNet(trafficgen.ITrafficGenerator):
         """Initialize IXNET members
         """
         super().__init__()
-        self._script = os.path.join(settings.getValue('TRAFFICGEN_IXIA_3RD_PARTY'),
-                                    settings.getValue('TRAFFICGEN_IXNET_TCL_SCRIPT'))
         self._tclsh = tkinter.Tcl()
+        self._script = None
         self._cfg = None
         self._logger = logging.getLogger(__name__)
         self._params = None
@@ -177,6 +176,8 @@ class IxNet(trafficgen.ITrafficGenerator):
     def configure(self):
         """Configure system for IxNetwork.
         """
+        self._script = os.path.join(settings.getValue('TRAFFICGEN_IXIA_3RD_PARTY'),
+                                    settings.getValue('TRAFFICGEN_IXNET_TCL_SCRIPT'))
         self._cfg = {
             'lib_path': settings.getValue('TRAFFICGEN_IXNET_LIB_PATH'),
             # IxNetwork machine configuration
@@ -225,6 +226,8 @@ class IxNet(trafficgen.ITrafficGenerator):
             'multipleStreams': traffic['multistream'],
             'streamType': traffic['stream_type'],
             'rfc2544TestType': 'throughput',
+            'flowControl': "True" if traffic['flow_control'] else "False",
+            'learningFrames': "True" if traffic['learning_frames'] else "False",
         }
         self._params['traffic'] = self.traffic_defaults.copy()
 
@@ -280,6 +283,8 @@ class IxNet(trafficgen.ITrafficGenerator):
             'multipleStreams': traffic['multistream'],
             'streamType': traffic['stream_type'],
             'rfc2544TestType': 'throughput',
+            'flowControl': "True" if traffic['flow_control'] else "False",
+            'learningFrames': "True" if traffic['learning_frames'] else "False",
         }
         self._params['traffic'] = self.traffic_defaults.copy()
 
@@ -418,6 +423,8 @@ class IxNet(trafficgen.ITrafficGenerator):
             'multipleStreams': traffic['multistream'],
             'streamType': traffic['stream_type'],
             'rfc2544TestType': 'back2back',
+            'flowControl': "True" if traffic['flow_control'] else "False",
+            'learningFrames': "True" if traffic['learning_frames'] else "False",
         }
         self._params['traffic'] = self.traffic_defaults.copy()
 
