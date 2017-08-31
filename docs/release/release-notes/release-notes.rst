@@ -2,6 +2,40 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
+OPNFV Euphrates Release
+=======================
+
+* Improvement of stepdriven testcases
+* Support for graph plotting from vsperf results
+* Support for vHost User client mode in OVS and VPP
+* Support for DPDK 17.02
+* Support for dpdk driver NIC binding by drivectl tool
+* Several bugfixes and small improvements
+
+* vSwitches
+
+  * Support for VPP virtual switch
+  * OVS: Support for jumbo frames
+
+* Traffic Generators:
+
+  * Support for Trex traffic generator
+  * Support for huge number of streams
+  * Ixia: L3, L4 or vlan headers can be turned off/on, support of 1 NIC connection
+    between DUT and Ixia, bugfixing
+  * MoonGen: fix multistream support
+  * Xena: option for final verification, JSON refactoring, support for xena
+    pairs topology and port removal options, bugfixes
+
+* Guest specific:
+
+  * Support for additional QEMU cpu features
+  * Support for pinning of vCPU threads
+
+* Integration tests:
+
+  * New VPP related testcases
+  * New multistream testcases focused on L3 and L4 performance of OVS and VPP
 
 OPNFV Danube Release
 ====================
