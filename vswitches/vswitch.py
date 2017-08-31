@@ -36,6 +36,13 @@ class IVSwitch(object):
         """
         raise NotImplementedError()
 
+    def restart(self):
+        """Retart the vSwitch
+
+        Restart of vSwitch is required for failover testcases.
+        """
+        raise NotImplementedError()
+
     def stop(self):
         """Stop the vSwitch
 
