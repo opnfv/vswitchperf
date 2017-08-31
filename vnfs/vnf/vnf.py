@@ -17,6 +17,7 @@ Interface for VNF.
 """
 
 import time
+import pexpect
 from tools import tasks
 
 class IVnf(tasks.Process):
@@ -40,6 +41,7 @@ class IVnf(tasks.Process):
                            self._number + 1, self._number)
         IVnf._number_vnfs = IVnf._number_vnfs + 1
         self._log_prefix = 'vnf_%d_cmd : ' % self._number
+        self._login_active = False
 
     def start(self):
         """
@@ -60,6 +62,16 @@ class IVnf(tasks.Process):
             # sporadic reboot of host. (caused by hugepages or DPDK ports)
             super(IVnf, self).kill(signal='-9', sleep=10)
 
+    def login(self):
+        """
+        Login to GUEST instance.
+
+        This can be used after booting the machine
+
+        :returns: True if login is active
+        """
+        raise NotImplemented()
+
     def execute(self, cmd, delay=0):
         """
         execute ``cmd`` with given ``delay``.
@@ -77,6 +89,14 @@ class IVnf(tasks.Process):
         :returns: None.
         """
         self._logger.debug('%s%s', self._log_prefix, cmd)
+
+        # ensure that output from previous commands is flushed
+        try:
+            while not self._child.expect(r'.+', timeout=0.1):
+                pass
+        except (pexpect.TIMEOUT, pexpect.EOF):
+            pass
+
         self._child.sendline(cmd)
         time.sleep(delay)
 
@@ -95,10 +115,10 @@ class IVnf(tasks.Process):
                         Please note that this value can be floating
                         point which allows to pass milliseconds.
 
-        :returns: True if result_cmd has been detected before
-                  timeout has been reached, False otherwise.
+        :returns: output of executed command
         """
         self._child.expect(prompt, timeout=timeout)
+        return self._child.before
 
     def execute_and_wait(self, cmd, timeout=30, prompt=''):
         """
@@ -119,11 +139,10 @@ class IVnf(tasks.Process):
                              ``prompt`` passed in __init__
                              method will be used.
 
-        :returns: True if end of execution has been detected
-                  before timeout has been reached, False otherwise.
+        :returns: output of executed command
         """
         self.execute(cmd)
-        self.wait(prompt=prompt, timeout=timeout)
+        return self.wait(prompt=prompt, timeout=timeout)
 
     # pylint: disable=simplifiable-if-statement
     def validate_start(self, dummy_result):
@@ -135,9 +154,19 @@ class IVnf(tasks.Process):
             return False
 
     def validate_stop(self, result):
-        """ Validate call of fVNF stop()
+        """ Validate call of VNF stop()
         """
         return not self.validate_start(result)
+
+    def validate_execute_and_wait(self, result, dummy_cmd, dummy_timeout=30, dummy_prompt=''):
+        """ Validate command execution within VNF
+        """
+        return len(result)>0
+
+    def validate_login(self, result):
+        """ Validate successful login into guest
+        """
+        return result
 
     @staticmethod
     def reset_vnf_counter():

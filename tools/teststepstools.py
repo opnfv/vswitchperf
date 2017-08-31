@@ -15,10 +15,10 @@
 """Various helper functions for step driven testcases
 """
 
-import re
 import logging
 import subprocess
 import locale
+from tools.functions import filter_output
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -93,11 +93,7 @@ class TestStepsTools(object):
         output = output.decode(locale.getdefaultlocale()[1])
 
         if regex:
-            for line in output.split('\n'):
-                result = re.findall(regex, line)
-                if result:
-                    return result
-            return []
+            return filter_output(output, regex)
 
         return output
 
