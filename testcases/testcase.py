@@ -76,7 +76,9 @@ class TestCase(object):
         self._step_check = False    # by default don't check result for step driven testcases
         self._step_vnf_list = {}
         self._step_result = []
+        self._step_result_mapping = {}
         self._step_status = None
+        self._step_send_traffic = False # indication if send_traffic was called within test steps
         self._testcase_run_time = None
 
         # store all GUEST_ specific settings to keep original values before their expansion
@@ -167,6 +169,7 @@ class TestCase(object):
                 self._traffic['l2'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L2')
                 self._traffic['l3'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L3')
                 self._traffic['l4'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L4')
+                self._traffic['l2']['dstmac'] = S.getValue('NICS')[1]['mac']
         elif len(S.getValue('NICS')) and \
              (S.getValue('NICS')[0]['type'] == 'vf' or
               S.getValue('NICS')[1]['type'] == 'vf'):
@@ -343,7 +346,7 @@ class TestCase(object):
                             # ...and continue with traffic generation, but keep
                             # in mind, that clean deployment does not configure
                             # OVS nor executes the traffic
-                            if self.deployment != 'clean':
+                            if self.deployment != 'clean' and not self._step_send_traffic:
                                 self._traffic_ctl.send_traffic(self._traffic)
 
                         # dump vswitch flows before they are affected by VNF termination
@@ -689,18 +692,22 @@ class TestCase(object):
             if self._step_vnf_list[vnf]:
                 self._step_vnf_list[vnf].stop()
 
-    def step_eval_param(self, param, STEP):
-        # pylint: disable=invalid-name
+    def step_eval_param(self, param, step_result):
         """ Helper function for #STEP macro evaluation
         """
         if isinstance(param, str):
             # evaluate every #STEP reference inside parameter itself
-            macros = re.findall(r'#STEP\[[\w\[\]\-\'\"]+\]', param)
+            macros = re.findall(r'(#STEP\[([\w\-:]+)\]((\[[\w\-\'\"]+\])*))', param)
+
             if macros:
                 for macro in macros:
+                    if macro[1] in self._step_result_mapping:
+                        key = self._step_result_mapping[macro[1]]
+                    else:
+                        key = macro[1]
                     # pylint: disable=eval-used
-                    tmp_val = str(eval(macro[1:]))
-                    param = param.replace(macro, tmp_val)
+                    tmp_val = str(eval('step_result[{}]{}'.format(key, macro[2])))
+                    param = param.replace(macro[0], tmp_val)
 
             # evaluate references to vsperf configuration options
             macros = re.findall(r'\$(([\w\-]+)(\[[\w\[\]\-\'\"]+\])*)', param)
@@ -718,12 +725,12 @@ class TestCase(object):
         elif isinstance(param, list) or isinstance(param, tuple):
             tmp_list = []
             for item in param:
-                tmp_list.append(self.step_eval_param(item, STEP))
+                tmp_list.append(self.step_eval_param(item, step_result))
             return tmp_list
         elif isinstance(param, dict):
             tmp_dict = {}
             for (key, value) in param.items():
-                tmp_dict[key] = self.step_eval_param(value, STEP)
+                tmp_dict[key] = self.step_eval_param(value, step_result)
             return tmp_dict
         else:
             return param
@@ -737,6 +744,7 @@ class TestCase(object):
             eval_params.append(self.step_eval_param(param, step_result))
         return eval_params
 
+    # pylint: disable=too-many-locals, too-many-branches, too-many-statements
     def step_run(self):
         """ Execute actions specified by TestSteps list
 
@@ -758,6 +766,30 @@ class TestCase(object):
         # run test step by step...
         for i, step in enumerate(self.test):
             step_ok = not self._step_check
+            step_check = self._step_check
+            regex = None
+            # configure step result mapping if step alias/label is detected
+            if step[0].startswith('#'):
+                key = step[0][1:]
+                if key.isdigit():
+                    raise RuntimeError('Step alias can\'t be an integer value {}'.format(key))
+                if key in self._step_result_mapping:
+                    raise RuntimeError('Step alias {} has been used already for step '
+                                       '{}'.format(key, self._step_result_mapping[key]))
+                self._step_result_mapping[step[0][1:]] = i
+                step = step[1:]
+
+            # store regex filter if it is specified
+            if isinstance(step[-1], str) and step[-1].startswith('|'):
+                # evalute macros and variables used in regex
+                regex = self.step_eval_params([step[-1][1:]], self._step_result[:i])[0]
+                step = step[:-1]
+
+            # check if step verification should be suppressed
+            if step[0].startswith('!'):
+                step_check = False
+                step_ok = True
+                step[0] = step[0][1:]
             if step[0] == 'vswitch':
                 test_object = self._vswitch_ctl.get_vswitch()
             elif step[0] == 'namespace':
@@ -777,6 +809,9 @@ class TestCase(object):
                     tmp_traffic = copy.deepcopy(self._traffic)
                     tmp_traffic.update(step[2])
                     step[2] = tmp_traffic
+                    # store indication that traffic has been sent
+                    # so it is not sent again after the execution of teststeps
+                    self._step_send_traffic = True
             elif step[0].startswith('vnf'):
                 if not self._step_vnf_list[step[0]]:
                     # initialize new VM
@@ -790,6 +825,15 @@ class TestCase(object):
                 self._logger.debug("Sleep %s seconds", step[1])
                 time.sleep(int(step[1]))
                 continue
+            elif step[0] == 'log':
+                test_object = self._logger
+                # there isn't a need for validation of log entry
+                step_check = False
+                step_ok = True
+            elif step[0] == 'pdb':
+                import pdb
+                pdb.set_trace()
+                continue
             else:
                 self._logger.error("Unsupported test object %s", step[0])
                 self._step_status = {'status' : False, 'details' : ' '.join(step)}
@@ -798,7 +842,7 @@ class TestCase(object):
                 return False
 
             test_method = getattr(test_object, step[1])
-            if self._step_check:
+            if step_check:
                 test_method_check = getattr(test_object, CHECK_PREFIX + step[1])
             else:
                 test_method_check = None
@@ -809,18 +853,24 @@ class TestCase(object):
                 # to support negative indexes
                 step_params = self.step_eval_params(step[2:], self._step_result[:i])
                 step_log = '{} {}'.format(' '.join(step[:2]), step_params)
+                step_log += ' filter "{}"'.format(regex) if regex else ''
                 self._logger.debug("Step %s '%s' start", i, step_log)
                 self._step_result[i] = test_method(*step_params)
+                if regex:
+                    # apply regex to step output
+                    self._step_result[i] = functions.filter_output(
+                        self._step_result[i], regex)
+
                 self._logger.debug("Step %s '%s' results '%s'", i,
                                    step_log, self._step_result[i])
                 time.sleep(S.getValue('TEST_STEP_DELAY'))
-                if self._step_check:
+                if step_check:
                     step_ok = test_method_check(self._step_result[i], *step_params)
             except (AssertionError, AttributeError, IndexError) as ex:
                 step_ok = False
                 self._logger.error("Step %s raised %s", i, type(ex).__name__)
 
-            if self._step_check:
+            if step_check:
                 self.step_report_status("Step {} - '{}'".format(i, step_log), step_ok)
 
             if not step_ok:
