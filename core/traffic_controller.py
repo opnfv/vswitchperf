@@ -40,12 +40,24 @@ class TrafficController(object):
         self._traffic_gen_class = traffic_gen_class()
         self._traffic_started = False
         self._traffic_started_call_count = 0
-        self._duration = int(settings.getValue('TRAFFICGEN_DURATION'))
-        self._lossrate = float(settings.getValue('TRAFFICGEN_LOSSRATE'))
-        self._packet_sizes = settings.getValue('TRAFFICGEN_PKT_SIZES')
+        self._duration = None
+        self._lossrate = None
+        self._packet_sizes = None
 
         self._mode = str(settings.getValue('mode')).lower()
         self._results = []
+
+    def configure(self, traffic):
+        """Set configuration values just before test execution so they
+           can be changed during runtime by test steps.
+        """
+        self._duration = int(settings.getValue('TRAFFICGEN_DURATION'))
+        self._lossrate = float(settings.getValue('TRAFFICGEN_LOSSRATE'))
+        self._packet_sizes = settings.getValue('TRAFFICGEN_PKT_SIZES')
+        self._results = []
+
+        # update type with detailed traffic value
+        self._type = traffic['traffic_type']
 
     def __enter__(self):
         """Call initialisation function.
@@ -101,18 +113,18 @@ class TrafficController(object):
                     print("Please respond with 'yes', 'y', 'no' or 'n' ", end='')
         return True
 
-    def send_traffic(self, dummy_traffic):
+    def send_traffic(self, traffic):
         """Triggers traffic to be sent from the traffic generator.
 
         This is a blocking function.
 
         :param traffic: A dictionary describing the traffic to send.
         """
-        raise NotImplementedError(
-            "The TrafficController does not implement",
-            "the \"send_traffic\" function.")
+        self._logger.debug('send_traffic with ' +
+                           str(self._traffic_gen_class))
+        self.configure(traffic)
 
-    def send_traffic_async(self, dummy_traffic, dummy_function):
+    def send_traffic_async(self, traffic, dummy_function):
         """Triggers traffic to be sent  asynchronously.
 
         This is not a blocking function.
@@ -127,9 +139,9 @@ class TrafficController(object):
              If this function requires more than one argument, all should be
              should be passed using the args list and appropriately handled.
          """
-        raise NotImplementedError(
-            "The TrafficController does not implement",
-            "the \"send_traffic_async\" function.")
+        self._logger.debug('send_traffic_async with ' +
+                           str(self._traffic_gen_class))
+        self.configure(traffic)
 
     def stop_traffic(self):
         """Kills traffic being sent from the traffic generator.
@@ -155,7 +167,7 @@ class TrafficController(object):
     def validate_send_traffic(self, dummy_result, dummy_traffic):
         """Verify that send traffic has succeeded
         """
-        if len(self._results):
+        if self._results:
             if 'b2b_frames' in self._results[-1]:
                 return float(self._results[-1]['b2b_frames']) > 0
             elif 'throughput_rx_fps' in self._results[-1]:
@@ -164,3 +176,8 @@ class TrafficController(object):
                 return True
         else:
             return False
+
+    def validate_get_results(self, result):
+        """Verify that results has been returned
+        """
+        return self._results == result
