@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_24ab811e",
+        "filename": "tools/opnfvdashboard/opnfvdashboard.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-09-01T16:04:16Z",
+      "side": 1,
+      "message": "Well, that\u0027s how it has been implemented by Radek 2 years ago. It means, that list of PKT sizes selected in ci/build-vsperf.sh and content of allowed_pkt and \"details\" must be synced manually.\n\nSome sort of autodetection would be nice. Anyhow I would rather keep changes to reporting as minimal as possible due to upcoming release freeze.\n\nIf anybody else is brave enough to do a redesign so close to release date - I\u0027ll gladly do a review :-)",
+      "parentUuid": "da33351e_244a61c5",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 66
+      },
+      "revId": "06907dc0a6216ae0a27dff287040695fa5497529",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_04459db2",
         "filename": "tools/opnfvdashboard/opnfvdashboard.py",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2017-09-01T15:58:57Z",
       "side": 1,
       "message": "Both start_date and stop_date fields are defined in test DB and most likely are common for all test projects. (See https://git.opnfv.org/functest/tree/functest/utils/functest_utils.py ).\nI\u0027m afraid we can\u0027t rename them, unless other test projects agree.",
+      "parentUuid": "da33351e_04459db2",
+      "range": {
+        "startLine": 120,
+        "startChar": 12,
+        "endLine": 121,
+        "endChar": 47
+      },
+      "revId": "06907dc0a6216ae0a27dff287040695fa5497529",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_c459f55c",
+        "filename": "tools/opnfvdashboard/opnfvdashboard.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-09-01T16:04:16Z",
+      "side": 1,
+      "message": "Well, this inconsistency is between two independent \"systems\", i.e. \n\"start_date\" and \"stop_date\" is a terminology used in opnfv result DB. However \"start_time\" and \"stop_time\" is used within vsperf. Of course it is possible to rename all usages of \"start/stop_time\" inside vsperf code and data structures to be consistent with result DB, but is it worth? There are other fields, which use different names and their name syncing would be hard, e.g. result DB uses \"case_name\" but vsperf \"testcase\", etc.\n\nSo I agree, that using consistent names inside VSPERF is a good coding practise (that\u0027s why I get rid of test_start/test_stop names in this patch), but keeping consistent naming across OPNFV would be a different story.",
       "parentUuid": "da33351e_04459db2",
       "range": {
         "startLine": 120,
