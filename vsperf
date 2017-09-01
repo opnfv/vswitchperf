@@ -708,12 +708,16 @@ def main():
             pkg_list = settings.getValue('PACKAGE_LIST')
 
             int_data = {'pod': pod_name,
-                        'criteria': "PASS",
                         'build_tag': get_build_tag(),
                         'installer': installer_name,
                         'pkg_list': pkg_list,
-                        'db_url': opnfv_url}
-            opnfvdashboard.results2opnfv_dashboard(results_path, int_data)
+                        'db_url': opnfv_url,
+                        # pass vswitch name from configuration to be used for failed
+                        # TCs; In case of successful TCs it is safer to use vswitch
+                        # name from CSV as TC can override global configuration
+                        'vswitch': settings.getValue('VSWITCH').lower()}
+            tc_names = [tc['Name'] for tc in selected_tests]
+            opnfvdashboard.results2opnfv_dashboard(tc_names, results_path, int_data)
 
     # cleanup before exit
     vsperf_finalize()

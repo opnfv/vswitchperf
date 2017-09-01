@@ -17,10 +17,14 @@ vsperf2dashboard
 
 import os
 import csv
+import copy
 import logging
+from datetime import datetime as dt
 import requests
 
-def results2opnfv_dashboard(results_path, int_data):
+_DETAILS = {"64": '', "128": '', "512": '', "1024": '', "1518": ''}
+
+def results2opnfv_dashboard(tc_names, results_path, int_data):
     """
     the method open the csv file with results and calls json encoder
     """
@@ -31,23 +35,33 @@ def results2opnfv_dashboard(results_path, int_data):
         resfile = results_path + '/' + test
         with open(resfile, 'r') as in_file:
             reader = csv.DictReader(in_file)
-            _push_results(reader, int_data)
+            tc_data = _prepare_results(reader, int_data)
+            _push_results(tc_data)
+            tc_names.remove(tc_data['id'])
 
-def _push_results(reader, int_data):
+    # report TCs without results as FAIL
+    if tc_names:
+        tc_fail = copy.deepcopy(int_data)
+        tc_fail['start_time'] = dt.now().strftime('%Y-%m-%d %H:%M:%S')
+        tc_fail['stop_time'] = tc_fail['start_time']
+        tc_fail['criteria'] = 'FAIL'
+        tc_fail['version'] = 'N/A'
+        tc_fail['details'] = copy.deepcopy(_DETAILS)
+        for tc_name in tc_names:
+            tc_fail['dashboard_id'] = "{}_{}".format(tc_name, tc_fail['vswitch'])
+            _push_results(tc_fail)
+
+def _prepare_results(reader, int_data):
     """
-    the method encodes results and sends them into opnfv dashboard
+    the method prepares dashboard details for passed testcases
     """
-    db_url = int_data['db_url']
-    url = db_url + "/results"
-    casename = ""
     version_vswitch = ""
     version_dpdk = ""
-    version = ""
     allowed_pkt = ["64", "128", "512", "1024", "1518"]
-    details = {"64": '', "128": '', "512": '', "1024": '', "1518": ''}
-    test_start = None
-    test_stop = None
     vswitch = None
+    details = copy.deepcopy(_DETAILS)
+    tc_data = copy.deepcopy(int_data)
+    tc_data['criteria'] = 'PASS'
 
     for row_reader in reader:
         if allowed_pkt.count(row_reader['packet_size']) == 0:
@@ -56,20 +70,25 @@ def _push_results(reader, int_data):
 
         # test execution time includes all frame sizes, so start & stop time
         # is the same (repeated) for every framesize in CSV file
-        if test_start is None:
-            test_start = row_reader['start_time']
-            test_stop = row_reader['stop_time']
+        if not 'test_start' in tc_data:
+            tc_data['start_time'] = row_reader['start_time']
+            tc_data['stop_time'] = row_reader['stop_time']
+            tc_data['id'] = row_reader['id']
             # CI job executes/reports TCs per vswitch type
             vswitch = row_reader['vswitch']
 
-        casename = "{}_{}".format(row_reader['id'], row_reader['vswitch'].lower())
+        tc_data['dashboard_id'] = "{}_{}".format(row_reader['id'], row_reader['vswitch'].lower())
         if "back2back" in row_reader['id']:
+            # 0 B2B frames is quite common, so we can't mark such TC as FAIL
             details[row_reader['packet_size']] = row_reader['b2b_frames']
         else:
             details[row_reader['packet_size']] = row_reader['throughput_rx_fps']
+            # 0 PPS is definitelly a failure
+            if float(row_reader['throughput_rx_fps']) == 0:
+                tc_data['criteria'] = 'FAIL'
 
     # Create version field
-    with open(int_data['pkg_list'], 'r') as pkg_file:
+    with open(tc_data['pkg_list'], 'r') as pkg_file:
         for line in pkg_file:
             if "OVS_TAG" in line and vswitch.startswith('Ovs'):
                 version_vswitch = line.replace(' ', '')
@@ -83,23 +102,33 @@ def _push_results(reader, int_data):
                     version_dpdk = line.replace(' ', '')
                     version_dpdk = " DPDK {}".format(
                         version_dpdk.replace('DPDK_TAG?=', ''))
-    version = version_vswitch.replace('\n', '') + version_dpdk.replace('\n', '')
+
+    tc_data['details'] = details
+    tc_data['version'] = version_vswitch.replace('\n', '') + version_dpdk.replace('\n', '')
+
+    return tc_data
+
+def _push_results(int_data):
+    """
+    the method sends testcase details into dashboard database
+    """
+    url = int_data['db_url'] + "/results"
 
     # Build body
     body = {"project_name": "vsperf",
             "scenario": "vsperf",
-            "start_date": test_start,
-            "stop_date": test_stop,
-            "case_name": casename,
+            "start_date": int_data['start_time'],
+            "stop_date": int_data['stop_time'],
+            "case_name": int_data['dashboard_id'],
             "pod_name": int_data['pod'],
             "installer": int_data['installer'],
-            "version": version,
+            "version": int_data['version'],
             "build_tag": int_data['build_tag'],
             "criteria": int_data['criteria'],
-            "details": details}
+            "details": int_data['details']}
 
     my_data = requests.post(url, json=body)
-    logging.info("Results for %s sent to opnfv, http response: %s", casename, my_data)
-    logging.debug("opnfv url: %s", db_url)
+    logging.info("Results for %s sent to opnfv, http response: %s", int_data['dashboard_id'], my_data)
+    logging.debug("opnfv url: %s", int_data['db_url'])
     logging.debug("the body sent to opnfv")
     logging.debug(body)
