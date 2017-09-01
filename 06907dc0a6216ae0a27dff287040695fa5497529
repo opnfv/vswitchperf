@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_244a61c5",
+        "filename": "tools/opnfvdashboard/opnfvdashboard.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2017-09-01T14:59:40Z",
+      "side": 1,
+      "message": "should you not really get this from the test parameters? what if these are not the sizes used?",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 66
+      },
+      "revId": "06907dc0a6216ae0a27dff287040695fa5497529",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_04459db2",
+        "filename": "tools/opnfvdashboard/opnfvdashboard.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2017-09-01T14:59:40Z",
+      "side": 1,
+      "message": "there\u0027s a little inconsistency in the naming here.\nwould change the *_date variations to test_*_time where * is start or end",
+      "range": {
+        "startLine": 120,
+        "startChar": 12,
+        "endLine": 121,
+        "endChar": 47
+      },
+      "revId": "06907dc0a6216ae0a27dff287040695fa5497529",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
