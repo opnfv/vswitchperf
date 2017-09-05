@@ -26,7 +26,7 @@ TAG_DONE_FLAG = $(WORK_DIR)/.$(TREX_TAG).done
 all: force_pull
 	@echo "Finished pulling $(WORK_DIR) "
 
-force_pull: $(WORK_DIR) Makefile
+force_pull: $(TAG_DONE_FLAG)
 	$(AT)cd $(WORK_DIR) && git pull $(TREX_URL) $(TREX_TAG)
 	@echo "git pull done"
 
@@ -35,6 +35,7 @@ $(WORK_DIR):
 
 $(TAG_DONE_FLAG): $(WORK_DIR)
 	$(AT)cd $(WORK_DIR); git checkout $(TREX_TAG)
+	$(AT)touch $@
 
 install:
 	@echo "Make install in $(WORK_DIR) (stub) "
