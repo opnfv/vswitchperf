@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_6a28a734",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-09-06T12:41:17Z",
+      "side": 1,
+      "message": "These are Danube related release notes, which shouldn\u0027t be changed anymore.\n\nPlease add new line with \"Support for opneSUSE 42.3\" to Euphrates section above. I would say just before \"Several bugfixes and small improvements\".",
+      "revId": "73a3734e7ec1263d2bcd01e8de697a40461375ac",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
