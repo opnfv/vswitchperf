@@ -51,7 +51,7 @@ OPNFV Danube Release
   * Support for Ubuntu 16.04 LTS and 16.10
   * Support for RHEL7.3
   * Support for CentOS7.3
-  * Support for openSUSE Leap 42.2
+  * Support for openSUSE Leap 42.2 and 42.3
 
 * Traffic Generators:
 
