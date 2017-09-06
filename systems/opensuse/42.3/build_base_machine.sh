@@ -20,7 +20,7 @@
 #   Marco Varlese, SUSE LINUX GmbH
 
 zypper -q -n update
-zypper -q -n install -y $(echo "
+zypper -q -n in -y $(echo "
 # compiler, tools and dependencies
 make
 automake

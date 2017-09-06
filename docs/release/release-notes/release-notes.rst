@@ -10,6 +10,7 @@ OPNFV Euphrates Release
 * Support for vHost User client mode in OVS and VPP
 * Support for DPDK 17.02
 * Support for dpdk driver NIC binding by drivectl tool
+* Support for openSUSE Leap 42.3
 * Several bugfixes and small improvements
 
 * vSwitches
