@@ -1,0 +1,10 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Morgan Richomme <morgan.richomme@orange.com>
+Code-Review+1: Al Morton <acmorton@att.com>
+Code-Review+1: Mars Toktonaliev <mars.toktonaliev@nokia.com>
+Code-Review+2: Martin Klozik <martinx.klozik@intel.com>
+Submitted-by: Martin Klozik <martinx.klozik@intel.com>
+Submitted-at: Wed, 06 Sep 2017 08:30:44 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/40859
+Project: vswitchperf
+Branch: refs/heads/master
