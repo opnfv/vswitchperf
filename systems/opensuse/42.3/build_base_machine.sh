@@ -49,6 +49,7 @@ socat
 sysstat
 java-1_8_0-openjdk
 git-review
+mlocate
 
 # python
 python3
@@ -57,6 +58,7 @@ python3-pip
 python3-setuptools
 python3-devel
 python3-tk
+python3-virtualenv
 
 # libraries
 libnuma1
