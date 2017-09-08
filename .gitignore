@@ -67,6 +67,7 @@ target/
 /src/vpp/vpp/
 /src_cuse/
 /src_vanilla/
+/src/trex/trex
 .vagrant
 tags
 
