@@ -23,7 +23,7 @@ Example Connectivity to DUT
 
 Establish connectivity to the VSPERF DUT Linux host. If this is in an OPNFV lab
 following the steps provided by `Pharos <https://www.opnfv.org/community/projects/pharos>`_
- to `access the POD <https://wiki.opnfv.org/display/pharos/Pharos+Lab+Support>`_
+to `access the POD <https://wiki.opnfv.org/display/pharos/Pharos+Lab+Support>`_
 
 The followign steps establish the VSPERF environment.
 

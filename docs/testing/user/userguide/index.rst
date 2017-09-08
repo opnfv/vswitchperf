@@ -3,3 +3,18 @@
 .. (c) OPNFV, Intel Corporation, AT&T, Red Hat, Spirent, Ixia  and others.
 
 .. OPNFV VSPERF Documentation master file.
+
+=================
+VSPERF Test Guide
+=================
+
+.. toctree::
+   :caption: VSPERF Test Execution
+   :maxdepth: 2
+   :numbered:
+
+   ./testusage.rst
+   ./teststeps.rst
+   ./integration.rst
+   ./yardstick.rst
+   ./testlist.rst
