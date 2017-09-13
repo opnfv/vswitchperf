@@ -14,23 +14,27 @@ Introduction
 
 VSPERF is an OPNFV testing project.
 
-VSPERF provides an automated test-framework and comprehensive test suite based on
-industry standards for measuring data-plane performance of Telco NFV switching
-technologies as well as physical and virtual network interfaces (NFVI). The VSPERF
-architecture is switch and traffic generator agnostic and provides full control of
-software component versions and configurations as well as test-case customization.
+VSPERF is an OPNFV project that provides an automated test-framework and comprehensive test suite based on Industry
+Test Specifications for measuring NFVI data-plane performance. The data-path includes switching technologies with
+physical and virtual network interfaces. The VSPERF architecture is switch and traffic generator agnostic and test
+cases can be easily customized. Software versions and configurations including the vSwitch (OVS or VPP) as well as
+the network topology are controlled by VSPERF (independent of OpenStack). VSPERF is used as a development tool for
+optimizing switching technologies, qualification of packet processing components and for pre-deployment evaluation
+of the NFV platform data-path.
 
-The Danube release of VSPERF includes improvements in documentation and capabilities.
-This includes additional test-cases such as RFC 5481 Latency test and RFC-2889
-address-learning-rate test. Hardware traffic generator support is now provided for
-Spirent and Xena in addition to Ixia. The Moongen software traffic generator is also
-now fully supported. VSPERF can be used in a variety of modes for configuration and
-setup of the network and/or for control of the test-generator and test execution.
+The Euphrates release adds new features and improvements that will help advance high performance packet processing
+on Telco NFV platforms. This includes new test cases, flexibility in customizing test-cases, new results display
+options, improved tool resiliency, additional traffic generator support and VPP support.
+
+VSPERF provides a framework where the entire NFV Industry can learn about NFVI data-plane performance and try-out
+new techniques together. A new IETF benchmarking specification (RFC8204) is based on VSPERF work contributed since
+2015. VSPERF is also contributing to development of ETSI NFV test specifications through the Test and Open Source
+Working Group.
 
 * Wiki: https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases
 * Repository: https://git.opnfv.org/vswitchperf
 * Artifacts: https://artifacts.opnfv.org/vswitchperf.html
-* Continuous Integration status: https://build.opnfv.org/ci/view/vswitchperf/
+* Continuous Integration: https://build.opnfv.org/ci/view/vswitchperf/
 
 =============
 Design Guides
@@ -47,20 +51,19 @@ Design Guides
    ./requirements/vswitchperf_ltd.rst
    ./requirements/vswitchperf_ltp.rst
 
-====================
-VSPERF IETF RFC 8204
-====================
+=============
+IETF RFC 8204
+=============
 
 .. toctree::
-   :caption: vSwitch Internet Draft
+   :caption: VSPERF contributions to Industry Specifications
    :maxdepth: 2
    :numbered:
 
-The VSPERF test specification was summarized in a 23 page Internet Draft ...
-`Benchmarking Virtual Switches in OPNFV <https://tools.ietf.org/html/draft-ietf-bmwg-vswitch-opnfv-01>`_
-which was contributed to the IETF Benchmarking Methodology Working Group (BMWG). The BMWG was re-chartered in 2014
-to include benchmarking for Virtualized Network Functions (VNFs) and their infrastructure. The Internet Engineering
-Steering Group of the IETF has approved the most recent version for publication as RFC 8204.
+The IETF Benchmarking Methodology Working Group (BMWG) was re-chartered in 2014 to include benchmarking for
+Virtualized Network Functions (VNFs) and their infrastructure. A version of the VSPERF test specification was
+summarized in an Internet Draft ... `Benchmarking Virtual Switches in OPNFV <https://tools.ietf.org/html/draft-ietf-bmwg-vswitch-opnfv-01>`_ and contributed to the BMWG. In June 2017 the Internet Engineering Steering Group of the IETF
+approved the most recent version of the draft for publication as a new test specification (RFC 8204).
 
 ====================
 VSPERF CI Test Cases
