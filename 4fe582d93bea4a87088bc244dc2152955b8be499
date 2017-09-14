@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "da33351e_71efe8e9",
+        "filename": "docs/testing/user/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-09-14T15:47:08Z",
+      "side": 1,
+      "message": ",",
+      "range": {
+        "startLine": 330,
+        "startChar": 10,
+        "endLine": 330,
+        "endChar": 11
+      },
+      "revId": "4fe582d93bea4a87088bc244dc2152955b8be499",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_d17194a9",
         "filename": "docs/testing/user/configguide/installation.rst",
         "patchSetId": 1
@@ -25,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "da33351e_b1bcd0dd",
+        "filename": "docs/testing/user/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-09-14T15:47:08Z",
+      "side": 1,
+      "message": ",",
+      "revId": "4fe582d93bea4a87088bc244dc2152955b8be499",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_3143a043",
         "filename": "docs/testing/user/configguide/installation.rst",
         "patchSetId": 1
@@ -42,6 +82,97 @@
         "endLine": 345,
         "endChar": 10
       },
+      "revId": "4fe582d93bea4a87088bc244dc2152955b8be499",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_f1b2d804",
+        "filename": "docs/testing/user/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-09-14T15:47:08Z",
+      "side": 1,
+      "message": "and or or?",
+      "range": {
+        "startLine": 364,
+        "startChar": 66,
+        "endLine": 364,
+        "endChar": 67
+      },
+      "revId": "4fe582d93bea4a87088bc244dc2152955b8be499",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_11cdbc85",
+        "filename": "docs/testing/user/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-09-14T15:47:08Z",
+      "side": 1,
+      "message": ",",
+      "revId": "4fe582d93bea4a87088bc244dc2152955b8be499",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_31d0c01e",
+        "filename": "docs/testing/user/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-09-14T15:47:08Z",
+      "side": 1,
+      "message": ",",
+      "revId": "4fe582d93bea4a87088bc244dc2152955b8be499",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_d1b7d4f3",
+        "filename": "docs/testing/user/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-09-14T15:47:08Z",
+      "side": 1,
+      "message": ",",
+      "revId": "4fe582d93bea4a87088bc244dc2152955b8be499",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_71c6c869",
+        "filename": "docs/testing/user/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-09-14T15:47:08Z",
+      "side": 1,
+      "message": ",",
       "revId": "4fe582d93bea4a87088bc244dc2152955b8be499",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
