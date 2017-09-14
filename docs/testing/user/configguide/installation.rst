@@ -322,3 +322,76 @@ If no hugepages are available vsperf will try to automatically allocate some.
 Allocation is controlled by ``HUGEPAGE_RAM_ALLOCATION`` configuration parameter in
 ``02_vswitch.conf`` file. Default is 2GB, resulting in either 2 1GB hugepages
 or 1024 2MB hugepages.
+
+Tuning Considerations
+---------------------
+
+With the large amount of tuning guides available online on how to properly
+tune a DUT, it becomes difficult to achieve consistent numbers for DPDK testing.
+VSPerf recommends a simple approach that has been tested by different companies
+to achieve proper CPU isolation.
+
+The idea behind CPU isolation when running DPDK based tests is to achieve as few
+interruptions to a PMD process as possible. There is now a utility available on
+most Linux Systems to achieve proper CPU isolation with very little effort and
+customization. The tool is called tuned-adm and is most likely installed by
+default on the Linux DUT
+
+VSPerf recommends the latest tuned-adm package, which can be downloaded from the
+following location:
+
+http://www.tuned-project.org/2017/04/27/tuned-2-8-0-released/
+
+Follow instructions to install the latest tuned-adm onto your system. For
+current RHEL customers you should already have the most current version. You
+just need to install the cpu-partitioning profile.
+
+.. code:: bash
+
+    yum install -y tuned-profiles-cpu-partitioning.noarch
+
+Proper CPU isolation starts with knowing what NUMA your NIC is installed onto.
+You can identify this by checking the output of the following command
+
+.. code:: bash
+
+    cat /sys/class/net/<NIC NAME>/device/numa_node
+
+You can then use utilities such as lscpu or cpu_layout.py which is located in
+the src dpdk area of VSPerf. These tools will show the CPU layout of which
+cores/hyperthreads are located on the same NUMA.
+
+Determine which CPUS/Hyperthreads will be used for PMD threads and VCPUs for
+VNFs. Then modify the /etc/tuned/cpu-partitioning-variables.conf and add the
+CPUs into the isolated_cores variable in some form of x-y or x,y,z or x-y,z,
+etc. Then apply the profile.
+
+.. code:: bash
+
+    tuned-adm profile cpu-partitioning
+
+After applying the profile, reboot your system.
+
+After rebooting the DUT, you can verify the profile is active by running
+
+.. code:: bash
+
+    tuned-adm active
+
+Now you should have proper CPU isolation active and can achieve consistent
+results with DPDK based tests.
+
+The last consideration is when running TestPMD inside of a VNF, it may make
+sense to enable enough cores to run a PMD thread on separate core/HT. To achieve
+this, set the number of VCPUs to 3 and enable enough nb-cores in the TestPMD
+config. You can modify options in the conf files.
+
+.. code:: python
+
+    GUEST_SMP = ['3']
+    GUEST_TESTPMD_PARAMS = ['-l 0,1,2 -n 4 --socket-mem 512 -- '
+                            '--burst=64 -i --txqflags=0xf00 '
+                            '--disable-hw-vlan --nb-cores=2']
+
+Verify you set the VCPU core locations appropriately on the same NUMA as with
+your PMD mask for OVS-DPDK.
