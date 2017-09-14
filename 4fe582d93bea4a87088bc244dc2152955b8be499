@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_d17194a9",
+        "filename": "docs/testing/user/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 728
+      },
+      "writtenOn": "2017-09-14T14:53:40Z",
+      "side": 1,
+      "message": "The tool is called tuned-adm and is most likely installed by default on the Linux DUT",
+      "range": {
+        "startLine": 337,
+        "startChar": 15,
+        "endLine": 338,
+        "endChar": 25
+      },
+      "revId": "4fe582d93bea4a87088bc244dc2152955b8be499",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_3143a043",
+        "filename": "docs/testing/user/configguide/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 728
+      },
+      "writtenOn": "2017-09-14T14:53:40Z",
+      "side": 1,
+      "message": "delete \"in\"",
+      "range": {
+        "startLine": 345,
+        "startChar": 7,
+        "endLine": 345,
+        "endChar": 10
+      },
+      "revId": "4fe582d93bea4a87088bc244dc2152955b8be499",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
