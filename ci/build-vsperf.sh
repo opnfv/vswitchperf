@@ -422,8 +422,22 @@ function dependencies_check() {
 
 # configure hugepages
 function configure_hugepages() {
-    sudo bash -c "echo 2048 > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages"
-    sudo bash -c "echo 0 > /sys/devices/system/node/node1/hugepages/hugepages-2048kB/nr_hugepages"
+    HP_MAX=8192
+    HP_REQUESTED=2048
+    HP_NR=`cat /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages`
+    HP_FREE=`cat /sys/devices/system/node/node0/hugepages/hugepages-2048kB/free_hugepages`
+    # check if HP must be (re)configured
+    if [ $HP_FREE -lt $HP_REQUESTED ] ; then
+        HP_NR_NEW=$(($HP_NR+($HP_REQUESTED-$HP_FREE)))
+        if [ $HP_NR_NEW -gt $HP_MAX ] ; then
+            HP_NR_NEW=$HP_MAX
+        fi
+        sudo bash -c "echo $HP_NR_NEW > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages"
+    fi
+
+    if [ -f /sys/devices/system/node/node1/hugepages/hugepages-2048kB/nr_hugepages ] ; then
+        sudo bash -c "echo 0 > /sys/devices/system/node/node1/hugepages/hugepages-2048kB/nr_hugepages"
+    fi
 }
 
 # dump hugepages configuration
@@ -465,6 +479,7 @@ initialize_logdir
 
 # configure hugepages
 configure_hugepages
+hugepages_info
 
 # execute job based on passed parameter
 case $1 in
