@@ -284,7 +284,9 @@ class Trex(ITrafficGenerator):
         right = traffic['frame_rate']
         center = traffic['frame_rate']
 
-        while num_test <= tests:
+        # execute 10 iterations to find out best tput with 0% packet loss
+        # unless 0% packet loss is detected for initial frame_rate
+        while num_test <= 10:
             test_lossrate = ((stats["total"]["opackets"] - stats["total"]
                               ["ipackets"]) * 100) / stats["total"]["opackets"]
             self._logger.debug("Iteration: %s, frame rate: %s, throughput_rx_fps: %s, frame_loss_percent: %s",
