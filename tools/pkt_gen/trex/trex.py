@@ -272,6 +272,7 @@ class Trex(ITrafficGenerator):
         """
         self._logger.info("In Trex send_rfc2544_throughput method")
         self._params.clear()
+        threshold = settings.getValue('TRAFFICGEN_TREX_RFC2544_TPUT_THRESHOLD')
         test_lossrate = 0
         left = 0
         num_test = 1
@@ -284,9 +285,9 @@ class Trex(ITrafficGenerator):
         right = traffic['frame_rate']
         center = traffic['frame_rate']
 
-        # execute 10 iterations to find out best tput with 0% packet loss
-        # unless 0% packet loss is detected for initial frame_rate
-        while num_test <= 10:
+        # Loops until the preconfigured difference between frame rate
+        # of successful and unsuccessful iterations is reached
+        while (right - left) > threshold:
             test_lossrate = ((stats["total"]["opackets"] - stats["total"]
                               ["ipackets"]) * 100) / stats["total"]["opackets"]
             self._logger.debug("Iteration: %s, frame rate: %s, throughput_rx_fps: %s, frame_loss_percent: %s",
