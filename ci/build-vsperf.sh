@@ -127,6 +127,11 @@ function terminate_vsperf() {
 #   $1 - directory with results
 function print_results() {
     for i in $TESTCASES ; do
+        if [ ! -e $1 ] ; then
+            printf "    %-70s %-6s\n" "result_${i}" "FAILED"
+            EXIT=$EXIT_TC_FAILED
+        fi
+
         RES_FILE=`ls -1 $1 | egrep "result_${i}_[0-9a-zA-Z\-]+.csv"`
 
         if [ "x$RES_FILE" != "x" -a -e "${1}/${RES_FILE}" ]; then
@@ -423,7 +428,7 @@ function dependencies_check() {
 # configure hugepages
 function configure_hugepages() {
     HP_MAX=8192
-    HP_REQUESTED=2048
+    HP_REQUESTED=512
     HP_NR=`cat /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages`
     HP_FREE=`cat /sys/devices/system/node/node0/hugepages/hugepages-2048kB/free_hugepages`
     # check if HP must be (re)configured
