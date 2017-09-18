@@ -30,6 +30,32 @@ from tools.pkt_gen.trafficgen.trafficgen import ITrafficGenerator
 sys.path.append(settings.getValue('PATHS')['trafficgen']['trex']['src']['path'])
 from trex_stl_lib.api import *
 
+_EMPTY_STATS = {
+    'global': {'bw_per_core': 0.0,
+               'cpu_util': 0.0,
+               'queue_full': 0.0,
+               'rx_bps': 0.0,
+               'rx_cpu_util': 0.0,
+               'rx_drop_bps': 0.0,
+               'rx_pps': 0.0,
+               'tx_bps': 0.0,
+               'tx_pps': 0.0,},
+    'latency': {},
+    'total': {'ibytes': 0.0,
+              'ierrors': 0.0,
+              'ipackets': 0.0,
+              'obytes': 0.0,
+              'oerrors': 0.0,
+              'opackets': 0.0,
+              'rx_bps': 0.0,
+              'rx_bps_L1': 0.0,
+              'rx_pps': 0.0,
+              'rx_util': 0.0,
+              'tx_bps': 0.0,
+              'tx_bps_L1': 0.0,
+              'tx_pps': 0.0,
+              'tx_util': 0.0,}}
+
 class Trex(ITrafficGenerator):
     """Trex Traffic generator wrapper."""
     _logger = logging.getLogger(__name__)
@@ -213,13 +239,15 @@ class Trex(ITrafficGenerator):
         result[ResultsConstants.TX_RATE_PERCENT] = 'Unknown'
 
         result[ResultsConstants.THROUGHPUT_RX_PERCENT] = 'Unknown'
+        if stats["total"]["opackets"]:
+            result[ResultsConstants.FRAME_LOSS_PERCENT] = (
+                '{:.3f}'.format(
+                    float((stats["total"]["opackets"] - stats["total"]["ipackets"]) * 100 /
+                          stats["total"]["opackets"])))
+        else:
+            result[ResultsConstants.FRAME_LOSS_PERCENT] = 100
 
-        result[ResultsConstants.FRAME_LOSS_PERCENT] = (
-            '{:.3f}'.format(
-                float((stats["total"]["opackets"] - stats["total"]["ipackets"]) * 100 /
-                      stats["total"]["opackets"])))
-
-        if settings.getValue('TRAFFICGEN_TREX_LATENCY_PPS') > 0:
+        if settings.getValue('TRAFFICGEN_TREX_LATENCY_PPS') > 0 and stats['latency']:
             result[ResultsConstants.MIN_LATENCY_NS] = (
                 '{:.3f}'.format(
                     (float(min(stats["latency"][0]["latency"]["total_min"],
@@ -272,9 +300,11 @@ class Trex(ITrafficGenerator):
         """
         self._logger.info("In Trex send_rfc2544_throughput method")
         self._params.clear()
+        threshold = settings.getValue('TRAFFICGEN_TREX_RFC2544_TPUT_THRESHOLD')
         test_lossrate = 0
         left = 0
-        num_test = 1
+        iteration = 1
+        stats_ok = _EMPTY_STATS
         self._params['traffic'] = self.traffic_defaults.copy()
         if traffic:
             self._params['traffic'] = merge_spec(
@@ -284,15 +314,16 @@ class Trex(ITrafficGenerator):
         right = traffic['frame_rate']
         center = traffic['frame_rate']
 
-        # execute 10 iterations to find out best tput with 0% packet loss
-        # unless 0% packet loss is detected for initial frame_rate
-        while num_test <= 10:
+        # Loops until the preconfigured difference between frame rate
+        # of successful and unsuccessful iterations is reached
+        while (right - left) > threshold:
             test_lossrate = ((stats["total"]["opackets"] - stats["total"]
                               ["ipackets"]) * 100) / stats["total"]["opackets"]
             self._logger.debug("Iteration: %s, frame rate: %s, throughput_rx_fps: %s, frame_loss_percent: %s",
-                               num_test, "{:.3f}".format(new_params['frame_rate']), stats['total']['rx_pps'],
+                               iteration, "{:.3f}".format(new_params['frame_rate']), stats['total']['rx_pps'],
                                "{:.3f}".format(test_lossrate))
             if test_lossrate == 0.0 and new_params['frame_rate'] == traffic['frame_rate']:
+                stats_ok = copy.deepcopy(stats)
                 break
             elif test_lossrate > lossrate:
                 right = center
@@ -301,13 +332,14 @@ class Trex(ITrafficGenerator):
                 new_params['frame_rate'] = center
                 stats = self.generate_traffic(new_params, duration)
             else:
+                stats_ok = copy.deepcopy(stats)
                 left = center
                 center = (left+right) / 2
                 new_params = copy.deepcopy(traffic)
                 new_params['frame_rate'] = center
                 stats = self.generate_traffic(new_params, duration)
-            num_test += 1
-        return self.calculate_results(stats)
+            iteration += 1
+        return self.calculate_results(stats_ok)
 
     def start_rfc2544_throughput(self, traffic=None, tests=1, duration=60,
                                  lossrate=0.0):
