@@ -48,7 +48,8 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         self._vswitchd_pidfile_path = os.path.join(settings.getValue('TOOLS')['ovs_var_tmp'],
                                                    "{}.pid".format(self._proc_name))
         self._logger = logging.getLogger(__name__)
-        self._expect = r'bridge|INFO|{}'.format(self._proc_name)
+        # sign '|' must be escaped or avoided, otherwise it is handled as 'or' by regex
+        self._expect = r'bridge.INFO.{}'.format(self._proc_name)
         self._timeout = 30
         self._bridges = {}
         self._vswitchd_args = ['--pidfile=' + self._vswitchd_pidfile_path,
