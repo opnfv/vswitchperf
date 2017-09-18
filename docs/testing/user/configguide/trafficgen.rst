@@ -810,3 +810,14 @@ Example of this configuration is in conf/03_traffic.conf or conf/10_custom.conf.
 
 TRAFFICGEN_TREX_USER has to have sudo permission and passwordless access.
 TRAFFICGEN_TREX_BASE_DIR is the place, where is stored 't-rex-64' file.
+
+It is possible to specify the accurancy of RFC2544 Throughput measurement.
+Threshold below defines maximal difference between frame rate of successful
+(i.e. defined frameloss was reached) and unsuccessful (i.e. frameloss was
+exceeded) iterations.
+
+Default value of this parameter is defined in conf/03_traffic.conf as follows:
+
+.. code-blick:: console
+
+    TRAFFICGEN_TREX_RFC2544_TPUT_THRESHOLD = ''
