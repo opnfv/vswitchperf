@@ -158,16 +158,17 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
 
         Kills ``vpp``
         """
-        # try to get VPP pid
-        output = self.run_vppctl(['show', 'version', 'verbose'])
-        match = re.search(r'Current PID:\s*([0-9]+)', output[0])
-        if match:
-            vpp_pid = match.group(1)
-            tasks.terminate_task(vpp_pid, logger=self._logger)
+        if self.is_running():
+            # try to get VPP pid
+            output = self.run_vppctl(['show', 'version', 'verbose'])
+            match = re.search(r'Current PID:\s*([0-9]+)', output[0])
+            if match:
+                vpp_pid = match.group(1)
+                tasks.terminate_task(vpp_pid, logger=self._logger)
 
-        # in case, that pid was not detected or sudo envelope
-        # has not been terminated yet
-        tasks.Process.kill(self, signal, sleep)
+            # in case, that pid was not detected or sudo envelope
+            # has not been terminated yet
+            tasks.Process.kill(self, signal, sleep)
 
     def get_version(self):
         """See IVswitch for general description
