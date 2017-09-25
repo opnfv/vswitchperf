@@ -821,3 +821,15 @@ Default value of this parameter is defined in conf/03_traffic.conf as follows:
 .. code-block:: console
 
     TRAFFICGEN_TREX_RFC2544_TPUT_THRESHOLD = ''
+
+SR-IOV
+~~~~~~
+T-Rex by default only accepts packets on the receive side if the destination mac matches the
+MAC address specificed in the /etc/trex-cfg.yaml on the server side. For SR-IOV this creates
+challenges with modifying the MAC address in the traffic profile to correctly flow packets
+through specified VFs. To remove this limitation enable promiscuous mode on T-Rex to allow
+all packets regardless of the destination mac to be accepted.
+
+.. code-block:: console
+
+    TRAFFICGEN_TREX_PROMISCUOUS=True
