@@ -201,6 +201,10 @@ class Trex(ITrafficGenerator):
         my_ports = [0, 1]
         self._stlclient.reset(my_ports)
         ports_info = self._stlclient.get_port_info(my_ports)
+        # for SR-IOV
+        if settings.getValue('TRAFFICGEN_TREX_PROMISCUOUS'):
+            self._stlclient.set_port_attr(my_ports, promiscuous=True)
+
         packet_1, packet_2 = Trex.create_packets(traffic, ports_info)
         stream_1, stream_2, stream_1_lat, stream_2_lat = Trex.create_streams(packet_1, packet_2, traffic)
         self._stlclient.add_streams(stream_1, ports=[0])
