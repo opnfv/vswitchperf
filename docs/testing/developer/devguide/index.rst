@@ -14,13 +14,13 @@ Introduction
 
 VSPERF is an OPNFV testing project.
 
-VSPERF is an OPNFV project that provides an automated test-framework and comprehensive test suite based on Industry
+VSPERF provides an automated test-framework and comprehensive test suite based on Industry
 Test Specifications for measuring NFVI data-plane performance. The data-path includes switching technologies with
 physical and virtual network interfaces. The VSPERF architecture is switch and traffic generator agnostic and test
-cases can be easily customized. Software versions and configurations including the vSwitch (OVS or VPP) as well as
-the network topology are controlled by VSPERF (independent of OpenStack). VSPERF is used as a development tool for
-optimizing switching technologies, qualification of packet processing components and for pre-deployment evaluation
-of the NFV platform data-path.
+cases can be easily customized. VSPERF was designed to be independent of OpenStack therefore OPNFV installer scenarios
+are not required. VSPERF can source, configure and deploy the device-under-test using specified software versions and
+network topology. VSPERF is used as a development tool for optimizing switching technologies, qualification of packet
+processing functions and for evaluation of data-path performance.
 
 The Euphrates release adds new features and improvements that will help advance high performance packet processing
 on Telco NFV platforms. This includes new test cases, flexibility in customizing test-cases, new results display
