@@ -23,6 +23,7 @@ pvvp_tput             :ref:`PacketLossRatio <PacketLossRatio>` for :ref:`PVVP <P
 pvvp_back2back        :ref:`BackToBackFrames <BackToBackFrames>` for :ref:`PVVP <PVVP>`
 phy2phy_cpu_load      :ref:`CPU0PacketLoss <CPU0PacketLoss>` for :ref:`Phy2Phy <Phy2Phy>`
 phy2phy_mem_load      Same as :ref:`CPU0PacketLoss <CPU0PacketLoss>` but using a memory intensive app
+# Is this up to date? needs comment....
 ===================== ===========================================================
 
 Deployment topologies:
@@ -45,3 +46,4 @@ Supported traffic generators:
 * Xena
 * MoonGen
 * Dummy
+* T-Rex

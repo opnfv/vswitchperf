@@ -63,6 +63,7 @@ The vSwitch must support Open Flow 1.3 or greater.
 * Open vSwitch
 * Open vSwitch with DPDK support
 * TestPMD application from DPDK (supports p2p and pvp scenarios)
+* Cisco VPP
 
 Supported Hypervisors
 ---------------------
@@ -342,7 +343,7 @@ following location:
 
 http://www.tuned-project.org/2017/04/27/tuned-2-8-0-released/
 
-Follow instructions to install the latest tuned-adm onto your system. For
+Follow the instructions to install the latest tuned-adm onto your system. For
 current RHEL customers you should already have the most current version. You
 just need to install the cpu-partitioning profile.
 

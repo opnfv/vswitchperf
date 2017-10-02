@@ -248,7 +248,7 @@ Ixia
 ----
 
 VSPERF can use both IxNetwork and IxExplorer TCL servers to control Ixia chassis.
-However usage of IxNetwork TCL server is a preferred option. Following sections
+However, usage of IxNetwork TCL server is a preferred option. The following sections
 will describe installation and configuration of IxNetwork components used by VSPERF.
 
 Installation
@@ -675,11 +675,15 @@ https://github.com/emmericp/MoonGen
 For VSPERF use, MoonGen should be cloned from here (as opposed to the
 previously mentioned GitHub):
 
-git clone https://github.com/atheurer/lua-trafficgen
+.. code-block:: console
+
+    git clone https://github.com/atheurer/lua-trafficgen
 
 and use the master branch:
 
-git checkout master
+.. code-block:: console
+
+    git checkout master
 
 VSPERF uses a particular Lua script with the MoonGen project:
 
@@ -808,10 +812,10 @@ Example of this configuration is in conf/03_traffic.conf or conf/10_custom.conf.
     TRAFFICGEN_TREX_USER = ''
     TRAFFICGEN_TREX_BASE_DIR = ''
 
-TRAFFICGEN_TREX_USER has to have sudo permission and passwordless access.
+TRAFFICGEN_TREX_USER has to have sudo permission and password-less access.
 TRAFFICGEN_TREX_BASE_DIR is the place, where is stored 't-rex-64' file.
 
-It is possible to specify the accurancy of RFC2544 Throughput measurement.
+It is possible to specify the accuracy of RFC2544 Throughput measurement.
 Threshold below defines maximal difference between frame rate of successful
 (i.e. defined frameloss was reached) and unsuccessful (i.e. frameloss was
 exceeded) iterations.
@@ -825,7 +829,7 @@ Default value of this parameter is defined in conf/03_traffic.conf as follows:
 SR-IOV
 ~~~~~~
 T-Rex by default only accepts packets on the receive side if the destination mac matches the
-MAC address specificed in the /etc/trex-cfg.yaml on the server side. For SR-IOV this creates
+MAC address specified in the /etc/trex-cfg.yaml on the server side. For SR-IOV this creates
 challenges with modifying the MAC address in the traffic profile to correctly flow packets
 through specified VFs. To remove this limitation enable promiscuous mode on T-Rex to allow
 all packets regardless of the destination mac to be accepted.
@@ -833,3 +837,10 @@ all packets regardless of the destination mac to be accepted.
 .. code-block:: console
 
     TRAFFICGEN_TREX_PROMISCUOUS=True
+
+Multistream
+~~~~~~~~~~~
+
+T-Rex currently does not support multi-stream in VSPerf. This function will not operate as
+expected by the user. This will be added in the next release. Only single flow operations are
+supported.
