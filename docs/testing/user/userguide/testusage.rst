@@ -20,6 +20,8 @@ support in VSPERF includes:
   Traffic generator modules.
 - Moongen software traffic generator. Requires a separate machine running
   moongen to execute packet generation.
+- T-Rex software traffic generator. Requires a separate machine running T-Rex
+  Server to execute packet generation.
 
 If you want to use another traffic generator, please select the :ref:`trafficgen-dummy`
 generator.
@@ -475,7 +477,7 @@ For example:
 
 * vSwitch tests with DPDK or without DPDK support to verify impact
   of VF usage on vSwitch performance
-* tests without vSwitch, where traffic is forwared directly
+* tests without vSwitch, where traffic is forwarded directly
   between VF interfaces by packet forwarder (e.g. testpmd application)
 * tests without vSwitch, where VM accesses VF interfaces directly
   by PCI-passthrough_ to measure raw VM throughput performance.
@@ -486,11 +488,11 @@ Using QEMU with PCI passthrough support
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Raw virtual machine throughput performance can be measured by execution of PVP
-test with direct access to NICs by PCI passthrough. To execute VM with direct
+test with direct access to NICs by PCI pass-through. To execute VM with direct
 access to PCI devices, enable vfio-pci_. In order to use virtual functions,
 SRIOV-support_ must be enabled.
 
-Execution of test with PCI passthrough with vswitch disabled:
+Execution of test with PCI pass-through with vswitch disabled:
 
 .. code-block:: console
 
@@ -498,9 +500,9 @@ Execution of test with PCI passthrough with vswitch disabled:
                --vswitch none --vnf QemuPciPassthrough pvp_tput
 
 Any of supported guest-loopback-application_ can be used inside VM with
-PCI passthrough support.
+PCI pass-through support.
 
-Note: Qemu with PCI passthrough support can be used only with PVP test
+Note: Qemu with PCI pass-through support can be used only with PVP test
 deployment.
 
 .. _guest-loopback-application:
