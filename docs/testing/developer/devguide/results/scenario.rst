@@ -5,7 +5,7 @@
 VSPERF Test Scenarios
 =====================
 
-Predefined Tests run with CI:
+Predefined Tests suitable for automated execution with CI:
 
 ===================== ===========================================================
    Test                          Definition
@@ -45,3 +45,4 @@ Supported traffic generators:
 * Xena
 * MoonGen
 * Dummy
+* T-Rex

@@ -35,6 +35,7 @@ List of stable releases:
    colorado.2.0
    colorado.3.0
    danube.1.0
+   euphrates.1.0
 
 You could select which stable release should be used. For example, select ``danube.1.0``:
 
@@ -180,4 +181,3 @@ parameters and update them according to the documentation:
    rfc2544_tests
    stream_type
    traffic_type
-
