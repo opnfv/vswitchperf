@@ -50,7 +50,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         self._logger = logging.getLogger(__name__)
         # sign '|' must be escaped or avoided, otherwise it is handled as 'or' by regex
         self._expect = r'bridge.INFO.{}'.format(self._proc_name)
-        self._timeout = 30
+        self._timeout = settings.getValue('VSWITCH_TIMEOUT')
         self._bridges = {}
         self._vswitchd_args = ['--pidfile=' + self._vswitchd_pidfile_path,
                                '--overwrite-pidfile', '--log-file=' + self._logfile]
