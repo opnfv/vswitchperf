@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_1dd634f1",
+        "filename": "docs/testing/developer/devguide/results/scenario.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2017-10-03T11:29:56Z",
+      "side": 1,
+      "message": "Yes, I believe it is. We have few scenarios which are not part of CI: pvpv_cont, phy2phy_[caching, learning, forwarding], I\u0027m not sure if those should be reported here too. \nhttps://wiki.opnfv.org/display/vsperf/VSPerf+testcases+report  - more details.",
+      "revId": "adabfcf101dbec826a45e827bbaffcd54edc1957",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_9d01a46c",
+        "filename": "docs/testing/user/configguide/trafficgen.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2017-10-03T11:29:56Z",
+      "side": 1,
+      "message": "Perhaps it makes sense to be more specific (OPNFV release F?) or skip mentioning timeline completely? Not sure.",
+      "range": {
+        "startLine": 845,
+        "startChar": 22,
+        "endLine": 845,
+        "endChar": 60
+      },
+      "revId": "adabfcf101dbec826a45e827bbaffcd54edc1957",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
