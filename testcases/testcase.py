@@ -505,8 +505,12 @@ class TestCase(object):
 
         if str(S.getValue('VSWITCH')).lower().count('dpdk'):
             sock_mem = S.getValue('DPDK_SOCKET_MEM')
-            sock0_mem, sock1_mem = (int(sock_mem[0]) * 1024 / hugepage_size,
-                                    int(sock_mem[1]) * 1024 / hugepage_size)
+            sock0_mem = int(sock_mem[0]) * 1024 / hugepage_size
+            # if a single numa system is used, we need to deal with this
+            try:
+                sock1_mem = int(sock_mem[1]) * 1024 / hugepage_size
+            except IndexError:
+                sock1_mem = 0
 
         # If hugepages needed, verify the amounts are free
         if any([hugepages_needed, sock0_mem, sock1_mem]):
