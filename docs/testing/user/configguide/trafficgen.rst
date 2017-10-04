@@ -811,7 +811,7 @@ Example of this configuration is in conf/03_traffic.conf or conf/10_custom.conf.
 TRAFFICGEN_TREX_USER has to have sudo permission and passwordless access.
 TRAFFICGEN_TREX_BASE_DIR is the place, where is stored 't-rex-64' file.
 
-It is possible to specify the accurancy of RFC2544 Throughput measurement.
+It is possible to specify the accuracy of RFC2544 Throughput measurement.
 Threshold below defines maximal difference between frame rate of successful
 (i.e. defined frameloss was reached) and unsuccessful (i.e. frameloss was
 exceeded) iterations.
@@ -822,13 +822,16 @@ Default value of this parameter is defined in conf/03_traffic.conf as follows:
 
     TRAFFICGEN_TREX_RFC2544_TPUT_THRESHOLD = ''
 
-SR-IOV
-~~~~~~
+SR-IOV and Multistream layer 2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 T-Rex by default only accepts packets on the receive side if the destination mac matches the
-MAC address specificed in the /etc/trex-cfg.yaml on the server side. For SR-IOV this creates
+MAC address specified in the /etc/trex-cfg.yaml on the server side. For SR-IOV this creates
 challenges with modifying the MAC address in the traffic profile to correctly flow packets
 through specified VFs. To remove this limitation enable promiscuous mode on T-Rex to allow
 all packets regardless of the destination mac to be accepted.
+
+This also creates problems when doing multistream at layer 2 since the source macs will be
+modified. Enable Promiscuous mode when doing multistream at layer 2 testing with T-Rex.
 
 .. code-block:: console
 
