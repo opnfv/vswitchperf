@@ -171,3 +171,16 @@ def check_traffic(traffic):
                 traffic['multistream'] = MAX_L4_FLOWS
 
     return traffic
+
+
+def ip_to_int(ip_address):
+    """
+    Convert IP string in dot notation format to decimal
+    :param ip: IP as string of w.x.y.z
+    :return: ip as int
+    """
+    ip_fields = ip_address.split(".")
+    if len(ip_fields) != 4:
+        raise ValueError("IP addresses should be in the form of W.X.Y.Z")
+    ip_int = 256**3 * int(ip_fields[0]) + 256**2 * int(ip_fields[1]) + 256**1 * int(ip_fields[2]) + int(ip_fields[3])
+    return ip_int
