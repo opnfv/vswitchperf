@@ -21,6 +21,7 @@ import subprocess
 import sys
 from collections import OrderedDict
 # pylint: disable=unused-import
+import netaddr
 import zmq
 from conf import settings
 from conf import merge_spec
@@ -174,8 +175,46 @@ class Trex(ITrafficGenerator):
         fsize_no_fcs = frame_size - 4
         payload_a = max(0, fsize_no_fcs - len(base_pkt_a)) * 'x'
         payload_b = max(0, fsize_no_fcs - len(base_pkt_b)) * 'x'
-        pkt_a = STLPktBuilder(pkt=base_pkt_a/payload_a)
-        pkt_b = STLPktBuilder(pkt=base_pkt_b/payload_b)
+
+        # Multistream configuration, increments source values only
+        ms_mod = list() # mod list for incrementing values to be populated based on layer
+        if traffic['multistream'] - 1 > 0:
+            if traffic['stream_type'].upper() == 'L2':
+                for _ in [base_pkt_a, base_pkt_b]:
+                    ms_mod += [STLVmFlowVar(name="mac_start", min_value=0,
+                                            max_value=traffic['multistream'], size=4, op="inc"),
+                               STLVmWrFlowVar(fv_name="mac_start", pkt_offset=7)]
+            elif traffic['stream_type'].upper() == 'L3':
+                ip_src = {"start": int(netaddr.IPAddress(traffic['l3']['srcip'])),
+                          "end": int(netaddr.IPAddress(traffic['l3']['srcip'])) + traffic['multistream']}
+                ip_dst = {"start": int(netaddr.IPAddress(traffic['l3']['dstip'])),
+                          "end": int(netaddr.IPAddress(traffic['l3']['dstip'])) + traffic['multistream']}
+                for ip_address in [ip_src, ip_dst]:
+                    ms_mod += [STLVmFlowVar(name="ip_src", min_value=ip_address['start'],
+                                            max_value=ip_address['end'], size=4, op="inc"),
+                               STLVmWrFlowVar(fv_name="ip_src", pkt_offset="IP.src")]
+            elif traffic['stream_type'].upper() == 'L4':
+                for udpport in [traffic['l4']['srcport'], traffic['l4']['dstport']]:
+                    if udpport + traffic['multistream'] > 65536:
+                        start_port = udpport
+                        # find the max/min port number based on the loop around of 65535 to 0 if needed
+                        minimum_value = 65536 - (traffic['multistream'] -1)
+                        maximum_value = 65536
+                    else:
+                        start_port, minimum_value = udpport, udpport
+                        maximum_value = start_port + traffic['multistream']
+                    ms_mod += [STLVmFlowVar(name="port_src", init_value=start_port,
+                                            min_value=minimum_value, max_value=maximum_value,
+                                            size=2, op="inc"),
+                               STLVmWrFlowVar(fv_name="port_src", pkt_offset="UDP.sport"),]
+
+        if ms_mod: # multistream detected
+            pkt_a = STLPktBuilder(pkt=base_pkt_a/payload_a, vm=[ms_mod[0], ms_mod[1]])
+            pkt_b = STLPktBuilder(pkt=base_pkt_b/payload_b, vm=[ms_mod[2], ms_mod[3]])
+        else:
+            pkt_a = STLPktBuilder(pkt=base_pkt_a / payload_a)
+            pkt_b = STLPktBuilder(pkt=base_pkt_b / payload_b)
+
         stream_1 = STLStream(packet=pkt_a,
                              name='stream_1',
                              mode=STLTXCont(percentage=traffic['frame_rate']))
