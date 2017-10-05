@@ -457,7 +457,7 @@ To run GENEVE decapsulation tests:
 Executing Tunnel encapsulation+decapsulation tests
 --------------------------------------------------
 
-The OVS DPDK encapsulation_decapsulation tests requires IPs, MAC addresses,
+The OVS DPDK encapsulation/decapsulation tests requires IPs, MAC addresses,
 bridge names and WHITELIST_NICS for DPDK.
 
 The test cases can test the tunneling encap and decap without using any ingress

@@ -131,7 +131,7 @@ the content of PATHS dictionary accordingly.
 
 Dictionary has a specific section of configuration options for every tool type, it means:
 
-    * ``PATHS['vswitch']`` - contains a separete dictionary for each of vswitches supported by VSPEF
+    * ``PATHS['vswitch']`` - contains a separate dictionary for each of vswitches supported by VSPEF
 
       Example:
 
@@ -277,7 +277,7 @@ TRAFFIC dictionary is used for configuration of traffic generator. Default value
 can be found in configuration file ``conf/03_traffic.conf``. These default values
 can be modified by (first option has the highest priorty):
 
-    1. ``Parameters`` section of testcase defintion
+    1. ``Parameters`` section of testcase definition
     2. command line options specified by ``--test-params`` argument
     3. custom configuration file
 
@@ -437,7 +437,7 @@ First option can contain macros starting with ``#`` to generate VM specific valu
 These macros can be used only for options of ``list`` or ``str`` types with ``GUEST_``
 prefix.
 
-Example of macros and their expnasion for 2 VMs:
+Example of macros and their expansion for 2 VMs:
 
     .. code-block:: python
 
@@ -629,7 +629,7 @@ by deployment name as follows:
     optional ``number`` of VMs. In case that ``number`` is not specified, then
     2 VMs will be used. Multistream feature is used to route traffic to particular
     VMs (or NIC pairs of every VM). It means, that VSPERF will enable multistream
-    feaure and sets the number of streams to the number of VMs and their NIC
+    feature and sets the number of streams to the number of VMs and their NIC
     pairs. Traffic will be dispatched based on Stream Type, i.e. by UDP port,
     IP address or MAC address.
 
@@ -710,7 +710,7 @@ bridge inside the VM.
 VM, vSwitch, Traffic Generator Independence
 ===========================================
 
-VSPERF supports different vSwithes, Traffic Generators, VNFs
+VSPERF supports different VSwitches, Traffic Generators, VNFs
 and Forwarding Applications by using standard object-oriented polymorphism:
 
   * Support for vSwitches is implemented by a class inheriting from IVSwitch.
