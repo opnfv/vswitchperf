@@ -131,11 +131,6 @@ class TestCase(object):
 
         # check if test requires background load and which generator it uses
         self._load_cfg = cfg.get('Load', None)
-        if self._load_cfg and 'tool' in self._load_cfg:
-            self._loadgen = self._load_cfg['tool']
-        else:
-            # background load is not requested, so use dummy implementation
-            self._loadgen = "Dummy"
 
         if self._frame_mod:
             self._frame_mod = self._frame_mod.lower()
@@ -247,7 +242,7 @@ class TestCase(object):
             loader.get_collector_class(),
             self._results_dir, self.name)
         self._loadgen = component_factory.create_loadgen(
-            self._loadgen,
+            loader.get_loadgen_class(),
             self._load_cfg)
 
         self._output_file = os.path.join(self._results_dir, "result_" + self.name +
