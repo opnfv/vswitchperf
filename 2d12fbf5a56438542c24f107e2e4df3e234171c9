@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_8fecc1bc",
+        "filename": "tools/functions.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-05T12:09:19Z",
+      "side": 1,
+      "message": "Vsperf already uses \"netaddr\" module, which can convert among various IP representations.\n\nSo this function can be replaced by passing IPAddress object to int() function, e.g.:\n\nint(netaddr.IPAddress(\u0027192.168.1.1\u0027))\n\nExamples of netaddr usage within vsperf:\n\n* core/vswitch_controller_*py\n* conf/__init__.py\n* conf/integration/01a_testcases_l34_vxlan.conf",
+      "revId": "2d12fbf5a56438542c24f107e2e4df3e234171c9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_4f3d992a",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-05T12:09:19Z",
+      "side": 1,
+      "message": "Is it possible to use traffic[\u0027l2\u0027][\u0027srcmac\u0027] mac as a starting value?",
+      "revId": "2d12fbf5a56438542c24f107e2e4df3e234171c9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_0f38b13b",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-05T12:09:19Z",
+      "side": 1,
+      "message": "This check is already done by check_traffic() (see tools/functions.py), which is called from testcase/testcase.py constructor (see __init__()). So it can be skipped here. As the range is 0-65535, then maximum number of supported L4 streams is 65536. This should be considered by calculations below.",
+      "revId": "2d12fbf5a56438542c24f107e2e4df3e234171c9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_af48a5cc",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-05T12:09:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it is worth to take srcport into account. It make sense in case of functional test, which would focus on short port range. However for performance test it should not matter which ports are used. So we might simplify it and start always from zero... To be honest, I think that I\u0027ve already made such simplification, but I\u0027m not able to find it now (so it is possible that IXIA starts L4 flows from 0 already).",
+      "revId": "2d12fbf5a56438542c24f107e2e4df3e234171c9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_6f705d0b",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-05T12:09:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it works as desired. It should cover situation like:\n\nmultistream \u003d 10\ntraffic[\u0027l4\u0027][\u0027srcport\u0027] \u003d 65531\n\nso theoretically we should see port numbers from two ranges in frames: [65531, 65535] and [0, 4]. I don\u0027t think, that code below will assure it. So either Trex is able to wrap it around max port number automatically (and then the code can be simplified) or implementation should be more complex or I\u0027m missing something (which is very likely).\n\nAs I\u0027ve mentioned above it is probably not worth to spend to much effort on it.",
+      "revId": "2d12fbf5a56438542c24f107e2e4df3e234171c9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
