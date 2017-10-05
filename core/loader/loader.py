@@ -18,6 +18,7 @@
 from conf import settings
 from core.loader.loader_servant import LoaderServant
 from tools.collectors.collector import ICollector
+from tools.load_gen.load_gen import ILoadGenerator
 from tools.pkt_fwd.pkt_fwd import IPktFwd
 from tools.pkt_gen.trafficgen import ITrafficGenerator
 from vswitches.vswitch import IVSwitch
@@ -30,6 +31,7 @@ class Loader(object):
     _metrics_loader = None
     _vswitch_loader = None
     _vnf_loader = None
+    _loadgen_loader = None
 
     def __init__(self):
         """Loader ctor - initialization method.
@@ -47,6 +49,11 @@ class Loader(object):
             settings.getValue('COLLECTOR_DIR'),
             settings.getValue('COLLECTOR'),
             ICollector)
+
+        self._loadgen_loader = LoaderServant(
+            settings.getValue('LOADGEN_DIR'),
+            settings.getValue('LOADGEN'),
+            ILoadGenerator)
 
         self._vswitch_loader = LoaderServant(
             settings.getValue('VSWITCH_DIR'),
@@ -125,6 +132,14 @@ class Loader(object):
         :return: String containing printable list of collectors.
         """
         return self._metrics_loader.get_classes_printable()
+
+    def get_loadgen_class(self):
+        """Returns type of currently configured loadgen implementation.
+
+        :return: Type of ILoadGenerator implementation if available.
+            None otherwise.
+        """
+        return self._loadgen_loader.get_class()
 
     def get_vswitch(self):
         """Returns instance of currently configured vswitch implementation.
