@@ -18,11 +18,13 @@
 from conf import settings
 from core.loader.loader_servant import LoaderServant
 from tools.collectors.collector import ICollector
+from tools.load_gen.load_gen import ILoadGenerator
 from tools.pkt_fwd.pkt_fwd import IPktFwd
 from tools.pkt_gen.trafficgen import ITrafficGenerator
 from vswitches.vswitch import IVSwitch
 from vnfs.vnf.vnf import IVnf
 
+# pylint: disable=too-many-public-methods
 class Loader(object):
     """Loader class - main object context holder.
     """
@@ -30,6 +32,7 @@ class Loader(object):
     _metrics_loader = None
     _vswitch_loader = None
     _vnf_loader = None
+    _loadgen_loader = None
 
     def __init__(self):
         """Loader ctor - initialization method.
@@ -47,6 +50,11 @@ class Loader(object):
             settings.getValue('COLLECTOR_DIR'),
             settings.getValue('COLLECTOR'),
             ICollector)
+
+        self._loadgen_loader = LoaderServant(
+            settings.getValue('LOADGEN_DIR'),
+            settings.getValue('LOADGEN'),
+            ILoadGenerator)
 
         self._vswitch_loader = LoaderServant(
             settings.getValue('VSWITCH_DIR'),
@@ -125,6 +133,30 @@ class Loader(object):
         :return: String containing printable list of collectors.
         """
         return self._metrics_loader.get_classes_printable()
+
+    def get_loadgen_class(self):
+        """Returns type of currently configured loadgen implementation.
+
+        :return: Type of ILoadGenerator implementation if available.
+            None otherwise.
+        """
+        return self._loadgen_loader.get_class()
+
+    def get_loadgens(self):
+        """Returns dictionary of all available loadgens
+
+        :return: Dictionary of loadgens
+            - key: name of the class which implements ILoadGenerator
+            - value: Type of class which implements ILoadGenerator
+        """
+        return self._loadgen_loader.get_classes()
+
+    def get_loadgens_printable(self):
+        """Returns all available loadgens in printable format
+
+        :return: String containing printable list of loadgens
+        """
+        return self._loadgen_loader.get_classes_printable()
 
     def get_vswitch(self):
         """Returns instance of currently configured vswitch implementation.

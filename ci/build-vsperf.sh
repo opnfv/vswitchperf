@@ -369,7 +369,7 @@ function execute_vsperf_sanity() {
     DATE_SUFFIX=$(date -u +"%Y-%m-%d_%H-%M-%S")
     LOG_FILE="${LOG_FILE_PREFIX}_sanity_${DATE_SUFFIX}.log"
     echo "Execution of VSPERF sanity checks:"
-    for PARAM in '--version' '--help' '--list-trafficgens' '--list-collectors' '--list-vswitches' '--list-fwdapps' '--list-vnfs' '--list-settings' '--list' '--integration --list'; do
+    for PARAM in '--version' '--help' '--list-trafficgens' '--list-collectors' '--list-vswitches' '--list-fwdapps' '--list-vnfs' '--list-loadgens' '--list-settings' '--list' '--integration --list'; do
         echo -e "-------------------------------------------------------------------" >> $LOG_FILE
         echo "$VSPERF_BIN $PARAM $CONF_FILE" >> $LOG_FILE
         echo -e "-------------------------------------------------------------------" >> $LOG_FILE

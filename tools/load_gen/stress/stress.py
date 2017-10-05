@@ -52,8 +52,10 @@ class Stress(ILoadGenerator):
             return
 
         # check if load tool binary is available
-        if not ('tool' in stress_config) or subprocess.call("which " + stress_config['tool'], shell=True) > 0:
-            self._logger.error("stress tool binary '%s' is not available", stress_config['tool'])
+        if subprocess.call("which {}".format(self._process_args['name']),
+                           shell=True) > 0:
+            self._logger.error("stress tool binary '%s' is not available",
+                               self._process_args['name'])
             return
 
         # calculate requested load details and load split among different
