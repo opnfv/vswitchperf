@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_4fc2b985",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-05T07:56:54Z",
+      "side": 1,
+      "message": "I would recommend a different approach, which will take in the account the real number of numa slots in the system. In that case user don\u0027t need to \"trim\"/modify DPDK_SOCKET_MEM on single numa node. We can also extend default settings to cover more nodes by default (e.g. 4).\n\nIt would also simplify code, as check for particular numa mem size can be done by one loop, e.g.:\n\nimport numa\nsock_mem \u003d []\nconf_mem - S.getValue(\u0027DPDK_SOCKET_MEM\u0027)\nfor numaid in range(numa.get_max_node())\n    sock_mem[numaid] \u003d (int(conf_mem[numaid]) * 1024 / hugepage_size\n    logging.info(\u0027Need %s hugepages free for dpdk socket %s\u0027, sock_mem[numaid],numaid)\n    if hugepages.get_free_hugepages(numaid) \u003c sock_mem[numaid]:\n        return False\n\n\nOf course it will require a bit of refactoring. Honestly I\u0027m not sure about corectness of \"free_hugepages\" calculation, which seems to calculate values across numa slots.\n\nAlso numa python package would have to be added into requirements and appropriate OS packages (numactl-dev, etc.) into installation scripts (although I think, that they are already there).\n\nIn case of old releases, it\u0027s a matter of configuration. Even your solution would require user to modify DPDK_SOCKET_MEM, so it is not a big difference, if user will set it to [\u00271024\u0027] or to [\u00271024\u0027,\u00270\u0027].",
+      "revId": "857d12d565a6cb0400693fbf6298e73fb5797cf6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
