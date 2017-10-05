@@ -24,9 +24,6 @@ from core.vswitch_controller_op2p import VswitchControllerOP2P
 from core.vswitch_controller_ptunp import VswitchControllerPtunP
 from core.vnf_controller import VnfController
 from core.pktfwd_controller import PktFwdController
-from tools.load_gen.stress.stress import Stress
-from tools.load_gen.stress_ng.stress_ng import StressNg
-from tools.load_gen.dummy.dummy import DummyLoadGen
 
 
 def __init__():
@@ -115,24 +112,17 @@ def create_collector(collector_class, result_dir, test_name):
     """
     return collector_class(result_dir, test_name)
 
-def create_loadgen(loadgen_type, loadgen_cfg):
-    """Return a new ILoadGenerator for the loadgen type.
+def create_loadgen(loadgen_class, loadgen_cfg):
+    """Return a new ILoadGenerator for the loadgen class.
 
-    The returned load generator has the given loadgen type and loadgen
-    generator class.
+    The returned load generator is of given loadgen generator class.
 
-    :param loadgen_type: Name of loadgen type
-    :param loadgen_class: Reference to load generator class to be used.
+    :param loadgen_class: Name to load generator class to be used.
+    :param loadgen_cfg: Configuration for the loadgen
     :return: A new ILoadGenerator class
     """
     # pylint: disable=too-many-function-args
-    loadgen_type = loadgen_type.lower()
-    if loadgen_type.find("dummy") >= 0:
-        return DummyLoadGen(loadgen_cfg)
-    elif loadgen_type.find("stress-ng") >= 0:
-        return StressNg(loadgen_cfg)
-    elif loadgen_type.find("stress") >= 0:
-        return Stress(loadgen_cfg)
+    return loadgen_class(loadgen_cfg)
 
 def create_pktfwd(deployment, pktfwd_class):
     """Return a new packet forwarder controller
