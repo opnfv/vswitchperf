@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_45189e84",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-10T08:15:31Z",
+      "side": 1,
+      "message": "pylint is complaining about wrong import order, it seems, that it should be moved below OrderedDict import:\n\n************* Module tools.pkt_gen.trex.trex\nC: 21, 0: standard import \"import subprocess\" comes before \"import netaddr\" (wrong-import-order)\nC: 22, 0: standard import \"import sys\" comes before \"import netaddr\" (wrong-import-order)\nC: 23, 0: standard import \"from collections import OrderedDict\" comes before \"import netaddr\" (wrong-import-order)\n    tools/pkt_gen/trex/trex.py                                             9.85",
+      "revId": "b1fe871376413c0153c44b6ffa937496614246f5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_680e5736",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-10T08:15:31Z",
+      "side": 1,
+      "message": "Do you want to take traffic[\u0027l2\u0027][\u0027srcmac\u0027] and dstmac into account or it is kept for future improvement?",
+      "revId": "b1fe871376413c0153c44b6ffa937496614246f5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_e52bb292",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-10T08:15:31Z",
+      "side": 1,
+      "message": "It seems to me, that it is suffering \"off by one\". It should be probably 65535 - (traffic[\u0027multistream\u0027] - 1), because multistream \u003d 1 means one stream, i.e. start and end value should be 65535. Analogically multistream \u003d 65536 means streams form 0 to 65535...\n\nHowever I\u0027m not sure how exactly Trex works with start and max values, i.e. if it includes both start and end boundaries or not.\n\nThe same logic should be applied to other calculations with traffic[\u0027multistream\u0027] above and below.",
+      "revId": "b1fe871376413c0153c44b6ffa937496614246f5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
