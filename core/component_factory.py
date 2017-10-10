@@ -113,16 +113,16 @@ def create_collector(collector_class, result_dir, test_name):
     return collector_class(result_dir, test_name)
 
 def create_loadgen(loadgen_class, loadgen_cfg):
-   """Return a new ILoadGenerator for the loadgen class.
+    """Return a new ILoadGenerator for the loadgen class.
 
-   The returned load generator is of given loadgen generator class.
+    The returned load generator is of given loadgen generator class.
 
-   :param loadgen_class: Name to load generator class to be used.
-   :param loadgen_cfg: Configuration for the loadgen
-   :return: A new ILoadGenerator class
-   """
-   # pylint: disable=too-many-function-args
-   return loadgen_class(loadgen_cfg)
+    :param loadgen_class: Name to load generator class to be used.
+    :param loadgen_cfg: Configuration for the loadgen
+    :return: A new ILoadGenerator class
+    """
+    # pylint: disable=too-many-function-args
+    return loadgen_class(loadgen_cfg)
 
 def create_pktfwd(deployment, pktfwd_class):
     """Return a new packet forwarder controller

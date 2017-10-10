@@ -24,6 +24,7 @@ from tools.pkt_gen.trafficgen import ITrafficGenerator
 from vswitches.vswitch import IVSwitch
 from vnfs.vnf.vnf import IVnf
 
+# pylint: disable=too-many-public-methods
 class Loader(object):
     """Loader class - main object context holder.
     """
