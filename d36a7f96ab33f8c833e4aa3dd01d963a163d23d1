@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_6182ed53",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-12T07:11:53Z",
+      "side": 1,
+      "message": "just a nitpicking: it would be a bit better to write it as\n\nif traffic[\u0027multistream\u0027] \u003e 1:\n\nso it is clear for the first sight, that we don\u0027t run any logic for just one stream, i.e. multistream off and multistream 1 is just about the same.",
+      "revId": "d36a7f96ab33f8c833e4aa3dd01d963a163d23d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_a17cf573",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-12T07:11:53Z",
+      "side": 1,
+      "message": "I assume, that min_value\u003d0 and max_value\u003d4 means that Trex will generate five streams with values 0,1,2,3,4, am I right?\nIf so, than the code should be \nmax_value\u003dtraffic[\u0027multistream\u0027]-1\n\nand the rest of the code below should be changed accordingly.",
+      "revId": "d36a7f96ab33f8c833e4aa3dd01d963a163d23d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_8181f14c",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-12T07:11:53Z",
+      "side": 1,
+      "message": "same here: traffic[\u0027multistream\u0027]-1",
+      "range": {
+        "startLine": 189,
+        "startChar": 82,
+        "endLine": 189,
+        "endChar": 104
+      },
+      "revId": "d36a7f96ab33f8c833e4aa3dd01d963a163d23d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_c192d99e",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-12T07:11:53Z",
+      "side": 1,
+      "message": "same here - traffic[\u0027multistream\u0027]-1\n\nJust a silly question - this ip_dst is used for generation of opposite direction stream, am I right? This is also something, which is not consistent among Tgens in vsperf. In case of IXIA we use exactly the same traffic pattern in both directions, It means, that src\u0026dst headers are not swapped.\n\nBTW, In next release we should probably introduce also support for unidirectional traffic into Trex.",
+      "range": {
+        "startLine": 191,
+        "startChar": 81,
+        "endLine": 191,
+        "endChar": 103
+      },
+      "revId": "d36a7f96ab33f8c833e4aa3dd01d963a163d23d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_e1dc3d77",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-12T07:11:53Z",
+      "side": 1,
+      "message": "just a nitpicking: code is correct, but it would be better to write it as\n\nif udpport + (traffic[\u0027mulstistream\u0027] -1) \u003e 65535\n\nbecause it emphases that maximum allowed value is 65535 and thus it can avoid confusion.",
+      "revId": "d36a7f96ab33f8c833e4aa3dd01d963a163d23d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_c1c0197f",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-12T07:11:53Z",
+      "side": 1,
+      "message": "this should be 65535, otherwise the calculation is not correct (i.e. it give us the same result as original calculus)\n\ne.g. multistream\u003d5 and udport \u003d 65535, so we want to iterate ports between 65531-65535 (boundaries included)\n\nso minimum_value \u003d 65535 - (traffic[\u0027mulstistream\u0027] -1)",
+      "range": {
+        "startLine": 201,
+        "startChar": 39,
+        "endLine": 201,
+        "endChar": 45
+      },
+      "revId": "d36a7f96ab33f8c833e4aa3dd01d963a163d23d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_a1ca359f",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-12T07:11:53Z",
+      "side": 1,
+      "message": "maximum_value should remain 65535",
+      "revId": "d36a7f96ab33f8c833e4aa3dd01d963a163d23d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_e1c39d88",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-12T07:11:53Z",
+      "side": 1,
+      "message": "maximum_value \u003d start_port + (traffic[\u0027multistream\u0027] - 1)\n\n(or course parentheses are not needed in this case, but they could improve readability)",
+      "revId": "d36a7f96ab33f8c833e4aa3dd01d963a163d23d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
