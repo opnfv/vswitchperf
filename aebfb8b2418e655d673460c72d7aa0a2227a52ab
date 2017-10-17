@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_0bb0538a",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-17T08:54:39Z",
+      "side": 1,
+      "message": "this should be removed ip_address[\u0027end\u0027] is already calculated correctly at line 191",
+      "range": {
+        "startLine": 194,
+        "startChar": 71,
+        "endLine": 194,
+        "endChar": 75
+      },
+      "revId": "aebfb8b2418e655d673460c72d7aa0a2227a52ab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
