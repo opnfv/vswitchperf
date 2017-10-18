@@ -4,9 +4,9 @@
 
 .. OPNFV VSPERF Documentation master file.
 
-***********************************
-VSPERF Configuration and User Guide
-***********************************
+******************
+Installation Guide
+******************
 
 ============
 Introduction
@@ -49,17 +49,3 @@ VSPERF Install and Configuration
    ./upgrade.rst
    ./trafficgen.rst
 
-=================
-VSPERF Test Guide
-=================
-
-.. toctree::
-   :caption: VSPERF Test Execution
-   :maxdepth: 2
-   :numbered:
-
-   ../userguide/testusage.rst
-   ../userguide/teststeps.rst
-   ../userguide/integration.rst
-   ../userguide/yardstick.rst
-   ../userguide/testlist.rst
