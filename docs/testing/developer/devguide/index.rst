@@ -4,9 +4,9 @@
 
 .. OPNFV VSPERF Documentation master file.
 
-****************************
-OPNFV VSPERF Developer Guide
-****************************
+**********************
+VSPERF Developer Guide
+**********************
 
 ============
 Introduction

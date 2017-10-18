@@ -4,9 +4,9 @@
 
 .. OPNFV VSPERF Documentation master file.
 
-=================
-VSPERF Test Guide
-=================
+*****************
+VSPERF User Guide
+*****************
 
 .. toctree::
    :caption: VSPERF Test Execution
