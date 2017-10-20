@@ -427,7 +427,7 @@ function dependencies_check() {
 
 # configure hugepages
 function configure_hugepages() {
-    HP_MAX=8192
+    HP_MAX=10240
     HP_REQUESTED=3072
     HP_NR=`cat /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages`
     HP_FREE=`cat /sys/devices/system/node/node0/hugepages/hugepages-2048kB/free_hugepages`
