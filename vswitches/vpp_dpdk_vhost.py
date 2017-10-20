@@ -41,12 +41,11 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
                                      S.getValue('LOG_FILE_VPP'))
         self._logger = logging.getLogger(__name__)
         self._expect = r'vpp#'
-        self._timeout = 30
+        self._timeout = S.getValue('VSWITCH_TIMEOUT')
         self._vswitch_args = []
         self._cmd = []
         self._cmd_template = ['sudo', '-E', S.getValue('TOOLS')['vpp']]
         self._stamp = None
-        self._logger = logging.getLogger(__name__)
         self._phy_ports = []
         self._virt_ports = []
         self._switches = {}
