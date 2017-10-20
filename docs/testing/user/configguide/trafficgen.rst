@@ -826,13 +826,16 @@ Default value of this parameter is defined in conf/03_traffic.conf as follows:
 
     TRAFFICGEN_TREX_RFC2544_TPUT_THRESHOLD = ''
 
-SR-IOV
-~~~~~~
+SR-IOV and Multistream layer 2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 T-Rex by default only accepts packets on the receive side if the destination mac matches the
 MAC address specified in the /etc/trex-cfg.yaml on the server side. For SR-IOV this creates
 challenges with modifying the MAC address in the traffic profile to correctly flow packets
 through specified VFs. To remove this limitation enable promiscuous mode on T-Rex to allow
 all packets regardless of the destination mac to be accepted.
+
+This also creates problems when doing multistream at layer 2 since the source macs will be
+modified. Enable Promiscuous mode when doing multistream at layer 2 testing with T-Rex.
 
 .. code-block:: console
 
