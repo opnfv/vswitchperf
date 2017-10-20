@@ -45,7 +45,7 @@ RESULTS_ARCHIVE="$HOME/ci_results_archive"
 # CI job specific configuration
 # VERIFY - run basic set of TCs with default settings
 TESTCASES_VERIFY="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
-TESTPARAM_VERIFY="--integration"
+TESTPARAM_VERIFY="--test-params VSWITCH_PMD_CPU_MASK='FF';VSWITCHD_DPDK_CONFIG={'dpdk-init':'true','dpdk-lcore-mask':'0xFF'}  --integration"
 TESTCASES_VERIFY_VPP="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_connection_vpp"
 TESTPARAM_VERIFY_VPP=$TESTPARAM_VERIFY
 # MERGE - run selected TCs with default settings
@@ -427,7 +427,7 @@ function dependencies_check() {
 
 # configure hugepages
 function configure_hugepages() {
-    HP_MAX=8192
+    HP_MAX=14000
     HP_REQUESTED=3072
     HP_NR=`cat /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages`
     HP_FREE=`cat /sys/devices/system/node/node0/hugepages/hugepages-2048kB/free_hugepages`
@@ -488,6 +488,27 @@ echo "==================="
 configure_hugepages
 hugepages_info | grep -v '^--'
 echo
+echo "==================="
+ps ax
+echo "==================="
+echo
+echo "==================="
+mount
+echo "==================="
+echo
+echo "==================="
+ls /dev/hugepages
+echo "==================="
+echo
+echo "==================="
+free
+echo "==================="
+echo
+echo "==================="
+cat /proc/cmdline
+echo "==================="
+
+exit 1
 
 # execute job based on passed parameter
 case $1 in
