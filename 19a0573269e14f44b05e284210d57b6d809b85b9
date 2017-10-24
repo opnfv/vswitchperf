@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_383c742f",
+        "filename": "conf/01_testcases.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-24T06:43:35Z",
+      "side": 1,
+      "message": "Testcase should remain the same - i.e. \"stress-ng\" should be enforced. I assume that new LOADGEN option should be put to Parameters section below.",
+      "revId": "19a0573269e14f44b05e284210d57b6d809b85b9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_984940d3",
+        "filename": "conf/01_testcases.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-24T06:43:35Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "19a0573269e14f44b05e284210d57b6d809b85b9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_7846fcc0",
+        "filename": "core/loader/loader.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-24T06:43:35Z",
+      "side": 1,
+      "message": "there should be also method \"get_loadgens_printable\", which can be used by --list-loadgens CLI option",
+      "revId": "19a0573269e14f44b05e284210d57b6d809b85b9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_d812a8b3",
+        "filename": "core/loader/loader_servant.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-24T06:43:35Z",
+      "side": 1,
+      "message": "Is this change needed?",
+      "revId": "19a0573269e14f44b05e284210d57b6d809b85b9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_b817e4a2",
+        "filename": "tools/load_gen/pseudo/__init__.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-10-24T06:43:35Z",
+      "side": 1,
+      "message": "Why dummy load generator was renamed to pseudo? We already have a dummy traffic generator, so usage of \"dummy\" load gen was consistent. New name might be confusing.",
+      "revId": "19a0573269e14f44b05e284210d57b6d809b85b9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
