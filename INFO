@@ -2,8 +2,8 @@ Project: Data-plane performance testing and benchmarking
 Creation Date: December 16th, 2014
 Category: Integration & Testing
 Lifecycle State: Mature
-Primary Contact: Trevor Cooper
-Project Lead: (Trevor Cooper) trevor.cooper@intel.com
+Primary Contact: Sridhar Rao
+Project Lead: (Sridhar Rao) sridhar.rao@spirent.com
 Jira name vSwitch Characterization
 JIRA tag : VSPERF
 Repository: vswitchperf
