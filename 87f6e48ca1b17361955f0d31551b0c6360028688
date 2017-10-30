@@ -1,0 +1,8 @@
+Code-Review+1: Al Morton <acmorton@att.com>
+Code-Review+2: Trevor Cooper <trevor.cooper@intel.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Submitted-by: Martin Klozik <martinx.klozik@intel.com>
+Submitted-at: Mon, 30 Oct 2017 13:59:39 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/46375
+Project: vswitchperf
+Branch: refs/heads/master
