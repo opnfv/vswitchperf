@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_4f0d2290",
+        "filename": "conf/01_testcases.conf",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-11-02T12:44:59Z",
+      "side": 1,
+      "message": "missing comma, the same has to be fixed below; Thus verify job failes",
+      "revId": "b89aa2ceb38fa3654b1c0db87436413a7352c31e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
