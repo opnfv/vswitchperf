@@ -71,8 +71,14 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         # configure path to the plugins
         tmp_args['plugin_path'] = S.getValue('TOOLS')['vpp_plugin_path']
 
+        mqs = int(S.getValue('VSWITCH_DPDK_MULTI_QUEUES'))
+        tmp_rxqs = ''
+        if mqs:
+            tmp_rxqs = " {{ num-rx-queues {} }}".format(mqs)
+
+        # configure physical ports
         for nic in S.getValue('NICS'):
-            tmp_args['dpdk'].append("dev {}".format(nic['pci']))
+            tmp_args['dpdk'].append("dev {}{}".format(nic['pci'], tmp_rxqs))
         self._vswitch_args = self._process_vpp_args(tmp_args)
 
     def _get_nic_info(self, key='Name'):
