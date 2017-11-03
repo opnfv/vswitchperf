@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_e03c0596",
+        "filename": "tools/load_gen/stress/stress.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-11-03T10:24:43Z",
+      "side": 1,
+      "message": "it should be:\nself._logger.error(\"stress tool binary \u0027%s\u0027 is not available\", self._process_args[\u0027name\u0027])",
+      "revId": "85bf426b9603826dbe6d10dff5773dd0b013c5a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
