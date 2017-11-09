@@ -32,6 +32,8 @@ fuse-devel
 kernel-modules-extra
 pixman-devel
 openssl-devel
+redhat-rpm-config
+elfutils-libelf-devel
 
 # tools
 curl

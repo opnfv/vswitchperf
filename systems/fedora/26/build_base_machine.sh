@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Build a base machine for Fedora 25
+# Build a base machine for Fedora 26
 #
 # Copyright 2017 OPNFV, Intel Corporation.
 #
