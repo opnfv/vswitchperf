@@ -27,9 +27,18 @@ from conf import settings
 from conf import merge_spec
 from core.results.results_constants import ResultsConstants
 from tools.pkt_gen.trafficgen.trafficgen import ITrafficGenerator
-# pylint: disable=wrong-import-position, import-error
-sys.path.append(settings.getValue('PATHS')['trafficgen']['trex']['src']['path'])
-from trex_stl_lib.api import *
+try:
+    # pylint: disable=wrong-import-position, import-error
+    sys.path.append(settings.getValue('PATHS')['trafficgen']['Trex']['src']['path'])
+    from trex_stl_lib.api import *
+except ImportError:
+    # VSPERF performs detection of T-Rex api during testcase initialization. So if
+    # T-Rex is requsted and API is not available it will fail before this code
+    # is reached.
+    # This code can be reached in case that --list-trafficgens is called, but T-Rex
+    # api is not installed. In this case we can ignore an exception, becuase T-Rex
+    # import won't be used.
+    pass
 
 _EMPTY_STATS = {
     'global': {'bw_per_core': 0.0,
@@ -337,8 +346,8 @@ class Trex(ITrafficGenerator):
         raise NotImplementedError(
             'Trex stop_cont_traffic method not implemented')
 
-    def send_rfc2544_throughput(self, traffic=None, duration=60,
-                                lossrate=0.0, tests=10):
+    def send_rfc2544_throughput(self, traffic=None, tests=1, duration=60,
+                                lossrate=0.0):
         """See ITrafficGenerator for description
         """
         self._logger.info("In Trex send_rfc2544_throughput method")
