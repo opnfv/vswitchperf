@@ -13,19 +13,19 @@
 # dpdk section
 # DPDK_URL ?= git://dpdk.org/dpdk
 DPDK_URL ?= http://dpdk.org/git/dpdk
-DPDK_TAG ?= v17.02
+DPDK_TAG ?= v17.08
 
 # OVS section
 OVS_URL ?= https://github.com/openvswitch/ovs
-OVS_TAG ?= cc3a32f3b6891168cee98812e8f5e3d8a5a52c98
+OVS_TAG ?= v2.8.1
 
 # VPP section
 VPP_URL ?= https://git.fd.io/vpp
-VPP_TAG ?= v17.04
+VPP_TAG ?= v17.07
 
 # QEMU section
 QEMU_URL ?= https://github.com/qemu/qemu.git
-QEMU_TAG ?= v2.5.0
+QEMU_TAG ?= v2.9.1
 
 # TREX section
 TREX_URL ?= https://github.com/cisco-system-traffic-generator/trex-core.git

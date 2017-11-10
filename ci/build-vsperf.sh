@@ -120,6 +120,12 @@ function terminate_vsperf() {
     sleep 1
     sudo pkill ovsdb-server &> /dev/null
     sleep 1
+    sudo pkill vppctl &> /dev/null
+    sleep 1
+    sudo pkill vpp &> /dev/null
+    sleep 1
+    sudo pkill -9 vpp &> /dev/null
+    sleep 1
 }
 
 # check and print testcase execution status
