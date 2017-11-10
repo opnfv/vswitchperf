@@ -120,6 +120,10 @@ function terminate_vsperf() {
     sleep 1
     sudo pkill ovsdb-server &> /dev/null
     sleep 1
+    sudo pkill vppctl &> /dev/null
+    sleep 1
+    sudo pkill vpp &> /dev/null
+    sleep 1
 }
 
 # check and print testcase execution status
@@ -158,6 +162,11 @@ function execute_vsperf() {
     case $2 in
         "verify")
             if [ "$1" == "VPP" ] ; then
+                sudo ps ax
+                ls /var/run/.vpp_config
+                rm /var/run/.vpp_config
+                sudo ps ax
+                ls /var/run/.vpp_config
                 TESTPARAM=$TESTPARAM_VERIFY_VPP
                 TESTCASES=$TESTCASES_VERIFY_VPP
             else
@@ -216,7 +225,7 @@ function execute_vsperf() {
 
             # check if VPP is up & running
             echo "    $VSPERF_BIN $OPNFVPOD --vswitch VppDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM vswitch_version_vpp >> ${LOG_FILE}2"
-            $VSPERF_BIN $OPNFVPOD --vswitch VppDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM vswitch_version_vpp &>> ${LOG_FILE}2
+            $VSPERF_BIN $OPNFVPOD --vswitch VppDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM vswitch_version_vpp | tee ${LOG_FILE}2
             if (grep FAILED ${LOG_FILE}2 &> /dev/null ) ; then
                 # VPP can't be executed or vppctl can't connect to it, so skip
                 # VPP tests as it is probably an issue with jenkins slave
