@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_6bbe11d6",
+        "filename": "conf/integration/01b_dpdk_regression_tests.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-11-13T21:53:56Z",
+      "side": 1,
+      "message": "This fails for me every time. When the port is deleted it appears there needs to be a delay between the deletion and the unbinding. Maybe someone else can try this?",
+      "revId": "c59a4077a0a1c40e5f368cf811009e4f78ac9a8e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_992da649",
+        "filename": "conf/integration/01b_dpdk_regression_tests.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-11-13T21:53:56Z",
+      "side": 1,
+      "message": "Do we really need to specify Ixia here? This test should be able to run on any traffic gen.",
+      "revId": "c59a4077a0a1c40e5f368cf811009e4f78ac9a8e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_d9de0e3f",
+        "filename": "conf/integration/01b_dpdk_regression_tests.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-11-13T21:53:56Z",
+      "side": 1,
+      "message": "I could not get this to work, but it could be because of the openvswitch RPM I was using..This may not be supported in our RPM from RHEL.",
+      "range": {
+        "startLine": 782,
+        "startChar": 17,
+        "endLine": 782,
+        "endChar": 47
+      },
+      "revId": "c59a4077a0a1c40e5f368cf811009e4f78ac9a8e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
