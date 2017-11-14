@@ -50,6 +50,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         self._phy_ports = []
         self._virt_ports = []
         self._switches = {}
+        self._vpp_ctl = ['sudo', S.getValue('TOOLS')['vppctl']]
 
         # configure DPDK NICs
         tmp_args = copy.deepcopy(S.getValue('VSWITCH_VPP_ARGS'))
@@ -70,6 +71,12 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
 
         # configure path to the plugins
         tmp_args['plugin_path'] = S.getValue('TOOLS')['vpp_plugin_path']
+
+        # cli sock file must be used for VPP 17.10 and newer
+        if S.getValue('VSWITCH_VPP_CLI_SOCK'):
+            self._vpp_ctl += ['-s', S.getValue('VSWITCH_VPP_CLI_SOCK')]
+            tmp_args['unix'].append('cli-listen {}'.format(
+                S.getValue('VSWITCH_VPP_CLI_SOCK')))
 
         mqs = int(S.getValue('VSWITCH_DPDK_MULTI_QUEUES'))
         tmp_rxqs = ''
@@ -371,7 +378,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
 
         :return: None
         """
-        cmd = ['sudo', S.getValue('TOOLS')['vppctl']] + args
+        cmd = self._vpp_ctl + args
         return tasks.run_task(cmd, self._logger, 'Running vppctl...', check_error)
 
     #
