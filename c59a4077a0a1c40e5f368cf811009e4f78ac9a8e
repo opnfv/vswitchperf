@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_4aa69e54",
+        "filename": "conf/integration/01b_dpdk_regression_tests.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-11-15T08:57:47Z",
+      "side": 1,
+      "message": "Hi Christian,\n\nthis feature has been removed from OVS some time ago. Test is implemented according to the implementation available in OVS \u0026 DPDK versions listed in comment above the testcase. It seems, that some support of detach is being added back into OVS recently, but it seems to be work in progress. We plan to update this TC once detach support will be (fully?) back in OVS.",
+      "parentUuid": "9a3d3df0_6bbe11d6",
+      "revId": "c59a4077a0a1c40e5f368cf811009e4f78ac9a8e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_992da649",
         "filename": "conf/integration/01b_dpdk_regression_tests.conf",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_6a59e259",
+        "filename": "conf/integration/01b_dpdk_regression_tests.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-11-15T08:57:47Z",
+      "side": 1,
+      "message": "It will currently work only with IxNet. The reason is, that we have to change DESTINATION ip addresses to correctly route traffic to VM queues.\n\nThis patch will work with other TGens, once we will change TRAFFIC dictionary to support more flexible definition of multistream feature to define both SRC or DST IP/MAC/PORT iteration (and appropriate support in our tgens).\n\nSo IxNet must be currently enforced or TC will fail.",
+      "parentUuid": "9a3d3df0_992da649",
+      "revId": "c59a4077a0a1c40e5f368cf811009e4f78ac9a8e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_d9de0e3f",
         "filename": "conf/integration/01b_dpdk_regression_tests.conf",
         "patchSetId": 6
@@ -47,6 +83,30 @@
       "writtenOn": "2017-11-13T21:53:56Z",
       "side": 1,
       "message": "I could not get this to work, but it could be because of the openvswitch RPM I was using..This may not be supported in our RPM from RHEL.",
+      "range": {
+        "startLine": 782,
+        "startChar": 17,
+        "endLine": 782,
+        "endChar": 47
+      },
+      "revId": "c59a4077a0a1c40e5f368cf811009e4f78ac9a8e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_8a3546f9",
+        "filename": "conf/integration/01b_dpdk_regression_tests.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-11-15T08:57:47Z",
+      "side": 1,
+      "message": "These tests will fail in case, that NICs are not bound to KERNEL driver before vsperf execution. VSPERF needs to know NIC kernel ID (e.g. eth2, eno5, etc.) to properly configure this feature. You could see it at 752 above - i.e. $NICS[0][\u0027device\u0027]. I assume that you can\u0027t see a real \"device\" name in your vsperf output, am I right?\n\nCould you assign your NICS to kernel driver before vsperf execution and run it again?\n\nPlease note, that also current OVS Vanilla TCs will fail in case NICs are not bound to kernel driver before vsperf execution.",
+      "parentUuid": "9a3d3df0_d9de0e3f",
       "range": {
         "startLine": 782,
         "startChar": 17,
