@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Trevor Cooper <trevor.cooper@intel.com>
+Code-Review+1: Christian Trautman <ctrautma@redhat.com>
+Code-Review+2: Martin Klozik <martinx.klozik@intel.com>
+Submitted-by: Martin Klozik <martinx.klozik@intel.com>
+Submitted-at: Wed, 15 Nov 2017 08:24:29 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/46521
+Project: vswitchperf
+Branch: refs/heads/master
