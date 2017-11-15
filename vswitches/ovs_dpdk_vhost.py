@@ -149,7 +149,7 @@ class OvsDpdkVhost(IVSwitchOvs):
             nic_type = 'dpdkvhostuserclient'
 
         vhost_count = self._get_port_count('type={}'.format(nic_type))
-        port_name = 'dpdkvhostuser' + str(vhost_count)
+        port_name = nic_type + str(vhost_count)
         params = ['--', 'set', 'Interface', port_name, 'type={}'.format(nic_type)]
         if not S.getValue('VSWITCH_VHOSTUSER_SERVER_MODE'):
             params += ['--', 'set', 'Interface', port_name, 'options:vhost-server-path='

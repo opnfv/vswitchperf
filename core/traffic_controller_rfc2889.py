@@ -30,8 +30,14 @@ class TrafficControllerRFC2889(TrafficController, IResults):
 
         :param traffic_gen_class: The traffic generator class to be used.
         """
-        super(TrafficControllerRFC2889, self).__init__(traffic_gen_class)
+        super().__init__(traffic_gen_class)
         self._type = 'rfc2889'
+        self._trials = None
+
+    def configure(self, traffic):
+        """See TrafficController for description
+        """
+        super().configure(traffic)
         self._trials = int(settings.getValue('TRAFFICGEN_RFC2889_TRIALS'))
 
     def send_traffic(self, traffic):
@@ -39,11 +45,8 @@ class TrafficControllerRFC2889(TrafficController, IResults):
         """
         if not self.traffic_required():
             return
-        self._logger.debug('send_traffic with ' +
-                           str(self._traffic_gen_class))
 
-        # update type with detailed traffic value
-        self._type = traffic['traffic_type']
+        super().send_traffic(traffic)
 
         for packet_size in self._packet_sizes:
             # Merge framesize with the default traffic definition
@@ -71,11 +74,8 @@ class TrafficControllerRFC2889(TrafficController, IResults):
         """
         if not self.traffic_required():
             return
-        self._logger.debug('send_traffic_async with ' +
-                           str(self._traffic_gen_class))
 
-        # update type with detailed traffic value
-        self._type = traffic['traffic_type']
+        super().send_traffic_async(traffic, function)
 
         for packet_size in self._packet_sizes:
             traffic['l2'] = {'framesize': packet_size}

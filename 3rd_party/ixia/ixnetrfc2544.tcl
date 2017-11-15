@@ -113,7 +113,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
         set loadType            custom
     }
 
-    set learningFrames          True
+    set learningFrames          [dict get $testSpec learningFrames]
 
     set L2CountValue            1
     set L2Increment             False
@@ -150,6 +150,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
         }
     }
 
+    set flowControl             [dict get $testSpec flowControl]
     set fastConvergence         True
     set convergenceDuration     [expr $duration/10]
 
@@ -403,7 +404,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -txIgnoreRxLinkFaults False \
      -loopback False \
      -enableLASIMonitoring False \
-     -enabledFlowControl True
+     -enabledFlowControl $flowControl
     ixNet setMultiAttrs $sg_vport/l1Config/tenGigLan/oam \
      -tlvType {00} \
      -linkEvents False \
@@ -432,7 +433,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -txIgnoreRxLinkFaults False \
      -loopback False \
      -enableLASIMonitoring False \
-     -enabledFlowControl False
+     -enabledFlowControl $flowControl
     ixNet setMultiAttrs $sg_vport/l1Config/fortyGigLan/fcoe \
      -supportDataCenterMode False \
      -priorityGroupSize priorityGroupSize-8 \
@@ -784,7 +785,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -txIgnoreRxLinkFaults False \
          -loopback False \
          -enableLASIMonitoring False \
-         -enabledFlowControl False
+         -enabledFlowControl $flowControl
         ixNet setMultiAttrs $sg_vport/l1Config/tenGigLan/oam \
          -tlvType {00} \
          -linkEvents False \
@@ -813,7 +814,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -txIgnoreRxLinkFaults False \
          -loopback False \
          -enableLASIMonitoring False \
-         -enabledFlowControl False
+         -enabledFlowControl $flowControl
         ixNet setMultiAttrs $sg_vport/l1Config/fortyGigLan/fcoe \
          -supportDataCenterMode False \
          -priorityGroupSize priorityGroupSize-8 \
