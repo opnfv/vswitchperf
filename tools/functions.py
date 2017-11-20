@@ -66,15 +66,23 @@ def settings_update_paths():
         but testpmd can't be used as a guest loopback. This is useful in case, that other guest
         loopback applications (e.g. buildin) are used by CI jobs, etc.
     """
-    # set dpdk and ovs paths accorfing to VNF and VSWITCH
+    # set dpdk and ovs paths according to VNF, VSWITCH and TRAFFICGEN selection
     paths = {}
-    vswitch_type = S.getValue('PATHS')['vswitch'][S.getValue('VSWITCH')]['type']
-    paths['vswitch'] = S.getValue('PATHS')['vswitch'][S.getValue('VSWITCH')][vswitch_type]
-    paths['dpdk'] = S.getValue('PATHS')['dpdk'][S.getValue('PATHS')['dpdk']['type']]
-    paths['qemu'] = S.getValue('PATHS')['qemu'][S.getValue('PATHS')['qemu']['type']]
-    paths['paths'] = {}
-    paths['paths']['ovs_var_tmp'] = S.getValue('PATHS')['vswitch']['ovs_var_tmp']
-    paths['paths']['ovs_etc_tmp'] = S.getValue('PATHS')['vswitch']['ovs_etc_tmp']
+    if S.getValue("mode") != 'trafficgen':
+        # VSWITCH & (probably) VNF are needed
+        vswitch_type = S.getValue('PATHS')['vswitch'][S.getValue('VSWITCH')]['type']
+        paths['vswitch'] = S.getValue('PATHS')['vswitch'][S.getValue('VSWITCH')][vswitch_type]
+        paths['dpdk'] = S.getValue('PATHS')['dpdk'][S.getValue('PATHS')['dpdk']['type']]
+        paths['qemu'] = S.getValue('PATHS')['qemu'][S.getValue('PATHS')['qemu']['type']]
+        paths['paths'] = {}
+        paths['paths']['ovs_var_tmp'] = S.getValue('PATHS')['vswitch']['ovs_var_tmp']
+        paths['paths']['ovs_etc_tmp'] = S.getValue('PATHS')['vswitch']['ovs_etc_tmp']
+
+    if S.getValue("mode") != 'trafficgen-off':
+        # TRAFFCIGEN is required
+        if S.getValue('TRAFFICGEN') in S.getValue('PATHS')['trafficgen']:
+            tmp_trafficgen = S.getValue('PATHS')['trafficgen'][S.getValue('TRAFFICGEN')]
+            paths['trafficgen'] = tmp_trafficgen[tmp_trafficgen['type']]
 
     tools = {}
     # pylint: disable=too-many-nested-blocks
