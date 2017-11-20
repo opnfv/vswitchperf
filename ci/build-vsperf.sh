@@ -213,6 +213,21 @@ function execute_vsperf() {
             LOG_FILE="${LOG_FILE_PREFIX}_${LOG_SUBDIR}_${DATE_SUFFIX}.log"
 
             hugepages_info > $LOG_FILE
+
+            # check if VPP is up & running
+            echo "    $VSPERF_BIN $OPNFVPOD --vswitch VppDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM vswitch_version_vpp >> ${LOG_FILE}2"
+            $VSPERF_BIN $OPNFVPOD --vswitch VppDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM vswitch_version_vpp &>> ${LOG_FILE}2
+            if (grep FAILED ${LOG_FILE}2 &> /dev/null ) ; then
+                # VPP can't be executed or vppctl can't connect to it, so skip
+                # VPP tests as it is probably an issue with jenkins slave
+                printf "    %-70s %-6s\n" "vswitch_version_vpp" "FAILED"
+                echo
+                echo "VPP is not working properly. VPP tests will be skipped."
+                echo
+                return
+            else
+                printf "    %-70s %-6s\n" "vswitch_version_vpp" "OK"
+            fi
             echo "    $VSPERF_BIN $OPNFVPOD --vswitch VppDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES > $LOG_FILE"
             $VSPERF_BIN $OPNFVPOD --vswitch VppDpdkVhost --vnf QemuDpdkVhostUser $CONF_FILE $TESTPARAM $TESTCASES &>> $LOG_FILE
             hugepages_info >> $LOG_FILE
