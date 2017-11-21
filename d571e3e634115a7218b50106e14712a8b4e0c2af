@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_682c4003",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-11-21T10:26:41Z",
+      "side": 1,
+      "message": "Hi Christian,\n\nI\u0027m just curious, in what type of test you\u0027re using these values? As far as I know, these fields were intended for \"burst tests\". In case you see a real benefit of these values also for throughput/back2back traffic types, then we should consider their generic support by other trafficgens too.\n\n--Martin",
+      "revId": "d571e3e634115a7218b50106e14712a8b4e0c2af",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
