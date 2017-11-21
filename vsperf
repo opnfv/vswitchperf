@@ -387,6 +387,9 @@ def enable_sriov(nic_list):
                 else:
                     _LOGGER.debug("SRIOV enabled for NIC %s", nic)
 
+                # ensure that path to the bind tool is valid
+                functions.settings_update_paths()
+
                 # WORKAROUND: it has been observed with IXGBE(VF) driver,
                 # that NIC doesn't correclty dispatch traffic to VFs based
                 # on their MAC address. Unbind and bind to the same driver
