@@ -273,6 +273,10 @@ class Trex(ITrafficGenerator):
         """Calculate results from Trex statistic
         """
         result = OrderedDict()
+        result[ResultsConstants.TX_FRAMES] = (
+            stats["total"]["opackets"])
+        result[ResultsConstants.RX_FRAMES] = (
+            stats["total"]["ipackets"])
         result[ResultsConstants.TX_RATE_FPS] = (
             '{:.3f}'.format(
                 float(stats["total"]["tx_pps"])))
