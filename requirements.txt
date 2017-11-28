@@ -14,3 +14,5 @@ netaddr==0.7.18
 scapy-python3==0.18
 pyzmq==14.5.0
 distro
+matplotlib
+numpy
