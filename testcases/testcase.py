@@ -329,8 +329,8 @@ class TestCase(object):
         self.run_initialize()
 
         try:
-            with self._vswitch_ctl, self._loadgen:
-                with self._vnf_ctl, self._collector:
+            with self._vswitch_ctl:
+                with self._vnf_ctl, self._collector, self._loadgen:
                     if not self._vswitch_none:
                         self._add_flows()
 
