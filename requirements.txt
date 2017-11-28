@@ -14,4 +14,10 @@ netaddr==0.7.18
 scapy-python3==0.18
 pyzmq==14.5.0
 distro
+<<<<<<< HEAD
 stcrestclient
+=======
+matplotlib
+numpy
+pycrypto
+>>>>>>> a59c545... collector: Support for collectd as one of the collectors.
