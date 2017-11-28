@@ -19,6 +19,7 @@ Trex Traffic Generator Model
 import logging
 import subprocess
 import sys
+import time
 from collections import OrderedDict
 # pylint: disable=unused-import
 import netaddr
@@ -325,6 +326,19 @@ class Trex(ITrafficGenerator):
             result[ResultsConstants.AVG_LATENCY_NS] = 'Unknown'
         return result
 
+    def learning_packets(self, traffic):
+        """
+        Send learning packets before testing
+        :param traffic: traffic structure as per send_cont_traffic guidelines
+        :return: None
+        """
+        self._logger.info("T-Rex sending learning packets")
+        learning_thresh_traffic = copy.deepcopy(traffic)
+        learning_thresh_traffic["frame_rate"] = 1
+        self.generate_traffic(learning_thresh_traffic, settings.getValue("TRAFFICGEN_TREX_LEARNING_DURATION"))
+        self._logger.info("T-Rex finished learning packets")
+        time.sleep(3)  # allow packets to complete before starting test traffic
+
     def send_cont_traffic(self, traffic=None, duration=30):
         """See ITrafficGenerator for description
         """
@@ -336,6 +350,8 @@ class Trex(ITrafficGenerator):
             self._params['traffic'] = merge_spec(
                 self._params['traffic'], traffic)
 
+        if settings.getValue('TRAFFICGEN_TREX_LEARNING_MODE'):
+            self.learning_packets(traffic)
         stats = self.generate_traffic(traffic, duration)
 
         return self.calculate_results(stats)
@@ -366,6 +382,8 @@ class Trex(ITrafficGenerator):
             self._params['traffic'] = merge_spec(
                 self._params['traffic'], traffic)
         new_params = copy.deepcopy(traffic)
+        if settings.getValue('TRAFFICGEN_TREX_LEARNING_MODE'):
+            self.learning_packets(traffic)
         stats = self.generate_traffic(traffic, duration)
         right = traffic['frame_rate']
         center = traffic['frame_rate']
