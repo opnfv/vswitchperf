@@ -36,6 +36,7 @@ from tools import functions
 from tools import namespace
 from tools import veth
 from tools.teststepstools import TestStepsTools
+from tools.llc_management import rmd
 
 CHECK_PREFIX = 'validate_'
 
@@ -184,6 +185,10 @@ class TestCase(object):
                 if step[0].startswith('vnf'):
                     self._step_vnf_list[step[0]] = None
 
+        # if llc allocation is required, initialize it.
+        if S.getValue('LLC_ALLOCATION'):
+            self._rmd = rmd.CacheAllocator()
+
     def run_initialize(self):
         """ Prepare test execution environment
         """
@@ -254,6 +259,10 @@ class TestCase(object):
 
         self._step_status = {'status' : True, 'details' : ''}
 
+        # Perform LLC allocation
+        if S.getValue('LLC_ALLOCATION'):
+            self._rmd.setup_llc_allocation()
+
         self._logger.debug("Setup:")
 
     def run_finalize(self):
@@ -261,6 +270,10 @@ class TestCase(object):
         """
         # Stop all VNFs started by TestSteps in case that something went wrong
         self.step_stop_vnfs()
+
+        # Cleanup any LLC-allocations
+        if S.getValue('LLC_ALLOCATION'):
+            self._rmd.cleanup_llc_allocation()
 
         # umount hugepages if mounted
         self._umount_hugepages()
