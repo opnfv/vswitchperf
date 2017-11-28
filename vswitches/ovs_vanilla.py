@@ -16,6 +16,7 @@
 """
 
 import logging
+import time
 from conf import settings
 from vswitches.ovs import IVSwitchOvs
 from src.ovs import DPCtl
@@ -57,10 +58,14 @@ class OvsVanilla(IVSwitchOvs):
             tasks.run_task(tap_cmd_list, self._logger, 'Deleting ' + tapx, False)
         self._vport_id = 0
 
-        super(OvsVanilla, self).stop()
+        # remove datapath before vswitch shutdown
         dpctl = DPCtl()
         dpctl.del_dp()
 
+        super(OvsVanilla, self).stop()
+
+        # give vswitch time to terminate before modules are removed
+        time.sleep(5)
         self._module_manager.remove_modules()
 
     def add_phy_port(self, switch_name):
