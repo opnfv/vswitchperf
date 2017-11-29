@@ -50,6 +50,7 @@ Supported Operating Systems
 * openSUSE 42.2
 * openSUSE 42.3
 * openSUSE Tumbleweed
+* SLES 15
 * RedHat 7.2 Enterprise Linux
 * RedHat 7.3 Enterprise Linux
 * Ubuntu 14.04
