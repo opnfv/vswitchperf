@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_b26345db",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-11-30T13:08:00Z",
+      "side": 1,
+      "message": "Is this sleep long enough? Duration of the learning frames is 5 (seconds?).",
+      "range": {
+        "startLine": 340,
+        "startChar": 8,
+        "endLine": 340,
+        "endChar": 79
+      },
+      "revId": "ffa459f6b01931dda5ee04c2d213824683f1da60",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
