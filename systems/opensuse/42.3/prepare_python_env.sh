@@ -21,7 +21,7 @@ if [ -d "$VSPERFENV_DIR" ] ; then
     exit
 fi
 
-virtualenv "$VSPERFENV_DIR"
+virtualenv "$VSPERFENV_DIR" --python /usr/bin/python3
 source "$VSPERFENV_DIR"/bin/activate
 pip install -r ../requirements.txt
 pip install pylint

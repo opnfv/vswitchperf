@@ -22,7 +22,7 @@ if [ -d "$VSPERFENV_DIR" ] ; then
 fi
 
 scl enable python33 "
-virtualenv "$VSPERFENV_DIR"
+virtualenv "$VSPERFENV_DIR" --python /usr/bin/python3
 source "$VSPERFENV_DIR"/bin/activate
 pip install -r ../requirements.txt
 pip install pylint
