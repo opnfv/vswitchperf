@@ -2,7 +2,7 @@
 #
 # Prepare Python 3 environment for vsperf execution
 #
-# Copyright 2015 OPNFV
+# Copyright 2015-2017 OPNFV
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ if [ -d "$VSPERFENV_DIR" ] ; then
 fi
 
 scl enable python33 "
-virtualenv "$VSPERFENV_DIR"
+virtualenv "$VSPERFENV_DIR" --python /usr/bin/python3
 source "$VSPERFENV_DIR"/bin/activate
 pip install -r ../requirements.txt
 pip install pylint

@@ -2,7 +2,7 @@
 #
 # Prepare Python environment for vsperf execution on Ubuntu 14.04 systems
 #
-# Copyright 2015 OPNFV, Intel Corporation.
+# Copyright 2015-2017 OPNFV, Intel Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ fi
 
 # enable virtual environment in a subshell, so QEMU build can use python 2.7
 
-(virtualenv "$VSPERFENV_DIR"
+(virtualenv "$VSPERFENV_DIR" --python /usr/bin/python3
 source "$VSPERFENV_DIR"/bin/activate
 pip install -r ../requirements.txt
 pip install pylint)
