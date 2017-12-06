@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_ee75e198",
+        "filename": "systems/centos/prepare_python_env.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-06T10:20:20Z",
+      "side": 1,
+      "message": "copyright must be checked in all modified scripts and fixed where necessary\n\ne.g.\n\n# Copyright 2015-2017 OPNFV",
+      "revId": "71da7798fd05408b698e247e04bc4651839e86ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
