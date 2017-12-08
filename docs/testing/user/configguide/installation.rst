@@ -134,13 +134,19 @@ The test suite requires Python 3.3 or newer and relies on a number of other
 system and python packages. These need to be installed for the test suite
 to function.
 
+Updated kernel and certain development packages are required by DPDK,
+OVS (especially Vanilla OVS) and QEMU. It is necessary to check if the
+versions of these packages are not being **held-back** and if the
+DNF/APT/YUM configuration does not prevent their modification, by
+enforcing settings such as **"exclude-kernel"**.
+
 Installation of required packages, preparation of Python 3 virtual
 environment and compilation of OVS, DPDK and QEMU is performed by
-script **systems/build_base_machine.sh**. It should be executed under
+script **systems/build_base_machine.sh**. It should be executed under the
 user account, which will be used for vsperf execution.
 
 **NOTE:** Password-less sudo access must be configured for given
-user account before script is executed.
+user account before the script is executed.
 
 .. code:: bash
 
@@ -154,13 +160,14 @@ automatically.
 Script **build_base_machine.sh** will install all the vsperf dependencies
 in terms of system packages, Python 3.x and required Python modules.
 In case of CentOS 7 or RHEL it will install Python 3.3 from an additional
-repository provided by Software Collections (`a link`_). Installation script
+repository provided by Software Collections (`a link`_). The installation script
 will also use `virtualenv`_ to create a vsperf virtual environment, which is
-isolated from the default Python environment. This environment will reside in a
-directory called **vsperfenv** in $HOME. It will ensure, that system wide Python
-installation is not modified or broken by VSPERF installation. The complete list
-of Python packages installed inside virtualenv can be found at file
-``requirements.txt``, which is located at vswitchperf repository.
+isolated from the default Python environment, using the Python3 package located
+in **/usr/bin/python3**. This environment will reside in a directory called
+**vsperfenv** in $HOME. It will ensure, that system wide Python installation
+ is not modified or broken by VSPERF installation. The complete list of Python
+packages installed inside virtualenv can be found in the file
+``requirements.txt``, which is located at the vswitchperf repository.
 
 **NOTE:** For RHEL 7.3 Enterprise and CentOS 7.3 OVS Vanilla is not
 built from upstream source due to kernel incompatibilities. Please see the
