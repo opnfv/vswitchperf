@@ -78,6 +78,7 @@ class TestCase(object):
         self._step_result_mapping = {}
         self._step_status = None
         self._step_send_traffic = False # indication if send_traffic was called within test steps
+        self._vnf_list = {}
         self._testcase_run_time = None
 
         S.setValue('VSWITCH', cfg.get('vSwitch', S.getValue('VSWITCH')))
@@ -200,6 +201,8 @@ class TestCase(object):
             self.deployment,
             loader.get_vnf_class(),
             len(self._step_vnf_list))
+
+        self._vnf_list = self._vnf_ctl.get_vnfs()
 
         # verify enough hugepages are free to run the testcase
         if not self._check_for_enough_hugepages():
@@ -792,10 +795,21 @@ class TestCase(object):
                     # so it is not sent again after the execution of teststeps
                     self._step_send_traffic = True
             elif step[0].startswith('vnf'):
+                # use vnf started within TestSteps
                 if not self._step_vnf_list[step[0]]:
                     # initialize new VM
                     self._step_vnf_list[step[0]] = loader.get_vnf_class()()
                 test_object = self._step_vnf_list[step[0]]
+            elif step[0].startswith('VNF'):
+                if step[1] in ('start', 'stop'):
+                    raise RuntimeError("Cannot execute start() or stop() method of "
+                                       "VNF deployed automatically by scenario.")
+                # use vnf started by scenario deployment (e.g. pvp)
+                vnf_index = int(step[0][3:])
+                try:
+                    test_object = self._vnf_list[vnf_index]
+                except IndexError:
+                    raise RuntimeError("VNF with index {} is not running.".format(vnf_index))
             elif step[0] == 'wait':
                 input(os.linesep + "Step {}: Press Enter to continue with "
                       "the next step...".format(i) + os.linesep + os.linesep)
