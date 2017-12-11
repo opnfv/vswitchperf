@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_f15bfd2b",
+        "filename": "systems/sles/15/prepare_python_env.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-11T13:46:51Z",
+      "side": 1,
+      "message": "Could you consider enforcement of python3 as mentioned at https://gerrit.opnfv.org/gerrit/#/c/47711/ ?",
+      "revId": "614e6db779e3aab3b29df357b71df66b25fe08fa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
