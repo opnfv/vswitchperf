@@ -131,6 +131,21 @@ of supported objects and their most common functions follows:
             ['vnf2', 'stop'],
             ['vnf1', 'stop'],
 
+    * ``VNF[ID]`` - provides access to VNFs deployed automatically by testcase deployment
+      scenario. For Example ``pvvp`` deployment automatically starts two VNFs before any
+      TestStep is executed. It is possible to access these VNFs by VNF0 and VNF1 labels.
+
+      List of supported functions is identical to ``vnf[ID]`` option above except functions
+      ``start`` and ``stop``.
+
+      Examples:
+
+      .. code-block:: python
+
+          ['VNF0', 'execute_and_wait', 'ifconfig eth2 5.5.5.1/24 up'],
+          ['VNF1', 'execute_and_wait', 'ifconfig eth2 5.5.5.2/24 up', 120, 'root.*#'],
+          ['VNF2', 'execute_and_wait', 'ping -c1 5.5.5.1'],
+
     * ``trafficgen`` - triggers traffic generation
 
       List of supported functions:

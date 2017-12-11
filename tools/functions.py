@@ -190,14 +190,13 @@ def filter_output(output, regex):
     """
     result = []
     if isinstance(output, str):
-        for line in output.split('\n'):
+        for line in output.splitlines():
             result += re.findall(regex, line)
         return result
     elif isinstance(output, list) or isinstance(output, tuple):
-        tmp_res = []
         for item in output:
-            tmp_res.append(filter_output(item, regex))
-        return tmp_res
+            result.append(filter_output(item, regex))
+        return result
     else:
         raise RuntimeError('Only strings and lists are supported by filter_output(), '
                            'but output has type {}'.format(type(output)))
