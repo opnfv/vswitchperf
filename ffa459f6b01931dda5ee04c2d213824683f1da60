@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a3d3df0_e4ba1d6d",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-12-12T06:31:01Z",
+      "side": 1,
+      "message": "Space before and after \u003d",
+      "revId": "ffa459f6b01931dda5ee04c2d213824683f1da60",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_04b8e174",
+        "filename": "conf/10_custom.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 2747
+      },
+      "writtenOn": "2017-12-12T06:31:01Z",
+      "side": 1,
+      "message": "Space before and after \u003d",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 56
+      },
+      "revId": "ffa459f6b01931dda5ee04c2d213824683f1da60",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_b26345db",
         "filename": "tools/pkt_gen/trex/trex.py",
         "patchSetId": 1
