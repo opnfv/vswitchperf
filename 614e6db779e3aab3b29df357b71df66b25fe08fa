@@ -16,6 +16,24 @@
       "revId": "614e6db779e3aab3b29df357b71df66b25fe08fa",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_afa3c9b0",
+        "filename": "systems/sles/15/prepare_python_env.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-12-13T16:17:22Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "9a3d3df0_f15bfd2b",
+      "revId": "614e6db779e3aab3b29df357b71df66b25fe08fa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
