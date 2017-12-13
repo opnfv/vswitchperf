@@ -826,6 +826,15 @@ Default value of this parameter is defined in conf/03_traffic.conf as follows:
 
     TRAFFICGEN_TREX_RFC2544_TPUT_THRESHOLD = ''
 
+T-Rex can have learning packets enabled. For certain tests it may be beneficial
+to send some packets before starting test traffic to allow switch learning to take
+place. This can be adjusted with the following configurations:
+
+.. code-block:: console
+
+    TRAFFICGEN_TREX_LEARNING_MODE=True
+    TRAFFICGEN_TREX_LEARNING_DURATION=5
+
 SR-IOV and Multistream layer 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 T-Rex by default only accepts packets on the receive side if the destination mac matches the
