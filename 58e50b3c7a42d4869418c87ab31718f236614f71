@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_63a55a46",
+        "filename": "tools/load_gen/stressorvm/stressor_vm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2017-12-14T20:16:37Z",
+      "side": 1,
+      "message": "I would wrap this into a try block only because of possible permission errors. Might be more worth while to add a better explained caught exception message for easier debugging.",
+      "revId": "58e50b3c7a42d4869418c87ab31718f236614f71",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
