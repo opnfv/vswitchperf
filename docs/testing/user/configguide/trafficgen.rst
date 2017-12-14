@@ -849,3 +849,22 @@ modified. Enable Promiscuous mode when doing multistream at layer 2 testing with
 .. code-block:: console
 
     TRAFFICGEN_TREX_PROMISCUOUS=True
+
+RFC2544 Validation
+~~~~~~~~~~~~~~~~~~
+
+T-Rex can perform a verification run for a longer duration once the binary search of the
+RFC2544 trials have completed. This is similar to other traffic generator functionality
+where a more sustained time can be attempted to verify longer runs from the result of the
+search. This can be configured with the following params
+
+.. code-block:: console
+
+    TRAFFICGEN_TREX_VERIFICATION_MODE=False
+    TRAFFICGEN_TREX_VERIFICATION_DURATION=60
+    TRAFFICGEN_TREX_MAXIMUM_VERIFICATION_TRIALS=10
+
+The duration and maximum number of attempted verification can be set to change the behavior
+of this step. If the verification step fails, it will resume the binary search with new
+values where the maximum output will be the last attempted frame rate minus the current
+set thresh hold.
