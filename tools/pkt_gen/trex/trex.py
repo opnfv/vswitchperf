@@ -82,6 +82,7 @@ class Trex(ITrafficGenerator):
             settings.getValue('TRAFFICGEN_TREX_BASE_DIR'))
         self._trex_user = settings.getValue('TRAFFICGEN_TREX_USER')
         self._stlclient = None
+        self._verification_params = None
 
     def connect(self):
         '''Connect to Trex traffic generator
@@ -373,46 +374,85 @@ class Trex(ITrafficGenerator):
         self._logger.info("In Trex send_rfc2544_throughput method")
         self._params.clear()
         threshold = settings.getValue('TRAFFICGEN_TREX_RFC2544_TPUT_THRESHOLD')
-        test_lossrate = 0
-        left = 0
-        iteration = 1
         stats_ok = _EMPTY_STATS
         self._params['traffic'] = self.traffic_defaults.copy()
         if traffic:
             self._params['traffic'] = merge_spec(
                 self._params['traffic'], traffic)
-        new_params = copy.deepcopy(traffic)
         if settings.getValue('TRAFFICGEN_TREX_LEARNING_MODE'):
             self.learning_packets(traffic)
-        stats = self.generate_traffic(traffic, duration)
-        right = traffic['frame_rate']
-        center = traffic['frame_rate']
+        self._verification_params = copy.deepcopy(traffic)
 
         # Loops until the preconfigured difference between frame rate
         # of successful and unsuccessful iterations is reached
-        while (right - left) > threshold:
-            test_lossrate = ((stats["total"]["opackets"] - stats["total"]
-                              ["ipackets"]) * 100) / stats["total"]["opackets"]
-            self._logger.debug("Iteration: %s, frame rate: %s, throughput_rx_fps: %s, frame_loss_percent: %s",
-                               iteration, "{:.3f}".format(new_params['frame_rate']), stats['total']['rx_pps'],
-                               "{:.3f}".format(test_lossrate))
-            if test_lossrate == 0.0 and new_params['frame_rate'] == traffic['frame_rate']:
-                stats_ok = copy.deepcopy(stats)
-                break
-            elif test_lossrate > lossrate:
-                right = center
-                center = (left+right) / 2
-                new_params = copy.deepcopy(traffic)
-                new_params['frame_rate'] = center
+        def run_trials(right=traffic['frame_rate'], left=0, center=traffic['frame_rate'], iteration=1,
+                       new_params=copy.deepcopy(traffic)):
+            """
+            Run rfc2544 trial loop
+            :param right: highest point in the search
+            :param left: lowest point in the search
+            :param center: point to start search
+            :param iteration: iteration number to start at
+            :param new_params: traffic profile to use
+            :return: passing stats as dictionary
+            """
+            self._logger.info('Starting RFC2544 trials')
+            while (right - left) > threshold:
                 stats = self.generate_traffic(new_params, duration)
+                test_lossrate = ((stats["total"]["opackets"] - stats["total"]
+                                  ["ipackets"]) * 100) / stats["total"]["opackets"]
+                if stats["total"]["ipackets"] == 0:
+                    self._logger.error('No packets recieved. Test failed')
+                    return _EMPTY_STATS
+                if settings.getValue('TRAFFICGEN_TREX_VERIFICATION_MODE'):
+                    if test_lossrate <= lossrate:
+                        # save the last passing trial for verification
+                        self._verification_params = copy.deepcopy(new_params)
+                self._logger.debug("Iteration: %s, frame rate: %s, throughput_rx_fps: %s, frame_loss_percent: %s",
+                                   iteration, "{:.3f}".format(new_params['frame_rate']), stats['total']['rx_pps'],
+                                   "{:.3f}".format(test_lossrate))
+                if test_lossrate == 0.0 and new_params['frame_rate'] == traffic['frame_rate']:
+                    return copy.deepcopy(stats)
+                elif test_lossrate > lossrate:
+                    right = center
+                    center = (left+right) / 2
+                    new_params = copy.deepcopy(traffic)
+                    new_params['frame_rate'] = center
+                else:
+                    stats_ok = copy.deepcopy(stats)
+                    left = center
+                    center = (left+right) / 2
+                    new_params = copy.deepcopy(traffic)
+                    new_params['frame_rate'] = center
+                iteration += 1
+            return stats_ok
+        stats_ok = run_trials()
+        if settings.getValue('TRAFFICGEN_TREX_VERIFICATION_MODE'):
+            verification_iterations = 1
+            while verification_iterations <= settings.getValue('TRAFFICGEN_TREX_MAXIMUM_VERIFICATION_TRIALS'):
+                self._logger.info('Starting Trex Verification trial for %s seconds at frame rate %s',
+                                  settings.getValue('TRAFFICGEN_TREX_VERIFICATION_DURATION'),
+                                  self._verification_params['frame_rate'])
+                stats = self.generate_traffic(self._verification_params,
+                                              settings.getValue('TRAFFICGEN_TREX_VERIFICATION_DURATION'))
+                verification_lossrate = ((stats["total"]["opackets"] - stats[
+                    "total"]["ipackets"]) * 100) / stats["total"]["opackets"]
+                if verification_lossrate <= lossrate:
+                    self._logger.info('Trex Verification passed, %s packets were lost',
+                                      stats["total"]["opackets"] - stats["total"]["ipackets"])
+                    stats_ok = copy.deepcopy(stats)
+                    break
+                else:
+                    self._logger.info('Trex Verification failed, %s packets were lost',
+                                      stats["total"]["opackets"] - stats["total"]["ipackets"])
+                    new_right = self._verification_params['frame_rate'] - settings.getValue(
+                        'TRAFFICGEN_TREX_RFC2544_TPUT_THRESHOLD')
+                    self._verification_params['frame_rate'] = new_right
+                    stats_ok = run_trials(right=new_right, left=0, center=new_right,
+                                          new_params=self._verification_params)
+                verification_iterations += 1
             else:
-                stats_ok = copy.deepcopy(stats)
-                left = center
-                center = (left+right) / 2
-                new_params = copy.deepcopy(traffic)
-                new_params['frame_rate'] = center
-                stats = self.generate_traffic(new_params, duration)
-            iteration += 1
+                self._logger.error('Could not pass Trex Verification. Test failed')
         return self.calculate_results(stats_ok)
 
     def start_rfc2544_throughput(self, traffic=None, tests=1, duration=60,
