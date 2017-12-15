@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a3d3df0_2994d141",
+        "filename": "tools/load_gen/stressorvm/stressor_vm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-15T11:13:41Z",
+      "side": 1,
+      "message": "It would be good to inherit this class from Qemu and move its implementation within vnfs directory structure. Stress VM is a VNF and just a specialized case of Qemu class.\n\nSome refactoring of Qemu classes - especially their configuration would be needed.",
+      "revId": "58e50b3c7a42d4869418c87ab31718f236614f71",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_63a55a46",
         "filename": "tools/load_gen/stressorvm/stressor_vm.py",
         "patchSetId": 3
