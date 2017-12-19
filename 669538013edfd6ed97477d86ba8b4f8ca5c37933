@@ -2,6 +2,108 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a3d3df0_c98a851a",
+        "filename": "conf/08_llcmanagement.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:16:34Z",
+      "side": 1,
+      "message": "Missing copyright. See other config files for details.",
+      "revId": "669538013edfd6ed97477d86ba8b4f8ca5c37933",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_699a596f",
+        "filename": "conf/08_llcmanagement.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:16:34Z",
+      "side": 1,
+      "message": "A whitespace.",
+      "revId": "669538013edfd6ed97477d86ba8b4f8ca5c37933",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_8974fd36",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:16:34Z",
+      "side": 1,
+      "message": "Does \"as RMD\" bring any value? It\u0027s used just once within the code and the rest of imports is lowercase...",
+      "revId": "669538013edfd6ed97477d86ba8b4f8ca5c37933",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_6971b943",
+        "filename": "tools/llc_management/__init__.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:16:34Z",
+      "side": 1,
+      "message": "Copyright 2017 Spirent Communications",
+      "revId": "669538013edfd6ed97477d86ba8b4f8ca5c37933",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_c991e548",
+        "filename": "tools/llc_management/resthttp.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:16:34Z",
+      "side": 1,
+      "message": "Copyright 2017 ?",
+      "revId": "669538013edfd6ed97477d86ba8b4f8ca5c37933",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_07f731f6",
+        "filename": "tools/llc_management/resthttp.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:16:34Z",
+      "side": 1,
+      "message": "This should be rather fixed than suppressed.",
+      "revId": "669538013edfd6ed97477d86ba8b4f8ca5c37933",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_9851e938",
         "filename": "tools/llc_management/resthttp.py",
         "patchSetId": 6
@@ -30,6 +132,23 @@
       "writtenOn": "2017-12-14T20:10:32Z",
       "side": 1,
       "message": "same sort of thing here, can be more efficient to combine the statements into a single one.",
+      "revId": "669538013edfd6ed97477d86ba8b4f8ca5c37933",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_a7bc8507",
+        "filename": "tools/llc_management/resthttp.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:16:34Z",
+      "side": 1,
+      "message": "vsperf is always python3 - in case that this is a 3rd party code, it might be better to clone it form its own repository and import it; In case that this is only inspired by 3rd party code, then it should be mentioned in the header part and modified to fit into vsperf, i.e. python3, use logging for printing of debug messages, etc.",
       "revId": "669538013edfd6ed97477d86ba8b4f8ca5c37933",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
