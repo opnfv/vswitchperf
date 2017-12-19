@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a3d3df0_4c24bec4",
+        "filename": "conf/05_collector.conf",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:04:35Z",
+      "side": 1,
+      "message": "# Copyright 2015-2017 Intel Corporation, Spirent Communications.",
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_a967414c",
         "filename": "conf/05_collector.conf",
         "patchSetId": 9
@@ -19,6 +36,137 @@
         "endLine": 46,
         "endChar": 44
       },
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_0c3f56d7",
+        "filename": "conf/05_collector.conf",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:04:35Z",
+      "side": 1,
+      "message": "missing space before quote",
+      "range": {
+        "startLine": 48,
+        "startChar": 35,
+        "endLine": 48,
+        "endChar": 36
+      },
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_6c2702cb",
+        "filename": "conf/05_collector.conf",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:04:35Z",
+      "side": 1,
+      "message": "Does it make sense to note, what \u002712\u0027 and \u002716-80\u0027 stands for? User should understand how to get correct values for his system.",
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ac2d8aaa",
+        "filename": "requirements.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:04:35Z",
+      "side": 1,
+      "message": "# Copyright 2015-2017 Intel Corporation, Spirent Communications.",
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_8c2a468e",
+        "filename": "tools/collectors/collectd/__init__.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:04:35Z",
+      "side": 1,
+      "message": "# Copyright 2017 Spirent Communications.",
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ec1af27b",
+        "filename": "tools/collectors/collectd/collectd.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:04:35Z",
+      "side": 1,
+      "message": "# Copyright 2017 Spirent Communications.",
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_cc1f2e6b",
+        "filename": "tools/collectors/collectd/collectd.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:04:35Z",
+      "side": 1,
+      "message": "import queue\n\n\npart \"as queue\" is redundant in this case",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_4c0b1e2a",
+        "filename": "tools/collectors/collectd/collectd.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:04:35Z",
+      "side": 1,
+      "message": "does it collect data also for Qemu instances or VPP? If possible, could you add them to results too?",
       "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -70,6 +218,57 @@
       "writtenOn": "2017-12-18T18:22:17Z",
       "side": 1,
       "message": "Should we add a comment here so its understood what you are doing? Its a pretty complex if statement so I wouldn\u0027t want to debug it :). Perhaps a comment to explain what you are doing would be helpful later.",
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_e7284d88",
+        "filename": "tools/collectors/collectd/collectd.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:04:35Z",
+      "side": 1,
+      "message": "this method should also print results (probably those returned by get_results_to_print()) - these results are printed to vsperf output after TC execution together with results from traffic generator",
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_47401934",
+        "filename": "tools/collectors/collectd/collectd_bucky.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:04:35Z",
+      "side": 1,
+      "message": "missing copyright header; Not sure if \"coding\" settings is needed\n\nIf this is a 3rd party code, then it should be mentioned explicitly. If possible, then 3rd party code should be cloned from its repository into src subdirectory and used from there (as it is done for TRex API). Otherwise we will have to maintain it ourselves - i.e. to update manually in our repository.\n\nIf this is your code, but only inspired by 3rd party code, then it should be updated to avoid pylint suppressions below.",
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_e7768da3",
+        "filename": "tools/collectors/collectd/collectd_bucky.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T14:04:35Z",
+      "side": 1,
+      "message": "this is always true in case of code executed by vsperf",
       "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
