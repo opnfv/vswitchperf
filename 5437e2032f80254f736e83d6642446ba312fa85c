@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_0c48f685",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 5
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T12:48:01Z",
+      "side": 1,
+      "message": "Good catch. By the way, it seems, that this parameter is not used. Could you also check it? If it is really not used, then I suggest to remove it from both configuration files to avoid confusion.",
+      "range": {
+        "startLine": 454,
+        "startChar": 0,
+        "endLine": 457,
+        "endChar": 38
+      },
+      "revId": "5437e2032f80254f736e83d6642446ba312fa85c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_8c7c06b7",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 5
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T12:48:01Z",
+      "side": 1,
+      "message": "please use spaces around all equal signs - this is valid for both 03_traffic.conf and 10_custom.conf",
+      "revId": "5437e2032f80254f736e83d6642446ba312fa85c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ac7f4aaa",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2017-12-19T12:48:01Z",
+      "side": 1,
+      "message": "Just a few minor comments / thoughts:\n\n1) I would move this method \"up\". Currently it is used just by send_rfc2544_throughput, but in the future it can be used also by start_rfc2544_throughput (in case we decide to implement also asynchronous version). I believe that code readability will be better. If current name would be confusing for \"top level\" method, you could rename it (e.g. run_throughput_trials, etc.).\n\n2) I would recommend to remove default values from method definition and explicitly specify them during method call (as it is done for 2nd call anyway). It will force potential users to think about right values in advance.",
+      "revId": "5437e2032f80254f736e83d6642446ba312fa85c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
