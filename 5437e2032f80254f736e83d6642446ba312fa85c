@@ -42,6 +42,52 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_473939d6",
+        "filename": "docs/testing/user/configguide/trafficgen.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-12-19T13:23:20Z",
+      "side": 1,
+      "message": "add: As specified in Section 24 of RFC2544, this trial duration should be at least 60 seconds.",
+      "range": {
+        "startLine": 857,
+        "startChar": 0,
+        "endLine": 857,
+        "endChar": 30
+      },
+      "revId": "5437e2032f80254f736e83d6642446ba312fa85c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_87186176",
+        "filename": "docs/testing/user/configguide/trafficgen.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2017-12-19T13:23:20Z",
+      "side": 1,
+      "message": "s/verification/verification trials/",
+      "range": {
+        "startLine": 867,
+        "startChar": 45,
+        "endLine": 867,
+        "endChar": 57
+      },
+      "revId": "5437e2032f80254f736e83d6642446ba312fa85c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_ac7f4aaa",
         "filename": "tools/pkt_gen/trex/trex.py",
         "patchSetId": 5
