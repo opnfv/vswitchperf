@@ -124,6 +124,13 @@ class Settings(object):
         if name is not None and value is not None:
             super(Settings, self).__setattr__(name, value)
 
+    def resetValue(self, attr):
+        """If parameter was overridden by TEST_PARAMS, then it will
+           be set to its original value.
+        """
+        if attr in self.__dict__['TEST_PARAMS']:
+            self.__dict__['TEST_PARAMS'].pop(attr)
+
     def load_from_file(self, path):
         """Update ``settings`` with values found in module at ``path``.
         """
@@ -323,6 +330,12 @@ class Settings(object):
         """
         assert value == self.__dict__[name]
         return True
+
+    def validate_resetValue(self, dummy_result, attr):
+        """Verifies, that value was correctly reset
+        """
+        return 'TEST_PARAMS' not in self.__dict__ or \
+               attr not in self.__dict__['TEST_PARAMS']
 
 settings = Settings()
 

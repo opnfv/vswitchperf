@@ -114,6 +114,16 @@ def run_task(cmd, logger, msg=None, check_error=False):
     return ('\n'.join(sout.decode(my_encoding).strip() for sout in stdout),
             ('\n'.join(sout.decode(my_encoding).strip() for sout in stderr)))
 
+def update_pids(pid):
+    """update list of running pids, so they can be terminated at the end
+    """
+    try:
+        pids = settings.getValue('_EXECUTED_PIDS')
+        pids.append(pid)
+    except AttributeError:
+        pids = [pid]
+    settings.setValue('_EXECUTED_PIDS', pids)
+
 def run_background_task(cmd, logger, msg):
     """Run task in background and log when started.
 
@@ -131,6 +141,8 @@ def run_background_task(cmd, logger, msg):
     logger.debug('%s%s', CMD_PREFIX, ' '.join(cmd))
 
     proc = subprocess.Popen(map(os.path.expanduser, cmd), stdout=_get_stdout(), bufsize=0)
+
+    update_pids(proc.pid)
 
     return proc.pid
 
@@ -174,14 +186,13 @@ def terminate_task_subtree(pid, signal='-15', sleep=10, logger=None):
     :param logger: Logger to write details to
     """
     try:
-        output = subprocess.check_output("pgrep -P " + str(pid), shell=True).decode().rstrip('\n')
+        children = subprocess.check_output("pgrep -P " + str(pid), shell=True).decode().rstrip('\n').split()
     except subprocess.CalledProcessError:
-        output = ""
+        children = []
 
     terminate_task(pid, signal, sleep, logger)
 
     # just for case children were kept alive
-    children = output.split('\n')
     for child in children:
         terminate_task(child, signal, sleep, logger)
 
@@ -207,6 +218,22 @@ def terminate_task(pid, signal='-15', sleep=10, logger=None):
 
         if signal.lstrip('-').upper() not in ('9', 'KILL', 'SIGKILL') and systeminfo.pid_isalive(pid):
             terminate_task(pid, '-9', sleep, logger)
+
+    pids = settings.getValue('_EXECUTED_PIDS')
+    if pid in pids:
+        pids.remove(pid)
+        settings.setValue('_EXECUTED_PIDS', pids)
+
+def terminate_all_tasks(logger):
+    """Terminate all processes executed by vsperf, just for case they were not
+    terminated by standard means.
+    """
+    pids = settings.getValue('_EXECUTED_PIDS')
+    if pids:
+        logger.debug('Following processes will be terminated: %s', pids)
+        for pid in pids:
+            terminate_task_subtree(pid, logger=logger)
+        settings.setValue('_EXECUTED_PIDS', [])
 
 class Process(object):
     """Control an instance of a long-running process.

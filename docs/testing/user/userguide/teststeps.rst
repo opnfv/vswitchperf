@@ -271,7 +271,9 @@ of supported objects and their most common functions follows:
           in case that condition is not ``True``
         * ``Eval expression`` - evaluates given expression as a python code and returns
           its result
-        * ``Exec_Shell command`` - executes a shell command
+        * ``Exec_Shell command`` - executes a shell command and wait until it finishes
+        * ``Exec_Shell_Background command`` - executes a shell command at background;
+          Command will be automatically terminated at the end of testcase execution.
         * ``Exec_Python code`` - executes a python code
 
 

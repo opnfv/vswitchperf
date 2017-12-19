@@ -265,6 +265,9 @@ class TestCase(object):
         # Stop all VNFs started by TestSteps in case that something went wrong
         self.step_stop_vnfs()
 
+        # Stop all processes executed by testcase
+        tasks.terminate_all_tasks(self._logger)
+
         # umount hugepages if mounted
         self._umount_hugepages()
 
