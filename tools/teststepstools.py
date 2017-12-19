@@ -19,6 +19,7 @@ import logging
 import subprocess
 import locale
 from tools.functions import filter_output
+from tools.tasks import run_background_task
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -102,3 +103,20 @@ class TestStepsTools(object):
         """ validate result of shell `command' execution
         """
         return result is not None
+
+    @staticmethod
+    def Exec_Shell_Background(command):
+        """ Execute a shell `command' at the background and return its PID id
+        """
+        try:
+            pid = run_background_task(command.split(), _LOGGER, "Background task: {}".format(command))
+            return pid
+        except OSError:
+            return None
+
+    @staticmethod
+    def validate_Exec_Shell_Background(result, dummy_command, dummy_regex=None):
+        """ validate result of shell `command' execution on the background
+        """
+        return result is not None
+
