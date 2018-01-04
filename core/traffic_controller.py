@@ -43,6 +43,7 @@ class TrafficController(object):
         self._duration = None
         self._lossrate = None
         self._packet_sizes = None
+        self._connected = False
 
         self._mode = str(settings.getValue('mode')).lower()
         self._results = []
@@ -51,6 +52,10 @@ class TrafficController(object):
         """Set configuration values just before test execution so they
            can be changed during runtime by test steps.
         """
+        if not self._connected:
+            self._traffic_gen_class.connect()
+            self._connected = True
+
         self._duration = int(settings.getValue('TRAFFICGEN_DURATION'))
         self._lossrate = float(settings.getValue('TRAFFICGEN_LOSSRATE'))
         self._packet_sizes = settings.getValue('TRAFFICGEN_PKT_SIZES')
@@ -62,7 +67,7 @@ class TrafficController(object):
     def __enter__(self):
         """Call initialisation function.
         """
-        self._traffic_gen_class.connect()
+        pass
 
     def __exit__(self, type_, value, traceback):
         """Stop traffic, clean up.
