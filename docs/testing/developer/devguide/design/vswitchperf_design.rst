@@ -415,6 +415,30 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
                       congestion (DEI header field).
                       Data type: int (NOTE: must fit to 1 bit)
                       Default value: 0
+    'capture'       - A dictionary with traffic capture configuration.
+                      NOTE: It is supported only by T-Rex traffic generator.
+        'enabled'   - Specifies if traffic should be captured
+                      Data type: bool
+                      Default value: False
+        'tx_ports'  - A list of ports, where frames transmitted towards DUT will
+                      be captured. Ports have numbers 0 and 1. TX packet capture
+                      is disabled if list of ports is empty.
+                      Data type: list
+                      Default value: [0]
+        'rx_ports'  - A list of ports, where frames received from DUT will
+                      be captured. Ports have numbers 0 and 1. RX packet capture
+                      is disabled if list of ports is empty.
+                      Data type: list
+                      Default value: [1]
+        'count'     - A number of frames to be captured. The same count value
+                      is applied to both TX and RX captures.
+                      Data type: int
+                      Default value: 1
+        'filter'    - An expression used to filter TX and RX packets. It uses the same
+                      syntax as pcap library. See pcap-filter man page for additional
+                      details.
+                      Data type: str
+                      Default value: ''
 
 .. _configuration-of-guest-options:
 

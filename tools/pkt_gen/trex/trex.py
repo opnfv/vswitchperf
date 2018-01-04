@@ -20,6 +20,7 @@ import logging
 import subprocess
 import sys
 import time
+import os
 from collections import OrderedDict
 # pylint: disable=unused-import
 import netaddr
@@ -91,11 +92,11 @@ class Trex(ITrafficGenerator):
         the configuration file
         '''
         self._stlclient = STLClient()
-        self._logger.info("TREX:  In Trex connect method...")
+        self._logger.info("T-Rex:  In Trex connect method...")
         if self._trex_host_ip_addr:
             cmd_ping = "ping -c1 " + self._trex_host_ip_addr
         else:
-            raise RuntimeError('TREX: Trex host not defined')
+            raise RuntimeError('T-Rex: Trex host not defined')
 
         ping = subprocess.Popen(cmd_ping, shell=True, stderr=subprocess.PIPE)
         output, error = ping.communicate()
@@ -103,7 +104,7 @@ class Trex(ITrafficGenerator):
         if ping.returncode:
             self._logger.error(error)
             self._logger.error(output)
-            raise RuntimeError('TREX: Cannot ping Trex host at ' + \
+            raise RuntimeError('T-Rex: Cannot ping Trex host at ' + \
                                self._trex_host_ip_addr)
 
         connect_trex = "ssh " + self._trex_user + \
@@ -122,13 +123,13 @@ class Trex(ITrafficGenerator):
             self._logger.error(error)
             self._logger.error(output)
             raise RuntimeError(
-                'TREX: Cannot locate Trex program at %s within %s' \
+                'T-Rex: Cannot locate Trex program at %s within %s' \
                 % (self._trex_host_ip_addr, self._trex_base_dir))
 
         self._stlclient = STLClient(username=self._trex_user, server=self._trex_host_ip_addr,
                                     verbose_level=0)
         self._stlclient.connect()
-        self._logger.info("TREX: Trex host successfully found...")
+        self._logger.info("T-Rex: Trex host successfully found...")
 
     def disconnect(self):
         """Disconnect from the traffic generator.
@@ -140,7 +141,7 @@ class Trex(ITrafficGenerator):
 
         :returns: None
         """
-        self._logger.info("TREX: In trex disconnect method")
+        self._logger.info("T-Rex: In trex disconnect method")
         self._stlclient.disconnect(stop_traffic=True, release_ports=True)
 
     @staticmethod
@@ -245,11 +246,16 @@ class Trex(ITrafficGenerator):
 
         return (stream_1, stream_2, stream_1_lat, stream_2_lat)
 
-    def generate_traffic(self, traffic, duration):
+    def generate_traffic(self, traffic, duration, disable_capture=False):
         """The method that generate a stream
         """
         my_ports = [0, 1]
+
+        # initialize ports
         self._stlclient.reset(my_ports)
+        self._stlclient.remove_all_captures()
+        self._stlclient.set_service_mode(ports=my_ports, enabled=False)
+
         ports_info = self._stlclient.get_port_info(my_ports)
         # for SR-IOV
         if settings.getValue('TRAFFICGEN_TREX_PROMISCUOUS'):
@@ -264,10 +270,35 @@ class Trex(ITrafficGenerator):
             self._stlclient.add_streams(stream_1_lat, ports=[0])
             self._stlclient.add_streams(stream_2_lat, ports=[1])
 
+        # enable traffic capture if requested
+        pcap_id = {}
+        if traffic['capture']['enabled'] and not disable_capture:
+            for ports in ['tx_ports', 'rx_ports']:
+                if traffic['capture'][ports]:
+                    pcap_dir = ports[:2]
+                    self._logger.info("T-Rex starting %s traffic capture", pcap_dir.upper())
+                    capture = {ports : traffic['capture'][ports],
+                               'limit' : traffic['capture']['count'],
+                               'bpf_filter' : traffic['capture']['filter']}
+                    self._stlclient.set_service_mode(ports=traffic['capture'][ports], enabled=True)
+                    pcap_id[pcap_dir] = self._stlclient.start_capture(**capture)
+
         self._stlclient.clear_stats()
-        self._stlclient.start(ports=[0, 1], force=True, duration=duration)
-        self._stlclient.wait_on_traffic(ports=[0, 1])
+        self._stlclient.start(ports=my_ports, force=True, duration=duration)
+        self._stlclient.wait_on_traffic(ports=my_ports)
         stats = self._stlclient.get_stats(sync_now=True)
+
+        # export captured data into pcap file if possible
+        if pcap_id:
+            for pcap_dir in pcap_id:
+                pcap_file = 'capture_{}.pcap'.format(pcap_dir)
+                self._stlclient.stop_capture(pcap_id[pcap_dir]['id'],
+                                             os.path.join(settings.getValue('RESULTS_PATH'), pcap_file))
+                stats['capture_{}'.format(pcap_dir)] = pcap_file
+                self._logger.info("T-Rex writing %s traffic capture into %s", pcap_dir.upper(), pcap_file)
+            # disable service mode for all ports used by Trex
+            self._stlclient.set_service_mode(ports=my_ports, enabled=False)
+
         return stats
 
     @staticmethod
@@ -325,6 +356,11 @@ class Trex(ITrafficGenerator):
             result[ResultsConstants.MIN_LATENCY_NS] = 'Unknown'
             result[ResultsConstants.MAX_LATENCY_NS] = 'Unknown'
             result[ResultsConstants.AVG_LATENCY_NS] = 'Unknown'
+
+        if 'capture_tx' in stats:
+            result[ResultsConstants.CAPTURE_TX] = stats['capture_tx']
+        if 'capture_rx' in stats:
+            result[ResultsConstants.CAPTURE_RX] = stats['capture_rx']
         return result
 
     def learning_packets(self, traffic):
@@ -336,7 +372,9 @@ class Trex(ITrafficGenerator):
         self._logger.info("T-Rex sending learning packets")
         learning_thresh_traffic = copy.deepcopy(traffic)
         learning_thresh_traffic["frame_rate"] = 1
-        self.generate_traffic(learning_thresh_traffic, settings.getValue("TRAFFICGEN_TREX_LEARNING_DURATION"))
+        self.generate_traffic(learning_thresh_traffic,
+                              settings.getValue("TRAFFICGEN_TREX_LEARNING_DURATION"),
+                              disable_capture=True)
         self._logger.info("T-Rex finished learning packets")
         time.sleep(3)  # allow packets to complete before starting test traffic
 
@@ -403,6 +441,7 @@ class Trex(ITrafficGenerator):
 
         if settings.getValue('TRAFFICGEN_TREX_LEARNING_MODE'):
             self.learning_packets(traffic)
+        self._logger.info("T-Rex sending traffic")
         stats = self.generate_traffic(traffic, duration)
 
         return self.calculate_results(stats)
