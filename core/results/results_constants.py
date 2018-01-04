@@ -69,6 +69,10 @@ class ResultsConstants(object):
     TEST_START_TIME = "start_time"
     TEST_STOP_TIME = "stop_time"
 
+    # files with traffic capture
+    CAPTURE_TX = "capture_tx"
+    CAPTURE_RX = "capture_rx"
+
     @staticmethod
     def get_traffic_constants():
         """Method returns all Constants used to store results.

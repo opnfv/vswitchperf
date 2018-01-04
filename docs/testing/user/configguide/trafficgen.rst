@@ -44,7 +44,8 @@ and is configured as follows:
         'stream_type' : 'L4',
         'pre_installed_flows' : 'No',           # used by vswitch implementation
         'flow_type' : 'port',                   # used by vswitch implementation
-
+        'flow_control' : False,                 # supported only by IxNet
+        'learning_frames' : True,               # supported only by IxNet
         'l2': {
             'framesize': 64,
             'srcmac': '00:00:00:00:00:00',
@@ -66,6 +67,13 @@ and is configured as follows:
             'id': 0,
             'priority': 0,
             'cfi': 0,
+        },
+        'capture': {
+            'enabled': False,
+            'tx_ports' : [0],
+            'rx_ports' : [1],
+            'count': 1,
+            'filter': '',
         },
     }
 
