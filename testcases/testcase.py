@@ -169,7 +169,7 @@ class TestCase(object):
                 self._traffic['l3'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L3')
                 self._traffic['l4'] = S.getValue(self._tunnel_type.upper() + '_FRAME_L4')
                 self._traffic['l2']['dstmac'] = S.getValue('NICS')[1]['mac']
-        elif len(S.getValue('NICS')) and \
+        elif len(S.getValue('NICS')) >= 2 and \
              (S.getValue('NICS')[0]['type'] == 'vf' or
               S.getValue('NICS')[1]['type'] == 'vf'):
             mac1 = S.getValue('NICS')[0]['mac']

@@ -114,12 +114,15 @@ class OvsDpdkVhost(IVSwitchOvs):
         Creates a port of type dpdk.
         The new port is named dpdk<n> where n is an integer starting from 0.
         """
+        _nics = S.getValue('NICS')
         bridge = self._bridges[switch_name]
         dpdk_count = self._get_port_count('type=dpdk')
+        if dpdk_count == len(_nics):
+            raise RuntimeError("Can't add phy port! There are only {} ports defined "
+                               "by WHITELIST_NICS parameter!".format(len(_nics)))
         port_name = 'dpdk' + str(dpdk_count)
         # PCI info. Please note there must be no blank space, eg must be
         # like 'options:dpdk-devargs=0000:06:00.0'
-        _nics = S.getValue('NICS')
         nic_pci = 'options:dpdk-devargs=' + _nics[dpdk_count]['pci']
         params = ['--', 'set', 'Interface', port_name, 'type=dpdk', nic_pci]
         # multi-queue enable
