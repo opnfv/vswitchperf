@@ -75,10 +75,8 @@ class OvsVanilla(IVSwitchOvs):
         See IVswitch for general description
         """
         if self._current_id == len(self._ports):
-            self._logger.error("Can't add port! There are only " +
-                               len(self._ports) + " ports " +
-                               "defined in config!")
-            raise RuntimeError('Failed to add phy port')
+            raise RuntimeError("Can't add phy port! There are only {} ports defined "
+                               "by WHITELIST_NICS parameter!".format(len(self._ports)))
         if not self._ports[self._current_id]:
             self._logger.error("Can't detect device name for NIC %s", self._current_id)
             raise ValueError("Invalid device name for %s" % self._current_id)

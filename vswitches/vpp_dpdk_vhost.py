@@ -225,7 +225,8 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         vpp_nics = self._get_nic_info(key='Pci')
         # check if there are any NICs left
         if len(self._phy_ports) >= len(S.getValue('NICS')):
-            raise RuntimeError('All available NICs are already configured!')
+            raise RuntimeError("Can't add phy port! There are only {} ports defined "
+                               "by WHITELIST_NICS parameter!".format(len(S.getValue('NICS'))))
 
         nic = S.getValue('NICS')[len(self._phy_ports)]
         if not nic['pci'] in vpp_nics:
