@@ -16,5 +16,6 @@ VSPERF Test Guide
    ./testusage.rst
    ./teststeps.rst
    ./integration.rst
+   ./trafficcapture.rst
    ./yardstick.rst
    ./testlist.rst
