@@ -783,6 +783,10 @@ It is neccesary for proper connection between Trex server and VSPERF.
    cd trex-core/scripts/
    ./t-rex-64 -i
 
+**NOTE:** Please check your firewall settings at both DUT and T-Rex server.
+Firewall must allow a connection from DUT (VSPERF) to the T-Rex server running
+at TCP port 4501.
+
 For additional information about Trex stateless mode see Trex stateless documentation:
 
 https://trex-tgn.cisco.com/trex/doc/trex_stateless.html
