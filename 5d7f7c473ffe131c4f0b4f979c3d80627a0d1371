@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_a6df420c",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-01-12T12:53:46Z",
+      "side": 1,
+      "message": "without providing an exhaustive list, the problem could also be network connectivity, right?  So maybe:\n\n\"Please check if T-rex server is running, network connectivity, etc.\"",
+      "range": {
+        "startLine": 133,
+        "startChar": 70,
+        "endLine": 133,
+        "endChar": 101
+      },
+      "revId": "5d7f7c473ffe131c4f0b4f979c3d80627a0d1371",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
