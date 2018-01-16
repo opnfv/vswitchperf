@@ -22,6 +22,30 @@
       "revId": "5d7f7c473ffe131c4f0b4f979c3d80627a0d1371",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_3c74da34",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-16T11:38:52Z",
+      "side": 1,
+      "message": "Hi Al,\n\nnetwork connection to the trex server is checked above and appropriate error message displayed.\n\nThis new try section should catch two possible errors:\n1) trex server is not running (e.g. it has crashed)\n2) firewall blocks connection to T-Rex sever TCP port 4501 (default value)\n\nI was afraid that stating two \"options\" would in fact mean that user will ignore the first one, which is more probable.\nAnyhow, I\u0027m going to add a note about firewall too, as I also prefer accurate (although longer) descriptions :-)\n\nRegards,\nMartin",
+      "parentUuid": "9a3d3df0_a6df420c",
+      "range": {
+        "startLine": 133,
+        "startChar": 70,
+        "endLine": 133,
+        "endChar": 101
+      },
+      "revId": "5d7f7c473ffe131c4f0b4f979c3d80627a0d1371",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
