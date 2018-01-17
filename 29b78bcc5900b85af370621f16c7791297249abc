@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_fad272fe",
+        "filename": "tools/collectors/collectd/collectd.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-01-17T11:25:35Z",
+      "side": 1,
+      "message": "s/a y-labels/as y-labels/",
+      "range": {
+        "startLine": 34,
+        "startChar": 49,
+        "endLine": 34,
+        "endChar": 60
+      },
+      "revId": "29b78bcc5900b85af370621f16c7791297249abc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1ad636f1",
+        "filename": "tools/collectors/collectd/collectd.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-01-17T11:25:35Z",
+      "side": 1,
+      "message": "where does the x-axis timestamp come from for each reading? (sorry, couldn\u0027t find it easily...)\n(seems to be line 305 in the next file, correct?)",
+      "range": {
+        "startLine": 70,
+        "startChar": 12,
+        "endLine": 70,
+        "endChar": 38
+      },
+      "revId": "29b78bcc5900b85af370621f16c7791297249abc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
