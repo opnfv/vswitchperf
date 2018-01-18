@@ -127,12 +127,20 @@ def _build_set_cmds(values, prefix='dict set'):
                 yield subkey
             continue
 
+        if isinstance(value, list):
+            value = '{{{}}}'.format(' '.join(str(x) for x in value))
+            yield ' '.join([prefix, 'set', key, value]).strip()
+            continue
+
         # tcl doesn't recognise the strings "True" or "False", only "1"
         # or "0". Special case to convert them
         if isinstance(value, bool):
             value = str(int(value))
         else:
             value = str(value)
+
+        if isinstance(value, str) and not value:
+            value = '{}'
 
         if prefix:
             yield ' '.join([prefix, key, value]).strip()
