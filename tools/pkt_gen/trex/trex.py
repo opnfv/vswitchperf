@@ -126,9 +126,14 @@ class Trex(ITrafficGenerator):
                 'T-Rex: Cannot locate Trex program at %s within %s' \
                 % (self._trex_host_ip_addr, self._trex_base_dir))
 
-        self._stlclient = STLClient(username=self._trex_user, server=self._trex_host_ip_addr,
-                                    verbose_level=0)
-        self._stlclient.connect()
+        try:
+            self._stlclient = STLClient(username=self._trex_user, server=self._trex_host_ip_addr,
+                                        verbose_level=0)
+            self._stlclient.connect()
+        except STLError:
+            raise RuntimeError('T-Rex: Cannot connect to T-Rex server. Please check if it is '
+                               'running and that firewall allows connection to TCP port 4501.')
+
         self._logger.info("T-Rex: Trex host successfully found...")
 
     def disconnect(self):
