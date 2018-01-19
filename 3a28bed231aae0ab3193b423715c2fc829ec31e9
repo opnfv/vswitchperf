@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_8ae1532c",
+        "filename": "conf/08_llcmanagement.conf",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T14:13:27Z",
+      "side": 1,
+      "message": "2017-2018",
+      "revId": "3a28bed231aae0ab3193b423715c2fc829ec31e9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ead3bf5d",
+        "filename": "tools/llc_management/__init__.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T14:13:27Z",
+      "side": 1,
+      "message": "2017-2018",
+      "revId": "3a28bed231aae0ab3193b423715c2fc829ec31e9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_2acac7a0",
+        "filename": "tools/llc_management/resthttp.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T14:13:27Z",
+      "side": 1,
+      "message": "2017-2018",
+      "revId": "3a28bed231aae0ab3193b423715c2fc829ec31e9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_aabd3704",
+        "filename": "tools/llc_management/resthttp.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T14:13:27Z",
+      "side": 1,
+      "message": "Do you plan to apply Christian\u0027s suggestion? If not (that\u0027s of course valid decision), it would be good to reply to his comment, that you prefer it the way it is now.",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 43
+      },
+      "revId": "3a28bed231aae0ab3193b423715c2fc829ec31e9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_8ab83312",
+        "filename": "tools/llc_management/resthttp.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T14:13:27Z",
+      "side": 1,
+      "message": "the same as above",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 66
+      },
+      "revId": "3a28bed231aae0ab3193b423715c2fc829ec31e9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_6ac7af96",
+        "filename": "tools/llc_management/resthttp.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T14:13:27Z",
+      "side": 1,
+      "message": "Could you also comment or apply the rest of my comment? It menas: \" in case that this is a 3rd party code, it might be better to clone it form its own repository and import it; In case that this is only inspired by 3rd party code, then it should be mentioned in the header part and modified to fit into vsperf, i.e. python3, use logging for printing of debug messages, etc\"",
+      "revId": "3a28bed231aae0ab3193b423715c2fc829ec31e9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
