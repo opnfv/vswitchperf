@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_07153e48",
+        "filename": "conf/05_collector.conf",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "\u003e # Copyright 2015-2017 Intel Corporation, Spirent Communications.",
+      "parentUuid": "9a3d3df0_4c24bec4",
+      "revId": "8bdeffe5e7beb401b7cb678f052adf8074c726d2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_a967414c",
         "filename": "conf/05_collector.conf",
         "patchSetId": 9
