@@ -1,0 +1,231 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_67288a9a",
+        "filename": "conf/05_collector.conf",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "2015-2018",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_27120262",
+        "filename": "conf/05_collector.conf",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "How this default values were chosen? Is it correlated to default values of vswitch \u0026 vnf core bindings? If not, it would be good to align these, so default values produce meaningful results. It is also possible to use values from 02_vswitch \u0026 04_vnf conf files to explain their dependency (if there is any).",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_670fea37",
+        "filename": "requirements.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "2015-2018",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_470aa626",
+        "filename": "tools/collectors/collectd/__init__.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "2017-2018",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_a7057215",
+        "filename": "tools/collectors/collectd/collectd.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "2017-2018",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_87002e03",
+        "filename": "tools/collectors/collectd/collectd.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "import queue\n\n\npart \"as queue\" is redundant in this case",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ea029f08",
+        "filename": "tools/collectors/collectd/collectd.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "this method should also print results (probably those returned by get_results_to_print()) - these results are printed to vsperf output after TC execution together with results from traffic generator",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ca051b12",
+        "filename": "tools/collectors/collectd/collectd_bucky.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "2017-2018; Of course if it is based on 3rd party code it should cover original years of development. In this case I would put into comment a details about original code and its repo.",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ca2cfb9b",
+        "filename": "tools/collectors/collectd/collectd_bucky.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "can it be converted into static method?\n\n(i.e. @staticmethod)",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_2a20079a",
+        "filename": "tools/collectors/collectd/collectd_bucky.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "can it be converted into static method?\n\n(i.e. @staticmethod)",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_0a2383a7",
+        "filename": "tools/collectors/collectd/collectd_bucky.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "can it be converted into static method?\n\n(i.e. @staticmethod)",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_6a3defc3",
+        "filename": "tools/collectors/collectd/collectd_bucky.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "can it be converted into static method?\n\n(i.e. @staticmethod)",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_4a38ebd2",
+        "filename": "tools/collectors/collectd/collectd_bucky.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T12:59:44Z",
+      "side": 1,
+      "message": "can it be converted into static method?\n\n(i.e. @staticmethod)",
+      "revId": "69b4506da0d43ad5e7542ff12109233f71eed66b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
