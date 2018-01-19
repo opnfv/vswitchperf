@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_ea61ffa9",
+        "filename": "tools/load_gen/stressorvm/stressor_vm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T14:31:18Z",
+      "side": 1,
+      "message": "Do you plan to inherit QemuVM from Qemu class as I\u0027ve hinted in my previous comment? If there are any issues or you think that current implementation is better, please let me know.",
+      "revId": "420873e7e86aa23740f02d13b970b7a4d2acfbfa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_8a4f9333",
+        "filename": "tools/load_gen/stressorvm/stressor_vm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-19T14:31:18Z",
+      "side": 1,
+      "message": "In other vsperf parts we raise a RunttimeError in such cases. It would be good to print a shared dir too, e.g.: raise RuntimeError(\"Failed to create shared directory {}\".format(self._shared_dir)",
+      "revId": "420873e7e86aa23740f02d13b970b7a4d2acfbfa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
