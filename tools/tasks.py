@@ -117,11 +117,8 @@ def run_task(cmd, logger, msg=None, check_error=False):
 def update_pids(pid):
     """update list of running pids, so they can be terminated at the end
     """
-    try:
-        pids = settings.getValue('_EXECUTED_PIDS')
-        pids.append(pid)
-    except AttributeError:
-        pids = [pid]
+    pids = settings.getValue('_EXECUTED_PIDS')
+    pids.append(pid)
     settings.setValue('_EXECUTED_PIDS', pids)
 
 def run_background_task(cmd, logger, msg):
