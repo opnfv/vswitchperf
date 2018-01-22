@@ -413,7 +413,20 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
 
     **Title**: RFC 2889 X% packet loss Max Forwarding Rate Soak Test
 
-    **Prerequisite Test** LTD.Throughput.RFC2544.PacketLossRatio
+    **Prerequisite Tests**:
+
+    LTD.Throughput.RFC2544.PacketLossRatio will determine the offered load and
+    frame size for which the maximum theoretical throughput of the interface
+    has not been achieved. As described in RFC 2544 section 24, the final
+    determination of the benchmark SHOULD be conducted using a full length
+    trial, and for this purpose the duration is 5 minutes with zero loss ratio.
+
+    It is also essential to verify that the Traffic Generator has sufficient
+    stability to conduct Soak tests. Therefore, a prerequisite is to perform
+    this test with the DUT removed and replaced with a cross-connect cable,
+    so that the traffic generator (and any other network involved) can be tested
+    over the Soak period. Note that this test may be challenging for software-
+    based traffic generators.
 
     **Priority**:
 
@@ -422,12 +435,16 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
     The aim of this test is to understand the Max Forwarding Rate stability
     over an extended test duration in order to uncover any outliers. To allow
     for an extended test duration, the test should ideally run for 24 hours
-    or, if this is not possible, for at least 6 hours. For this test, each frame
-    size must be sent at the highest Throughput rate with X% packet loss, as
-    determined in the prerequisite test. The default loss percentages to be
-    tested are: - X = 0% - X = 10^-7%
+    or if this is not possible, for at least 6 hours.
 
-    Note: Other values can be tested if required by the user.
+    For this test, one frame size must be sent at the highest frame rate with
+    X% packet loss, as determined in the prerequisite test.
+    The loss ratio shall be measured and recorded every 5 minutes during the test.
+    The default loss percentage is X = 0% and loss > 10^-7% is the default
+    threshold to terminate the test early (or inform the test operator of
+    the failure status).
+
+    Note: Other values of X and loss threshold can be tested if required by the user.
 
     **Expected Result**:
 
@@ -441,13 +458,13 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoak
           and reporting any time intervals with packet loss. The
           `RFC2889 <https://www.rfc-editor.org/rfc/rfc2289.txt>`__
           Forwarding Rate shall be measured in each interval.
-          An interval of 60s is suggested.
+          An interval of 300s is suggested.
 
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
     -  The `RFC5481 <https://www.rfc-editor.org/rfc/rfc5481.txt>`__
        PDV form of delay variation on the traffic flow,
-       using the 99th percentile.
+       using the 99th percentile, may also be collected.
 
 .. 3.2.2.1.7
 
@@ -457,7 +474,21 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoakFrameModification
     **Title**: RFC 2889 Max Forwarding Rate Soak Test with Frame Modification
 
     **Prerequisite Test**:
+
     LTD.Throughput.RFC2544.PacketLossRatioFrameModification (0% Packet Loss)
+    will determine the offered load and
+    frame size for which the maximum theoretical throughput of the interface
+    has not been achieved. As described in RFC 2544 section 24, the final
+    determination of the benchmark SHOULD be conducted using a full length
+    trial, and for this purpose the duration is 5 minutes with zero loss ratio.
+
+    It is also essential to verify that the Traffic Generator has sufficient
+    stability to conduct Soak tests. Therefore, a prerequisite is to perform
+    this test with the DUT removed and replaced with a cross-connect cable,
+    so that the traffic generator (and any other network involved) can be tested
+    over the Soak period. Note that this test may be challenging for software-
+    based traffic generators.
+
 
     **Priority**:
 
@@ -466,9 +497,16 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoakFrameModification
     The aim of this test is to understand the Max Forwarding Rate stability over an
     extended test duration in order to uncover any outliers. To allow for an
     extended test duration, the test should ideally run for 24 hours or, if
-    this is not possible, for at least 6 hour. For this test, each frame
-    size must be sent at the highest Throughput rate with 0% packet loss, as
-    determined in the prerequisite test.
+    this is not possible, for at least 6 hours. 
+
+    For this test, one frame size must be sent at the highest frame rate with
+    X% packet loss, as determined in the prerequisite test.
+    The loss ratio shall be measured and recorded every 5 minutes during the test.
+    The default loss percentage is X = 0% and loss > 10^-7% is the default
+    threshold to terminate the test early (or inform the test operator of
+    the failure status).
+
+    Note: Other values of X and loss threshold can be tested if required by the user.
 
     During this test, the DUT must perform the following operations on the
     traffic flow:
@@ -498,13 +536,13 @@ Test ID: LTD.Throughput.RFC2889.MaxForwardingRateSoakFrameModification
           and reporting any time intervals with packet loss. The
           `RFC2889 <https://www.rfc-editor.org/rfc/rfc2289.txt>`__
           Forwarding Rate shall be measured in each interval.
-          An interval of 60s is suggested.
+          An interval of 300s is suggested.
 
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
     -  The `RFC5481 <https://www.rfc-editor.org/rfc/rfc5481.txt>`__
        PDV form of delay variation on the traffic flow, using the 99th
-       percentile.
+       percentile, may also be collected.
 
 .. 3.2.2.1.8
 
@@ -1150,7 +1188,21 @@ Test ID: LTD.PacketDelayVariation.RFC3393.Soak
 
     **Title**: Packet Delay Variation Soak Test
 
-    **Prerequisite Tests**: LTD.Throughput.RFC2544.PacketLossRatio (0% Packet Loss)
+    **Prerequisite Tests**: 
+
+    LTD.Throughput.RFC2544.PacketLossRatio will determine the offered load and
+    frame size for which the maximum theoretical throughput of the interface
+    has not been achieved. As described in RFC 2544 section 24, the final
+    determination of the benchmark SHOULD be conducted using a full length
+    trial, and for this purpose the duration is 5 minutes with zero loss ratio.
+
+    It is also essential to verify that the Traffic Generator has sufficient
+    stability to conduct Soak tests. Therefore, a prerequisite is to perform
+    this test with the DUT removed and replaced with a cross-connect cable,
+    so that the traffic generator (and any other network involved) can be tested
+    over the Soak period. Note that this test may be challenging for software-
+    based traffic generators.
+
 
     **Priority**:
 
@@ -1160,9 +1212,17 @@ Test ID: LTD.PacketDelayVariation.RFC3393.Soak
     variation for different frame sizes over an extended test duration and
     to determine if there are any outliers. To allow for an extended test
     duration, the test should ideally run for 24 hours or, if this is not
-    possible, for at least 6 hour. For this test, each frame size must be
-    sent at the highest possible throughput with 0% packet loss, as
-    determined in the prerequisite test.
+    possible, for at least 6 hours. 
+
+    For this test, one frame size must be sent at the highest frame rate with
+    X% packet loss, as determined in the prerequisite test.
+    The loss ratio shall be measured and recorded every 5 minutes during the test.
+    The default loss percentage is X = 0% and loss > 10^-7% is the default
+    threshold to terminate the test early (or inform the test operator of
+    the failure status).
+
+    Note: Other values of X and loss threshold can be tested if required by the user.
+
 
     **Expected Result**:
 
@@ -1173,7 +1233,7 @@ Test ID: LTD.PacketDelayVariation.RFC3393.Soak
     -  The packet delay variation value for traffic passing through the DUT.
     -  The `RFC5481 <https://www.rfc-editor.org/rfc/rfc5481.txt>`__
        PDV form of delay variation on the traffic flow,
-       using the 99th percentile, for each 60s interval during the test.
+       using the 99th percentile, for each 300s interval during the test.
     -  CPU and memory utilization may also be collected as part of this
        test, to determine the vSwitch's performance footprint on the system.
 
