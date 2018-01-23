@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_41ca8ea1",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2018-01-23T10:05:11Z",
+      "side": 1,
+      "message": "If possible - I think not a lot of traffic gens will support this, so it will have to be done another way (using an agent like collectd or something else). the other thing to make sure of is that it doesn\u0027t interfere with the test itself.",
+      "range": {
+        "startLine": 442,
+        "startChar": 4,
+        "endLine": 442,
+        "endChar": 82
+      },
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
