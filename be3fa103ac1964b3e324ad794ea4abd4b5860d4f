@@ -2,6 +2,176 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a3d3df0_d5ac8f8e",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "\"virtual switch in the NFVi\"\n\nIt is not clear if the DUT should run OpenStack or not (e.g. can it be a pod deployed using APEX for a given scenario). Is running OpenStack a requirement or is *not* running OpenStack a requirement?\nIt would not be possible to apply all test to *any* deployed NFVi stack because of installer options and hardware settings.\n\nSome of the procedures described in this document are specific to certain types of vswitches (e.g. flow based vswitches) and are specific to certain types of deployment options (e.g. VAN, MPLS).\n\nSo this makes it harder to get a testsuite that is truly \"generic\" (or at least we need to define better the scope)",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ff953233",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "note that a loss rate of 10E-7 is not the same as a loss rate of 10E-7%.\nIn general the 10E notation would refer to number of packets sent before losing a packet, e,g, 1 packet (lost) out of 10E7 or 10M packets which in turn is a loss ratio of 0.00001%) this is not same as \"10E-7%\" \u003d 0.0000001% \nPerhaps we should use the % notation throughout to avoid any ambiguity?",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ffbc12bd",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "I always have questions like what does 1Mpps mean and how do you count. Even between experts! Is that forwarding rate related to the DUT or to the vswitch?\nIs there an RFC that clearly says what this number represents? I could not find one.\nHere are possible ways to calculate the pps throughput that is reported:\n- total of all pps sent to the DUT (for bidirectoonal, that would be the sum of pps sent to both directions) - this is the one I prefer and is used by nfvbench\n- total of all pps sent to the DUT and received from the DUT, this is double of the first\n- total of all pps sent to the vswitch - this is double of the first in case of PVP\n- total of all pps sent to and received by the vswitch, this is 4x the first one in case of PVP\nI suggest this document should pick one rule and also recommend the reporting results to explicitly state which rule was used.",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1fba96c0",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "vswitches based on DPDK will use 100% CPU regardless of traffic load since they are all based on the DPDK Poll Mode Driver thread.",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_bfd56ae6",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "One general comment regarding bi-directional traffic,\nwe all assume that the 2 directions are symmetric and that all results are equally balanced.\nAlthough this could be a reasonable simplification, in reality there can always be a bias per direction at the level of drop rate and latency.\nThis is definitely the case for asymmetric traffic flows (a good example is mobile virtual packet core which is asymmetric in both rate and frame size).\nSo perhaps we should have a section somewhere describing the limitations of this document.",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_5ffede6b",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "Note that not all deployments of NFVi will need to perform the encapsulations described here (e.g. some deployments will not do MPLS at the vswitch level, some other will do VxLAN instead, etc...).\nIt is also not common for NFVi vswitches to perform anything else than L2 functions - which means all L3 header work will likely happen above the vswitch level (e.g. in a VNF running firewall or routing).\nSo this particular test - as described - may not be relevant for all deployments or may be reserved for a bare metal only / non-OpenStack setting and the testing tool will take care of bringup up and configure the necessary software components?",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_9ffb4678",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "This test is very useful!\nI think it would be better to provide more data points close to the NDR/PDR, e.g. something like \n-10%, -5%, 0%, 5%, 10% might provider better visibility (the drop rate and latency at -50% and +50% are generally very good and very bad but can always be added).\n\nPerhaps we should leave the choice of data points to the tester and only provide  a list of values as a suggestion?",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_bfec4abc",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "trying to run what needs to be done in practice to perform the steps...Programming a TG to send various fixed rates on a given timeline is no problem I think (at least I know how to do that with TRex). I\u0027m just not sure how we can get the exact time of last frame drop?\n\nI think this might require special feature in the TG (to memorize the exact time of the last dropped frame). Not sure which TG supports such feature.",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1f30d69d",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "Using a cross-connect cable is fine but not always the most practical when it comes to setting up and automating the complete measurement.\nAnother acceptable option could be to use a hardware switch and loopback in the switch (L2 forwarding in hardware) which should be sufficiently fast for most purposes.\nThis approach is more practical as it only requires 1 pair of interfaces wired the same way for both the traffic generator \"self test\" phase and measuring the real DUT (the packet path difference would then be triggered solely on software by programming a different dest MAC).\nWIthout necessarily going though the details, perhaps the text should simply say \"using a cross-connect cable or any other equivalent very low overhead method).",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1f09f6dd",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "should that be \"with at most X% average packet loss\"?\n\n[given the actual loss rate might fluctuate during the run, for example assuming the X is 0.001%, is it acceptable to have an average loss rate of 0.0001% in a span of 24 hours and having an average loss rate of 0.1% during say 1 minute?",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_41ca8ea1",
         "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
         "patchSetId": 2
@@ -19,6 +189,115 @@
         "endLine": 442,
         "endChar": 82
       },
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ff0b72d3",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "it would be extremely difficult to derive an accurate drop rate from running counters sourced from different interfaces for the simple reason that it is not possible to get an atomic read of 2 counters.\nThe only accurate measurement is to collect the counters when the traffic is stopped and after all queues are emptied.",
+      "parentUuid": "9a3d3df0_41ca8ea1",
+      "range": {
+        "startLine": 442,
+        "startChar": 4,
+        "endLine": 442,
+        "endChar": 82
+      },
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ffa7f2ba",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "It is not easy to terminate the test early unless there is stop and go traffic, Achieving .00001% accuracy on a drop rate based on a derivative of running RX/TX counters is pretty much impossible.",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1f2f36f8",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "is there any particular reason to pick those data points?\nI think we should represent possible traffic profiles in real world: \nPerhaps simpler to use less data points?\n1,000 - few flows\n10,000 - average flows\n100,000 - large flows\n1,000,000 - very large flows\n\nNot sure there is a need for a max supported number of flows since vswitches must be able to support any number of flows regardless of their implementation-specific processing overhead.",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1f1616a8",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "not clear if all cores should run the same memory intensive app or 1 process of such app each? In case of 1 app, how many threads?\nIt is difficult to be prescriptive, short of recommending a particular app to run.\nInstead of tracking the per core memory bandwidth, perhaps it is simpler to require a minimum memory block size to traverse on each core (large enough to overrun the LLC on each node). For example, if we require each core to traverse (read and write) a separate block of memory that is at least the size of the LLC in a tight loop, we have a pretty good way to cause a churn in the LLC.",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ff1892d4",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "I think that what is meant here is that the VNFs belong to the same chain and as such we assume that each packet will traverse each VNF in the chain in sequence.\nEquivalent to PVP, PVVP, PVVVP - and different from N*PVP.\nPerhaps a simple 1-liner diagram would be good?\nTG------VNF---VNF---VNF-------TG\n( I omitted the vswitch to make it simpler)\n)\ntypo in \"atlernative\"",
+      "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_35ea1bac",
+        "filename": "docs/testing/developer/devguide/requirements/vswitchperf_ltd.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1401,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-01-26T16:38:57Z",
+      "side": 1,
+      "message": "sorry could not find where these frame sizes are defined in this document. Are they in a different document?",
       "revId": "be3fa103ac1964b3e324ad794ea4abd4b5860d4f",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
