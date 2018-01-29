@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_02587af8",
+        "filename": "tools/collectors/collectd/collectd_bucky.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-29T13:54:44Z",
+      "side": 1,
+      "message": "Please use different local variable name for \"data\", e.g.\n\nfor (ptype, pdata) in self.parse_data(data):\n\nIt isn\u0027t a good practice to redefine method argument (line 303) by local variable. It is to note, that newer pylint version will report it as an error.",
+      "revId": "1870cd81cf3bd5e19a14b42fea97a67e2cf81332",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_e243d610",
+        "filename": "tools/collectors/collectd/collectd_bucky.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-29T13:54:44Z",
+      "side": 1,
+      "message": "Following works for me without any pylint errors.\n\n    @staticmethod\n    def parse_data(data):\n\nCould you test it and in case of failure to send be (offline) the pylint output?",
+      "range": {
+        "startLine": 333,
+        "startChar": 0,
+        "endLine": 334,
+        "endChar": 31
+      },
+      "revId": "1870cd81cf3bd5e19a14b42fea97a67e2cf81332",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
