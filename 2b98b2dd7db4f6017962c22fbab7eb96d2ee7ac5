@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_6875e530",
+        "filename": "requirements.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-01-30T14:52:41Z",
+      "side": 1,
+      "message": "automatic rebase has failed, please merge it manually",
+      "revId": "2b98b2dd7db4f6017962c22fbab7eb96d2ee7ac5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
