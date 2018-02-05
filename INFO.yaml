@@ -1,0 +1,67 @@
+---
+project: 'Data-plane performance testing and benchmarking'
+project_creation_date: ''
+project_category: 'Integration & Testing'
+lifecycle_state: 'Mature'
+project_lead: &opnfv_vswitchperf_ptl
+    name: 'Sridhar Rao'
+    email: 'sridharkn@ieee.org'
+    company: 'ieee.org'
+    id: 'sridharkn'
+    timezone: 'Unknown'
+primary_contact: *opnfv_vswitchperf_ptl
+issue_tracking:
+    type: 'jira'
+    url: 'https://jira.opnfv.org/projects/'
+    key: ''
+mailing_list:
+    type: 'mailman2'
+    url: 'opnfv-tech-discuss@lists.opnfv.org'
+    tag: '[vswitchperf]'
+realtime_discussion:
+    type: irc
+    server: 'freenode.net'
+    channel: '#opnfv-vswitchperf'
+meetings:
+    - type: 'gotomeeting+irc'
+      agenda:  # eg: 'https://wiki.opnfv.org/display/'
+      url:  # eg: 'https://global.gotomeeting.com/join/819733085'
+      server: 'freenode.net'
+      channel: '#opnfv-meeting'
+      repeats: 'weekly'
+      time:  # eg: '16:00 UTC'
+repositories:
+    - 'vswitchperf'
+committers:
+    - <<: *opnfv_vswitchperf_ptl
+    - name: 'Maryam Tahhan'
+      email: 'maryam.tahhan@intel.com'
+      company: 'intel.com'
+      id: 'maryamtahhan'
+    - name: 'Al Morton'
+      email: 'acmorton@att.com'
+      company: 'att.com'
+      id: 'acm'
+    - name: 'Martin Klozik'
+      email: 'martinx.klozik@intel.com'
+      company: 'intel.com'
+      id: 'mklozik'
+    - name: 'Bill Michalowski'
+      email: 'bmichalo@redhat.com'
+      company: 'redhat.com'
+      id: 'bmichalo'
+    - name: 'Christian Trautman'
+      email: 'ctrautma@redhat.com'
+      company: 'redhat.com'
+      id: 'ctrautma'
+    - name: 'Trevor Cooper'
+      email: 'trevor.cooper@intel.com'
+      company: 'intel.com'
+      id: 'trev'
+tsc:
+    # yamllint disable rule:line-length
+    approval: 'http//meetbot.opnfv.org/meetings/opnfv-meeting/'
+    changes:
+        - type: 'removal'
+          link: 'http//ircbot.wl.linuxfoundation.org/meetings/opnfv-meeting/2016/opnfv-meeting.2016-05-17-13.59.html'
+          # yamllint enable rule:line-length
