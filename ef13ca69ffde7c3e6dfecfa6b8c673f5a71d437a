@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_49e61945",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-02-06T13:40:37Z",
+      "side": 1,
+      "message": "Does the IEEE standard indicate the relationship between the bits in the 2-byte value and the actual pause-time in seconds?\n(or microseconds, more likely)",
+      "range": {
+        "startLine": 81,
+        "startChar": 23,
+        "endLine": 83,
+        "endChar": 52
+      },
+      "revId": "ef13ca69ffde7c3e6dfecfa6b8c673f5a71d437a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_89d3015f",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-02-06T13:40:37Z",
+      "side": 1,
+      "message": "I suggest to make this genome example consistent with the proportions above, so: \n   \n      #\u0027genome\u0027 : \u0027abbbbccccc\u0027",
+      "range": {
+        "startLine": 223,
+        "startChar": 8,
+        "endLine": 223,
+        "endChar": 29
+      },
+      "revId": "ef13ca69ffde7c3e6dfecfa6b8c673f5a71d437a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_09c7f196",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-02-06T13:40:37Z",
+      "side": 1,
+      "message": "We need 16 bucket_limits_us to align with the count, right?\n\nSo add   13000, 14000, 15000, 16000],",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 39
+      },
+      "revId": "ef13ca69ffde7c3e6dfecfa6b8c673f5a71d437a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
