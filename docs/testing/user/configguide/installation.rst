@@ -202,7 +202,7 @@ new shell session. Its activation is specific to your OS:
 
   .. code:: bash
 
-     $ scl enable python33 bash
+     $ scl enable rh-python34 bash
      $ source $HOME/vsperfenv/bin/activate
 
 * Fedora and Ubuntu
