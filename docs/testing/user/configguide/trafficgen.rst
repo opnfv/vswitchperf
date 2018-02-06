@@ -795,6 +795,13 @@ It is neccesary for proper connection between Trex server and VSPERF.
 Firewall must allow a connection from DUT (VSPERF) to the T-Rex server running
 at TCP port 4501.
 
+**NOTE:** For high speed cards it may be advantageous to start T-Rex with more transmit queues/cores.
+
+.. code-block:: console
+
+   cd trex-cores/scripts/
+   ./t-rex-64 -i -c 10
+
 For additional information about Trex stateless mode see Trex stateless documentation:
 
 https://trex-tgn.cisco.com/trex/doc/trex_stateless.html
@@ -861,6 +868,22 @@ modified. Enable Promiscuous mode when doing multistream at layer 2 testing with
 .. code-block:: console
 
     TRAFFICGEN_TREX_PROMISCUOUS=True
+
+Card Bandwidth Options
+~~~~~~~~~~~~~~~~~~~~~~
+
+T-Rex API will attempt to retrieve the highest possible speed from the card using internal
+calls to port information. If necessary you can try to force the API to use a specific maximum
+speed per port. The below configurations can be adjusted to enable this.
+
+.. code-block:: console
+
+    TRAFFICGEN_TREX_FORCE_PORT_SPEED = True
+    TRAFFICGEN_TREX_PORT0_SPEED = 40000 # 40 gig
+    TRAFFICGEN_TREX_PORT1_SPEED = 40000 # 40 gig
+
+**Note::** Setting higher than possible speeds will result in unpredictable behavior when running
+tests such as duration inaccuracy and/or complete test failure.
 
 RFC2544 Validation
 ~~~~~~~~~~~~~~~~~~

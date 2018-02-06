@@ -262,6 +262,22 @@ class Trex(ITrafficGenerator):
         self._stlclient.set_service_mode(ports=my_ports, enabled=False)
 
         ports_info = self._stlclient.get_port_info(my_ports)
+
+        # get max support speed
+        if ports_info[0]['supp_speeds']:
+            max_speed_1 = max(ports_info[0]['supp_speeds'])
+            max_speed_2 = max(ports_info[1]['supp_speeds'])
+        elif settings.getValue('TRAFFICGEN_TREX_FORCE_PORT_SPEED'):
+            max_speed_1 = settings.getValue('TRAFFICGEN_TREX_PORT0_SPEED')
+            max_speed_2 = settings.getValue('TRAFFICGEN_TREX_PORT1_SPEED')
+        else:
+            # if max supported speed not in port info or set manually, just assume 10G
+            max_speed_1 = 10000
+            max_speed_2 = 10000
+        max_speed = max(max_speed_1, max_speed_2)
+        gbps_speed = (max_speed / 1000) * (float(traffic['frame_rate']) / 100.0)
+        self._logger.debug('Starting traffic at {} Gpbs speed'.format(gbps_speed))
+
         # for SR-IOV
         if settings.getValue('TRAFFICGEN_TREX_PROMISCUOUS'):
             self._stlclient.set_port_attr(my_ports, promiscuous=True)
@@ -289,7 +305,8 @@ class Trex(ITrafficGenerator):
                     pcap_id[pcap_dir] = self._stlclient.start_capture(**capture)
 
         self._stlclient.clear_stats()
-        self._stlclient.start(ports=my_ports, force=True, duration=duration)
+        self._stlclient.start(ports=my_ports, force=True, duration=duration, mult="{}gbps".format(gbps_speed),
+                              core_mask=self._stlclient.CORE_MASK_PIN)
         self._stlclient.wait_on_traffic(ports=my_ports)
         stats = self._stlclient.get_stats(sync_now=True)
 
