@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Build a base machine for RHEL 7.2
+# Build a base machine for RHEL 7.3
 #
 # Copyright 2016 OPNFV, Intel Corporation & Red Hat Inc.
 #
@@ -52,6 +52,7 @@ pkglist=(
  wget\
  numactl\
  numactl-devel\
+ libpng-devel
 )
 
 # python tools for proper QEMU, DPDK, and OVS make
@@ -78,28 +79,27 @@ if [ "${#failedinstall[*]}" -gt 0 ]; then
     exit 1
 fi
 
-# install SCL for python33 by adding a repo to find its location to install it
-cat <<'EOT' >> /etc/yum.repos.d/python33.repo
-[rhscl-python33-el7]
-name=Copr repo for python33-el7 owned by rhscl
-baseurl=https://copr-be.cloud.fedoraproject.org/results/rhscl/python33-el7/epel-7-$basearch/
-type=rpm-md
-skip_if_unavailable=True
-gpgcheck=1
-gpgkey=https://copr-be.cloud.fedoraproject.org/results/rhscl/python33-el7/pubkey.gpg
-repo_gpgcheck=0
+# install SCL for python34 by adding a repo to find its location to install it
+cat <<'EOT' >> /etc/yum.repos.d/python34.repo
+[centos-sclo-rh]
+name=CentOS-7 - SCLo rh
+baseurl=http://mirror.centos.org/centos/7/sclo/$basearch/rh/
+gpgcheck=0
 enabled=1
-enabled_metadata=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
 EOT
 
-# install python33 packages and git-review tool
+# install python34 packages and git-review tool
 yum -y install $(echo "
-python33
-python33-python-tkinter
+rh-python34
+rh-python34-python-tkinter
 " | grep -v ^#)
 
-# cleanup python 33 repo file
-rm -f /etc/yum.repos.d/python33.repo
+# cleanup python 34 repo file
+rm -f /etc/yum.repos.d/python34.repo
 
 # Create hugepage dirs
 mkdir -p /dev/hugepages
+
+# prevent ovs vanilla from building from source due to kernel incompatibilities
+sed -i s/'SUBBUILDS = src_vanilla'/'#SUBBUILDS = src_vanilla'/ ../src/Makefile

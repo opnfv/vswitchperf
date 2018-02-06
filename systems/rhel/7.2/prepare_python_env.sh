@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Prepare Python environment for vsperf execution on Red Hat 7.2 systems.
+# Prepare Python environment for vsperf execution on RHEL 7.3 systems.
 #
 # Copyright 2016-2017 OPNFV, Intel Corporation, Red Hat Inc.
 #
@@ -21,8 +21,8 @@ if [ -d "$VSPERFENV_DIR" ] ; then
     exit
 fi
 
-scl enable python33 "
-virtualenv "$VSPERFENV_DIR" --python /opt/rh/python33/root/usr/bin/python3
+scl enable rh-python34 "
+virtualenv "$VSPERFENV_DIR" --python /opt/rh/rh-python34/root/usr/bin/python3
 source "$VSPERFENV_DIR"/bin/activate
 pip install -r ../requirements.txt
 pip install pylint

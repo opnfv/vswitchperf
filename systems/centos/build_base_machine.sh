@@ -60,6 +60,8 @@ pixman-devel
 socat
 numactl
 numactl-devel
+libpng-devel
+freetype-devel
 
 # install gvim
 vim-X11
@@ -68,13 +70,13 @@ vim-X11
 epel-release
 " | grep -v ^#)
 
-# install SCL for python33
-sudo yum -y install centos-release-scl
+# install SCL for python34
+sudo yum -y install centos-release-scl-rh
 
-# install python33 packages and git-review tool
+# install python34 packages and git-review tool
 yum -y install $(echo "
-python33
-python33-python-tkinter
+rh-python34
+rh-python34-python-tkinter
 git-review
 " | grep -v ^#)
 # prevent ovs vanilla from building from source due to kernel incompatibilities
