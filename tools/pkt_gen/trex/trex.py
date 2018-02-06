@@ -33,6 +33,7 @@ try:
     # pylint: disable=wrong-import-position, import-error
     sys.path.append(settings.getValue('PATHS')['trafficgen']['Trex']['src']['path'])
     from trex_stl_lib.api import *
+    from trex_stl_lib import trex_stl_exceptions
 except ImportError:
     # VSPERF performs detection of T-Rex api during testcase initialization. So if
     # T-Rex is requsted and API is not available it will fail before this code
@@ -84,6 +85,31 @@ class Trex(ITrafficGenerator):
         self._trex_user = settings.getValue('TRAFFICGEN_TREX_USER')
         self._stlclient = None
         self._verification_params = None
+
+    def run_once(f):
+        """
+        Decorator. Just run the method one time per class instance
+        :param f: function to run once even when called multiple times
+        :return: wrapper of function decorator
+        """
+        def wrapper(*args, **kwargs):
+            if not wrapper.has_run:
+                wrapper.has_run = True
+                return f(*args, **kwargs)
+
+        wrapper.has_run = False
+        return wrapper
+
+    @run_once
+    def show_packet_info(self, packet_a, packet_b):
+        """
+        Log packet layers to screen
+        :param packet_a: Scapy.layers packet
+        :param packet_b: Scapy.layers packet
+        :return: None
+        """
+        self._logger.info(packet_a.show())
+        self._logger.info(packet_b.show())
 
     def connect(self):
         '''Connect to Trex traffic generator
@@ -178,7 +204,7 @@ class Trex(ITrafficGenerator):
                              IP(proto=traffic['l3']['proto'], src=traffic['l3']['dstip'],
                                 dst=traffic['l3']['srcip'])/ \
                              UDP(dport=traffic['l4']['srcport'], sport=traffic['l4']['dstport'])
-
+                
         return (base_pkt_a, base_pkt_b)
 
     @staticmethod
@@ -262,11 +288,29 @@ class Trex(ITrafficGenerator):
         self._stlclient.set_service_mode(ports=my_ports, enabled=False)
 
         ports_info = self._stlclient.get_port_info(my_ports)
+
+        # get max support speed
+        max_speed = 0
+        if settings.getValue('TRAFFICGEN_TREX_FORCE_PORT_SPEED'):
+            max_speed = settings.getValue('TRAFFICGEN_TREX_PORT_SPEED')
+        elif ports_info[0]['supp_speeds']:
+            max_speed_1 = max(ports_info[0]['supp_speeds'])
+            max_speed_2 = max(ports_info[1]['supp_speeds'])
+        else:
+            # if max supported speed not in port info or set manually, just assume 10G
+            max_speed = 10000
+        if not max_speed:
+            # since we can only control both ports at once take the lower of the two
+            max_speed = min(max_speed_1, max_speed_2)
+        gbps_speed = (max_speed / 1000) * (float(traffic['frame_rate']) / 100.0)
+        self._logger.debug('Starting traffic at %s Gpbs speed', gbps_speed)
+
         # for SR-IOV
         if settings.getValue('TRAFFICGEN_TREX_PROMISCUOUS'):
             self._stlclient.set_port_attr(my_ports, promiscuous=True)
 
         packet_1, packet_2 = Trex.create_packets(traffic, ports_info)
+        self.show_packet_info(packet_1, packet_2)
         stream_1, stream_2, stream_1_lat, stream_2_lat = Trex.create_streams(packet_1, packet_2, traffic)
         self._stlclient.add_streams(stream_1, ports=[0])
         self._stlclient.add_streams(stream_2, ports=[1])
@@ -289,7 +333,13 @@ class Trex(ITrafficGenerator):
                     pcap_id[pcap_dir] = self._stlclient.start_capture(**capture)
 
         self._stlclient.clear_stats()
-        self._stlclient.start(ports=my_ports, force=True, duration=duration)
+        # if the user did not start up T-Rex server with more than default cores, use default mask.
+        # Otherwise use mask to take advantage of multiple cores.
+        try:
+            self._stlclient.start(ports=my_ports, force=True, duration=duration, mult="{}gbps".format(gbps_speed),
+                                  core_mask=self._stlclient.CORE_MASK_PIN)
+        except STLError:
+            self._stlclient.start(ports=my_ports, force=True, duration=duration, mult="{}gbps".format(gbps_speed))
         self._stlclient.wait_on_traffic(ports=my_ports)
         stats = self._stlclient.get_stats(sync_now=True)
 
