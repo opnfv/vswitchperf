@@ -33,6 +33,7 @@ try:
     # pylint: disable=wrong-import-position, import-error
     sys.path.append(settings.getValue('PATHS')['trafficgen']['Trex']['src']['path'])
     from trex_stl_lib.api import *
+    from trex_stl_lib import trex_stl_exceptions
 except ImportError:
     # VSPERF performs detection of T-Rex api during testcase initialization. So if
     # T-Rex is requsted and API is not available it will fail before this code
@@ -68,6 +69,7 @@ _EMPTY_STATS = {
               'tx_pps': 0.0,
               'tx_util': 0.0,}}
 
+
 class Trex(ITrafficGenerator):
     """Trex Traffic generator wrapper."""
     _logger = logging.getLogger(__name__)
@@ -84,6 +86,20 @@ class Trex(ITrafficGenerator):
         self._trex_user = settings.getValue('TRAFFICGEN_TREX_USER')
         self._stlclient = None
         self._verification_params = None
+        self._show_packet_data = False
+
+    def show_packet_info(self, packet_a, packet_b):
+        """
+        Log packet layers to screen
+        :param packet_a: Scapy.layers packet
+        :param packet_b: Scapy.layers packet
+        :return: None
+        """
+        # we only want to show packet data once per test
+        if self._show_packet_data:
+            self._show_packet_data = False
+            self._logger.info(packet_a.show())
+            self._logger.info(packet_b.show())
 
     def connect(self):
         '''Connect to Trex traffic generator
@@ -262,11 +278,29 @@ class Trex(ITrafficGenerator):
         self._stlclient.set_service_mode(ports=my_ports, enabled=False)
 
         ports_info = self._stlclient.get_port_info(my_ports)
+
+        # get max support speed
+        max_speed = 0
+        if settings.getValue('TRAFFICGEN_TREX_FORCE_PORT_SPEED'):
+            max_speed = settings.getValue('TRAFFICGEN_TREX_PORT_SPEED')
+        elif ports_info[0]['supp_speeds']:
+            max_speed_1 = max(ports_info[0]['supp_speeds'])
+            max_speed_2 = max(ports_info[1]['supp_speeds'])
+        else:
+            # if max supported speed not in port info or set manually, just assume 10G
+            max_speed = 10000
+        if not max_speed:
+            # since we can only control both ports at once take the lower of the two
+            max_speed = min(max_speed_1, max_speed_2)
+        gbps_speed = (max_speed / 1000) * (float(traffic['frame_rate']) / 100.0)
+        self._logger.debug('Starting traffic at %s Gpbs speed', gbps_speed)
+
         # for SR-IOV
         if settings.getValue('TRAFFICGEN_TREX_PROMISCUOUS'):
             self._stlclient.set_port_attr(my_ports, promiscuous=True)
 
         packet_1, packet_2 = Trex.create_packets(traffic, ports_info)
+        self.show_packet_info(packet_1, packet_2)
         stream_1, stream_2, stream_1_lat, stream_2_lat = Trex.create_streams(packet_1, packet_2, traffic)
         self._stlclient.add_streams(stream_1, ports=[0])
         self._stlclient.add_streams(stream_2, ports=[1])
@@ -289,7 +323,13 @@ class Trex(ITrafficGenerator):
                     pcap_id[pcap_dir] = self._stlclient.start_capture(**capture)
 
         self._stlclient.clear_stats()
-        self._stlclient.start(ports=my_ports, force=True, duration=duration)
+        # if the user did not start up T-Rex server with more than default cores, use default mask.
+        # Otherwise use mask to take advantage of multiple cores.
+        try:
+            self._stlclient.start(ports=my_ports, force=True, duration=duration, mult="{}gbps".format(gbps_speed),
+                                  core_mask=self._stlclient.CORE_MASK_PIN)
+        except STLError:
+            self._stlclient.start(ports=my_ports, force=True, duration=duration, mult="{}gbps".format(gbps_speed))
         self._stlclient.wait_on_traffic(ports=my_ports)
         stats = self._stlclient.get_stats(sync_now=True)
 
@@ -414,6 +454,8 @@ class Trex(ITrafficGenerator):
                 if test_lossrate <= lossrate:
                     # save the last passing trial for verification
                     self._verification_params = copy.deepcopy(new_params)
+            packets_lost = stats['total']['opackets'] - stats['total']['ipackets']
+            self._logger.debug('Packets lost: %s', packets_lost)
             self._logger.debug("Iteration: %s, frame rate: %s, throughput_rx_fps: %s, frame_loss_percent: %s",
                                iteration, "{:.3f}".format(new_params['frame_rate']), stats['total']['rx_pps'],
                                "{:.3f}".format(test_lossrate))
@@ -438,6 +480,8 @@ class Trex(ITrafficGenerator):
         """
         self._logger.info("In Trex send_cont_traffic method")
         self._params.clear()
+
+        self._show_packet_data = True
 
         self._params['traffic'] = self.traffic_defaults.copy()
         if traffic:
@@ -467,6 +511,7 @@ class Trex(ITrafficGenerator):
         """
         self._logger.info("In Trex send_rfc2544_throughput method")
         self._params.clear()
+        self._show_packet_data = True
         self._params['traffic'] = self.traffic_defaults.copy()
         if traffic:
             self._params['traffic'] = merge_spec(
@@ -474,6 +519,7 @@ class Trex(ITrafficGenerator):
         if settings.getValue('TRAFFICGEN_TREX_LEARNING_MODE'):
             self.learning_packets(traffic)
         self._verification_params = copy.deepcopy(traffic)
+        traffic['frame_rate'] = settings.getValue('TRAFFICGEN_TREX_RFC2544_START_RATE')
 
         binary_bounds = {'right' : traffic['frame_rate'],
                          'left'  : 0,
