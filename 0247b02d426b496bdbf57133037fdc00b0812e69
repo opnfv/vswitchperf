@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_922e86f9",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-02-07T15:56:50Z",
+      "side": 1,
+      "message": "which benchmark makes use of this feature?\nTrex has the concept of inter-stream gap (gap between 2 streams) and inter-busrt gap (gap between 2 bursts inside a stream)",
+      "revId": "0247b02d426b496bdbf57133037fdc00b0812e69",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_f23c3231",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 5
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-02-07T15:56:50Z",
+      "side": 1,
+      "message": "rather than trying to allow all possible combinations of IMIX, perhaps we should define a small set of IMIX profiles and define a default IMIX profile.\nMany benchmarks use 64/594/1518 with 7/4/1 ratio (Nfvbench, Trex, Overture, Fortinet, Huawei, Cisco...)",
+      "revId": "0247b02d426b496bdbf57133037fdc00b0812e69",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_52487ecb",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 5
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-02-07T15:56:50Z",
+      "side": 1,
+      "message": "if there is a list of bucket starts below, the count looks redundant",
+      "revId": "0247b02d426b496bdbf57133037fdc00b0812e69",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1229d6e5",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-02-07T15:56:50Z",
+      "side": 1,
+      "message": "some TG or some TG drivers may not be able to support latency bucket dumps or percentile value lists. Some may support but at different granularity/level of precision. Some may only support one but not the other. Should the run request fail if the histogram detail request cannot be accommodated?\nOr should these parameters be only suggested and be best effort?\nI\u0027d prefer the latter.",
+      "revId": "0247b02d426b496bdbf57133037fdc00b0812e69",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
