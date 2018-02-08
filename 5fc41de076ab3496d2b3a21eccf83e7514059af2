@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_d8814dfc",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-02-08T15:53:54Z",
+      "side": 1,
+      "message": "if this group is only declarative (ie it describes how imix should be formatted if IMIX is used), then there is no need for a enabled property.\nthe proportion should add up to 100 (so you need to round up one of the 3 to .34).\n7/4/1 would correspond to genome aaaaaaaddddg ?\nOnly concern I have is this will force very TG plugin to parse the sequence and try to match it to a known IMIX template (which is specific to each TG). \nPerhaps it would be simpler to just use the genome notation and repeat in the comment the valid letters and their pre-defined associated size?\n\u0027imix\u0027: \u0027aaaaaaaddddg\u0027,\nor use pre-defined IMIX templates:\n\u0027imix\u0027: \u0027IMIX_TYPE_1\u0027,\n\nThis will be a lot easier for TG plugins.\nIf needed later we can extend to allow non standard sizes.",
+      "revId": "5fc41de076ab3496d2b3a21eccf83e7514059af2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_187f3516",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-02-08T15:53:54Z",
+      "side": 1,
+      "message": "in this case we need to specify something like:\n\nstart_usec: 1000000\ninterval_usec: 1000000\ncount: 16\n\nwill work ok for linear buckets",
+      "revId": "5fc41de076ab3496d2b3a21eccf83e7514059af2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_58753d30",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-02-08T15:53:54Z",
+      "side": 1,
+      "message": "we need to specify here what happens if the \nconfig has one latency enabled and the TG plugin does not support it. Is it best-effort (no error and return no histogram) or mandatory (return error)?\n\nI think it should be best effort (ie user specifies his preference and plugin will try to accommodate but can return a different histogram format). I think it will be hard to force TG plugins developers to convert histogram formats (ie TG returns format A, user requested format B, convert to format B). It is a lot simpler to return a histogram in the native format (as returned by TG) and give a way to describe what that format is (ie fixed size bucket list, variable size bucket list, percentile value list). This would normally be described in the results format (e.g. json dict).",
+      "revId": "5fc41de076ab3496d2b3a21eccf83e7514059af2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
