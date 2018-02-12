@@ -193,6 +193,7 @@ class TestCase(object):
     def run_initialize(self):
         """ Prepare test execution environment
         """
+        import pdb; pdb.set_trace()
         # mount hugepages if needed
         self._mount_hugepages()
 

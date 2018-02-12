@@ -222,7 +222,13 @@ class IVnfQemu(IVnf):
             stdin=proc.stdout)
         proc.wait()
 
-        for cpu in range(0, int(S.getValue('GUEST_SMP')[self._number])):
+        # calculate the number of CPUs in SMP topology specified by GUEST_SMP
+        # e.g. "sockets=2,cores=3", "4", etc.
+        cpu_nr = 1
+        for i in re.findall(r'\d', S.getValue('GUEST_SMP')[self._number]):
+            cpu_nr = cpu_nr * int(i)
+        # pin each GUEST's core to host core based on configured BINDING
+        for cpu in range(0, cpu_nr):
             match = None
             guest_thread_binding = S.getValue('GUEST_THREAD_BINDING')[self._number]
             if guest_thread_binding is None:
