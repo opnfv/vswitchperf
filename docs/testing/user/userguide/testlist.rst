@@ -388,3 +388,30 @@ ovsdpdk_qos_p2p                          In a p2p setup, ensure when a QoS egres
 ovsdpdk_qos_pvp                          In a pvp setup, ensure when a QoS egress policer is created that the
                                          traffic is limited to the specified rate.
 ======================================== ======================================================================================
+
+T-Rex in VM TestCases
+^^^^^^^^^^^^^^^^^^^^^
+
+A set of functional testcases, which use T-Rex running in VM as a traffic generator.
+These testcases require a VM image with T-Rex server installed. An example of such
+image is a vloop-vnf image with T-Rex available for download at:
+
+http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-16.04_trex_20180209.qcow2
+
+This image can be used for both T-Rex VM and loopback VM in ``vm2vm`` testcases.
+
+**NOTE:** The performance of T-Rex running inside the VM is lower if compared to T-Rex
+execution at bare metal. The user should perform a calibration of the VM maximum FPS
+capability, to ensure this limitation is understood.
+
+======================================== ======================================================================================
+trex_vm_cont                             T-Rex VM - execute RFC2544 Continuous Stream from T-Rex VM and loop
+                                         it back through Open vSwitch.
+trex_vm_tput                             T-Rex VM - execute RFC2544 Throughput from T-Rex VM and loop it back
+                                         through Open vSwitch.
+trex_vm2vm_cont                          T-Rex VM2VM - execute RFC2544 Continuous Stream from T-Rex VM and
+                                         loop it back through 2nd VM.
+trex_vm2vm_tput                          T-Rex VM2VM - execute RFC2544 Throughput from T-Rex VM and loop it back
+                                         through 2nd VM.
+
+======================================== ======================================================================================
