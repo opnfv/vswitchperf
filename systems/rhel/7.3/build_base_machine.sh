@@ -52,7 +52,9 @@ pkglist=(
  wget\
  numactl\
  numactl-devel\
- libpng-devel
+ libpng-devel\
+ epel-release\
+ sshpass\
 )
 
 # python tools for proper QEMU, DPDK, and OVS make
