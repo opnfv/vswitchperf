@@ -48,6 +48,7 @@ pciutils
 cifs-utils
 socat
 sysstat
+sshpass
 
 # install python packages
 python3

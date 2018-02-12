@@ -46,6 +46,7 @@ automake
 pciutils
 cifs-utils
 sysstat
+sshpass
 
 # libs
 libpcap-devel
