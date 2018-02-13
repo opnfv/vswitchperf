@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a3f45e8_86e8f07d",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 7
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-02-13T14:40:37Z",
+      "side": 1,
+      "message": "can we use TRAFFIC[\"frame_rate\"] instead of new parameter? I think that it will be more consistent and easier for users to adopt.",
+      "revId": "00cf7eaaf5bf36bc48e2843d2a682592b952abd3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_66ede48b",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 7
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-02-13T14:40:37Z",
+      "side": 1,
+      "message": "This might be useful for other TGens too, what do you think? Anyhow, we can promote it to generic settings (e.g. TRAFFICGEN_PORT_SPEED) later.",
+      "revId": "00cf7eaaf5bf36bc48e2843d2a682592b952abd3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_805a9881",
         "filename": "conf/10_custom.conf",
         "patchSetId": 7
@@ -19,6 +53,63 @@
         "endLine": 134,
         "endChar": 40
       },
+      "revId": "00cf7eaaf5bf36bc48e2843d2a682592b952abd3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_c601583b",
+        "filename": "conf/10_custom.conf",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-02-13T14:40:37Z",
+      "side": 1,
+      "message": "May be - 10G or 10GE or 10GbE - to stick to official wording? (dtto for 03_traffic.conf and rst file)",
+      "range": {
+        "startLine": 147,
+        "startChar": 37,
+        "endLine": 147,
+        "endChar": 43
+      },
+      "revId": "00cf7eaaf5bf36bc48e2843d2a682592b952abd3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_869f5003",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-02-13T14:40:37Z",
+      "side": 1,
+      "message": "could you add this new \"stat\" into generic list below, e.g. frame_loss: %s, frame_loss_percent: %s\"?",
+      "revId": "00cf7eaaf5bf36bc48e2843d2a682592b952abd3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_66a4c457",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-02-13T14:40:37Z",
+      "side": 1,
+      "message": "Is it needed? User can specify starting TRAFFIC[\u0027frame_rate\u0027] already, am I right?",
       "revId": "00cf7eaaf5bf36bc48e2843d2a682592b952abd3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
