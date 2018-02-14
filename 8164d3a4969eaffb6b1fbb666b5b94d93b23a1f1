@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_8c12cf60",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-02-14T12:51:30Z",
+      "side": 1,
+      "message": "It is to note, that VSPERF interprets configuration files as python code per purpose. This feature is used to define dependencies among various options and to effectively write step driven testcases. In case that configuration files would use e.g. yaml format, it would be required to heavily modify vsperf code to achieve the same functionality.",
+      "revId": "8164d3a4969eaffb6b1fbb666b5b94d93b23a1f1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_0c2fdfa2",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-02-14T12:51:30Z",
+      "side": 1,
+      "message": "This definition of frame/packet content is not flexible enough to cover future extensions. It might be good to introduce a new way (at least as an option) of frame/packet content definition, e.g. in form of scapy definition. It will allow user to configure huge variety of network protocols without any changes to vsperf itself. Of course, this will work only for some traffic generators (e.g. T-Rex), which are able to accept a scapy template.",
+      "range": {
+        "startLine": 192,
+        "startChar": 3,
+        "endLine": 213,
+        "endChar": 6
+      },
+      "revId": "8164d3a4969eaffb6b1fbb666b5b94d93b23a1f1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_ec2b9392",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 7
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-02-14T12:51:30Z",
+      "side": 1,
+      "message": "Currently TRAFFIC dictionary covers all options somehow related to the traffic, which should be passed through DUT. Of course only part of these options specify the content of frames/packets, which are sent by traffic generator. May be, we should not move non-\"frame\" related options out of the TRAFFIC array, but to create a new FRAME/PACKET related dictionary, which will hold only options related to traffic \"content\".",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 61
+      },
+      "revId": "8164d3a4969eaffb6b1fbb666b5b94d93b23a1f1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
