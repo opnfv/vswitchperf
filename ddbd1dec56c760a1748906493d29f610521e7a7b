@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_72bbde72",
+        "filename": "docs/testing/user/userguide/testlist.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-02-15T14:00:37Z",
+      "side": 1,
+      "message": "Al, you have mentioned in the past, that we should express expected fluctuation and performance drop in case that TGEN in VM is used. I suppose that your comment is still valid, am I right? :-)\n\nBTW, Radoslaw was able to measure following values (64B frames):\ntrex_vm_cont (with 2PMD cores \u0026 3 cores for T-Rex VM)          tx_rate_fps: 15,601,796.000\ntrex_vm_tput (with 2PMD cores \u0026 3 cores for T-Rex VM)          tx_rate_fps: 15,655,988.500\ntrex_vm2vm_cont (with 2PMD cores \u0026 3 cores for T-Rex VM) tx_rate_fps: 7,428,399.400\ntrex_vm2vm_cont (with 6PMD cores \u0026 3 cores for T-Rex VM) tx_rate_fps: 7,440,594.700\ntrex_vm2vm_tput (with 2PMD cores \u0026 3 cores for T-Rex VM)  tx_rate_fps: 7,521,308.000\n\nMine were slower, but I guess, it is related to the platform (CPU speed). As of now, we were not able to utilize multiqueue feature in T-Rex VM, which would allow us to utilize more cpu cores for traffic generation. So what we see (15mfps) is a T-Rex limit in case that dpdkvhostuser interfaces are used with single rx/tx queue. T-Rex wiki states, that in case that VM uses SRIOV interfaces, the speed is much better.",
+      "revId": "ddbd1dec56c760a1748906493d29f610521e7a7b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
