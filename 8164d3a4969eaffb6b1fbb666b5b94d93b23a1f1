@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_a67c0774",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-02-15T16:28:36Z",
+      "side": 1,
+      "message": "still was not clear if such feature was actually used by any test?\nIf it is not used, it is best to remove (it can always be added back later if needed).",
+      "revId": "8164d3a4969eaffb6b1fbb666b5b94d93b23a1f1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_0c2fdfa2",
         "filename": "conf/03_traffic.conf",
         "patchSetId": 7
@@ -36,6 +53,47 @@
         "endLine": 213,
         "endChar": 6
       },
+      "revId": "8164d3a4969eaffb6b1fbb666b5b94d93b23a1f1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_86f8ebe6",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-02-15T16:28:36Z",
+      "side": 1,
+      "message": "I agree this description is not flexible enough.\n\nThe scapy part will only give the general format of the frame, the flow spec will dictate what goes into the addressing fields of the formed frame.\n\nJust looking at how flows can be formed: many fields (MAC, IP, port) can change to from different flow profiles which can have dramatic impact on the benchmark results (even on the same SUT).\nThis is a critical part of any benchmark that we need to standardize (i.e. define exactly how the flows are defined).\nIn NFVbench we also need to split flows into subgroups so they can be sent to different service chains, and this requires setting up the dest fields properly.",
+      "parentUuid": "5a3f45e8_0c2fdfa2",
+      "range": {
+        "startLine": 192,
+        "startChar": 3,
+        "endLine": 213,
+        "endChar": 6
+      },
+      "revId": "8164d3a4969eaffb6b1fbb666b5b94d93b23a1f1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_e64a8f26",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 7
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5807
+      },
+      "writtenOn": "2018-02-15T16:28:36Z",
+      "side": 1,
+      "message": "the genome field looks sufficient and the above proportion dict is redundant.\nperhaps we can remove proportion and type?",
       "revId": "8164d3a4969eaffb6b1fbb666b5b94d93b23a1f1",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
