@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_b4f8a8e6",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-02-22T15:52:16Z",
+      "side": 1,
+      "message": "a bit of nitpicking, but I believe, that (as hinted in my original comment), we should\n\n1) be consistent, i.e. to use label \"frame_loss\" in both cases\n\n2) print \"frame_loss_percent\" and \"frame_loss\" next to each other as they refer to the same metric, just a measurement unit is different",
+      "revId": "015ac06e03c3de38ed28d50075c8ea4de7f23450",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
