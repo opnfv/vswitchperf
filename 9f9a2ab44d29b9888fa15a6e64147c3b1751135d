@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_d45c4f28",
+        "filename": "systems/rhel/7.2/build_base_machine.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2018-02-26T01:06:31Z",
+      "side": 1,
+      "message": "I will have to check this. I don\u0027t think sshpass is normally available from our subscription repos.  Will verify.",
+      "revId": "9f9a2ab44d29b9888fa15a6e64147c3b1751135d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
