@@ -257,8 +257,8 @@ class TestCase(object):
             loader.get_loadgen_class(),
             self._load_cfg)
 
-        self._output_file = os.path.join(self._results_dir, "result_" + self.name +
-                                         "_" + self.deployment + ".csv")
+        self._output_file = os.path.join(self._results_dir, "result_{}_{}_{}.csv".format(
+            str(S.getValue('_TEST_INDEX')), self.name, self.deployment))
 
         self._step_status = {'status' : True, 'details' : ''}
 

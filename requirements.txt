@@ -19,3 +19,4 @@ stcrestclient
 matplotlib
 numpy
 pycrypto
+tabulate
