@@ -137,7 +137,7 @@ function print_results() {
             printf "    %-70s %-6s\n" "result_${i}" "FAILED"
             EXIT=$EXIT_TC_FAILED
         else
-            RES_FILE=`ls -1 $1 | egrep "result_${i}_[0-9a-zA-Z\-]+.csv"`
+            RES_FILE=`ls -1 $1 | egrep "result_[0-9]+_${i}_[0-9a-zA-Z\-]+.csv"`
 
             if [ "x$RES_FILE" != "x" -a -e "${1}/${RES_FILE}" ]; then
                 if grep ^FAILED "${1}/${RES_FILE}" &> /dev/null ; then

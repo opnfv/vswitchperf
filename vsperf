@@ -23,6 +23,7 @@ import sys
 import argparse
 import re
 import time
+import csv
 import datetime
 import shutil
 import unittest
@@ -32,6 +33,8 @@ import glob
 import subprocess
 import ast
 import xmlrunner
+from tabulate import tabulate
+from conf import merge_spec
 from conf import settings
 import core.component_factory as component_factory
 from core.loader import Loader
@@ -42,7 +45,6 @@ from tools import networkcard
 from tools import functions
 from tools.pkt_gen import trafficgen
 from tools.opnfvdashboard import opnfvdashboard
-
 sys.dont_write_bytecode = True
 
 VERBOSITY_LEVELS = {
@@ -61,8 +63,42 @@ _TEMPLATE_RST = {'head'  : os.path.join(_CURR_DIR, 'tools/report/report_head.rst
                  'tmp'   : os.path.join(_CURR_DIR, 'tools/report/report_tmp_caption.rst')
                 }
 
+_TEMPLATE_MATRIX = "Performance Matrix\n------------------\n\n"\
+                   "The following performance matrix was generated with the results of all the\n"\
+                   "currently run tests. The metric used for comparison is {}.\n\n{}\n\n"
 
 _LOGGER = logging.getLogger()
+
+def parse_param_string(values):
+    """
+    Parse and split a single '--test-params' argument.
+
+    This expects either 'x=y', 'x=y,z' or 'x' (implicit true)
+    values. For multiple overrides use a ; separated list for
+    e.g. --test-params 'x=z; y=(a,b)'
+    """
+    results = {}
+
+    if values == '':
+        return {}
+
+    for param, _, value in re.findall('([^;=]+)(=([^;]+))?', values):
+        param = param.strip()
+        value = value.strip()
+        if param:
+            if value:
+                # values are passed inside string from CLI, so we must retype them accordingly
+                try:
+                    results[param] = ast.literal_eval(value)
+                except ValueError:
+                    # for backward compatibility, we have to accept strings without quotes
+                    _LOGGER.warning("Adding missing quotes around string value: %s = %s",
+                                    param, str(value))
+                    results[param] = str(value)
+            else:
+                results[param] = True
+    return results
+
 
 def parse_arguments():
     """
@@ -70,31 +106,25 @@ def parse_arguments():
     """
     class _SplitTestParamsAction(argparse.Action):
         """
-        Parse and split the '--test-params' argument.
+        Parse and split '--test-params' arguments.
 
-        This expects either 'x=y', 'x=y,z' or 'x' (implicit true)
-        values. For multiple overrides use a ; separated list for
+        This expects either a single list of ; separated overrides
+        as 'x=y', 'x=y,z' or 'x' (implicit true) values.
         e.g. --test-params 'x=z; y=(a,b)'
+        Or a list of these ; separated lists with overrides for
+        multiple tests.
+        e.g. --test-params "['x=z; y=(a,b)','x=z']"
         """
         def __call__(self, parser, namespace, values, option_string=None):
-            results = {}
 
-            for param, _, value in re.findall('([^;=]+)(=([^;]+))?', values):
-                param = param.strip()
-                value = value.strip()
-                if len(param):
-                    if len(value):
-                        # values are passed inside string from CLI, so we must retype them accordingly
-                        try:
-                            results[param] = ast.literal_eval(value)
-                        except ValueError:
-                            # for backward compatibility, we have to accept strings without quotes
-                            _LOGGER.warning("Adding missing quotes around string value: %s = %s",
-                                            param, str(value))
-                            results[param] = str(value)
-                    else:
-                        results[param] = True
-
+            if values[0] == '[':
+                input_list = ast.literal_eval(values)
+                results = []
+                for test_params in input_list:
+                    results.append(parse_param_string(test_params))
+            else:
+                results = parse_param_string(values)
+            results = {'_PARAMS_LIST':results}
             setattr(namespace, self.dest, results)
 
     class _ValidateFileAction(argparse.Action):
@@ -126,7 +156,7 @@ def parse_arguments():
     def list_logging_levels():
         """Give a summary of all available logging levels.
 
-	:return: List of verbosity level names in decreasing order of
+        :return: List of verbosity level names in decreasing order of
             verbosity
         """
         return sorted(VERBOSITY_LEVELS.keys(),
@@ -189,9 +219,14 @@ def parse_arguments():
                        help='settings file')
     group.add_argument('--test-params', action=_SplitTestParamsAction,
                        help='csv list of test parameters: key=val; e.g. '
-                       'TRAFFICGEN_PKT_SIZES=(64,128);TRAFICGEN_DURATION=30; '
-                       'GUEST_LOOPBACK=["l2fwd"] ...')
+                       'TRAFFICGEN_PKT_SIZES=(64,128);TRAFFICGEN_DURATION=30; '
+                       'GUEST_LOOPBACK=["l2fwd"] ...'
+                       ' or a list of csv lists of test parameters: key=val; e.g. '
+                       '[\'TRAFFICGEN_DURATION=10;TRAFFICGEN_PKT_SIZES=(128,)\','
+                       '\'TRAFFICGEN_DURATION=10;TRAFFICGEN_PKT_SIZES=(64,)\']')
     group.add_argument('--opnfvpod', help='name of POD in opnfv')
+    group.add_argument('--matrix', help='enable performance matrix analysis',
+                       action='store_true', default=False)
 
     args = vars(parser.parse_args())
 
@@ -359,6 +394,69 @@ def generate_final_report():
             _LOGGER.error('Generatrion of overall test report has failed.')
 
 
+def generate_performance_matrix(selected_tests, results_path):
+    """
+    Loads the results of all the currently run tests, compares them
+    based on the MATRIX_METRIC, outputs and saves the generated table.
+    :selected_tests: list of currently run test
+    :results_path: directory path to the results of current tests
+    """
+    _LOGGER.info('Performance Matrix:')
+    test_list = []
+
+    for test in selected_tests:
+        test_name = test.get('Name', '<Name not set>')
+        test_deployment = test.get('Deployment', '<Deployment not set>')
+        test_list.append({'test_name':test_name, 'test_deployment':test_deployment, 'csv_data':False})
+
+    test_params = {}
+    output = []
+    all_params = settings.getValue('_PARAMS_LIST')
+    for i in range(len(selected_tests)):
+        test = test_list[i]
+        if isinstance(all_params, list):
+            list_index = i
+            if i >= len(all_params):
+                list_index = len(all_params) - 1
+            if settings.getValue('CUMULATIVE_PARAMS') and (i > 0):
+                test_params.update(all_params[list_index])
+            else:
+                test_params = all_params[list_index]
+        else:
+            test_params = all_params
+        settings.setValue('TEST_PARAMS', test_params)
+        test['test_params'] = copy.deepcopy(test_params)
+        try:
+            with open("{}/result_{}_{}_{}.csv".format(results_path, str(i),
+                                                      test['test_name'], test['test_deployment'])) as csvfile:
+                reader = list(csv.DictReader(csvfile))
+                test['csv_data'] = reader[0]
+        # pylint: disable=broad-except
+        except (Exception) as ex:
+            _LOGGER.error("Result file not found: %s", ex)
+
+    metric = settings.getValue('MATRIX_METRIC')
+    change = {}
+    output_header = ("ID", "Name", metric, "Change [%]", "Parameters, "\
+                     "CUMULATIVE_PARAMS = {}".format(settings.getValue('CUMULATIVE_PARAMS')))
+    if not test_list[0]['csv_data'] or float(test_list[0]['csv_data'][metric]) == 0:
+        _LOGGER.error("Incorrect format of test results")
+        return
+    for i, test in enumerate(test_list):
+        if test['csv_data']:
+            change[i] = float(test['csv_data'][metric])/\
+                        (float(test_list[0]['csv_data'][metric]) / 100) - 100
+            output.append([i, test['test_name'], float(test['csv_data'][metric]),
+                           change[i], str(test['test_params'])[1:-1]])
+        else:
+            change[i] = 0
+            output.append([i, test['test_name'], "Test Failed", 0, test['test_params']])
+    print(tabulate(output, headers=output_header, tablefmt="grid", floatfmt="0.3f"))
+    with open(results_path + '/result_performance_matrix.rst', 'w+') as output_file:
+        output_file.write(_TEMPLATE_MATRIX.format(metric, tabulate(output, headers=output_header,
+                                                                   tablefmt="rst", floatfmt="0.3f")))
+        _LOGGER.info('Performance matrix written to: "%s/result_performance_matrix.rst"', results_path)
+
 def enable_sriov(nic_list):
     """ Enable SRIOV for given enhanced PCI IDs
 
@@ -481,9 +579,6 @@ def list_testcases(args):
             print('  {:40} {}'.format('', description[0]))
         for i in range(1, len(description)):
             print('  {:40} {}'.format('', description[i]))
-
-
-
 
 
 def vsperf_finalize():
@@ -672,7 +767,6 @@ def main():
         loader = Loader()
         # set traffic details, so they can be passed to traffic ctl
         traffic = copy.deepcopy(settings.getValue('TRAFFIC'))
-
         traffic = functions.check_traffic(traffic)
 
         traffic_ctl = component_factory.create_traffic(
@@ -696,7 +790,11 @@ def main():
         if args['exact_test_name']:
             exact_names = args['exact_test_name']
             # positional args => exact matches only
-            selected_tests = [test for test in testcases if test['Name'] in exact_names]
+            selected_tests = []
+            for test_name in exact_names:
+                for test in testcases:
+                    if test['Name'] == test_name:
+                        selected_tests.append(test)
         elif args['tests']:
             # --tests => apply filter to select requested tests
             selected_tests = apply_filter(testcases, args['tests'])
@@ -715,25 +813,49 @@ def main():
         # pylint: disable=redefined-variable-type
         suite = unittest.TestSuite()
         settings_snapshot = copy.deepcopy(settings.__dict__)
-        for cfg in selected_tests:
+
+        for i, cfg in enumerate(selected_tests):
+            settings.setValue('_TEST_INDEX', i)
             test_name = cfg.get('Name', '<Name not set>')
             try:
+                test_params = settings.getValue('_PARAMS_LIST')
+                if isinstance(test_params, list):
+                    list_index = i
+                    if i >= len(test_params):
+                        list_index = len(test_params) - 1
+                    test_params = test_params[list_index]
+                if settings.getValue('CUMULATIVE_PARAMS'):
+                    test_params = merge_spec(settings.getValue('TEST_PARAMS'), test_params)
+                settings.setValue('TEST_PARAMS', test_params)
+
                 if args['integration']:
                     test = IntegrationTestCase(cfg)
                 else:
                     test = PerformanceTestCase(cfg)
+
                 test.run()
                 suite.addTest(MockTestCase('', True, test.name))
+
             # pylint: disable=broad-except
             except (Exception) as ex:
                 _LOGGER.exception("Failed to run test: %s", test_name)
                 suite.addTest(MockTestCase(str(ex), False, test_name))
                 _LOGGER.info("Continuing with next test...")
             finally:
-                settings.restore_from_dict(settings_snapshot)
+                if not settings.getValue('CUMULATIVE_PARAMS'):
+                    settings.restore_from_dict(settings_snapshot)
+
+        settings.restore_from_dict(settings_snapshot)
+
+
+        # Generate and printout Performance Matrix
+        if args['matrix']:
+            generate_performance_matrix(selected_tests, results_path)
 
         # generate final rst report with results of all executed TCs
         generate_final_report()
+
+
 
         if settings.getValue('XUNIT'):
             xmlrunner.XMLTestRunner(
