@@ -57,13 +57,13 @@ class VswitchControllerPXP(IVswitchController):
 
         self._traffic = traffic.copy()
         self._bidir = True if self._traffic['bidir'] == 'True' else False
-        self._logger.debug('Creation using ' + str(self._vswitch_class))
+        self._logger.debug('Creation using %s', str(self._vswitch_class))
         self._bridge = settings.getValue('VSWITCH_BRIDGE_NAME')
 
     def setup(self):
         """ Sets up the switch for PXP
         """
-        self._logger.debug('Setup using ' + str(self._vswitch_class))
+        self._logger.debug('Setup using %s', str(self._vswitch_class))
 
         try:
             self._vswitch.start()
@@ -182,7 +182,7 @@ class VswitchControllerPXP(IVswitchController):
     def stop(self):
         """Tears down the switch created in setup().
         """
-        self._logger.debug('Stop using ' + str(self._vswitch_class))
+        self._logger.debug('Stop using %s', str(self._vswitch_class))
         self._vswitch.stop()
 
     def _add_flow(self, flow, port1, port2, reverse_flow=False):
@@ -212,7 +212,7 @@ class VswitchControllerPXP(IVswitchController):
     def get_ports_info(self):
         """See IVswitchController for description
         """
-        self._logger.debug('get_ports_info  using ' + str(self._vswitch_class))
+        self._logger.debug('get_ports_info  using %s', str(self._vswitch_class))
         return self._vswitch.get_ports(self._bridge)
 
     def dump_vswitch_flows(self):

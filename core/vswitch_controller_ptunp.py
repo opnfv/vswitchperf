@@ -59,13 +59,13 @@ class VswitchControllerPtunP(IVswitchController):
         self.br_mod_ip1 = settings.getValue('TUNNEL_MODIFY_BRIDGE_IP1')
         self.br_mod_ip2 = settings.getValue('TUNNEL_MODIFY_BRIDGE_IP2')
         self.tunnel_type = settings.getValue('TUNNEL_TYPE')
-        self._logger.debug('Creation using ' + str(self._vswitch_class))
+        self._logger.debug('Creation using %s', str(self._vswitch_class))
 
     def setup(self):
         """ Sets up the switch for VxLAN overlay PTUNP (tunnel encap or decap)
         """
         self._logger.debug('Setting up phy-tun-phy tunneling scenario')
-        if self.tunnel_type is 'vxlan':
+        if self.tunnel_type == 'vxlan':
             self._setup_vxlan_encap_decap()
         else:
             self._logger.error("Only VxLAN is supported for now")
@@ -78,7 +78,7 @@ class VswitchControllerPtunP(IVswitchController):
             physical ports. Two more bridges br-mod1 and br-mod2 to mangle
             and redirect the packets from one tunnel port to other.
         """
-        self._logger.debug('Setup using ' + str(self._vswitch_class))
+        self._logger.debug('Setup using %s', str(self._vswitch_class))
         try:
             self._vswitch.start()
             self._vswitch.add_switch(self.bridge_phy1)
@@ -204,7 +204,7 @@ class VswitchControllerPtunP(IVswitchController):
     def stop(self):
         """Tears down the switch created in setup().
         """
-        self._logger.debug('Stop using ' + str(self._vswitch_class))
+        self._logger.debug('Stop using %s', str(self._vswitch_class))
         self._vswitch.stop()
 
     def __enter__(self):
@@ -221,7 +221,7 @@ class VswitchControllerPtunP(IVswitchController):
     def get_ports_info(self):
         """See IVswitchController for description
         """
-        self._logger.debug('get_ports_info using ' + str(self._vswitch_class))
+        self._logger.debug('get_ports_info using %s', str(self._vswitch_class))
         ports = self._vswitch.get_ports(self.bridge_phy1) +\
                 self._vswitch.get_ports(self.bridge_mod1) +\
                 self._vswitch.get_ports(self.bridge_phy2) +\
@@ -231,7 +231,7 @@ class VswitchControllerPtunP(IVswitchController):
     def dump_vswitch_flows(self):
         """See IVswitchController for description
         """
-        self._logger.debug('dump_flows using ' + str(self._vswitch_class))
+        self._logger.debug('dump_flows using %s', str(self._vswitch_class))
         self._vswitch.dump_flows(self.bridge_phy1)
         self._vswitch.dump_flows(self.bridge_mod1)
         self._vswitch.dump_flows(self.bridge_phy2)

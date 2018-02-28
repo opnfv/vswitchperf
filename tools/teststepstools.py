@@ -43,7 +43,7 @@ class TestStepsTools(object):
         return True
 
     @staticmethod
-    def validate_Assert(result, dummy_condition):
+    def validate_Assert(result, _dummy_condition):
         """ Validate evaluation of given `condition'
         """
         return result
@@ -56,7 +56,7 @@ class TestStepsTools(object):
         return eval(expression)
 
     @staticmethod
-    def validate_Eval(result, dummy_expression):
+    def validate_Eval(result, _dummy_expression):
         """ Validate result of python `expression' evaluation
         """
         return result is not None
@@ -76,7 +76,7 @@ class TestStepsTools(object):
         return True
 
     @staticmethod
-    def validate_Exec_Python(result, dummy_code):
+    def validate_Exec_Python(result, _dummy_code):
         """ Validate result of python `code' execution
         """
         return result
@@ -99,7 +99,7 @@ class TestStepsTools(object):
         return output
 
     @staticmethod
-    def validate_Exec_Shell(result, dummy_command, dummy_regex=None):
+    def validate_Exec_Shell(result, _dummy_command, _dummy_regex=None):
         """ validate result of shell `command' execution
         """
         return result is not None
@@ -115,7 +115,7 @@ class TestStepsTools(object):
             return None
 
     @staticmethod
-    def validate_Exec_Shell_Background(result, dummy_command, dummy_regex=None):
+    def validate_Exec_Shell_Background(result, _dummy_command, _dummy_regex=None):
         """ validate result of shell `command' execution on the background
         """
         return result is not None
