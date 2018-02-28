@@ -242,11 +242,11 @@ class Ixia(trafficgen.ITrafficGenerator):
 
         return result
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
+    def send_burst_traffic(self, traffic=None, duration=20):
         """See ITrafficGenerator for description
         """
         flow = {
-            'numpkts': numpkts,
+            'numpkts': traffic['burst_size'],
             'duration': duration,
             'type': 'stopStream',
             'framerate': traffic['frame_rate'],
