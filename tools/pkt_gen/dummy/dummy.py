@@ -25,6 +25,7 @@ own.
 
 import json
 
+from collections import OrderedDict
 from conf import settings
 from conf import merge_spec
 from tools.pkt_gen import trafficgen
@@ -108,41 +109,41 @@ class Dummy(trafficgen.ITrafficGenerator):
         """
         pass
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
+    def send_burst_traffic(self, traffic=None, duration=20):
         """
         Send a burst of traffic.
         """
         traffic_ = self.traffic_defaults.copy()
-        result = {}
+        result = OrderedDict()
 
         if traffic:
             traffic_ = merge_spec(traffic_, traffic)
 
         results = get_user_traffic(
             'burst',
-            '%dpkts, %dmS' % (numpkts, duration),
+            '%dpkts, %dmS' % (traffic['burst_size'], duration),
             traffic_,
             ('frames rx', 'payload errors', 'sequence errors'))
 
         # builds results by using user-supplied values where possible
         # and guessing remainder using available info
-        result[ResultsConstants.TX_FRAMES] = numpkts
+        result[ResultsConstants.TX_FRAMES] = traffic['burst_size']
         result[ResultsConstants.RX_FRAMES] = results[0]
         result[ResultsConstants.TX_BYTES] = traffic_['l2']['framesize'] \
-                                            * numpkts
+                                            * traffic['burst_size']
         result[ResultsConstants.RX_BYTES] = traffic_['l2']['framesize'] \
                                             * results[0]
         result[ResultsConstants.PAYLOAD_ERR] = results[1]
         result[ResultsConstants.SEQ_ERR] = results[2]
 
-        return results
+        return result
 
     def send_cont_traffic(self, traffic=None, duration=30):
         """
         Send a continuous flow of traffic.
         """
         traffic_ = self.traffic_defaults.copy()
-        result = {}
+        result = OrderedDict()
 
         if traffic:
             traffic_ = merge_spec(traffic_, traffic)
@@ -179,7 +180,7 @@ class Dummy(trafficgen.ITrafficGenerator):
         Send traffic per RFC2544 throughput test specifications.
         """
         traffic_ = self.traffic_defaults.copy()
-        result = {}
+        result = OrderedDict()
 
         if traffic:
             traffic_ = merge_spec(traffic_, traffic)
@@ -216,7 +217,7 @@ class Dummy(trafficgen.ITrafficGenerator):
         Send traffic per RFC2544 back2back test specifications.
         """
         traffic_ = self.traffic_defaults.copy()
-        result = {}
+        result = OrderedDict()
 
         if traffic:
             traffic_ = merge_spec(traffic_, traffic)

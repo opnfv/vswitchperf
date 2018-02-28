@@ -182,7 +182,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
         """
         pass
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
+    def send_burst_traffic(self, traffic=None, duration=20):
         """
         Do nothing.
         """

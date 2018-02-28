@@ -200,12 +200,16 @@ functions:
       which are discussed in detail at :ref:`integration-tests` userguide.
 
       * param **traffic_type**: One of the supported traffic types,
-        e.g. **rfc2544_throughput**, **rfc2544_continuous**
-        or **rfc2544_back2back**.
-      * param **frame_rate**: Defines desired percentage of frame
-        rate used during continuous stream tests.
+        e.g. **rfc2544_throughput**, **rfc2544_continuous**,
+        **rfc2544_back2back** or **burst**.
       * param **bidir**: Specifies if generated traffic will be full-duplex
         (true) or half-duplex (false).
+      * param **frame_rate**: Defines desired percentage of frame
+        rate used during continuous stream tests.
+      * param **burst_size**: Defines a number of frames in the single burst,
+        which is sent by burst traffic type. Burst size is applied for each
+        direction, i.e. the total number of tx frames will be 2*burst_size
+        in case of bidirectional traffic.
       * param **multistream**: Defines number of flows simulated by traffic
         generator. Value 0 disables MultiStream feature.
       * param **stream_type**: Stream Type defines ISO OSI network layer

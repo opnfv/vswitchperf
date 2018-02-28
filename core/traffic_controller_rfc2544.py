@@ -62,6 +62,9 @@ class TrafficControllerRFC2544(TrafficController, IResults):
             elif traffic['traffic_type'] == 'rfc2544_continuous':
                 result = self._traffic_gen_class.send_cont_traffic(
                     traffic, duration=self._duration)
+            elif traffic['traffic_type'] == 'burst':
+                result = self._traffic_gen_class.send_burst_traffic(
+                    traffic, duration=self._duration)
             elif traffic['traffic_type'] == 'rfc2544_throughput':
                 result = self._traffic_gen_class.send_rfc2544_throughput(
                     traffic, tests=self._tests, duration=self._duration, lossrate=self._lossrate)
