@@ -81,15 +81,14 @@ class ITrafficGenerator(object):
         """
         raise NotImplementedError('Please call an implementation.')
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
+    def send_burst_traffic(self, traffic=None, duration=20):
         """Send a burst of traffic.
 
-        Send a ``numpkts`` packets of traffic, using ``traffic``
+        Send a ``traffic['burst_size']`` packets of traffic, using ``traffic``
         configuration, for ``duration`` seconds.
 
         Attributes:
         :param traffic: Detailed "traffic" spec, see design docs for details
-        :param numpkts: Number of packets to send
         :param duration: Time to wait to receive packets
 
         :returns: dictionary of strings with following data:

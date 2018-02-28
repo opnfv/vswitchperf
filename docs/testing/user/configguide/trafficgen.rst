@@ -39,6 +39,7 @@ and is configured as follows:
     TRAFFIC = {
         'traffic_type' : 'rfc2544_throughput',
         'frame_rate' : 100,
+        'burst_size' : 100,
         'bidir' : 'True',  # will be passed as string in title format to tgen
         'multistream' : 0,
         'stream_type' : 'L4',
@@ -855,6 +856,21 @@ place. This can be adjusted with the following configurations:
 
     TRAFFICGEN_TREX_LEARNING_MODE=True
     TRAFFICGEN_TREX_LEARNING_DURATION=5
+
+Latency measurements have impact on T-Rex performance. Thus vswitchperf uses a separate
+latency stream for each direction with limited speed. This workaround is used for RFC2544
+**Throughput** and **Continuous** traffic types. In case of **Burst** traffic type,
+the latency statistics are measured for all frames in the burst. Collection of latency
+statistics is driven by configuration option ``TRAFFICGEN_TREX_LATENCY_PPS`` as follows:
+
+    * value ``0`` - disables latency measurements
+    * non zero integer value - enables latency measurements; In case of Throughput
+        and Continuous traffic types, it specifies a speed of latency specific stream
+        in PPS. In case of burst traffic type, it enables latency measurements for all frames.
+
+.. code-block:: console
+
+    TRAFFICGEN_TREX_LATENCY_PPS = 1000
 
 SR-IOV and Multistream layer 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -248,22 +248,48 @@ class Trex(ITrafficGenerator):
             pkt_a = STLPktBuilder(pkt=base_pkt_a / payload_a)
             pkt_b = STLPktBuilder(pkt=base_pkt_b / payload_b)
 
-        stream_1 = STLStream(packet=pkt_a,
-                             name='stream_1',
-                             mode=STLTXCont(percentage=traffic['frame_rate']))
-        stream_2 = STLStream(packet=pkt_b,
-                             name='stream_2',
-                             mode=STLTXCont(percentage=traffic['frame_rate']))
         lat_pps = settings.getValue('TRAFFICGEN_TREX_LATENCY_PPS')
-        if lat_pps > 0:
-            stream_1_lat = STLStream(packet=pkt_a,
+        if traffic['traffic_type'] == 'burst':
+            if lat_pps > 0:
+                # latency statistics are requested; in case of frame burst we can enable
+                # statistics for all frames
+                stream_1 = STLStream(packet=pkt_a,
                                      flow_stats=STLFlowLatencyStats(pg_id=0),
-                                     name='stream_1_lat',
-                                     mode=STLTXCont(pps=lat_pps))
-            stream_2_lat = STLStream(packet=pkt_b,
+                                     name='stream_1',
+                                     mode=STLTXSingleBurst(percentage=traffic['frame_rate'],
+                                                           total_pkts=traffic['burst_size']))
+                stream_2 = STLStream(packet=pkt_b,
                                      flow_stats=STLFlowLatencyStats(pg_id=1),
-                                     name='stream_2_lat',
-                                     mode=STLTXCont(pps=lat_pps))
+                                     name='stream_2',
+                                     mode=STLTXSingleBurst(percentage=traffic['frame_rate'],
+                                                           total_pkts=traffic['burst_size']))
+            else:
+                stream_1 = STLStream(packet=pkt_a,
+                                     name='stream_1',
+                                     mode=STLTXSingleBurst(percentage=traffic['frame_rate'],
+                                                           total_pkts=traffic['burst_size']))
+                stream_2 = STLStream(packet=pkt_b,
+                                     name='stream_2',
+                                     mode=STLTXSingleBurst(percentage=traffic['frame_rate'],
+                                                           total_pkts=traffic['burst_size']))
+        else:
+            stream_1 = STLStream(packet=pkt_a,
+                                 name='stream_1',
+                                 mode=STLTXCont(percentage=traffic['frame_rate']))
+            stream_2 = STLStream(packet=pkt_b,
+                                 name='stream_2',
+                                 mode=STLTXCont(percentage=traffic['frame_rate']))
+            # workaround for latency statistics, which can't be enabled for streams
+            # with high framerate due to the huge performance impact
+            if lat_pps > 0:
+                stream_1_lat = STLStream(packet=pkt_a,
+                                         flow_stats=STLFlowLatencyStats(pg_id=0),
+                                         name='stream_1_lat',
+                                         mode=STLTXCont(pps=lat_pps))
+                stream_2_lat = STLStream(packet=pkt_b,
+                                         flow_stats=STLFlowLatencyStats(pg_id=1),
+                                         name='stream_2_lat',
+                                         mode=STLTXCont(pps=lat_pps))
 
         return (stream_1, stream_2, stream_1_lat, stream_2_lat)
 
@@ -293,7 +319,7 @@ class Trex(ITrafficGenerator):
             # since we can only control both ports at once take the lower of the two
             max_speed = min(max_speed_1, max_speed_2)
         gbps_speed = (max_speed / 1000) * (float(traffic['frame_rate']) / 100.0)
-        self._logger.debug('Starting traffic at %s Gpbs speed', gbps_speed)
+        self._logger.debug('Starting traffic at %s Gbps speed', gbps_speed)
 
         # for SR-IOV
         if settings.getValue('TRAFFICGEN_TREX_PROMISCUOUS'):
@@ -382,20 +408,29 @@ class Trex(ITrafficGenerator):
             result[ResultsConstants.FRAME_LOSS_PERCENT] = 100
 
         if settings.getValue('TRAFFICGEN_TREX_LATENCY_PPS') > 0 and stats['latency']:
-            result[ResultsConstants.MIN_LATENCY_NS] = (
-                '{:.3f}'.format(
-                    (float(min(stats["latency"][0]["latency"]["total_min"],
-                               stats["latency"][1]["latency"]["total_min"])))))
+            try:
+                result[ResultsConstants.MIN_LATENCY_NS] = (
+                    '{:.3f}'.format(
+                        (float(min(stats["latency"][0]["latency"]["total_min"],
+                                   stats["latency"][1]["latency"]["total_min"])))))
+            except TypeError:
+                result[ResultsConstants.MIN_LATENCY_NS] = 'Unknown'
 
-            result[ResultsConstants.MAX_LATENCY_NS] = (
-                '{:.3f}'.format(
-                    (float(max(stats["latency"][0]["latency"]["total_max"],
-                               stats["latency"][1]["latency"]["total_max"])))))
+            try:
+                result[ResultsConstants.MAX_LATENCY_NS] = (
+                    '{:.3f}'.format(
+                        (float(max(stats["latency"][0]["latency"]["total_max"],
+                                   stats["latency"][1]["latency"]["total_max"])))))
+            except TypeError:
+                result[ResultsConstants.MAX_LATENCY_NS] = 'Unknown'
 
-            result[ResultsConstants.AVG_LATENCY_NS] = (
-                '{:.3f}'.format(
-                    float((stats["latency"][0]["latency"]["average"]+
-                           stats["latency"][1]["latency"]["average"])/2)))
+            try:
+                result[ResultsConstants.AVG_LATENCY_NS] = (
+                    '{:.3f}'.format(
+                        float((stats["latency"][0]["latency"]["average"]+
+                               stats["latency"][1]["latency"]["average"])/2)))
+            except TypeError:
+                result[ResultsConstants.AVG_LATENCY_NS] = 'Unknown'
 
         else:
             result[ResultsConstants.MIN_LATENCY_NS] = 'Unknown'
@@ -568,9 +603,25 @@ class Trex(ITrafficGenerator):
         raise NotImplementedError(
             'Trex wait rfc2544 throughput not implemented')
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, duration=5):
-        raise NotImplementedError(
-            'Trex send burst traffic not implemented')
+    def send_burst_traffic(self, traffic=None, duration=20):
+        """See ITrafficGenerator for description
+        """
+        self._logger.info("In Trex send_burst_traffic method")
+        self._params.clear()
+
+        self._params['traffic'] = self.traffic_defaults.copy()
+        if traffic:
+            self._params['traffic'] = merge_spec(
+                self._params['traffic'], traffic)
+
+        if settings.getValue('TRAFFICGEN_TREX_LEARNING_MODE'):
+            self.learning_packets(traffic)
+        self._logger.info("T-Rex sending traffic")
+        stats = self.generate_traffic(traffic, duration)
+
+        time.sleep(3)  # allow packets to complete before reading stats
+
+        return self.calculate_results(stats)
 
     def send_rfc2544_back2back(self, traffic=None, tests=1, duration=30,
                                lossrate=0.0):

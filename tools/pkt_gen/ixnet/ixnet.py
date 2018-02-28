@@ -528,7 +528,7 @@ class IxNet(trafficgen.ITrafficGenerator):
 
         return parse_ixnet_rfc_results(parse_result_string(output[0]))
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
+    def send_burst_traffic(self, traffic=None, duration=20):
         return NotImplementedError('IxNet does not implement send_burst_traffic')
 
 if __name__ == '__main__':
