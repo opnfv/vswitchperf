@@ -47,7 +47,7 @@ def get_label(sample):
     for label in YLABELS:
         if any(r in sample for r in YLABELS[label]):
             return label
-
+    return None
 
 def plot_graphs(dict_of_arrays):
     """
@@ -259,7 +259,7 @@ class Collectd(collector.ICollector):
         plot_graphs(self.results)
         proc_stats = get_results_to_print(self.results)
         for process in proc_stats:
-            logging.info("Process: " + '_'.join(process.split('_')[:-1]))
+            logging.info("Process: %s", '_'.join(process.split('_')[:-1]))
             for(key, value) in proc_stats[process].items():
                 logging.info("         Statistic: " + str(key) +
                              ", Value: " + str(value))

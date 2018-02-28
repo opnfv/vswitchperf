@@ -45,7 +45,7 @@ class QemuVM(tasks.Process):
             try:
                 os.makedirs(self._shared_dir)
             except OSError as exp:
-                raise OSError("Failed to create shared directory %s: %s",
+                raise OSError("Failed to create shared directory %s: %s" %
                               self._shared_dir, exp)
 
         self.nics_nr = S.getValue('NN_NICS_NR')[self._number]
@@ -96,8 +96,7 @@ class StressorVM(ILoadGenerator):
     """
     Wrapper Class for Load-Generation through stressor-vm
     """
-    # pylint: disable=unused-argument
-    def __init__(self, config):
+    def __init__(self, _config):
         self.qvm_list = []
         for vmindex in range(int(S.getValue('NN_COUNT'))):
             qvm = QemuVM(vmindex)

@@ -16,7 +16,7 @@
 
 import logging
 
-from testcases import TestCase
+from testcases.testcase import TestCase
 from tools.report import report
 
 class PerformanceTestCase(TestCase):

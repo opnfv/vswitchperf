@@ -30,6 +30,3 @@ class StressNg(Stress):
         'name': 'stress-ng'
     }
     _logger = logging.getLogger(__name__)
-
-    def __init__(self, stress_config):
-        super(StressNg, self).__init__(stress_config)

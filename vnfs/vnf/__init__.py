@@ -15,4 +15,4 @@
 """VNF interface and helpers.
 """
 
-from vnfs import *
+import vnfs

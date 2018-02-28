@@ -205,6 +205,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
     def add_switch(self, switch_name, dummy_params=None):
         """See IVswitch for general description
         """
+        # pylint: disable=unused-argument
         if switch_name in self._switches:
             self._logger.warning("switch %s already exists...", switch_name)
         else:
@@ -221,6 +222,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         """See IVswitch for general description
         :raises: RuntimeError
         """
+        # pylint: disable=unused-argument
         # get list of physical interfaces with PCI addresses
         vpp_nics = self._get_nic_info(key='Pci')
         # check if there are any NICs left
@@ -239,6 +241,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
     def add_vport(self, dummy_switch_name):
         """See IVswitch for general description
         """
+        # pylint: disable=unused-argument
         socket_name = S.getValue('TOOLS')['ovs_var_tmp'] + 'dpdkvhostuser' + str(len(self._virt_ports))
         if S.getValue('VSWITCH_VHOSTUSER_SERVER_MODE'):
             mode = ['server']
@@ -280,7 +283,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         if bidir:
             self.run_vppctl(['set', 'interface', 'l2', 'xconnect', port2, port1])
 
-    def add_bridge(self, switch_name, port1, port2, dummy_bidir=False):
+    def add_bridge(self, switch_name, port1, port2, _dummy_bidir=False):
         """Add given ports to bridge ``switch_name``
         """
         self.run_vppctl(['set', 'interface', 'l2', 'bridge', port1,
@@ -301,7 +304,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         elif mode == 'bridge':
             self.add_bridge(switch_name, port1, port2)
         else:
-            raise RuntimeError('VPP: Unsupported l2 connection mode detected %s', mode)
+            raise RuntimeError('VPP: Unsupported l2 connection mode detected %s' % mode)
 
     def del_l2patch(self, port1, port2, bidir=False):
         """Remove l2patch connection between given ports
@@ -314,12 +317,12 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         if bidir:
             self.run_vppctl(['test', 'l2patch', 'rx', port2, 'tx', port1, 'del'])
 
-    def del_xconnect(self, dummy_port1, dummy_port2, dummy_bidir=False):
+    def del_xconnect(self, _dummy_port1, _dummy_port2, _dummy_bidir=False):
         """Remove xconnect connection between given ports
         """
         self._logger.warning('VPP: Removal of l2 xconnect is not implemented.')
 
-    def del_bridge(self, dummy_switch_name, dummy_port1, dummy_port2):
+    def del_bridge(self, _dummy_switch_name, _dummy_port1, _dummy_port2):
         """Remove given ports from the bridge
         """
         self._logger.warning('VPP: Removal of interfaces from bridge is not implemented.')
@@ -337,7 +340,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         elif mode == 'bridge':
             self.del_bridge(switch_name, port1, port2)
         else:
-            raise RuntimeError('VPP: Unsupported l2 connection mode detected %s', mode)
+            raise RuntimeError('VPP: Unsupported l2 connection mode detected %s' % mode)
 
     def dump_l2patch(self):
         """Dump l2patch connections
@@ -369,7 +372,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         elif mode == 'bridge':
             self.dump_bridge(switch_name)
         else:
-            raise RuntimeError('VPP: Unsupported l2 connection mode detected %s', mode)
+            raise RuntimeError('VPP: Unsupported l2 connection mode detected %s' % mode)
 
     def run_vppctl(self, args, check_error=False):
         """Run ``vppctl`` with supplied arguments.
@@ -385,50 +388,50 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
     #
     # Validate methods
     #
-    def validate_add_switch(self, dummy_result, switch_name, dummy_params=None):
+    def validate_add_switch(self, _dummy_result, switch_name, _dummy_params=None):
         """Validate - Create a new logical switch with no ports
         """
         return switch_name in self._switches
 
-    def validate_del_switch(self, dummy_result, switch_name):
+    def validate_del_switch(self, _dummy_result, switch_name):
         """Validate removal of switch
         """
-        return not self.validate_add_switch(dummy_result, switch_name)
+        return not self.validate_add_switch(_dummy_result, switch_name)
 
-    def validate_add_phy_port(self, result, dummy_switch_name):
+    def validate_add_phy_port(self, result, _dummy_switch_name):
         """ Validate that physical port was added to bridge.
         """
         return result[0] in self._phy_ports
 
-    def validate_add_vport(self, result, dummy_switch_name):
+    def validate_add_vport(self, result, _dummy_switch_name):
         """ Validate that virtual port was added to bridge.
         """
         return result[0] in self._virt_ports
 
-    def validate_del_port(self, dummy_result, dummy_switch_name, port_name):
+    def validate_del_port(self, _dummy_result, _dummy_switch_name, port_name):
         """ Validate that port_name was removed from bridge.
         """
         return not (port_name in self._phy_ports or port_name in self._virt_ports)
 
     # pylint: disable=no-self-use
-    def validate_add_connection(self, dummy_result, dummy_switch_name, dummy_port1,
-                                dummy_port2, dummy_bidir=False):
+    def validate_add_connection(self, _dummy_result, _dummy_switch_name, _dummy_port1,
+                                _dummy_port2, _dummy_bidir=False):
         """ Validate that connection was added
         """
         return True
 
-    def validate_del_connection(self, dummy_result, dummy_switch_name, dummy_port1,
-                                dummy_port2, dummy_bidir=False):
+    def validate_del_connection(self, _dummy_result, _dummy_switch_name, _dummy_port1,
+                                _dummy_port2, _dummy_bidir=False):
         """ Validate that connection was deleted
         """
         return True
 
-    def validate_dump_connections(self, dummy_result, dummy_switch_name):
+    def validate_dump_connections(self, _dummy_result, _dummy_switch_name):
         """ Validate dump connections call
         """
         return True
 
-    def validate_run_vppctl(self, result, dummy_args, dummy_check_error=False):
+    def validate_run_vppctl(self, result, _dummy_args, _dummy_check_error=False):
         """validate execution of ``vppctl`` with supplied arguments.
         """
         # there shouldn't be any stderr

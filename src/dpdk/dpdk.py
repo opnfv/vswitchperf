@@ -140,7 +140,7 @@ def _vhost_user_cleanup():
 def _bind_nics():
     """Bind NICs using the bind tool specified in the configuration.
     """
-    if not len(_NICS_PCI):
+    if not _NICS_PCI:
         _LOGGER.info('NICs are not configured - nothing to bind')
         return
     try:
@@ -171,7 +171,7 @@ def _bind_nics():
 def _unbind_nics():
     """Unbind NICs using the bind tool specified in the configuration.
     """
-    if not len(_NICS_PCI):
+    if not _NICS_PCI:
         _LOGGER.info('NICs are not configured - nothing to unbind')
         return
     try:

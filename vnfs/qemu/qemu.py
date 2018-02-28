@@ -286,7 +286,7 @@ class IVnfQemu(IVnf):
         elif self._guest_loopback == 'linux_bridge':
             self._configure_linux_bridge()
         elif self._guest_loopback != 'clean':
-            raise RuntimeError('Unsupported guest loopback method "%s" was specified.',
+            raise RuntimeError('Unsupported guest loopback method "%s" was specified.' %
                                self._guest_loopback)
 
     def wait(self, prompt=None, timeout=30):

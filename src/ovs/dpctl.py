@@ -60,5 +60,5 @@ class DPCtl(object):
 
         :return: None
         """
-        self.logger.debug('delete datapath ' + dp_name)
+        self.logger.debug('delete datapath %s', dp_name)
         self.run_dpctl(['del-dp', dp_name])

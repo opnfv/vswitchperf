@@ -273,4 +273,5 @@ if __name__ == '__main__':
         print(dev.send_cont_traffic(traffic=TRAFFIC))
         print(dev.send_rfc2544_throughput(traffic=TRAFFIC))
         print(dev.send_rfc2544_back2back(traffic=TRAFFIC))
+        # pylint :disable=no-member
         print(dev.send_rfc(traffic=TRAFFIC))

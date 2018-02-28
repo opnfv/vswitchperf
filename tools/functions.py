@@ -127,7 +127,7 @@ def settings_update_paths():
             # expand OS wildcards in paths if needed
             if glob.has_magic(tmp_tool):
                 tmp_glob = glob.glob(tmp_tool)
-                if len(tmp_glob) == 0:
+                if not tmp_glob:
                     raise RuntimeError('Path to the {} is not valid: {}.'.format(tool, tmp_tool))
                 elif len(tmp_glob) > 1:
                     raise RuntimeError('Path to the {} is ambiguous {}'.format(tool, tmp_glob))
