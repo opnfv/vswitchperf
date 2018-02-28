@@ -287,7 +287,7 @@ class TestCase(object):
         # cleanup any namespaces created
         if os.path.isdir('/tmp/namespaces'):
             namespace_list = os.listdir('/tmp/namespaces')
-            if len(namespace_list):
+            if namespace_list:
                 self._logger.info('Cleaning up namespaces')
             for name in namespace_list:
                 namespace.delete_namespace(name)
@@ -295,7 +295,7 @@ class TestCase(object):
         # cleanup any veth ports created
         if os.path.isdir('/tmp/veth'):
             veth_list = os.listdir('/tmp/veth')
-            if len(veth_list):
+            if veth_list:
                 self._logger.info('Cleaning up veth ports')
             for eth in veth_list:
                 port1, port2 = eth.split('-')
@@ -322,8 +322,8 @@ class TestCase(object):
             if len(self._tc_results) < len(results):
                 if len(self._tc_results) > 1:
                     raise RuntimeError('Testcase results do not match:'
-                                       'results: {}\n'
-                                       'trafficgen results: {}\n',
+                                       'results: %s\n'
+                                       'trafficgen results: %s\n' %
                                        self._tc_results,
                                        results)
                 else:
@@ -379,7 +379,7 @@ class TestCase(object):
         self._testcase_run_time = time.strftime("%H:%M:%S",
                                                 time.gmtime(self._testcase_stop_time -
                                                             self._testcase_start_time))
-        logging.info("Testcase execution time: " + self._testcase_run_time)
+        logging.info("Testcase execution time: %s", self._testcase_run_time)
         # report test results
         self.run_report()
 
@@ -562,7 +562,7 @@ class TestCase(object):
         """
         with open(output, 'a') as csvfile:
 
-            logging.info("Write results to file: " + output)
+            logging.info("Write results to file: %s", output)
             fieldnames = TestCase._get_unique_keys(results)
 
             writer = csv.DictWriter(csvfile, fieldnames)
@@ -720,7 +720,7 @@ class TestCase(object):
                         self._logger.debug("Skipping %s as it isn't a configuration "
                                            "parameter.", '${}'.format(macro[0]))
             return param
-        elif isinstance(param, list) or isinstance(param, tuple):
+        elif isinstance(param, (list, tuple)):
             tmp_list = []
             for item in param:
                 tmp_list.append(self.step_eval_param(item, step_result))
@@ -758,9 +758,6 @@ class TestCase(object):
         # initialize list with results
         self._step_result = [None] * len(self.test)
 
-        # We have to suppress pylint report, because test_object has to be set according
-        # to the test step definition
-        # pylint: disable=redefined-variable-type
         # run test step by step...
         for i, step in enumerate(self.test):
             step_ok = not self._step_check

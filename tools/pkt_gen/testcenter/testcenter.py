@@ -257,7 +257,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
                 framesize = traffic['l2']['framesize']
         args = get_rfc2889_common_settings(framesize, tests,
                                            traffic['traffic_type'])
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.debug("Arguments used to call test: %s", args)
@@ -286,7 +286,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
         custom_args = get_rfc2889_custom_settings()
         args = common_args + custom_args
 
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.debug("Arguments used to call test: %s", args)
@@ -315,7 +315,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
         custom_args = get_rfc2889_custom_settings()
         args = common_args + custom_args
 
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.debug("Arguments used to call test: %s", args)
@@ -387,7 +387,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
                                                           custom, 1)
         args = rfc2544_common_args + stc_common_args + rfc2544_custom_args
 
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.debug("Arguments used to call test: %s", args)
@@ -420,7 +420,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
                                                           tests)
         args = rfc2544_common_args + stc_common_args + rfc2544_custom_args
 
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.debug("Arguments used to call test: %s", args)
@@ -453,7 +453,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
                                                           tests)
         args = rfc2544_common_args + stc_common_args + rfc2544_custom_args
 
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.info("Arguments used to call test: %s", args)

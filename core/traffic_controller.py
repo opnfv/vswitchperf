@@ -125,7 +125,7 @@ class TrafficController(object):
 
         :param traffic: A dictionary describing the traffic to send.
         """
-        self._logger.debug('send_traffic with ' +
+        self._logger.debug('send_traffic with %s',
                            str(self._traffic_gen_class))
         self.configure(traffic)
 
@@ -144,7 +144,8 @@ class TrafficController(object):
              If this function requires more than one argument, all should be
              should be passed using the args list and appropriately handled.
          """
-        self._logger.debug('send_traffic_async with ' +
+        # pylint: disable=unused-argument
+        self._logger.debug('send_traffic_async with %s',
                            str(self._traffic_gen_class))
         self.configure(traffic)
 
@@ -158,7 +159,7 @@ class TrafficController(object):
         """
         counter = 0
         for item in self._results:
-            logging.info("Record: " + str(counter))
+            logging.info("Record: %s", str(counter))
             counter += 1
             for(key, value) in list(item.items()):
                 logging.info("         Key: " + str(key) +
@@ -169,7 +170,7 @@ class TrafficController(object):
         """
         return self._results
 
-    def validate_send_traffic(self, dummy_result, dummy_traffic):
+    def validate_send_traffic(self, _dummy_result, _dummy_traffic):
         """Verify that send traffic has succeeded
         """
         if self._results:

@@ -17,7 +17,7 @@
 import logging
 
 from collections import OrderedDict
-from testcases import TestCase
+from testcases.testcase import TestCase
 
 class IntegrationTestCase(TestCase):
     """IntegrationTestCase class

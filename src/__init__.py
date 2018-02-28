@@ -18,4 +18,3 @@ No functionality is expected for this package and its purpose is just to
 keep Python package structure intact without extra requirements for
 PYTHONPATH.
 """
-

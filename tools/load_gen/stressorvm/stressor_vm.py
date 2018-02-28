@@ -45,7 +45,7 @@ class QemuVM(tasks.Process):
             try:
                 os.makedirs(self._shared_dir)
             except OSError as exp:
-                raise OSError("Failed to create shared directory %s: %s",
+                raise OSError("Failed to create shared directory %s: %s" %
                               self._shared_dir, exp)
 
         self.nics_nr = S.getValue('NN_NICS_NR')[self._number]

@@ -37,13 +37,13 @@ class VswitchControllerClean(IVswitchController):
         self._vswitch_class = vswitch_class
         self._vswitch = vswitch_class()
         self._deployment_scenario = "Clean"
-        self._logger.debug('Creation using ' + str(self._vswitch_class))
+        self._logger.debug('Creation using %s', str(self._vswitch_class))
         self._traffic = traffic.copy()
 
     def setup(self):
         """Sets up the switch for Clean.
         """
-        self._logger.debug('Setup using ' + str(self._vswitch_class))
+        self._logger.debug('Setup using %s', str(self._vswitch_class))
 
         try:
             self._vswitch.start()
@@ -54,7 +54,7 @@ class VswitchControllerClean(IVswitchController):
     def stop(self):
         """Tears down the switch created in setup().
         """
-        self._logger.debug('Stop using ' + str(self._vswitch_class))
+        self._logger.debug('Stop using %s', str(self._vswitch_class))
         self._vswitch.stop()
 
     def __enter__(self):

@@ -138,7 +138,7 @@ class IVnf(tasks.Process):
         self.execute(cmd)
         return self.wait(prompt=prompt, timeout=timeout)
 
-    def validate_start(self, dummyresult):
+    def validate_start(self, _dummyresult):
         """ Validate call of VNF start()
         """
         if self._child and self._child.isalive():
@@ -152,7 +152,7 @@ class IVnf(tasks.Process):
         return not self.validate_start(result)
 
     @staticmethod
-    def validate_execute_and_wait(result, dummy_cmd, dummy_timeout=30, dummy_prompt=''):
+    def validate_execute_and_wait(result, _dummy_cmd, _dummy_timeout=30, _dummy_prompt=''):
         """ Validate command execution within VNF
         """
         return len(result) > 0

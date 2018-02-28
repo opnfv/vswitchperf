@@ -87,7 +87,7 @@ class TrafficControllerRFC2544(TrafficController, IResults):
                 tests=self._tests,
                 duration=self._duration)
             self._traffic_started = True
-            if len(function['args']) > 0:
+            if function['args']:
                 function['function'](function['args'])
             else:
                 function['function']()

@@ -498,6 +498,7 @@ class CollectDCrypto(object):
             return self.parse_signed(part_len, data)
         if sec_level == 2:
             return self.parse_encrypted(part_len, data)
+        return None
 
     def parse_signed(self, part_len, data):
         """
@@ -574,12 +575,12 @@ class CollectDConverter(object):
         try:
             name_parts = handler(sample)
             if name_parts is None:
-                return  # treat None as "ignore sample"
+                return None  # treat None as "ignore sample"
             name = '.'.join(name_parts)
         except (AttributeError, IndexError, MemoryError, RuntimeError):
             LOG.exception("Exception in sample handler  %s (%s):",
                           sample["plugin"], handler)
-            return
+            return None
         host = sample.get("host", "")
         return (
             host,
@@ -655,7 +656,7 @@ class CollectDHandler(object):
         Check the value range
         """
         if val is None:
-            return
+            return None
         try:
             vmin, vmax = self.parser.types.type_ranges[stype][vname]
         except KeyError:
@@ -664,11 +665,11 @@ class CollectDHandler(object):
         if vmin is not None and val < vmin:
             LOG.debug("Invalid value %s (<%s) for %s", val, vmin, vname)
             LOG.debug("Last sample: %s", self.last_sample)
-            return
+            return None
         if vmax is not None and val > vmax:
             LOG.debug("Invalid value %s (>%s) for %s", val, vmax, vname)
             LOG.debug("Last sample: %s", self.last_sample)
-            return
+            return None
         return val
 
     def calculate(self, host, name, vtype, val, time):
@@ -684,7 +685,7 @@ class CollectDHandler(object):
         if vtype not in handlers:
             LOG.error("Invalid value type %s for %s", vtype, name)
             LOG.info("Last sample: %s", self.last_sample)
-            return
+            return None
         return handlers[vtype](host, name, val, time)
 
     def _calc_counter(self, host, name, val, time):
@@ -694,13 +695,13 @@ class CollectDHandler(object):
         key = (host, name)
         if key not in self.prev_samples:
             self.prev_samples[key] = (val, time)
-            return
+            return None
         pval, ptime = self.prev_samples[key]
         self.prev_samples[key] = (val, time)
         if time <= ptime:
             LOG.error("Invalid COUNTER update for: %s:%s", key[0], key[1])
             LOG.info("Last sample: %s", self.last_sample)
-            return
+            return None
         if val < pval:
             # this is supposed to handle counter wrap around
             # see https://collectd.org/wiki/index.php/Data_source
@@ -719,13 +720,13 @@ class CollectDHandler(object):
         key = (host, name)
         if key not in self.prev_samples:
             self.prev_samples[key] = (val, time)
-            return
+            return None
         pval, ptime = self.prev_samples[key]
         self.prev_samples[key] = (val, time)
         if time <= ptime:
             LOG.debug("Invalid DERIVE update for: %s:%s", key[0], key[1])
             LOG.debug("Last sample: %s", self.last_sample)
-            return
+            return None
         return float(abs(val - pval)) / (time - ptime)
 
     def _calc_absolute(self, host, name, val, time):
@@ -735,13 +736,13 @@ class CollectDHandler(object):
         key = (host, name)
         if key not in self.prev_samples:
             self.prev_samples[key] = (val, time)
-            return
+            return None
         _, ptime = self.prev_samples[key]
         self.prev_samples[key] = (val, time)
         if time <= ptime:
             LOG.error("Invalid ABSOLUTE update for: %s:%s", key[0], key[1])
             LOG.info("Last sample: %s", self.last_sample)
-            return
+            return None
         return float(val) / (time - ptime)
 
 

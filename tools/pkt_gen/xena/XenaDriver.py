@@ -170,8 +170,7 @@ class KeepAliveThread(threading.Thread):
         self.finished = threading.Event()
         self.setDaemon(True)
         _LOGGER.debug(
-            'Xena Socket keep alive thread initiated, interval ' +
-            '{} seconds'.format(self.interval))
+            'Xena Socket keep alive thread initiated, interval %s seconds', self.interval)
 
     def stop(self):
         """ Thread stop. See python thread docs for more info
@@ -904,7 +903,7 @@ class XenaRXStats(object):
                 statdict[entry_id] = self._pack_stats(param, 3)
             elif param[1] == 'PR_TPLDS':
                 tid_list = self._pack_tplds_stats(param, 2)
-                if len(tid_list):
+                if tid_list:
                     statdict['pr_tplds'] = tid_list
             elif param[1] == 'PR_TPLDTRAFFIC':
                 if 'pr_tpldstraffic' in statdict:

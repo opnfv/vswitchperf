@@ -64,46 +64,46 @@ class Moongen(ITrafficGenerator):
         :param one_shot: No RFC 2544 binary search,
                         just packet flow at traffic specifics
         """
-        logging.debug("traffic['frame_rate'] = " + \
+        logging.debug("traffic['frame_rate'] = %s", \
             str(traffic['frame_rate']))
 
-        logging.debug("traffic['multistream'] = " + \
+        logging.debug("traffic['multistream'] = %s", \
             str(traffic['multistream']))
 
-        logging.debug("traffic['stream_type'] = " + \
+        logging.debug("traffic['stream_type'] = %s", \
             str(traffic['stream_type']))
 
-        logging.debug("traffic['l2']['srcmac'] = " + \
+        logging.debug("traffic['l2']['srcmac'] = %s", \
             str(traffic['l2']['srcmac']))
 
-        logging.debug("traffic['l2']['dstmac'] = " + \
+        logging.debug("traffic['l2']['dstmac'] = %s", \
             str(traffic['l2']['dstmac']))
 
-        logging.debug("traffic['l3']['proto'] = " + \
+        logging.debug("traffic['l3']['proto'] = %s", \
             str(traffic['l3']['proto']))
 
-        logging.debug("traffic['l3']['srcip'] = " + \
+        logging.debug("traffic['l3']['srcip'] = %s", \
             str(traffic['l3']['srcip']))
 
-        logging.debug("traffic['l3']['dstip'] = " + \
+        logging.debug("traffic['l3']['dstip'] = %s", \
             str(traffic['l3']['dstip']))
 
-        logging.debug("traffic['l4']['srcport'] = " + \
+        logging.debug("traffic['l4']['srcport'] = %s", \
             str(traffic['l4']['srcport']))
 
-        logging.debug("traffic['l4']['dstport'] = " + \
+        logging.debug("traffic['l4']['dstport'] = %s", \
             str(traffic['l4']['dstport']))
 
-        logging.debug("traffic['vlan']['enabled'] = " + \
+        logging.debug("traffic['vlan']['enabled'] = %s", \
             str(traffic['vlan']['enabled']))
 
-        logging.debug("traffic['vlan']['id'] = " + \
+        logging.debug("traffic['vlan']['id'] = %s", \
             str(traffic['vlan']['id']))
 
-        logging.debug("traffic['vlan']['priority'] = " + \
+        logging.debug("traffic['vlan']['priority'] = %s", \
             str(traffic['vlan']['priority']))
 
-        logging.debug("traffic['vlan']['cfi'] = " + \
+        logging.debug("traffic['vlan']['cfi'] = %s", \
             str(traffic['vlan']['cfi']))
 
         logging.debug(traffic['l2']['framesize'])
@@ -160,9 +160,9 @@ class Moongen(ITrafficGenerator):
             (traffic['frame_rate'] / 100) * (self._moongen_line_speed / \
             (8 * (traffic['l2']['framesize'] + 20)) / math.pow(10, 6)))
 
-        logging.debug("startRate = " + start_rate)
+        logging.debug("startRate = %s", start_rate)
 
-        out_file.write("startRate = " + \
+        out_file.write("startRate = %s" % \
             start_rate + "\n")
 
         out_file.write("}" + "\n")
@@ -508,8 +508,8 @@ class Moongen(ITrafficGenerator):
 
         return moongen_results
 
-    def send_rfc2544_throughput(self, traffic=None, duration=20,
-                                lossrate=0.0, tests=1):
+    def send_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
+                                lossrate=0.0):
         #
         # Send traffic per RFC2544 throughput test specifications.
         #
@@ -631,8 +631,8 @@ class Moongen(ITrafficGenerator):
         """
         self._logger.info('In moongen wait_rfc2544_throughput')
 
-    def send_rfc2544_back2back(self, traffic=None, duration=60,
-                               lossrate=0.0, tests=1):
+    def send_rfc2544_back2back(self, traffic=None, tests=1, duration=60,
+                               lossrate=0.0):
         """Send traffic per RFC2544 back2back test specifications.
 
         Send packets at a fixed rate, using ``traffic``
