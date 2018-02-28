@@ -121,7 +121,6 @@ def create_loadgen(loadgen_class, loadgen_cfg):
     :param loadgen_cfg: Configuration for the loadgen
     :return: A new ILoadGenerator class
     """
-    # pylint: disable=too-many-function-args
     return loadgen_class(loadgen_cfg)
 
 def create_pktfwd(deployment, pktfwd_class):

@@ -135,9 +135,8 @@ def reset_port_to_root(port, name):
                        port, name), False)
 
 
-# pylint: disable=unused-argument
 # pylint: disable=invalid-name
-def validate_add_ip_to_namespace_eth(result, port, name, ip_addr, cidr):
+def validate_add_ip_to_namespace_eth(_result, port, name, ip_addr, cidr):
     """
     Validation function for integration testcases
     """
@@ -147,7 +146,7 @@ def validate_add_ip_to_namespace_eth(result, port, name, ip_addr, cidr):
         _LOGGER, 'Validating ip address in namespace...', False))
 
 
-def validate_assign_port_to_namespace(result, port, name, port_up=False):
+def validate_assign_port_to_namespace(_result, port, name, _port_up=False):
     """
     Validation function for integration testcases
     """
@@ -157,14 +156,14 @@ def validate_assign_port_to_namespace(result, port, name, port_up=False):
         _LOGGER, 'Validating port in namespace...'))
 
 
-def validate_create_namespace(result, name):
+def validate_create_namespace(_result, name):
     """
     Validation function for integration testcases
     """
     return name in get_system_namespace_list()
 
 
-def validate_delete_namespace(result, name):
+def validate_delete_namespace(_result, name):
     """
     Validation function for integration testcases
     """

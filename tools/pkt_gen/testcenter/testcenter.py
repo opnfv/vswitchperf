@@ -246,8 +246,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
                     row["ForwardingRate(fps)"])
         return result
 
-    # pylint: disable=unused-argument
-    def send_rfc2889_forwarding(self, traffic=None, tests=1, duration=20):
+    def send_rfc2889_forwarding(self, traffic=None, tests=1, _duration=20):
         """
         Send traffic per RFC2889 Forwarding test specifications.
         """
@@ -257,7 +256,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
                 framesize = traffic['l2']['framesize']
         args = get_rfc2889_common_settings(framesize, tests,
                                            traffic['traffic_type'])
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.debug("Arguments used to call test: %s", args)
@@ -273,7 +272,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
 
         return self.get_rfc2889_forwarding_results(filec)
 
-    def send_rfc2889_caching(self, traffic=None, tests=1, duration=20):
+    def send_rfc2889_caching(self, traffic=None, tests=1, _duration=20):
         """
         Send as per RFC2889 Addr-Caching test specifications.
         """
@@ -286,7 +285,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
         custom_args = get_rfc2889_custom_settings()
         args = common_args + custom_args
 
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.debug("Arguments used to call test: %s", args)
@@ -302,7 +301,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
 
         return self.get_rfc2889_addr_caching_results(filec)
 
-    def send_rfc2889_learning(self, traffic=None, tests=1, duration=20):
+    def send_rfc2889_learning(self, traffic=None, tests=1, _duration=20):
         """
         Send traffic per RFC2889 Addr-Learning test specifications.
         """
@@ -315,7 +314,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
         custom_args = get_rfc2889_custom_settings()
         args = common_args + custom_args
 
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.debug("Arguments used to call test: %s", args)
@@ -387,7 +386,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
                                                           custom, 1)
         args = rfc2544_common_args + stc_common_args + rfc2544_custom_args
 
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.debug("Arguments used to call test: %s", args)
@@ -420,7 +419,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
                                                           tests)
         args = rfc2544_common_args + stc_common_args + rfc2544_custom_args
 
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.debug("Arguments used to call test: %s", args)
@@ -453,7 +452,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
                                                           tests)
         args = rfc2544_common_args + stc_common_args + rfc2544_custom_args
 
-        if settings.getValue("TRAFFICGEN_STC_VERBOSE") is "True":
+        if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
             self._logger.info("Arguments used to call test: %s", args)

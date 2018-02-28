@@ -17,4 +17,3 @@
 This package contains an implementation of the interface the VSPERF core
 uses for controlling VNFs using QEMU and DPDK's testpmd application.
 """
-

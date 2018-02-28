@@ -46,12 +46,12 @@ class VswitchControllerOP2P(IVswitchController):
         self._deployment_scenario = "OP2P"
         self._traffic = traffic.copy()
         self._tunnel_operation = tunnel_operation
-        self._logger.debug('Creation using ' + str(self._vswitch_class))
+        self._logger.debug('Creation using %s', str(self._vswitch_class))
 
     def setup(self):
         """ Sets up the switch for overlay P2P (tunnel encap or decap)
         """
-        self._logger.debug('Setting up ' + str(self._tunnel_operation))
+        self._logger.debug('Setting up %s', str(self._tunnel_operation))
         if self._tunnel_operation == "encapsulation":
             self._setup_encap()
         else:
@@ -66,7 +66,7 @@ class VswitchControllerOP2P(IVswitchController):
         Create 2 bridges br0 (integration bridge) and br-ext and a VXLAN port
         for encapsulation.
         """
-        self._logger.debug('Setup using ' + str(self._vswitch_class))
+        self._logger.debug('Setup using %s', str(self._vswitch_class))
 
         try:
             self._vswitch.start()
@@ -129,7 +129,7 @@ class VswitchControllerOP2P(IVswitchController):
     def _setup_decap(self):
         """ Sets up the switch for overlay P2P decapsulation test
         """
-        self._logger.debug('Setup using ' + str(self._vswitch_class))
+        self._logger.debug('Setup using %s', str(self._vswitch_class))
 
         try:
             self._vswitch.start()
@@ -189,7 +189,7 @@ class VswitchControllerOP2P(IVswitchController):
     def _setup_decap_vanilla(self):
         """ Sets up the switch for overlay P2P decapsulation test
         """
-        self._logger.debug('Setup decap vanilla ' + str(self._vswitch_class))
+        self._logger.debug('Setup decap vanilla %s', str(self._vswitch_class))
 
         try:
             self._vswitch.start()
@@ -261,7 +261,7 @@ class VswitchControllerOP2P(IVswitchController):
     def stop(self):
         """Tears down the switch created in setup().
         """
-        self._logger.debug('Stop using ' + str(self._vswitch_class))
+        self._logger.debug('Stop using %s', str(self._vswitch_class))
         self._vswitch.stop()
 
     def __enter__(self):

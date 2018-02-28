@@ -191,7 +191,7 @@ def get_mac(pci_handle):
     """
     mac_path = glob.glob(os.path.join(_PCI_DIR, _PCI_NET, '*', 'address').format(pci_handle))
     # kernel driver is loaded and MAC can be read
-    if len(mac_path) and os.path.isfile(mac_path[0]):
+    if mac_path and os.path.isfile(mac_path[0]):
         with open(mac_path[0], 'r') as _file:
             return _file.readline().rstrip('\n')
 

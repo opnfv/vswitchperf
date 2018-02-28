@@ -137,7 +137,6 @@ def generate(testcase):
             'tests': tests,
         }
         i = 0
-        # pylint: disable=no-member
         for output_file in output_files:
             template = template_env.get_template(_TEMPLATE_FILES[i])
             output_text = template.render(template_vars)

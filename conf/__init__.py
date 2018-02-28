@@ -70,7 +70,7 @@ class Settings(object):
                     except AttributeError:
                         pass
             return param
-        elif isinstance(param, list) or isinstance(param, tuple):
+        elif isinstance(param, (list, tuple)):
             tmp_list = []
             for item in param:
                 tmp_list.append(self._eval_param(item))
@@ -229,7 +229,7 @@ class Settings(object):
             if key not in self.__dict__ and key not in _EXTRA_TEST_PARAMS:
                 unknown_keys.append(key)
 
-        if len(unknown_keys):
+        if unknown_keys:
             raise RuntimeError('Test parameters contain unknown configuration '
                                'parameter(s): {}'.format(', '.join(unknown_keys)))
 
@@ -270,7 +270,7 @@ class Settings(object):
             for vmindex in range(vm_number):
                 value = master_value_str.replace('#VMINDEX', str(vmindex))
                 for macro, args, param, _, step in re.findall(_PARSE_PATTERN, value):
-                    multi = int(step) if len(step) and int(step) else 1
+                    multi = int(step) if step and int(step) else 1
                     if macro == '#EVAL':
                         # pylint: disable=eval-used
                         tmp_result = str(eval(param))
@@ -325,13 +325,13 @@ class Settings(object):
         assert result == self.getValue(attr)
         return True
 
-    def validate_setValue(self, dummy_result, name, value):
+    def validate_setValue(self, _dummy_result, name, value):
         """Verifies, that value was correctly set
         """
         assert value == self.__dict__[name]
         return True
 
-    def validate_resetValue(self, dummy_result, attr):
+    def validate_resetValue(self, _dummy_result, attr):
         """Verifies, that value was correctly reset
         """
         return 'TEST_PARAMS' not in self.__dict__ or \
