@@ -577,7 +577,7 @@ http://www.mono-project.com/docs/getting-started/install/linux/
 
     rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
     yum-config-manager --add-repo http://download.mono-project.com/repo/centos/
-    yum -y install mono-complete
+    yum -y install mono-complete-5.8.0.127-0.xamarin.3.epel7.x86_64
 
 To prevent gpg errors on future yum installation of packages the mono-project
 repo should be disabled once installed.
