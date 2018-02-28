@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_617c9221",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 8
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-02-28T11:42:10Z",
+      "side": 1,
+      "message": "I suggest to use the real key name as a type value, i.e. \"proportions\" and \"genome\".",
+      "range": {
+        "startLine": 223,
+        "startChar": 17,
+        "endLine": 223,
+        "endChar": 20
+      },
+      "revId": "594d0d76d403a083bd4c11d8689bba7509c7b542",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
