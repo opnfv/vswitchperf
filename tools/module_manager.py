@@ -160,7 +160,7 @@ class ModuleManager(object):
             self._logger.info('Unable to get list of dependecies for module \'%s\'.', module)
             # ...and try to continue, just for case that dependecies are already loaded
 
-        if len(deps):
+        if deps:
             return deps.split(',')
         else:
             return []

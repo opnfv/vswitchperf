@@ -93,8 +93,7 @@ class VnfController(object):
     def get_vnfs_number(self):
         """Returns a number of vnfs controlled by this controller.
         """
-        self._logger.debug('get_vnfs_number ' + str(len(self._vnfs)) +
-                           ' VNF[s]')
+        self._logger.debug('get_vnfs_number %s VNF[s]', str(len(self._vnfs)))
         return len(self._vnfs)
 
     def start(self):

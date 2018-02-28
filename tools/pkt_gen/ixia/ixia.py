@@ -157,8 +157,8 @@ class Ixia(trafficgen.ITrafficGenerator):
         return NotImplementedError(
             'Ixia start back2back traffic not implemented')
 
-    def send_rfc2544_back2back(self, traffic=None, duration=60,
-                               lossrate=0.0, tests=1):
+    def send_rfc2544_back2back(self, traffic=None, tests=1, duration=60,
+                               lossrate=0.0):
         return NotImplementedError(
             'Ixia send back2back traffic not implemented')
 

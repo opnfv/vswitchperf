@@ -35,12 +35,12 @@ class PktFwdController(object):
         self._pktfwd_class = pktfwd_class
         self._pktfwd = pktfwd_class(guest=True if deployment == "pvp" and
                                     settings.getValue('VNF') != "QemuPciPassthrough" else False)
-        self._logger.debug('Creation using ' + str(self._pktfwd_class))
+        self._logger.debug('Creation using %s', str(self._pktfwd_class))
 
     def setup(self):
         """Sets up the packet forwarder for p2p.
         """
-        self._logger.debug('Setup using ' + str(self._pktfwd_class))
+        self._logger.debug('Setup using %s', str(self._pktfwd_class))
 
         try:
             self._pktfwd.start()
@@ -56,7 +56,7 @@ class PktFwdController(object):
     def setup_for_guest(self):
         """Sets up the packet forwarder for pvp.
         """
-        self._logger.debug('Setup using ' + str(self._pktfwd_class))
+        self._logger.debug('Setup using %s', str(self._pktfwd_class))
 
         try:
             self._pktfwd.start_for_guest()
@@ -67,7 +67,7 @@ class PktFwdController(object):
     def stop(self):
         """Tears down the packet forwarder created in setup().
         """
-        self._logger.debug('Stop using ' + str(self._pktfwd_class))
+        self._logger.debug('Stop using %s', str(self._pktfwd_class))
         self._pktfwd.stop()
 
     def __enter__(self):

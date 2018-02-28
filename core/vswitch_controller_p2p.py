@@ -46,13 +46,13 @@ class VswitchControllerP2P(IVswitchController):
         self._vswitch_class = vswitch_class
         self._vswitch = vswitch_class()
         self._deployment_scenario = "P2P"
-        self._logger.debug('Creation using ' + str(self._vswitch_class))
+        self._logger.debug('Creation using %s', str(self._vswitch_class))
         self._traffic = traffic.copy()
 
     def setup(self):
         """Sets up the switch for p2p.
         """
-        self._logger.debug('Setup using ' + str(self._vswitch_class))
+        self._logger.debug('Setup using %s', str(self._vswitch_class))
 
         try:
             self._vswitch.start()
@@ -109,7 +109,7 @@ class VswitchControllerP2P(IVswitchController):
     def stop(self):
         """Tears down the switch created in setup().
         """
-        self._logger.debug('Stop using ' + str(self._vswitch_class))
+        self._logger.debug('Stop using %s', str(self._vswitch_class))
         self._vswitch.stop()
 
     def __enter__(self):
@@ -126,7 +126,7 @@ class VswitchControllerP2P(IVswitchController):
     def get_ports_info(self):
         """See IVswitchController for description
         """
-        self._logger.debug('get_ports_info  using ' + str(self._vswitch_class))
+        self._logger.debug('get_ports_info  using %s', str(self._vswitch_class))
         return self._vswitch.get_ports(settings.getValue('VSWITCH_BRIDGE_NAME'))
 
     def dump_vswitch_flows(self):

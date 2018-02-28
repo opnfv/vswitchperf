@@ -17,4 +17,3 @@
 This package contains an interface the VSPERF core uses for controlling
 VNFs and VNF-specific implementation modules of this interface.
 """
-
