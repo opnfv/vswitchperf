@@ -155,6 +155,17 @@ Example:
     $ ./vsperf --test-params "TRAFFICGEN_DURATION=10;TRAFFICGEN_PKT_SIZES=(128,);" \
                              "GUEST_LOOPBACK=['testpmd','l2fwd']" pvvp_tput
 
+The ``--test-params`` command line argument can also be used to override default
+configuration values for multiple tests. Providing a list of parameters will apply each
+element of the list to the test with the same index. If more tests are run than
+parameters provided the last element of the list will repeat.
+
+.. code:: console
+
+    $ ./vsperf --test-params "['TRAFFICGEN_DURATION=10;TRAFFICGEN_PKT_SIZES=(128,)',"
+                             "'TRAFFICGEN_DURATION=10;TRAFFICGEN_PKT_SIZES=(64,)']" \
+                             pvvp_tput pvvp_tput
+
 The second option is to override configuration items by ``Parameters`` section
 of the test case definition. The configuration items can be added into ``Parameters``
 dictionary with their new values. These values will override values defined in
@@ -234,6 +245,12 @@ To run a single test:
 
 Where $TESTNAME is the name of the vsperf test you would like to run.
 
+To run a test multiple times, repeat it:
+
+.. code-block:: console
+
+    $ ./vsperf $TESTNAME $TESTNAME $TESTNAME
+
 To run a group of tests, for example all tests with a name containing
 'RFC2544':
 
@@ -255,6 +272,30 @@ Some tests allow for configurable parameters, including test duration
     $ ./vsperf --conf-file user_settings.py \
         --tests RFC2544Tput \
         --test-params "TRAFFICGEN_DURATION=10;TRAFFICGEN_PKT_SIZES=(128,)"
+
+To specify configurable parameters for multiple tests, use a list of
+parameters. One element for each test.
+
+.. code:: console
+
+    $ ./vsperf --conf-file user_settings.py \
+        --test-params "['TRAFFICGEN_DURATION=10;TRAFFICGEN_PKT_SIZES=(128,)',"\
+        "'TRAFFICGEN_DURATION=10;TRAFFICGEN_PKT_SIZES=(64,)']" \
+        phy2phy_cont phy2phy_cont
+
+If the ``CUMULATIVE_PARAMS`` setting is set to True and there are different parameters
+provided for each test using ``--test-params``, each test will take the parameters of
+the previous test before appyling it's own.
+With ``CUMULATIVE_PARAMS`` set to True the following command will be equivalent to the
+previous example:
+
+.. code:: console
+
+    $ ./vsperf --conf-file user_settings.py \
+        --test-params "['TRAFFICGEN_DURATION=10;TRAFFICGEN_PKT_SIZES=(128,)',"\
+        "'TRAFFICGEN_PKT_SIZES=(64,)']" \
+        phy2phy_cont phy2phy_cont
+        "
 
 For all available options, check out the help dialog:
 
@@ -584,7 +625,7 @@ The supported dpdk guest bind drivers are:
 
 .. code-block:: console
 
-    'uio_pci_generic'	   - Use uio_pci_generic driver
+    'uio_pci_generic'      - Use uio_pci_generic driver
     'igb_uio_from_src'     - Build and use the igb_uio driver from the dpdk src
                              files
     'vfio_no_iommu'        - Use vfio with no iommu option. This requires custom
@@ -914,6 +955,39 @@ Example of execution of VSPERF in "trafficgen" mode:
 
     $ ./vsperf -m trafficgen --trafficgen IxNet --conf-file vsperf.conf \
         --test-params "TRAFFIC={'traffic_type':'rfc2544_continuous','bidir':'False','framerate':60}"
+
+Performance Matrix
+^^^^^^^^^^^^^^^^^^
+
+The ``--matrix`` command line argument analyses and displays the performance of
+all the tests run. Using the metric specified by ``MATRIX_METRIC`` in the conf-file,
+the first test is set as the baseline and all the other tests are compared to it.
+The ``MATRIX_METRIC`` must always refer to a numeric value to enable comparision.
+A table, with the test ID, metric value, the change of the metric in %, testname
+and the test parameters used for each test, is printed out as well as saved into the
+results directory.
+
+Example of 2 tests being compared using Performance Matrix:
+
+.. code-block:: console
+
+    $ ./vsperf --conf-file user_settings.py \
+        --test-params "['TRAFFICGEN_PKT_SIZES=(64,)',"\
+        "'TRAFFICGEN_PKT_SIZES=(128,)']" \
+        phy2phy_cont phy2phy_cont --matrix
+
+Example output:
+
+.. code-block:: console
+
+    +------+--------------+---------------------+----------+---------------------------------------+
+    |   ID | Name         |   throughput_rx_fps |   Change | Parameters, CUMULATIVE_PARAMS = False |
+    +======+==============+=====================+==========+=======================================+
+    |    0 | phy2phy_cont |        23749000.000 |        0 | 'TRAFFICGEN_PKT_SIZES': [64]          |
+    +------+--------------+---------------------+----------+---------------------------------------+
+    |    1 | phy2phy_cont |        16850500.000 |  -29.048 | 'TRAFFICGEN_PKT_SIZES': [128]         |
+    +------+--------------+---------------------+----------+---------------------------------------+
+
 
 Code change verification by pylint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
