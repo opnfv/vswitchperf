@@ -254,9 +254,9 @@ class Ixia(trafficgen.ITrafficGenerator):
 
         result = self._send_traffic(flow, traffic)
 
-        assert len(result) == 6  # fail-fast if underlying Tcl code changes
+        assert len(result) == 10  # fail-fast if underlying Tcl code changes
 
-        #NOTE - implement Burst results setting via TrafficgenResults.
+        return Ixia._create_result(result)
 
     def send_cont_traffic(self, traffic=None, duration=30):
         """See ITrafficGenerator for description
@@ -317,20 +317,25 @@ class Ixia(trafficgen.ITrafficGenerator):
         :returns: dictionary strings representing results from
                     traffic generator.
         """
-        assert len(result) == 8  # fail-fast if underlying Tcl code changes
+        assert len(result) == 8 or len(result) == 10  # fail-fast if underlying Tcl code changes
+
+        # content of result common for all tests
+        # [framesSent, framesRecv, bytesSent, bytesRecv, sendRate, recvRate, sendRateBytes, recvRateBytes]
+        # burst test has additional two values at the end: payError, seqError
 
         if float(result[0]) == 0:
             loss_rate = 100
         else:
-            loss_rate = (float(result[0]) - float(result[1])) / float(result[0]) * 100
+            loss_rate = round((float(result[0]) - float(result[1])) / float(result[0]) * 100, 5)
         result_dict = OrderedDict()
-        # drop the first 4 elements as we don't use/need them. In
-        # addition, IxExplorer does not support latency or % line rate
+        # IxExplorer does not support latency or % line rate
         # metrics so we have to return dummy values for these metrics
-        result_dict[ResultsConstants.THROUGHPUT_RX_FPS] = result[4]
-        result_dict[ResultsConstants.TX_RATE_FPS] = result[5]
-        result_dict[ResultsConstants.THROUGHPUT_RX_MBPS] = str(round(int(result[6]) / 1000000, 3))
-        result_dict[ResultsConstants.TX_RATE_MBPS] = str(round(int(result[7]) / 1000000, 3))
+        result_dict[ResultsConstants.TX_FRAMES] = result[0]
+        result_dict[ResultsConstants.RX_FRAMES] = result[1]
+        result_dict[ResultsConstants.TX_RATE_FPS] = result[4]
+        result_dict[ResultsConstants.THROUGHPUT_RX_FPS] = result[5]
+        result_dict[ResultsConstants.TX_RATE_MBPS] = str(round(int(result[6]) * 8 / 1e6, 3))
+        result_dict[ResultsConstants.THROUGHPUT_RX_MBPS] = str(round(int(result[7]) * 8 / 1e6, 3))
         result_dict[ResultsConstants.FRAME_LOSS_PERCENT] = loss_rate
         result_dict[ResultsConstants.TX_RATE_PERCENT] = \
                                             ResultsConstants.UNKNOWN_VALUE
