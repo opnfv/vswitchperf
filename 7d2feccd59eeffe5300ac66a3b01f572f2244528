@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_969c7e6b",
+        "filename": "core/traffic_controller_rfc2544.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-03-02T08:52:24Z",
+      "side": 1,
+      "message": "strictly speaking \"burst\" traffic type should not be part of rfc2544 specific controller; On the other hand we have there \"continuous stream\", which is also not explicitly defined there. Thus I\u0027ve kept also burst at the same controller for the sake of simplification.",
+      "revId": "7d2feccd59eeffe5300ac66a3b01f572f2244528",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_d68d6633",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-03-02T08:52:24Z",
+      "side": 1,
+      "message": "Hi Christian,\n\nit seems that CORE_MASK_PIN has unforseen consequences. I\u0027ve found out, that in case of BURST traffic, it duplicates a traffic. Before this improvement T-Rex has send defined number of frames in each direction, so for burst_size\u003d5 there was in total 10 frames sent \u0026 received (so far so good). However with \"CORE_MASK_PIN\" option there are 15 frames sent \u0026 received! It seems, that T-Rex is sending the same frames from two separate threads and thus traffic gets duplicated.\n\nCould you please try it at your setup and let me know your results and comments?\n\nBTW, I\u0027ve executed it at OPNFV POD12 node4 \u0026 node5 (fo T-Rex server where 7 cpu cores are used for trex at each numa slot).",
+      "revId": "7d2feccd59eeffe5300ac66a3b01f572f2244528",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
