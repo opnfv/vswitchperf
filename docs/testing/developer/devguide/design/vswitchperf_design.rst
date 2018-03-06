@@ -439,6 +439,34 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
                       details.
                       Data type: str
                       Default value: ''
+        'scapy'     - A dictionary with definition of a frame content for both traffic
+                      directions. The frame content is defined by a SCAPY notation.
+                      NOTE: It is supported only by the T-Rex traffic generator.
+                      Following keywords can be used to refer to the related parts of
+                      the TRAFFIC dictionary:
+                           Ether_src   - refers to TRAFFIC['l2']['srcmac']
+                           Ether_dst   - refers to TRAFFIC['l2']['dstmac']
+                           IP_proto    - refers to TRAFFIC['l3']['proto']
+                           IP_PROTO    - refers to upper case version of TRAFFIC['l3']['proto']
+                           IP_src      - refers to TRAFFIC['l3']['srcip']
+                           IP_dst      - refers to TRAFFIC['l3']['dstip']
+                           IP_PROTO_sport - refers to TRAFFIC['l4']['srcport']
+                           IP_PROTO_dport - refers to TRAFFIC['l4']['dstport']
+                           Dot1Q_prio  - refers to TRAFFIC['vlan']['priority']
+                           Dot1Q_id    - refers to TRAFFIC['vlan']['cfi']
+                           Dot1Q_vlan  - refers to TRAFFIC['vlan']['id']
+            '0'     - A string with the frame definition for the 1st direction.
+                      Data type: str
+                      Default value: 'Ether(src={Ether_src}, dst={Ether_dst})/'
+                                     'Dot1Q(prio={Dot1Q_prio}, id={Dot1Q_id}, vlan={Dot1Q_vlan})/'
+                                     'IP(proto={IP_proto}, src={IP_src}, dst={IP_dst})/'
+                                     '{IP_PROTO}(sport={IP_PROTO_sport}, dport={IP_PROTO_dport})'
+            '1'     - A string with the frame definition for the 2nd direction.
+                      Data type: str
+                      Default value: 'Ether(src={Ether_dst}, dst={Ether_src})/'
+                                     'Dot1Q(prio={Dot1Q_prio}, id={Dot1Q_id}, vlan={Dot1Q_vlan})/'
+                                     'IP(proto={IP_proto}, src={IP_dst}, dst={IP_src})/'
+                                     '{IP_PROTO}(sport={IP_PROTO_dport}, dport={IP_PROTO_sport})',
 
 .. _configuration-of-guest-options:
 

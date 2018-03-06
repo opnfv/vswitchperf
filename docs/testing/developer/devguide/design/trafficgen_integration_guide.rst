@@ -199,6 +199,9 @@ functions:
       Note: There are parameters specific to testing of tunnelling protocols,
       which are discussed in detail at :ref:`integration-tests` userguide.
 
+      Note: A detailed description of the ``TRAFFIC`` dictionary can be found at
+      :ref:`configuration-of-traffic-dictionary`.
+
       * param **traffic_type**: One of the supported traffic types,
         e.g. **rfc2544_throughput**, **rfc2544_continuous**
         or **rfc2544_back2back**.
@@ -224,6 +227,8 @@ functions:
         **dstport** and l4 on/off switch **enabled**.
       * param **vlan**: A dictionary with vlan specific parameters,
         e.g. **priority**, **cfi**, **id** and vlan on/off switch **enabled**.
+      * param **scapy**: A dictionary with definition of the frame content for both traffic
+        directions. The frame content is defined by a SCAPY notation.
 
     * param **tests**: Number of times the test is executed.
     * param **duration**: Duration of continuous test or per iteration duration
