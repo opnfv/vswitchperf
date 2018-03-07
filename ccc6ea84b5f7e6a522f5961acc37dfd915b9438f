@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a3f45e8_f5be8efe",
+        "filename": "docs/testing/user/userguide/testlist.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-03-07T13:22:26Z",
+      "side": 1,
+      "message": "Hi Martin, I\u0027m just catching up on your comment from patch set 1... sorry!\nThanks for supplying the performance measurements, it definitely shows the limitation of the VM generator.\nPerhaps we suggest that \"the user should perform a calibration of the VM maximum FPS capability, to ensure this limitation is understood.\" in the docs.",
+      "revId": "ccc6ea84b5f7e6a522f5961acc37dfd915b9438f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_16b18ef8",
         "filename": "systems/rhel/7.3/build_base_machine.sh",
         "patchSetId": 6
