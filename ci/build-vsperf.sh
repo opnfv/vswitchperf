@@ -535,7 +535,7 @@ case $1 in
         echo "VSPERF merge job"
         echo "================"
 
-        execute_pylint_check
+        execute_vsperf_pylint_check
         terminate_vsperf
         execute_vsperf_sanity
         terminate_vsperf
