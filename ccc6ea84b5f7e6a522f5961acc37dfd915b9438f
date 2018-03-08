@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_c3d8f81f",
+        "filename": "docs/testing/user/userguide/testlist.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-03-08T07:06:08Z",
+      "side": 1,
+      "message": "Hi Al,\n\nthanks a lot for your hint. I\u0027ve updated my patch to reflect that. Please feel free to correct my English wherever it\u0027s necessary.\n\nThanks.",
+      "parentUuid": "5a3f45e8_f5be8efe",
+      "revId": "ccc6ea84b5f7e6a522f5961acc37dfd915b9438f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_16b18ef8",
         "filename": "systems/rhel/7.3/build_base_machine.sh",
         "patchSetId": 6
