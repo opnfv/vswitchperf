@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_bbc19030",
+        "filename": "docs/testing/user/userguide/testlist.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-03-09T14:02:55Z",
+      "side": 1,
+      "message": "I suggest \"on bare-metal\"\n\nApparently, the term is hyphenated:\nhttps://en.wikipedia.org/wiki/Bare-metal_server",
+      "range": {
+        "startLine": 404,
+        "startChar": 10,
+        "endLine": 404,
+        "endChar": 23
+      },
+      "revId": "64d86c67cb99667bcf19984a180d120c7c940dfe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
