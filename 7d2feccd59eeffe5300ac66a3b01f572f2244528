@@ -51,6 +51,41 @@
       "revId": "7d2feccd59eeffe5300ac66a3b01f572f2244528",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_98413a3c",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-03-09T07:33:09Z",
+      "side": 1,
+      "message": "I can confirm, that usage of CORE_MASK_SPLIT fixes the issue at POD4. I can see correct number of packets send through the system.\n\nI\u0027ve never observed any DUT hangup during execution of BURST test. That\u0027s very odd. Does it happen regularly or it was rather random? Do you have any symptoms I can try to analyze?",
+      "parentUuid": "5a3f45e8_0fb7a887",
+      "revId": "7d2feccd59eeffe5300ac66a3b01f572f2244528",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_586fb2c5",
+        "filename": "tools/pkt_gen/trex/trex.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-03-09T07:33:09Z",
+      "side": 1,
+      "message": "This actually means, that in case of BURST traffic type, the same number of packets is send in both \"learning mode\" and \"normal node\" afterwards. I think, that it is acceptable, but theoretically in case of very large frame counts, we will slow down test progress by learning packets.\n\nIn case that it will be identified as a problem. We can:\n\n1) introduce a limit for the number of learning frames for burst traffic - however to have two limits (time \u0026 count) for learning frames might be confusing for vsperf users\n\n2) switch learning frames to \"continuous\" stream and thus utilize existing learning frames behavior - however we will use a different code for frame construction (which might bring some issues in the future if burst\u0026cont code will go in different direction) and in normal circumstances (i.e. low burst_size number) we will send (much) more learning frames than real frames\n\nThus I\u0027ve kept current behavior, i.e. the same number of frames to be send for both \"learning\" and \"normal\" mode.",
+      "revId": "7d2feccd59eeffe5300ac66a3b01f572f2244528",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
