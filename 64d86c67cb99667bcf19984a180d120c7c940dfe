@@ -22,6 +22,30 @@
       "revId": "64d86c67cb99667bcf19984a180d120c7c940dfe",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_479a2b64",
+        "filename": "docs/testing/user/userguide/testlist.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-03-12T09:59:19Z",
+      "side": 1,
+      "message": "Fixed - thanks for the hint.",
+      "parentUuid": "5a3f45e8_bbc19030",
+      "range": {
+        "startLine": 404,
+        "startChar": 10,
+        "endLine": 404,
+        "endChar": 23
+      },
+      "revId": "64d86c67cb99667bcf19984a180d120c7c940dfe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
