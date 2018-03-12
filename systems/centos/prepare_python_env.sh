@@ -25,5 +25,4 @@ scl enable rh-python34 "
 virtualenv "$VSPERFENV_DIR" --python /opt/rh/rh-python34/root/usr/bin/python3
 source "$VSPERFENV_DIR"/bin/activate
 pip install -r ../requirements.txt
-pip install pylint
 "

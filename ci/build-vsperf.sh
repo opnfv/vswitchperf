@@ -433,15 +433,6 @@ function dependencies_check() {
                 sudo apt-get install -y $PACKAGE
             fi
         done
-        # install additional python packages into python environment
-        for PACKAGE in "pylint" ; do
-            if pip show $PACKAGE &> /dev/null ; then
-                printf "    %-70s %-6s\n" $PACKAGE "OK"
-            else
-                printf "    %-70s %-6s\n" $PACKAGE "missing"
-                pip install $PACKAGE
-            fi
-        done
         echo
     fi
 }
