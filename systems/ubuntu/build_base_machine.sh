@@ -46,6 +46,7 @@ apt-get -y install libglib2.0
 apt-get -y install libfuse-dev
 apt-get -y install libnuma1
 apt-get -y install libnuma-dev
+apt-get -y install sshpass
 
 # Some useful tools you may optionally install
 #apt-get -y install ctags

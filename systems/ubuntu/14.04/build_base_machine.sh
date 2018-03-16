@@ -62,6 +62,7 @@ socat
 libpixman-1-0
 libpixman-1-dev
 sysstat
+sshpass
 
 # Java runtime environment: Required for Ixia TclClient
 default-jre
