@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Sridhar Rao <sridhar.rao@spirent.com>
+Code-Review+2: Martin Klozik <martinx.klozik@intel.com>
+Submitted-by: Martin Klozik <martinx.klozik@intel.com>
+Submitted-at: Fri, 16 Mar 2018 05:24:21 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/52191
+Project: vswitchperf
+Branch: refs/heads/master
