@@ -29,4 +29,4 @@ QEMU_TAG ?= v2.9.1
 
 # TREX section
 TREX_URL ?= https://github.com/cisco-system-traffic-generator/trex-core.git
-TREX_TAG ?= 8bf9c16556843e55c232b64d9a5061bf588fad42
+TREX_TAG ?= v2.38
