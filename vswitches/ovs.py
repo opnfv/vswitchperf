@@ -128,6 +128,8 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
     def stop(self):
         """See IVswitch for general description
         """
+        for switch_name in list(self._bridges):
+            self.del_switch(switch_name)
         self._logger.info("Terminating vswitchd...")
         self.kill()
         self._bridges = {}
