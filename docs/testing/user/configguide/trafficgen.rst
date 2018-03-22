@@ -745,11 +745,14 @@ You can directly download from GitHub:
 
     git clone https://github.com/cisco-system-traffic-generator/trex-core
 
-and use the master branch:
+and use the same Trex version for both server and client API.
+
+**NOTE:** The Trex API version used by VSPERF is defined by variable ``TREX_TAG``
+in file ``src/package-list.mk``.
 
 .. code-block:: console
 
-    git checkout master
+    git checkout v2.38
 
 or Trex latest release you can download from here:
 
