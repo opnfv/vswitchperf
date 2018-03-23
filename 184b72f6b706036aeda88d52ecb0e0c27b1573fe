@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_11bfa1fc",
+        "filename": "tools/pkt_gen/dummy/dummy.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-03-23T15:14:37Z",
+      "side": 1,
+      "message": "The previous patch included a typo \"pylint :disable\" instead of \"pylint: disable\"",
+      "revId": "184b72f6b706036aeda88d52ecb0e0c27b1573fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
