@@ -32,8 +32,6 @@ import xml.etree.ElementTree as ET
 from collections import OrderedDict
 from time import sleep
 
-import scapy.layers.inet as inet
-
 from conf import merge_spec
 from conf import settings
 from core.results.results_constants import ResultsConstants
@@ -149,6 +147,10 @@ class Xena(ITrafficGenerator):
         :param reverse: Swap source and destination info when building header
         :return: packet header in hex
         """
+        # import can't be performed at module level, because it conflicts with import
+        # of customized scapy version by T-Rex
+        import scapy.layers.inet as inet
+
         srcmac = self._params['traffic']['l2'][
             'srcmac'] if not reverse else self._params['traffic']['l2'][
                 'dstmac']
