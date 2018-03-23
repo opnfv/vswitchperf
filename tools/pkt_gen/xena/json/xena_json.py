@@ -28,8 +28,6 @@ import locale
 import logging
 import os
 
-import scapy.layers.inet as inet
-
 from tools.pkt_gen.xena.json import json_utilities
 
 _LOGGER = logging.getLogger(__name__)
@@ -51,6 +49,9 @@ class XenaJSON(object):
          two module ports with each port having its own stream config profile.
         :return: XenaJSON object
         """
+        # import can't be performed at module level, because it conflicts with import
+        # of customized scapy version by T-Rex
+        import scapy.layers.inet as inet
         self.json_data = json_utilities.read_json_file(json_path)
 
         self.packet_data = OrderedDict()
