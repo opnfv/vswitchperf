@@ -53,7 +53,6 @@ pkglist=(
  numactl\
  numactl-devel\
  libpng-devel\
- epel-release\
  sshpass\
 )
 
@@ -62,6 +61,9 @@ pkglist=(
  "${pkglist[@]}"\
  python-six\
 )
+
+# install RHEL compatible epel for sshpass
+yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
 # Iterate installing each package. If packages fail to install, record those
 # packages and exit with an error message on completion. Customer may need to
