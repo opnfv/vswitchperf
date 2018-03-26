@@ -32,7 +32,6 @@ fuse
 fuse-devel
 glib2-devel
 zlib-devel
-ncurses-devel
 kernel-default
 kernel-default-devel
 pkg-config
@@ -65,14 +64,15 @@ libpixman-1-0-devel
 libtool
 libpcap-devel
 libnet9
-libncurses5
+libncurses6
 libcurl4
 libcurl-devel
 libxml2
 libfuse2
-libopenssl1_1_0
+libopenssl1_1
 libopenssl-devel
 libpython3_6m1_0
+libzmq5
 
 " | grep -v ^#)
 
