@@ -76,7 +76,7 @@ class Pidstat(collector.ICollector):
             with open(self._log, 'w') as logfile:
                 cmd = ['sudo', 'LC_ALL=' + settings.getValue('DEFAULT_CMD_LOCALE'),
                        'pidstat', settings.getValue('PIDSTAT_OPTIONS'),
-                       '-p', ','.join(pids),
+                       '-t', '-p', ','.join(pids),
                        str(settings.getValue('PIDSTAT_SAMPLE_INTERVAL'))]
                 self._logger.debug('%s', ' '.join(cmd))
                 self._pid = subprocess.Popen(cmd, stdout=logfile, bufsize=0).pid
@@ -116,15 +116,47 @@ class Pidstat(collector.ICollector):
                         # combine stored header fields with actual values
                         tmp_res = OrderedDict(zip(tmp_header,
                                                   line[8:].split()))
-                        # use process's name and its  pid as unique key
-                        key = tmp_res.pop('Command') + '_' + tmp_res['PID']
-                        # store values for given command into results dict
-                        if key in self._results:
-                            self._results[key].update(tmp_res)
-                        else:
-                            self._results[key] = tmp_res
+                        cmd = tmp_res.pop('Command')
+                        # remove unused fields (given by option '-t')
+                        tmp_res.pop('UID')
+                        tmp_res.pop('TID')
+                        if '|_' not in cmd:  # main process
+                            # use process's name and its pid as unique key
+                            tmp_pid = tmp_res.pop('TGID')
+                            tmp_key = "%s_%s" % (cmd, tmp_pid)
+                            # do not trust cpu usage of pid
+                            # see VSPERF-569 for more details
+                            if 'CPU' not in tmp_header:
+                                self.update_results(tmp_key, tmp_res, False)
+                        else:  # thread
+                            # accumulate cpu usage of all threads
+                            if 'CPU' in tmp_header:
+                                tmp_res.pop('TGID')
+                                self.update_results(tmp_key, tmp_res, True)
 
                 line = logfile.readline()
+
+    def update_results(self, key, result, accumulate=False):
+        """
+        Update final results dictionary. If ``accumulate`` param is set to
+        ``True``, try to accumulate existing values.
+        """
+        # store values for given command into results dict
+        if key not in self._results:
+            self._results[key] = result
+        elif accumulate:
+            for field in result:
+                if field not in self._results[key]:
+                    self._results[key][field] = result[field]
+                else:
+                    try:
+                        self._results[key][field] = \
+                            float(self._results[key][field]) + float(result[field])
+                    except ValueError:
+                        # cannot cast to float, let's update with the previous value
+                        self._results[key][field] = result[field]
+        else:
+            self._results[key].update(result)
 
     def get_results(self):
         """Returns collected statistics.
