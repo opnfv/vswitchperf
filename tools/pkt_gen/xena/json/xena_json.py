@@ -28,8 +28,6 @@ import locale
 import logging
 import os
 
-import scapy.layers.inet as inet
-
 from tools.pkt_gen.xena.json import json_utilities
 
 _LOGGER = logging.getLogger(__name__)
@@ -51,6 +49,9 @@ class XenaJSON(object):
          two module ports with each port having its own stream config profile.
         :return: XenaJSON object
         """
+        # import can't be performed at module level, because it conflicts with import
+        # of customized scapy version by T-Rex
+        import scapy.layers.inet as inet
         self.json_data = json_utilities.read_json_file(json_path)
 
         self.packet_data = OrderedDict()
@@ -279,6 +280,10 @@ class XenaJSON(object):
         :param kwargs: Extra params per scapy usage.
         :return: None
         """
+        # import can't be performed at module level, because it conflicts with import
+        # of customized scapy version by T-Rex
+        import scapy.layers.inet as inet
+
         self.packet_data['layer2'] = [
             inet.Ether(dst=dst_mac, src=src_mac, **kwargs),
             inet.Ether(dst=src_mac, src=dst_mac, **kwargs)]
@@ -293,6 +298,10 @@ class XenaJSON(object):
         :param kwargs: Extra params per scapy usage
         :return: None
         """
+        # import can't be performed at module level, because it conflicts with import
+        # of customized scapy version by T-Rex
+        import scapy.layers.inet as inet
+
         self.packet_data['layer3'] = [
             inet.IP(src=src_ip, dst=dst_ip, proto=protocol.lower(), **kwargs),
             inet.IP(src=dst_ip, dst=src_ip, proto=protocol.lower(), **kwargs)]
@@ -305,6 +314,10 @@ class XenaJSON(object):
         :param kwargs: Extra params per scapy usage
         :return: None
         """
+        # import can't be performed at module level, because it conflicts with import
+        # of customized scapy version by T-Rex
+        import scapy.layers.inet as inet
+
         self.packet_data['layer4'] = [
             inet.UDP(sport=source_port, dport=destination_port, **kwargs),
             inet.UDP(sport=source_port, dport=destination_port, **kwargs)]
@@ -316,6 +329,10 @@ class XenaJSON(object):
         :param kwargs: Extra params per scapy usage
         :return: None
         """
+        # import can't be performed at module level, because it conflicts with import
+        # of customized scapy version by T-Rex
+        import scapy.layers.inet as inet
+
         self.packet_data['vlan'] = [
             inet.Dot1Q(vlan=vlan_id, **kwargs),
             inet.Dot1Q(vlan=vlan_id, **kwargs)]
