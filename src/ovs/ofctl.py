@@ -25,10 +25,10 @@ import re
 import netaddr
 
 from tools import tasks
-from conf import settings
+from conf import settings as S
 
-_OVS_BRIDGE_NAME = settings.getValue('VSWITCH_BRIDGE_NAME')
-_OVS_CMD_TIMEOUT = settings.getValue('OVS_CMD_TIMEOUT')
+_OVS_BRIDGE_NAME = S.getValue('VSWITCH_BRIDGE_NAME')
+_OVS_CMD_TIMEOUT = S.getValue('OVS_CMD_TIMEOUT')
 
 _CACHE_FILE_NAME = '/tmp/vsperf_flows_cache'
 
@@ -62,9 +62,11 @@ class OFBase(object):
         :return: None
         """
         if self.timeout == -1:
-            cmd = ['sudo', settings.getValue('TOOLS')['ovs-vsctl'], '--no-wait'] + args
+            cmd = ['sudo', S.getValue('TOOLS')['ovs-vsctl'], '--no-wait'] + \
+                  S.getValue('OVS_VSCTL_ARGS') + args
         else:
-            cmd = ['sudo', settings.getValue('TOOLS')['ovs-vsctl'], '--timeout', str(self.timeout)] + args
+            cmd = ['sudo', S.getValue('TOOLS')['ovs-vsctl'], '--timeout',
+                   str(self.timeout)] + S.getValue('OVS_VSCTL_ARGS') + args
         return tasks.run_task(
             cmd, self.logger, 'Running ovs-vsctl...', check_error)
 
@@ -77,9 +79,9 @@ class OFBase(object):
 
         :return: None
         """
-        cmd = ['sudo', settings.getValue('TOOLS')['ovs-appctl'],
+        cmd = ['sudo', S.getValue('TOOLS')['ovs-appctl'],
                '--timeout',
-               str(self.timeout)] + args
+               str(self.timeout)] + S.getValue('OVS_APPCTL_ARGS') + args
         return tasks.run_task(
             cmd, self.logger, 'Running ovs-appctl...', check_error)
 
@@ -180,8 +182,8 @@ class OFBridge(OFBase):
         :return: None
         """
         tmp_timeout = self.timeout if timeout is None else timeout
-        cmd = ['sudo', settings.getValue('TOOLS')['ovs-ofctl'], '-O',
-               'OpenFlow13', '--timeout', str(tmp_timeout)] + args
+        cmd = ['sudo', S.getValue('TOOLS')['ovs-ofctl'], '--timeout',
+               str(tmp_timeout)] + S.getValue('OVS_OFCTL_ARGS') + args
         return tasks.run_task(
             cmd, self.logger, 'Running ovs-ofctl...', check_error)
 
