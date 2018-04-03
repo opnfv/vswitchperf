@@ -48,6 +48,7 @@ VSPERF Install and Configuration
    ./installation.rst
    ./upgrade.rst
    ./trafficgen.rst
+   ./tools.rst
 
 =================
 VSPERF Test Guide

@@ -216,6 +216,12 @@ A Kernel Module that provides OSI Layer 2 Ipv4 termination or forwarding with
 support for Destination Network Address Translation (DNAT) for both the MAC and
 IP addresses. l2fwd can be found in <vswitchperf_dir>/src/l2fwd
 
+Additional Tools Setup
+^^^^^^^^^^^^^^^^^^^^^^
+
+Follow the `Additional tools instructions <additional-tools-configuration>` to
+install and configure additional tools such as collectors and loadgens.
+
 Executing tests
 ^^^^^^^^^^^^^^^
 
