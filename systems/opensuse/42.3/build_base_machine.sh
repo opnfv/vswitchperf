@@ -50,6 +50,7 @@ sysstat
 java-1_8_0-openjdk
 git-review
 mlocate
+sshpass
 
 # python
 python3

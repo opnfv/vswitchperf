@@ -20,6 +20,7 @@
 #   Jose Lausuch, SUSE LINUX GmbH
 
 zypper -q -n dup
+zypper ar -G http://download.opensuse.org/repositories/openSUSE:/Backports:/SLE-15/standard/ backports
 zypper -q -n in -y $(echo "
 # compiler, tools and dependencies
 make
@@ -73,6 +74,7 @@ libopenssl1_1
 libopenssl-devel
 libpython3_6m1_0
 libzmq5
+sshpass
 
 " | grep -v ^#)
 
