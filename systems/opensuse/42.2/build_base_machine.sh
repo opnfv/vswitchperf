@@ -49,6 +49,7 @@ socat
 sysstat
 java-1_8_0-openjdk
 git-review
+sshpass
 
 # python
 python3
