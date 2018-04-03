@@ -166,7 +166,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
 
         """
         if switch_name is None or remote_switch_name is None:
-            return
+            return None
 
         bridge = self._bridges[switch_name]
         remote_bridge = self._bridges[remote_switch_name]
@@ -382,7 +382,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
             with open(self._ovsdb_pidfile_path, "r") as pidfile:
                 ovsdb_pid = pidfile.read().strip()
 
-            self._logger.info("Killing ovsdb with pid: " + ovsdb_pid)
+            self._logger.info("Killing ovsdb with pid: %s", ovsdb_pid)
 
             if ovsdb_pid:
                 tasks.terminate_task(ovsdb_pid, logger=self._logger)
@@ -409,7 +409,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
     #
     # validate methods required for integration testcases
     #
-    def validate_add_switch(self, dummy_result, switch_name, dummy_params=None):
+    def validate_add_switch(self, _dummy_result, switch_name, _dummy_params=None):
         """Validate - Create a new logical switch with no ports
         """
         bridge = self._bridges[switch_name]
@@ -420,7 +420,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
 
     # Method could be a function
     # pylint: disable=no-self-use
-    def validate_del_switch(self, dummy_result, switch_name):
+    def validate_del_switch(self, _dummy_result, switch_name):
         """Validate removal of switch
         """
         bridge = OFBridge('tmp')
@@ -444,7 +444,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """
         return self.validate_add_phy_port(result, switch_name)
 
-    def validate_del_port(self, dummy_result, switch_name, port_name):
+    def validate_del_port(self, _dummy_result, switch_name, port_name):
         """ Validate that port_name was removed from bridge.
         """
         bridge = self._bridges[switch_name]
@@ -453,7 +453,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         assert 'Port "%s"' % port_name not in output[0]
         return True
 
-    def validate_add_flow(self, dummy_result, switch_name, flow, dummy_cache='off'):
+    def validate_add_flow(self, _dummy_result, switch_name, flow, _dummy_cache='off'):
         """ Validate insertion of the flow into the switch
         """
 
@@ -474,44 +474,44 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
                 return True
         return False
 
-    def validate_del_flow(self, dummy_result, switch_name, flow=None):
+    def validate_del_flow(self, _dummy_result, switch_name, flow=None):
         """ Validate removal of the flow
         """
         if not flow:
             # what else we can do?
             return True
-        return not self.validate_add_flow(dummy_result, switch_name, flow)
+        return not self.validate_add_flow(_dummy_result, switch_name, flow)
 
-    def validate_dump_flows(self, dummy_result, dummy_switch_name):
+    def validate_dump_flows(self, _dummy_result, _dummy_switch_name):
         """ Validate call of flow dump
         """
         return True
 
-    def validate_disable_rstp(self, dummy_result, switch_name):
+    def validate_disable_rstp(self, _dummy_result, switch_name):
         """ Validate rstp disable
         """
         bridge = self._bridges[switch_name]
         return 'rstp_enable         : false' in ''.join(bridge.bridge_info())
 
-    def validate_enable_rstp(self, dummy_result, switch_name):
+    def validate_enable_rstp(self, _dummy_result, switch_name):
         """ Validate rstp enable
         """
         bridge = self._bridges[switch_name]
         return 'rstp_enable         : true' in ''.join(bridge.bridge_info())
 
-    def validate_disable_stp(self, dummy_result, switch_name):
+    def validate_disable_stp(self, _dummy_result, switch_name):
         """ Validate stp disable
         """
         bridge = self._bridges[switch_name]
         return 'stp_enable          : false' in ''.join(bridge.bridge_info())
 
-    def validate_enable_stp(self, dummy_result, switch_name):
+    def validate_enable_stp(self, _dummy_result, switch_name):
         """ Validate stp enable
         """
         bridge = self._bridges[switch_name]
         return 'stp_enable          : true' in ''.join(bridge.bridge_info())
 
-    def validate_restart(self, dummy_result):
+    def validate_restart(self, _dummy_result):
         """ Validate restart
         """
         return True

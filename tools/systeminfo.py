@@ -191,7 +191,7 @@ def get_bin_version(binary, regex):
         return None
 
     versions = re.findall(regex, output)
-    if len(versions):
+    if versions:
         return versions[0]
     else:
         return None
@@ -297,7 +297,7 @@ def get_version(app_name):
                     if not '16' in release:
                         tmp_ver[2] += line.rstrip('\n').split(' ')[2]
 
-        if len(tmp_ver[0]):
+        if tmp_ver[0]:
             app_version = '.'.join(tmp_ver)
         app_git_tag = get_git_tag(S.getValue('TOOLS')['dpdk_src'])
     elif app_name.lower().startswith('qemu'):

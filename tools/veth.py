@@ -84,8 +84,7 @@ def del_veth_port(port, peer_port):
                        port, peer_port), False)
 
 
-# pylint: disable=unused-argument
-def validate_add_veth_port(result, port, peer_port):
+def validate_add_veth_port(_result, port, peer_port):
     """
     Validation function for integration testcases
     """
@@ -93,7 +92,7 @@ def validate_add_veth_port(result, port, peer_port):
     return all([port in devs, peer_port in devs])
 
 
-def validate_bring_up_eth_port(result, eth_port, namespace=None):
+def validate_bring_up_eth_port(_result, eth_port, namespace=None):
     """
     Validation function for integration testcases
     """
@@ -110,7 +109,7 @@ def validate_bring_up_eth_port(result, eth_port, namespace=None):
     return True
 
 
-def validate_del_veth_port(result, port, peer_port):
+def validate_del_veth_port(_result, port, peer_port):
     """
     Validation function for integration testcases
     """

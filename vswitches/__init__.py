@@ -17,4 +17,3 @@
 This package contains an interface the VSPERF core uses for controlling
 vSwitches and vSwitch-specific implementation modules of this interface.
 """
-

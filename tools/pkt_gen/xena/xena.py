@@ -276,10 +276,6 @@ class Xena(ITrafficGenerator):
         enable the pairs topology
         :return: None
         """
-        # set duplex mode, this code is valid, pylint complaining with a
-        # warning that many have complained about online.
-        # pylint: disable=redefined-variable-type
-
         try:
             if self._params['traffic']['bidir'] == "True":
                 j_file = XenaJSONMesh()

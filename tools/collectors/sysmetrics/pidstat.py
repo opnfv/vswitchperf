@@ -70,7 +70,7 @@ class Pidstat(collector.ICollector):
         into the file in directory with test results
         """
         monitor = settings.getValue('PIDSTAT_MONITOR')
-        self._logger.info('Statistics are requested for: ' + ', '.join(monitor))
+        self._logger.info('Statistics are requested for: %s', ', '.join(monitor))
         pids = systeminfo.get_pids(monitor)
         if pids:
             with open(self._log, 'w') as logfile:
@@ -135,7 +135,7 @@ class Pidstat(collector.ICollector):
         """Logs collected statistics.
         """
         for process in self._results:
-            logging.info("Process: " + '_'.join(process.split('_')[:-1]))
+            logging.info("Process: %s", '_'.join(process.split('_')[:-1]))
             for(key, value) in self._results[process].items():
                 logging.info("         Statistic: " + str(key) +
                              ", Value: " + str(value))

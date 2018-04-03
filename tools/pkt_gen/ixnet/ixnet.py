@@ -370,7 +370,7 @@ class IxNet(trafficgen.ITrafficGenerator):
                 next(reader)
                 for row in reader:
                     #Replace null entries added by Ixia with 0s.
-                    row = [entry if len(entry) > 0 else '0' for entry in row]
+                    row = [entry if entry else '0' for entry in row]
 
                     # tx_fps and tx_mps cannot be reliably calculated
                     # as the DUT may be modifying the frame size

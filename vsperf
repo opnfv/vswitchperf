@@ -116,7 +116,6 @@ def parse_arguments():
         e.g. --test-params "['x=z; y=(a,b)','x=z']"
         """
         def __call__(self, parser, namespace, values, option_string=None):
-
             if values[0] == '[':
                 input_list = ast.literal_eval(values)
                 parameter_list = []
@@ -327,7 +326,7 @@ def get_vswitch_names(rst_files):
     """ Function will return a list of vSwitches detected in given ``rst_files``.
     """
     vswitch_names = set()
-    if len(rst_files):
+    if rst_files:
         try:
             output = subprocess.check_output(['grep', '-h', '^* vSwitch'] + rst_files).decode().splitlines()
             for line in output:
@@ -335,7 +334,7 @@ def get_vswitch_names(rst_files):
                 if match:
                     vswitch_names.add(match.group(1))
 
-            if len(vswitch_names):
+            if vswitch_names:
                 return list(vswitch_names)
 
         except subprocess.CalledProcessError:
@@ -366,7 +365,7 @@ def generate_final_report():
     # check if there are any results in rst format
     rst_results = glob.glob(os.path.join(path, 'result*rst'))
     pkt_processors = get_vswitch_names(rst_results)
-    if len(rst_results):
+    if rst_results:
         try:
             test_report = os.path.join(path, '{}_{}'.format('_'.join(pkt_processors), _TEMPLATE_RST['final']))
             # create report caption directly - it is not worth to execute jinja machinery
@@ -474,7 +473,7 @@ def enable_sriov(nic_list):
                 sriov_nic.update({tmp_nic[0] : int(tmp_nic[1][2:])})
 
     # sriov is required for some NICs
-    if len(sriov_nic):
+    if sriov_nic:
         for nic in sriov_nic:
             # check if SRIOV is supported and enough virt interfaces are available
             if not networkcard.is_sriov_supported(nic) \
@@ -590,7 +589,7 @@ def vsperf_finalize():
         if os.path.exists(results_path):
             files_list = os.listdir(results_path)
             if files_list == []:
-                _LOGGER.info("Removing empty result directory: "  + results_path)
+                _LOGGER.info("Removing empty result directory: %s", results_path)
                 shutil.rmtree(results_path)
     except AttributeError:
         # skip it if parameter doesn't exist
@@ -758,7 +757,7 @@ def main():
 
     # create results directory
     if not os.path.exists(results_path):
-        _LOGGER.info("Creating result directory: "  + results_path)
+        _LOGGER.info("Creating result directory: %s", results_path)
         os.makedirs(results_path)
     # pylint: disable=too-many-nested-blocks
     if settings.getValue('mode') == 'trafficgen':
@@ -802,15 +801,11 @@ def main():
             # Default - run all tests
             selected_tests = testcases
 
-        if not len(selected_tests):
+        if not selected_tests:
             _LOGGER.error("No tests matched --tests option or positional args. Done.")
             vsperf_finalize()
             sys.exit(1)
 
-        # run tests
-        # Add pylint exception: Redefinition of test type from
-        # testcases.integration.IntegrationTestCase to testcases.performance.PerformanceTestCase
-        # pylint: disable=redefined-variable-type
         suite = unittest.TestSuite()
         settings_snapshot = copy.deepcopy(settings.__dict__)
 

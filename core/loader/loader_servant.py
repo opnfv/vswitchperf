@@ -120,7 +120,7 @@ class LoaderServant(object):
 
         if class_name in results:
             logging.info(
-                "Class found: " + class_name + ".")
+                "Class found: %s.", class_name)
             return results.get(class_name)
 
         return None
@@ -180,7 +180,7 @@ class LoaderServant(object):
                         mod = imp.load_module(
                             modname, *imp.find_module(modname, [root]))
                 except ImportError:
-                    logging.error('Could not import file ' + filename)
+                    logging.error('Could not import file %s', filename)
                     raise
 
                 mods.append((modname, mod))

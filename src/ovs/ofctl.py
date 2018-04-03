@@ -469,4 +469,4 @@ def flow_match(flow_dump, flow_src):
     for rule in flow_src_list:
         if rule in flow_dump_list:
             flow_src_ctrl.remove(rule)
-    return True if not len(flow_src_ctrl) else False
+    return True if not flow_src_ctrl else False
