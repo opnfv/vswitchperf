@@ -2,6 +2,81 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
+OPNFV Fraser Release
+====================
+
+* Pylint 1.8.2 code conformity
+* Python virtualenv moved to python-3.
+* LTD: Requirements specification for Soak/Long Duration Tests
+
+* Documentation
+
+    * Configuration and installation of additional tools.
+    * Xena install document update.
+    * Installation prerequisites update
+    * Traffic Capture methods explained
+
+* Virtual-Switches
+
+    * OVS: Configurable arguments for ovs-\*ctl
+    * OVS: Fix vswitch shutdown process
+    * OVS and VPP: Improve add_phy_port error messages
+    * OVS and VPP: Updated to recent version
+    * VPP: Define vppctl socket name
+    * VPP: Multiqueue support for VPP
+
+* Tools
+
+    * Support for Stressor-VMs as a Loadgen
+    * Support for collectd as one of the collectors
+    * Support for LLC management with Intel RMD
+
+* Traffic Generators
+
+    * Update T-Rex to v2.38
+    * Support T-Rex Traffic generator in a VM
+    * T-Rex_speed_improvement: Add logic for dealing with high speed cards
+    * T-Rex: Improve error handling
+    * Ixia: Added support of LISTs in TRAFFIC
+    * T-Rex: Added support for traffic capture
+    * All Traffic-Gens: Postponed call of connect operation.
+    * T-Rex: RFC2544 verification functionality to Trex code
+    * T-Rex: Added learning packet option to T-Rex testing
+    * T-Rex: Added packet counts to T-Rrex reporting
+    * T-Rex: Added multistream support to T-Rex
+    * T-Rex: Added promiscuous option for trex for SRIOV tests
+    * T-Rex: RFC2544 Throughput bugfixing
+
+* Configuration
+
+    * Performance Matrix functionality support
+
+* Tests
+
+    * Tests with T-Rex in VM
+    * Improvements of step driven Testcases
+    * OVS/DPDK regression tests
+    * Traffic Capture testcases added.
+
+* Installation Scripts
+
+    * Support for SLES15 and openSuse Tumbleweed
+    * Fedora installation script update
+    * rhel_path_fix: Fix pathing issue introduce by other commit
+    * Updated build scripts for Centos and RHEL to python34
+
+* CI
+
+    * Update hugepages configuration
+    * Disable VPP tests, if required
+
+* Additional Fixes
+
+    * Defining _EXECUTED_PIDS in config file
+    * conflict of scapy libraries
+    * typo in MERGE job definition
+    * Modified algorithm for PATHS verification
+
 OPNFV Euphrates Release
 =======================
 
