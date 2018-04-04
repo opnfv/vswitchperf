@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_e74ea595",
+        "filename": "docs/testing/user/configguide/tools.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-04-04T15:03:00Z",
+      "side": 1,
+      "message": "add \"or the most recent release.\"",
+      "range": {
+        "startLine": 47,
+        "startChar": 56,
+        "endLine": 47,
+        "endChar": 219
+      },
+      "revId": "fc1d95dbb634da5a2dfde6648edf2a46636fe395",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_875fe140",
+        "filename": "docs/testing/user/configguide/tools.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-04-04T15:03:00Z",
+      "side": 1,
+      "message": "s/Interested/Interesting/ everywhere...",
+      "range": {
+        "startLine": 70,
+        "startChar": 26,
+        "endLine": 70,
+        "endChar": 36
+      },
+      "revId": "fc1d95dbb634da5a2dfde6648edf2a46636fe395",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
