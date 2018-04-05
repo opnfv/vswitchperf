@@ -47,7 +47,7 @@ pciutils
 cifs-utils
 socat
 sysstat
-java-9-openjdk
+java-10-openjdk
 mlocate
 
 # python
