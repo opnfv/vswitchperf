@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Jose Lausuch <jalausuch@suse.com>
+Code-Review+2: Al Morton <acmorton@att.com>
+Submitted-by: Al Morton <acmorton@att.com>
+Submitted-at: Fri, 06 Apr 2018 17:48:49 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/55047
+Project: vswitchperf
+Branch: refs/heads/stable/fraser
