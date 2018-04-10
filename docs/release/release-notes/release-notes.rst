@@ -2,6 +2,73 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
+OPNFV Fraser Release
+====================
+
+* Supported Versions - DPDK:17.08, OVS:2.8.1, VPP:17.07, QEMU:2.9.1
+* Pylint 1.8.2 code conformity
+* Python virtualenv moved to python-3.
+* LTD: Requirements specification for Soak/Long Duration Tests
+* Performance Matrix functionality support
+* Several bugfixes and minor improvements
+
+* Documentation
+
+    * Configuration and installation of additional tools.
+    * Xena install document update.
+    * Installation prerequisites update
+    * Traffic Capture methods explained
+
+* Virtual-Switches
+
+    * OVS: Configurable arguments for ovs-\*ctl
+    * OVS: Fix vswitch shutdown process
+    * VPP: Define vppctl socket name
+    * VPP: Multiqueue support for VPP
+    * OVS and VPP: Improve add_phy_port error messages
+    * OVS and VPP: Updated to recent version
+
+* Tools
+
+    * Support for Stressor-VMs as a Loadgen
+    * Support for collectd as one of the collectors
+    * Support for LLC management with Intel RMD
+
+* Traffic Generators
+
+    * All Traffic-Gens: Postponed call of connect operation.
+    * Ixia: Added support of LISTs in TRAFFIC
+    * T-Rex: Version v2.38 support added.
+    * T-Rex: Support for T-Rex Traffic generator in a VM.
+    * T-Rex: Add logic for dealing with high speed cards.
+    * T-Rex: Improve error handling.
+    * T-Rex: Added support for traffic capture.
+    * T-Rex: RFC2544 verification functionality included.
+    * T-Rex: Added learning packet option.
+    * T-Rex: Added packet counts for reporting
+    * T-Rex: Added multistream support
+    * T-Rex: Added promiscuous option for SRIOV tests
+    * T-Rex: RFC2544 Throughput bugfixing
+
+* Tests
+
+    * Tests with T-Rex in VM
+    * Improvements of step driven Testcases
+    * OVS/DPDK regression tests
+    * Traffic Capture testcases added.
+
+* Installation Scripts
+
+    * Support for SLES15 and openSuse Tumbleweed
+    * Fedora installation script update
+    * rhel_path_fix: Fix pathing issue introduce by other commit
+    * Updated build scripts for Centos and RHEL to python34
+
+* CI
+
+    * Update hugepages configuration
+    * Support disabling VPP tests, if required
+
 OPNFV Euphrates Release
 =======================
 
