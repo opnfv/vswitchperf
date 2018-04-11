@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_952a5d7c",
+        "filename": "docs/testing/user/configguide/tools.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-04-11T06:12:29Z",
+      "side": 1,
+      "message": "this is a correct approach, i.e. blank line after the caption (see comment below)",
+      "revId": "9d6351ca4055726c2ea9b9b5e7f3a6e31304403e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_b52799b5",
+        "filename": "docs/testing/user/configguide/tools.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-04-11T06:12:29Z",
+      "side": 1,
+      "message": "this is a correct approach, i.e. blank line after the caption (see comment below)",
+      "revId": "9d6351ca4055726c2ea9b9b5e7f3a6e31304403e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_5519f577",
+        "filename": "docs/testing/user/configguide/tools.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-04-11T06:12:29Z",
+      "side": 1,
+      "message": "AFAIK, there should be a blank line after the caption. Could you please fix it at all places below where the blank line is missing? Two captions above are correctly typed.",
+      "revId": "9d6351ca4055726c2ea9b9b5e7f3a6e31304403e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
