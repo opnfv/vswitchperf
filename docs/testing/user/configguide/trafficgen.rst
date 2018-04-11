@@ -75,7 +75,21 @@ and is configured as follows:
             'count': 1,
             'filter': '',
         },
+        'scapy': {
+            'enabled': False,
+            '0' : 'Ether(src={Ether_src}, dst={Ether_dst})/'
+                  'Dot1Q(prio={Dot1Q_prio}, id={Dot1Q_id}, vlan={Dot1Q_vlan})/'
+                  'IP(proto={IP_proto}, src={IP_src}, dst={IP_dst})/'
+                  '{IP_PROTO}(sport={IP_PROTO_sport}, dport={IP_PROTO_dport})',
+            '1' : 'Ether(src={Ether_dst}, dst={Ether_src})/'
+                  'Dot1Q(prio={Dot1Q_prio}, id={Dot1Q_id}, vlan={Dot1Q_vlan})/'
+                  'IP(proto={IP_proto}, src={IP_dst}, dst={IP_src})/'
+                  '{IP_PROTO}(sport={IP_PROTO_dport}, dport={IP_PROTO_sport})',
+        }
     }
+
+A detailed description of the ``TRAFFIC`` dictionary can be found at
+:ref:`configuration-of-traffic-dictionary`.
 
 The framesize parameter can be overridden from the configuration
 files by adding the following to your custom configuration file
@@ -907,3 +921,72 @@ The duration and maximum number of attempted verification trials can be set to c
 behavior of this step. If the verification step fails, it will resume the binary search
 with new values where the maximum output will be the last attempted frame rate minus the
 current set thresh hold.
+
+Scapy frame definition
+~~~~~~~~~~~~~~~~~~~~~~
+
+It is possible to use a SCAPY frame definition to generate various network protocols
+by the **T-Rex** traffic generator. In case that particular network protocol layer
+is disabled by the TRAFFIC dictionary (e.g. TRAFFIC['vlan']['enabled'] = False),
+then disabled layer will be removed from the scapy format definition by VSPERF.
+
+The scapy frame definition can refer to values defined by the TRAFFIC dictionary
+by following keywords. These keywords are used in next examples.
+
+* ``Ether_src`` - refers to ``TRAFFIC['l2']['srcmac']``
+* ``Ether_dst`` - refers to ``TRAFFIC['l2']['dstmac']``
+* ``IP_proto`` - refers to ``TRAFFIC['l3']['proto']``
+* ``IP_PROTO`` - refers to upper case version of ``TRAFFIC['l3']['proto']``
+* ``IP_src`` - refers to ``TRAFFIC['l3']['srcip']``
+* ``IP_dst`` - refers to ``TRAFFIC['l3']['dstip']``
+* ``IP_PROTO_sport`` - refers to ``TRAFFIC['l4']['srcport']``
+* ``IP_PROTO_dport`` - refers to ``TRAFFIC['l4']['dstport']``
+* ``Dot1Q_prio`` - refers to ``TRAFFIC['vlan']['priority']``
+* ``Dot1Q_id`` - refers to ``TRAFFIC['vlan']['cfi']``
+* ``Dot1Q_vlan`` - refers to ``TRAFFIC['vlan']['id']``
+
+In following examples of SCAPY frame definition only relevant parts of TRAFFIC
+dictionary are shown. The rest of the TRAFFIC dictionary is set to default values
+as they are defined in ``conf/03_traffic.conf``.
+
+Please check official documentation of SCAPY project for details about SCAPY frame
+definition and supported network layers at: http://www.secdev.org/projects/scapy
+
+#. Generate ICMP frames:
+
+   .. code-block:: console
+
+        'scapy': {
+            'enabled': True,
+            '0' : 'Ether(src={Ether_src}, dst={Ether_dst})/IP(proto={IP_proto}, src={IP_src}, dst={IP_dst})/ICMP()',
+            '1' : 'Ether(src={Ether_dst}, dst={Ether_src})/IP(proto={IP_proto}, src={IP_dst}, dst={IP_src})/ICMP()',
+        }
+
+#. Generate IPv6 ICMP Echo Request
+
+   .. code-block:: console
+
+        'l3' : {
+            'srcip': 'feed::01',
+            'dstip': 'feed::02',
+        },
+        'scapy': {
+            'enabled': True,
+            '0' : 'Ether(src={Ether_src}, dst={Ether_dst})/IPv6(src={IP_src}, dst={IP_dst})/ICMPv6EchoRequest()',
+            '1' : 'Ether(src={Ether_dst}, dst={Ether_src})/IPv6(src={IP_dst}, dst={IP_src})/ICMPv6EchoRequest()',
+        }
+
+#. Generate SCTP frames:
+
+   Example uses default SCAPY frame definition, which can reflect ``TRAFFIC['l3']['proto']`` settings. The same
+   approach can be used to generate other protocols, e.g. TCP.
+
+   .. code-block:: console
+
+        'l3' : {
+            'proto' : 'sctp',
+        },
+        'scapy': {
+            'enabled': True,
+        }
+

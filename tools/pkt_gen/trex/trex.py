@@ -15,12 +15,14 @@
 """
 Trex Traffic Generator Model
 """
+
 # pylint: disable=undefined-variable
 import logging
 import subprocess
 import sys
 import time
 import os
+import re
 from collections import OrderedDict
 # pylint: disable=unused-import
 import netaddr
@@ -68,6 +70,20 @@ _EMPTY_STATS = {
               'tx_bps_L1': 0.0,
               'tx_pps': 0.0,
               'tx_util': 0.0,}}
+
+# Default frame definition, which can be overridden by TRAFFIC['scapy'].
+# The content of the frame and its network layers are driven by TRAFFIC
+# dictionary, i.e. 'l2', 'l3, 'l4' and 'vlan' parts.
+_SCAPY_FRAME = {
+    '0' : 'Ether(src={Ether_src}, dst={Ether_dst})/'
+          'Dot1Q(prio={Dot1Q_prio}, id={Dot1Q_id}, vlan={Dot1Q_vlan})/'
+          'IP(proto={IP_proto}, src={IP_src}, dst={IP_dst})/'
+          '{IP_PROTO}(sport={IP_PROTO_sport}, dport={IP_PROTO_dport})',
+    '1' : 'Ether(src={Ether_dst}, dst={Ether_src})/'
+          'Dot1Q(prio={Dot1Q_prio}, id={Dot1Q_id}, vlan={Dot1Q_vlan})/'
+          'IP(proto={IP_proto}, src={IP_dst}, dst={IP_src})/'
+          '{IP_PROTO}(sport={IP_PROTO_dport}, dport={IP_PROTO_sport})',
+}
 
 
 class Trex(ITrafficGenerator):
@@ -165,35 +181,77 @@ class Trex(ITrafficGenerator):
         self._logger.info("T-Rex: In trex disconnect method")
         self._stlclient.disconnect(stop_traffic=True, release_ports=True)
 
-    @staticmethod
-    def create_packets(traffic, ports_info):
+    def create_packets(self, traffic, ports_info):
         """Create base packet according to traffic specification.
            If traffic haven't specified srcmac and dstmac fields
-           packet will be create with mac address of trex server.
+           packet will be created with mac address of trex server.
         """
-        mac_add = [li['hw_mac'] for li in ports_info]
+        if not traffic or traffic['l2']['framesize'] <= 0:
+            return (None, None)
 
-        if traffic and traffic['l2']['framesize'] > 0:
-            if traffic['l2']['dstmac'] == '00:00:00:00:00:00' and \
-               traffic['l2']['srcmac'] == '00:00:00:00:00:00':
-                base_pkt_a = Ether(src=mac_add[0], dst=mac_add[1])/ \
-                             IP(proto=traffic['l3']['proto'], src=traffic['l3']['srcip'],
-                                dst=traffic['l3']['dstip'])/ \
-                             UDP(dport=traffic['l4']['dstport'], sport=traffic['l4']['srcport'])
-                base_pkt_b = Ether(src=mac_add[1], dst=mac_add[0])/ \
-                             IP(proto=traffic['l3']['proto'], src=traffic['l3']['dstip'],
-                                dst=traffic['l3']['srcip'])/ \
-                             UDP(dport=traffic['l4']['srcport'], sport=traffic['l4']['dstport'])
-            else:
-                base_pkt_a = Ether(src=traffic['l2']['srcmac'], dst=traffic['l2']['dstmac'])/ \
-                             IP(proto=traffic['l3']['proto'], src=traffic['l3']['dstip'],
-                                dst=traffic['l3']['srcip'])/ \
-                             UDP(dport=traffic['l4']['dstport'], sport=traffic['l4']['srcport'])
+        if traffic['l2']['dstmac'] == '00:00:00:00:00:00' and \
+           traffic['l2']['srcmac'] == '00:00:00:00:00:00':
 
-                base_pkt_b = Ether(src=traffic['l2']['dstmac'], dst=traffic['l2']['srcmac'])/ \
-                             IP(proto=traffic['l3']['proto'], src=traffic['l3']['dstip'],
-                                dst=traffic['l3']['srcip'])/ \
-                             UDP(dport=traffic['l4']['srcport'], sport=traffic['l4']['dstport'])
+            mac_add = [li['hw_mac'] for li in ports_info]
+            src_mac = mac_add[0]
+            dst_mac = mac_add[1]
+        else:
+            src_mac = traffic['l2']['srcmac']
+            dst_mac = traffic['l2']['dstmac']
+
+        if traffic['scapy']['enabled']:
+            base_pkt_a = traffic['scapy']['0']
+            base_pkt_b = traffic['scapy']['1']
+        else:
+            base_pkt_a = _SCAPY_FRAME['0']
+            base_pkt_b = _SCAPY_FRAME['1']
+
+        # check and remove network layers disabled by TRAFFIC dictionary
+        # Note: In general, it is possible to remove layers from scapy object by
+        # e.g. del base_pkt_a['IP']. However it doesn't work for all layers
+        # (e.g. Dot1Q). Thus it is safer to modify string with scapy frame definition
+        # directly, before it is converted to the real scapy object.
+        if not traffic['vlan']['enabled']:
+            self._logger.info('VLAN headers are disabled by TRAFFIC')
+            base_pkt_a = re.sub(r'(^|\/)Dot1Q?\([^\)]*\)', '', base_pkt_a)
+            base_pkt_b = re.sub(r'(^|\/)Dot1Q?\([^\)]*\)', '', base_pkt_b)
+        if not traffic['l3']['enabled']:
+            self._logger.info('IP headers are disabled by TRAFFIC')
+            base_pkt_a = re.sub(r'(^|\/)IP(v6)?\([^\)]*\)', '', base_pkt_a)
+            base_pkt_b = re.sub(r'(^|\/)IP(v6)?\([^\)]*\)', '', base_pkt_b)
+        if not traffic['l4']['enabled']:
+            self._logger.info('%s headers are disabled by TRAFFIC',
+                              traffic['l3']['proto'].upper())
+            base_pkt_a = re.sub(r'(^|\/)(UDP|TCP|SCTP|{{IP_PROTO}}|{})\([^\)]*\)'.format(
+                traffic['l3']['proto'].upper()), '', base_pkt_a)
+            base_pkt_b = re.sub(r'(^|\/)(UDP|TCP|SCTP|{{IP_PROTO}}|{})\([^\)]*\)'.format(
+                traffic['l3']['proto'].upper()), '', base_pkt_b)
+
+        # pylint: disable=eval-used
+        base_pkt_a = eval(base_pkt_a.format(
+            Ether_src=repr(src_mac),
+            Ether_dst=repr(dst_mac),
+            Dot1Q_prio=traffic['vlan']['priority'],
+            Dot1Q_id=traffic['vlan']['cfi'],
+            Dot1Q_vlan=traffic['vlan']['id'],
+            IP_proto=repr(traffic['l3']['proto']),
+            IP_PROTO=traffic['l3']['proto'].upper(),
+            IP_src=repr(traffic['l3']['srcip']),
+            IP_dst=repr(traffic['l3']['dstip']),
+            IP_PROTO_sport=traffic['l4']['srcport'],
+            IP_PROTO_dport=traffic['l4']['dstport']))
+        base_pkt_b = eval(base_pkt_b.format(
+            Ether_src=repr(src_mac),
+            Ether_dst=repr(dst_mac),
+            Dot1Q_prio=traffic['vlan']['priority'],
+            Dot1Q_id=traffic['vlan']['cfi'],
+            Dot1Q_vlan=traffic['vlan']['id'],
+            IP_proto=repr(traffic['l3']['proto']),
+            IP_PROTO=traffic['l3']['proto'].upper(),
+            IP_src=repr(traffic['l3']['srcip']),
+            IP_dst=repr(traffic['l3']['dstip']),
+            IP_PROTO_sport=traffic['l4']['srcport'],
+            IP_PROTO_dport=traffic['l4']['dstport']))
 
         return (base_pkt_a, base_pkt_b)
 
@@ -299,7 +357,7 @@ class Trex(ITrafficGenerator):
         if settings.getValue('TRAFFICGEN_TREX_PROMISCUOUS'):
             self._stlclient.set_port_attr(my_ports, promiscuous=True)
 
-        packet_1, packet_2 = Trex.create_packets(traffic, ports_info)
+        packet_1, packet_2 = self.create_packets(traffic, ports_info)
         self.show_packet_info(packet_1, packet_2)
         stream_1, stream_2, stream_1_lat, stream_2_lat = Trex.create_streams(packet_1, packet_2, traffic)
         self._stlclient.add_streams(stream_1, ports=[0])
