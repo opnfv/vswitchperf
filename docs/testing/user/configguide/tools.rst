@@ -1,0 +1,177 @@
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
+.. (c) OPNFV, Intel Corporation, Spirent, AT&T and others.
+
+.. _additional-tools-configuration:
+
+=============================================
+'vsperf' Additional Tools Configuration Guide
+=============================================
+
+Overview
+--------
+
+VSPERF supports the following categories additional tools:
+
+  * `Infrastructure Metrics Collectors`_
+  * `Load Generators`_
+  * `L3 Cache Management`_
+
+Under each category, there are one or more tools supported by VSPERF.
+This guide provides the details of how to install (if required)
+and configure the above mentioned tools.
+
+.. _`Infrastructure Metrics Collectors`:
+
+Infrastructure Metrics Collection
+---------------------------------
+
+VSPERF supports following two tools for collecting and reporting the metrics:
+
+* pidstat
+* collectd
+
+*pidstat* is a command in linux systems, which is used for monitoring individual
+tasks currently being managed by Linux kernel.  In VSPERF this command is used to
+monitor *ovs-vswitchd*, *ovsdb-server* and *kvm* processes.
+
+*collectd* is linux application that collects, stores and transfers various system
+metrics. For every category of metrics, there is a separate plugin in collectd. For
+example, CPU plugin and Interface plugin provides all the cpu metrics and interface
+metrics, respectively. CPU metrics may include user-time, system-time, etc., whereas
+interface metrics may include received-packets, dropped-packets, etc.
+
+Installation
+^^^^^^^^^^^^
+
+No installation is required for *pidstat*, whereas, collectd has to be installed
+separately. For installation of collectd, we recommend to follow the process described
+in *OPNFV-Barometer* project, which can be found here `Barometer-Euphrates <http://docs.opnfv.org/en/stable-euphrates/submodules/barometer/docs/release/userguide/feature.userguide.html#building-all-barometer-upstreamed-plugins-from-scratch>`_ or the most
+recent release.
+
+VSPERF assumes that collectd is installed and configured to send metrics over localhost.
+The metrics sent should be for the following categories: CPU, Processes, Interface,
+OVS, DPDK, Intel-RDT.
+
+Configuration
+^^^^^^^^^^^^^
+
+The configuration file for the collectors can be found in **conf/05_collector.conf**.
+*pidstat* specific configuration includes:
+
+* ``PIDSTAT_MONITOR`` - processes to be monitored by pidstat
+* ``PIDSTAT_OPTIONS`` - options which will be passed to pidstat command
+* ``PIDSTAT_SAMPLE_INTERVAL`` - sampling interval used by pidstat to collect statistics
+* ``LOG_FILE_PIDSTAT`` - prefix of pidstat's log file
+
+The *collectd* configuration option includes:
+
+* ``COLLECTD_IP``  - IP address where collectd is running
+* ``COLLECTD_PORT``  - Port number over which collectd is sending the metrics
+* ``COLLECTD_SECURITY_LEVEL``  - Security level for receiving metrics
+* ``COLLECTD_AUTH_FILE`` - Authentication file for receiving metrics
+* ``LOG_FILE_COLLECTD`` - Prefix for collectd's log file.
+* ``COLLECTD_CPU_KEYS`` - Interesting metrics from CPU
+* ``COLLECTD_PROCESSES_KEYS`` - Interesting metrics from processes
+* ``COLLECTD_INTERFACE_KEYS`` - Interesting metrics from interface
+* ``COLLECTD_OVSSTAT_KEYS`` - Interesting metrics from OVS
+* ``COLLECTD_DPDKSTAT_KEYS`` - Interesting metrics from DPDK.
+* ``COLLECTD_INTELRDT_KEYS`` - Interesting metrics from Intel-RDT
+* ``COLLECTD_INTERFACE_XKEYS`` - Metrics to exclude from Interface
+* ``COLLECTD_INTELRDT_XKEYS`` - Metrics to exclude from Intel-RDT
+
+
+.. _`Load Generators`:
+
+
+Load Generation
+---------------
+
+In VSPERF, load generation refers to creating background cpu and memory loads to
+study the impact of these loads on system under test. There are two options to
+create loads in VSPERF. These options are used for different use-cases. The options are:
+
+* stress or stress-ng
+* Stressor-VMs
+
+*stress and stress-ng* are linux tools to stress the system in various ways.
+It can stress different subsystems such as CPU and memory. *stress-ng* is the
+improvised version of *stress*. StressorVMs are custom build virtual-machines
+for the noisy-neighbor use-cases.
+
+Installation
+^^^^^^^^^^^^
+
+stress and stress-ng can be installed through standard linux installation process.
+Information about stress-ng, including the steps for installing can be found
+here: `stress-ng <https://github.com/ColinIanKing/stress-ng>`_
+
+There are two options for StressorVMs - one is VMs based on stress-ng and second
+is VM based on Spirent's cloudstress. VMs based on stress-ng can be found in this
+`link <https://github.com/opensource-tnbt/stressng-images>`_ . Spirent's cloudstress
+based VM can be downloaded from this `site <https://github.com/spirent/cloudstress>`_
+
+These stressorVMs are of OSV based VMs, which are very small in size. Download
+these VMs and place it in appropriate location, and this location will used in
+the configuration - as mentioned below.
+
+Configuration
+^^^^^^^^^^^^^
+
+The configuration file for loadgens can be found in **conf/07_loadgen.conf**.
+There are no specific configurations for stress and stress-ng commands based
+load-generation. However, for StressorVMs, following configurations apply:
+
+* ``NN_COUNT``  - Number of stressor VMs required.
+* ``NN_MEMORY``  - Comma separated memory configuration for each VM
+* ``NN_SMP``  -  Comma separated configuration for each VM
+* ``NN_IMAGE``  -  Comma separated list of Paths for each VM image
+* ``NN_SHARED_DRIVE_TYPE``  - Comma separated list of shaed drive type for each VM
+* ``NN_BOOT_DRIVE_TYPE``  - Comma separated list of boot drive type for each VM
+* ``NN_CORE_BINDING``  -  Comma separated lists of list specifying the cores associated with each VM.
+* ``NN_NICS_NR``  -  Comma seprated list of number of NICS for each VM
+* ``NN_BASE_VNC_PORT``  -  Base VNC port Index.
+* ``NN_LOG_FILE``  - Name of the log file
+
+.. _`L3 Cache Management`:
+
+Last Level Cache Management
+---------------------------
+
+VSPERF support last-level cache management using Intel's RDT tool(s) - the
+relavant ones are `Intel CAT-CMT <https://github.com/intel/intel-cmt-cat>`_ and
+`Intel RMD <https://github.com/intel/rmd>`_. RMD is a linux daemon that runs on
+individual hosts, and provides a REST API for control/orchestration layer to
+request LLC for the VMs/Containers/Applications. RDT receives resource policy
+form orchestration layer - in this case, from VSPERF - and enforce it on the host.
+It achieves this enforcement via kernel interfaces such as resctrlfs and libpqos.
+The resource here refer to the last-level cache. User can configure policies to
+define how much of cache a CPU can get. The policy configuration is described below.
+
+Installation
+^^^^^^^^^^^^
+
+For installation of RMD tool, please install CAT-CMT first and then install RMD.
+The details of installation can be found here: `Intel CAT-CMT <https://github.com/intel/intel-cmt-cat>`_
+and `Intel RMD <https://github.com/intel/rmd>`_
+
+Configuration
+^^^^^^^^^^^^^
+
+The configuration file for cache management can be found in **conf/08_llcmanagement.conf**.
+
+VSPERF provides following configuration options, for user to define and enforce policies via RMD.
+
+* ``LLC_ALLOCATION`` - Enable or Disable LLC management.
+* ``RMD_PORT`` - RMD port (port number on which API server is listening)
+* ``RMD_SERVER_IP`` - IP address where RMD is running. Currently only localhost.
+* ``RMD_API_VERSION`` - RMD version. Currently it is 'v1'
+* ``POLICY_TYPE`` - Specify how the policy is defined - either COS or CUSTOM
+* ``VSWITCH_COS`` - Class of service (CoS for Vswitch. CoS can be gold, silver-bf or bronze-shared.
+* ``VNF_COS``  - Class of service for VNF
+* ``PMD_COS`` - Class of service for PMD
+* ``NOISEVM_COS`` - Class of service of Noisy VM.
+* ``VSWITCH_CA`` - [min-cache-value, maxi-cache-value] for vswitch
+* ``VNF_CA`` - [min-cache-value, max-cache-value] for VNF
+* ``PMD_CA`` - [min-cache-value, max-cache-value] for PMD
+* ``NOISEVM_CA`` - [min-cache-value, max-cache-value] for Noisy VM
