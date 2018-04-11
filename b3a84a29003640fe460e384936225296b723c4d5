@@ -1,0 +1,7 @@
+Code-Review+2: Martin Klozik <martinx.klozik@intel.com>
+Verified+1: Martin Klozik <martinx.klozik@intel.com>
+Submitted-by: Martin Klozik <martinx.klozik@intel.com>
+Submitted-at: Wed, 11 Apr 2018 09:49:06 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/55407
+Project: vswitchperf
+Branch: refs/heads/stable/fraser
