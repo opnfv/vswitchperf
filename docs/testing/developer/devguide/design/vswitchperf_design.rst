@@ -291,8 +291,8 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
 .. code-block:: console
 
     'traffic_type'  - One of the supported traffic types.
-                      E.g. rfc2544_throughput, rfc2544_back2back
-                      or rfc2544_continuous
+                      E.g. rfc2544_throughput, rfc2544_back2back,
+                      rfc2544_continuous or burst
                       Data type: str
                       Default value: "rfc2544_throughput".
     'bidir'         - Specifies if generated traffic will be full-duplex (True)
@@ -302,6 +302,12 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
                       Default value: "False".
     'frame_rate'    - Defines desired percentage of frame rate used during
                       continuous stream tests.
+                      Data type: int
+                      Default value: 100.
+    'burst_size'    - Defines a number of frames in the single burst, which is sent
+                      by burst traffic type. Burst size is applied for each direction,
+                      i.e. the total number of tx frames will be 2*burst_size in case of
+                      bidirectional traffic.
                       Data type: int
                       Default value: 100.
     'multistream'   - Defines number of flows simulated by traffic generator.
@@ -814,7 +820,7 @@ ITrafficGenerator
       connect()
       disconnect()
 
-      send_burst_traffic(traffic, numpkts, time, framerate)
+      send_burst_traffic(traffic, time)
 
       send_cont_traffic(traffic, time, framerate)
       start_cont_traffic(traffic, time, framerate)

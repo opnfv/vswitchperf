@@ -240,14 +240,13 @@ class Moongen(ITrafficGenerator):
         """
         self._logger.info("MOONGEN: In moongen disconnect method")
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
+    def send_burst_traffic(self, traffic=None, duration=20):
         """Send a burst of traffic.
 
-        Send a ``numpkts`` packets of traffic, using ``traffic``
+        Send a ``traffic['burst_traffic']`` packets of traffic, using ``traffic``
         configuration, with a timeout of ``time``.
 
         :param traffic: Detailed "traffic" spec, i.e. IP address, VLAN tags
-        :param numpkts: Number of packets to send
         :param duration: Time to wait to receive packets
 
         :returns: dictionary of strings with following data:

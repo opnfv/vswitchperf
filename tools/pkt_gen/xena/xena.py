@@ -566,7 +566,7 @@ class Xena(ITrafficGenerator):
             self._xsocket.disconnect()
             self._xsocket = None
 
-    def send_burst_traffic(self, traffic=None, numpkts=100, duration=20):
+    def send_burst_traffic(self, traffic=None, duration=20):
         """Send a burst of traffic.
 
         See ITrafficGenerator for description
@@ -577,7 +577,7 @@ class Xena(ITrafficGenerator):
         if traffic:
             self._params['traffic'] = merge_spec(self._params['traffic'],
                                                  traffic)
-        self._start_traffic_api(numpkts)
+        self._start_traffic_api(traffic['burst_size'])
         return self._stop_api_traffic()
 
     def send_cont_traffic(self, traffic=None, duration=20):
