@@ -128,6 +128,8 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
     def stop(self):
         """See IVswitch for general description
         """
+        for switch_name in list(self._bridges):
+            self.del_switch(switch_name)
         self._logger.info("Terminating vswitchd...")
         self.kill()
         self._bridges = {}
@@ -147,6 +149,8 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """See IVswitch for general description
         """
         bridge = self._bridges[switch_name]
+        for port in list(bridge.get_ports()):
+            bridge.del_port(port)
         self._bridges.pop(switch_name)
         bridge.destroy()
 
