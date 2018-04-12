@@ -147,6 +147,8 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """See IVswitch for general description
         """
         bridge = self._bridges[switch_name]
+        for port in list(bridge.get_ports()):
+            bridge.del_port(port)
         self._bridges.pop(switch_name)
         bridge.destroy()
 
