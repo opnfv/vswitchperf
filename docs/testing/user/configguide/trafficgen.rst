@@ -974,8 +974,8 @@ definition and supported network layers at: http://www.secdev.org/projects/scapy
 
         'scapy': {
             'enabled': True,
-            '0' : 'Ether(src={Ether_src}, dst={Ether_dst})/IP(proto={IP_proto}, src={IP_src}, dst={IP_dst})/ICMP()',
-            '1' : 'Ether(src={Ether_dst}, dst={Ether_src})/IP(proto={IP_proto}, src={IP_dst}, dst={IP_src})/ICMP()',
+            '0' : 'Ether(src={Ether_src}, dst={Ether_dst})/IP(proto="icmp", src={IP_src}, dst={IP_dst})/ICMP()',
+            '1' : 'Ether(src={Ether_dst}, dst={Ether_src})/IP(proto="icmp", src={IP_dst}, dst={IP_src})/ICMP()',
         }
 
 #. Generate IPv6 ICMP Echo Request
@@ -992,17 +992,13 @@ definition and supported network layers at: http://www.secdev.org/projects/scapy
             '1' : 'Ether(src={Ether_dst}, dst={Ether_src})/IPv6(src={IP_dst}, dst={IP_src})/ICMPv6EchoRequest()',
         }
 
-#. Generate SCTP frames:
+#. Generate TCP frames:
 
-   Example uses default SCAPY frame definition, which can reflect ``TRAFFIC['l3']['proto']`` settings. The same
-   approach can be used to generate other protocols, e.g. TCP.
+   Example uses default SCAPY frame definition, which can reflect ``TRAFFIC['l3']['proto']`` settings.
 
    .. code-block:: console
 
         'l3' : {
-            'proto' : 'sctp',
+            'proto' : 'tcp',
         },
-        'scapy': {
-            'enabled': True,
-        }
 
