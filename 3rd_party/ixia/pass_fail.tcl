@@ -431,7 +431,7 @@ proc sendTraffic { flowSpec trafficSpec } {
         if {[udp set $::chassis $::card $::port1]} {
             errorMsg "Error setting udp on port $::chassis.$::card.$::port1"
         }
-        errorMsg "frameSize: $frameSize, packetSize: $packetSize, srcMac: $srcMac, dstMac: $dstMac, srcPort: $srcPort, dstPort: $dstPort"
+        errorMsg "frameSize: $frameSize, packetSize: $packetSize, srcMac: $srcMac, dstMac: $dstMac, srcPort: $srcPort, dstPort: $dstPort, framerate: $frameRate %"
         if {[info exists protocolPad]} {
             errorMsg "protocolPad: $protocolPad, protocolPadBytes: $protocolPadBytes"
         }
@@ -544,8 +544,8 @@ proc sendTraffic { flowSpec trafficSpec } {
         } else {
             errorMsg "Too many packets for capture."
         }
-
-        set result [list $framesSent $framesRecv $bytesSent $bytesRecv $payError $seqError]
+        lappend result $payError
+        lappend result $seqError
         return $result
     } else {
         errorMsg "streamtype is not supported: '$streamType'"
@@ -638,6 +638,9 @@ proc stopTraffic {} {
     logMsg "Frame Rate Sent:   $sendRate"
     logMsg "Frame Rate Recv:   $recvRate\n"
 
+    logMsg "Bytes Rate Sent:   $sendRateBytes"
+    logMsg "Bytes Rate Recv:   $recvRateBytes\n"
+
     set result [list $framesSent $framesRecv $bytesSent $bytesRecv $sendRate $recvRate $sendRateBytes $recvRateBytes]
 
     return $result
@@ -728,13 +731,6 @@ proc rfcThroughputTest { testSpec trafficSpec } {
             set framesDroppedRate 100
         }
 
-        # check if we've already found the rate before 10 iterations, i.e.
-        # 'percentRate = idealValue'. This is as accurate as we can get with
-        # integer values.
-        if {[expr "$max - $min"] <= 0.5 } {
-            break
-        }
-
         # handle 'percentRate <= idealValue' case
         if {$framesDroppedRate <= $lossRate} {
             logMsg "Frame sendRate of '$sendRate' pps succeeded ('$framesDropped' frames dropped)"
@@ -754,6 +750,18 @@ proc rfcThroughputTest { testSpec trafficSpec } {
             set max $percentRate
             set percentRate [expr "$percentRate - ([expr "$max - $min"] * 0.5)"]
         }
+
+        # check if we've already found the rate before 10 iterations, i.e.
+        # 'percentRate = idealValue'. This is as accurate as we can get with
+        # integer values.
+        if {[expr "$max - $min"] <= 0.5 } {
+            logMsg "End of search condition for framerate is met: $max % - $min % <= 0.5 %"
+            break
+        }
+
+        logMsg "Waiting 2000 ms"
+        # wait to process delayed frames
+        after 2000
     }
 
     set bestRate [lindex $result 4]
