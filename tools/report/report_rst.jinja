@@ -90,7 +90,9 @@ Testing Activities/Events
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 pidstat is used to collect the process statistics, as such some values such as
 %CPU and %USER maybe > 100% as the values are summed across multiple cores. For
-more info on pidstat please see: http://linux.die.net/man/1/pidstat.
+more info on pidstat please see: http://linux.die.net/man/1/pidstat. Please
+note that vsperf recalculates the CPU consumption of a process by aggregating
+the CPU usage of each thread.
 
 Known issues: Some reported metrics have the value "unkown". These values are
 marked unknown as they are not values retrieved from the external tester
