@@ -23,6 +23,13 @@ the step number by one which is indicated in the log.
 
     (testcases.integration) - Step 0 'vswitch add_vport ['br0']' start
 
+Test steps are defined as a list of steps within a ``"TestSteps"`` item of test
+case definition. Each step is a list with following structure:
+re
+.. code-block:: python
+
+    '[' [ optional-alias ',' ] test-object ',' test-function [ ',' optional-function-params ] '],'
+
 Step driven tests can be used for both performance and integration testing.
 In case of integration test, each step in the test case is validated. If a step
 does not pass validation the test will fail and terminate. The test will continue
@@ -57,8 +64,14 @@ Step driven testcases can be used in two different ways:
 Test objects and their functions
 --------------------------------
 
-Every test step can call a function of one of the supported test objects. The list
-of supported objects and their most common functions follows:
+Every test step can call a function of one of the supported test objects. In general
+any existing function of supported test object can be called by test step. In case
+that step validation is required (valid for integration test steps, which are not
+suppressed), then appropriate ``validate_`` method must be implemented.
+
+The list of supported objects and their most common functions is listed below. Please
+check implementation of test objects for full list of implemented functions and their
+parameters.
 
     * ``vswitch`` - provides functions for vSwitch configuration
 
@@ -176,6 +189,8 @@ of supported objects and their most common functions follows:
 
         * ``getValue param`` - returns value of given ``param``
         * ``setValue param value`` - sets value of ``param`` to given ``value``
+        * ``resetValue param`` - if ``param`` was overridden by ``TEST_PARAMS`` (e.g. by "Parameters"
+          section of the test case definition), then it will be set to its original value.
 
         Examples:
 
@@ -184,6 +199,8 @@ of supported objects and their most common functions follows:
             ['settings', 'getValue', 'TOOLS']
 
             ['settings', 'setValue', 'GUEST_USERNAME', ['root']]
+
+            ['settings', 'resetValue', 'WHITELIST_NICS'],
 
         It is possible and more convenient to access any VSPERF configuration option directly
         via ``$NAME`` notation. Option evaluation is done during runtime and vsperf will
