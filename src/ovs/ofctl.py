@@ -156,21 +156,6 @@ class OFBridge(OFBase):
         self._ports = {}
         self._cache_file = None
 
-    # context manager
-
-    def __enter__(self):
-        """Create datapath
-
-        :returns: self
-        """
-        return self
-
-    def __exit__(self, type_, value, traceback):
-        """Remove datapath.
-        """
-        if not traceback:
-            self.destroy()
-
     # helpers
 
     def run_ofctl(self, args, check_error=False, timeout=None):
