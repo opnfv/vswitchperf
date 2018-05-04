@@ -1,6 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. (c) OPNFV, Intel Corporation, AT&T and others.
+.. (c) OPNFV, Intel Corporation, AT&T, Tieto and others.
 
 .. _integration-tests:
 
@@ -21,6 +21,12 @@ P2P (Physical to Physical scenarios).
 
 NOTE: The configuration for overlay tests provided in this guide is for
 unidirectional traffic only.
+
+NOTE: The overlay tests require an IxNet traffic generator. The tunneled traffic
+is configured by ``ixnetrfc2544v2.tcl`` script. This script can be used
+with all supported deployment scenarios for generation of frames with VXLAN, GRE
+or GENEVE protocols. In that case options "Tunnel Type" and "TRAFFICGEN_IXNET_TCL_SCRIPT"
+must be properly configured at testcase definition.
 
 Executing Integration Tests
 ---------------------------
