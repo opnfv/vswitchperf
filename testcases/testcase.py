@@ -38,7 +38,16 @@ from tools import veth
 from tools.teststepstools import TestStepsTools
 from tools.llc_management import rmd
 
+# Validation methods required for integration TCs will have following prefix before the name
+# of original method.
 CHECK_PREFIX = 'validate_'
+
+# Several parameters can be defined by both TC definition keywords and configuration parameters.
+# Following mapping table is used to correctly evaluate priority of testcase configuration, where
+# TC definition keywords (i.e. mapping table keys) have higher priority than appropriate TC
+# parameters (i.e. mapping table values). TC parameters can be defined within "Parameters"
+# section, via CLI parameters or within configuration files.
+MAPPING_TC_CFG2CONF = {'vSwitch':'VSWITCH', 'VNF':'VNF', 'Trafficgen':'TRAFFICGEN', 'Tunnel Type':'TUNNEL_TYPE'}
 
 # pylint: disable=too-many-instance-attributes
 class TestCase(object):
@@ -89,6 +98,12 @@ class TestCase(object):
         test_params = copy.deepcopy(S.getValue('TEST_PARAMS'))
         tc_test_params = cfg.get('Parameters', S.getValue('TEST_PARAMS'))
         test_params = merge_spec(test_params, tc_test_params)
+
+        # ensure that parameters from TC definition have the highest priority, see MAPPING_TC_CFG2CONF
+        for (cfg_param, param) in MAPPING_TC_CFG2CONF.items():
+            if cfg_param in cfg and param in test_params:
+                del test_params[param]
+
         S.setValue('TEST_PARAMS', test_params)
         S.check_test_params()
 

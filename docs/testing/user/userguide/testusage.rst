@@ -107,11 +107,12 @@ line argument, etc. Thus it is important to understand the order of configuratio
 parameter evaluation. This "priority hierarchy" can be described like so
 (1 = max priority):
 
-1. Testcase definition section ``Parameters``
-2. Command line arguments (e.g. ``--test-params``, ``--vswitch``, etc.)
-3. Environment variables (see ``--load-env`` argument)
-4. Custom configuration file specified via ``--conf-file`` argument
-5. Standard configuration files, where higher prefix number means higher
+1. Testcase definition keywords ``vSwitch``, ``Trafficgen``, ``VNF`` and ``Tunnel Type``
+2. Parameters inside testcase definition section ``Parameters``
+3. Command line arguments (e.g. ``--test-params``, ``--vswitch``, ``--trafficgen``, etc.)
+4. Environment variables (see ``--load-env`` argument)
+5. Custom configuration file specified via ``--conf-file`` argument
+6. Standard configuration files, where higher prefix number means higher
    priority.
 
 For example, if the same configuration parameter is defined in custom configuration
