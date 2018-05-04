@@ -1,4 +1,4 @@
-# Copyright 2015-2017 Intel Corporation.
+# Copyright 2015-2018 Intel Co, Tieto and Others.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -149,7 +149,8 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """See IVswitch for general description
         """
         bridge = self._bridges[switch_name]
-        for port in list(bridge.get_ports()):
+        del_flow(bridge) 
+	for port in list(bridge.get_ports()):
             bridge.del_port(port)
         self._bridges.pop(switch_name)
         bridge.destroy()
