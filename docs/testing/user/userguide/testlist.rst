@@ -389,6 +389,22 @@ ovsdpdk_qos_pvp                          In a pvp setup, ensure when a QoS egres
                                          traffic is limited to the specified rate.
 ======================================== ======================================================================================
 
+Custom Statistics
++++++++++++++++++
+
+A set of functional testcases for validation of Custom Statistics support by OVS.
+This feature allows Custom Statistics to be accessed by VSPERF.
+
+These testcases require DPDK v17.11, the latest Open vSwitch(v2.9.90)
+and the IxNet traffic-generator.
+
+======================================== ======================================================================================
+ovsdpdk_custstat_check                   Test if custom statistics are supported.
+ovsdpdk_custstat_rx_error                Test bad ethernet CRC counter 'rx_crc_errors' exposed by custom
+                                         statistics.
+
+======================================== ======================================================================================
+
 T-Rex in VM TestCases
 ^^^^^^^^^^^^^^^^^^^^^
 
