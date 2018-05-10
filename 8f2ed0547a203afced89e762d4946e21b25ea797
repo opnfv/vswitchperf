@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_12a8e375",
+        "filename": "vswitches/ovs.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-05-10T06:12:53Z",
+      "side": 1,
+      "message": "fix accidentally corrupted \"Corporation\"",
+      "range": {
+        "startLine": 1,
+        "startChar": 28,
+        "endLine": 1,
+        "endChar": 30
+      },
+      "revId": "8f2ed0547a203afced89e762d4946e21b25ea797",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_32ab5f76",
+        "filename": "vswitches/ovs.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-05-10T06:12:53Z",
+      "side": 1,
+      "message": "remove whitespace at the end\n\nadd comment stating, that any remaining flows and ports will be removed (may be to the method description instead of \"see...\"",
+      "revId": "8f2ed0547a203afced89e762d4946e21b25ea797",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
