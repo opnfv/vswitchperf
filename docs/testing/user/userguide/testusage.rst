@@ -91,54 +91,39 @@ Using a custom settings file
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If your ``10_custom.conf`` doesn't reside in the ``./conf`` directory
-of if you want to use an alternative configuration file, the file can
+or if you want to use an alternative configuration file, the file can
 be passed to ``vsperf`` via the ``--conf-file`` argument.
 
 .. code-block:: console
 
     $ ./vsperf --conf-file <path_to_custom_conf> ...
 
-Note that configuration passed in via the environment (``--load-env``)
-or via another command line argument will override both the default and
-your custom configuration files. This "priority hierarchy" can be
-described like so (1 = max priority):
+Evaluation of configuration parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The value of configuration parameter can be specified at various places,
+e.g. at the test case definition, inside configuration files, by the command
+line argument, etc. Thus it is important to understand the order of configuration
+parameter evaluation. This "priority hierarchy" can be described like so
+(1 = max priority):
 
 1. Testcase definition section ``Parameters``
-2. Command line arguments
-3. Environment variables
-4. Configuration file(s)
+2. Command line arguments (e.g. ``--test-params``, ``--vswitch``, etc.)
+3. Environment variables (see ``--load-env`` argument)
+4. Custom configuration file specified via ``--conf-file`` argument
+5. Standard configuration files, where higher prefix number means higher
+   priority.
 
-Further details about configuration files evaluation and special behaviour
+For example, if the same configuration parameter is defined in custom configuration
+file (specified via ``--conf-file`` argument), via ``--test-params`` argument
+and also inside ``Parameters`` section of the testcase definition, then parameter
+value from the ``Parameters`` section will be used.
+
+Further details about order of configuration files evaluation and special behaviour
 of options with ``GUEST_`` prefix could be found at :ref:`design document
 <design-configuration>`.
 
 .. _overriding-parameters-documentation:
-
-Referencing parameter values
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-It is possible to use a special macro ``#PARAM()`` to refer to the value of
-another configuration parameter. This reference is evaluated during
-access of the parameter value (by ``settings.getValue()`` call), so it
-can refer to parameters created during VSPERF runtime, e.g. NICS dictionary.
-It can be used to reflect DUT HW details in the testcase definition.
-
-Example:
-
-.. code:: python
-
-    {
-        ...
-        "Name": "testcase",
-        "Parameters" : {
-            "TRAFFIC" : {
-                'l2': {
-                    # set destination MAC to the MAC of the first
-                    # interface from WHITELIST_NICS list
-                    'dstmac' : '#PARAM(NICS[0]["mac"])',
-                },
-            },
-        ...
 
 Overriding values defined in configuration files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -196,6 +181,36 @@ and dictionaries.
 parameter name is passed via ``--test-params`` CLI argument or defined in ``Parameters``
 section of test case definition. It is also forbidden to redefine a value of
 ``TEST_PARAMS`` configuration item via CLI or ``Parameters`` section.
+
+**NOTE:** The new definition of the dictionary parameter, specified via ``--test-params``
+or inside ``Parameters`` section, will not override original dictionary values. Instead
+the original dictionary will be updated with values from the new dictionary definition.
+
+Referencing parameter values
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to use a special macro ``#PARAM()`` to refer to the value of
+another configuration parameter. This reference is evaluated during
+access of the parameter value (by ``settings.getValue()`` call), so it
+can refer to parameters created during VSPERF runtime, e.g. NICS dictionary.
+It can be used to reflect DUT HW details in the testcase definition.
+
+Example:
+
+.. code:: python
+
+    {
+        ...
+        "Name": "testcase",
+        "Parameters" : {
+            "TRAFFIC" : {
+                'l2': {
+                    # set destination MAC to the MAC of the first
+                    # interface from WHITELIST_NICS list
+                    'dstmac' : '#PARAM(NICS[0]["mac"])',
+                },
+            },
+        ...
 
 vloop_vnf
 ^^^^^^^^^
