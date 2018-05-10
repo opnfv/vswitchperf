@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_122aa38f",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-05-10T10:05:56Z",
+      "side": 1,
+      "message": "I suggest to avoid a commented code as nobody knows, if it is a mistake or intentional.\n\nI can see two options:\n1) if automatic removal of flows and ports is meant as a garbage collection, but in normal circumstances is expected that user should remove them - then we should keep current code and may be simplify flow removal to simply call [\u0027vswitch\u0027, \u0027del_flow\u0027, \u0027int_br0\u0027]\n\n2) if we consider \"garbage collection\" as a preferred solution, then to remove the code completely and put a comment, that flows and ports are removed automatically.",
+      "revId": "bcf0123edda7fa163bdc71546852aeec7b1bcab0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_521f0b6c",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-05-10T10:05:56Z",
+      "side": 1,
+      "message": "As I\u0027ve said, these tests should be refactored to use pvvpX and pvpvX deployments (see PXP docs). So all related macros should be removed and the same should be done in documentation, where these tests are explained in detail.\n\nThis apply (at least) for:\nvswitch_p4vp\nvswitch_p4vp_tput\nvswitch_p4vp_back2back\nvswitch_p4vp_cont\nvswitch_p4vp_all\n2pvp_udp_dest_flows\n4pvp_udp_dest_flows\n6pvp_udp_dest_flows",
+      "revId": "bcf0123edda7fa163bdc71546852aeec7b1bcab0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
