@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_85a78aa6",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-05-11T11:39:30Z",
+      "side": 1,
+      "message": "I would go with the garbage collection approach as it looks like the intention of the delete port on stop patch.\nI deleted the commented code and added a comment to the FINIT.",
+      "parentUuid": "5a3f45e8_122aa38f",
+      "revId": "bcf0123edda7fa163bdc71546852aeec7b1bcab0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_521f0b6c",
         "filename": "conf/integration/01_testcases.conf",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-10T10:05:56Z",
       "side": 1,
       "message": "As I\u0027ve said, these tests should be refactored to use pvvpX and pvpvX deployments (see PXP docs). So all related macros should be removed and the same should be done in documentation, where these tests are explained in detail.\n\nThis apply (at least) for:\nvswitch_p4vp\nvswitch_p4vp_tput\nvswitch_p4vp_back2back\nvswitch_p4vp_cont\nvswitch_p4vp_all\n2pvp_udp_dest_flows\n4pvp_udp_dest_flows\n6pvp_udp_dest_flows",
+      "revId": "bcf0123edda7fa163bdc71546852aeec7b1bcab0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_c5e352d7",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-05-11T11:39:30Z",
+      "side": 1,
+      "message": "Should this also be part of this patch? I will also edit the patch description to include this then.",
+      "parentUuid": "5a3f45e8_521f0b6c",
       "revId": "bcf0123edda7fa163bdc71546852aeec7b1bcab0",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
