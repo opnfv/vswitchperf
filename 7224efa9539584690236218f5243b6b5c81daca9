@@ -1,0 +1,9 @@
+Code-Review+1: Christian Trautman <ctrautma@redhat.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Bob Fubel <bfubel@redhat.com>
+Code-Review+2: Martin Klozik <martin.klozik@tieto.com>
+Submitted-by: Martin Klozik <martin.klozik@tieto.com>
+Submitted-at: Tue, 15 May 2018 05:17:30 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/57251
+Project: vswitchperf
+Branch: refs/heads/master
