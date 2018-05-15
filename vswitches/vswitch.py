@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2018 Intel Corporation., Tieto
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +14,23 @@
 
 """Generic interface VSPERF uses for controlling a vSwitch
 """
+import logging
 
 class IVSwitch(object):
     """Interface class that is implemented by vSwitch-specific classes
 
     Other methods are called only between start() and stop()
     """
+    def __init__(self):
+        """Initialization of vswitch class
+        """
+        self._timeout = 30
+        self._switches = {}
+        self._logger = logging.getLogger(__name__)
+        self._cmd = []
+        self._vswitch_args = []
+        self._stamp = None
+
     def get_version(self):
         """Return version of vSwitch and DPDK (if used by vSwitch)
            This method should be implemented in case, that version
@@ -112,58 +123,23 @@ class IVSwitch(object):
         """
         raise NotImplementedError()
 
-    def add_flow(self, switch_name, flow, cache='off'):
-        """Add a flow rule to the logical switch
-
-        :param switch_name: The switch on which to operate
-        :param flow: Flow description as a dictionary
-        :param cache: Optional. Specifies if flow should be inserted
-            to the switch or cached to increase performance during manipulation
-            with large number of flows.
-            Values:
-                'off'   - cache is off and flow is inserted directly to the switch
-                'on'    - cache is on and flow is inserted into the cache
-                'flush' - cache content will be inserted into the switch
-
-        Example flow dictionary:
-            flow = {
-                'in_port': '1',
-                'idle_timeout': '0',
-                'actions': ['output:3']
-            }
-        """
-        raise NotImplementedError()
-
-    def del_flow(self, switch_name, flow=None):
-        """Delete the flow rule from the logical switch
-
-        :param switch_name: The switch on which to operate
-        :param flow: Flow description as a dictionary
-
-        For flow dictionary description, see add_flow
-        For flow==None, all flows are deleted
-        """
-        raise NotImplementedError()
-
-    def add_connection(self, switch_name, port1, port2, bidir=False):
+    def add_connection(self, switch_name, port1, port2, traffic=None):
         """Creates connection between given ports.
 
         :param switch_name: switch on which to operate
         :param port1: port to be used in connection
         :param port2: port to be used in connection
-        :param bidir: switch between uni and bidirectional traffic
 
         :raises: RuntimeError
         """
         raise NotImplementedError()
 
-    def del_connection(self, switch_name, port1, port2, bidir=False):
+    def del_connection(self, switch_name, port1=None, port2=None):
         """Remove connection between two interfaces.
 
         :param switch_name: switch on which to operate
         :param port1: port to be used in connection
         :param port2: port to be used in connection
-        :param bidir: switch between uni and bidirectional traffic
 
         :raises: RuntimeError
         """
@@ -175,13 +151,6 @@ class IVSwitch(object):
         :param switch_name: switch on which to operate
 
         :raises: RuntimeError
-        """
-        raise NotImplementedError()
-
-    def dump_flows(self, switch_name):
-        """Dump flows from the logical switch
-
-        :param switch_name: The switch on which to operate
         """
         raise NotImplementedError()
 

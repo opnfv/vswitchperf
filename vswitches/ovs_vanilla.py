@@ -1,4 +1,4 @@
-# Copyright 2015-2017 Intel Corporation.
+# Copyright 2015-2018 Intel Corporation., Tieto
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 """VSPERF Vanilla OVS implementation
 """
 
-import logging
 import time
 from conf import settings
 from vswitches.ovs import IVSwitchOvs
@@ -36,9 +35,8 @@ class OvsVanilla(IVSwitchOvs):
     _vport_id = 0
 
     def __init__(self):
-        super(OvsVanilla, self).__init__()
+        super().__init__()
         self._ports = list(nic['device'] for nic in settings.getValue('NICS'))
-        self._logger = logging.getLogger(__name__)
         self._vswitchd_args += ["unix:%s" % self.get_db_sock_path()]
         self._vswitchd_args += settings.getValue('VSWITCHD_VANILLA_ARGS')
 
@@ -81,7 +79,7 @@ class OvsVanilla(IVSwitchOvs):
             self._logger.error("Can't detect device name for NIC %s", self._current_id)
             raise ValueError("Invalid device name for %s" % self._current_id)
 
-        bridge = self._bridges[switch_name]
+        bridge = self._switches[switch_name]
         port_name = self._ports[self._current_id]
         params = []
 
@@ -129,21 +127,6 @@ class OvsVanilla(IVSwitchOvs):
         tasks.run_task(['sudo', 'ip', 'link', 'set', 'dev', tap_name, 'up'],
                        self._logger, 'Bring up ' + tap_name, False)
 
-        bridge = self._bridges[switch_name]
+        bridge = self._switches[switch_name]
         of_port = bridge.add_port(tap_name, [])
         return (tap_name, of_port)
-
-    def add_connection(self, switch_name, port1, port2, bidir=False):
-        """See IVswitch for general description
-        """
-        raise NotImplementedError()
-
-    def del_connection(self, switch_name, port1, port2, bidir=False):
-        """See IVswitch for general description
-        """
-        raise NotImplementedError()
-
-    def dump_connections(self, switch_name):
-        """See IVswitch for general description
-        """
-        raise NotImplementedError()
