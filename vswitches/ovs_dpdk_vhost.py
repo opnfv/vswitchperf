@@ -1,4 +1,4 @@
-# Copyright 2015-2017 Intel Corporation.
+# Copyright 2015-2018 Intel Corporation., Tieto
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 """VSPERF VSwitch implementation using DPDK and vhost ports
 """
 
-import logging
 import subprocess
 
 from src.ovs import OFBridge
@@ -36,9 +35,7 @@ class OvsDpdkVhost(IVSwitchOvs):
     """
 
     def __init__(self):
-        super(OvsDpdkVhost, self).__init__()
-        self._logger = logging.getLogger(__name__)
-
+        super().__init__()
         vswitchd_args = []
 
         # legacy DPDK configuration through --dpdk option of vswitchd
@@ -104,9 +101,9 @@ class OvsDpdkVhost(IVSwitchOvs):
         if S.getValue('VSWITCH_AFFINITIZATION_ON') == 1:
             # Sets the PMD core mask to VSWITCH_PMD_CPU_MASK
             # for CPU core affinitization
-            self._bridges[switch_name].set_db_attribute('Open_vSwitch', '.',
-                                                        'other_config:pmd-cpu-mask',
-                                                        S.getValue('VSWITCH_PMD_CPU_MASK'))
+            self._switches[switch_name].set_db_attribute('Open_vSwitch', '.',
+                                                         'other_config:pmd-cpu-mask',
+                                                         S.getValue('VSWITCH_PMD_CPU_MASK'))
 
     def add_phy_port(self, switch_name):
         """See IVswitch for general description
@@ -115,7 +112,7 @@ class OvsDpdkVhost(IVSwitchOvs):
         The new port is named dpdk<n> where n is an integer starting from 0.
         """
         _nics = S.getValue('NICS')
-        bridge = self._bridges[switch_name]
+        bridge = self._switches[switch_name]
         dpdk_count = self._get_port_count('type=dpdk')
         if dpdk_count == len(_nics):
             raise RuntimeError("Can't add phy port! There are only {} ports defined "
@@ -144,7 +141,7 @@ class OvsDpdkVhost(IVSwitchOvs):
         The new port is named dpdkvhost<n> where n is an integer starting
         from 0
         """
-        bridge = self._bridges[switch_name]
+        bridge = self._switches[switch_name]
 
         if S.getValue('VSWITCH_VHOSTUSER_SERVER_MODE'):
             nic_type = 'dpdkvhostuser'
@@ -177,18 +174,3 @@ class OvsDpdkVhost(IVSwitchOvs):
             return True
         except subprocess.CalledProcessError:
             return False
-
-    def add_connection(self, switch_name, port1, port2, bidir=False):
-        """See IVswitch for general description
-        """
-        raise NotImplementedError()
-
-    def del_connection(self, switch_name, port1, port2, bidir=False):
-        """See IVswitch for general description
-        """
-        raise NotImplementedError()
-
-    def dump_connections(self, switch_name):
-        """See IVswitch for general description
-        """
-        raise NotImplementedError()

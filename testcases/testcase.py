@@ -373,7 +373,7 @@ class TestCase(object):
 
                         # dump vswitch flows before they are affected by VNF termination
                         if not self._vswitch_none:
-                            self._vswitch_ctl.dump_vswitch_flows()
+                            self._vswitch_ctl.dump_vswitch_connections()
 
                     # garbage collection for case that TestSteps modify existing deployment
                     self.step_stop_vnfs()
