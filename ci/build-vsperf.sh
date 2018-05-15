@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright 2015-2017 Intel Corporation.
+# Copyright 2015-2018 Intel Corporation., Tieto
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,9 +44,9 @@ RESULTS_ARCHIVE="$HOME/ci_results_archive"
 
 # CI job specific configuration
 # VERIFY - run basic set of TCs with default settings
-TESTCASES_VERIFY="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_flow"
+TESTCASES_VERIFY="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_connection"
 TESTPARAM_VERIFY="--integration"
-TESTCASES_VERIFY_VPP="vswitch_add_del_bridge vswitch_add_del_bridges vswitch_add_del_vport vswitch_add_del_vports vswitch_vports_add_del_connection_vpp"
+TESTCASES_VERIFY_VPP=$TESTCASES_VERIFY
 TESTPARAM_VERIFY_VPP=$TESTPARAM_VERIFY
 # MERGE - run selected TCs with default settings
 TESTCASES_MERGE=$TESTCASES_VERIFY

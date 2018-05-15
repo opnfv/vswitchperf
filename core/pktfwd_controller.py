@@ -1,4 +1,4 @@
-# Copyright 2016 Intel Corporation.
+# Copyright 2016-2018 Intel Corporation., Tieto
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -89,9 +89,9 @@ class PktFwdController(object):
         """
         return self._pktfwd
 
-    def dump_vswitch_flows(self):
-        """ Dumps flows from vswitch
+    def dump_vswitch_connections(self):
+        """ Dumps connections from vswitch
         """
         raise NotImplementedError(
             "The PktFwdController does not implement the "
-            "\"dump_vswitch_flows\" function.")
+            "\"dump_vswitch_connections\" function.")

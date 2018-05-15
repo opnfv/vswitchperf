@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2018 Intel Corporation., Tieto
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,18 +15,12 @@
 """VSwitch controller for Physical to VxLAN Tunnel Endpoint to Physical
    deployment with mod operation.
 """
-
-import logging
 from netaddr import EUI, IPNetwork, mac_unix
 
 from core.vswitch_controller import IVswitchController
 from vswitches.utils import add_ports_to_flow
 from conf import settings
 from tools import tasks
-
-_FLOW_TEMPLATE = {
-    'idle_timeout': '0'
-}
 
 class VswitchControllerPtunP(IVswitchController):
     """VSwitch controller for VxLAN ptunp deployment scenario.
@@ -40,16 +34,10 @@ class VswitchControllerPtunP(IVswitchController):
         _deployment_scenario: A string describing the scenario to set-up in the
             constructor.
     """
-    def __init__(self, vswitch_class, traffic):
-        """Initializes up the prerequisites for the ptunp deployment scenario.
-
-        :vswitch_class: the vSwitch class to be used.
+    def __init__(self, deployment, vswitch_class, traffic):
+        """See IVswitchController for general description
         """
-        self._logger = logging.getLogger(__name__)
-        self._vswitch_class = vswitch_class
-        self._vswitch = vswitch_class()
-        self._deployment_scenario = "ptunp"
-        self._traffic = traffic.copy()
+        super().__init__(deployment, vswitch_class, traffic)
         self.bridge_phy1 = settings.getValue('TUNNEL_EXTERNAL_BRIDGE1')
         self.bridge_phy2 = settings.getValue('TUNNEL_EXTERNAL_BRIDGE2')
         self.bridge_mod1 = settings.getValue('TUNNEL_MODIFY_BRIDGE1')
@@ -59,7 +47,6 @@ class VswitchControllerPtunP(IVswitchController):
         self.br_mod_ip1 = settings.getValue('TUNNEL_MODIFY_BRIDGE_IP1')
         self.br_mod_ip2 = settings.getValue('TUNNEL_MODIFY_BRIDGE_IP2')
         self.tunnel_type = settings.getValue('TUNNEL_TYPE')
-        self._logger.debug('Creation using %s', str(self._vswitch_class))
 
     def setup(self):
         """ Sets up the switch for VxLAN overlay PTUNP (tunnel encap or decap)
@@ -156,23 +143,23 @@ class VswitchControllerPtunP(IVswitchController):
             self._vswitch.del_flow(self.bridge_phy2)
             self._vswitch.del_flow(self.bridge_mod1)
             self._vswitch.del_flow(self.bridge_mod2)
-            flow = add_ports_to_flow(_FLOW_TEMPLATE, phy1_number,
+            flow = add_ports_to_flow(settings.getValue('OVS_FLOW_TEMPLATE'), phy1_number,
                                      phy3_number)
             self._vswitch.add_flow(self.bridge_phy1, flow)
-            flow = add_ports_to_flow(_FLOW_TEMPLATE, phy3_number,
+            flow = add_ports_to_flow(settings.getValue('OVS_FLOW_TEMPLATE'), phy3_number,
                                      phy1_number)
             self._vswitch.add_flow(self.bridge_phy1, flow)
 
-            flow = add_ports_to_flow(_FLOW_TEMPLATE, phy2_number,
+            flow = add_ports_to_flow(settings.getValue('OVS_FLOW_TEMPLATE'), phy2_number,
                                      phy4_number)
             self._vswitch.add_flow(self.bridge_phy2, flow)
-            flow = add_ports_to_flow(_FLOW_TEMPLATE, phy4_number,
+            flow = add_ports_to_flow(settings.getValue('OVS_FLOW_TEMPLATE'), phy4_number,
                                      phy2_number)
             self._vswitch.add_flow(self.bridge_phy2, flow)
-            flow = add_ports_to_flow(_FLOW_TEMPLATE, phy5_number,
+            flow = add_ports_to_flow(settings.getValue('OVS_FLOW_TEMPLATE'), phy5_number,
                                      'LOCAL')
             self._vswitch.add_flow(self.bridge_mod1, flow)
-            mod_flow_template = _FLOW_TEMPLATE.copy()
+            mod_flow_template = settings.getValue('OVS_FLOW_TEMPLATE').copy()
             mod_flow_template.update({'ip':'',
                                       'actions':
                                       ['mod_dl_src:' + str(vxlan_rem_mac2),
@@ -183,10 +170,10 @@ class VswitchControllerPtunP(IVswitchController):
                                      })
             flow = add_ports_to_flow(mod_flow_template, 'LOCAL', phy5_number)
             self._vswitch.add_flow(self.bridge_mod1, flow)
-            flow = add_ports_to_flow(_FLOW_TEMPLATE, phy6_number,
+            flow = add_ports_to_flow(settings.getValue('OVS_FLOW_TEMPLATE'), phy6_number,
                                      'LOCAL')
             self._vswitch.add_flow(self.bridge_mod2, flow)
-            mod_flow_template = _FLOW_TEMPLATE.copy()
+            mod_flow_template = settings.getValue('OVS_FLOW_TEMPLATE').copy()
             mod_flow_template.update({'ip':'',
                                       'actions':
                                       ['mod_dl_src:' + str(vxlan_rem_mac1),
@@ -207,17 +194,6 @@ class VswitchControllerPtunP(IVswitchController):
         self._logger.debug('Stop using %s', str(self._vswitch_class))
         self._vswitch.stop()
 
-    def __enter__(self):
-        self.setup()
-
-    def __exit__(self, type_, value, traceback):
-        self.stop()
-
-    def get_vswitch(self):
-        """See IVswitchController for description
-        """
-        return self._vswitch
-
     def get_ports_info(self):
         """See IVswitchController for description
         """
@@ -228,11 +204,11 @@ class VswitchControllerPtunP(IVswitchController):
                 self._vswitch.get_ports(self.bridge_mod2)
         return ports
 
-    def dump_vswitch_flows(self):
+    def dump_vswitch_connections(self):
         """See IVswitchController for description
         """
-        self._logger.debug('dump_flows using %s', str(self._vswitch_class))
-        self._vswitch.dump_flows(self.bridge_phy1)
-        self._vswitch.dump_flows(self.bridge_mod1)
-        self._vswitch.dump_flows(self.bridge_phy2)
-        self._vswitch.dump_flows(self.bridge_mod2)
+        self._logger.debug('dump_connections using %s', str(self._vswitch_class))
+        self._vswitch.dump_connections(self.bridge_phy1)
+        self._vswitch.dump_connections(self.bridge_mod1)
+        self._vswitch.dump_connections(self.bridge_phy2)
+        self._vswitch.dump_connections(self.bridge_mod2)
