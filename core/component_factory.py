@@ -1,4 +1,4 @@
-# Copyright 2015-2017 Intel Corporation.
+# Copyright 2015-2018 Intel Corporation., Tieto
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -66,23 +66,23 @@ def create_vswitch(deployment_scenario, vswitch_class, traffic,
     :return: IVSwitchController for the deployment_scenario
     """
     # pylint: disable=too-many-return-statements
-    deployment_scenario = deployment_scenario.lower()
-    if deployment_scenario.startswith("p2p"):
-        return VswitchControllerP2P(vswitch_class, traffic)
-    elif deployment_scenario.startswith("pvp"):
-        return VswitchControllerPXP(deployment_scenario, vswitch_class, traffic)
-    elif deployment_scenario.startswith("pvvp"):
-        return VswitchControllerPXP(deployment_scenario, vswitch_class, traffic)
-    elif deployment_scenario.startswith("pvpv"):
-        return VswitchControllerPXP(deployment_scenario, vswitch_class, traffic)
-    elif deployment_scenario.startswith("op2p"):
-        return VswitchControllerOP2P(vswitch_class, traffic, tunnel_operation)
-    elif deployment_scenario.startswith("ptunp"):
-        return VswitchControllerPtunP(vswitch_class, traffic)
-    elif deployment_scenario.startswith("clean"):
-        return VswitchControllerClean(vswitch_class, traffic)
+    deployment = deployment_scenario.lower()
+    if deployment.startswith("p2p"):
+        return VswitchControllerP2P(deployment, vswitch_class, traffic)
+    elif deployment.startswith("pvp"):
+        return VswitchControllerPXP(deployment, vswitch_class, traffic)
+    elif deployment.startswith("pvvp"):
+        return VswitchControllerPXP(deployment, vswitch_class, traffic)
+    elif deployment.startswith("pvpv"):
+        return VswitchControllerPXP(deployment, vswitch_class, traffic)
+    elif deployment.startswith("op2p"):
+        return VswitchControllerOP2P(deployment, vswitch_class, traffic, tunnel_operation)
+    elif deployment.startswith("ptunp"):
+        return VswitchControllerPtunP(deployment, vswitch_class, traffic)
+    elif deployment.startswith("clean"):
+        return VswitchControllerClean(deployment, vswitch_class, traffic)
     else:
-        raise RuntimeError("Unknown deployment scenario '{}'.".format(deployment_scenario))
+        raise RuntimeError("Unknown deployment scenario '{}'.".format(deployment))
 
 
 def create_vnf(deployment_scenario, vnf_class, extra_vnfs):

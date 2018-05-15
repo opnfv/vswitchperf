@@ -1,7 +1,7 @@
 #!/usr/bin/env tclsh
 
 # Copyright (c) 2014, Ixia
-# Copyright (c) 2015-2018, Intel Corporation
+# Copyright (c) 2015-2018, Intel Corporation, Tieto
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -2971,7 +2971,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -trackingEnabled False \
          -valueType $L4ValueType \
          -activeFieldChoice False \
-         -startValue {0} \
+         -startValue $dstPort \
          -countValue $L4CountValue
         sg_commit
         set sg_field [lindex [ixNet remapIds $sg_field] 0]
