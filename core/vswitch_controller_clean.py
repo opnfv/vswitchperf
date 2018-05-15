@@ -1,4 +1,4 @@
-# Copyright 2015-2016 Intel Corporation.
+# Copyright 2015-2018 Intel Corporation., Tieto
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,9 +14,6 @@
 
 """VSwitch controller for basic initialization of vswitch
 """
-
-import logging
-
 from core.vswitch_controller import IVswitchController
 
 class VswitchControllerClean(IVswitchController):
@@ -28,18 +25,6 @@ class VswitchControllerClean(IVswitchController):
         _deployment_scenario: A string describing the scenario to set-up in the
             constructor.
     """
-    def __init__(self, vswitch_class, traffic):
-        """Initializes up the prerequisites for the Clean deployment scenario.
-
-        :vswitch_class: the vSwitch class to be used.
-        """
-        self._logger = logging.getLogger(__name__)
-        self._vswitch_class = vswitch_class
-        self._vswitch = vswitch_class()
-        self._deployment_scenario = "Clean"
-        self._logger.debug('Creation using %s', str(self._vswitch_class))
-        self._traffic = traffic.copy()
-
     def setup(self):
         """Sets up the switch for Clean.
         """
@@ -57,23 +42,12 @@ class VswitchControllerClean(IVswitchController):
         self._logger.debug('Stop using %s', str(self._vswitch_class))
         self._vswitch.stop()
 
-    def __enter__(self):
-        self.setup()
-
-    def __exit__(self, type_, value, traceback):
-        self.stop()
-
-    def get_vswitch(self):
-        """See IVswitchController for description
-        """
-        return self._vswitch
-
     def get_ports_info(self):
         """See IVswitchController for description
         """
         pass
 
-    def dump_vswitch_flows(self):
+    def dump_vswitch_connections(self):
         """See IVswitchController for description
         """
         pass

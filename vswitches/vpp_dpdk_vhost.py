@@ -1,4 +1,4 @@
-# Copyright 2017 Intel Corporation.
+# Copyright 2017-2018 Intel Corporation., Tieto
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 """VSPERF VPP implementation using DPDK and vhostuser vports
 """
 
-import logging
 import os
 import copy
 import re
@@ -37,19 +36,13 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
     def __init__(self):
         """See IVswitch for general description
         """
+        super().__init__()
         self._logfile = os.path.join(S.getValue('LOG_DIR'),
                                      S.getValue('LOG_FILE_VPP'))
-        self._logger = logging.getLogger(__name__)
         self._expect = r'vpp#'
-        self._timeout = 30
-        self._vswitch_args = []
-        self._cmd = []
         self._cmd_template = ['sudo', '-E', S.getValue('TOOLS')['vpp']]
-        self._stamp = None
-        self._logger = logging.getLogger(__name__)
         self._phy_ports = []
         self._virt_ports = []
-        self._switches = {}
         self._vpp_ctl = ['sudo', S.getValue('TOOLS')['vppctl']]
 
         # configure DPDK NICs
@@ -151,7 +144,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
             tasks.Process.start(self)
             self.relinquish()
         except (pexpect.EOF, pexpect.TIMEOUT) as exc:
-            logging.error("Exception during VPP start.")
+            self._logger.error("Exception during VPP start.")
             raise exc
 
         self._logger.info("VPP...Started.")
@@ -269,21 +262,17 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         else:
             self._logger.warning("Port %s is not configured.", port_name)
 
-    def add_l2patch(self, port1, port2, bidir=False):
+    def add_l2patch(self, port1, port2):
         """Create l2patch connection between given ports
         """
         self.run_vppctl(['test', 'l2patch', 'rx', port1, 'tx', port2])
-        if bidir:
-            self.run_vppctl(['test', 'l2patch', 'rx', port2, 'tx', port1])
 
-    def add_xconnect(self, port1, port2, bidir=False):
+    def add_xconnect(self, port1, port2):
         """Create l2patch connection between given ports
         """
         self.run_vppctl(['set', 'interface', 'l2', 'xconnect', port1, port2])
-        if bidir:
-            self.run_vppctl(['set', 'interface', 'l2', 'xconnect', port2, port1])
 
-    def add_bridge(self, switch_name, port1, port2, _dummy_bidir=False):
+    def add_bridge(self, switch_name, port1, port2):
         """Add given ports to bridge ``switch_name``
         """
         self.run_vppctl(['set', 'interface', 'l2', 'bridge', port1,
@@ -291,33 +280,33 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         self.run_vppctl(['set', 'interface', 'l2', 'bridge', port2,
                          str(self._switches[switch_name])])
 
-    def add_connection(self, switch_name, port1, port2, bidir=False):
+    def add_connection(self, switch_name, port1, port2, traffic=None):
         """See IVswitch for general description
 
         :raises: RuntimeError
         """
+        if traffic:
+            self._logger.warning("VPP add_connection() does not support 'traffic' options.")
+
         mode = S.getValue('VSWITCH_VPP_L2_CONNECT_MODE')
         if mode == 'l2patch':
-            self.add_l2patch(port1, port2, bidir)
+            self.add_l2patch(port1, port2)
         elif mode == 'xconnect':
-            self.add_xconnect(port1, port2, bidir)
+            self.add_xconnect(port1, port2)
         elif mode == 'bridge':
             self.add_bridge(switch_name, port1, port2)
         else:
             raise RuntimeError('VPP: Unsupported l2 connection mode detected %s' % mode)
 
-    def del_l2patch(self, port1, port2, bidir=False):
+    def del_l2patch(self, port1, port2):
         """Remove l2patch connection between given ports
 
         :param port1: port to be used in connection
         :param port2: port to be used in connection
-        :param bidir: switch between uni and bidirectional traffic
         """
         self.run_vppctl(['test', 'l2patch', 'rx', port1, 'tx', port2, 'del'])
-        if bidir:
-            self.run_vppctl(['test', 'l2patch', 'rx', port2, 'tx', port1, 'del'])
 
-    def del_xconnect(self, port1, port2, _dummy_bidir=False):
+    def del_xconnect(self, port1, port2):
         """Remove xconnect connection between given ports
         """
         self.run_vppctl(['set', 'interface', 'l3', port1])
@@ -329,20 +318,21 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         self.run_vppctl(['set', 'interface', 'l3', port1])
         self.run_vppctl(['set', 'interface', 'l3', port2])
 
-    def del_connection(self, switch_name, port1, port2, bidir=False):
+    def del_connection(self, switch_name, port1=None, port2=None):
         """See IVswitch for general description
 
         :raises: RuntimeError
         """
-        mode = S.getValue('VSWITCH_VPP_L2_CONNECT_MODE')
-        if mode == 'l2patch':
-            self.del_l2patch(port1, port2, bidir)
-        elif mode == 'xconnect':
-            self.del_xconnect(port1, port2, bidir)
-        elif mode == 'bridge':
-            self.del_bridge(switch_name, port1, port2)
-        else:
-            raise RuntimeError('VPP: Unsupported l2 connection mode detected %s' % mode)
+        if port1 and port2:
+            mode = S.getValue('VSWITCH_VPP_L2_CONNECT_MODE')
+            if mode == 'l2patch':
+                self.del_l2patch(port1, port2)
+            elif mode == 'xconnect':
+                self.del_xconnect(port1, port2)
+            elif mode == 'bridge':
+                self.del_bridge(switch_name, port1, port2)
+            else:
+                raise RuntimeError('VPP: Unsupported l2 connection mode detected %s' % mode)
 
     def dump_l2patch(self):
         """Dump l2patch connections
@@ -417,13 +407,13 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
 
     # pylint: disable=no-self-use
     def validate_add_connection(self, _dummy_result, _dummy_switch_name, _dummy_port1,
-                                _dummy_port2, _dummy_bidir=False):
+                                _dummy_port2, _dummy_traffic=None):
         """ Validate that connection was added
         """
         return True
 
     def validate_del_connection(self, _dummy_result, _dummy_switch_name, _dummy_port1,
-                                _dummy_port2, _dummy_bidir=False):
+                                _dummy_port2):
         """ Validate that connection was deleted
         """
         return True
@@ -442,21 +432,6 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
     #
     # Non implemented methods
     #
-    def add_flow(self, switch_name, flow, cache='off'):
-        """See IVswitch for general description
-        """
-        raise NotImplementedError()
-
-    def del_flow(self, switch_name, flow=None):
-        """See IVswitch for general description
-        """
-        raise NotImplementedError()
-
-    def dump_flows(self, switch_name):
-        """See IVswitch for general description
-        """
-        raise NotImplementedError()
-
     def add_route(self, switch_name, network, destination):
         """See IVswitch for general description
         """
