@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_10e532a8",
+        "filename": "vswitches/vpp_dpdk_vhost.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2018-05-17T16:04:14Z",
+      "side": 1,
+      "message": "Just curious but what is the _dummy_bidir param here for? I know it existed before but I don\u0027t see it used. Maybe I\u0027m missing something?",
+      "revId": "ceac06051aa2f96b1fa8a0bc6f82f312b164b778",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_f0e1a69b",
+        "filename": "vswitches/vpp_dpdk_vhost.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 2851
+      },
+      "writtenOn": "2018-05-17T16:04:14Z",
+      "side": 1,
+      "message": "Same as above with _dummy_switch_name",
+      "revId": "ceac06051aa2f96b1fa8a0bc6f82f312b164b778",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
