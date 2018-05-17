@@ -39,6 +39,7 @@ from tools.pkt_gen.trafficgen.trafficgen import ITrafficGenerator
 from tools.pkt_gen.xena.XenaDriver import (
     aggregate_stats,
     line_percentage,
+    ModSet,
     XenaSocketDriver,
     XenaManager,
     )
@@ -283,6 +284,9 @@ class Xena(ITrafficGenerator):
                 j_file = XenaJSONBlocks()
             elif bonding_test:
                 j_file = XenaJSONPairs()
+            else: # just default to mesh config
+                self._logger.error('Invalid traffic type defaulting to Mesh config')
+                j_file = XenaJSONMesh()
 
             j_file.set_chassis_info(
                 settings.getValue('TRAFFICGEN_XENA_IP'),
@@ -454,9 +458,17 @@ class Xena(ITrafficGenerator):
                 port.micro_tpld_enable()
 
             if self._params['traffic']['multistream']:
+                if self._params['traffic']['stream_type'] == 'L2':
+                    modobj = ModSet(mod_src_mac=True, mod_dst_mac=True)
+                elif self._params['traffic']['stream_type'] == 'L3':
+                    modobj = ModSet(mod_src_ip=True, mod_dst_ip=True)
+                elif self._params['traffic']['stream_type'] == 'L4':
+                    modobj = ModSet(mod_src_port=True, mod_dst_port=True)
+                else:
+                    self._logger.error('Invalid segment for multistream. Using L2..')
+                    modobj = ModSet(mod_src_mac=True, mod_dst_mac=True)
                 stream.enable_multistream(
-                    flows=self._params['traffic']['multistream'],
-                    layer=self._params['traffic']['stream_type'])
+                    flows=self._params['traffic']['multistream'], modclass=modobj)
 
         s1_p0 = self.xmanager.ports[0].add_stream()
         setup_stream(s1_p0, self.xmanager.ports[0], 0)
