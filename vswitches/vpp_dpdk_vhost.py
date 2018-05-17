@@ -317,15 +317,17 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         if bidir:
             self.run_vppctl(['test', 'l2patch', 'rx', port2, 'tx', port1, 'del'])
 
-    def del_xconnect(self, _dummy_port1, _dummy_port2, _dummy_bidir=False):
+    def del_xconnect(self, port1, port2, _dummy_bidir=False):
         """Remove xconnect connection between given ports
         """
-        self._logger.warning('VPP: Removal of l2 xconnect is not implemented.')
+        self.run_vppctl(['set', 'interface', 'l3', port1])
+        self.run_vppctl(['set', 'interface', 'l3', port2])
 
-    def del_bridge(self, _dummy_switch_name, _dummy_port1, _dummy_port2):
+    def del_bridge(self, _dummy_switch_name, port1, port2):
         """Remove given ports from the bridge
         """
-        self._logger.warning('VPP: Removal of interfaces from bridge is not implemented.')
+        self.run_vppctl(['set', 'interface', 'l3', port1])
+        self.run_vppctl(['set', 'interface', 'l3', port2])
 
     def del_connection(self, switch_name, port1, port2, bidir=False):
         """See IVswitch for general description
@@ -350,7 +352,7 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
     def dump_xconnect(self):
         """Dump l2 xconnect connections
         """
-        self._logger.warning("VPP: Dump of l2 xconnections is not supported.")
+        self.run_vppctl(['show', 'mode'] + self._phy_ports + self._virt_ports)
 
     def dump_bridge(self, switch_name):
         """Show bridge details
