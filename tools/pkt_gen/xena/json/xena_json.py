@@ -26,6 +26,7 @@ Xena JSON module
 from collections import OrderedDict
 import locale
 import logging
+import math
 import os
 
 from tools.pkt_gen.xena.json import json_utilities
@@ -71,30 +72,87 @@ class XenaJSON(object):
             3: ('Dest IP Addr', 'Src IP Addr'),
             4: ('Dest Port', 'Src Port')
         }
-        segments = [
-            {
-                "Offset": 0,
-                "Mask": "//8=",  # mask of 255/255
-                "Action": "INC",
-                "StartValue": 0,
-                "StopValue": stop_value,
-                "StepValue": 1,
-                "RepeatCount": 1,
-                "SegmentId": seg_uuid,
-                "FieldName": field_name[int(layer)][0]
-            },
-            {
-                "Offset": 0,
-                "Mask": "//8=",  # mask of 255/255
-                "Action": "INC",
-                "StartValue": 0,
-                "StopValue": stop_value,
-                "StepValue": 1,
-                "RepeatCount": 1,
-                "SegmentId": seg_uuid,
-                "FieldName": field_name[int(layer)][1]
-            }
-        ]
+
+        if stop_value > 4294836225:
+            _LOGGER.debug('Flow mods exceeds highest value, changing to 4294836225')
+            stop_value = 4294836225
+
+        if stop_value <= 65535 or layer == '4':
+            segments = [
+                {
+                    "Offset": 0,
+                    "Mask": "//8=",  # mask of 255/255
+                    "Action": "INC",
+                    "StartValue": 0,
+                    "StopValue": stop_value,
+                    "StepValue": 1,
+                    "RepeatCount": 1,
+                    "SegmentId": seg_uuid,
+                    "FieldName": field_name[int(layer)][0]
+                },
+                {
+                    "Offset": 0,
+                    "Mask": "//8=",  # mask of 255/255
+                    "Action": "INC",
+                    "StartValue": 0,
+                    "StopValue": stop_value,
+                    "StepValue": 1,
+                    "RepeatCount": 1,
+                    "SegmentId": seg_uuid,
+                    "FieldName": field_name[int(layer)][1]
+                }
+            ]
+        else:
+            stop_value = int(math.sqrt(stop_value))
+            _LOGGER.debug('Flow count modified to %s', stop_value * stop_value)
+            segments = [
+                {
+                    "Offset": 0 if layer == '3' else 2,
+                    "Mask": "//8=",  # mask of 255/255
+                    "Action": "INC",
+                    "StartValue": 0,
+                    "StopValue": stop_value,
+                    "StepValue": 1,
+                    "RepeatCount": stop_value + 1,
+                    "SegmentId": seg_uuid,
+                    "FieldName": field_name[int(layer)][0]
+                },
+                {
+                    "Offset": 2 if layer == '3' else 4,
+                    "Mask": "//8=",  # mask of 255/255
+                    "Action": "INC",
+                    "StartValue": 0,
+                    "StopValue": stop_value,
+                    "StepValue": 1,
+                    "RepeatCount": 1,
+                    "SegmentId": seg_uuid,
+                    "FieldName": field_name[int(layer)][0]
+                },
+                {
+                    "Offset": 0 if layer == '3' else 2,
+                    "Mask": "//8=",  # mask of 255/255
+                    "Action": "INC",
+                    "StartValue": 0,
+                    "StopValue": stop_value,
+                    "StepValue": 1,
+                    "RepeatCount": stop_value + 1,
+                    "SegmentId": seg_uuid,
+                    "FieldName": field_name[int(layer)][1]
+                },
+                {
+                    "Offset": 2 if layer == '3' else 4,
+                    "Mask": "//8=",  # mask of 255/255
+                    "Action": "INC",
+                    "StartValue": 0,
+                    "StopValue": stop_value,
+                    "StepValue": 1,
+                    "RepeatCount": 1,
+                    "SegmentId": seg_uuid,
+                    "FieldName": field_name[int(layer)][1]
+                }
+            ]
+
+
 
         self.json_data['StreamProfileHandler']['EntityList'][entity][
             'StreamConfig']['HwModifiers'] = (segments)

@@ -682,6 +682,14 @@ or modify the length of the learning by modifying the following settings.
     TRAFFICGEN_XENA_CONT_PORT_LEARNING_ENABLED = False
     TRAFFICGEN_XENA_CONT_PORT_LEARNING_DURATION = 3
 
+Multistream Modifier
+~~~~~~~~~~~~~~~~~~~~
+
+Xena has a modifier maximum value or 64k in size. For this reason when specifying
+Multistream values of greater than 64k for Layer 2 or Layer 3 it will use two
+modifiers that may be modified to a value that can be square rooted to create the
+two modifiers. You will see a log notification for the new value that was calculated.
+
 MoonGen
 -------
 
