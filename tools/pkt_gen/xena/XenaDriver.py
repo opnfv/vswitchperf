@@ -30,6 +30,7 @@ through socket commands and returning different statistics.
 """
 import locale
 import logging
+import math
 import socket
 import struct
 import sys
@@ -85,6 +86,26 @@ CMD_VERSION = 'c_versionno ?'
 
 _LOCALE = locale.getlocale()[1]
 _LOGGER = logging.getLogger(__name__)
+
+class ModSet(object):
+    """
+    Mod set attribute tracker
+    """
+    def __init__(self, **kwargs):
+        """ Constructor
+        All mods default to False
+        :param kwargs: Any class attribute can be set here.
+        """
+        self.mod_src_mac = False
+        self.mod_dst_mac = False
+        self.mod_src_ip = False
+        self.mod_dst_ip = False
+        self.mod_src_port = False
+        self.mod_dst_port = False
+
+        for (key, value) in kwargs.items():
+            if hasattr(self, key):
+                setattr(self, key, value)
 
 
 class SimpleSocket(object):
@@ -171,7 +192,7 @@ class KeepAliveThread(threading.Thread):
         self.setDaemon(True)
         _LOGGER.debug(
             'Xena Socket keep alive thread initiated, interval ' +
-            '{} seconds'.format(self.interval))
+            '%s seconds', self.interval)
 
     def stop(self):
         """ Thread stop. See python thread docs for more info
@@ -640,57 +661,98 @@ class XenaStream(object):
         """
         return self._stream_id
 
-    def enable_multistream(self, flows, layer):
+    def enable_multistream(self, flows, mod_class):
         """
-        Basic implementation of multi stream. Enable multi stream by setting
-        modifiers on the stream
-        :param flows: Numbers of flows or end range
-        :param layer: layer to enable multi stream as str. Acceptable values
-        are L2, L3, or L4
+        Implementation of multi stream. Enable multi stream by setting
+        modifiers on the stream. If no mods are selected, src_ip mod will be used.
+        :param flows: Numbers of flows, Values greater than 65535 will square rooted
+                      to the closest value. Xena mods are limited to 4 bytes.
+        :param mod_class: ModSet object
         :return: True if success False otherwise
         """
         if not self._header_protocol:
             raise RuntimeError(
                 "Please set a protocol header before calling this method.")
-
-        # byte offsets for setting the modifier
-        offsets = {
-            'L2': [0, 6],
-            'L3': [32, 36] if 'VLAN' in self._header_protocol else [28, 32],
-            'L4': [38, 40] if 'VLAN' in self._header_protocol else [34, 36]
-        }
-
-        responses = list()
-        if layer in offsets.keys() and flows > 0:
-            command = make_port_command(
-                CMD_STREAM_MODIFIER_COUNT + ' [{}]'.format(self._stream_id) +
-                ' 2', self._xena_port)
-            responses.append(self._manager.driver.ask_verify(command))
-            command = make_port_command(
-                CMD_STREAM_MODIFIER + ' [{},0] {} 0xFFFF0000 INC 1'.format(
-                    self._stream_id, offsets[layer][0]), self._xena_port)
-            responses.append(self._manager.driver.ask_verify(command))
-            command = make_port_command(
-                CMD_STREAM_MODIFIER_RANGE + ' [{},0] 0 1 {}'.format(
-                    self._stream_id, flows), self._xena_port)
-            responses.append(self._manager.driver.ask_verify(command))
-            command = make_port_command(
-                CMD_STREAM_MODIFIER + ' [{},1] {} 0xFFFF0000 INC 1'.format(
-                    self._stream_id, offsets[layer][1]), self._xena_port)
-            responses.append(self._manager.driver.ask_verify(command))
-            command = make_port_command(
-                CMD_STREAM_MODIFIER_RANGE + ' [{},1] 0 1 {}'.format(
-                    self._stream_id, flows), self._xena_port)
-            responses.append(self._manager.driver.ask_verify(command))
-            return all(responses)  # return True if they all worked
-        elif flows < 1:
-            _LOGGER.warning(
-                'No flows specified in enable multistream. Bypassing...')
-            return False
+        # maximum value for a Xena modifier is 65535 (unsigned int). If flows
+        # is greater than 65535 we have to do two mods getting as close as we
+        # can with square rooting the flow count.
+        if flows > 4294836225:
+            _LOGGER.debug('Flow mods exceeds highest value, changing to 4294836225')
+            flows = 4294836225
+        if flows <= 65535:
+            mod1 = flows
+            mod2 = 0
         else:
-            raise NotImplementedError(
-                "Non-implemented stream layer in method enable multistream ",
-                "layer=", layer)
+            mod1, mod2 = int(math.sqrt(flows)), int(math.sqrt(flows))
+            _LOGGER.debug('Flow count modified to %s', mod1*mod2)
+        offset_list = list()
+        if not any([mod_class.mod_src_mac, mod_class.mod_dst_mac, mod_class.mod_src_ip,
+                    mod_class.mod_dst_ip, mod_class.mod_src_port, mod_class.mod_dst_port]):
+            # no mods were selected, default to src ip only
+            mod_class.mod_src_ip = True
+        if mod_class.mod_src_mac:
+            offset_list.append(8)
+        if mod_class.mod_dst_mac:
+            offset_list.append(2)
+        if mod_class.mod_src_ip:
+            offset_list.append(32 if 'VLAN' in self._header_protocol else 28)
+        if mod_class.mod_dst_ip:
+            offset_list.append(36 if 'VLAN' in self._header_protocol else 32)
+        if mod_class.mod_src_port:
+            offset_list.append(38 if 'VLAN' in self._header_protocol else 34)
+        if mod_class.mod_dst_port:
+            offset_list.append(40 if 'VLAN' in self._header_protocol else 36)
+        # calculate how many mods we have to do
+        countertotal = len(offset_list)
+        if mod2:
+            # to handle flows greater than 65535 we will need more mods for
+            # layer 2 and 3
+            for mod in [mod_class.mod_src_mac, mod_class.mod_dst_mac,
+                        mod_class.mod_src_ip, mod_class.mod_dst_ip]:
+                if mod:
+                    countertotal += 1
+        command = make_port_command(
+            CMD_STREAM_MODIFIER_COUNT + ' [{}]'.format(self._stream_id) +
+            ' {}'.format(countertotal), self._xena_port)
+        responses = list()
+        responses.append(self._manager.driver.ask_verify(command))
+        modcounter = 0
+        for offset in offset_list:
+            if (mod_class.mod_dst_port or mod_class.mod_src_port) and \
+                    (offset >= 38 if 'VLAN' in self._header_protocol else 34):
+                # only do a 1 mod for udp ports at max 65535
+                newmod1 = 65535 if flows >= 65535 else flows
+                command = make_port_command(
+                    CMD_STREAM_MODIFIER + ' [{},{}] {} 0xFFFF0000 INC 1'.format(
+                        self._stream_id, modcounter, offset), self._xena_port)
+                responses.append(self._manager.driver.ask_verify(command))
+                command = make_port_command(
+                    CMD_STREAM_MODIFIER_RANGE + ' [{},{}] 0 1 {}'.format(
+                        self._stream_id, modcounter, newmod1), self._xena_port)
+                responses.append(self._manager.driver.ask_verify(command))
+            else:
+                command = make_port_command(
+                    CMD_STREAM_MODIFIER + ' [{},{}] {} 0xFFFF0000 INC 1'.format(
+                        self._stream_id, modcounter, offset), self._xena_port)
+                responses.append(self._manager.driver.ask_verify(command))
+                command = make_port_command(
+                    CMD_STREAM_MODIFIER_RANGE + ' [{},{}] 0 1 {}'.format(
+                        self._stream_id, modcounter, mod1), self._xena_port)
+                responses.append(self._manager.driver.ask_verify(command))
+                # if we have a second modifier set the modifier to mod2 and to
+                # incremement once every full rotation of mod 1
+                if mod2:
+                    modcounter += 1
+                    command = make_port_command(
+                        CMD_STREAM_MODIFIER + ' [{},{}] {} 0xFFFF0000 INC {}'.format(
+                            self._stream_id, modcounter, offset-2, mod1 + 1), self._xena_port)
+                    responses.append(self._manager.driver.ask_verify(command))
+                    command = make_port_command(
+                        CMD_STREAM_MODIFIER_RANGE + ' [{},{}] 0 1 {}'.format(
+                            self._stream_id, modcounter, mod2), self._xena_port)
+                    responses.append(self._manager.driver.ask_verify(command))
+            modcounter += 1
+        return all(responses)  # return True if they all worked
 
     def get_stream_data(self):
         """
@@ -904,7 +966,7 @@ class XenaRXStats(object):
                 statdict[entry_id] = self._pack_stats(param, 3)
             elif param[1] == 'PR_TPLDS':
                 tid_list = self._pack_tplds_stats(param, 2)
-                if len(tid_list):
+                if tid_list:
                     statdict['pr_tplds'] = tid_list
             elif param[1] == 'PR_TPLDTRAFFIC':
                 if 'pr_tpldstraffic' in statdict:
