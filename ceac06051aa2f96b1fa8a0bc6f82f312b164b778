@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a494da4_843aa734",
+        "filename": "vswitches/vpp_dpdk_vhost.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-05-18T07:11:46Z",
+      "side": 1,
+      "message": "Bidir parameter is used to specify if connection is one or bidirectional. In case of \"bidir\u003dFalse\" (i.e. unidirectional xconnection port1-\u003eport2), it should be enough to reset the mode of the inbound port only, but to be sure I decided to reset both interfaces to the default \"l3\" mode anyway. Multiple reset to \"l3\" mode causes no harm, so it\u0027s better to do it instead of risking port2 misconfiguration.\n\nAnyhow the concept of \"bidir\" parameter is not very handy. Decision about \"uni\" or \"bidirectional\" connections should be handled by classes for deployment scenarios (p2p, pxp, etc.) or by TC itself (via TestSteps). I\u0027m already working on redesign of deployment scenarios and vswitch classes to use generic add/del/dump_cunnection(s) and part of that redesign was a refactoring of VPP class and removal of all \"bidir\" parameters.",
+      "parentUuid": "1a494da4_10e532a8",
+      "revId": "ceac06051aa2f96b1fa8a0bc6f82f312b164b778",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a494da4_f0e1a69b",
         "filename": "vswitches/vpp_dpdk_vhost.py",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-17T16:04:14Z",
       "side": 1,
       "message": "Same as above with _dummy_switch_name",
+      "revId": "ceac06051aa2f96b1fa8a0bc6f82f312b164b778",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_447edfe5",
+        "filename": "vswitches/vpp_dpdk_vhost.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-05-18T07:11:46Z",
+      "side": 1,
+      "message": "This is a bit more tricky. In general, I kept switch_name here as it is used in symmetric function add_bridge, which adds interface to specified bridge. However there isn\u0027t a specific command to delete interface from given bridge and thus delete is done by generic interface mode \"reset\" to \"l3\" (at least that\u0027s what I\u0027ve found in VPP docs).\n\nSo there were three options:\n\n1) explicitly remove the bridge after port1 and port2 are reset; This would be the cleanest approach, however in that case we would have to check if there are any remaining ports in the bridge. It seems a bit of unnecessary overhead to me, because the unused bridge doesn\u0027t cause any harm. It can be either reused later in the test or it will be removed after VPP restart before next test. It is to note, that we don\u0027t create a bridge explicitly (by call create bridge-domain ..), but VPP creates it implicitly when interfaces are added to it.\n\n2) remove unused switch_name from del_bridge(), but it has to remain in del_connection() anyway, because this interface is shared among vswitches and switch name is required for OVS in order to remove appropriate flows; So we would have to turn del_bridge() switch_name into dummy in case of VPP (to avoid pylint errors); IMHO it is not better than current approach (i.e. option 3)\n\n3) keep parameter at del_bridge() to mimic add_bridge() API (I know, that bidir was missing already at del_bridge(), but it will disappear anyway.)\n\nLet me know your opinion. If you\u0027ll prefer option (1) I will update the patch, otherwise I would stick with option (3).",
+      "parentUuid": "1a494da4_f0e1a69b",
       "revId": "ceac06051aa2f96b1fa8a0bc6f82f312b164b778",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
