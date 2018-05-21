@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_52e42be0",
+        "filename": "vswitches/ovs.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-05-21T08:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_12a8e375",
+      "range": {
+        "startLine": 1,
+        "startChar": 28,
+        "endLine": 1,
+        "endChar": 30
+      },
+      "revId": "8f2ed0547a203afced89e762d4946e21b25ea797",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_32ab5f76",
         "filename": "vswitches/ovs.py",
         "patchSetId": 1
@@ -53,6 +77,42 @@
       "writtenOn": "2018-05-10T09:52:54Z",
       "side": 1,
       "message": "It should be bridge.del_flow({})\n\nYou should consider two other options:\n1) in case that it is meant as a garbage collection - it make sense to move both flow \u0026 port removal into ofbridge.destroy()\n2) in case that it should be a generic approach, then it should be generalized (i.e. moved to generic vswitch api) and implemented also for VPP.\n\nHowever 2nd option would require also redesign of add_flow (to be wrapped by add_connection), which is non trivial effort.\n\nNevertheless, implementation for VPP inside del_switch should be prepared anyway.\n\nThese operations should work also on local vsperf installation without a trafficgen. So you can verify them yourself.",
+      "parentUuid": "5a3f45e8_32ab5f76",
+      "revId": "8f2ed0547a203afced89e762d4946e21b25ea797",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_7dcf2ab1",
+        "filename": "vswitches/ovs.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-05-21T08:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_d25cbb4d",
+      "revId": "8f2ed0547a203afced89e762d4946e21b25ea797",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_b2e5afdd",
+        "filename": "vswitches/ovs.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-05-21T08:51:26Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "5a3f45e8_32ab5f76",
       "revId": "8f2ed0547a203afced89e762d4946e21b25ea797",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
