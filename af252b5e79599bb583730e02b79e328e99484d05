@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_99303c58",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-05-30T13:04:56Z",
+      "side": 1,
+      "message": "similar needed for br1 ??",
+      "revId": "af252b5e79599bb583730e02b79e328e99484d05",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_d93ac435",
+        "filename": "docs/testing/user/userguide/teststeps.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-05-30T13:04:56Z",
+      "side": 1,
+      "message": "does this example need update too, or is this a different bridge?\nthere are many other instances of int_br0 below...",
+      "revId": "af252b5e79599bb583730e02b79e328e99484d05",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
