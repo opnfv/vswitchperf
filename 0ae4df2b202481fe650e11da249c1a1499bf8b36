@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_79e570a7",
+        "filename": "docs/testing/user/userguide/testlist.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-05-30T13:50:11Z",
+      "side": 1,
+      "message": "whitespace at end",
+      "revId": "0ae4df2b202481fe650e11da249c1a1499bf8b36",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
