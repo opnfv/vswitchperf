@@ -764,6 +764,8 @@ destination UDP port.
         ]
     },
 
+The same test can be written in a shorter form using "Deployment" : "pvpv".
+
 To run the test:
 
   .. code-block:: console

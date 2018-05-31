@@ -68,14 +68,13 @@ vswitch_pvvp_tput                      vSwitch - configure switch, two chained v
 vswitch_pvvp_back2back                 vSwitch - configure switch, two chained vnfs and execute RFC2544 back2back test
 vswitch_pvvp_cont                      vSwitch - configure switch, two chained vnfs and execute RFC2544 continuous stream test
 vswitch_pvvp_all                       vSwitch - configure switch, two chained vnfs and execute all test types
-vswitch_p4vp                           Just configure 4 chained vnfs
-vswitch_p4vp_tput                      4 chained vnfs, execute RFC2544 throughput test
-vswitch_p4vp_back2back                 4 chained vnfs, execute RFC2544 back2back test
-vswitch_p4vp_cont                      4 chained vnfs, execute RFC2544 continuous stream test
-vswitch_p4vp_all                       4 chained vnfs, execute RFC2544 throughput test
-2pvp_udp_dest_flows                    RFC2544 Continuous TC with 2 Parallel VMs, flows on UDP Dest Port
-4pvp_udp_dest_flows                    RFC2544 Continuous TC with 4 Parallel VMs, flows on UDP Dest Port
-6pvp_udp_dest_flows                    RFC2544 Continuous TC with 6 Parallel VMs, flows on UDP Dest Port
+vswitch_p4vp_tput                      4 chained vnfs, execute RFC2544 throughput test, deployment pvvp4
+vswitch_p4vp_back2back                 4 chained vnfs, execute RFC2544 back2back test, deployment pvvp4
+vswitch_p4vp_cont                      4 chained vnfs, execute RFC2544 continuous stream test, deployment pvvp4
+vswitch_p4vp_all                       4 chained vnfs, execute RFC2544 throughput tests, deployment pvvp4
+2pvp_udp_dest_flows                    RFC2544 Continuous TC with 2 Parallel VMs, flows on UDP Dest Port, deployment pvpv2
+4pvp_udp_dest_flows                    RFC2544 Continuous TC with 4 Parallel VMs, flows on UDP Dest Port, deployment pvpv4
+6pvp_udp_dest_flows                    RFC2544 Continuous TC with 6 Parallel VMs, flows on UDP Dest Port, deployment pvpv6
 vhost_numa_awareness                   vSwitch DPDK - verify that PMD threads are served by the same NUMA slot as QEMU instances
 ixnet_pvp_tput_1nic                    PVP Scenario with 1 port towards IXIA
 vswitch_vports_add_del_connection_vpp  VPP: vSwitch - configure switch with vports, add and delete connection
