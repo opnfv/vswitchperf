@@ -29,8 +29,8 @@ all: force_pull
 force_pull: $(TAG_DONE_FLAG)
 	$(AT)cd $(WORK_DIR) && git pull $(TREX_URL) $(TREX_TAG)
 	@echo "git pull done"
-	$(AT)wget https://raw.githubusercontent.com/phaethon/scapy/v0.18/scapy/layers/all.py -O $(WORK_DIR)/scripts/external_libs/scapy-2.3.1/python3/scapy/layers/all.py
-	@echo "orignal SCAPY 2.3.1 layers/all.py was restored"
+	$(AT)wget https://raw.githubusercontent.com/secdev/scapy/v2.4.0/scapy/layers/all.py -O $(WORK_DIR)/scripts/external_libs/scapy-2.3.1/python3/scapy/layers/all.py
+	@echo "orignal SCAPY 2.4.0 layers/all.py was restored"
 
 $(WORK_DIR):
 	$(AT)git clone $(TREX_URL) $(WORK_DIR)

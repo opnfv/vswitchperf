@@ -11,7 +11,7 @@ jinja2==2.7.3
 xmlrunner==1.7.7
 requests==2.8.1
 netaddr==0.7.18
-scapy-python3==0.18
+scapy>=2.4.0
 pylint==1.8.2
 pyzmq==14.5.0
 distro
