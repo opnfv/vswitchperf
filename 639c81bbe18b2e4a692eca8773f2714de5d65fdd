@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c1566_79b467f2",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-06-04T05:50:54Z",
+      "side": 1,
+      "message": "Please remove \"bidir\" : True from all three lines. See below comment for details.",
+      "range": {
+        "startLine": 506,
+        "startChar": 0,
+        "endLine": 512,
+        "endChar": 35
+      },
+      "revId": "639c81bbe18b2e4a692eca8773f2714de5d65fdd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_19bf2bd2",
+        "filename": "conf/integration/01_testcases.conf",
+        "patchSetId": 6
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-06-04T05:50:54Z",
+      "side": 1,
+      "message": "ok, I\u0027ve missed the \"bidir\" False configuration in original TCs. As it is not explicitly mentioned in TC name, I assume, that it was limitation of the flows installed by support macros. However this is not the case with PVPV deployment, which always installs bidirectional flows.\n\nSo I would recommend to remove \"bidir\":False from all three *pvp_udp_dest_flows TCs. Let\u0027s user decide himself, if he wants to follow default configuration (bidir True) or execute a unidirectorinal traffic (i.e. via configuration file or via CLI --test-params).",
+      "revId": "639c81bbe18b2e4a692eca8773f2714de5d65fdd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
