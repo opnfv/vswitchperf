@@ -92,9 +92,9 @@ An example of Traffic Capture in VM test:
         },
         TestSteps: [
             # replace original flows with vlan ID modification
-            ['!vswitch', 'add_flow', 'br0', {'in_port': '1', 'actions': ['mod_vlan_vid:4','output:3']}],
-            ['!vswitch', 'add_flow', 'br0', {'in_port': '2', 'actions': ['mod_vlan_vid:4','output:4']}],
-            ['vswitch', 'dump_flows', 'br0'],
+            ['!vswitch', 'add_flow', '$VSWITCH_BRIDGE_NAME', {'in_port': '1', 'actions': ['mod_vlan_vid:4','output:3']}],
+            ['!vswitch', 'add_flow', '$VSWITCH_BRIDGE_NAME', {'in_port': '2', 'actions': ['mod_vlan_vid:4','output:4']}],
+            ['vswitch', 'dump_flows', '$VSWITCH_BRIDGE_NAME'],
             # verify that received frames have modified vlan ID
             ['VNF0', 'execute_and_wait', 'tcpdump -i eth0 -c 5 -w dump.pcap vlan 4 &'],
             ['trafficgen', 'send_traffic',{}],
@@ -199,7 +199,7 @@ An example of Traffic Capture for testing NICs with HW offloading test:
             ['tools', 'exec_shell_background', 'tcpdump -i [2][device] -c 5 -w capture.pcap '
                                                'ether src [l2][srcmac]'],
             ['trafficgen', 'send_traffic', {}],
-            ['vswitch', 'dump_flows', 'br0'],
+            ['vswitch', 'dump_flows', '$VSWITCH_BRIDGE_NAME'],
             ['vswitch', 'dump_flows', 'br1'],
             # there must be 5 captured frames...
             ['tools', 'exec_shell', 'tcpdump -r capture.pcap | wc -l', '|^(\d+)$'],

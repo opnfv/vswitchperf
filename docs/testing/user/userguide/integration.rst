@@ -69,8 +69,8 @@ the following variables in you user_settings.py file:
     VTEP_IP2_SUBNET = '192.168.240.0/24'
 
     # Bridge names
-    TUNNEL_INTEGRATION_BRIDGE = 'br0'
-    TUNNEL_EXTERNAL_BRIDGE = 'br-ext'
+    TUNNEL_INTEGRATION_BRIDGE = 'vsperf-br0'
+    TUNNEL_EXTERNAL_BRIDGE = 'vsperf-br-ext'
 
     # IP of br-ext
     TUNNEL_EXTERNAL_BRIDGE_IP = '192.168.240.1/24'
