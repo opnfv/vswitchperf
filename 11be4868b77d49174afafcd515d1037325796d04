@@ -1,0 +1,8 @@
+Code-Review+1: Bob Fubel <bfubel@redhat.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Christian Trautman <ctrautma@redhat.com>
+Submitted-by: Christian Trautman <ctrautma@redhat.com>
+Submitted-at: Mon, 18 Jun 2018 19:13:58 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/57555
+Project: vswitchperf
+Branch: refs/heads/master
