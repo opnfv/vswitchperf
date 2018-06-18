@@ -1,6 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. (c) OPNFV, Intel Corporation, AT&T and others.
+.. (c) OPNFV, Intel Corporation, AT&T, Tieto and others.
 
 .. _vsperf-design:
 
@@ -332,7 +332,6 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
                       feature. If enabled, it will implicitly insert a flow
                       for each stream. If multistream is disabled, then
                       pre-installed flows will be ignored.
-                      Note: It is supported only for p2p deployment scenario.
                       Data type: str
                       Supported values:
                          "Yes" - flows will be inserted into OVS
@@ -777,6 +776,13 @@ As it is able to forward traffic between multiple VM NIC pairs.
 Note: In case of ``linux_bridge``, all NICs are connected to the same
 bridge inside the VM.
 
+Note: In case that multistream feature is configured and ``pre_installed_flows``
+is set to ``Yes``, then stream specific flows will be inserted only for connections
+originating at physical ports. The rest of the flows will be based on port
+numbers only. The same logic applies in case that ``flow_type`` TRAFFIC option
+is set to ``ip``. This configuration will avoid a testcase malfunction if frame headers
+are modified inside VM (e.g. MAC swap or IP change).
+
 VM, vSwitch, Traffic Generator Independence
 ===========================================
 
@@ -911,6 +917,10 @@ Routing Tables
 Vsperf uses a standard set of routing tables in order to allow tests to easily
 mix and match Deployment Scenarios (PVP, P2P topology), Tuple Matching and
 Frame Modification requirements.
+
+The usage of routing tables is driven by configuration parameter ``OVS_ROUTING_TABLES``.
+Routing tables are disabled by default (i.e. parameter is set to ``False``) for better
+comparison of results among supported vSwitches (e.g. OVS vs. VPP).
 
 .. code-block:: console
 
