@@ -159,7 +159,7 @@ if [ -s $FILE_LIST ] ; then
         fi
         # run pylint and extract final rating
         output=`$PYLINT --rcfile $PYLINT_RC $pyfile 2>/dev/null`
-        rating=`echo -e $output | tail -n3 | grep rated | sed -e 's/^.*rated at \([0-9.]*\).*$/\1/'`
+        rating=`echo -e $output | tail -n3 | grep rated | sed -e 's/^.*rated at \(-\?[0-9.]*\).*$/\1/'`
         # evaluate and display aquired rating
         if [ "x$rating" == "x" ] ; then
             # rating is not available for files without python statements
@@ -167,7 +167,7 @@ if [ -s $FILE_LIST ] ; then
         elif rating_is_ok $rating ; then
             printf "    %-70s ${GREEN}%-6s${BLACK}\n" $pyfile "OK"
         else
-            echo -e "$output" | awk '/^*+ Module|^[A-Z]\:/'
+            echo -e "$output" | awk '/^\*+ Module|^[A-Z]\:/'
             printf "    %-70s ${RED}%-6s${BLACK}\n" $pyfile $rating
         fi
     done
