@@ -235,13 +235,22 @@ def parse_arguments():
 def configure_logging(level):
     """Configure logging.
     """
+    date = datetime.datetime.fromtimestamp(time.time())
+    timestamp = date.strftime('%Y-%m-%d_%H-%M-%S')
+    settings.setValue('LOG_TIMEMSTAMP', timestamp)
+    name, ext = os.path.splitext(settings.getValue('LOG_FILE_DEFAULT'))
+    rename_default = "{name}_{uid}{ex}".format(name=name, uid=timestamp, ex=ext)
     log_file_default = os.path.join(
-        settings.getValue('LOG_DIR'), settings.getValue('LOG_FILE_DEFAULT'))
+        settings.getValue('LOG_DIR'), rename_default)
     log_file_host_cmds = os.path.join(
         settings.getValue('LOG_DIR'), settings.getValue('LOG_FILE_HOST_CMDS'))
     log_file_traffic_gen = os.path.join(
         settings.getValue('LOG_DIR'),
         settings.getValue('LOG_FILE_TRAFFIC_GEN'))
+    metrics_file = (settings.getValue('LOG_FILE_INFRA_METRICS_PFX') +
+                    timestamp + '.log')
+    log_file_infra_metrics = os.path.join(settings.getValue('LOG_DIR'),
+                                          metrics_file)
 
     _LOGGER.setLevel(logging.DEBUG)
 
@@ -253,6 +262,8 @@ def configure_logging(level):
 
     file_logger = logging.FileHandler(filename=log_file_default)
     file_logger.setLevel(logging.DEBUG)
+    file_logger.setFormatter(logging.Formatter(
+        '%(asctime)s : %(message)s'))
     _LOGGER.addHandler(file_logger)
 
     class CommandFilter(logging.Filter):
@@ -265,6 +276,11 @@ def configure_logging(level):
         def filter(self, record):
             return record.getMessage().startswith(trafficgen.CMD_PREFIX)
 
+    class CollectdMetricsFilter(logging.Filter):
+        """Filter out strings beginning with 'COLLECTD' :'"""
+        def filter(self, record):
+            return record.getMessage().startswith('COLLECTD')
+
     cmd_logger = logging.FileHandler(filename=log_file_host_cmds)
     cmd_logger.setLevel(logging.DEBUG)
     cmd_logger.addFilter(CommandFilter())
@@ -274,6 +290,11 @@ def configure_logging(level):
     gen_logger.setLevel(logging.DEBUG)
     gen_logger.addFilter(TrafficGenCommandFilter())
     _LOGGER.addHandler(gen_logger)
+
+    met_logger = logging.FileHandler(filename=log_file_infra_metrics)
+    met_logger.setLevel(logging.DEBUG)
+    met_logger.addFilter(CollectdMetricsFilter())
+    _LOGGER.addHandler(met_logger)
 
 
 def apply_filter(tests, tc_filter):
