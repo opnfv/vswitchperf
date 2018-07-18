@@ -20,6 +20,7 @@ Plot the values of the stored samples once the test is completed
 
 import copy
 import csv
+import glob
 import logging
 import multiprocessing
 import os
@@ -30,6 +31,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tools.collectors.collectd.collectd_bucky as cb
 from tools.collectors.collector import collector
+from tools import tasks
 from conf import settings
 
 # The y-lables. Keys in this dictionary are used as y-labels.
@@ -48,6 +50,7 @@ def get_label(sample):
         if any(r in sample for r in YLABELS[label]):
             return label
     return None
+
 
 def plot_graphs(dict_of_arrays):
     """
@@ -194,6 +197,7 @@ class Receiver(multiprocessing.Process):
             val = self.pd_dict[sample[1]]
             val.append((sample[2], sample[3]))
             self.pd_dict[sample[1]] = val
+            logging.debug('COLLECTD ' + ' '.join(str(p) for p in sample))
 
     def stop(self):
         """
@@ -216,13 +220,22 @@ class Collectd(collector.ICollector):
         """
         Initialize collection of statistics
         """
-        self._log = os.path.join(results_dir,
-                                 settings.getValue('LOG_FILE_COLLECTD') +
-                                 '_' + test_name + '.log')
+        self.logger = logging.getLogger(__name__)
         self.results = {}
         self.sample_dict = multiprocessing.Manager().dict()
         self.control = multiprocessing.Value('b', False)
         self.receiver = Receiver(self.sample_dict, self.control)
+        self.cleanup_metrics()
+        # Assumption: collected is installed at /opt/collectd
+        # And collected is configured to write to csv at /tmp/csv
+        self.pid = tasks.run_background_task(
+            ['sudo', '/opt/collectd/sbin/collectd'],
+            self.logger, 'Staring Collectd')
+
+    def cleanup_metrics(self):
+        for name in glob.glob(os.path.join('/tmp/csv/', '*')):
+            tasks.run_task(['sudo', 'rm', '-rf', name], self.logger,
+                           'Cleaning up Metrics', True)
 
     def start(self):
         """
@@ -235,6 +248,8 @@ class Collectd(collector.ICollector):
         """
         Stop receiving samples
         """
+        tasks.run_task(['sudo', 'pkill', '--signal', '2', 'collectd'],
+                       self.logger, 'Stopping Collectd', True)
         self.control.value = True
         self.receiver.stop()
         self.receiver.server.join(5)
@@ -244,6 +259,11 @@ class Collectd(collector.ICollector):
         if self.receiver.is_alive():
             self.receiver.terminate()
         self.results = copy.deepcopy(self.sample_dict)
+        filename = ('/tmp/collectd-' + settings.getValue('LOG_TIMESTAMP') +
+                    '.tar.gz')
+        tasks.run_task(['sudo', 'tar', '-czvf', filename, '/tmp/csv/'],
+                       self.logger, 'Zipping File', True)
+        self.cleanup_metrics()
 
     def get_results(self):
         """
