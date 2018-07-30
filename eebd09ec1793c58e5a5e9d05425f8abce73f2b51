@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_ec21c5b5",
+        "filename": "systems/sles/12.4/prepare_python_env.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2018-07-30T14:45:01Z",
+      "side": 1,
+      "message": "and I also wonder if this should be pip3 instead of pip, vsperf file is using python3\n\nhttps://gerrit.opnfv.org/gerrit/gitweb?p\u003dvswitchperf.git;a\u003dblob;f\u003dvsperf;h\u003da1417420b8d3e33b79fba572987ddba55c731c68;hb\u003drefs/heads/master#l1",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 3
+      },
+      "revId": "eebd09ec1793c58e5a5e9d05425f8abce73f2b51",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
