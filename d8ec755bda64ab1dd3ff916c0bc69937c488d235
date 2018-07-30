@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_09950b40",
+        "filename": "systems/sles/12.4/prepare_python_env.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-07-30T06:10:02Z",
+      "side": 1,
+      "message": "SLES12-SP4",
+      "range": {
+        "startLine": 3,
+        "startChar": 53,
+        "endLine": 3,
+        "endChar": 59
+      },
+      "revId": "d8ec755bda64ab1dd3ff916c0bc69937c488d235",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_69a647c3",
+        "filename": "systems/sles/12.4/prepare_python_env.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-07-30T06:10:02Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 20
+      },
+      "revId": "d8ec755bda64ab1dd3ff916c0bc69937c488d235",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
