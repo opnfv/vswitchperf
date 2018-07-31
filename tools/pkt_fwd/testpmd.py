@@ -129,6 +129,19 @@ class TestPMD(IPktFwd):
             self._testpmd.kill()
         except pexpect.EOF:
             pass
+
+    def stop_for_guest(self):
+        """See IPktFwd for general description
+
+        Kills testpmd.
+        """
+        try:
+            self._testpmd.send('stop')
+            self._testpmd.wait('Done.', 5)
+            self._testpmd.send('quit', 2)
+            self._testpmd.kill()
+        except pexpect.EOF:
+            pass
         dpdk.cleanup()
 
     # Method could be a function
