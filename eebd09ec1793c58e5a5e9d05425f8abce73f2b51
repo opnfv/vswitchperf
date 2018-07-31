@@ -46,6 +46,30 @@
       "revId": "eebd09ec1793c58e5a5e9d05425f8abce73f2b51",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_af17bf50",
+        "filename": "systems/sles/12.4/prepare_python_env.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2018-07-31T06:47:10Z",
+      "side": 1,
+      "message": "ok, that makes sense. Maybe I missed a step in my tests. I\u0027ll try again. Thanks for the clarification.",
+      "parentUuid": "9a561d44_afbb3f71",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 3
+      },
+      "revId": "eebd09ec1793c58e5a5e9d05425f8abce73f2b51",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
