@@ -22,6 +22,30 @@
       "revId": "eebd09ec1793c58e5a5e9d05425f8abce73f2b51",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_afbb3f71",
+        "filename": "systems/sles/12.4/prepare_python_env.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-07-31T05:48:37Z",
+      "side": 1,
+      "message": "It should use the pip from the environment prepared 2 steps above, which enforces python3. As this environment is activated just before this command, it should use the correct pip version. This method seems to work well at different distros so far (if compared to usage of virtualenv3 or pip3, which sometimes produced a python2 environment or mixture of py2 and py3)",
+      "parentUuid": "9a561d44_ec21c5b5",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 3
+      },
+      "revId": "eebd09ec1793c58e5a5e9d05425f8abce73f2b51",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
