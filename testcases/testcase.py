@@ -74,6 +74,7 @@ class TestCase(object):
         self._traffic_ctl = None
         self._vnf_ctl = None
         self._vswitch_ctl = None
+        self._vswitch_pkt = None
         self._collector = None
         self._loadgen = None
         self._output_file = None
@@ -256,6 +257,9 @@ class TestCase(object):
                 loader.get_vswitch_class(),
                 self._traffic,
                 self._tunnel_operation)
+            self._vswitch_pkt = component_factory.create_pktfwd(
+                self.deployment,
+                loader.get_pktfwd_class())
 
         self._collector = component_factory.create_collector(
             loader.get_collector_class(),
@@ -820,6 +824,10 @@ class TestCase(object):
                     # initialize new VM
                     self._step_vnf_list[step[0]] = loader.get_vnf_class()()
                 test_object = self._step_vnf_list[step[0]]
+            elif step[0].startswith('testpmd'):
+                test_object = self._vswitch_pkt
+                step_check = False
+                step_ok = True
             elif step[0].startswith('VNF'):
                 if step[1] in ('start', 'stop'):
                     raise RuntimeError("Cannot execute start() or stop() method of "

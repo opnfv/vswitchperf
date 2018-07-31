@@ -70,16 +70,26 @@ class PktFwdController(object):
         self._logger.debug('Stop using %s', str(self._pktfwd_class))
         self._pktfwd.stop()
 
+    def stop_for_guest(self):
+        """Tears down the packet forwarder created in setup().
+        """
+        self._logger.debug('Stop using %s', str(self._pktfwd_class))
+        self._pktfwd.stop_for_guest()
+
     def __enter__(self):
         if self._deployment.find("p2p") == 0:
             self.setup()
         elif self._deployment == "pvp" and settings.getValue('VNF') != "QemuPciPassthrough":
             self.setup_for_guest()
+        else:
+            self.setup()
 
     def __exit__(self, type_, value, traceback):
         if self._deployment.find("p2p") == 0:
             self.stop()
         elif self._deployment == "pvp" and settings.getValue('VNF') != "QemuPciPassthrough":
+            self.stop_for_guest()
+        else:
             self.stop()
 
     def get_pktfwd(self):
@@ -95,3 +105,13 @@ class PktFwdController(object):
         raise NotImplementedError(
             "The PktFwdController does not implement the "
             "\"dump_vswitch_connections\" function.")
+
+    def validate_setup(self):
+        """ Validate call of testpmd start()
+        """
+        return True
+
+    def validate_stop(self):
+        """ Validate call of testpmd start()
+        """
+        return True
