@@ -117,7 +117,7 @@ class TestPMD(IPktFwd):
 
         self._testpmd.send('start', 1)
 
-    def stop(self):
+    def stop(self, guest=False):
         """See IPktFwd for general description
 
         Kills testpmd.
@@ -129,7 +129,10 @@ class TestPMD(IPktFwd):
             self._testpmd.kill()
         except pexpect.EOF:
             pass
-        dpdk.cleanup()
+        if guest:
+            dpdk.cleanup()
+        else:
+            pass
 
     # Method could be a function
     # pylint: disable=no-self-use
