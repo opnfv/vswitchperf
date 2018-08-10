@@ -170,11 +170,10 @@ class TestCase(object):
                                         'dstip':
                                         S.getValue('TRAFFICGEN_PORT2_IP')})
 
-            if self._tunnel_operation == "decapsulation":
+            if self._tunnel_operation.startswith("decapsulation"):
                 self._traffic['l2'].update(S.getValue(S.getValue('TUNNEL_TYPE').upper() + '_FRAME_L2'))
                 self._traffic['l3'].update(S.getValue(S.getValue('TUNNEL_TYPE').upper() + '_FRAME_L3'))
                 self._traffic['l4'].update(S.getValue(S.getValue('TUNNEL_TYPE').upper() + '_FRAME_L4'))
-                self._traffic['l2']['dstmac'] = S.getValue('NICS')[1]['mac']
         elif len(S.getValue('NICS')) >= 2 and \
              (S.getValue('NICS')[0]['type'] == 'vf' or
               S.getValue('NICS')[1]['type'] == 'vf'):

@@ -48,10 +48,11 @@ class VnfController(object):
         self._vnf_class = vnf_class
         self._deployment = deployment.lower()
         self._vnfs = []
-        if self._deployment == 'pvp':
+        if self._deployment == 'pvp' or self._deployment == 'opvp':
             vm_number = 1
         elif (self._deployment.startswith('pvvp') or
-              self._deployment.startswith('pvpv')):
+              self._deployment.startswith('pvpv') or
+              self._deployment.startswith('opvp')):
             if len(self._deployment) > 4:
                 vm_number = int(self._deployment[4:])
             else:
