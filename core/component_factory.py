@@ -22,6 +22,7 @@ from core.vswitch_controller_p2p import VswitchControllerP2P
 from core.vswitch_controller_pxp import VswitchControllerPXP
 from core.vswitch_controller_op2p import VswitchControllerOP2P
 from core.vswitch_controller_ptunp import VswitchControllerPtunP
+from core.vswitch_controller_opxp import VswitchControllerOPXP
 from core.vnf_controller import VnfController
 from core.pktfwd_controller import PktFwdController
 
@@ -77,6 +78,8 @@ def create_vswitch(deployment_scenario, vswitch_class, traffic,
         return VswitchControllerPXP(deployment, vswitch_class, traffic)
     elif deployment.startswith("op2p"):
         return VswitchControllerOP2P(deployment, vswitch_class, traffic, tunnel_operation)
+    elif deployment.startswith("opvp"):
+        return VswitchControllerOPXP(deployment, vswitch_class, traffic, tunnel_operation)
     elif deployment.startswith("ptunp"):
         return VswitchControllerPtunP(deployment, vswitch_class, traffic)
     elif deployment.startswith("clean"):
