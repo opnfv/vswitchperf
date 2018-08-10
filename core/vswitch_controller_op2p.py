@@ -118,32 +118,33 @@ class VswitchControllerOP2P(IVswitchController):
             self._vswitch.start()
             bridge = S.getValue('TUNNEL_INTEGRATION_BRIDGE')
             bridge_ext = S.getValue('TUNNEL_EXTERNAL_BRIDGE')
-            bridge_ext_ip = S.getValue('TUNNEL_EXTERNAL_BRIDGE_IP')
+            bridge_ext_ip = S.getValue('TUNNEL_MODIFY_BRIDGE_IP1')
             tgen_ip1 = S.getValue('TRAFFICGEN_PORT1_IP')
-            self._vswitch.add_switch(bridge)
+            tgen_ip2 = S.getValue('TRAFFICGEN_PORT2_IP')
+            self._vswitch.add_switch(bridge, params=["other_config:hwaddr=00:00:64:00:00:02"])
 
             tasks.run_task(['sudo', 'ip', 'addr', 'add',
-                            S.getValue('VTEP_IP1'), 'dev', bridge],
+                            '10.0.0.1', 'dev', bridge],
                            self._logger, 'Assign ' +
-                           S.getValue('VTEP_IP1') + ' to ' + bridge, False)
+                           '10.0.0.1' + ' to ' + bridge, False)
             tasks.run_task(['sudo', 'ip', 'link', 'set', 'dev', bridge, 'up'],
                            self._logger, 'Bring up ' + bridge, False)
 
             tunnel_type = self._traffic['tunnel_type']
 
-            self._vswitch.add_switch(bridge_ext)
-            self._vswitch.add_phy_port(bridge)
-            (_, phy2_number) = self._vswitch.add_phy_port(bridge_ext)
+            (_, phy1_number) = self._vswitch.add_phy_port(bridge)
+            self._vswitch.add_switch(bridge_ext, params=["other_config:hwaddr=00:00:64:00:00:01"])
             if tunnel_type == "vxlan":
                 vxlan_vni = 'options:key=' + S.getValue('VXLAN_VNI')
-                (_, phy3_number) = self._vswitch.add_tunnel_port(bridge_ext,
+                (_, phy2_number) = self._vswitch.add_tunnel_port(bridge,
                                                                  tgen_ip1,
                                                                  tunnel_type,
                                                                  params=[vxlan_vni])
             else:
-                (_, phy3_number) = self._vswitch.add_tunnel_port(bridge_ext,
+                (_, phy2_number) = self._vswitch.add_tunnel_port(bridge,
                                                                  tgen_ip1,
                                                                  tunnel_type)
+            (_, phy3_number) = self._vswitch.add_phy_port(bridge_ext)
             tasks.run_task(['sudo', 'ip', 'addr', 'add',
                             bridge_ext_ip,
                             'dev', bridge_ext],
@@ -157,13 +158,23 @@ class VswitchControllerOP2P(IVswitchController):
                            'Set ' + bridge_ext + ' status to up')
 
             self._vswitch.set_tunnel_arp(tgen_ip1,
-                                         S.getValue('TRAFFICGEN_PORT1_MAC'),
+                                         S.getValue('VXLAN_FRAME_L2')
+                                         ["dstmac"],
+                                         bridge_ext)
+
+            self._vswitch.set_tunnel_arp(tgen_ip2,
+                                         S.getValue('VXLAN_FRAME_L2')
+                                         ["srcmac"],
                                          bridge)
             # Test is unidirectional for now
             self._vswitch.del_flow(bridge_ext)
             flow1 = add_ports_to_flow(S.getValue('OVS_FLOW_TEMPLATE'), phy3_number,
-                                      phy2_number)
+                                      'LOCAL')
             self._vswitch.add_flow(bridge_ext, flow1)
+            flow2 = add_ports_to_flow(S.getValue('OVS_FLOW_TEMPLATE'), phy2_number,
+                                      phy1_number)
+            self._vswitch.add_flow(bridge, flow2)
+
 
         except:
             self._vswitch.stop()
