@@ -83,6 +83,14 @@ proc startRfc2544Test { testSpec trafficSpec } {
 
     set duration                [dict get $testSpec duration]
 
+    if {($::port1 == $::port2)} {
+        set twoPorts 0
+        set selfDestined True
+    } else {
+        set twoPorts 1
+        set selfDestined False
+    }
+
     set L2CountValue            1
     set L2Increment             False
     set L3ValueType             singleValue
@@ -135,6 +143,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
         }
     }
 
+    set flowControl             [dict get $testSpec flowControl]
     set fastConvergence         True
     set convergenceDuration     [expr $duration/10]
 
@@ -323,7 +332,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -destMacRetryDelay 5 \
      -largeErrorThreshhold 2 \
      -refreshLearnedInfoBeforeApply False \
-     -enableMinFrameSize False \
+     -enableMinFrameSize True \
      -macChangeOnFly False \
      -waitTime 1 \
      -enableInstantaneousStatsSupport False \
@@ -406,14 +415,38 @@ proc startRfc2544Test { testSpec trafficSpec } {
     ixNet setMultiAttrs $sg_vport \
      -transmitIgnoreLinkStatus False \
      -txGapControlMode averageMode \
-     -type tenGigLan \
+     -type tenFortyHundredGigLan \
      -connectedTo ::ixNet::OBJ-null \
      -txMode interleaved \
      -isPullOnly False \
      -rxMode captureAndMeasure \
-     -name {10GE LAN - 001}
+     -name {40GE LAN - 001}
     ixNet setMultiAttrs $sg_vport/l1Config \
-     -currentType tenGigLan
+     -currentType tenFortyHundredGigLan
+    ixNet setMultiAttribute $sg_vport/l1Config/tenFortyHundredGigLan \
+     -autoInstrumentation floating \
+     -enableRsFec false \
+     -sendSetsMode alternate \
+     -badBlocksNumber 4 \
+     -txIgnoreRxLinkFaults false \
+     -goodBlocksNumber 0 \
+     -loopbackMode none \
+     -enableRsFecStats false \
+     -enabledFlowControl true \
+     -enablePPM false \
+     -flowControlDirectedAddress "01\ 80\ C2\ 00\ 00\ 01" \
+     -laserOn true \
+     -speed speed40g \
+     -loopback false \
+     -loopContinuously true \
+     -startErrorInsertion false \
+     -enableAutoNegotiation false \
+     -ieeeL1Defaults true \
+     -typeBOrderedSets remoteFault \
+     -ppm 0 \
+     -loopCountNumber 1 \
+     -typeAOrderedSets localFault \
+     -linkTraining false
     ixNet setMultiAttrs $sg_vport/l1Config/tenGigLan \
      -ppm 0 \
      -flowControlDirectedAddress "01 80 C2 00 00 01" \
@@ -423,7 +456,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -txIgnoreRxLinkFaults False \
      -loopback False \
      -enableLASIMonitoring False \
-     -enabledFlowControl True
+     -enabledFlowControl $flowControl
     ixNet setMultiAttrs $sg_vport/l1Config/tenGigLan/oam \
      -tlvType {00} \
      -linkEvents False \
@@ -452,7 +485,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -txIgnoreRxLinkFaults False \
      -loopback False \
      -enableLASIMonitoring False \
-     -enabledFlowControl False
+     -enabledFlowControl $flowControl
     ixNet setMultiAttrs $sg_vport/l1Config/fortyGigLan/fcoe \
      -supportDataCenterMode False \
      -priorityGroupSize priorityGroupSize-8 \
@@ -779,386 +812,411 @@ proc startRfc2544Test { testSpec trafficSpec } {
     sg_commit
     set sg_lan [lindex [ixNet remapIds $sg_lan] 0]
 
-    #
-    # configuring the object that corresponds to /vport:2
-    #
-    set sg_vport [ixNet add $ixNetSG_Stack(0) vport]
-    ixNet setMultiAttrs $sg_vport \
-     -transmitIgnoreLinkStatus False \
-     -txGapControlMode averageMode \
-     -type tenGigLan \
-     -connectedTo ::ixNet::OBJ-null \
-     -txMode interleaved \
-     -isPullOnly False \
-     -rxMode captureAndMeasure \
-     -name {10GE LAN - 002}
-    ixNet setMultiAttrs $sg_vport/l1Config \
-     -currentType tenGigLan
-    ixNet setMultiAttrs $sg_vport/l1Config/tenGigLan \
-     -ppm 0 \
-     -flowControlDirectedAddress "01 80 C2 00 00 01" \
-     -enablePPM False \
-     -autoInstrumentation endOfFrame \
-     -transmitClocking internal \
-     -txIgnoreRxLinkFaults False \
-     -loopback False \
-     -enableLASIMonitoring False \
-     -enabledFlowControl False
-    ixNet setMultiAttrs $sg_vport/l1Config/tenGigLan/oam \
-     -tlvType {00} \
-     -linkEvents False \
-     -enabled False \
-     -vendorSpecificInformation {00 00 00 00} \
-     -macAddress "00:00:00:00:00:00" \
-     -loopback False \
-     -idleTimer 5 \
-     -tlvValue {00} \
-     -enableTlvOption False \
-     -maxOAMPDUSize 64 \
-     -organizationUniqueIdentifier {000000}
-    ixNet setMultiAttrs $sg_vport/l1Config/tenGigLan/fcoe \
-     -supportDataCenterMode False \
-     -priorityGroupSize priorityGroupSize-8 \
-     -pfcPauseDelay 1 \
-     -pfcPriorityGroups {0 1 2 3 4 5 6 7} \
-     -flowControlType ieee802.1Qbb \
-     -enablePFCPauseDelay False
-    ixNet setMultiAttrs $sg_vport/l1Config/fortyGigLan \
-     -ppm 0 \
-     -flowControlDirectedAddress "01 80 C2 00 00 01" \
-     -enablePPM False \
-     -autoInstrumentation endOfFrame \
-     -transmitClocking internal \
-     -txIgnoreRxLinkFaults False \
-     -loopback False \
-     -enableLASIMonitoring False \
-     -enabledFlowControl False
-    ixNet setMultiAttrs $sg_vport/l1Config/fortyGigLan/fcoe \
-     -supportDataCenterMode False \
-     -priorityGroupSize priorityGroupSize-8 \
-     -pfcPauseDelay 1 \
-     -pfcPriorityGroups {0 1 2 3 4 5 6 7} \
-     -flowControlType ieee802.1Qbb \
-     -enablePFCPauseDelay False
-    ixNet setMultiAttrs $sg_vport/l1Config/OAM \
-     -tlvType {00} \
-     -linkEvents False \
-     -enabled False \
-     -vendorSpecificInformation {00 00 00 00} \
-     -macAddress "00:00:00:00:00:00" \
-     -loopback False \
-     -idleTimer 5 \
-     -tlvValue {00} \
-     -enableTlvOption False \
-     -maxOAMPDUSize 64 \
-     -organizationUniqueIdentifier {000000}
-    ixNet setMultiAttrs $sg_vport/l1Config/rxFilters/filterPalette \
-     -sourceAddress1Mask {00:00:00:00:00:00} \
-     -destinationAddress1Mask {00:00:00:00:00:00} \
-     -sourceAddress2 {00:00:00:00:00:00} \
-     -pattern2OffsetType fromStartOfFrame \
-     -pattern2Offset 20 \
-     -pattern1Mask {00} \
-     -sourceAddress2Mask {00:00:00:00:00:00} \
-     -destinationAddress2 {00:00:00:00:00:00} \
-     -destinationAddress1 {00:00:00:00:00:00} \
-     -sourceAddress1 {00:00:00:00:00:00} \
-     -pattern1 {00} \
-     -destinationAddress2Mask {00:00:00:00:00:00} \
-     -pattern2Mask {00} \
-     -pattern1Offset 20 \
-     -pattern2 {00} \
-     -pattern1OffsetType fromStartOfFrame
-    ixNet setMultiAttrs $sg_vport/protocols/arp \
-     -enabled False
-    ixNet setMultiAttrs $sg_vport/protocols/bfd \
-     -enabled False \
-     -intervalValue 0 \
-     -packetsPerInterval 0
-    ixNet setMultiAttrs $sg_vport/protocols/bgp \
-     -autoFillUpDutIp False \
-     -disableReceivedUpdateValidation False \
-     -enableAdVplsPrefixLengthInBits False \
-     -enableExternalActiveConnect True \
-     -enableInternalActiveConnect True \
-     -enableVpnLabelExchangeOverLsp True \
-     -enabled False \
-     -externalRetries 0 \
-     -externalRetryDelay 120 \
-     -internalRetries 0 \
-     -internalRetryDelay 120 \
-     -mldpP2mpFecType 6 \
-     -triggerVplsPwInitiation False
-    ixNet setMultiAttrs $sg_vport/protocols/cfm \
-     -enableOptionalLmFunctionality False \
-     -enableOptionalTlvValidation True \
-     -enabled False \
-     -receiveCcm True \
-     -sendCcm True \
-     -suppressErrorsOnAis True
-    ixNet setMultiAttrs $sg_vport/protocols/eigrp \
-     -enabled False
-    ixNet setMultiAttrs $sg_vport/protocols/elmi \
-     -enabled False
-    ixNet setMultiAttrs $sg_vport/protocols/igmp \
-     -enabled False \
-     -numberOfGroups 0 \
-     -numberOfQueries 0 \
-     -queryTimePeriod 0 \
-     -sendLeaveOnStop True \
-     -statsEnabled False \
-     -timePeriod 0
-    ixNet setMultiAttrs $sg_vport/protocols/isis \
-     -allL1RbridgesMac "01:80:c2:00:00:40" \
-     -emulationType isisL3Routing \
-     -enabled False \
-     -helloMulticastMac "01:80:c2:00:00:41" \
-     -lspMgroupPdusPerInterval 0 \
-     -nlpId 192 \
-     -rateControlInterval 0 \
-     -sendP2PHellosToUnicastMac True \
-     -spbAllL1BridgesMac "09:00:2b:00:00:05" \
-     -spbHelloMulticastMac "09:00:2b:00:00:05" \
-     -spbNlpId 192
-    ixNet setMultiAttrs $sg_vport/protocols/lacp \
-     -enablePreservePartnerInfo False \
-     -enabled False
-    ixNet setMultiAttrs $sg_vport/protocols/ldp \
-     -enableDiscardSelfAdvFecs False \
-     -enableHelloJitter True \
-     -enableVpnLabelExchangeOverLsp True \
-     -enabled False \
-     -helloHoldTime 15 \
-     -helloInterval 5 \
-     -keepAliveHoldTime 30 \
-     -keepAliveInterval 10 \
-     -p2mpCapabilityParam 1288 \
-     -p2mpFecType 6 \
-     -targetedHelloInterval 15 \
-     -targetedHoldTime 45 \
-     -useTransportLabelsForMplsOam False
-    ixNet setMultiAttrs $sg_vport/protocols/linkOam \
-     -enabled False
-    ixNet setMultiAttrs $sg_vport/protocols/lisp \
-     -burstIntervalInMs 0 \
-     -enabled False \
-     -ipv4MapRegisterPacketsPerBurst 0 \
-     -ipv4MapRequestPacketsPerBurst 0 \
-     -ipv4SmrPacketsPerBurst 0 \
-     -ipv6MapRegisterPacketsPerBurst 0 \
-     -ipv6MapRequestPacketsPerBurst 0 \
-     -ipv6SmrPacketsPerBurst 0
-    ixNet setMultiAttrs $sg_vport/protocols/mld \
-     -enableDoneOnStop True \
-     -enabled False \
-     -mldv2Report type143 \
-     -numberOfGroups 0 \
-     -numberOfQueries 0 \
-     -queryTimePeriod 0 \
-     -timePeriod 0
-    ixNet setMultiAttrs $sg_vport/protocols/mplsOam \
-     -enabled False
-    ixNet setMultiAttrs $sg_vport/protocols/mplsTp \
-     -apsChannelType {00 02 } \
-     -bfdCcChannelType {00 07 } \
-     -delayManagementChannelType {00 05 } \
-     -enableHighPerformanceMode True \
-     -enabled False \
-     -faultManagementChannelType {00 58 } \
-     -lossMeasurementChannelType {00 04 } \
-     -onDemandCvChannelType {00 09 } \
-     -pwStatusChannelType {00 0B } \
-     -y1731ChannelType {7F FA }
-    ixNet setMultiAttrs $sg_vport/protocols/ospf \
-     -enableDrOrBdr False \
-     -enabled False \
-     -floodLinkStateUpdatesPerInterval 0 \
-     -rateControlInterval 0
-    ixNet setMultiAttrs $sg_vport/protocols/ospfV3 \
-     -enabled False
-    ixNet setMultiAttrs $sg_vport/protocols/pimsm \
-     -bsmFramePerInterval 0 \
-     -crpFramePerInterval 0 \
-     -dataMdtFramePerInterval 0 \
-     -denyGrePimIpPrefix {0.0.0.0/32} \
-     -enableDiscardJoinPruneProcessing False \
-     -enableRateControl False \
-     -enabled False \
-     -helloMsgsPerInterval 0 \
-     -interval 0 \
-     -joinPruneMessagesPerInterval 0 \
-     -registerMessagesPerInterval 0 \
-     -registerStopMessagesPerInterval 0
-    ixNet setMultiAttrs $sg_vport/protocols/ping \
-     -enabled False
-    ixNet setMultiAttrs $sg_vport/protocols/rip \
-     -enabled False
-    ixNet setMultiAttrs $sg_vport/protocols/ripng \
-     -enabled False
-    ixNet setMultiAttrs $sg_vport/protocols/rsvp \
-     -enableControlLspInitiationRate False \
-     -enableShowTimeValue False \
-     -enableVpnLabelExchangeOverLsp True \
-     -enabled False \
-     -maxLspInitiationsPerSec 400 \
-     -useTransportLabelsForMplsOam False
-    ixNet setMultiAttrs $sg_vport/protocols/stp \
-     -enabled False
-    ixNet setMultiAttrs $sg_vport/rateControlParameters \
-     -maxRequestsPerBurst 1 \
-     -maxRequestsPerSec 250 \
-     -minRetryInterval 10 \
-     -retryCount 3 \
-     -sendInBursts False \
-     -sendRequestsAsFastAsPossible False
-    ixNet setMultiAttrs $sg_vport/capture \
-     -controlCaptureTrigger {} \
-     -controlCaptureFilter {} \
-     -hardwareEnabled False \
-     -softwareEnabled False \
-     -displayFiltersDataCapture {} \
-     -displayFiltersControlCapture {} \
-     -controlBufferSize 30 \
-     -controlBufferBehaviour bufferLiveNonCircular
-    ixNet setMultiAttrs $sg_vport/protocolStack/options \
-     -routerSolicitationDelay 1 \
-     -routerSolicitationInterval 4 \
-     -routerSolicitations 3 \
-     -retransTime 1000 \
-     -dadTransmits 1 \
-     -dadEnabled True \
-     -ipv4RetransTime 3000 \
-     -ipv4McastSolicit 4
-    sg_commit
-    set sg_vport [lindex [ixNet remapIds $sg_vport] 0]
-    set ixNetSG_ref(10) $sg_vport
-    set ixNetSG_Stack(1) $sg_vport
+    if {$twoPorts} {
+        #
+        # configuring the object that corresponds to /vport:2
+        #
+        set sg_vport [ixNet add $ixNetSG_Stack(0) vport]
+        ixNet setMultiAttrs $sg_vport \
+         -transmitIgnoreLinkStatus False \
+         -txGapControlMode averageMode \
+         -type tenFortyHundredGigLan  \
+         -connectedTo ::ixNet::OBJ-null \
+         -txMode interleaved \
+         -isPullOnly False \
+         -rxMode captureAndMeasure \
+         -name {40GE LAN - 002}
+        ixNet setMultiAttrs $sg_vport/l1Config \
+         -currentType tenFortyHundredGigLan
+        ixNet setMultiAttribute $sg_vport/l1Config/tenFortyHundredGigLan \
+         -autoInstrumentation floating \
+         -enableRsFec false \
+         -sendSetsMode alternate \
+         -badBlocksNumber 4 \
+         -txIgnoreRxLinkFaults false \
+         -goodBlocksNumber 0 \
+         -loopbackMode none \
+         -enableRsFecStats false \
+         -enabledFlowControl true \
+         -enablePPM false \
+         -flowControlDirectedAddress "01\ 80\ C2\ 00\ 00\ 01" \
+         -laserOn true \
+         -speed speed40g \
+         -loopback false \
+         -loopContinuously true \
+         -startErrorInsertion false \
+         -enableAutoNegotiation false \
+         -ieeeL1Defaults true \
+         -typeBOrderedSets remoteFault \
+         -ppm 0 \
+         -loopCountNumber 1 \
+         -typeAOrderedSets localFault \
+         -linkTraining false
+        ixNet setMultiAttrs $sg_vport/l1Config/tenGigLan \
+         -ppm 0 \
+         -flowControlDirectedAddress "01 80 C2 00 00 01" \
+         -enablePPM False \
+         -autoInstrumentation endOfFrame \
+         -transmitClocking internal \
+         -txIgnoreRxLinkFaults False \
+         -loopback False \
+         -enableLASIMonitoring False \
+         -enabledFlowControl $flowControl
+        ixNet setMultiAttrs $sg_vport/l1Config/tenGigLan/oam \
+         -tlvType {00} \
+         -linkEvents False \
+         -enabled False \
+         -vendorSpecificInformation {00 00 00 00} \
+         -macAddress "00:00:00:00:00:00" \
+         -loopback False \
+         -idleTimer 5 \
+         -tlvValue {00} \
+         -enableTlvOption False \
+         -maxOAMPDUSize 64 \
+         -organizationUniqueIdentifier {000000}
+        ixNet setMultiAttrs $sg_vport/l1Config/tenGigLan/fcoe \
+         -supportDataCenterMode False \
+         -priorityGroupSize priorityGroupSize-8 \
+         -pfcPauseDelay 1 \
+         -pfcPriorityGroups {0 1 2 3 4 5 6 7} \
+         -flowControlType ieee802.1Qbb \
+         -enablePFCPauseDelay False
+        ixNet setMultiAttrs $sg_vport/l1Config/fortyGigLan \
+         -ppm 0 \
+         -flowControlDirectedAddress "01 80 C2 00 00 01" \
+         -enablePPM False \
+         -autoInstrumentation endOfFrame \
+         -transmitClocking internal \
+         -txIgnoreRxLinkFaults False \
+         -loopback False \
+         -enableLASIMonitoring False \
+         -enabledFlowControl $flowControl
+        ixNet setMultiAttrs $sg_vport/l1Config/fortyGigLan/fcoe \
+         -supportDataCenterMode False \
+         -priorityGroupSize priorityGroupSize-8 \
+         -pfcPauseDelay 1 \
+         -pfcPriorityGroups {0 1 2 3 4 5 6 7} \
+         -flowControlType ieee802.1Qbb \
+         -enablePFCPauseDelay False
+        ixNet setMultiAttrs $sg_vport/l1Config/OAM \
+         -tlvType {00} \
+         -linkEvents False \
+         -enabled False \
+         -vendorSpecificInformation {00 00 00 00} \
+         -macAddress "00:00:00:00:00:00" \
+         -loopback False \
+         -idleTimer 5 \
+         -tlvValue {00} \
+         -enableTlvOption False \
+         -maxOAMPDUSize 64 \
+         -organizationUniqueIdentifier {000000}
+        ixNet setMultiAttrs $sg_vport/l1Config/rxFilters/filterPalette \
+         -sourceAddress1Mask {00:00:00:00:00:00} \
+         -destinationAddress1Mask {00:00:00:00:00:00} \
+         -sourceAddress2 {00:00:00:00:00:00} \
+         -pattern2OffsetType fromStartOfFrame \
+         -pattern2Offset 20 \
+         -pattern1Mask {00} \
+         -sourceAddress2Mask {00:00:00:00:00:00} \
+         -destinationAddress2 {00:00:00:00:00:00} \
+         -destinationAddress1 {00:00:00:00:00:00} \
+         -sourceAddress1 {00:00:00:00:00:00} \
+         -pattern1 {00} \
+         -destinationAddress2Mask {00:00:00:00:00:00} \
+         -pattern2Mask {00} \
+         -pattern1Offset 20 \
+         -pattern2 {00} \
+         -pattern1OffsetType fromStartOfFrame
+        ixNet setMultiAttrs $sg_vport/protocols/arp \
+         -enabled False
+        ixNet setMultiAttrs $sg_vport/protocols/bfd \
+         -enabled False \
+         -intervalValue 0 \
+         -packetsPerInterval 0
+        ixNet setMultiAttrs $sg_vport/protocols/bgp \
+         -autoFillUpDutIp False \
+         -disableReceivedUpdateValidation False \
+         -enableAdVplsPrefixLengthInBits False \
+         -enableExternalActiveConnect True \
+         -enableInternalActiveConnect True \
+         -enableVpnLabelExchangeOverLsp True \
+         -enabled False \
+         -externalRetries 0 \
+         -externalRetryDelay 120 \
+         -internalRetries 0 \
+         -internalRetryDelay 120 \
+         -mldpP2mpFecType 6 \
+         -triggerVplsPwInitiation False
+        ixNet setMultiAttrs $sg_vport/protocols/cfm \
+         -enableOptionalLmFunctionality False \
+         -enableOptionalTlvValidation True \
+         -enabled False \
+         -receiveCcm True \
+         -sendCcm True \
+         -suppressErrorsOnAis True
+        ixNet setMultiAttrs $sg_vport/protocols/eigrp \
+         -enabled False
+        ixNet setMultiAttrs $sg_vport/protocols/elmi \
+         -enabled False
+        ixNet setMultiAttrs $sg_vport/protocols/igmp \
+         -enabled False \
+         -numberOfGroups 0 \
+         -numberOfQueries 0 \
+         -queryTimePeriod 0 \
+         -sendLeaveOnStop True \
+         -statsEnabled False \
+         -timePeriod 0
+        ixNet setMultiAttrs $sg_vport/protocols/isis \
+         -allL1RbridgesMac "01:80:c2:00:00:40" \
+         -emulationType isisL3Routing \
+         -enabled False \
+         -helloMulticastMac "01:80:c2:00:00:41" \
+         -lspMgroupPdusPerInterval 0 \
+         -nlpId 192 \
+         -rateControlInterval 0 \
+         -sendP2PHellosToUnicastMac True \
+         -spbAllL1BridgesMac "09:00:2b:00:00:05" \
+         -spbHelloMulticastMac "09:00:2b:00:00:05" \
+         -spbNlpId 192
+        ixNet setMultiAttrs $sg_vport/protocols/lacp \
+         -enablePreservePartnerInfo False \
+         -enabled False
+        ixNet setMultiAttrs $sg_vport/protocols/ldp \
+         -enableDiscardSelfAdvFecs False \
+         -enableHelloJitter True \
+         -enableVpnLabelExchangeOverLsp True \
+         -enabled False \
+         -helloHoldTime 15 \
+         -helloInterval 5 \
+         -keepAliveHoldTime 30 \
+         -keepAliveInterval 10 \
+         -p2mpCapabilityParam 1288 \
+         -p2mpFecType 6 \
+         -targetedHelloInterval 15 \
+         -targetedHoldTime 45 \
+         -useTransportLabelsForMplsOam False
+        ixNet setMultiAttrs $sg_vport/protocols/linkOam \
+         -enabled False
+        ixNet setMultiAttrs $sg_vport/protocols/lisp \
+         -burstIntervalInMs 0 \
+         -enabled False \
+         -ipv4MapRegisterPacketsPerBurst 0 \
+         -ipv4MapRequestPacketsPerBurst 0 \
+         -ipv4SmrPacketsPerBurst 0 \
+         -ipv6MapRegisterPacketsPerBurst 0 \
+         -ipv6MapRequestPacketsPerBurst 0 \
+         -ipv6SmrPacketsPerBurst 0
+        ixNet setMultiAttrs $sg_vport/protocols/mld \
+         -enableDoneOnStop True \
+         -enabled False \
+         -mldv2Report type143 \
+         -numberOfGroups 0 \
+         -numberOfQueries 0 \
+         -queryTimePeriod 0 \
+         -timePeriod 0
+        ixNet setMultiAttrs $sg_vport/protocols/mplsOam \
+         -enabled False
+        ixNet setMultiAttrs $sg_vport/protocols/mplsTp \
+         -apsChannelType {00 02 } \
+         -bfdCcChannelType {00 07 } \
+         -delayManagementChannelType {00 05 } \
+         -enableHighPerformanceMode True \
+         -enabled False \
+         -faultManagementChannelType {00 58 } \
+         -lossMeasurementChannelType {00 04 } \
+         -onDemandCvChannelType {00 09 } \
+         -pwStatusChannelType {00 0B } \
+         -y1731ChannelType {7F FA }
+        ixNet setMultiAttrs $sg_vport/protocols/ospf \
+         -enableDrOrBdr False \
+         -enabled False \
+         -floodLinkStateUpdatesPerInterval 0 \
+         -rateControlInterval 0
+        ixNet setMultiAttrs $sg_vport/protocols/ospfV3 \
+         -enabled False
+        ixNet setMultiAttrs $sg_vport/protocols/pimsm \
+         -bsmFramePerInterval 0 \
+         -crpFramePerInterval 0 \
+         -dataMdtFramePerInterval 0 \
+         -denyGrePimIpPrefix {0.0.0.0/32} \
+         -enableDiscardJoinPruneProcessing False \
+         -enableRateControl False \
+         -enabled False \
+         -helloMsgsPerInterval 0 \
+         -interval 0 \
+         -joinPruneMessagesPerInterval 0 \
+         -registerMessagesPerInterval 0 \
+         -registerStopMessagesPerInterval 0
+        ixNet setMultiAttrs $sg_vport/protocols/ping \
+         -enabled False
+        ixNet setMultiAttrs $sg_vport/protocols/rip \
+         -enabled False
+        ixNet setMultiAttrs $sg_vport/protocols/ripng \
+         -enabled False
+        ixNet setMultiAttrs $sg_vport/protocols/rsvp \
+         -enableControlLspInitiationRate False \
+         -enableShowTimeValue False \
+         -enableVpnLabelExchangeOverLsp True \
+         -enabled False \
+         -maxLspInitiationsPerSec 400 \
+         -useTransportLabelsForMplsOam False
+        ixNet setMultiAttrs $sg_vport/protocols/stp \
+         -enabled False
+        ixNet setMultiAttrs $sg_vport/rateControlParameters \
+         -maxRequestsPerBurst 1 \
+         -maxRequestsPerSec 250 \
+         -minRetryInterval 10 \
+         -retryCount 3 \
+         -sendInBursts False \
+         -sendRequestsAsFastAsPossible False
+        ixNet setMultiAttrs $sg_vport/capture \
+         -controlCaptureTrigger {} \
+         -controlCaptureFilter {} \
+         -hardwareEnabled False \
+         -softwareEnabled False \
+         -displayFiltersDataCapture {} \
+         -displayFiltersControlCapture {} \
+         -controlBufferSize 30 \
+         -controlBufferBehaviour bufferLiveNonCircular
+        ixNet setMultiAttrs $sg_vport/protocolStack/options \
+         -routerSolicitationDelay 1 \
+         -routerSolicitationInterval 4 \
+         -routerSolicitations 3 \
+         -retransTime 1000 \
+         -dadTransmits 1 \
+         -dadEnabled True \
+         -ipv4RetransTime 3000 \
+         -ipv4McastSolicit 4
+        sg_commit
+        set sg_vport [lindex [ixNet remapIds $sg_vport] 0]
+        set ixNetSG_ref(10) $sg_vport
+        set ixNetSG_Stack(1) $sg_vport
 
-    #
-    # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:1
-    #
-    set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:1
-    ixNet setMultiAttrs $sg_uds \
-     -destinationAddressSelector anyAddr \
-     -customFrameSizeTo 0 \
-     -customFrameSizeFrom 0 \
-     -error errAnyFrame \
-     -patternSelector anyPattern \
-     -sourceAddressSelector anyAddr \
-     -isEnabled True \
-     -frameSizeType any
-    sg_commit
-    set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
+        #
+        # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:1
+        #
+        set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:1
+        ixNet setMultiAttrs $sg_uds \
+         -destinationAddressSelector anyAddr \
+         -customFrameSizeTo 0 \
+         -customFrameSizeFrom 0 \
+         -error errAnyFrame \
+         -patternSelector anyPattern \
+         -sourceAddressSelector anyAddr \
+         -isEnabled True \
+         -frameSizeType any
+        sg_commit
+        set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
 
-    #
-    # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:2
-    #
-    set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:2
-    ixNet setMultiAttrs $sg_uds \
-     -destinationAddressSelector anyAddr \
-     -customFrameSizeTo 0 \
-     -customFrameSizeFrom 0 \
-     -error errAnyFrame \
-     -patternSelector anyPattern \
-     -sourceAddressSelector anyAddr \
-     -isEnabled True \
-     -frameSizeType any
-    sg_commit
-    set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
+        #
+        # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:2
+        #
+        set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:2
+        ixNet setMultiAttrs $sg_uds \
+         -destinationAddressSelector anyAddr \
+         -customFrameSizeTo 0 \
+         -customFrameSizeFrom 0 \
+         -error errAnyFrame \
+         -patternSelector anyPattern \
+         -sourceAddressSelector anyAddr \
+         -isEnabled True \
+         -frameSizeType any
+        sg_commit
+        set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
 
-    #
-    # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:3
-    #
-    set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:3
-    ixNet setMultiAttrs $sg_uds \
-     -destinationAddressSelector anyAddr \
-     -customFrameSizeTo 0 \
-     -customFrameSizeFrom 0 \
-     -error errAnyFrame \
-     -patternSelector anyPattern \
-     -sourceAddressSelector anyAddr \
-     -isEnabled True \
-     -frameSizeType any
-    sg_commit
-    set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
+        #
+        # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:3
+        #
+        set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:3
+        ixNet setMultiAttrs $sg_uds \
+         -destinationAddressSelector anyAddr \
+         -customFrameSizeTo 0 \
+         -customFrameSizeFrom 0 \
+         -error errAnyFrame \
+         -patternSelector anyPattern \
+         -sourceAddressSelector anyAddr \
+         -isEnabled True \
+         -frameSizeType any
+        sg_commit
+        set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
 
-    #
-    # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:4
-    #
-    set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:4
-    ixNet setMultiAttrs $sg_uds \
-     -destinationAddressSelector anyAddr \
-     -customFrameSizeTo 0 \
-     -customFrameSizeFrom 0 \
-     -error errAnyFrame \
-     -patternSelector anyPattern \
-     -sourceAddressSelector anyAddr \
-     -isEnabled True \
-     -frameSizeType any
-    sg_commit
-    set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
+        #
+        # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:4
+        #
+        set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:4
+        ixNet setMultiAttrs $sg_uds \
+         -destinationAddressSelector anyAddr \
+         -customFrameSizeTo 0 \
+         -customFrameSizeFrom 0 \
+         -error errAnyFrame \
+         -patternSelector anyPattern \
+         -sourceAddressSelector anyAddr \
+         -isEnabled True \
+         -frameSizeType any
+        sg_commit
+        set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
 
-    #
-    # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:5
-    #
-    set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:5
-    ixNet setMultiAttrs $sg_uds \
-     -destinationAddressSelector anyAddr \
-     -customFrameSizeTo 0 \
-     -customFrameSizeFrom 0 \
-     -error errAnyFrame \
-     -patternSelector anyPattern \
-     -sourceAddressSelector anyAddr \
-     -isEnabled True \
-     -frameSizeType any
-    sg_commit
-    set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
+        #
+        # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:5
+        #
+        set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:5
+        ixNet setMultiAttrs $sg_uds \
+         -destinationAddressSelector anyAddr \
+         -customFrameSizeTo 0 \
+         -customFrameSizeFrom 0 \
+         -error errAnyFrame \
+         -patternSelector anyPattern \
+         -sourceAddressSelector anyAddr \
+         -isEnabled True \
+         -frameSizeType any
+        sg_commit
+        set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
 
-    #
-    # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:6
-    #
-    set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:6
-    ixNet setMultiAttrs $sg_uds \
-     -destinationAddressSelector anyAddr \
-     -customFrameSizeTo 0 \
-     -customFrameSizeFrom 0 \
-     -error errAnyFrame \
-     -patternSelector anyPattern \
-     -sourceAddressSelector anyAddr \
-     -isEnabled True \
-     -frameSizeType any
-    sg_commit
-    set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
+        #
+        # configuring the object that corresponds to /vport:2/l1Config/rxFilters/uds:6
+        #
+        set sg_uds $ixNetSG_Stack(1)/l1Config/rxFilters/uds:6
+        ixNet setMultiAttrs $sg_uds \
+         -destinationAddressSelector anyAddr \
+         -customFrameSizeTo 0 \
+         -customFrameSizeFrom 0 \
+         -error errAnyFrame \
+         -patternSelector anyPattern \
+         -sourceAddressSelector anyAddr \
+         -isEnabled True \
+         -frameSizeType any
+        sg_commit
+        set sg_uds [lindex [ixNet remapIds $sg_uds] 0]
 
-    #
-    # configuring the object that corresponds to /vport:2/protocols/static/lan:1
-    #
-    set sg_lan [ixNet add $ixNetSG_Stack(1)/protocols/static lan]
-    ixNet setMultiAttrs $sg_lan \
-     -atmEncapsulation ::ixNet::OBJ-null \
-     -count $L2CountValue \
-     -countPerVc 1 \
-     -enableIncrementMac $L2Increment \
-     -enableIncrementVlan False \
-     -enableSiteId False \
-     -enableVlan False \
-     -enabled True \
-     -frEncapsulation ::ixNet::OBJ-null \
-     -incrementPerVcVlanMode noIncrement \
-     -incrementVlanMode noIncrement \
-     -mac $dstMac \
-     -macRangeMode normal \
-     -numberOfVcs 1 \
-     -siteId 0 \
-     -skipVlanIdZero True \
-     -tpid {0x8100} \
-     -trafficGroupId ::ixNet::OBJ-null \
-     -vlanCount 1 \
-     -vlanId {1} \
-     -vlanPriority {0}
-    sg_commit
-    set sg_lan [lindex [ixNet remapIds $sg_lan] 0]
-
+        #
+        # configuring the object that corresponds to /vport:2/protocols/static/lan:1
+        #
+        set sg_lan [ixNet add $ixNetSG_Stack(1)/protocols/static lan]
+        ixNet setMultiAttrs $sg_lan \
+         -atmEncapsulation ::ixNet::OBJ-null \
+         -count $L2CountValue \
+         -countPerVc 1 \
+         -enableIncrementMac $L2Increment \
+         -enableIncrementVlan False \
+         -enableSiteId False \
+         -enableVlan False \
+         -enabled True \
+         -frEncapsulation ::ixNet::OBJ-null \
+         -incrementPerVcVlanMode noIncrement \
+         -incrementVlanMode noIncrement \
+         -mac $dstMac \
+         -macRangeMode normal \
+         -numberOfVcs 1 \
+         -siteId 0 \
+         -skipVlanIdZero True \
+         -tpid {0x8100} \
+         -trafficGroupId ::ixNet::OBJ-null \
+         -vlanCount 1 \
+         -vlanId {1} \
+         -vlanPriority {0}
+        sg_commit
+        set sg_lan [lindex [ixNet remapIds $sg_lan] 0]
+    }
     ###
     ### /availableHardware area
     ###
@@ -1181,7 +1239,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_card $ixNetSG_Stack(1)/card:$::card
     ixNet setMultiAttrs $sg_card \
-     -aggregationMode normal
+     -aggregationMode fortyGigNonFanOut
     sg_commit
     set sg_card [lindex [ixNet remapIds $sg_card] 0]
     set ixNetSG_ref(19) $sg_card
@@ -1192,7 +1250,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_aggregation $ixNetSG_Stack(2)/aggregation:1
     ixNet setMultiAttrs $sg_aggregation \
-     -mode normal
+     -mode fortyGigNonFanOut
     sg_commit
     set sg_aggregation [lindex [ixNet remapIds $sg_aggregation] 0]
 
@@ -1201,7 +1259,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_aggregation $ixNetSG_Stack(2)/aggregation:2
     ixNet setMultiAttrs $sg_aggregation \
-     -mode normal
+     -mode fortyGigNonFanOut
     sg_commit
     set sg_aggregation [lindex [ixNet remapIds $sg_aggregation] 0]
 
@@ -1210,7 +1268,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_aggregation $ixNetSG_Stack(2)/aggregation:3
     ixNet setMultiAttrs $sg_aggregation \
-     -mode normal
+     -mode fortyGigNonFanOut
     sg_commit
     set sg_aggregation [lindex [ixNet remapIds $sg_aggregation] 0]
 
@@ -1219,15 +1277,17 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     set sg_aggregation $ixNetSG_Stack(2)/aggregation:4
     ixNet setMultiAttrs $sg_aggregation \
-     -mode normal
+     -mode fortyGigNonFanOut
     sg_commit
     set sg_aggregation [lindex [ixNet remapIds $sg_aggregation] 0]
     ixNet setMultiAttrs $ixNetSG_ref(2) \
      -connectedTo $ixNetSG_ref(19)/port:$::port1
     sg_commit
-    ixNet setMultiAttrs $ixNetSG_ref(10) \
-     -connectedTo $ixNetSG_ref(19)/port:$::port2
-    sg_commit
+    if {$twoPorts} {
+        ixNet setMultiAttrs $ixNetSG_ref(10) \
+         -connectedTo $ixNetSG_ref(19)/port:$::port2
+        sg_commit
+    }
     sg_commit
 
     ###
@@ -1314,9 +1374,9 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -hostsPerNetwork 1 \
      -transmitMode interleaved \
      -ordinalNo 0 \
-     -trafficType {ethernetVlan} \
+     -trafficType {raw-3} \
      -interAsLdpPreference two \
-     -allowSelfDestined False \
+     -allowSelfDestined True \
      -enabled True \
      -maxNumberOfVpnLabelStack 2 \
      -interAsBgpPreference one \
@@ -1336,13 +1396,23 @@ proc startRfc2544Test { testSpec trafficSpec } {
     # configuring the object that corresponds to /traffic/trafficItem:1/endpointSet:1
     #
     set sg_endpointSet [ixNet add $ixNetSG_Stack(1) endpointSet]
-    ixNet setMultiAttrs $sg_endpointSet \
-     -destinations [list $ixNetSG_ref(10)/protocols] \
-     -destinationFilter {} \
-     -sourceFilter {} \
-     -trafficGroups {} \
-     -sources [list $ixNetSG_ref(2)/protocols] \
-     -name {EndpointSet-1}
+  if {$twoPorts} {
+        ixNet setMultiAttrs $sg_endpointSet \
+         -destinations [list $ixNetSG_ref(10)/protocols] \
+         -destinationFilter {} \
+         -sourceFilter {} \
+         -trafficGroups {} \
+         -sources [list $ixNetSG_ref(2)/protocols] \
+         -name {EndpointSet-1}
+    } else {
+        ixNet setMultiAttrs $sg_endpointSet \
+         -destinations [list $ixNetSG_ref(2)/protocols] \
+         -destinationFilter {} \
+         -sourceFilter {} \
+         -trafficGroups {} \
+         -sources [list $ixNetSG_ref(2)/protocols] \
+         -name {EndpointSet-1}
+    }
     sg_commit
     set sg_endpointSet [lindex [ixNet remapIds $sg_endpointSet] 0]
 
@@ -1574,20 +1644,18 @@ proc startRfc2544Test { testSpec trafficSpec } {
     set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.dstIp-28"
     ixNet setMultiAttrs $sg_field \
      -singleValue $dstIp \
-     -seed {1} \
+     -seed 1 \
      -optionalEnabled True \
      -fullMesh False \
      -valueList {{0.0.0.0}} \
-     -stepValue {0.0.0.1} \
      -fixedBits {0.0.0.0} \
      -fieldValue $dstIp \
      -auto False \
      -randomMask {0.0.0.0} \
      -trackingEnabled False \
-     -valueType $L3ValueType \
      -activeFieldChoice False \
      -startValue $dstIp \
-     -countValue $L3CountValue
+
     #sg_commit
     #set sg_field [lindex [ixNet remapIds $sg_field] 0]
 
@@ -2680,14 +2748,20 @@ proc startRfc2544Test { testSpec trafficSpec } {
         set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.dstIp-28"
         ixNet setMultiAttrs $sg_field \
         -singleValue $inner_dstip \
-        -seed 1 \
+        -seed {1} \
         -optionalEnabled true \
-        -valueList [list 0.0.0.0] \
-        -stepValue 0.0.0.0 \
-        -fixedBits 0.0.0.0 \
+        -fullMesh False \
+        -valueList {{0.0.0.0}} \
+        -stepValue {0.0.0.1} \
+        -fixedBits {0.0.0.0} \
         -fieldValue $inner_dstip \
-        -randomMask 0.0.0.0 \
-        -startValue 0.0.0.0
+        -auto False \
+        -randomMask {0.0.0.0} \
+        -trackingEnabled False \
+        -startValue $inner_dstip \
+        -valueType $L3ValueType \
+        -activeFieldChoice False \
+        -countValue $L3CountValue
 
         set sg_field $ixNetSG_Stack(3)/field:"ipv4.header.options.pad-58"
         ixNet setMultiAttrs $sg_field \
@@ -3227,7 +3301,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -inputParameters {{}}
         ixNet setMultiAttrs $sg_rfc2544throughput/testConfig \
          -protocolItem {} \
-         -enableMinFrameSize False \
+         -enableMinFrameSize True \
          -framesize $frameSize \
          -reportTputRateUnit mbps \
          -duration $duration \
