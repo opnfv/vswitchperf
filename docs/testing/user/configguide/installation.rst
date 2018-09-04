@@ -53,6 +53,7 @@ Supported Operating Systems
 * SLES 15
 * RedHat 7.2 Enterprise Linux
 * RedHat 7.3 Enterprise Linux
+* RedHat 7.5 Enterprise Linux
 * Ubuntu 14.04
 * Ubuntu 16.04
 * Ubuntu 16.10 (kernel 4.8 requires DPDK 16.11 and newer)
@@ -175,6 +176,11 @@ packages installed inside virtualenv can be found in the file
 built from upstream source due to kernel incompatibilities. Please see the
 instructions in the vswitchperf_design document for details on configuring
 OVS Vanilla for binary package usage.
+
+**NOTE:** For RHEL 7.5 Enterprise DPDK and Openvswitch are not built from
+upstream sources due to kernel incompatibilities. Please use subscription
+channels to obtain binary equivalents of openvswitch and dpdk packages or
+build binaries using instructions from openvswitch.org and dpdk.org.
 
 .. _vpp-installation:
 
