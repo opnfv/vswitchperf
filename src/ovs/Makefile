@@ -74,7 +74,7 @@ force_make: $(WORK_DIR)/Makefile
 	$(AT)cd $(WORK_DIR) && git pull $(OVS_URL) $(OVS_TAG)
 	@echo "git pull done"
 	$(AT)echo "WITH_LINUX = $(WITH_LINUX)"
-	$(AT)$(MAKE) -C $(WORK_DIR) $(MORE_MAKE_FLAGS)
+	$(AT)$(MAKE) -j -C $(WORK_DIR) $(MORE_MAKE_FLAGS)
 	@echo "Make done"
 
 force_install:

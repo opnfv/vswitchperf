@@ -40,7 +40,7 @@ config $(WORK_DIR)/Makefile: $(WORK_DIR)/configure
 force_make: $(WORK_DIR)/Makefile
 	$(AT)cd $(WORK_DIR) && git pull $(QEMU_URL) $(QEMU_TAG)
 	$(AT)echo "git pull done"
-	$(AT)$(MAKE) -C $(WORK_DIR) $(MORE_MAKE_FLAGS)
+	$(AT)$(MAKE) -j -C $(WORK_DIR) $(MORE_MAKE_FLAGS)
 	@echo "Make done"
 
 force_install:
