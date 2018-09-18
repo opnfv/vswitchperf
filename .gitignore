@@ -47,7 +47,6 @@ coverage.xml
 *.log
 
 # Sphinx documentation
-docs/_build/
 
 # PyBuilder
 target/
@@ -58,7 +57,6 @@ target/
 
 *~
 .*.sw?
-/docs_build/
 /docs_output/
 /releng/
 /src/dpdk/dpdk/
@@ -78,3 +76,4 @@ tags
 !/src/l2fwd/LICENSE.txt
 !/src/l2fwd/Makefile
 
+docs/_build/*
