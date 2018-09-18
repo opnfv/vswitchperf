@@ -488,10 +488,6 @@ set ``PATHS['dpdk']['bin']['modules']`` instead.
 **NOTE:** Please ensure your boot/grub parameters include
 the following:
 
-**NOTE:** In case of VPP, it is required to explicitly define, that vfio-pci
-DPDK driver should be used. It means to update dpdk part of VSWITCH_VPP_ARGS
-dictionary with uio-driver section, e.g. VSWITCH_VPP_ARGS['dpdk'] = 'uio-driver vfio-pci'
-
 .. code-block:: console
 
     iommu=pt intel_iommu=on
@@ -510,6 +506,10 @@ To check that IOMMU is enabled on your platform:
     [    3.335744] IOMMU: dmar0 using Queued invalidation
     [    3.335746] IOMMU: dmar1 using Queued invalidation
     ....
+
+**NOTE:** In case of VPP, it is required to explicitly define, that vfio-pci
+DPDK driver should be used. It means to update dpdk part of VSWITCH_VPP_ARGS
+dictionary with uio-driver section, e.g. VSWITCH_VPP_ARGS['dpdk'] = 'uio-driver vfio-pci'
 
 .. _SRIOV-support:
 
