@@ -16,7 +16,7 @@ pylint==1.8.2
 pyzmq==14.5.0
 distro
 stcrestclient
-matplotlib
+matplotlib==2.2.2
 numpy
 pycrypto
 tabulate
