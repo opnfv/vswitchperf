@@ -210,7 +210,7 @@ class IVnfQemu(IVnf):
 
         :returns: None
         """
-        thread_id = (r'.* CPU #%d: .* thread_id=(\d+)')
+        thread_id = (r'.* CPU #%d:.*? thread_id=(\d+)')
 
         self._logger.info('Affinitizing guest...')
 
