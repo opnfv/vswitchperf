@@ -24,7 +24,7 @@ TestCenter REST APIs. This test supports Python 3.4
 import argparse
 import logging
 import os
-
+import sqlite3
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -37,6 +37,17 @@ def create_dir(path):
         except OSError as ex:
             _LOGGER.error("Failed to create directory %s: %s", path, str(ex))
             raise
+
+
+def write_histogram_to_csv(results_path, csv_results_file_prefix,
+                           counts, ranges):
+    """ Write the results of the query to the CSV """
+    filec = os.path.join(results_path, csv_results_file_prefix + ".csv")
+    with open(filec, "wb") as result_file:
+        for key in counts:
+            for items in counts[key]:
+                result_file.write(str(ranges) + "\n")
+                result_file.write(str(items) + "\n")
 
 
 def write_query_results_to_csv(results_path, csv_results_file_prefix,
@@ -68,7 +79,8 @@ def percent_float(value):
             "%s not in range [0.0, 100.0]" % pvalue)
     return pvalue
 
-# pylint: disable=too-many-branches, too-many-statements
+
+# pylint: disable=too-many-branches, too-many-statements, too-many-locals
 def main():
     """ Read the arguments, Invoke Test and Return the results"""
     parser = argparse.ArgumentParser()
@@ -146,6 +158,11 @@ def main():
                                 default="./Results",
                                 help="The directory to copy results to",
                                 dest="results_dir")
+    optional_named.add_argument("--vsperf_results_dir",
+                                required=False,
+                                default="./Results",
+                                help="The directory to copy results to",
+                                dest="vsperf_results_dir")
     optional_named.add_argument("--csv_results_file_prefix",
                                 required=False,
                                 default="Rfc2544Tput",
@@ -269,6 +286,11 @@ def main():
                                       "the first emulated device interface"
                                       "on the first west port"),
                                 dest="west_intf_gateway_addr")
+    optional_named.add_argument("--latency_histogram",
+                                required=False,
+                                action="store_true",
+                                help="latency histogram is required in output?",
+                                dest="latency_histogram")
     parser.add_argument("-v",
                         "--verbose",
                         required=False,
@@ -309,6 +331,7 @@ def main():
         _LOGGER.debug("SpirentTestCenter system version: %s",
                       stc.get("system1", "version"))
 
+    # pylint: disable=too-many-nested-blocks
     try:
         device_list = []
         port_list = []
@@ -389,6 +412,32 @@ def main():
         device_list.append(device_gen_config['ReturnList'])
         if args.verbose:
             _LOGGER.debug(device_list)
+
+        # Configure Histogram
+        if args.latency_histogram:
+            # Generic Configuration
+            histResOptions = stc.get("project1", 'children-ResultOptions')
+            stc.config(histResOptions, {'ResultViewMode': 'HISTOGRAM'})
+            # East Port Configuration
+            histAnaEast = stc.get(east_chassis_port, 'children-Analyzer')
+            histAnaEastConfig = stc.get(histAnaEast, 'children-AnalyzerConfig')
+            stc.config(histAnaEastConfig, {'HistogramMode': 'LATENCY'})
+            eLatHist = stc.get(histAnaEastConfig, 'children-LatencyHistogram')
+            stc.config(eLatHist, {'ConfigMode': 'CONFIG_LIMIT_MODE',
+                                  'BucketSizeUnit': 'ten_nanoseconds',
+                                  'Active': 'TRUE',
+                                  'DistributionMode': 'CENTERED_MODE'})
+            # West Port Configuration
+            histAnaWest = stc.get(west_chassis_port, 'children-Analyzer')
+            histAnaWestConfig = stc.get(histAnaWest, 'children-AnalyzerConfig')
+            stc.config(histAnaWestConfig, {'HistogramMode': 'LATENCY'})
+            wLatHist = stc.get(histAnaWestConfig, 'children-LatencyHistogram')
+            stc.config(wLatHist, {'ConfigMode': 'CONFIG_LIMIT_MODE',
+                                  'BucketSizeUnit': 'ten_nanoseconds',
+                                  'Active': 'TRUE',
+                                  'DistributionMode': 'CENTERED_MODE'})
+            gBucketSizeList = stc.get(wLatHist, 'BucketSizeList')
+            # gLimitSizeList  = stc.get(wLatHist, 'LimitList')
 
         # Create the RFC 2544 'metric test
         if args.metric == "throughput":
@@ -484,6 +533,41 @@ def main():
         if args.verbose:
             _LOGGER.debug("The lab server results database is %s",
                           lab_server_resultsdb)
+
+        # Create Latency Histogram CSV file()
+        if args.latency_histogram:
+            hist_dict_counts = {}
+            for file_url in stc.files():
+                if '-FrameSize-' in file_url:
+                    stc.download(file_url)
+                    filename = file_url.split('/')[-1]
+                    if os.path.exists(os.getcwd() + '/' + filename):
+                        conn = sqlite3.connect(os.getcwd() + '/' + filename)
+                        # cursor = conn.execute(
+                        #    'select * from RxEotStreamResults')
+                        # names = [desc[0] for desc in cursor.description]
+                        counts = conn.execute("SELECT \
+                                              HistBin1Count, HistBin2Count,\
+                                              HistBin3Count, HistBin4Count,\
+                                              HistBin5Count, HistBin6Count,\
+                                              HistBin7Count, HistBin8Count,\
+                                              HistBin9Count, HistBin10Count,\
+                                              HistBin11Count, HistBin12Count,\
+                                              HistBin13Count, HistBin14Count, \
+                                              HistBin15Count, HistBin16Count \
+                                              from RxEotStreamResults")
+                        strs = filename.split('-')
+                        key = strs[strs.index('FrameSize')+1]
+                        if key in hist_dict_counts:
+                            hist_dict_counts[key] = [a+b for a, b in
+                                                     zip(counts,
+                                                         hist_dict_counts[key])]
+                        else:
+                            hist_dict_counts[key] = counts
+                    write_histogram_to_csv(args.vsperf_results_dir, 'Histogram',
+                                           hist_dict_counts,
+                                           gBucketSizeList)
+                    conn.close()
 
         stc.perform("CSSynchronizeFiles",
                     params={"DefaultDownloadDir": args.results_dir})
