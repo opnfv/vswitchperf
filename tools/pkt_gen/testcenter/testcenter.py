@@ -98,7 +98,9 @@ def get_rfc2544_common_settings():
             "--trial_duration_sec",
             settings.getValue("TRAFFICGEN_STC_TRIAL_DURATION_SEC"),
             "--traffic_pattern",
-            settings.getValue("TRAFFICGEN_STC_TRAFFIC_PATTERN")]
+            settings.getValue("TRAFFICGEN_STC_TRAFFIC_PATTERN"),
+            "--vsperf_results_dir",
+            settings.getValue("RESULTS_PATH")]
     return args
 
 
@@ -418,6 +420,11 @@ class TestCenter(trafficgen.ITrafficGenerator):
         rfc2544_custom_args = get_rfc2544_custom_settings(framesize, '',
                                                           tests)
         args = rfc2544_common_args + stc_common_args + rfc2544_custom_args
+
+        if traffic and 'latency_histogram' in traffic:
+            if traffic['latency_histogram']['enabled']:
+                if traffic['latency_histogram']['type'] == 'Default':
+                    args.append("--latency_histogram")
 
         if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
