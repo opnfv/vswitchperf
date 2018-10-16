@@ -472,6 +472,11 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
                                      'Dot1Q(prio={Dot1Q_prio}, id={Dot1Q_id}, vlan={Dot1Q_vlan})/'
                                      'IP(proto={IP_proto}, src={IP_dst}, dst={IP_src})/'
                                      '{IP_PROTO}(sport={IP_PROTO_dport}, dport={IP_PROTO_sport})',
+    'latency_histogram'
+                     - A dictionary with definition of a latency histogram provision in results.
+         'enabled'   - Specifies if the histogram provisioning is enabled or not.
+         'type'      - Defines how histogram is provided. Currenty only 'Default' is defined.
+                         'Default' - Default histogram as provided by the Traffic-generator.
 
 .. _configuration-of-guest-options:
 

@@ -86,7 +86,11 @@ and is configured as follows:
                   'Dot1Q(prio={Dot1Q_prio}, id={Dot1Q_id}, vlan={Dot1Q_vlan})/'
                   'IP(proto={IP_proto}, src={IP_dst}, dst={IP_src})/'
                   '{IP_PROTO}(sport={IP_PROTO_dport}, dport={IP_PROTO_sport})',
-        }
+        },
+        'latency_histogram': {
+            'enabled': False,
+            'type': 'Default',
+        },
     }
 
 A detailed description of the ``TRAFFIC`` dictionary can be found at
@@ -565,6 +569,22 @@ and address learning test outputs just a single value:
 Note that 'FORWARDING_RATE_FPS', 'CACHING_CAPACITY_ADDRS',
 'ADDR_LEARNED_PERCENT' and 'OPTIMAL_LEARNING_RATE_FPS' are the new
 result-constants added to support RFC2889 tests.
+
+4. Latency Histogram. To enable latency histogram as in results,
+enable latency_histogram in conf/03_traffic.conf.
+
+.. code-block:: python
+
+    'Latency_hisotgram':
+    {
+        "enabled": True,
+        "tpe": "Default,
+    }
+
+Once, enabled, a 'Histogram.csv' file will be generated in the results folder.
+The Histogram.csv will include latency histogram in the following order.
+(a) Packet size (b) Ranges in 10ns (c) Packet counts. These set of 3 lines,
+will be repeated for every packet-sizes.
 
 .. _`Xena Networks`:
 
