@@ -55,7 +55,9 @@ TESTCASES_MERGE_VPP=$TESTCASES_VERIFY_VPP
 TESTPARAM_MERGE_VPP=$TESTPARAM_VERIFY_VPP
 # DAILY - run selected TCs for defined packet sizes
 TESTCASES_DAILY='phy2phy_tput back2back phy2phy_tput_mod_vlan phy2phy_scalability pvp_tput pvp_back2back pvvp_tput pvvp_back2back'
+TESTCASES_DAILY_MIN='phy2phy_tput'
 TESTCASES_DAILY_VPP='phy2phy_tput_vpp phy2phy_back2back_vpp pvp_tput_vpp pvp_back2back_vpp pvvp_tput_vpp pvvp_back2back_vpp'
+TESTCASES_DAILY_VPP_MIN='phy2phy_tput_vpp'
 TESTPARAM_DAILY='--test-params TRAFFICGEN_PKT_SIZES=(64,128,512,1024,1518)'
 TESTPARAM_DAILY_VPP=$TESTPARAM_DAILY
 TESTCASES_SRIOV='pvp_tput'
@@ -184,13 +186,13 @@ function execute_vsperf() {
             # by default use daily build and upload results to the OPNFV databse
             if [ "$1" == "VPP" ] ; then
                 TESTPARAM=$TESTPARAM_DAILY_VPP
-                TESTCASES=$TESTCASES_DAILY_VPP
+                TESTCASES=$TESTCASES_DAILY_VPP_MIN
                 # don't report VPP results into testresults DB, until TC name mapping
                 # for VPP tests will be defined
                 #OPNFVPOD="--opnfvpod=$NODE_NAME"
             else
                 TESTPARAM=$TESTPARAM_DAILY
-                TESTCASES=$TESTCASES_DAILY
+                TESTCASES=$TESTCASES_DAILY_MIN
                 OPNFVPOD="--opnfvpod=$NODE_NAME"
             fi
             ;;
@@ -547,21 +549,21 @@ case $1 in
         terminate_vsperf
         execute_vsperf OVS_with_DPDK_and_vHost_User $1
         terminate_vsperf
-        execute_vsperf OVS_vanilla $1
-        terminate_vsperf
+#        execute_vsperf OVS_vanilla $1
+#        terminate_vsperf
         execute_vsperf VPP $1
         terminate_vsperf
-        execute_vsperf SRIOV $1
-        terminate_vsperf
+#        execute_vsperf SRIOV $1
+#        terminate_vsperf
 
         generate_report
 
         push_results_to_artifactory
 
         generate_and_push_graphs "$TESTCASES_DAILY" ",OvsDpdkVhost,"
-        generate_and_push_graphs "$TESTCASES_DAILY" ",OvsVanilla,"
+#        generate_and_push_graphs "$TESTCASES_DAILY" ",OvsVanilla,"
         generate_and_push_graphs "$TESTCASES_DAILY_VPP" ",VppDpdkVhost,"
-        generate_and_push_graphs "$TESTCASES_SRIOV" ",none,"
+#        generate_and_push_graphs "$TESTCASES_SRIOV" ",none,"
 
         cleanup
 
