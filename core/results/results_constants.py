@@ -73,6 +73,9 @@ class ResultsConstants(object):
     CAPTURE_TX = "capture_tx"
     CAPTURE_RX = "capture_rx"
 
+    # IMIX Used
+    IMIX_GENOME = "imix_genome"
+
     @staticmethod
     def get_traffic_constants():
         """Method returns all Constants used to store results.
@@ -96,4 +99,5 @@ class ResultsConstants(object):
                 ResultsConstants.MIN_LATENCY_NS,
                 ResultsConstants.MAX_LATENCY_NS,
                 ResultsConstants.AVG_LATENCY_NS,
-                ResultsConstants.FRAME_LOSS_PERCENT]
+                ResultsConstants.FRAME_LOSS_PERCENT,
+                ResultsConstants.IMIX_GENOME]

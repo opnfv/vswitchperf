@@ -477,6 +477,16 @@ Detailed description of ``TRAFFIC`` dictionary items follows:
          'enabled'   - Specifies if the histogram provisioning is enabled or not.
          'type'      - Defines how histogram is provided. Currenty only 'Default' is defined.
                          'Default' - Default histogram as provided by the Traffic-generator.
+    'imix'          - A dictionary for IMIX Specification. Supported values:
+        'enabled'   - Specifies if IMIX is enabled or NOT.
+        'type'      - The specification type - denotes how IMIX is specified.
+                      Currently 'genome' type is defined.
+                      genome - Uses genome encoding for IMIX configuration.
+                      Genome encoding is described in RFC 6985.
+                      Other types (ex: proportions)can be added in future.
+        'genome'    - The Genome Encoding of Pkt-Sizes and Ratio.
+                      Data type: str
+                      Default Value: 'aaaaaaaddddg'
 
 .. _configuration-of-guest-options:
 
