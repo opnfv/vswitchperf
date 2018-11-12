@@ -22,11 +22,25 @@ TestCenter REST APIs. This test supports Python 3.4
 
 '''
 import argparse
+import collections
 import logging
 import os
 import sqlite3
 
 _LOGGER = logging.getLogger(__name__)
+
+GENOME_PKTSIZE_ENCODING = {"a": 64, "b": 128, "c": 256, "d": 512,
+                           "e": 1024, "f": 1280, "g": 1518, "h": 2112}
+
+
+def genome2weights(sequence):
+    """ Convert genome sequence to packetsize weights"""
+    weights = collections.defaultdict(int)
+    for char in GENOME_PKTSIZE_ENCODING:
+        charcount = sequence.count(char)
+        if charcount:
+            weights[GENOME_PKTSIZE_ENCODING[char]] = charcount
+    return weights
 
 
 def create_dir(path):
@@ -291,6 +305,12 @@ def main():
                                 action="store_true",
                                 help="latency histogram is required in output?",
                                 dest="latency_histogram")
+    optional_named.add_argument("--imix",
+                                required=False,
+                                default="",
+                                help=("IMIX specification as genome"
+                                      "Encoding - RFC 6985"),
+                                dest="imix")
     parser.add_argument("-v",
                         "--verbose",
                         required=False,
@@ -377,7 +397,7 @@ def main():
         # Create the DeviceGenEthIIIfParams object
         stc.create("DeviceGenEthIIIfParams",
                    under=east_device_gen_params,
-                   attributes={'UseDefaultPhyMac':True})
+                   attributes={'UseDefaultPhyMac': True})
 
         # Configuring Ipv4 interfaces
         stc.create("DeviceGenIpv4IfParams",
@@ -400,7 +420,7 @@ def main():
         # Create the DeviceGenEthIIIfParams object
         stc.create("DeviceGenEthIIIfParams",
                    under=west_device_gen_params,
-                   attributes={'UseDefaultPhyMac':True})
+                   attributes={'UseDefaultPhyMac': True})
 
         # Configuring Ipv4 interfaces
         stc.create("DeviceGenIpv4IfParams",
@@ -443,6 +463,19 @@ def main():
             gBucketSizeList = stc.get(wLatHist, 'BucketSizeList')
             # gLimitSizeList  = stc.get(wLatHist, 'LimitList')
 
+        # IMIX configuration
+        fld = None
+        if args.imix:
+            args.frame_size_list = []
+            weights = genome2weights(args.imix)
+            fld = stc.create('FrameLengthDistribution', under=project)
+            def_slots = stc.get(fld, "children-framelengthdistributionslot")
+            stc.perform("Delete", params={"ConfigList": def_slots})
+            for fsize in weights:
+                stc.create('framelengthdistributionslot', under=fld,
+                           attributes={'FixedFrameLength': fsize,
+                                       'Weight': weights[fsize]})
+
         # Create the RFC 2544 'metric test
         if args.metric == "throughput":
             if args.verbose:
@@ -460,7 +493,8 @@ def main():
                                 "RateUpperLimit": args.rate_upper_limit_pct,
                                 "Resolution": args.resolution_pct,
                                 "SearchMode": args.search_mode,
-                                "TrafficPattern": args.traffic_pattern})
+                                "TrafficPattern": args.traffic_pattern,
+                                "FrameSizeDistributionList": fld})
         elif args.metric == "backtoback":
             stc.perform("Rfc2544SetupBackToBackTestCommand",
                         params={"AcceptableFrameLoss":

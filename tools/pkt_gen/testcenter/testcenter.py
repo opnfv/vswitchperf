@@ -332,7 +332,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
 
         return self.get_rfc2889_addr_learning_results(filec)
 
-    def get_rfc2544_results(self, filename):
+    def get_rfc2544_results(self, filename, genome=None):
         """
         Reads the CSV file and return the results
         """
@@ -367,6 +367,10 @@ class TestCenter(trafficgen.ITrafficGenerator):
                     row["AverageLatency(us)"]) * 1000
                 result[ResultsConstants.FRAME_LOSS_PERCENT] = float(
                     row["PercentLoss"])
+        if genome:
+            result[ResultsConstants.IMIX_GENOME] = genome
+            result[ResultsConstants.IMIX_AVG_FRAMESIZE] = float(
+                row["AvgFrameSize"])
         return result
 
     def send_cont_traffic(self, traffic=None, duration=30):
@@ -426,6 +430,13 @@ class TestCenter(trafficgen.ITrafficGenerator):
                 if traffic['latency_histogram']['type'] == 'Default':
                     args.append("--latency_histogram")
 
+        genome = ''
+        if traffic and 'imix' in traffic:
+            if traffic['imix']['enabled']:
+                if traffic['imix']['type'] == 'genome':
+                    genome = traffic['imix']['genome']
+                    args.append('--imix' + ' ' + genome)
+
         if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
             verbose = True
@@ -440,7 +451,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
         if verbose:
             self._logger.info("file: %s", filec)
 
-        return self.get_rfc2544_results(filec)
+        return self.get_rfc2544_results(filec, genome)
 
     def send_rfc2544_back2back(self, traffic=None, tests=1, duration=20,
                                lossrate=0.0):

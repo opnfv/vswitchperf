@@ -91,6 +91,11 @@ and is configured as follows:
             'enabled': False,
             'type': 'Default',
         },
+        'imix': {
+            'enabled': True,
+            'type': 'genome',
+            'genome': 'aaaaaaaddddg',
+        },
     }
 
 A detailed description of the ``TRAFFIC`` dictionary can be found at
@@ -118,6 +123,13 @@ commandline above to:
 
     $ ./vsperf --test-params "TRAFFICGEN_PKT_SIZES=(x,y);TRAFFICGEN_DURATION=10;" \
                              "TRAFFICGEN_RFC2544_TESTS=1" $TESTNAME
+
+If you use imix, set the TRAFFICGEN_PKT_SIZES to 0.
+
+.. code-block:: console
+
+    TRAFFICGEN_PKT_SIZES = (0,)
+
 
 .. _trafficgen-dummy:
 
