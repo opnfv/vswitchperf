@@ -2,6 +2,45 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, AT&T and others.
 
+
+OPNFV Gambia Release
+====================
+
+* Supported Versions - DPDK:17.08, OVS:2.8.1, VPP:17.07, QEMU:2.9.1
+* Several bugfixes and minor improvements
+
+* Documentation
+
+    * Spirent Latency histogram documentation
+
+* Virtual-Switches
+
+    * OVS-Enhancement: default bridge name and offload support.
+    * OVS-Enhancement: proper deletion of flows and bridges after stop.
+    * VSPERF-vSwitch Architecture Improvement
+
+* Tools
+
+    * Pidstat improvements
+
+* Traffic Generators
+
+    * Xena Enhancements - multi-flow and stability.
+    * T-Rex Additions - burst traffic, scapy frame, customized scapy version.
+    * Ixia: Script enhancements.
+    * Spirent: Latency-histogram support included
+
+* Tests
+
+    * Continuous stream testcase
+    * Tunnelling protocol support
+    * Custom statistics
+    * Refactoring integration testcases
+
+* CI
+
+    * Reduced daily testscases
+
 OPNFV Fraser Release
 ====================
 
