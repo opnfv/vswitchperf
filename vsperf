@@ -237,7 +237,7 @@ def configure_logging(level):
     """
     date = datetime.datetime.fromtimestamp(time.time())
     timestamp = date.strftime('%Y-%m-%d_%H-%M-%S')
-    settings.setValue('LOG_TIMEMSTAMP', timestamp)
+    settings.setValue('LOG_TIMESTAMP', timestamp)
     name, ext = os.path.splitext(settings.getValue('LOG_FILE_DEFAULT'))
     rename_default = "{name}_{uid}{ex}".format(name=name, uid=timestamp, ex=ext)
     log_file_default = os.path.join(
