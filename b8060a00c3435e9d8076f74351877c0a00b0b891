@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_a42cf94b",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-12-11T13:44:14Z",
+      "side": 1,
+      "message": "There\u0027s a small miss-match here:  you are describing this option in option in RFC 6985 (which is fine):\n\n6.2.  Table of Proportions\n\n   When the sequence is designed to vary within some proportional\n   constraints, a table simply giving the proportions of each size MAY\n   be used instead.\n\n       +-----------+---------------------+---------------------------+\n       | IP Length | Percentage of Total | Length(s) at Other Layers |\n       +-----------+---------------------+---------------------------+\n       | 64        | 23                  | 82                        |\n       | 128       | 67                  | 146                       |\n       | 1000      | 10                  | 1018                      |\n       +-----------+---------------------+---------------------------+\n\n   Note that the table of proportions also allows non-standard packet\n   sizes but trades the short genome specification and ability to\n   specify the exact sequence for other flexibilities.",
+      "range": {
+        "startLine": 220,
+        "startChar": 23,
+        "endLine": 220,
+        "endChar": 52
+      },
+      "revId": "b8060a00c3435e9d8076f74351877c0a00b0b891",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_8431fda4",
+        "filename": "conf/03_traffic.conf",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-12-11T13:44:14Z",
+      "side": 1,
+      "message": "this version of the genome requires that the generator produce an exact sequence of packets with lengths as specified/",
+      "range": {
+        "startLine": 279,
+        "startChar": 9,
+        "endLine": 279,
+        "endChar": 32
+      },
+      "revId": "b8060a00c3435e9d8076f74351877c0a00b0b891",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_e426f167",
+        "filename": "docs/testing/developer/devguide/design/vswitchperf_design.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-12-11T13:44:14Z",
+      "side": 1,
+      "message": "Is this what we really want?\n\n        +-----------+---------------------+---------------------------+\n       | L2 Length | Percentage of Total | Length(s) at Other Layers |\n       +-----------+---------------------+---------------------------+\n       | a         | 59                  | 82                        |\n       | d         | 33                  | 146                       |\n       | g         |  8                  | 1018                      |\n       +-----------+---------------------+---------------------------+",
+      "range": {
+        "startLine": 488,
+        "startChar": 22,
+        "endLine": 488,
+        "endChar": 51
+      },
+      "revId": "b8060a00c3435e9d8076f74351877c0a00b0b891",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_c42bf52e",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-12-11T13:44:14Z",
+      "side": 1,
+      "message": "we could specify this directly",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 18
+      },
+      "revId": "b8060a00c3435e9d8076f74351877c0a00b0b891",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_2420e948",
+        "filename": "tools/pkt_gen/testcenter/testcenter-rfc2544-rest.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2018-12-11T13:44:14Z",
+      "side": 1,
+      "message": "using section 6.2",
+      "range": {
+        "startLine": 312,
+        "startChar": 38,
+        "endLine": 312,
+        "endChar": 59
+      },
+      "revId": "b8060a00c3435e9d8076f74351877c0a00b0b891",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
