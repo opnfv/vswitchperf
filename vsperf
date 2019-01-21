@@ -235,20 +235,29 @@ def parse_arguments():
 def configure_logging(level):
     """Configure logging.
     """
-    date = datetime.datetime.fromtimestamp(time.time())
-    timestamp = date.strftime('%Y-%m-%d_%H-%M-%S')
-    settings.setValue('LOG_TIMESTAMP', timestamp)
     name, ext = os.path.splitext(settings.getValue('LOG_FILE_DEFAULT'))
-    rename_default = "{name}_{uid}{ex}".format(name=name, uid=timestamp, ex=ext)
+    rename_default = "{name}_{uid}{ex}".format(name=name,
+                                               uid=settings.getValue(
+                                                   'LOG_TIMESTAMP'),
+                                               ex=ext)
     log_file_default = os.path.join(
         settings.getValue('LOG_DIR'), rename_default)
+    name, ext = os.path.splitext(settings.getValue('LOG_FILE_HOST_CMDS'))
+    rename_hostcmd = "{name}_{uid}{ex}".format(name=name,
+                                               uid=settings.getValue(
+                                                   'LOG_TIMESTAMP'),
+                                               ex=ext)
     log_file_host_cmds = os.path.join(
-        settings.getValue('LOG_DIR'), settings.getValue('LOG_FILE_HOST_CMDS'))
+        settings.getValue('LOG_DIR'), rename_hostcmd)
+    name, ext = os.path.splitext(settings.getValue('LOG_FILE_TRAFFIC_GEN'))
+    rename_traffic = "{name}_{uid}{ex}".format(name=name,
+                                               uid=settings.getValue(
+                                                   'LOG_TIMESTAMP'),
+                                               ex=ext)
     log_file_traffic_gen = os.path.join(
-        settings.getValue('LOG_DIR'),
-        settings.getValue('LOG_FILE_TRAFFIC_GEN'))
+        settings.getValue('LOG_DIR'), rename_traffic)
     metrics_file = (settings.getValue('LOG_FILE_INFRA_METRICS_PFX') +
-                    timestamp + '.log')
+                    settings.getValue('LOG_TIMESTAMP') + '.log')
     log_file_infra_metrics = os.path.join(settings.getValue('LOG_DIR'),
                                           metrics_file)
 
@@ -663,6 +672,11 @@ def main():
 
     settings.load_from_dir(os.path.join(_CURR_DIR, 'conf'))
 
+    # Define the timestamp to be used by logs and results
+    date = datetime.datetime.fromtimestamp(time.time())
+    timestamp = date.strftime('%Y-%m-%d_%H-%M-%S')
+    settings.setValue('LOG_TIMESTAMP', timestamp)
+
     # Load non performance/integration tests
     if args['integration']:
         settings.load_from_dir(os.path.join(_CURR_DIR, 'conf/integration'))
@@ -772,8 +786,8 @@ def main():
     settings.setValue('WHITELIST_NICS', list(nic['pci'] for nic in nic_list))
 
     # generate results directory name
-    date = datetime.datetime.fromtimestamp(time.time())
-    results_dir = "results_" + date.strftime('%Y-%m-%d_%H-%M-%S')
+    # date = datetime.datetime.fromtimestamp(time.time())
+    results_dir = "results_" + timestamp
     results_path = os.path.join(settings.getValue('LOG_DIR'), results_dir)
     settings.setValue('RESULTS_PATH', results_path)
 

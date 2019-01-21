@@ -46,12 +46,14 @@ class IVnfQemu(IVnf):
         Initialisation function.
         """
         super(IVnfQemu, self).__init__()
-
+        name, ext = os.path.splitext(S.getValue('LOG_FILE_QEMU'))
+        name = name + str(self._number)
+        rename_qemu = "{name}_{uid}{ex}".format(name=name,
+                                                uid=S.getValue('LOG_TIMESTAMP'),
+                                                ex=ext)
         self._expect = S.getValue('GUEST_PROMPT_LOGIN')[self._number]
         self._logger = logging.getLogger(__name__)
-        self._logfile = os.path.join(
-            S.getValue('LOG_DIR'),
-            S.getValue('LOG_FILE_QEMU')) + str(self._number)
+        self._logfile = os.path.join(S.getValue('LOG_DIR'), rename_qemu)
         self._timeout = S.getValue('GUEST_TIMEOUT')[self._number]
         self._monitor = '%s/vm%dmonitor' % ('/tmp', self._number)
         # read GUEST NICs configuration and use only defined NR of NICS
@@ -115,10 +117,13 @@ class IVnfQemu(IVnf):
         self.GuestCommandFilter.prefix = self._log_prefix
 
         logger = logging.getLogger()
+        name, ext = os.path.splitext(S.getValue('LOG_FILE_GUEST_CMDS'))
+        name = name + str(self._number)
+        rename_gcmd = "{name}_{uid}{ex}".format(name=name,
+                                                uid=S.getValue('LOG_TIMESTAMP'),
+                                                ex=ext)
         cmd_logger = logging.FileHandler(
-            filename=os.path.join(S.getValue('LOG_DIR'),
-                                  S.getValue('LOG_FILE_GUEST_CMDS')) +
-            str(self._number))
+            filename=os.path.join(S.getValue('LOG_DIR'),rename_gcmd))
         cmd_logger.setLevel(logging.DEBUG)
         cmd_logger.addFilter(self.GuestCommandFilter())
         logger.addHandler(cmd_logger)
