@@ -16,8 +16,12 @@
 Wrapper file to create and manage Stressor-VM as loadgen
 """
 
+import locale
 import logging
 import os
+import re
+import subprocess
+import time
 from tools import tasks
 from tools.load_gen.load_gen import ILoadGenerator
 from conf import settings as S
@@ -90,8 +94,42 @@ class QemuVM(tasks.Process):
                            'Removing content of shared directory...', True)
         self._running = False
 
+    def affinitize_nn(self):
+        """
+        Affinitize the SMP cores of a NN instance.
+        This function is same as the one in vnfs/qemu/qemu.py
 
-# pylint: disable=super-init-not-called
+        :returns: None
+        """
+        thread_id = (r'.* CPU #%d: .* thread_id=(\d+)')
+        cur_locale = locale.getdefaultlocale()[1]
+        proc = subprocess.Popen(
+            ('echo', 'info cpus'), stdout=subprocess.PIPE)
+        while not os.path.exists(self._monitor):
+            time.sleep(1)
+        output = subprocess.check_output(
+            ('sudo', 'socat', '-', 'UNIX-CONNECT:%s' % self._monitor),
+            stdin=proc.stdout)
+        proc.wait()
+
+        # calculate the number of CPUs specified by NN_SMP
+        cpu_nr = int(S.getValue('NN_SMP')[self._number])
+        # pin each NN's core to host core based on configured BINDING
+        for cpu in range(0, cpu_nr):
+            match = None
+            guest_thread_binding = S.getValue('NN_CORE_BINDING')[self._number]
+            for line in output.decode(cur_locale).split('\n'):
+                match = re.search(thread_id % cpu, line)
+                if match:
+                    self._affinitize_pid(guest_thread_binding[cpu],
+                                         match.group(1))
+                    break
+            if not match:
+                self._logger.error('Failed to affinitize guest core #%d. Could'
+                                   ' not parse tid.', cpu)
+
+
+# pylint: disable=super-init-not-called,unused-argument
 class StressorVM(ILoadGenerator):
     """
     Wrapper Class for Load-Generation through stressor-vm
@@ -107,6 +145,7 @@ class StressorVM(ILoadGenerator):
         """
         for nvm in self.qvm_list:
             nvm.start()
+            nvm.affinitize_nn()
 
     def kill(self, signal='-9', sleep=2):
         """
