@@ -27,8 +27,12 @@ from tools import tasks
 
 _TESTPMD_PROMPT = 'Done'
 
+_NAME, _EXT = os.path.splitext(settings.getValue('LOG_FILE_VSWITCHD'))
 _LOG_FILE_VSWITCHD = os.path.join(
-    settings.getValue('LOG_DIR'), settings.getValue('LOG_FILE_VSWITCHD'))
+    settings.getValue('LOG_DIR'),
+    ("{name}_{uid}{ex}".format(name=_NAME, uid=settings.getValue(
+        'LOG_TIMESTAMP'), ex=_EXT)))
+
 
 class TestPMDProcess(tasks.Process):
     """Class wrapper for controlling a TestPMD instance.

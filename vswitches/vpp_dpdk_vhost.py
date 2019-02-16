@@ -37,8 +37,12 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
         """See IVswitch for general description
         """
         super().__init__()
-        self._logfile = os.path.join(S.getValue('LOG_DIR'),
-                                     S.getValue('LOG_FILE_VPP'))
+        name, ext = os.path.splitext(S.getValue('LOG_FILE_VPP'))
+        rename_vpplf = "{name}_{uid}{ex}".format(name=name,
+                                                 uid=S.getValue(
+                                                     'LOG_TIMESTAMP'),
+                                                 ex=ext)
+        self._logfile = os.path.join(S.getValue('LOG_DIR'), rename_vpplf)
         self._expect = r'vpp#'
         self._cmd_template = ['sudo', '-E', S.getValue('TOOLS')['vpp']]
         self._phy_ports = []

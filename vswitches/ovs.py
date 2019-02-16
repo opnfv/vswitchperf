@@ -47,8 +47,13 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
         """See IVswitch for general description
         """
         super().__init__()
+        name, ext = os.path.splitext(settings.getValue('LOG_FILE_VSWITCHD'))
+        rename_vswitchd = "{name}_{uid}{ex}".format(name=name,
+                                                    uid=settings.getValue(
+                                                        'LOG_TIMESTAMP'),
+                                                    ex=ext)
         self._logfile = os.path.join(settings.getValue('LOG_DIR'),
-                                     settings.getValue('LOG_FILE_VSWITCHD'))
+                                     rename_vswitchd)
         self._ovsdb_pidfile_path = os.path.join(settings.getValue('TOOLS')['ovs_var_tmp'],
                                                 "ovsdb-server.pid")
         self._vswitchd_pidfile_path = os.path.join(settings.getValue('TOOLS')['ovs_var_tmp'],
