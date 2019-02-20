@@ -171,6 +171,7 @@ class TestCenter(trafficgen.ITrafficGenerator):
     Spirent TestCenter
     """
     _logger = logging.getLogger(__name__)
+    _liveresults_file = settings.getValue("TRAFFICGEN_STC_LIVERESULTS_FILE")
 
     def connect(self):
         """
@@ -436,6 +437,10 @@ class TestCenter(trafficgen.ITrafficGenerator):
                 if traffic['imix']['type'] == 'genome':
                     genome = traffic['imix']['genome']
                     args.append('--imix' + ' ' + genome)
+
+        if settings.getValue("TRAFFICGEN_STC_LIVE_RESULTS") == "True":
+            args.append('--live_results')
+            args.append('--logfile' + ' ' + self._liveresults_file)
 
         if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
