@@ -351,6 +351,8 @@ class Trex(ITrafficGenerator):
 
         return (stream_1, stream_2, stream_1_lat, stream_2_lat)
 
+
+    # pylint: disable=too-many-locals, too-many-statements
     def generate_traffic(self, traffic, duration, disable_capture=False):
         """The method that generate a stream
         """
@@ -414,7 +416,70 @@ class Trex(ITrafficGenerator):
                                   core_mask=self._stlclient.CORE_MASK_PIN)
         except STLError:
             self._stlclient.start(ports=my_ports, force=True, duration=duration, mult="{}gbps".format(gbps_speed))
-        self._stlclient.wait_on_traffic(ports=my_ports)
+
+        if settings.getValue('TRAFFICGEN_TREX_LIVE_RESULTS'):
+            filec = os.path.join(settings.getValue('RESULTS_PATH'),
+                                 settings.getValue('TRAFFICGEN_TREX_LC_FILE'))
+            filee = os.path.join(settings.getValue('RESULTS_PATH'),
+                                 settings.getValue('TRAFFICGEN_TREX_LE_FILE'))
+            pgids = self._stlclient.get_active_pgids()
+            rx_port_0 = 1
+            tx_port_0 = 0
+            rx_port_1 = 0
+            tx_port_1 = 1
+            with open(filec, 'a') as fcp, open(filee, 'a') as fep:
+                fcp.write("ts,rx_port,tx_port,rx_pkts,tx_pkts,rx_pps,tx_pps,"+
+                          "rx_bps_num,rx_bps_den,tx_bps_num,tx_bps_den\n")
+                fep.write('ts,dropped,ooo,dup,seq_too_high,seq_too_low\n')
+                while True:
+                    tr_status = self._stlclient.is_traffic_active(ports=my_ports)
+                    if not tr_status:
+                        break
+                    time.sleep(1)
+                    stats = self._stlclient.get_pgid_stats(pgids['flow_stats'])
+                    lat_stats = stats['latency'].get(0)
+                    flow_stats_0 = stats['flow_stats'].get(0)
+                    flow_stats_1 = stats['flow_stats'].get(1)
+                    if flow_stats_0:
+                        rx_pkts = flow_stats_0['rx_pkts'][rx_port_0]
+                        tx_pkts = flow_stats_0['tx_pkts'][tx_port_0]
+                        rx_pps = flow_stats_0['rx_pps'][rx_port_0]
+                        tx_pps = flow_stats_0['tx_pps'][tx_port_0]
+                        rx_bps = flow_stats_0['rx_bps'][rx_port_0]
+                        tx_bps = flow_stats_0['tx_bps'][tx_port_0]
+                        rx_bps_l1 = flow_stats_0['rx_bps_l1'][rx_port_0]
+                        tx_bps_l1 = flow_stats_0['tx_bps_l1'][tx_port_0]
+                        # https://github.com/cisco-system-traffic-generator/\
+                        # trex-core/blob/master/scripts/automation/\
+                        # trex_control_plane/interactive/trex/examples/\
+                        # stl/stl_flow_latency_stats.py
+                        fcp.write("{10},{8},{9},{0},{1},{2},{3},{4},{5},{6},{7}\n"
+                                  .format(rx_pkts, tx_pkts, rx_pps, tx_pps,
+                                          rx_bps, rx_bps_l1, tx_bps, tx_bps_l1,
+                                          rx_port_0, tx_port_0, time.time()))
+                    if flow_stats_1:
+                        rx_pkts = flow_stats_1['rx_pkts'][rx_port_1]
+                        tx_pkts = flow_stats_1['tx_pkts'][tx_port_1]
+                        rx_pps = flow_stats_1['rx_pps'][rx_port_1]
+                        tx_pps = flow_stats_1['tx_pps'][tx_port_1]
+                        rx_bps = flow_stats_1['rx_bps'][rx_port_1]
+                        tx_bps = flow_stats_1['tx_bps'][tx_port_1]
+                        rx_bps_l1 = flow_stats_1['rx_bps_l1'][rx_port_1]
+                        tx_bps_l1 = flow_stats_1['tx_bps_l1'][tx_port_1]
+                        fcp.write("{10},{8},{9},{0},{1},{2},{3},{4},{5},{6},{7}\n"
+                                  .format(rx_pkts, tx_pkts, rx_pps, tx_pps,
+                                          rx_bps, rx_bps_l1, tx_bps, tx_bps_l1,
+                                          rx_port_1, tx_port_1, time.time()))
+                    if lat_stats:
+                        drops = lat_stats['err_cntrs']['dropped']
+                        ooo = lat_stats['err_cntrs']['out_of_order']
+                        dup = lat_stats['err_cntrs']['dup']
+                        sth = lat_stats['err_cntrs']['seq_too_high']
+                        stl = lat_stats['err_cntrs']['seq_too_low']
+                        fep.write('{5},{0},{1},{2},{3},{4}\n'
+                                  .format(drops, ooo, dup, sth, stl, time.time()))
+        else:
+            self._stlclient.wait_on_traffic(ports=my_ports)
         stats = self._stlclient.get_stats(sync_now=True)
 
         # export captured data into pcap file if possible
