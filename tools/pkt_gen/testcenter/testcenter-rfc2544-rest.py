@@ -26,6 +26,7 @@ import collections
 import logging
 import os
 import sqlite3
+import time
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -74,6 +75,46 @@ def write_query_results_to_csv(results_path, csv_results_file_prefix,
         for row in (query_results["Output"].replace("} {", ",").
                     replace("{", "").replace("}", "").split(",")):
             result_file.write(row.replace(" ", ",") + "\n")
+
+
+def write_headers(results_path, file_name, rx_tx):
+    """ Write headers for the live-results files """
+    filec = os.path.join(results_path, file_name + rx_tx)
+    with open(filec, "a") as result_file:
+        if 'rx' in rx_tx:
+            result_file.write('Time,RxPrt,DrpFrCnt,SeqRnLen,AvgLat,' +
+                              'DrpFrRate,FrCnt,FrRate,MaxLat,MinLat,' +
+                              'OctCnt,OctRate\n')
+        else:
+            result_file.write('Time,StrId,BlkId,FrCnt,FrRate,ERxFrCnt,' +
+                              'OctCnt,OctRate,bitCnt,bitRate\n')
+
+
+def write_rx_live_results_to_file(results_path, file_name, results):
+    """ Write live results from the rx-ports"""
+    filec = os.path.join(results_path, file_name + ".rx")
+    with open(filec, "a") as result_file:
+        result_file.write('{0},{3},{1},{2},{4},{5},{6},{7},{8},{9},{10},{11}\n'
+                          .format(time.time(), results['DroppedFrameCount'],
+                                  results['SeqRunLength'], results['RxPort'],
+                                  results['AvgLatency'],
+                                  results['DroppedFrameRate'],
+                                  results['FrameCount'], results['FrameRate'],
+                                  results['MaxLatency'], results['MinLatency'],
+                                  results['OctetCount'], results['OctetRate']))
+
+
+def write_tx_live_results_to_file(results_path, file_name, results):
+    """ Write live results from the tx-ports"""
+    filec = os.path.join(results_path, file_name + ".tx")
+    with open(filec, "a") as result_file:
+        result_file.write('{0},{1},{9},{2},{3},{4},{5},{6},{7},{8}\n'
+                          .format(time.time(), results['StreamId'],
+                                  results['FrameCount'], results['FrameRate'],
+                                  results['ExpectedRxFrameCount'],
+                                  results['OctetCount'], results['OctetRate'],
+                                  results['BitCount'], results['BitRate'],
+                                  results['BlockId']))
 
 
 def positive_int(value):
@@ -311,6 +352,16 @@ def main():
                                 help=("IMIX specification as genome"
                                       "Encoding - RFC 6985"),
                                 dest="imix")
+    optional_named.add_argument("--live_results",
+                                required=False,
+                                action="store_true",
+                                help="Live Results required?",
+                                dest="live_results")
+    optional_named.add_argument("--logfile",
+                                required=False,
+                                default="./traffic_gen.log",
+                                help="Log file to log live results",
+                                dest="logfile")
     parser.add_argument("-v",
                         "--verbose",
                         required=False,
@@ -367,6 +418,10 @@ def main():
         if args.verbose:
             _LOGGER.debug("Creating project ...")
         project = stc.get("System1", "children-Project")
+
+        # Configure the Result view
+        resultopts = stc.get('project1', 'children-resultoptions')
+        stc.config(resultopts, {'ResultViewMode': 'BASIC'})
 
         # Configure any custom traffic parameters
         if args.traffic_custom == "cont":
@@ -554,14 +609,82 @@ def main():
             _LOGGER.debug("Apply configuration...")
         stc.apply()
 
+        # Register for the results
+        hResDataRx = stc.create('ResultDataSet', under='project1')
+        strmBlockList = stc.get('project1', 'children-streamblock')
+        stc.create('ResultQuery', under=hResDataRx, attributes={
+            'ResultRootList': strmBlockList,
+            'ConfigClassId': 'StreamBlock',
+            'ResultClassId': 'RxStreamSummaryResults',
+            'PropertyIdArray': "RxStreamSummaryResults.RxPort \
+                                RxStreamSummaryResults.AvgLatency \
+                                RxStreamSummaryResults.BitCount \
+                                RxStreamSummaryResults.BitRate \
+                                RxStreamSummaryResults.DroppedFrameCount\
+                                RxStreamSummaryResults.DroppedFrameRate \
+                                RxStreamSummaryResults.FrameCount \
+                                RxStreamSummaryResults.FrameRate \
+                                RxStreamSummaryResults.MaxLatency \
+                                RxStreamSummaryResults.MinLatency \
+                                RxStreamSummaryResults.OctetCount \
+                                RxStreamSummaryResults.OctetRate \
+                                RxStreamSummaryResults.SeqRunLength"})
+        hResDataTx = stc.create('ResultDataSet', under='project1')
+        strmBlockList = stc.get('project1', 'children-streamblock')
+        stc.create('ResultQuery', under=hResDataTx, attributes={
+            'ResultRootList': strmBlockList,
+            'ConfigClassId': 'StreamBlock',
+            'ResultClassId': 'TxStreamResults',
+            'PropertyIdArray': "TxStreamResults.BlockId \
+                                TxStreamResults.BitCount \
+                                TxStreamResults.BitRate \
+                                TxStreamResults.FrameCount \
+                                TxStreamResults.FrameRate \
+                                TxStreamResults.OctetCount \
+                                TxStreamResults.OctetRate"})
+        stc.perform('ResultDataSetSubscribe', params={'ResultDataSet': hResDataRx})
+        stc.perform('ResultDataSetSubscribe', params={'ResultDataSet': hResDataTx})
+        time.sleep(3)
+        stc.perform('RefreshResultView', params={'ResultDataSet': hResDataTx})
+        hndListRx = stc.get(hResDataRx, 'ResultHandleList')
+        hndListTx = stc.get(hResDataTx, 'ResultHandleList')
+
         if args.verbose:
             _LOGGER.debug("Starting the sequencer...")
         stc.perform("SequencerStart")
 
-        # Wait for sequencer to finish
-        _LOGGER.info(
-            "Starting test... Please wait for the test to complete...")
-        stc.wait_until_complete()
+        sequencer = stc.get("system1", "children-sequencer")
+        state = stc.get(sequencer, 'State')
+
+        # If Live-results are required, we don't wait for the test to complete
+        if args.live_results:
+            write_headers(args.vsperf_results_dir, args.logfile, '.rx')
+            write_headers(args.vsperf_results_dir, args.logfile, '.tx')
+            while state != 'IDLE':
+                state = stc.get(sequencer, 'State')
+                hndListTx = stc.get(hResDataTx, 'ResultHandleList')
+                if hndListTx:
+                    handles = hndListTx.split(' ')
+                    for handle in handles:
+                        tx_values = stc.get(handle)
+                        write_tx_live_results_to_file(args.vsperf_results_dir,
+                                                      args.logfile,
+                                                      tx_values)
+                if hndListRx:
+                    handles = hndListRx.split(' ')
+                    for handle in handles:
+                        rx_values = stc.get(handle)
+                        write_rx_live_results_to_file(args.vsperf_results_dir,
+                                                      args.logfile,
+                                                      rx_values)
+                time.sleep(1)
+        # Live results not needed, so just wait!
+        else:
+            # Wait for sequencer to finish
+            _LOGGER.info(
+                "Starting test... Please wait for the test to complete...")
+            stc.wait_until_complete()
+
         _LOGGER.info("The test has completed... Saving results...")
 
         # Determine what the results database filename is...
