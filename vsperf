@@ -241,21 +241,21 @@ def configure_logging(level):
                                                    'LOG_TIMESTAMP'),
                                                ex=ext)
     log_file_default = os.path.join(
-        settings.getValue('LOG_DIR'), rename_default)
+        settings.getValue('RESULTS_PATH'), rename_default)
     name, ext = os.path.splitext(settings.getValue('LOG_FILE_HOST_CMDS'))
     rename_hostcmd = "{name}_{uid}{ex}".format(name=name,
                                                uid=settings.getValue(
                                                    'LOG_TIMESTAMP'),
                                                ex=ext)
     log_file_host_cmds = os.path.join(
-        settings.getValue('LOG_DIR'), rename_hostcmd)
+        settings.getValue('RESULTS_PATH'), rename_hostcmd)
     name, ext = os.path.splitext(settings.getValue('LOG_FILE_TRAFFIC_GEN'))
     rename_traffic = "{name}_{uid}{ex}".format(name=name,
                                                uid=settings.getValue(
                                                    'LOG_TIMESTAMP'),
                                                ex=ext)
     log_file_traffic_gen = os.path.join(
-        settings.getValue('LOG_DIR'), rename_traffic)
+        settings.getValue('RESULTS_PATH'), rename_traffic)
     metrics_file = (settings.getValue('LOG_FILE_INFRA_METRICS_PFX') +
                     settings.getValue('LOG_TIMESTAMP') + '.log')
     log_file_infra_metrics = os.path.join(settings.getValue('LOG_DIR'),
@@ -704,7 +704,18 @@ def main():
     # if required, handle list-* operations
     handle_list_options(args)
 
+    # generate results directory name
+    results_dir = "results_" + timestamp
+    results_path = os.path.join(settings.getValue('LOG_DIR'), results_dir)
+    settings.setValue('RESULTS_PATH', results_path)
+
     configure_logging(settings.getValue('VERBOSITY'))
+
+    # create results directory
+    if not os.path.exists(results_path):
+        _LOGGER.info("Creating result directory: %s", results_path)
+        os.makedirs(results_path)
+
 
     # check and fix locale
     check_and_set_locale()
@@ -785,16 +796,7 @@ def main():
     # for backward compatibility
     settings.setValue('WHITELIST_NICS', list(nic['pci'] for nic in nic_list))
 
-    # generate results directory name
-    # date = datetime.datetime.fromtimestamp(time.time())
-    results_dir = "results_" + timestamp
-    results_path = os.path.join(settings.getValue('LOG_DIR'), results_dir)
-    settings.setValue('RESULTS_PATH', results_path)
 
-    # create results directory
-    if not os.path.exists(results_path):
-        _LOGGER.info("Creating result directory: %s", results_path)
-        os.makedirs(results_path)
     # pylint: disable=too-many-nested-blocks
     if settings.getValue('mode') == 'trafficgen':
         # execute only traffic generator

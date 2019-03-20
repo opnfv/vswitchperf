@@ -52,7 +52,7 @@ class IVSwitchOvs(IVSwitch, tasks.Process):
                                                     uid=settings.getValue(
                                                         'LOG_TIMESTAMP'),
                                                     ex=ext)
-        self._logfile = os.path.join(settings.getValue('LOG_DIR'),
+        self._logfile = os.path.join(settings.getValue('RESULTS_PATH'),
                                      rename_vswitchd)
         self._ovsdb_pidfile_path = os.path.join(settings.getValue('TOOLS')['ovs_var_tmp'],
                                                 "ovsdb-server.pid")
