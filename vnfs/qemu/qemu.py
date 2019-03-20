@@ -53,7 +53,7 @@ class IVnfQemu(IVnf):
                                                 ex=ext)
         self._expect = S.getValue('GUEST_PROMPT_LOGIN')[self._number]
         self._logger = logging.getLogger(__name__)
-        self._logfile = os.path.join(S.getValue('LOG_DIR'), rename_qemu)
+        self._logfile = os.path.join(S.getValue('RESULTS_PATH'), rename_qemu)
         self._timeout = S.getValue('GUEST_TIMEOUT')[self._number]
         self._monitor = '%s/vm%dmonitor' % ('/tmp', self._number)
         # read GUEST NICs configuration and use only defined NR of NICS
