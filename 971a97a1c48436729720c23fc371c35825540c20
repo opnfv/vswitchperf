@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da01753e_df5d7e4a",
+        "filename": "tools/collectors/multicmd/multicmd.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-03-22T08:13:40Z",
+      "side": 1,
+      "message": "# Otherwise, PROX will start and stop immediately (?)\n(maybe just add this to clarify the comment)",
+      "revId": "971a97a1c48436729720c23fc371c35825540c20",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
