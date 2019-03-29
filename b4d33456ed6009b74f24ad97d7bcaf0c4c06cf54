@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da01753e_4e8d5931",
+        "filename": "tools/collectors/multicmd/multicmd.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2019-03-29T00:39:54Z",
+      "side": 1,
+      "message": "there\u0027s no body, do we want to keep this function?",
+      "range": {
+        "startLine": 133,
+        "startChar": 8,
+        "endLine": 133,
+        "endChar": 21
+      },
+      "revId": "b4d33456ed6009b74f24ad97d7bcaf0c4c06cf54",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
