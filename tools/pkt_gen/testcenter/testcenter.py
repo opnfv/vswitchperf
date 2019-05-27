@@ -436,11 +436,13 @@ class TestCenter(trafficgen.ITrafficGenerator):
             if traffic['imix']['enabled']:
                 if traffic['imix']['type'] == 'genome':
                     genome = traffic['imix']['genome']
-                    args.append('--imix' + ' ' + genome)
+                    args.append('--imix')
+                    args.append(genome)
 
         if settings.getValue("TRAFFICGEN_STC_LIVE_RESULTS") == "True":
             args.append('--live_results')
-            args.append('--logfile' + ' ' + self._liveresults_file)
+            args.append('--logfile')
+            args.append(self._liveresults_file)
 
         if settings.getValue("TRAFFICGEN_STC_VERBOSE") == "True":
             args.append("--verbose")
