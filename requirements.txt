@@ -20,3 +20,5 @@ matplotlib==2.2.2
 numpy
 pycrypto
 tabulate
+pypsi
+paramiko
