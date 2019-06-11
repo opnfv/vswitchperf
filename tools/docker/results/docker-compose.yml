@@ -1,0 +1,79 @@
+version: '3'
+volumes:
+    elk-data:
+    influx-data:
+    grafana-data:
+    mongo-data:
+    testapi-logs:
+services:
+  influxdb:
+    image: opnfv/barometer-influxdb
+    ports:
+      - "25826:25826/udp"
+      - "25826:25826"
+      - "8083:8083"
+      - "8086:8086"
+    expose:
+      - "25826"
+      - "8086"
+      - "8083"
+    volumes:
+      - influx-data:/var/lib/influxdb
+  grafana:
+    image: opnfv/barometer-grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/dashboards:/opt/grafana/dashboards
+    ports:
+      - "3000:3000"
+  elk:
+    image: vsperf/elk
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+    volumes:
+      - elk-data:/var/lib/elasticsearch
+      - ./logstash/pipeline/30-output.conf:/etc/logstash/conf.d/30-output.conf
+      - ./logstash/pipeline/02-beats-input.conf:/etc/logstash/conf.d/02-beats-input.conf
+      - ./logstash/pipeline/20-collectd-input.conf:/etc/logstash/conf.d/20-collectd-input.conf
+    environment:
+      - discovery.type=single-node
+  mongo:
+    image: mongo:3.2.1
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    container_name: opnfv-mongo
+  testapi:
+    image: opnfv/testapi:latest
+    container_name: opnfv-testapi
+    volumes:
+      - testapi-logs:/home/testapi/logs
+    environment:
+      - mongodb_url=mongodb://opnfv-mongo:27017/
+      - base_url=http://0.0.0.0:8000
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+    links:
+      - mongo
+  jupyter:
+    build:
+      context: ./jupyter
+    ports:
+      - "8888:8888"
+    links:
+      - postgres
+    volumes:
+      - ./notebooks:/notebooks
+      - ./notebooks/testresult-analysis.ipynb:/notebooks/testresult-analysis.ipynb
+      - ./data:/data
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: data
+      POSTGRES_PASSWORD: data
+      POSTGRES_DB: data

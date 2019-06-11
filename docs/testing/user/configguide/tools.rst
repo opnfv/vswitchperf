@@ -185,3 +185,41 @@ VSPERF provides following configuration options, for user to define and enforce 
 * ``VNF_CA`` - [min-cache-value, max-cache-value] for VNF
 * ``PMD_CA`` - [min-cache-value, max-cache-value] for PMD
 * ``NOISEVM_CA`` - [min-cache-value, max-cache-value] for Noisy VM
+
+VSPERF Containers
+-----------------
+
+VSPERF containers are found in tools/docker folder.
+
+RESULTS CONTAINER
+^^^^^^^^^^^^^^^^^
+
+The results container includes multiple services - ELK Stack, Barometer-Grafana, OPNFV-TestAPI & Jupyter.
+
+Pre-Deployment Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Set the limit on mmap counts equal to 262144 or more.
+   You can do this by the command - ``sysctl -w vm.max_map_count = 262144``.
+   Or to set it permanently, update the ``vm.max_map_count`` field in ``/etc/sysctl.conf``.
+
+2. You may want to modify the IP address from 0.0.0.0 to appropriate host-ip in ``docker-compose.yml``
+
+Build
+~~~~~
+
+Run ``docker-compose build`` command to build the container.
+
+Run
+~~~
+
+Run the container with ``docker-compose up`` command.
+
+Post-Deployment Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The directory ``resultsdb`` contains the source from Dovetail/Dovetail-webportal project.
+Once the results container is deployed, please run the python script as follows, to ensure that results can be
+pushed and queried correctly - ``python init_db.py host_ip_address testapi_port``.
+For example, if the host on which the container is running is 10.10.120.22, and container is exposing 8000 as the port,
+the command should be: ``python init_db.py 10.10.120.22 8000``

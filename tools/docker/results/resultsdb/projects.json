@@ -1,0 +1,218 @@
+[
+    {
+        "_id": "561dfc89514bc5355b51f6c6", 
+        "description": "Project functest aims to run suites of functional tests at the end of an OPNFV fresh install. These suites consist in functional tests on the main components of the solution (VIM, SDN controllers). It thus includes several upstream suites from upstream projects.", 
+        "name": "functest", 
+        "creation_date": "2015-10-14 06:56:09.317134"
+    }, 
+    {
+        "_id": "5641e12d514bc5174df3d77e", 
+        "description": "OPNFV vsperf project", 
+        "name": "vsperf", 
+        "creation_date": "2015-11-10 12:21:01.464979"
+    }, 
+    {
+        "_id": "56582fae514bc5087f2ddce9", 
+        "description": "Promise is resource reservation and management project to identify NFV related requirements and realize resource reservation for future usage by capacity management of resource pools regarding compute, network and storage. ", 
+        "name": "promise", 
+        "creation_date": "2015-11-27 10:25:50.539634"
+    }, 
+    {
+        "_id": "565c5939514bc5087f2ddcfa", 
+        "description": "The project aims to integrate the OpenStack Neutron BGPVPN project and its supported backends into the OPNFV reference platform.", 
+        "name": "sdnvpn", 
+        "creation_date": "2015-11-30 14:12:09.101020"
+    }, 
+    {
+        "_id": "565c7181514bc5087f2ddcfb", 
+        "description": "Service Function Chaining provides the ability to define an ordered list of a network services (e.g. firewalls, NAT, QoS).", 
+        "name": "sfc", 
+        "creation_date": "2015-11-30 15:55:45.932846"
+    }, 
+    {
+        "_id": "565d5fa2514bc5087f2ddd05", 
+        "description": "High availability for OPNFV", 
+        "name": "ha", 
+        "creation_date": "2015-12-01 08:51:46.011622"
+    }, 
+    {
+        "_id": "565d606c514bc5087f2ddd06", 
+        "description": "IPv6-enabled OPNFV", 
+        "name": "ipvsix", 
+        "creation_date": "2015-12-01 08:55:08.824385"
+    }, 
+    {
+        "_id": "565d60f7514bc5087f2ddd07", 
+        "description": "OpenStack based VNF Forwarding Graph", 
+        "name": "vnfgraph", 
+        "creation_date": "2015-12-01 08:57:27.378992"
+    }, 
+    {
+        "_id": "565d6398514bc5087f2ddd08", 
+        "description": "NFV hypervisors -  kvm", 
+        "name": "kvmfornfv", 
+        "creation_date": "2015-12-01 09:08:40.006837"
+    }, 
+    {
+        "_id": "565d63f9514bc5087f2ddd09", 
+        "description": "Open vSwitch for NFV", 
+        "name": "ovsnfv", 
+        "creation_date": "2015-12-01 09:10:17.341894"
+    }, 
+    {
+        "_id": "565d646f514bc5087f2ddd0a", 
+        "description": "ARMband project", 
+        "name": "armband", 
+        "creation_date": "2015-12-01 09:12:15.681896"
+    }, 
+    {
+        "_id": "565d97be514bc5087f2ddd11", 
+        "description": "Project Copper aims to help ensure that virtualized infrastructure deployments comply with goals of the VNF designer/user, e.g. re affinity and partitioning (e.g. per regulation, control/user plane separation, cost\u2026).", 
+        "name": "copper", 
+        "creation_date": "2015-12-01 12:51:10.776433"
+    }, 
+    {
+        "_id": "565d9f0f514bc5087f2ddd1d", 
+        "description": "Doctor is fault management and maintenance project to develop and realize the consequent implementation for the OPNFV reference platform.", 
+        "name": "doctor", 
+        "creation_date": "2015-12-01 13:22:23.294997"
+    }, 
+    {
+        "_id": "565da033514bc5087f2ddd20", 
+        "description": "OPNFV platform performance benchmark project", 
+        "name": "qtip", 
+        "creation_date": "2015-12-01 13:27:15.834860"
+    }, 
+    {
+        "_id": "565ec191514bc5087f3cfe26", 
+        "description": "This project will enable OpenContrail to be selected as the virtual networking technology in OPNFV deployments. The following diagram illustrates how the components of an OPNFV stack that includes OpenContrail map onto the ETSI NFV architecture.", 
+        "name": "ovno", 
+        "creation_date": "2015-12-02 10:01:53.786607"
+    }, 
+    {
+        "_id": "566108c7514bc5087f3cfe41", 
+        "description": "This project aims to find system bottlenecks by testing and verifying OPNFV infrastructure in a staging environment before committing it to a production environment. ", 
+        "name": "bottlenecks", 
+        "creation_date": "2015-12-04 03:30:15.934170"
+    }, 
+    {
+        "_id": "5669a8b4514bc5068a345d2f", 
+        "description": "OPNFV policy test based on ODL (Groupe Based Policy)", 
+        "name": "policy-test", 
+        "creation_date": "2015-12-10 16:30:44.118352"
+    }, 
+    {
+        "_id": "57173ffe9377c5332042a5e1", 
+        "description": "This project proposes a security management system called Moon. NFV uses cloud computing technologies to virtualize the resources and automate the control. The cloud infrastructure is able to provision a set of different cloud resources/services for VNFs (Virtualized Network Functions). Management of isolation and protection of, and interaction between, these VNFs become a big challenge. In order to avoid losing control over the VNFs in the cloud, Moon aims at designing and developing a security management system for OPNFV.", 
+        "name": "moon", 
+        "creation_date": "2016-04-20 08:38:22.335984"
+    }, 
+    {
+        "_id": "573395499377c56d4fc3f069", 
+        "description": "OPNFV storage perfomance testing project", 
+        "name": "storperf", 
+        "creation_date": "2016-05-11 20:25:45.317073"
+    }, 
+    {
+        "_id": "575efa949377c5337aa248f1", 
+        "description": "template distribution service", 
+        "name": "domino", 
+        "creation_date": "2016-06-13 18:25:24.157400"
+    }, 
+    {
+        "_id": "5762ad599377c5337a5ebc3b", 
+        "description": "Project \u201cFastDataStacks\u201d creates and composes a set of scenarios which include the virtual forwarder supplied by the FD.IO project. The project also provides required enhancements to individual components such as SDN controllers or installers to allow for the scenario composition.", 
+        "name": "fastdatastacks", 
+        "creation_date": "2016-06-16 13:44:57.065160"
+    }, 
+    {
+        "_id": "577d46ef9377c54b278bbc91", 
+        "description": "This project will address various goals for promoting availability and convergence of information and/or data models related to NFV service/VNF management, as being defined in standards (SDOs) and as developed in open source projects.", 
+        "name": "models", 
+        "creation_date": "2016-07-06 17:59:11.553045"
+    }, 
+    {
+        "_id": "57add1169377c54b278bd67b", 
+        "description": " enhancement to OpenStack ( Nova / Cinder / Neutron / Glance / Ceilometer / KeyStone ), so that OpenStack as the VIM is able to support multisite NFV cloud.", 
+        "name": "multisite", 
+        "creation_date": "2016-08-12 13:37:26.911022"
+    }, 
+    {
+        "_id": "57b2cd019377c54b278bdb90", 
+        "description": "OPNFV Parser project", 
+        "name": "parser", 
+        "creation_date": "2016-08-16 08:21:21.788381"
+    }, 
+    {
+        "_id": "582ef5ec1d2c6e000ab2b226", 
+        "description": "The goal of the NetReady project is to investigate how the current OpenStack networking architecture needs to be evolved in order to ensure that NFV-related use cases can be flexibly and efficiently supported. ", 
+        "name": "netready", 
+        "creation_date": "2016-11-18 12:37:00.875824"
+    }, 
+    {
+        "_id": "582f29a61d2c6e000ab2b27d", 
+        "description": "Security Scanning is a project to insure security compliance and vulnerability checks , as part of an automated CI-CD platform delivery process and as a standalone application. The project makes use of the existing SCAP format to perform deep scanning of NFVi nodes, to insure they are hardened and free of known CVE reported vulnerabilities. The SCAP content itself, is then consumed and run using an upstream opensource tool known as OpenSCAP", 
+        "name": "securityscanning", 
+        "creation_date": "2016-11-18 16:17:42.047102"
+    }, 
+    {
+        "_id": "583479f61d2c6e000ab2b9ee", 
+        "description": "Opera seeks to develop requirements for OPEN-O MANO support in the OPNFV reference platform, with the plan to eventually integrate OPEN-O in OPNFV as a non-exclusive upstream MANO. ", 
+        "name": "opera", 
+        "creation_date": "2016-11-22 17:01:42.703558"
+    }, 
+    {
+        "_id": "58347a121d2c6e000ab2b9ef", 
+        "description": "This project will enable the integration of the open source Open Baton platform, already available as ETSI NFV MANO reference implementation since October 2015, with existing OPNFV projects for specific scenarios and use cases.", 
+        "name": "orchestra", 
+        "creation_date": "2016-11-22 17:02:10.793237"
+    }, 
+    {
+        "_id": "587520262f248d000c44275b", 
+        "description": "", 
+        "name": "", 
+        "creation_date": "2017-01-10 17:55:50.084797"
+    }, 
+    {
+        "_id": "587da16e8cf551000c780e93", 
+        "description": "Model Oriented Virtualization Interface", 
+        "name": "movie", 
+        "creation_date": "2017-01-17 04:45:34.074478"
+    }, 
+    {
+        "_id": "58a155e3584d06000b01574e", 
+        "description": "The goal of yardstick is to verify the infrastructure compliance when running VNF applications. NFV Use Cases described in ETSI GS NFV 001 show a large variety of  applications, each defining specific requirements and complex configuration on the underlying infrastructure and test tools.The Yardstick concept decomposes typical VNF work-load performance metrics into a number of characteristics/performance vectors, which each of them can be represented by distinct test-cases.", 
+        "name": "yardstick", 
+        "creation_date": "2015-10-14 06:56:09"
+    }, 
+    {
+        "_id": "58a2e2c2584d06000b0157d2", 
+        "description": "a few plugins that expand the capabilities of collectd which runs on compute nodes regarding collecting and reporting metrics", 
+        "name": "barometer", 
+        "creation_date": "2017-02-14 10:58:10.292536"
+    }, 
+    {
+        "_id": "5923e2ff78a2ad000ae6a13f", 
+        "description": "Container Integrated For NFV", 
+        "name": "OpenRetriever", 
+        "creation_date": "2017-05-23 07:21:35.191176"
+    }, 
+    {
+        "_id": "592887a178a2ad000ae6a65e", 
+        "description": "OVN for NFV", 
+        "name": "ovn4nfv", 
+        "creation_date": "2017-05-26 19:53:05.984276"
+    }, 
+    {
+        "_id": "5928a4af78a2ad000ae6a6be", 
+        "description": "ONOS Framework", 
+        "name": "onosfw", 
+        "creation_date": "2017-05-26 21:57:03.600198"
+    }, 
+    {
+        "_id": "592be2ad78a2ad000ae6aad1", 
+        "description": "VIM infrastructure networking assurance, visualizing and monitoring low level details of virtual networking, components and inter-connections: internal and across hosts", 
+        "name": "vina", 
+        "creation_date": "2017-05-29 08:58:21.248835"
+    }
+]
