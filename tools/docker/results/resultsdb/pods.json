@@ -1,0 +1,382 @@
+[
+    {
+        "name": "lf-pod2", 
+        "creation_date": "2015-01-01 08:00:00.476549", 
+        "role": "production-ci", 
+        "mode": "metal", 
+        "_id": "5617f98e514bc5355b51f6b5", 
+        "details": ""
+    }, 
+    {
+        "name": "lf-pod1", 
+        "creation_date": "2015-01-01 08:00:00.476549", 
+        "role": "production-ci", 
+        "mode": "metal", 
+        "_id": "5617fa5a514bc5355b51f6b6", 
+        "details": ""
+    }, 
+    {
+        "name": "orange-pod2", 
+        "creation_date": "2015-10-27 15:27:30.312012", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "562f97e2514bc5174d053d38", 
+        "details": "https://wiki.opnfv.org/opnfv-orange"
+    }, 
+    {
+        "name": "unknown-pod", 
+        "creation_date": "2015-11-30 08:55:02.550465", 
+        "role": "", 
+        "mode": "undefined", 
+        "_id": "565c0ee6514bc5087f2ddcf7", 
+        "details": null
+    }, 
+    {
+        "name": "huawei-pod1", 
+        "creation_date": "", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "566fea58514bc5068a345d4b", 
+        "details": ""
+    }, 
+    {
+        "name": "intel-pod5", 
+        "creation_date": "2015-12-15 10:24:53.476549", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "566fea75514bc5068a345d4c", 
+        "details": null
+    }, 
+    {
+        "name": "intel-pod3", 
+        "creation_date": "2015-12-21 17:38:31.435593", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "56783917514bc5068a345d97", 
+        "details": null
+    }, 
+    {
+        "name": "ericsson-pod1", 
+        "creation_date": "2015-12-22 07:21:03.765581", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "5678f9df514bc5068a345d98", 
+        "details": null
+    }, 
+    {
+        "name": "ericsson-pod2", 
+        "creation_date": "2015-12-22 07:21:18.173966", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "5678f9ee514bc5068a345d99", 
+        "details": null
+    }, 
+    {
+        "name": "dell-us-testing-bm-1", 
+        "creation_date": "2016-01-08 12:41:54.097114", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "568fae92514bc5068a60e7d2", 
+        "details": null
+    }, 
+    {
+        "name": "dell-us-deploying-bm-3", 
+        "creation_date": "2016-01-08 14:13:16.740415", 
+        "role": "", 
+        "mode": null, 
+        "_id": "568fc3fc514bc5068a60e7d4", 
+        "details": null
+    }, 
+    {
+        "name": "dell-us-deploying-bm-2", 
+        "creation_date": "2016-01-08 14:15:54.037500", 
+        "role": "", 
+        "mode": null, 
+        "_id": "568fc49a514bc5068a60e7d5", 
+        "details": null
+    }, 
+    {
+        "name": "dell-us-deploying-bm3", 
+        "creation_date": "2016-01-15 12:14:20.956198", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "5698e29c514bc56e65a47bc8", 
+        "details": null
+    }, 
+    {
+        "name": "intel-pod6", 
+        "creation_date": "2016-01-22 13:32:18.767326", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "56a22f62514bc541f885b2c0", 
+        "details": null
+    }, 
+    {
+        "name": "huawei-virtual2", 
+        "creation_date": "", 
+        "role": "", 
+        "mode": "virtual", 
+        "_id": "56a9d7ac851d7e6a0f74930d", 
+        "details": ""
+    }, 
+    {
+        "name": "huawei-virtual1", 
+        "creation_date": "", 
+        "role": "", 
+        "mode": "virtual", 
+        "_id": "56a9f411851d7e6a0f749313", 
+        "details": ""
+    }, 
+    {
+        "name": "huawei-virtual3", 
+        "creation_date": "", 
+        "role": "", 
+        "mode": "virtual", 
+        "_id": "56e67ba6851d7e4b188676bc", 
+        "details": ""
+    }, 
+    {
+        "name": "huawei-virtual4", 
+        "creation_date": "", 
+        "role": "", 
+        "mode": "virtual", 
+        "_id": "56e67bb6851d7e4b188676bd", 
+        "details": ""
+    }, 
+    {
+        "name": "intel-pod8", 
+        "creation_date": "2016-03-14 08:52:47.576623", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "56e67bdf851d7e4b188676be", 
+        "details": null
+    }, 
+    {
+        "name": "intel-pod7", 
+        "creation_date": "2016-03-14 08:53:00.757525", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "56e67bec851d7e4b188676c0", 
+        "details": null
+    }, 
+    {
+        "name": "huawei-pod2", 
+        "creation_date": "", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "56e67c35851d7e4b188676c1", 
+        "details": ""
+    }, 
+    {
+        "name": "ericsson-virtual1", 
+        "creation_date": "2016-03-14 08:58:06.432105", 
+        "role": "", 
+        "mode": "virtual", 
+        "_id": "56e67d1e851d7e4b188676c2", 
+        "details": null
+    }, 
+    {
+        "name": "arm-pod1", 
+        "creation_date": "2016-05-05 09:18:54.879497", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "572b0ffe9377c51472b7878f", 
+        "details": null
+    }, 
+    {
+        "name": "zte-pod1", 
+        "creation_date": "2016-05-12 03:36:56.091397", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "5733fa589377c548e8df3834", 
+        "details": null
+    }, 
+    {
+        "name": "intel-virtual1", 
+        "creation_date": "2016-08-23 17:22:30.901081", 
+        "role": null, 
+        "mode": "virtual", 
+        "_id": "57bc86561d2c6e000ab19d93", 
+        "details": null
+    }, 
+    {
+        "name": "intel-virtual2", 
+        "creation_date": "2016-08-23 17:24:23.143681", 
+        "role": null, 
+        "mode": "virtual", 
+        "_id": "57bc86c71d2c6e000ab19d94", 
+        "details": null
+    }, 
+    {
+        "name": "zte-pod2", 
+        "creation_date": "2016-09-06 09:49:20.228736", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "57ce91201d2c6e000ab1c261", 
+        "details": ""
+    }, 
+    {
+        "name": "zte-pod3", 
+        "creation_date": "2016-09-06 09:49:26.019816", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "57ce91261d2c6e000ab1c263", 
+        "details": ""
+    }, 
+    {
+        "name": "arm-pod3", 
+        "creation_date": "2016-09-12 09:47:50.791351", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "57d679c61d2c6e000ab1d6bd", 
+        "details": "ARM POD3"
+    }, 
+    {
+        "name": "cisco-pod1", 
+        "creation_date": "2016-09-13 13:01:21.906958", 
+        "role": "Community lab", 
+        "mode": "metal", 
+        "_id": "57d7f8a11d2c6e000ab1db88", 
+        "details": "not yet declared in CI but needed to validate vpp scenarios for Colorado"
+    }, 
+    {
+        "name": "ool-virtual1", 
+        "creation_date": "2016-09-19 12:43:50.313032", 
+        "role": "", 
+        "mode": "virtual", 
+        "_id": "57dfdd861d2c6e000ab1f37b", 
+        "details": "Okinawa lab"
+    }, 
+    {
+        "name": "ericsson-pod3", 
+        "creation_date": "2016-09-26 09:45:40.565795", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "57e8ee441d2c6e000ab20fa9", 
+        "details": ""
+    }, 
+    {
+        "name": "ericsson-pod4", 
+        "creation_date": "2016-09-26 09:45:48.980198", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "57e8ee4c1d2c6e000ab20faa", 
+        "details": ""
+    }, 
+    {
+        "name": "ericsson-virtual2", 
+        "creation_date": "2016-09-26 09:46:05.508776", 
+        "role": "", 
+        "mode": "virtual", 
+        "_id": "57e8ee5d1d2c6e000ab20fac", 
+        "details": ""
+    }, 
+    {
+        "name": "ericsson-virtual3", 
+        "creation_date": "2016-09-26 09:46:10.244443", 
+        "role": "", 
+        "mode": "virtual", 
+        "_id": "57e8ee621d2c6e000ab20fad", 
+        "details": ""
+    }, 
+    {
+        "name": "ericsson-virtual4", 
+        "creation_date": "2016-09-26 09:46:14.734383", 
+        "role": "", 
+        "mode": "virtual", 
+        "_id": "57e8ee661d2c6e000ab20fae", 
+        "details": ""
+    }, 
+    {
+        "name": "ericsson-virtual5", 
+        "creation_date": "2016-09-26 09:46:19.477110", 
+        "role": "", 
+        "mode": "virtual", 
+        "_id": "57e8ee6b1d2c6e000ab20faf", 
+        "details": ""
+    }, 
+    {
+        "name": "intel-pod9", 
+        "creation_date": "2016-11-23 14:07:35.963037", 
+        "role": "", 
+        "mode": "metal", 
+        "_id": "5835a2a71d2c6e000ab2bb4b", 
+        "details": "https://wiki.opnfv.org/display/pharos/Intel+Pod9"
+    }, 
+    {
+        "name": "huawei-pod3", 
+        "creation_date": "2017-01-17 13:36:03.908341", 
+        "role": "production-ci", 
+        "mode": "metal", 
+        "_id": "587e1dc38cf551000c780eda", 
+        "details": ""
+    }, 
+    {
+        "name": "huawei-pod4", 
+        "creation_date": "2017-01-17 13:36:10.759860", 
+        "role": "production-ci", 
+        "mode": "metal", 
+        "_id": "587e1dca8cf551000c780edb", 
+        "details": ""
+    }, 
+    {
+        "name": "huawei-pod5", 
+        "creation_date": "2017-01-17 13:36:15.447849", 
+        "role": "production-ci", 
+        "mode": "metal", 
+        "_id": "587e1dcf8cf551000c780edc", 
+        "details": ""
+    }, 
+    {
+        "name": "huawei-pod6", 
+        "creation_date": "2017-01-18 10:53:10.586724", 
+        "role": "production-ci", 
+        "mode": "metal", 
+        "_id": "587f49168cf551000c780f5e", 
+        "details": ""
+    }, 
+    {
+        "name": "huawei-pod7", 
+        "creation_date": "2017-01-18 10:53:15.373953", 
+        "role": "production-ci", 
+        "mode": "metal", 
+        "_id": "587f491b8cf551000c780f5f", 
+        "details": ""
+    }, 
+    {
+        "name": "huawei-pod12", 
+        "creation_date": "2017-02-09 07:22:46.425836", 
+        "role": "production-ci", 
+        "mode": "metal", 
+        "_id": "589c18c68cf551000c7820e8", 
+        "details": ""
+    }, 
+    {
+        "name": "intel-pod12", 
+        "creation_date": "2017-05-17 14:11:18.852731", 
+        "role": "production-ci", 
+        "details": "performance", 
+        "query": "<function query at 0x7f574c29c500>", 
+        "mode": "metal", 
+        "_id": "591c5a06ee2e3f000a50f0b4", 
+        "miss_fields": [
+            "name"
+        ]
+    }, 
+    {
+        "name": "cisco-vina-pod10", 
+        "creation_date": "2017-05-29 09:13:20.818497", 
+        "role": "production-ci", 
+        "mode": "metal", 
+        "_id": "592be63078a2ad000ae6aad7", 
+        "details": ""
+    }, 
+    {
+        "name": "zte-virtual1", 
+        "creation_date": "2017-05-30 14:11:04.264967", 
+        "role": "", 
+        "mode": "baremetal", 
+        "_id": "592d7d7878a2ad000ae6ac49", 
+        "details": ""
+    }
+]
