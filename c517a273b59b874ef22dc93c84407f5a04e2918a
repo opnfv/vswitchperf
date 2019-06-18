@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "230a4b04_35d3cb7a",
+        "filename": "tools/confgenwizard/nicinfo.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-06-18T20:22:33Z",
+      "side": 1,
+      "message": "Won\u0027t this take a lot of extra time? Depends on the distance between hosts of course...",
+      "revId": "c517a273b59b874ef22dc93c84407f5a04e2918a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
