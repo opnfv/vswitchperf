@@ -896,8 +896,9 @@ def main():
                 output=settings.getValue('XUNIT_DIR'), outsuffix="",
                 verbosity=0).run(suite)
 
-        if args['opnfvpod']:
-            pod_name = args['opnfvpod']
+        if args['opnfvpod'] or settings.getValue('OPNFVPOD'):
+            pod_name = (args['opnfvpod'] if args['opnfvpod'] else
+                        settings.getValue('OPNFVPOD'))
             installer_name = str(settings.getValue('OPNFV_INSTALLER')).lower()
             opnfv_url = settings.getValue('OPNFV_URL')
             pkg_list = settings.getValue('PACKAGE_LIST')
