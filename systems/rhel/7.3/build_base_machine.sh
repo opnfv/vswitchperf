@@ -93,14 +93,14 @@ enabled=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
 EOT
 
-# install python34 packages and git-review tool
+# install python36 packages and git-review tool
 yum -y install $(echo "
-rh-python34
-rh-python34-python-tkinter
+rh-python36
+rh-python36-python-tkinter
 " | grep -v ^#)
 
-# cleanup python 34 repo file
-rm -f /etc/yum.repos.d/python34.repo
+# cleanup python 36 repo file
+rm -f /etc/yum.repos.d/python36.repo
 
 # Create hugepage dirs
 mkdir -p /dev/hugepages
