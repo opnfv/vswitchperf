@@ -672,12 +672,22 @@ def main():
 
     settings.load_from_dir(os.path.join(_CURR_DIR, 'conf'))
 
-    # Define the timestamp to be used by logs and results
+    # define the timestamp to be used by logs and results
     date = datetime.datetime.fromtimestamp(time.time())
     timestamp = date.strftime('%Y-%m-%d_%H-%M-%S')
     settings.setValue('LOG_TIMESTAMP', timestamp)
 
-    # Load non performance/integration tests
+    # generate results directory name
+    # integration test use vswitchd log in test step assertions, ensure that
+    # correct value will be set before loading integration test configuration
+    results_dir = "results_" + timestamp
+    results_path = os.path.join(settings.getValue('LOG_DIR'), results_dir)
+    settings.setValue('RESULTS_PATH', results_path)
+    # create results directory
+    if not os.path.exists(results_path):
+        os.makedirs(results_path)
+
+    # load non performance/integration tests
     if args['integration']:
         settings.load_from_dir(os.path.join(_CURR_DIR, 'conf/integration'))
 
@@ -703,15 +713,6 @@ def main():
 
     # if required, handle list-* operations
     handle_list_options(args)
-
-    # generate results directory name
-    results_dir = "results_" + timestamp
-    results_path = os.path.join(settings.getValue('LOG_DIR'), results_dir)
-    settings.setValue('RESULTS_PATH', results_path)
-
-    # create results directory
-    if not os.path.exists(results_path):
-        os.makedirs(results_path)
 
     configure_logging(settings.getValue('VERBOSITY'))
 
