@@ -123,7 +123,7 @@ class IVnfQemu(IVnf):
                                                 uid=S.getValue('LOG_TIMESTAMP'),
                                                 ex=ext)
         cmd_logger = logging.FileHandler(
-            filename=os.path.join(S.getValue('LOG_DIR'), rename_gcmd))
+            filename=os.path.join(S.getValue('RESULTS_PATH'), rename_gcmd))
         cmd_logger.setLevel(logging.DEBUG)
         cmd_logger.addFilter(self.GuestCommandFilter())
         logger.addHandler(cmd_logger)
