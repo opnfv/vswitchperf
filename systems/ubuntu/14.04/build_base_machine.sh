@@ -75,7 +75,7 @@ python3-setuptools
 python3-dbus
 python3-dev
 python3-tk
-libpython3.4
+libpython3.6
 python3-reportlab
 
 # libs
