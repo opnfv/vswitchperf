@@ -1,0 +1,1 @@
+[INFO ]  2019-08-27 18:09:46,085 : (root) - Overall test report written to "/tmp/results_2019-08-27_18-08-53/OvsDpdkVhost_test_report.rst"
