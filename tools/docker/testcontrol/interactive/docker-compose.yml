@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  testcontrol:
+    build:
+      context: ./controller
+    volumes:
+      - ./controller/vsperf:/vsperf
+    ports:
+      - 50052:50052
+ 
+
+    
+
+
+    
+    
+
+
+
