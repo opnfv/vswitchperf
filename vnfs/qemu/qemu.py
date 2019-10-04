@@ -503,11 +503,16 @@ class IVnfQemu(IVnf):
                                   pci_slots)
         elif driver == 'igb_uio_from_src':
             # build and insert igb_uio and rebind interfaces to it
-            self.execute_and_wait('make RTE_OUTPUT=$RTE_SDK/$RTE_TARGET -C '
-                                  '$RTE_SDK/lib/librte_eal/linuxapp/igb_uio')
+            # from DPDK 18.05 Linux kernel driver changed location
+            # also it is not possible to compile driver without
+            # passing EXTRA_CFLAGS
+            self.execute_and_wait("make RTE_OUTPUT=$RTE_SDK/{0} \
+            EXTRA_CFLAGS=\"-I$RTE_SDK/{1}/include\" \
+            -C $RTE_SDK/kernel/linux/igb_uio"\
+            .format(S.getValue('RTE_TARGET'), S.getValue('RTE_TARGET')))
             self.execute_and_wait('modprobe uio')
-            self.execute_and_wait('insmod %s/kmod/igb_uio.ko' %
-                                  S.getValue('RTE_TARGET'))
+            self.execute_and_wait('insmod {}/kmod/igb_uio.ko'\
+                                  .format(S.getValue('RTE_TARGET')))
             self.execute_and_wait('./*tools/dpdk*bind.py -b igb_uio ' + pci_slots)
         else:
             self._logger.error(
