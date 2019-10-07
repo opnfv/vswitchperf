@@ -256,6 +256,9 @@ class Settings(object):
         Expand VM option with given key for given number of VMs
         """
         tmp_value = self.getValue(key)
+        # skip empty/not set value
+        if not tmp_value:
+            return
         if isinstance(tmp_value, str):
             scalar = True
             master_value = tmp_value
