@@ -398,6 +398,8 @@ class IVnfQemu(IVnf):
 
         self.execute_and_wait('./testpmd {}'.format(testpmd_params), 60, "Done")
         self.execute_and_wait('set fwd ' + self._testpmd_fwd_mode, 20, 'testpmd>')
+        for entry in S.getValue('GUEST_QUEUE_STATS_MAPPING'):
+            self.execute_and_wait('set stat_qmap ' + entry, 2, 'testpmd>')
         self.execute_and_wait('start', 20, 'testpmd>')
 
     def _configure_l2fwd(self):
