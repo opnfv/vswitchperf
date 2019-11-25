@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44c98a5e_8bebb7c7",
+        "filename": "tools/docker/deployment/auto/controller/vsperf/vsperf_controller.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-11-25T09:34:54Z",
+      "side": 1,
+      "message": "s/exists/exist/",
+      "range": {
+        "startLine": 118,
+        "startChar": 41,
+        "endLine": 118,
+        "endChar": 47
+      },
+      "revId": "8d7543a40fb2820b626f166a4622fdd3a7f76f78",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abe347d3_00b6b7d7",
+        "filename": "tools/docker/deployment/auto/controller/vsperf/vsperf_controller.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-11-25T09:34:54Z",
+      "side": 1,
+      "message": "s/exists/exist/",
+      "range": {
+        "startLine": 164,
+        "startChar": 45,
+        "endLine": 164,
+        "endChar": 51
+      },
+      "revId": "8d7543a40fb2820b626f166a4622fdd3a7f76f78",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d51a7ec_07aeb3cd",
+        "filename": "tools/docker/docs/client.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-11-25T09:34:54Z",
+      "side": 1,
+      "message": "s/allow/allows/",
+      "range": {
+        "startLine": 38,
+        "startChar": 49,
+        "endLine": 38,
+        "endChar": 54
+      },
+      "revId": "8d7543a40fb2820b626f166a4622fdd3a7f76f78",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "deb76b8a_8550c0bf",
+        "filename": "tools/docker/docs/test.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-11-25T09:34:54Z",
+      "side": 1,
+      "message": "s/User/Users/",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "8d7543a40fb2820b626f166a4622fdd3a7f76f78",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b7c01b0_9ec20472",
+        "filename": "tools/docker/testcontrol/auto/controller/vsperf/vsperf_controller.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-11-25T09:34:54Z",
+      "side": 1,
+      "message": "s/mention/configured/",
+      "range": {
+        "startLine": 289,
+        "startChar": 40,
+        "endLine": 289,
+        "endChar": 48
+      },
+      "revId": "8d7543a40fb2820b626f166a4622fdd3a7f76f78",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "049cdf5a_9086cbf3",
+        "filename": "tools/docker/testcontrol/auto/controller/vsperf/vsperf_controller.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-11-25T09:34:54Z",
+      "side": 1,
+      "message": "s/wrongly placed/incorrect/",
+      "range": {
+        "startLine": 308,
+        "startChar": 49,
+        "endLine": 308,
+        "endChar": 63
+      },
+      "revId": "8d7543a40fb2820b626f166a4622fdd3a7f76f78",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74f416c2_75a683dc",
+        "filename": "tools/docker/testcontrol/auto/controller/vsperf/vsperf_controller.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-11-25T09:34:54Z",
+      "side": 1,
+      "message": "s/install/installed/",
+      "range": {
+        "startLine": 313,
+        "startChar": 37,
+        "endLine": 313,
+        "endChar": 45
+      },
+      "revId": "8d7543a40fb2820b626f166a4622fdd3a7f76f78",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    }
+  ]
+}
