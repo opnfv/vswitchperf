@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "60b445f3_4cb212eb",
+        "filename": "tools/docker/deployment/auto/controller/vsperf/vsperf_controller.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-12-03T15:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44c98a5e_8bebb7c7",
+      "range": {
+        "startLine": 118,
+        "startChar": 41,
+        "endLine": 118,
+        "endChar": 47
+      },
+      "revId": "8d7543a40fb2820b626f166a4622fdd3a7f76f78",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abe347d3_00b6b7d7",
         "filename": "tools/docker/deployment/auto/controller/vsperf/vsperf_controller.py",
         "patchSetId": 3
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "b8a2cca2_e749d62c",
+        "filename": "tools/docker/docs/client.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-12-03T15:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d51a7ec_07aeb3cd",
+      "range": {
+        "startLine": 38,
+        "startChar": 49,
+        "endLine": 38,
+        "endChar": 54
+      },
+      "revId": "8d7543a40fb2820b626f166a4622fdd3a7f76f78",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "deb76b8a_8550c0bf",
         "filename": "tools/docker/docs/test.rst",
         "patchSetId": 3
@@ -91,6 +139,30 @@
       "revId": "8d7543a40fb2820b626f166a4622fdd3a7f76f78",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c2ce5b5_a4b38cea",
+        "filename": "tools/docker/docs/test.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2019-12-03T15:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "deb76b8a_8550c0bf",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "8d7543a40fb2820b626f166a4622fdd3a7f76f78",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     },
     {
       "key": {
