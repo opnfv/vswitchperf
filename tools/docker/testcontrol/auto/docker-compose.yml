@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  testcontrol:
+    build:
+      context: ./controller
+    volumes:
+      - ./controller/vsperf:/vsperf
+    env_file:
+      - ./controller/list.env
+    ports:
+      - 50052
+ 
+
+    
+
+
+    
+    
+
+
+

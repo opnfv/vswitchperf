@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  deploy:
+    build:
+      context: ./controller
+    volumes:
+      - ./controller/vsperf:/vsperf
+    ports:
+      - 50051:50051
+
+ 
+
+    
+
+
+    
+    
+
+
+
