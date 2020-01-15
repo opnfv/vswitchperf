@@ -4,6 +4,7 @@ volumes:
     influx-data:
     grafana-data:
     mongo-data:
+    jupyter-data:
     testapi-logs:
 services:
   influxdb:
@@ -69,7 +70,7 @@ services:
     volumes:
       - ./notebooks:/notebooks
       - ./notebooks/testresult-analysis.ipynb:/notebooks/testresult-analysis.ipynb
-      - ./data:/data
+      - jupyter-data:/data
   postgres:
     image: postgres
     restart: always
