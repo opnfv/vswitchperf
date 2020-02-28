@@ -83,6 +83,8 @@ import logging
 import os
 import re
 import csv
+import random
+import time
 
 from collections import OrderedDict
 from tools.pkt_gen import trafficgen
@@ -129,7 +131,7 @@ def _build_set_cmds(values, prefix='dict set'):
 
         if isinstance(value, list):
             value = '{{{}}}'.format(' '.join(str(x) for x in value))
-            yield ' '.join([prefix, 'set', key, value]).strip()
+            yield ' '.join([prefix, key, value]).strip()
             continue
 
         # tcl doesn't recognise the strings "True" or "False", only "1"
@@ -179,7 +181,7 @@ class IxNet(trafficgen.ITrafficGenerator):
 
         output = self._tclsh.eval(cmd)
 
-        return output.split()
+        return output
 
     def configure(self):
         """Configure system for IxNetwork.
@@ -199,6 +201,8 @@ class IxNet(trafficgen.ITrafficGenerator):
             'port2': settings.getValue('TRAFFICGEN_IXIA_PORT2'),
             'output_dir':
                 settings.getValue('TRAFFICGEN_IXNET_TESTER_RESULT_DIR'),
+            'frame_size_list':
+                settings.getValue('TRAFFICGEN_PKT_SIZES'),
         }
 
         self._logger.debug('IXIA configuration configuration : %s', self._cfg)
@@ -256,11 +260,13 @@ class IxNet(trafficgen.ITrafficGenerator):
                 'An error occured when connecting to IxNetwork machine...')
             raise RuntimeError('Ixia failed to initialise.')
 
-        self.run_tcl('startRfc2544Test $config $traffic')
+        results_path = self.run_tcl('startRfc2544Test $config $traffic')
+        self._logger.debug("Results file is located on", results_path)
         if output:
             self._logger.critical(
                 'Failed to start continuous traffic test')
             raise RuntimeError('Continuous traffic test failed to start.')
+        return results_path
 
     def stop_cont_traffic(self):
         """See ITrafficGenerator for description
@@ -271,9 +277,14 @@ class IxNet(trafficgen.ITrafficGenerator):
                                 lossrate=0.0):
         """See ITrafficGenerator for description
         """
-        self.start_rfc2544_throughput(traffic, tests, duration, lossrate)
-
-        return self.wait_rfc2544_throughput()
+        results_file = self.start_rfc2544_throughput(traffic, tests, duration, lossrate)
+        run_result = self.wait_rfc2544_throughput()
+        self._logger.debug("Sleeping 30 seconds to be sure that traffic stopped and closed")
+        time.sleep(30)
+        dest_file_name = 'Traffic_Item_Statistics_' + str(random.randrange(1, 100)) + '.csv'
+        local_file = self.copy_results_file(results_file,
+                                            os.path.join(settings.getValue('RESULTS_PATH'), dest_file_name))
+        return run_result
 
     def start_rfc2544_throughput(self, traffic=None, tests=1, duration=20,
                                  lossrate=0.0):
@@ -313,11 +324,13 @@ class IxNet(trafficgen.ITrafficGenerator):
                 'An error occured when connecting to IxNetwork machine...')
             raise RuntimeError('Ixia failed to initialise.')
 
-        self.run_tcl('startRfc2544Test $config $traffic')
+        results_file = self.run_tcl('startRfc2544Test $config $traffic')
         if output:
             self._logger.critical(
                 'Failed to start RFC2544 test')
             raise RuntimeError('RFC2544 test failed to start.')
+
+        return results_file
 
     def wait_rfc2544_throughput(self):
         """See ITrafficGenerator for description
@@ -397,12 +410,32 @@ class IxNet(trafficgen.ITrafficGenerator):
             return results
 
         output = self.run_tcl('waitForRfc2544Test')
-
         # the run_tcl function will return a list with one element. We extract
         # that one element (a string representation of an IXIA-specific Tcl
         # datatype), parse it to find the path of the results file then parse
         # the results file
-        return parse_ixnet_rfc_results(parse_result_string(output[0]))
+        test_results = parse_ixnet_rfc_results(parse_result_string(output))
+        return test_results
+
+    def copy_results_file(self, source_file=None, dest_file=None):
+        self._dest = {}
+        self._source = {}
+        srcfile = ''
+        if type(source_file) is list:
+            for i in source_file:
+                srcfile = srcfile + ' ' + i
+        else:
+            srcfile = source_file
+
+        source = (srcfile.replace("\\", "/")).strip()
+        self._source['source_file'] = {'source_file': '\"{}\"'.format(source)}
+        self._dest['dest_file'] = {'dest_file': '{}'.format(dest_file)}
+        for cmd in _build_set_cmds(self._source):
+            self.run_tcl(cmd)
+        for cmd in _build_set_cmds(self._dest):
+            self.run_tcl(cmd)
+        self.run_tcl('copyFileResults $source_file $dest_file')
+        return self._dest['dest_file']
 
     def send_rfc2544_back2back(self, traffic=None, tests=1, duration=2,
                                lossrate=0.0):
@@ -411,9 +444,14 @@ class IxNet(trafficgen.ITrafficGenerator):
         # NOTE 2 seconds is the recommended duration for a back 2 back
         # test in RFC2544. 50 trials is the recommended number from the
         # RFC also.
-        self.start_rfc2544_back2back(traffic, tests, duration, lossrate)
-
-        return self.wait_rfc2544_back2back()
+        b2b_results_file = self.start_rfc2544_back2back(traffic, tests, duration, lossrate)
+        b2b_run_result = self.wait_rfc2544_back2back()
+        self._logger.debug("Sleeping 30 seconds to be sure that traffic stopped and closed")
+        time.sleep(30)
+        dest_file_name = 'Traffic_Item_Statistics_' + str(random.randrange(1, 100)) + '.csv'
+        local_file = self.copy_results_file(b2b_results_file,
+                                            os.path.join(settings.getValue('RESULTS_PATH'), dest_file_name))
+        return b2b_run_result
 
     def start_rfc2544_back2back(self, traffic=None, tests=1, duration=2,
                                 lossrate=0.0):
@@ -453,11 +491,13 @@ class IxNet(trafficgen.ITrafficGenerator):
                 'An error occured when connecting to IxNetwork machine...')
             raise RuntimeError('Ixia failed to initialise.')
 
-        self.run_tcl('startRfc2544Test $config $traffic')
+        results_file = self.run_tcl('startRfc2544Test $config $traffic')
         if output:
             self._logger.critical(
                 'Failed to start RFC2544 test')
             raise RuntimeError('RFC2544 test failed to start.')
+
+        return results_file
 
     def wait_rfc2544_back2back(self):
         """Wait for results.
@@ -487,7 +527,7 @@ class IxNet(trafficgen.ITrafficGenerator):
             # transform path into something useful
 
             path = result_path.group(1).replace('\\', '/')
-            path = os.path.join(path, 'iteration.csv')
+            path = os.path.join(path, 'AggregateResults.csv')
             path = path.replace(
                 settings.getValue('TRAFFICGEN_IXNET_TESTER_RESULT_DIR'),
                 settings.getValue('TRAFFICGEN_IXNET_DUT_RESULT_DIR'))
@@ -526,7 +566,7 @@ class IxNet(trafficgen.ITrafficGenerator):
         # datatype), parse it to find the path of the results file then parse
         # the results file
 
-        return parse_ixnet_rfc_results(parse_result_string(output[0]))
+        return parse_ixnet_rfc_results(parse_result_string(output))
 
     def send_burst_traffic(self, traffic=None, duration=20):
         return NotImplementedError('IxNet does not implement send_burst_traffic')

@@ -43,7 +43,7 @@ lappend auto_path [list $lib_path]
 
 # verify that the IXIA chassis spec is given
 
-set reqVars [list "machine" "port" "user" "chassis" "card" "port1" "port2" "output_dir" "bidir"]
+set reqVars [list "machine" "port" "user" "chassis" "card" "port1" "port2" "output_dir" "bidir" "frame_size_list"]
 set rfc2544test ""
 
 foreach var $reqVars {
@@ -59,6 +59,7 @@ foreach var $reqVars {
 set ::IxNserver $machine
 set ::IxNport   $port
 set ::biDirect  $bidir
+set frameSizeList $frame_size_list
 
 # change to windows path format and append directory
 set output_dir [string map {"/" "\\"} $output_dir]
@@ -66,14 +67,17 @@ set output_dir "$output_dir\\rfctests"
 puts "Output directory is $output_dir"
 
 proc startRfc2544Test { testSpec trafficSpec } {
-    # Start RFC2544 quicktest.
+    # Start RFC2544 quickte"$output_dir\\rfctests"st.
 
     # Configure global variables. See documentation on 'global' for more
     # information on why this is necessary
     #   https://www.tcl.tk/man/tcl8.5/tutorial/Tcl13.html
     global rfc2544test
+	  global qt
+	  global frameSizeList
     global sg_rfc2544throughput
     global sg_rfc2544back2back
+    global output_dir
 
     # Suffix for stack names
     # This variable should be incremented after setting sg_stack like:
@@ -163,30 +167,18 @@ proc startRfc2544Test { testSpec trafficSpec } {
     set trafficSpec_vlan        [dict get $trafficSpec vlan]
 
     set frameSize               [dict get $trafficSpec_l2 framesize]
-    set srcMac                  [dict get $trafficSpec_l2 srcmac]
+	  set srcMac                  [dict get $trafficSpec_l2 srcmac]
     set dstMac                  [dict get $trafficSpec_l2 dstmac]
+    set srcPort                 [dict get $trafficSpec_l4 srcport]
+    set dstPort                 [dict get $trafficSpec_l4 dstport]
 
     set proto                   [dict get $trafficSpec_l3 proto]
     set srcIp                   [dict get $trafficSpec_l3 srcip]
     set dstIp                   [dict get $trafficSpec_l3 dstip]
+	  set vlanEnabled             [dict get $trafficSpec_vlan enabled]
+	  set l3Enabled               [dict get $trafficSpec_l3 enabled]
+	  set l4Enabled [dict get $trafficSpec_l4 enabled]
 
-    set srcPort                 [dict get $trafficSpec_l4 srcport]
-    set dstPort                 [dict get $trafficSpec_l4 dstport]
-
-    set l3Enabled               [dict get $trafficSpec_l3 enabled]
-    set l4Enabled               [dict get $trafficSpec_l4 enabled]
-    set vlanEnabled             [dict get $trafficSpec_vlan enabled]
-
-    if {$vlanEnabled == 1 } {
-        # these keys won't exist if vlan wasn't enabled
-        set vlanId                  [dict get $trafficSpec_vlan id]
-        set vlanUserPrio            [dict get $trafficSpec_vlan priority]
-        set vlanCfi                 [dict get $trafficSpec_vlan cfi]
-    } else {
-        set vlanId                  0
-        set vlanUserPrio            0
-        set vlanCfi                 0
-    }
 
     if {$frameSize < 68 } {
         if {$rfc2544TestType == "back2back"} {
@@ -281,7 +273,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -csvLogPollIntervalMultiplier 1 \
      -pollInterval 2 \
      -guardrailEnabled True \
-     -enableCsvLogging False \
+     -enableCsvLogging True\
      -dataStorePollingIntervalMultiplier 1 \
      -maxNumberOfStatsPerCustomGraph 16 \
      -additionalFcoeStat1 fcoeInvalidDelimiter \
@@ -373,7 +365,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -useDefaultRootPath False \
      -outputRootPath $::output_dir
     sg_commit
-    set sg_top [lindex [ixNet remapIds $sg_top] 0]
+    #set sg_top [lindex [ixNet remapIds $sg_top] 0]
     set ixNetSG_Stack(0) $sg_top
 
     ###
@@ -1353,7 +1345,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -destinationMacMode manual
     ixNet setMultiAttrs $sg_configElement/frameSize \
      -weightedPairs {} \
-     -fixedSize 64 \
+     -fixedSize $frameSizeList \
      -incrementFrom 64 \
      -randomMin 64 \
      -randomMax 1518 \
@@ -3080,7 +3072,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
     ixNet setMultiAttrs $sg_tracking \
      -offset 0 \
      -oneToOneMesh False \
-     -trackBy {} \
+     -trackBy {trackingenabled0} \
      -values {} \
      -fieldWidth thirtyTwoBits \
      -protocolOffset {Root.0}
@@ -6276,12 +6268,16 @@ proc startRfc2544Test { testSpec trafficSpec } {
     #
     if {$rfc2544TestType == "throughput"} {
         set sg_rfc2544throughput [ixNet add $ixNetSG_Stack(0)/quickTest rfc2544throughput]
+	    ixNet commit
         ixNet setMultiAttrs $sg_rfc2544throughput \
          -name {QuickTest1} \
          -mode existingMode \
          -inputParameters {{}}
+        ixNet commit
+	set sizes [join $frameSizeList ","]
+	set sg_rfc2544throughput [lindex [ixNet remapIds $sg_rfc2544throughput] 0]
         ixNet setMultiAttrs $sg_rfc2544throughput/testConfig \
-         -protocolItem {} \
+         -protocolItem [list ] \
          -enableMinFrameSize True \
          -framesize $frameSize \
          -reportTputRateUnit mbps \
@@ -6293,7 +6289,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -tolerance 0 \
          -frameLossUnit {0} \
          -staggeredStart False \
-         -framesizeList $frameSize \
+         -framesizeList $sizes \
          -frameSizeMode custom \
          -rateSelect percentMaxRate \
          -percentMaxRate 100 \
@@ -6318,7 +6314,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -txDelay 2 \
          -delayAfterTransmit 2 \
          -minRandomFrameSize 64 \
-         -maxRandomFrameSize 1518 \
+         -maxRandomFrameSize 128 \
          -countRandomFrameSize 1 \
          -minIncrementFrameSize 64 \
          -stepIncrementFrameSize 64 \
@@ -6415,9 +6411,9 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -dataErrorThresholdValue 0 \
          -dataErrorThresholdMode average
         sg_commit
+        ixNet commit
         set sg_rfc2544throughput [lindex [ixNet remapIds $sg_rfc2544throughput] 0]
         set ixNetSG_Stack(1) $sg_rfc2544throughput
-
         #
         # configuring the object that corresponds to /quickTest/rfc2544throughput:1/protocols
         #
@@ -6438,6 +6434,12 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -includeMode inTest \
          -itemType trafficItem
         sg_commit
+
+	#
+        # configuring the results folder that corresponds to /quickTest/rfc2544throughput:1
+        #
+        ixNet setAttr $sg_rfc2544throughput -resultPath $output_dir
+        ixNet commit
         set sg_trafficSelection [lindex [ixNet remapIds $sg_trafficSelection] 0]
         ixNet commit
 
@@ -6466,7 +6468,7 @@ proc startRfc2544Test { testSpec trafficSpec } {
          -tolerance 0 \
          -frameLossUnit {0} \
          -staggeredStart False \
-         -framesizeList $frameSize \
+         -framesizeList [list $frameSize] \
          -frameSizeMode custom \
          -rateSelect percentMaxRate \
          -percentMaxRate 100 \
@@ -6611,13 +6613,65 @@ proc startRfc2544Test { testSpec trafficSpec } {
     }
     ixNet exec apply $rfc2544test
     after 5000
-
     #
     # starting the RFC2544 Throughput test
     #
     puts "Starting test..."
     ixNet exec start $rfc2544test
+    after 60000
+    puts "Looking for statistics"
+    set results_file_name "Traffic Item Statistics"
+    set results_file_path [getResultFile $results_file_name]
+    return $results_file_path
 }
+
+proc getResultFile { viewName } {
+    global output_dir
+    set root [ixNet getRoot]
+    set views [ixNet getList $root/statistics view]
+    foreach view $views {
+        if { [ixNet getA $view -caption] eq $viewName } {
+            set trafficView $view
+            break
+        }
+    }
+    puts "Checking that the $trafficView view is ready"
+    set count 0
+    while { [ixNet getA $trafficView/data -isReady] eq false } {
+        after 1000
+        if { $count > 2 } { break }
+        incr count
+    }
+    puts "Success! $trafficView view is ready! "
+    puts "Changing the CSV path"
+    set setAttr [ixNet setA $root/statistics -csvFilePath $output_dir]
+    if { $setAttr != "::ixNet::OK"} {
+        error "Error"
+    }
+    ixNet commit
+    puts "Enabling CSV logging"
+    set setAttr [ixNet setA $trafficView -enableCsvLogging True]
+    if { $setAttr != "::ixNet::OK"} {
+        error "Error"
+    }
+    ixNet commit
+    puts "Enabled CSV logging"
+    puts "Getting CSV file name for $trafficView view"
+    set csv_path [ixNet getA $root/statistics -csvFilePath]
+    set csv_name [ixNet getA $trafficView -csvFileName]
+    ixNet commit
+    return [file join $csv_path $csv_name]
+}
+
+proc copyFileResults { sourceFile destFile } {
+    puts "Coping the file $sourceFile to $destFile..."
+    set source [dict get $sourceFile source_file]
+    set dest [dict get $destFile dest_file]
+    if {[catch {ixNet exec copyFile [ixNet readFrom "$source" -ixNetRelative] [ixNet writeTo "$dest" -overwrite]} errMsg]} {
+       error "Error while copying results : '$errMsg'"
+    }
+}
+
 
 proc waitForRfc2544Test { } {
     # Wait for- and return results of- RFC2544 quicktest.
