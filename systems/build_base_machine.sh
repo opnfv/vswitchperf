@@ -55,11 +55,14 @@ else
     distro_dir="$OS_NAME"
 fi
 
-# build base system using OS specific scripts
-if [ -d "$distro_dir" ] && [ -e "$distro_dir/build_base_machine.sh" ]; then
-    $SUDO $distro_dir/build_base_machine.sh || die "$distro_dir/build_base_machine.sh failed"
-else
-    die "$distro_dir is not yet supported"
+if [ $# -eq 0 ]; then
+    echo "No parameters provided - continuing with Normal Build"
+    # build base system using OS specific scripts
+    if [ -d "$distro_dir" ] && [ -e "$distro_dir/build_base_machine.sh" ]; then
+        $SUDO $distro_dir/build_base_machine.sh || die "$distro_dir/build_base_machine.sh failed"
+    else
+        die "$distro_dir is not yet supported"
+fi
 fi
 
 if [ -d "$distro_dir" ] && [ -e "$distro_dir/prepare_python_env.sh" ] ; then
@@ -72,11 +75,23 @@ if [ ! -d /lib/modules/`uname -r`/build ] ; then
     die "Kernel devel is not available for active kernel. It can be caused by recent kernel update. Please reboot and run $0 again."
 fi
 
-# download and compile DPDK, OVS and QEMU
-if [ -f ../src/Makefile ] ; then
-    cd ../src
-    make || die "Make failed"
-    cd -
+if [ $# -eq 0 ]; then
+    echo "No parameters provided - continuing with SRC Download and Compile"
+    # download and compile DPDK, OVS and QEMU
+    if [ -f ../src/Makefile ] ; then
+        cd ../src
+        make || die "Make failed"
+        cd -
+    else
+        die "Make failed; No Makefile"
+    fi
 else
-    die "Make failed; No Makefile"
+    echo "Downloading and compiling only T-Rex"
+    if [ -f ../src/trex/Makefile ]; then
+        cd ../src/trex/
+        make || die "Make failed"
+        cd -
+    else
+        die "Make failed; No Makefile"
+    fi
 fi
