@@ -40,6 +40,7 @@ import core.component_factory as component_factory
 from core.loader import Loader
 from testcases import PerformanceTestCase
 from testcases import IntegrationTestCase
+from testcases import K8sPerformanceTestcase
 from tools import tasks
 from tools import networkcard
 from tools import functions
@@ -201,6 +202,7 @@ def parse_arguments():
     group.add_argument('--verbosity', choices=list_logging_levels(),
                        help='debug level')
     group.add_argument('--integration', action='store_true', help='execute integration tests')
+    group.add_argument('--k8s', action='store_true', help='execute Kubernetes tests')
     group.add_argument('--trafficgen', help='traffic generator to use')
     group.add_argument('--vswitch', help='vswitch implementation to use')
     group.add_argument('--fwdapp', help='packet forwarding application to use')
@@ -594,6 +596,8 @@ def list_testcases(args):
     # configure tests
     if args['integration']:
         testcases = settings.getValue('INTEGRATION_TESTS')
+    elif args['k8s']:
+        testcases = settings.getValue('K8SPERFORMANCE_TESTS')
     else:
         testcases = settings.getValue('PERFORMANCE_TESTS')
 
@@ -690,6 +694,8 @@ def main():
     # load non performance/integration tests
     if args['integration']:
         settings.load_from_dir(os.path.join(_CURR_DIR, 'conf/integration'))
+    if args['k8s']:
+        settings.load_from_dir(os.path.join(_CURR_DIR, 'conf/kubernetes'))
 
     # load command line parameters first in case there are settings files
     # to be used
@@ -823,6 +829,8 @@ def main():
         # configure tests
         if args['integration']:
             testcases = settings.getValue('INTEGRATION_TESTS')
+        elif args['k8s']:
+            testcases = settings.getValue('K8SPERFORMANCE_TESTS')
         else:
             testcases = settings.getValue('PERFORMANCE_TESTS')
 
@@ -865,6 +873,8 @@ def main():
 
                 if args['integration']:
                     test = IntegrationTestCase(cfg)
+                elif args['k8s']:
+                    test = K8sPerformanceTestCase(cfg)
                 else:
                     test = PerformanceTestCase(cfg)
 

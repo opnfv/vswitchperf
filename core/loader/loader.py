@@ -71,6 +71,11 @@ class Loader(object):
             settings.getValue('PKTFWD'),
             IPktFwd)
 
+        self._pod_loader = LoaderServant(
+            settings.getValue('POD_DIR'),
+            settings.getValue('POD'),
+            IPod)
+
     def get_trafficgen(self):
         """Returns a new instance configured traffic generator.
 
@@ -219,6 +224,37 @@ class Loader(object):
         :return: String containing printable list of vnfs.
         """
         return self._vnf_loader.get_classes_printable()
+
+    def get_pod(self):
+        """Returns instance of currently configured pod implementation.
+
+        :return: IPod implementation if available, None otherwise.
+        """
+        return self._pod_loader.get_class()()
+
+    def get_pod_class(self):
+        """Returns type of currently configured pod implementation.
+
+        :return: Type of IPod implementation if available.
+            None otherwise.
+        """
+        return self._pod_loader.get_class()
+
+    def get_pods(self):
+        """Returns dictionary of all available pods.
+
+        :return: Dictionary of pods.
+            - key: name of the class which implements IPod,
+            - value: Type of vnf which implements IPod.
+        """
+        return self._pod_loader.get_classes()
+
+    def get_pods_printable(self):
+        """Returns all available pods in printable format.
+
+        :return: String containing printable list of pods.
+        """
+        return self._pod_loader.get_classes_printable()
 
     def get_pktfwd(self):
         """Returns instance of currently configured packet forwarder implementation.
