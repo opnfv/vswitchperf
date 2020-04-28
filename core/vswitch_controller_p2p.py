@@ -45,8 +45,9 @@ class VswitchControllerP2P(IVswitchController):
             (port1, _) = self._vswitch.add_phy_port(self._bridge)
             (port2, _) = self._vswitch.add_phy_port(self._bridge)
 
-            self._vswitch.add_connection(self._bridge, port1, port2, self._traffic)
-            self._vswitch.add_connection(self._bridge, port2, port1, self._traffic)
+            if not settings.getValue('K8S'):
+                self._vswitch.add_connection(self._bridge, port1, port2, self._traffic)
+                self._vswitch.add_connection(self._bridge, port2, port1, self._traffic)
 
         except:
             self._vswitch.stop()
