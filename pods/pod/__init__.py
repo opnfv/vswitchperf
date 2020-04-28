@@ -1,4 +1,4 @@
-# Copyright 2015 Intel Corporation.
+# Copyright 2020 Spirent Communications
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""This module contains test definitions.
+"""POD interface and helpers.
 """
-from testcases.testcase import (TestCase)
-from testcases.performance import (PerformanceTestCase)
-from testcases.integration import (IntegrationTestCase)
-from testcases.k8s_performance import (K8sPerformanceTestCase)
+
+import pods

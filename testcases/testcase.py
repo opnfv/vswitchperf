@@ -73,6 +73,7 @@ class TestCase(object):
         self._hugepages_mounted = False
         self._traffic_ctl = None
         self._vnf_ctl = None
+        self._pod_ctl = None
         self._vswitch_ctl = None
         self._collector = None
         self._loadgen = None
@@ -81,6 +82,7 @@ class TestCase(object):
         self._settings_paths_modified = False
         self._testcast_run_time = None
         self._versions = []
+        self._k8s = False
         # initialization of step driven specific members
         self._step_check = False    # by default don't check result for step driven testcases
         self._step_vnf_list = {}
@@ -216,6 +218,12 @@ class TestCase(object):
 
         self._vnf_list = self._vnf_ctl.get_vnfs()
 
+        self._pod_ctl = component_factory.create_pod(
+            self.deployment,
+            loader.get_pod_class())
+
+        self._pod_list = self._pod_ctl.get_pods()
+
         # verify enough hugepages are free to run the testcase
         if not self._check_for_enough_hugepages():
             raise RuntimeError('Not enough hugepages free to run test.')
@@ -280,6 +288,10 @@ class TestCase(object):
         """
         # Stop all VNFs started by TestSteps in case that something went wrong
         self.step_stop_vnfs()
+
+        if self._k8s:
+            self._pod_ctl.stop()
+
 
         # Cleanup any LLC-allocations
         if S.getValue('LLC_ALLOCATION'):
@@ -350,15 +362,18 @@ class TestCase(object):
         """Run the test
 
         All setup and teardown through controllers is included.
+
         """
         # prepare test execution environment
         self.run_initialize()
 
         try:
             with self._vswitch_ctl:
-                with self._vnf_ctl, self._collector, self._loadgen:
-                    if not self._vswitch_none:
+                with self._vnf_ctl, self._pod_ctl, self._collector, self._loadgen:
+                    if not self._vswitch_none and not self._k8s:
                         self._add_flows()
+                    if self._k8s:
+                        self._add_connections()
 
                     self._versions += self._vswitch_ctl.get_vswitch().get_version()
 
@@ -594,6 +609,43 @@ class TestCase(object):
                 result[key] = ''
 
         return list(result.keys())
+
+    def _add_connections(self):
+        """
+        Add connections for Kubernetes Usecases
+        """
+        logging.info("Kubernetes: Adding Connections")
+        vswitch = self._vswitch_ctl.get_vswitch()
+        bridge = S.getValue('VSWITCH_BRIDGE_NAME')
+        if S.getValue('K8S') and 'sriov' not in S.getValue('PLUGIN'):
+            if 'Ovs' in S.getValue('VSWITCH'):
+                # Add OVS Flows
+                logging.info("Kubernetes: Adding OVS Connections")
+                flow = {'table':'0', 'in_port':'1',
+                        'idle_timeout':'0', 'actions': ['output:3']}
+                vswitch.add_flow(bridge, flow)
+                flow = {'table':'0', 'in_port':'3',
+                        'idle_timeout':'0', 'actions': ['output:1']}
+                vswitch.add_flow(bridge, flow)
+                flow = {'table':'0', 'in_port':'2',
+                        'idle_timeout':'0', 'actions': ['output:4']}
+                vswitch.add_flow(bridge, flow)
+                flow = {'table':'0', 'in_port':'4',
+                        'idle_timeout':'0', 'actions': ['output:2']}
+                vswitch.add_flow(bridge, flow)
+            elif 'vpp' in S.getValue('VSWITCH'):
+                phy_ports = vswictch.get_ports()
+                virt_port0 = 'memif1/0'
+                virt_port1 = 'memif2/0'
+                vswitch.add_connection(bridge, phy_ports[0],
+                                       virt_port0, None)
+                vswitch.add_connection(bridge, virt_port0,
+                                       phy_port[0], None)
+                vswitch.add_connection(bridge, phy_ports[1],
+                                       virt_port1, None)
+                vswitch.add_connection(bridge, virt_port1,
+                                       phy_port[1], None)
+
 
     def _add_flows(self):
         """Add flows to the vswitch
