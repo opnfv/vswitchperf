@@ -22,3 +22,5 @@ pycrypto
 tabulate
 pypsi
 paramiko
+pyyaml>=3.12
+kubernetes
