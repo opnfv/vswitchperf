@@ -73,6 +73,7 @@ class TestCase(object):
         self._hugepages_mounted = False
         self._traffic_ctl = None
         self._vnf_ctl = None
+        self._pod_ctl = None
         self._vswitch_ctl = None
         self._collector = None
         self._loadgen = None
@@ -81,6 +82,7 @@ class TestCase(object):
         self._settings_paths_modified = False
         self._testcast_run_time = None
         self._versions = []
+        self._k8s = False
         # initialization of step driven specific members
         self._step_check = False    # by default don't check result for step driven testcases
         self._step_vnf_list = {}
@@ -216,6 +218,12 @@ class TestCase(object):
 
         self._vnf_list = self._vnf_ctl.get_vnfs()
 
+        self._pod_ctl = component_factory.create_pod(
+            self.deployment,
+            loader.get_pod_class())
+
+        self._pod_list = self._pod_ctl.get_pods()
+
         # verify enough hugepages are free to run the testcase
         if not self._check_for_enough_hugepages():
             raise RuntimeError('Not enough hugepages free to run test.')
@@ -280,6 +288,10 @@ class TestCase(object):
         """
         # Stop all VNFs started by TestSteps in case that something went wrong
         self.step_stop_vnfs()
+
+        if self.k8s:
+            self._pod_ctl.stop()
+
 
         # Cleanup any LLC-allocations
         if S.getValue('LLC_ALLOCATION'):
@@ -356,8 +368,8 @@ class TestCase(object):
 
         try:
             with self._vswitch_ctl:
-                with self._vnf_ctl, self._collector, self._loadgen:
-                    if not self._vswitch_none:
+                with self._vnf_ctl, self._pod_ctl, self._collector, self._loadgen:
+                    if not self._vswitch_none and not self._k8s:
                         self._add_flows()
 
                     self._versions += self._vswitch_ctl.get_vswitch().get_version()

@@ -102,6 +102,19 @@ def create_vnf(deployment_scenario, vnf_class, extra_vnfs):
     """
     return VnfController(deployment_scenario, vnf_class, extra_vnfs)
 
+def create_pod(deployment_scenario, pod_class):
+    """Return a new PodController for the deployment_scenario.
+
+    The returned controller is configured with the given POD class.
+
+    Deployment scenarios: 'pvp', 'pvvp'
+
+    :param deployment_scenario: The deployment scenario name
+    :param pod_class: Reference to pod class to be used.
+    :return: PodController for the deployment_scenario
+    """
+    return PodController(deployment_scenario, pod_class)
+
 def create_collector(collector_class, result_dir, test_name):
     """Return a new Collector of the given class
 
