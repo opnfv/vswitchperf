@@ -1,0 +1,13 @@
+---
+
+- name: Clean userspace-cni
+  include: clear-userspace.yml
+
+- name: Deploy userspace-cni plugin
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('file', 'userspace-daemonset.yml') }}"
+
+
+
