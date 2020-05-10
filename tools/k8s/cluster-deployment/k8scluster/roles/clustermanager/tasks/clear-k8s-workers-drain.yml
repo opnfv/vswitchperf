@@ -1,0 +1,8 @@
+---
+- name: Drain worker node
+  delegate_to: "{{ groups['master'][0] }}"
+  command: kubectl drain {{ ansible_hostname }} --delete-local-data --force --ignore-daemonsets
+
+- name: Delete worker node
+  delegate_to: "{{ groups['master'][0] }}"
+  command: kubectl delete node {{ ansible_hostname }}
