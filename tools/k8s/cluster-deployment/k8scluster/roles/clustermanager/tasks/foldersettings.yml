@@ -1,0 +1,10 @@
+---
+- name: .kube directory creation in $HOME/
+  file:
+    path: $HOME/.kube
+    state: directory
+
+- name: Copying required files
+  shell: |
+   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+   sudo chown $(id -u):$(id -g) $HOME/.kube/config
