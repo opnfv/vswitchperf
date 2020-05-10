@@ -1,0 +1,5 @@
+[master]
+master ansible_host=10.10.120.22 ansible_connection=ssh ansible_ssh_user=ENTER_USER ansible_ssh_pass=ENTER_PASS ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+[workers]
+worker ansible_host=10.10.120.21 ansible_connection=ssh ansible_ssh_user=ENTER_USER ansible_ssh_pass=ENTER_PASS ansible_ssh_common_args='-o StrictHostKeyChecking=no'

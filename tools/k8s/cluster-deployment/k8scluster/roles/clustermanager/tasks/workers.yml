@@ -1,0 +1,16 @@
+---
+- name: check node is already in cluster
+  delegate_to: "{{ groups.master[0] }}"
+  command: "kubectl get nodes -n kube-system -o name"
+  register: get_node_register
+  changed_when: false
+  
+- name: get join command
+  delegate_to: "{{ groups.master[0] }}"
+  become: yes
+  shell: kubeadm token create --print-join-command
+  register: join_command_raw
+  
+- name: join cluster
+  shell: "sudo {{ join_command_raw.stdout_lines[0] }} --ignore-preflight-errors=all > $HOME/node_joined.txt"
+  when: ( 'node/' + ansible_hostname ) not in get_node_register.stdout_lines

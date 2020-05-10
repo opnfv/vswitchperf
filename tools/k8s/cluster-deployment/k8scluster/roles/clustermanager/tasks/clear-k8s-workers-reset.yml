@@ -1,0 +1,11 @@
+---
+- name: Kubeadm reset (worker)
+  shell: yes y | sudo kubeadm reset
+
+- name: Delete /etc/cni/net.d/ (worker) 
+  shell: sudo rm -rf /etc/cni/net.d/
+    
+- name: Remove node_joined.txt
+  file:
+        path: $HOME/node_joined.txt
+        state: absent
