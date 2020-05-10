@@ -1,0 +1,43 @@
+---
+- hosts: master
+  tasks:
+    - name: Drain worker node
+      shell: kubectl drain worker --delete-local-data --force --ignore-daemonsets
+ 
+    - name: Delete worker node
+      shell: kubectl delete node worker
+
+- hosts: worker
+  tasks:
+    - name: Kubeadm reset (worker)
+      shell: yes y | sudo kubeadm reset
+
+    - name: Delete /etc/cni/net.d/ (worker) 
+      shell: sudo rm -rf /etc/cni/net.d/
+    
+    - name: Remove node_joined.txt
+      file:
+        path: $HOME/node_joined.txt
+        state: absent
+
+- hosts: master
+  vars_files:
+  - ../env_variables 
+  tasks:
+    - name: Drain master node
+      shell: kubectl drain master --delete-local-data --force --ignore-daemonsets
+ 
+    - name: Delete master node
+      shell: kubectl delete node master
+ 
+    - name: Kubeadm reset (master)
+      shell: yes y | sudo kubeadm reset
+
+    - name: Delete /etc/cni/net.d/ (master)
+      shell: sudo rm -rf /etc/cni/net.d/
+
+    - name: Delete $HOME/.kube/
+      shell: rm -rf $HOME/.kube/ 
+      
+    - name: Delete init log file
+      shell: rm -rf {{ token_file }} 

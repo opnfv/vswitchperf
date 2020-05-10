@@ -1,0 +1,26 @@
+---
+- hosts: master
+  become: yes
+  tasks:
+    - name: Run kubectl reset command
+      shell: yes y | kubeadm reset --ignore-preflight-errors=all
+
+#    - name: delete all the containers pulled
+#      shell: yes y | docker system prune -a
+    - name: Remove files for .kube
+      file:
+        path: $HOME/.kube
+        state: absent
+    - name: Stopping docker daemon
+      service:
+        name: docker
+        state: stopped
+        enabled: no      
+    - name: Stop Kubelet daemon
+      service:
+        name: kubelet
+        state: stopped
+        enabled: no
+    - name: Delete plugins created by Kubernetes
+      command: rm -rf /opt/cni
+
