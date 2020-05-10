@@ -1,0 +1,35 @@
+- name: include master tasks
+  import_tasks: configure_master_node.yml
+  when: inventory_hostname in groups['master']
+  tags: deploy
+  
+- name: include folder settings for kube config
+  import_tasks: foldersettings.yml
+  when: inventory_hostname in groups['master']
+  tags: deploy
+  
+- name: include network plugin tasks
+  import_tasks: networkplugin.yml
+  when: inventory_hostname in groups['master']
+  tags: deploy, flannel
+  
+- name: include join worker tasks
+  import_tasks: workers.yml
+  when: inventory_hostname in groups['workers']
+  tags: deploy, join
+
+- name: drain and delete workers from master
+  import_tasks: clear-k8s-workers-drain.yml
+  when: inventory_hostname in groups['workers']
+  tags: clear
+  
+- name: reset workers
+  import_tasks: clear-k8s-workers-reset.yml
+  when: inventory_hostname in groups['workers']
+  tags: clear
+  
+- name: clear master
+  import_tasks: clear-k8s-master.yml
+  when: inventory_hostname in groups['master']
+  tags: clear
+  
