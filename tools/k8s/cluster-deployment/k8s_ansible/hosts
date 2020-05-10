@@ -1,0 +1,6 @@
+[master]
+master ansible_host=10.10.120.22 ansible_connection=local ansible_user=opnfv ansible_password=opnfv
+#master ansible_host=10.10.120.22 ansible_connection=ssh ansible_ssh_user=opnfv ansible_ssh_pass=opnfv ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+[worker]
+worker ansible_host=10.10.120.21 ansible_connection=ssh ansible_ssh_user=opnfv ansible_ssh_pass=opnfv ansible_ssh_common_args='-o StrictHostKeyChecking=no'

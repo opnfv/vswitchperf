@@ -1,0 +1,5 @@
+---
+- import_playbook: playbooks/configure_master_node.yml
+- import_playbook: playbooks/foldersettings.yml
+- import_playbook: playbooks/networkplugin.yml
+- import_playbook: playbooks/workers.yml 

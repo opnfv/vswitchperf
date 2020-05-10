@@ -1,0 +1,3 @@
+---
+- import_playbook: playbooks/prerequisites.yml
+- import_playbook: playbooks/setting_up_nodes.yml
