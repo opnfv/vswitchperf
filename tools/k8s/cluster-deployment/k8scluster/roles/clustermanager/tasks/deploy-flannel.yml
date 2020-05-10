@@ -1,0 +1,11 @@
+---
+
+- name: Clean flannel
+  import_tasks: clear-flannel.yml
+
+- name: Deploy Kube-flannel
+  k8s:
+    state: present
+    definition: "{{ lookup('file', 'kube-flannel-daemonset.yml') }}"
+    wait: yes
+
