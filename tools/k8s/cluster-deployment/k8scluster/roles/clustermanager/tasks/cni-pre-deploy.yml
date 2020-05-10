@@ -1,0 +1,19 @@
+---
+
+- name: Install openshift python package
+  pip:
+    name: openshift
+    executable: "{{ PIP_executable_version }}"
+  when: inventory_hostname in groups['master']
+  become: yes
+
+- name: Check whether /etc/cni/net.d/ exists
+  stat:
+    path: /etc/cni/net.d
+  register: files_to_delete
+
+- name: Delete /etc/cni/net.d/ 
+  become: yes
+  shell: sudo rm -r /etc/cni/net.d/
+  when: files_to_delete.stat.exists and files_to_delete.stat.isdir
+  

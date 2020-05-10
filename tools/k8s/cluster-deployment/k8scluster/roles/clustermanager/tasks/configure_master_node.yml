@@ -1,0 +1,14 @@
+---
+- name: Pulling images required for setting up a Kubernetes cluster
+  become: yes
+  shell: kubeadm config images pull
+
+- name: Initializing Kubernetes cluster
+  become: yes
+  shell: kubeadm init --apiserver-advertise-address={{kube_ad_addr}} --pod-network-cidr={{kube_cidr_v}}
+  register: output
+
+- name: Storing Logs and Generated token for future purpose.
+  local_action: copy content={{ output.stdout }} dest={{ token_file }}
+
+    

@@ -1,0 +1,10 @@
+---
+
+- name: Clear Multus
+  include: clear-multus.yml
+
+- name: Deploy Multus
+  k8s:
+    state: present
+    definition: "{{ lookup('file', 'multus-daemonset.yml') }}"
+

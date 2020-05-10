@@ -1,0 +1,8 @@
+---
+
+- name: Delete Kube-flannel
+  k8s:
+    state: absent
+    definition: "{{ lookup('file', 'kube-flannel-daemonset.yml') }}"
+
+

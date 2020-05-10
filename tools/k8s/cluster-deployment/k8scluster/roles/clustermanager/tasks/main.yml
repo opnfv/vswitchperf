@@ -1,0 +1,88 @@
+- name: include master tasks
+  import_tasks: configure_master_node.yml
+  when: inventory_hostname in groups['master']
+  tags: deploy
+  
+- name: include folder settings for kube config
+  import_tasks: foldersettings.yml
+  when: inventory_hostname in groups['master']
+  tags: deploy
+  
+- name: include join worker tasks
+  import_tasks: workers.yml
+  when: inventory_hostname in groups['workers']
+  tags: deploy, join
+
+- name: cni pre-deploy
+  import_tasks: cni-pre-deploy.yml
+  tags: deploy, cni
+
+- name: deploy flannel
+  import_tasks: deploy-flannel.yml
+  when: inventory_hostname in groups['master']
+  tags: deploy, cni
+
+- name: clear flannel
+  import_tasks: clear-flannel.yml
+  when: inventory_hostname in groups['master']
+  tags: clear
+
+- name: deploy multus
+  import_tasks: deploy-multus.yml
+  when: inventory_hostname in groups['master']
+  tags: deploy, cni
+
+- name: clear multus
+  import_tasks: clear-multus.yml
+  when: inventory_hostname in groups['master']
+  tags: clear
+
+- name: deploy kubevirt-ovs
+  import_tasks: deploy-kubevirt-ovs.yml
+  when: inventory_hostname in groups['master']
+  tags: deploy, cni
+
+- name: clear kubevirt-ovs
+  import_tasks: clear-kubevirt-ovs.yml
+  when: inventory_hostname in groups['master']
+  tags: clear
+
+- name: deploy sriov
+  import_tasks: deploy-sriov.yml
+  when: inventory_hostname in groups['master']
+  tags: deploy, cni
+
+- name: clear sriov
+  import_tasks: clear-sriov.yml
+  when: inventory_hostname in groups['master']
+  tags: clear
+
+- name: deploy userspace
+  import_tasks: deploy-userspace.yml
+  when: inventory_hostname in groups['master']
+  tags: deploy, cni
+
+- name: clear userspace
+  import_tasks: clear-userspace.yml
+  when: inventory_hostname in groups['master']
+  tags: clear
+
+- name: drain and delete workers from master
+  import_tasks: clear-k8s-workers-drain.yml
+  when: inventory_hostname in groups['workers']
+  tags: clear
+  
+- name: reset workers
+  import_tasks: clear-k8s-workers-reset.yml
+  when: inventory_hostname in groups['workers']
+  tags: clear
+  
+- name: clear master
+  import_tasks: clear-k8s-master.yml
+  when: inventory_hostname in groups['master']
+  tags: clear
+
+
+
+
+

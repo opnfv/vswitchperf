@@ -1,0 +1,30 @@
+---
+
+- name: Delete SRIOV CNI Daemonset
+  k8s:
+    state: absent
+    apply: yes
+    definition: "{{ lookup('file', 'sriov-cni-daemonset.yaml') }}"
+
+- name: Delete SRIOV Device Plugin
+  k8s:
+    state: absent
+    apply: yes
+    definition: "{{ lookup('file', 'sriov-device-plugin-daemonset.yaml') }}"
+
+- name: Deploy SRIOV Device Plugin Config
+  k8s:
+    state: absent
+    apply: yes
+    definition: "{{ lookup('file', 'configMap-sriov-device-plugin.yaml') }}"
+
+
+
+
+
+
+
+
+
+
+

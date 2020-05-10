@@ -1,0 +1,26 @@
+---
+
+- name: clean sriov
+  include: clear-sriov.yml
+
+- name: Deploy SRIOV Device Plugin Config
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('file', 'configMap-sriov-device-plugin.yaml') }}"
+    wait: yes
+
+- name: Deploy SRIOV Device Plugin
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('file', 'sriov-device-plugin-daemonset.yaml') }}"
+
+- name: Deploy SRIOV CNI 
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('file', 'sriov-cni-daemonset.yaml') }}"
+
+
+
