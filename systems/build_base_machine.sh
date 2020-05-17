@@ -71,8 +71,11 @@ else
     die "$distro_dir is not yet supported"
 fi
 
-if [ ! -d /lib/modules/`uname -r`/build ] ; then
-    die "Kernel devel is not available for active kernel. It can be caused by recent kernel update. Please reboot and run $0 again."
+if [ $# -eq 0 ]; then
+    echo "No parameters provided - continuing with Lib checking"
+    if [ ! -d /lib/modules/`uname -r`/build ] ; then
+        die "Kernel devel is not available for active kernel. It can be caused by recent kernel update. Please reboot and run $0 again."
+    fi
 fi
 
 if [ $# -eq 0 ]; then
