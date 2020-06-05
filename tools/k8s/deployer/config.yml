@@ -1,0 +1,40 @@
+---
+
+###################################
+# Installer configuration
+###################################
+#
+# Current Support:
+#  1. Flannel
+#  2. Multus
+#  3. Kubevirt-ovs
+#  4. Intel-sriov (also deploys Intel-sriov-device-plugin)
+#  5. Intel-userspace
+#
+
+# Action to perform
+#       values: provision, deprovision
+action: provision
+
+# Default network for pod
+#       values: flannel
+default_network: flannel
+
+# CNI-multiplexer to use
+#       values: multus
+cni_multiplexer: multus
+
+
+
+###################################
+# Target host configuration
+###################################
+
+# Override these values to change target host
+target_host: 10.10.120.22
+target_user: opnfv
+target_pasword: opnfv
+
+# Version of pip executable to use
+PIP_executable_version: pip3.6
+

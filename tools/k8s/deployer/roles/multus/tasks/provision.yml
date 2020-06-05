@@ -1,0 +1,10 @@
+---
+
+- name: Clean
+  include: deprovision.yml
+
+- name: Deploy Multus
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'multus-daemonset.yml') }}"
+

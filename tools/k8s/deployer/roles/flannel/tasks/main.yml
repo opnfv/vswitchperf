@@ -1,0 +1,5 @@
+---
+
+- name: "Flannel {{action}}"
+  include: "{{action}}.yml"
+

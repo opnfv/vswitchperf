@@ -1,0 +1,5 @@
+---
+
+- name: "Intel-SRIOV {{action}}"
+  include: "{{action}}.yml"
+

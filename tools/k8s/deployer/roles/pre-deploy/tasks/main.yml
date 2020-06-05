@@ -1,0 +1,7 @@
+---
+
+- name: "Pre-deploy actions"
+  include: "pre-deploy.yml"
+  when:
+    - action == "provision"
+

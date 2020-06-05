@@ -1,0 +1,40 @@
+---
+## Load default hosts if hosts inventory not overridden
+- name: Loading target...
+  hosts: localhost
+  connection: local
+  vars:
+    host_found: "{{ groups['all'] | length > 0}}"
+  vars_files:
+    # importing config.yml from multiple places for overriding vars based on precedence
+    - config.yml
+    - ["../playbooks/config.yml", "../playbooks/config.yaml", "config.yml"]
+  tasks:
+  - name: Loading inventory from config.yml...
+    add_host:
+      name: master
+      groups: all
+      ansible_host: "{{target_host}}"
+      ansible_connection: ssh 
+      ansible_user: "{{target_user}}"
+      ansible_password: "{{target_pasword}}"
+      ansible_sudo_pass: "{{target_pasword}}"
+    when:  not host_found
+
+
+
+- name: Executing K8s deployer
+  hosts: all
+  vars_files:
+    # importing config.yml from multiple places for overriding vars based on precedence
+    - config.yml
+    - ["../playbooks/config.yml", "../playbooks/config.yaml", "config.yml"]
+  roles:
+    - {role: pre-deploy           }
+    - {role: "{{default_network}}"}
+    - {role: "{{cni_multiplexer}}"}
+    - {role: kubevirt-ovs         }
+    - {role: intel-sriov          }
+    - {role: intel-userspace      }
+
+

@@ -1,0 +1,5 @@
+---
+
+- name: "Multus {{action}}"
+  include: "{{action}}.yml"
+

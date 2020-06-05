@@ -1,0 +1,8 @@
+---
+
+- name: Delete Multus
+  k8s:
+    state: absent
+    definition: "{{ lookup('template', 'multus-daemonset.yml') }}"
+
+

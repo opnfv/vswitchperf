@@ -1,0 +1,5 @@
+---
+
+- name: "Intel-Userspace-CNI {{action}}"
+  include: "{{action}}.yml"
+

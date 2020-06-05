@@ -1,0 +1,26 @@
+---
+
+- name: Clean
+  include: deprovision.yml
+
+- name: Deploy SRIOV Device Plugin Config
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('template', 'configMap-sriov-device-plugin.yaml') }}"
+    wait: yes
+
+- name: Deploy SRIOV Device Plugin
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('template', 'sriov-device-plugin-daemonset.yaml') }}"
+
+- name: Deploy SRIOV CNI 
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('template', 'sriov-cni-daemonset.yaml') }}"
+
+
+

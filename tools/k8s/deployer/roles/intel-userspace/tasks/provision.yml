@@ -1,0 +1,13 @@
+---
+
+- name: Clean
+  include: deprovision.yml
+
+- name: Deploy userspace-cni plugin
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('template', 'userspace-daemonset.yml') }}"
+
+
+
