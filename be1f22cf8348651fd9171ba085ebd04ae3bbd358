@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f46142c8_2cf66cab",
+        "filename": "tools/k8s/cluster-deployment/k8scluster/README.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-07-14T17:07:20Z",
+      "side": 1,
+      "message": "Do specifications of fractional cores make sense?",
+      "revId": "be1f22cf8348651fd9171ba085ebd04ae3bbd358",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00513799_6007bf2d",
+        "filename": "tools/k8s/cluster-deployment/k8scluster/README.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-07-14T17:07:20Z",
+      "side": 1,
+      "message": "Add URL of repo needed for this step",
+      "revId": "be1f22cf8348651fd9171ba085ebd04ae3bbd358",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    }
+  ]
+}
