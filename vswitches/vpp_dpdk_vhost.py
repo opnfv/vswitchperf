@@ -104,12 +104,20 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
             tmpif = iface.split()
             if not tmpif:
                 continue
+            if 'Link' in iface or 'local' in iface:
+                continue
             # get PCI address of given interface
             output = self.run_vppctl(['show', 'hardware', tmpif[1], 'detail'])
-            match = re.search(r'pci address:\s*([\d:\.]+)', output[0])
+            lines = output[0].split('\n')
+            #match = re.search(r'pci address:\s*([\d:\.]+)', output[0])
+            match = ''
+            for line in lines:
+                if "pci:" in line:
+                    match = line.split(' ')[6]
             if match:
                 # normalize PCI address, e.g. 0000:05:10.01 => 0000:05:10.1
-                tmp_pci = match.group(1).split('.')
+                tmp_pci = match.split('.')
+                # tmp_pci = match.group(1).split('.')
                 tmp_pci[1] = str(int(tmp_pci[1]))
                 tmpif.append('.'.join(tmp_pci))
             else:
