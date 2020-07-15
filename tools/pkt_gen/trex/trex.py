@@ -594,9 +594,14 @@ class Trex(ITrafficGenerator):
         :return: passing stats as dictionary
         """
         threshold = settings.getValue('TRAFFICGEN_TREX_RFC2544_TPUT_THRESHOLD')
+        max_repeat = settings.getValue('TRAFFICGEN_TREX_RFC2544_MAX_REPEAT')
+        loss_verification = settings.getValue('TRAFFICGEN_TREX_RFC2544_BINARY_SEARCH_LOSS_VERIFICATION')
+        if loss_verification:
+            self._logger.info("Running Binary Search with Loss Verification")
         stats_ok = _EMPTY_STATS
         new_params = copy.deepcopy(traffic)
         iteration = 1
+        repeat = 0
         left = boundaries['left']
         right = boundaries['right']
         center = boundaries['center']
@@ -620,11 +625,20 @@ class Trex(ITrafficGenerator):
             if test_lossrate == 0.0 and new_params['frame_rate'] == traffic['frame_rate']:
                 return copy.deepcopy(stats)
             elif test_lossrate > lossrate:
+                if loss_verification:
+                    if repeat < max_repeat:
+                        repeat += 1
+                        iteration += 1
+                        continue
+                    else:
+                        repeat = 0
                 right = center
                 center = (left + right) / 2
                 new_params = copy.deepcopy(traffic)
                 new_params['frame_rate'] = center
             else:
+                if loss_verification:
+                    repeat = 0
                 stats_ok = copy.deepcopy(stats)
                 left = center
                 center = (left + right) / 2
