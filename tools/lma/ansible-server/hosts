@@ -1,0 +1,12 @@
+[all]
+10.10.120.211 ansible_connection=ssh ansible_ssh_user=root ansible_sudo_pass=P@ssw0rd ansible_ssh_pass=P@ssw0rd
+10.10.120.203 ansible_connection=ssh ansible_ssh_user=root ansible_sudo_pass=P@ssw0rd ansible_ssh_pass=P@ssw0rd
+10.10.120.204 ansible_connection=ssh ansible_ssh_user=root ansible_sudo_pass=P@ssw0rd ansible_ssh_pass=P@ssw0rd
+
+
+[master]
+10.10.120.211 ansible_connection=ssh ansible_ssh_user=root ansible_sudo_pass=P@ssw0rd ansible_ssh_pass=P@ssw0rd
+
+[worker-nodes]
+10.10.120.203 ansible_connection=ssh ansible_ssh_user=root ansible_sudo_pass=P@ssw0rd ansible_ssh_pass=P@ssw0rd
+10.10.120.204 ansible_connection=ssh ansible_ssh_user=root ansible_sudo_pass=P@ssw0rd ansible_ssh_pass=P@ssw0rd

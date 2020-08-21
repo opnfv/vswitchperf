@@ -1,0 +1,44 @@
+# Copyright 2020 Adarsh yadav, Aditya Srivastava
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#Pre-requisites for k8s and NFS server
+- name: Pre-requisites for k8s in all the nodes
+  hosts: all
+  roles:
+    - k8s-pre
+    - nfs
+
+#master setup for k8s
+- name: master setup for k8s
+  hosts: master
+  roles:
+    - k8s-master
+
+#worker setup for k8s
+- name: worker setup for k8s
+  hosts: worker-nodes
+  roles:
+    - k8s-worker
+
+#EFK setup in k8s
+- name: EFK setup in k8s
+  hosts: master
+  roles:
+    - logging
+
+#PAG setup in k8s
+- name: PAG setup in k8s
+  hosts: master
+  roles:
+    - monitoring

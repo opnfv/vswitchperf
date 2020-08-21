@@ -1,0 +1,68 @@
+# Copyright 2020 Adarsh yadav
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-key
+data:
+  kibana-access.key: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDI92SBrcEdzxqS
+      rt883bVcj4F4RuKtm+AjjOEhbFUd3XOp5Wa5NzyYQSTP9ZJHG0dYiTAKOJBVcgbc
+      YRMNUAzHAIskf1q2/SvwyLNRMJLkBD5HHjbnEcuKQm/+nPdzkfvo2zfRNTDPKS83
+      HqFQ779hT8ZLkSzoPuR0QD17ZNWYVMZv/r9wqnjX8U/k5AjrJOIxuaO9nGAgv2Pu
+      Qm6wuU8UBEaMRgPVHQ3ztflQr9QPr/S6HU0cl4Gu+Nwid6iC1RVYxANNq7E7wRvq
+      GMKRS5cA9Nlnu/b7IEI4LSx5yeTSDzwmZKTNnUWi2cpqk30M4G4cUokoz9bP+62I
+      YWEh3B8HAgMBAAECggEBAI1luzqepTSzBhBUp88sczGX6tFUlqLt/Ism0TPyBAVK
+      TdopBNima6T4mM0VDIGpSM6bX8ihObRU0Uz3pC8GtqbB1CSu0oXTpbn5jGlAkumJ
+      rsPdF2YHGD3ENwZfLKANA8A3lZNGKHxpjsXqcDgBJ5dxSKTclUsnDRhaJqgOL1bI
+      d9QCXdA1vbpxHDJWSo73E7omv3AyHi3HxMWU4gzyerUFSMFGqm0W5dPeeresNE3a
+      bv9/46YdykufuRuJZqsUDLCgUUcJPhbE5iOrB4iv8oaDqT0onxwzRQTSgidPxbp2
+      EmjVHpFCACltOKSqELM4+PQFCk8xUBya8HWD5UHrVDkCgYEA4y3WwmhtLUT/g3G3
+      cowvmxjgPl6xqkqTA7Xcdc3sk+6/jS1kayT5TL1qfpd1QL/K617jva9mfSMZ8ei9
+      Y7M/2QkSb0uHKulGR0+if+7sT0L8OYO/OE7c+HTZmZK4hD1CCJN2M34D9Qo2fzQ6
+      4v+AO1wGiAtiNev0YIBKYNSco+sCgYEA4nY8m93XuC19z991sFRvE0UBeKcN2esg
+      TwY9UuYHJ56s+6UozkUgZArwYFW8LWFeIjkrrKELBNDsmJtTZ006TyUWxY/ccdjV
+      fJZTLV3niv6IQzy74aOmXV2vtNjxyBlllT9mvig6T0t0TvAtolsuSVHBL09zxcy4
+      wN4pGIfqllUCgYBYLq/hMKXIX7MK87YwqYfFHWfV7e3q2x2r4AjeVXuShKcoBsmm
+      6Wg3yIKw9tuVsZzzthaSx6XxxxFIHH5/V9Hdzi6wstGZ74jPH3NFU5m4vpinPqOY
+      GMyfSMQ6X4BuHFUofQzxueWRVVCIGd8Nw/2jjPogDsMliRyH5OR6J61R1wKBgEa6
+      8SEpf7fJlZL4UzS4mlylX9lEK+JVOqkT5NFggPmR6KtMIVuTYZN9iyg7fuOZlqIP
+      wyFOxzdA3bSoRrtr9ntDtUINNaflNoCMHvx7aNcTupFthazqxQpCOZ+9Zn691+lu
+      fPOFcvjTM0d4YnhkDCfgPfs90IYF8+phOOqtgMplAoGBAI+mcaUH7ADYxlONCi1E
+      gNHRvHJRBdQBaydKUfPxbe3vS5QJb8Gb5RU46vDl3w+YHUVwUi+Hj68zuKExXxhD
+      9CGTAQIejtHWScZ1Djl3bcvNa/czHyuNVsGwvJ3fy1JzpxRmUUMPSdJ90A1n57Tk
+      LFEmZhwaj7YF869wfKngQ57d
+      -----END PRIVATE KEY-----
+  kibana-access.pem: |
+      -----BEGIN CERTIFICATE-----
+      MIIDVzCCAj+gAwIBAgIJAIQzf1mxHsvgMA0GCSqGSIb3DQEBCwUAMEIxCzAJBgNV
+      BAYTAlhYMRUwEwYDVQQHDAxEZWZhdWx0IENpdHkxHDAaBgNVBAoME0RlZmF1bHQg
+      Q29tcGFueSBMdGQwHhcNMjAwNjI1MTY1NzQ3WhcNMjEwNjI1MTY1NzQ3WjBCMQsw
+      CQYDVQQGEwJYWDEVMBMGA1UEBwwMRGVmYXVsdCBDaXR5MRwwGgYDVQQKDBNEZWZh
+      dWx0IENvbXBhbnkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
+      yPdkga3BHc8akq7fPN21XI+BeEbirZvgI4zhIWxVHd1zqeVmuTc8mEEkz/WSRxtH
+      WIkwCjiQVXIG3GETDVAMxwCLJH9atv0r8MizUTCS5AQ+Rx425xHLikJv/pz3c5H7
+      6Ns30TUwzykvNx6hUO+/YU/GS5Es6D7kdEA9e2TVmFTGb/6/cKp41/FP5OQI6yTi
+      MbmjvZxgIL9j7kJusLlPFARGjEYD1R0N87X5UK/UD6/0uh1NHJeBrvjcIneogtUV
+      WMQDTauxO8Eb6hjCkUuXAPTZZ7v2+yBCOC0secnk0g88JmSkzZ1FotnKapN9DOBu
+      HFKJKM/Wz/utiGFhIdwfBwIDAQABo1AwTjAdBgNVHQ4EFgQUrz/R+M2XkTTfjrau
+      VVBW6+pdatgwHwYDVR0jBBgwFoAUrz/R+M2XkTTfjrauVVBW6+pdatgwDAYDVR0T
+      BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAyIhJLwg9oTil0Rb1zbYQb0Mr0UYz
+      rlS4f8QkxygkGLAZ8q9VkR+NpKfqhYDSHofGg5Yg5/p54NRJh5M4ASuM7N9AK0LH
+      KbCvS+YRNWhmo+7H7zjDNkV8FbzG41nkt9jQjaKFF7GdKr4HkWvupMX6PwsAZ0jI
+      b2Y6QzFQP9wF0QoBHrK42u3eWbfYv2IIDd6xsV90ilKRDtKkCiI4dyKGK46YDyZB
+      3eqJ08Pm67HDbxQLydRXkNJvd33PASRgE/VOh44n3xWG+Gu4IMz7EO/4monyuv1Q
+      V2v1A9NV+ZnAq4PT7WJY7fWYavDUr+kwxMAGNQkG/Cg3X4FYrRwrq6gk7Q==
+      -----END CERTIFICATE-----
