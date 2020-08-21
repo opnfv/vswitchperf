@@ -1,0 +1,42 @@
+# Copyright 2020 Adarsh yadav, Aditya Srivastava
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+#create Dir /srv/nfs
+- name: Create Directory for elasticserch
+  file: path="/srv/nfs/{{item}}" state=directory
+  with_items:
+    - ['data', 'master']
+
+- name: Create Directory for grafana
+  file: path="/usr/share/monitoring_data/grafana" state=directory
+
+#installing NFS
+- name: Installing NFS server utils
+  yum:
+    name: nfs-utils
+    state: present
+
+#update /etc/export file
+- name: Edit /etc/export file for NFS
+  lineinfile: path=/etc/exports line="{{item.line}}"
+  with_items:
+    - {line: "/srv/nfs/master   *(rw,sync,no_root_squash,no_subtree_check)"}
+    - {line: "/srv/nfs/data     *(rw,sync,no_root_squash,no_subtree_check)"}
+    - {line: "/usr/share/monitoring_data/grafana     *(rw,sync,no_root_squash,no_subtree_check)"}
+
+#starting NFS service
+- name: 'starting NFS service'
+  service:
+    name: nfs
+    state: restarted
