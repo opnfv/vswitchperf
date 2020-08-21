@@ -1,0 +1,72 @@
+# Copyright 2020 Adarsh yadav, Aditya Srivastava
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+
+#Disabling Swap
+- name: Disabling Swap on all nodes
+  shell: swapoff -a
+
+#Commenting Swap entries
+- name: Commenting Swap entries in /etc/fstab
+  replace:
+   path: /etc/fstab
+   regexp: '(^/.*swap*)'
+   replace: '# \1'
+
+#Stopping firewalld
+- name: 'Stopping firewall'
+  service:
+   name: firewalld
+   state: stopped
+   enabled: no
+
+#Disabling SELinux
+- name: Disabling SELinux on all nodes
+  shell: |
+    setenforce 0
+    sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+#installing docker
+- name: Installing Docker
+  shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+#Adding K8s repo
+- name: Adding repository details in Kubernetes repo file.
+  blockinfile:
+   path: /etc/yum.repos.d/kubernetes.repo
+   block: |
+    [kubernetes]
+    name=Kubernetes
+    baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+    enabled=1
+    gpgcheck=1
+    repo_gpgcheck=1
+    gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+      https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+
+#installing K8s ans docker
+- name: Installing K8s
+  yum:
+   name: ['kubeadm', 'kubectl', 'kubelet', 'docker-ce']
+   state: present
+
+#Starting docker and kubelet services
+- name: Starting and Enabling the required services
+  service:
+   name: "{{ item }}"
+   state: started
+   enabled: yes
+  with_items:
+   - docker
+   - kubelet

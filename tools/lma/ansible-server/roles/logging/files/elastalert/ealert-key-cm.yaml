@@ -1,0 +1,68 @@
+# Copyright 2020 Adarsh yadav
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elastalert-key
+data:
+  elastalert.key: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC0uQ+B0gy3VB4w
+      5CeWOx575lqSUuYvrGW3ILpV1gmj0ZZCMZUGvt4UvaCEaNPIAqNaHPmaslQqJb5C
+      PJH9pMN7vUVp3DACzmYrS4HdROHamn5gjebXs4hq43heLaIB1Kb+4F+7sEY88irK
+      xOevadcN35y5ld7lVUGRsj6JYcweaAeh/YZ/HaBT5RfdGF+x07NDus+mFqT8j3PD
+      rs2+JtEvEoWtjcxwFgloc9GkHsWZoV1AQHgyAWjmDXZtZeV0HQSkl7hWFG9vxTni
+      DvdrdhX0g+D+u8jWnlR4Za4jd64KbTp9C9trSHyMSRIvN5obm/H8O5MQ+sZ+NQ0X
+      PdK92MjbAgMBAAECggEASbRPxrpLxVjhFz91haeGvzErLxHwHvFIam9Gj0tDkzQe
+      +9AM3ztohzzvAhFejevFgzLd+WFRQf8yoQDi6XcQ4p5GeO38Bqj2siGRTRSSp/zq
+      HabBxqbJtA4hQQeLUwPPN5N6d6lke+an3RqBAuE/e8D+whGFXjJvE2SGbLEd9if2
+      uzHj37sPsVi8kRvgZBDOozmt7YFzQVO/1V+4Lw6nz48M3t+hOHaUXY0Yd8nsk5A6
+      kgoDQ4CGUHjtWfSrccZrYNk51Zows9/sX8axfJ94wKJSImWJcuW9PXIQhzT4exnH
+      sPOwY6Noy3nXRk9gcchT60fKpp+tsJZk3ezkwSpgwQKBgQDvsaYcbnIVdFZpaNKF
+      Tmt/w60CmfGeNozRygfi84ot7edUf93cB6WSKChcAE8fbq9Ji5USPNtfbnZfFXsI
+      IyTr2KHW3RkHuDEyu+Lan9JuReEH3QOG83vvN/oYA3J3hqUTCjEGkPjqnoFtdk8L
+      f7WH1jZvXYEMo0C48SXo+yGohQKBgQDBBGkzL928j1QB9NfiNFk70EalDsF8Im2W
+      n8bQ54KYspUybKD/Hmw0jIV7kdu2vhgGC4RYkn9c5qATtulbYJUgUBelaSi0vhXT
+      gfAuO+JIIZ50P+mkkxH/KIUyu1xWUB2jtMulqLLomdoBvfp/u51qCY6fT3WMCB+R
+      ouWLr2oZ3wKBgQCAuas4AaiLFRuDKKRGq0LYLsIvb3VvPmSKFjH+FETVPbrKipEf
+      pYup3p8uKYxUmSDSIoBAdyZpLe2sSuD0Ecu2TXU86yiSGL1zPawrNUHRrv2XN365
+      bvHUGv/Y/aDvyAPHIeYKXLkRZ2ai3rK8vi1Dcitxy4mOu+36ZKezY4tD8QKBgQCd
+      hakJUj4nPd20fwqUnF5a1z5gRGuZkEtZiunp4ZaOYegrL8YwjraGKExjrYTfXcIj
+      ZNDMrDpvKfRoQnWt0mPB7DtwDiNfZmZPqBLI2Kxya6VygBqA6lncoEgcQBY6hsW5
+      rbopZ0UjWTQ3CcFe71GnkUcpMuLetl51L7kgR7dShwKBgQC+vqjhe/h081JGLTo1
+      tKeRUCaDA/V3VHjFKgM5g+S3/KzgU/EaB1rq3Qja1quGv0zHveca3zibdNQi1ENm
+      KSutWh2zQXzzvmycPmVcthhOxaKzRXDjG0mXiA0bnSgK3F2o9t4196RYhIiiSvAH
+      shVjZMTK04h8ciTLIqK/GtZr+g==
+      -----END PRIVATE KEY-----
+  elastalert.pem: |
+      -----BEGIN CERTIFICATE-----
+      MIIDVzCCAj+gAwIBAgIJAORgkR7Y0Nk9MA0GCSqGSIb3DQEBCwUAMEIxCzAJBgNV
+      BAYTAlhYMRUwEwYDVQQHDAxEZWZhdWx0IENpdHkxHDAaBgNVBAoME0RlZmF1bHQg
+      Q29tcGFueSBMdGQwHhcNMjAwNjI4MTM1NjAwWhcNMjEwNjI4MTM1NjAwWjBCMQsw
+      CQYDVQQGEwJYWDEVMBMGA1UEBwwMRGVmYXVsdCBDaXR5MRwwGgYDVQQKDBNEZWZh
+      dWx0IENvbXBhbnkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
+      tLkPgdIMt1QeMOQnljsee+ZaklLmL6xltyC6VdYJo9GWQjGVBr7eFL2ghGjTyAKj
+      Whz5mrJUKiW+QjyR/aTDe71FadwwAs5mK0uB3UTh2pp+YI3m17OIauN4Xi2iAdSm
+      /uBfu7BGPPIqysTnr2nXDd+cuZXe5VVBkbI+iWHMHmgHof2Gfx2gU+UX3RhfsdOz
+      Q7rPphak/I9zw67NvibRLxKFrY3McBYJaHPRpB7FmaFdQEB4MgFo5g12bWXldB0E
+      pJe4VhRvb8U54g73a3YV9IPg/rvI1p5UeGWuI3euCm06fQvba0h8jEkSLzeaG5vx
+      /DuTEPrGfjUNFz3SvdjI2wIDAQABo1AwTjAdBgNVHQ4EFgQUFAvjohHTavHmbRbj
+      Yq2h3cq7UMEwHwYDVR0jBBgwFoAUFAvjohHTavHmbRbjYq2h3cq7UMEwDAYDVR0T
+      BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAB9oDASl4OfF/D49i3KtVzjzge4up
+      WssBPYKVwASh3cXfLLe3NdY9ihdCXFd/8Rus0hBGaRPIyR06sZoHRDEfJ2xrRD6g
+      pr4iHRfaoEWqols7+iW0cgQehvw5efEpFL1vg9zK9kOwruS4ZUhDrak6GcO/O8Jh
+      6lSGmidHSHrQmfqFeTotaezwylV/uHvRZHPvk2JhQfC+vFjn5/iN/0wCeQCwYvOC
+      rePq2ZFdYg/0bS9BYwKsT2w1Z/AU/wIMLmbNB1af+fTBBEQlxb4rAeDb+J9EoSQ5
+      MVP7jm3BVnHQCs6CA4LV4yRQNF2K6GkWem1oUg/H3S2SG8TAUlKpX/1XRw==
+      -----END CERTIFICATE-----
