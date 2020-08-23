@@ -1,0 +1,44 @@
+Hostname "{{ host_name }}"
+Interval     10
+LoadPlugin intel_rdt
+LoadPlugin processes
+LoadPlugin interface
+LoadPlugin network
+LoadPlugin ovs_stats
+LoadPlugin cpu
+LoadPlugin memory
+#LoadPlugin csv
+#LoadPlugin write_http
+#LoadPlugin dpdkstat
+##############################################################################
+# Plugin configuration                                                       #
+##############################################################################
+<Plugin processes>
+        ProcessMatch "ovs-vswitchd" "ovs-vswitchd"
+        ProcessMatch "ovsdb-server" "ovsdb-server"
+        ProcessMatch "collectd" "collectd"
+</Plugin>
+
+<Plugin cpu>
+  ReportByCpu true
+  ReportByState true
+  ValuesPercentage true
+  ReportNumCpu true
+  ReportGuestState false
+  SubtractGuestState false
+</Plugin>
+
+<Plugin network>
+  Server "10.10.120.211" "30826"
+</Plugin>
+
+<Plugin ovs_stats>
+  Port "6640"
+  Address "127.0.0.1"
+  Socket "/usr/local/var/run/openvswitch/db.sock"
+  Bridges "vsperf-br0"
+</Plugin>
+
+<Plugin "intel_rdt">
+  Cores "2" "4-5" "6-7" "8" "9" "22" "23" "24" "25" "26" "27"
+</Plugin>

@@ -1,0 +1,68 @@
+# Copyright 2020 Aditya Srivastava.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    adi10hero.monitoring: grafana
+    app: grafana
+  name: grafana
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      adi10hero.monitoring: grafana
+      app: grafana
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: grafana
+      labels:
+        adi10hero.monitoring: grafana
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: grafana/grafana
+        ports:
+        - containerPort: 3000
+        env:
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          value: admin
+        - name: GF_SECURITY_ADMIN_USER
+          value: admin
+        - name: GF_SERVER_DOMAIN
+          value: 10.10.120.20
+        - name: GF_SERVER_ROOT_URL
+          value: "%(protocol)s://%(domain)s:/metrics"
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - mountPath: /var/lib/grafana
+          name: grafana-storage
+        - mountPath: /etc/grafana/provisioning/datasources
+          name: grafana-datasources
+          readOnly: false
+      restartPolicy: Always
+      volumes:
+      - name: grafana-storage
+        persistentVolumeClaim:
+          claimName: grafana-pvc
+      - name: grafana-datasources
+        configMap:
+          defaultMode: 420
+          name: grafana-datasources

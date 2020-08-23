@@ -1,0 +1,60 @@
+# Copyright 2020 Aditya Srivastava
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+---
+
+# Dependency check
+- name: Check and install dependencies
+  yum:
+    name: ['docker', 'python-docker-py']
+    state: present
+
+- name: Install pip
+  yum:
+    name: python-pip
+    state: present
+
+- name: install docker-py
+  pip: name=docker-py
+
+- name: Cloning barometer
+  git:
+    repo: https://gerrit.opnfv.org/gerrit/barometer
+    dest: /tmp/barometer
+
+- name: Create Folder
+  file:
+    path: /tmp/barometer/docker/src/collectd_sample_configs
+    state: directory
+
+# Build collectd
+- name: Downlaod and Build Image
+  command: chdir=/tmp/ {{ item }}
+  become: true
+  with_items:
+  - docker build -t opnfv/barometer-collectd -f barometer/docker/barometer-collectd/Dockerfile barometer/docker/barometer-collectd
+
+# Configuring collectd0
+- name: Ensure collectd is configured
+  template:
+    src: ../files/collectd.conf.j2
+    dest: /tmp/barometer/docker/src/collectd_sample_configs/collectd.conf
+
+# Running Collectd container #####################
+- name: Running collectd
+  command : chdir=/tmp/ {{ item }}
+  become: true
+  with_items:
+  - docker run -tid --name collectd --net=host -v /tmp/barometer/docker/src/collectd_sample_configs:/opt/collectd/etc/collectd.conf.d -v /var/run:/var/run -v /tmp:/tmp --privileged opnfv/barometer-collectd /run_collectd.sh
+  - docker ps

@@ -1,0 +1,79 @@
+# Copyright 2020 Aditya Srivastava.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: cadvisor
+  namespace: monitoring
+  labels:
+    adi10hero.monitoring: cadvisor
+    app: cadvisor
+spec:
+  selector:
+    matchLabels:
+      app: cadvisor
+      adi10hero.monitoring: cadvisor
+  template:
+    metadata:
+      name: cadvisor
+      labels:
+        adi10hero.monitoring: cadvisor
+        app: cadvisor
+    spec:
+      containers:
+      - image: gcr.io/google-containers/cadvisor
+        name: cadvisor
+        ports:
+        - containerPort: 8080
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - mountPath: /rootfs
+          name: cadvisor-hostpath0
+          readOnly: true
+        - mountPath: /var/run
+          name: cadvisor-hostpath1
+        - mountPath: /sys
+          name: cadvisor-hostpath2
+          readOnly: true
+        - mountPath: /sys/fs/cgroup
+          name: cadvisor-hostpath3
+          readOnly: true
+        - mountPath: /dev/disk
+          name: cadvisor-hostpath4
+          readOnly: true
+        - mountPath: /var/lib/docker
+          name: cadvisor-hostpath5
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - hostPath:
+          path: /
+        name: cadvisor-hostpath0
+      - hostPath:
+          path: /var/run
+        name: cadvisor-hostpath1
+      - hostPath:
+          path: /sys
+        name: cadvisor-hostpath2
+      - hostPath:
+          path: /cgroup
+        name: cadvisor-hostpath3
+      - hostPath:
+          path: /dev/disk/
+        name: cadvisor-hostpath4
+      - hostPath:
+          path: /var/lib/docker/
+        name: cadvisor-hostpath5
