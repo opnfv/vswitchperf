@@ -1,0 +1,44 @@
+# Copyright 2020 Adarsh yadav, Aditya Srivastava
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+#Edit /etc/export
+- name: Edit /etc/export file for NFS
+  lineinfile:
+    path: /etc/exports
+    line: "{{item.line}}"
+    state: absent
+  with_items:
+    - {line: "/srv/nfs/master   *(rw,sync,no_root_squash,no_subtree_check)"}
+    - {line: "/srv/nfs/data     *(rw,sync,no_root_squash,no_subtree_check)"}
+    - {line: "/usr/share/monitoring_data/grafana     *(rw,sync,no_root_squash,no_subtree_check)"}
+
+#uninstall NFS server
+- name: Uninstalling NFS server utils
+  yum:
+    name: nfs-utils
+    state: absent
+
+#remove Elasticsearch data
+- name: Removing Directory for elasticsearch
+  file:
+    path: "/srv/nfs/{{item}}"
+    state: absent
+  with_items:
+    - ['data', 'master']
+
+#remove Grafana data
+- name: Removing Directory for grafana
+  file:
+    path: "/usr/share/monitoring_data/grafana"
+    state: absent
