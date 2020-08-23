@@ -1,0 +1,65 @@
+# Copyright 2020 Adarsh yadav, Aditya Srivastava
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+
+#Uninstalling K8s
+- name: Uninstalling K8s
+  yum:
+   name: ['kubeadm', 'kubectl', 'kubelet', 'docker-ce']
+   state: absent
+
+#Enabling Swap
+- name: Enabling Swap on all nodes
+  shell: swapon -a
+  ignore_errors: yes
+
+#Uncommenting Swap entries
+- name: Uncommenting Swap entries in /etc/fstab
+  replace:
+   path: /etc/fstab
+   regexp: '^# /(.*swap.*)'
+   replace: '\1'
+
+
+#Starting firewalld
+- name: 'Starting firewall'
+  service:
+   name: firewalld
+   state: started
+   enabled: yes
+
+# Enabling SELinux
+- name: Enabling SELinux on all nodes
+  shell: |
+    setenforce 1
+    sudo sed -i 's/^SELINUX=permissive$/SELINUX=enforcing/' /etc/selinux/config
+
+#removing Docker repo
+- name: removing Docker repo
+  command: yum-config-manager --disable docker-ce-stable
+
+#removing K8s repo
+- name: removing repository details in Kubernetes repo file.
+  blockinfile:
+   path: /etc/yum.repos.d/kubernetes.repo
+   state: absent
+   block: |
+    [kubernetes]
+    name=Kubernetes
+    baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+    enabled=1
+    gpgcheck=1
+    repo_gpgcheck=1
+    gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+      https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg

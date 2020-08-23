@@ -1,0 +1,62 @@
+# Copyright 2020 Aditya Srivastava.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: alertmanager
+    adi10hero.monitoring: alertmanager
+  name: alertmanager
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+      adi10hero.monitoring: alertmanager
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: alertmanager
+      labels:
+        app: alertmanager
+        adi10hero.monitoring: alertmanager
+    spec:
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager
+        args:
+        - --config.file=/etc/alertmanager/config.yml
+        - --storage.path=/alertmanager
+        - --cluster.peer=alertmanager1:6783
+        - --cluster.listen-address=0.0.0.0:6783
+        ports:
+        - containerPort: 9093
+        - containerPort: 6783
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/alertmanager
+        - name: alertmanager
+          mountPath: /alertmanager
+      restartPolicy: Always
+      volumes:
+      - name: config-volume
+        configMap:
+          name: alertmanager-config
+      - name: alertmanager
+        emptyDir: {}
