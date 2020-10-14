@@ -1,0 +1,525 @@
+# Copyright 2020 Adarsh yadav
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+data:
+  index_template.json: |
+    {
+        "index_patterns": [
+            "node*"
+        ],
+        "settings": {
+            "index.lifecycle.name": "delete_policy",
+            "number_of_replicas": 1
+        }
+    }
+  fluent.conf: |
+    <source>
+      @type forward
+      port 24224
+      bind 0.0.0.0
+      tag log
+    </source>
+
+    #tag the .dat file
+    <match log>
+      @type rewrite_tag_filter
+      #Trex data
+      <rule>
+        key     log_path
+        pattern /\/tmp\/result.*\/.*counts.dat/
+        tag     countdat.${tag}
+      </rule>
+      <rule>
+        key     log_path
+        pattern /\/tmp\/result.*\/.*errors.dat/
+        tag     errordat.${tag}
+      </rule>
+      #Spirent data
+      <rule>
+        key     log_path
+        pattern /\/tmp\/result.*\/stc-liveresults.dat.tx/
+        tag     stcdattx.${tag}
+      </rule>
+      <rule>
+        key     log_path
+        pattern /\/tmp\/result.*\/stc-liveresults.dat.rx/
+        tag     stcdatrx.${tag}
+      </rule>
+      #Ixia data
+      <rule>
+        key     log_path
+        pattern /\/tmp\/result.*\/.*Statistics.csv/
+        tag     ixia.${tag}
+      </rule>
+      #log files
+      <rule>
+        key log_path
+        pattern /vsperf-overall/
+        tag  vsperf.${tag}
+      </rule>
+      <rule>
+        key log_path
+        pattern /vswitchd/
+        tag  vswitchd.${tag}
+      </rule>
+      <rule>
+        key     log_path
+        pattern /\/var\/log\/userspace/
+        tag     userspace.${tag}
+      </rule>
+      <rule>
+        key     log_path
+        pattern /\/var\/log\/sriovdp/
+        tag     sriovdp.${tag}
+      </rule>
+      <rule>
+        key     log_path
+        pattern /\/var\/log\/pods/
+        tag     pods.${tag}
+      </rule>
+    </match>
+
+    #to find error
+    @include error.conf
+
+    #to parse time-series data
+    @include time-series.conf
+
+    #to calculate time analysis
+    @include time-analysis.conf
+
+    #give tag 'node1' if host is worker and tag 'node4' if host is pod12-node4
+    <match **.log>
+      @type rewrite_tag_filter
+      <rule>
+        key     host
+        pattern /pod12-node4/
+        tag     node4
+      </rule>
+      <rule>
+        key     host
+        pattern /worker/
+        tag     node1
+      </rule>
+    </match>
+
+
+    <filter node1>
+      @type elasticsearch_genid
+      hash_id_key _hash1
+    </filter>
+
+    #send the node1 log to node1 index in elasticsearch
+    <match node1>
+      @type copy
+      <store>
+        @type elasticsearch
+        host logging-es-http
+        port 9200
+        scheme https
+        ssl_verify false
+        user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
+        password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
+        logstash_format true
+        logstash_prefix node1
+        logstash_dateformat %Y%m%d
+        flush_interval 1s
+        id_key _hash1
+        remove_keys _hash1
+
+        enable_ilm true
+        application_name ${tag}
+        index_date_pattern ""
+        ilm_policy_id delete_policy
+        template_name delpol-test
+        template_file /fluentd/etc/index_template.json
+        ilm_policy {
+          "policy": {
+            "phases": {
+              "delete": {
+                "min_age": "3m",
+                "actions": {
+                  "delete": {}
+                }
+              }
+            }
+          }
+        }
+      </store>
+      <store>
+        @type stdout
+      </store>
+    </match>
+
+    <filter node4>
+      @type elasticsearch_genid
+      hash_id_key _hash4
+    </filter>
+
+    #send the node4 log to node4 index in elasticsearch
+    <match node4>
+      @type copy
+      <store>
+        @type elasticsearch
+        host logging-es-http
+        port 9200
+        scheme https
+        ssl_verify false
+        user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
+        password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
+        logstash_format true
+        logstash_prefix node4
+        logstash_dateformat %Y%m%d
+        flush_interval 1s
+        id_key _hash4
+        remove_keys _hash4
+
+        enable_ilm true
+        application_name ${tag}
+        index_date_pattern ""
+        ilm_policy_id delete_policy
+        template_name delpol-test
+        template_file /fluentd/etc/index_template.json
+        ilm_policy {
+          "policy": {
+            "phases": {
+              "delete": {
+                "min_age": "3m",
+                "actions": {
+                  "delete": {}
+                }
+              }
+            }
+          }
+        }
+      </store>
+      <store>
+        @type stdout
+      </store>
+    </match>
+  error.conf: |
+    <filter vsperf.log>
+     @type parser
+      reserve_data true
+      key_name msg
+      emit_invalid_record_to_error false
+      <parse>
+        @type regexp
+        expression /(?<alert_time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}).*(?<alert>Failed to run test|Failed to execute in '30' seconds|\('Result', 'Failed'\)|could not open socket: connection refused|Input\/output error)/
+      </parse>
+    </filter>
+
+    <filter vswitchd.log>
+     @type parser
+      reserve_data true
+      key_name msg
+      emit_invalid_record_to_error false
+      <parse>
+        @type regexp
+        expression /(?<alert_time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z).*(?<alert>dpdk\|ERR\|EAL: Error - exiting with code: 1|Failed to execute in '30' seconds|dpdk\|ERR\|EAL: Driver cannot attach the device|dpdk\|EMER\|Cannot create lock on)/
+      </parse>
+    </filter>
+    <filter vswitchd.log>
+      @type parser
+      reserve_data true
+      key_name msg
+      emit_invalid_record_to_error false
+      <parse>
+        @type regexp
+        expression /(?<alert_time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z).*dpdk\|ERR\|VHOST_CONFIG:.*(?<alert>device not found)/
+      </parse>
+    </filter>
+  time-series.conf: |
+    #parse *counts.dat
+    <filter countdat.log>
+      @type parser
+      key_name msg
+      reserve_data true
+      emit_invalid_record_to_error false
+      <parse>
+        @type regexp
+        expression /^(?<ts>[\.\d]*),(?<rx_port>\d*),(?<tx_port>\d*),(?<rx_pkts>[\.\d]*),(?<tx_pkts>[\.\d]*),(?<rx_pps>[\.\d]*),(?<tx_pps>[\.\d]*),(?<rx_bps_num>[\.\d]*),(?<rx_bps_den>[\.\d]*),(?<tx_bps_num>[\.\d]*),(?<tx_bps_den>[\.\d]*)$/
+        types  rx_port:integer,tx_port:integer,rx_pkts:float,tx_pkts:float,rx_pps:float,tx_pps:float,rx_bps_num:float,rx_bps_den:float,tx_bps_num:float,tx_bps_den:float
+      </parse>
+    </filter>
+
+    #parse *errors.dat
+    <filter errordat.log>
+      @type parser
+      key_name msg
+      reserve_data true
+      emit_invalid_record_to_error false
+      <parse>
+        @type regexp
+        expression /^(?<ts>[\.\d]*),(?<dropped>[\.\d]*),(?<ooo>[\.\d]*),(?<dup>[\.\d]*),(?<seq_too_high>[\.\d]*),(?<seq_too_low>[\.\d]*)$/
+        types  ts:integer,dropped:integer,ooo:integer,dup:integer,seq_too_high:integer,seq_too_low:integer
+      </parse>
+    </filter>
+
+    #parse stc-liveresults.dat.tx
+    <filter stcdattx.log>
+      @type parser
+      key_name msg
+      reserve_data true
+      emit_invalid_record_to_error false
+      <parse>
+        @type regexp
+        expression /^(?<ts>[\.\d]*),(?<StrId>[\.\d]*),(?<BlkId>[\.\d]*),(?<FrCnt>[\.\d]*),(?<FrRate>[\.\d]*),(?<ERxFrCnt>[\.\d]*),(?<OctCnt>[\.\d]*),(?<OctRate>[\.\d]*),(?<bitCnt>[\.\d]*),(?<bitRate>[\.\d]*)$/
+        types ts:integer,StrId:integer,BlkId:integer,FrCnt:integer,FrRate:integer,ERxFrCnt:integer,OctCnt:integer,OctRate:integer,bitCnt:integer,bitRate:integer
+      </parse>
+    </filter>
+
+    #parse stc-liveresults.dat.rx
+    <filter stcdatrx.log>
+      @type parser
+      key_name msg
+      reserve_data true
+      emit_invalid_record_to_error false
+      <parse>
+        @type regexp
+        expression /^(?<ts>[\.\d]*),(.*, |)(?<RxPrt>.*),(?<DrpFrCnt>[\.\d]*),(?<SeqRnLen>[\.\d]*),(?<AvgLat>.*),(?<DrpFrRate>[\.\d]*),(?<FrCnt>[\.\d]*),(?<FrRate>[\.\d]*),(?<MaxLat>[\.\d]*),(?<MinLat>[\.\d]*),(?<OctCnt>[\.\d]*),(?<OctRate>[\.\d]*)$/
+        types ts:integer,DrpFrCnt:integer,SeqRnLen:integer,FrCnt:integer,FrRate:integer,MaxLat:integer,MinLat:integer,OctCnt:integer,OctRate:integer
+      </parse>
+    </filter>
+  time-analysis.conf: |
+    # 1. Test Duration - Duration Between: first line and last line.
+    # 2. Setup Duration - Duration Between: Creating result directory TO Class found ---
+    # 3. Traffic Duration  - Duration between From Starting traffic at 0.1 Gbps speed  TO Traffic Results
+    # 4. Iteration Durations  -- Example: Duration between - Starting traffic at 10.0 Gbps    TO Starting traffic at 5.0 Gbps speed
+    # 5. Reporting Duration - Duration between From Traffic Results TO Write results to file
+    # 6. Vswitchd start Duration- Duration between From Starting vswitchd... TO send_traffic with
+
+    <match vsperf.log>
+      @type rewrite_tag_filter
+      <rule>
+        key msg
+        pattern /Creating result directory:/
+        tag  firstline.${tag}
+      </rule>
+      <rule>
+        key msg
+        pattern /Write results to file/
+        tag  lastline.${tag}
+      </rule>
+
+      <rule>
+        key msg
+        pattern /Class found/
+        tag  setupend.${tag}
+      </rule>
+      <rule>
+        key msg
+        pattern /Starting traffic at 0.1 Gbps speed/
+        tag  trafficstart.${tag}
+      </rule>
+      <rule>
+        key msg
+        pattern /Traffic Results/
+        tag  trafficend.${tag}
+      </rule>
+      <rule>
+        key msg
+        pattern /Starting traffic at 10.0 Gbps/
+        tag  iterationstart.${tag}
+      </rule>
+      <rule>
+        key msg
+        pattern /Starting traffic at 5.0 Gbps speed/
+        tag  iterationend.${tag}
+      </rule>
+      <rule>
+        key msg
+        pattern /Starting vswitchd/
+        tag  vswitchstart.${tag}
+      </rule>
+      <rule>
+        key msg
+        pattern /send_traffic/
+        tag vswitch.${tag}
+      </rule>
+      <rule>
+        key msg
+        pattern ^.*$
+        tag logs.${tag}
+      </rule>
+    </match>
+
+    #############################################################################################
+    #save the starting log and append that log in ending log
+    #############################################################################################
+    <filter firstline.**>
+      @type record_transformer
+      enable_ruby true
+      <record>
+        msg ${$vswitch_start="";$reportstart="";$firstline="";$traffic_start="";$iteration_start="";$firstline = record["msg"];return record["msg"];}
+      </record>
+    </filter>
+    <filter lastline.**>
+      @type record_transformer
+      enable_ruby true
+      <record>
+        newmsg ${record["msg"]+" | "+$firstline + " | "+ $reportstart}
+      </record>
+    </filter>
+
+    <filter setupend.**>
+      @type record_transformer
+      enable_ruby true
+      <record>
+        newmsg ${record["msg"]+" "+$firstline}
+      </record>
+    </filter>
+
+    <filter trafficstart.**>
+      @type record_transformer
+      enable_ruby true
+      <record>
+        msg ${if $traffic_start.eql?("");$traffic_start=record["msg"];end;return record["msg"];}
+      </record>
+    </filter>
+    <filter trafficend.**>
+      @type record_transformer
+      enable_ruby true
+      <record>
+        newmsg ${if $reportstart.eql?("");$reportstart=record["msg"];end;return record["msg"]+" "+$traffic_start;}
+      </record>
+    </filter>
+
+    <filter iterationstart.**>
+      @type record_transformer
+      enable_ruby true
+      <record>
+        msg ${if $iteration_start.eql?("");$iteration_start=record["msg"];end;return record["msg"];}
+      </record>
+    </filter>
+    <filter iterationend.**>
+      @type record_transformer
+      enable_ruby true
+      <record>
+        newmsg ${record["msg"]+" "+$iteration_start}
+      </record>
+    </filter>
+
+    <filter vswitchstart.**>
+      @type record_transformer
+      enable_ruby true
+      <record>
+        msg ${$vswitch_start=record["msg"];return record["msg"];}
+      </record>
+    </filter>
+    <filter vswitch.**>
+      @type record_transformer
+      enable_ruby true
+      <record>
+        newmsg ${record["msg"]+" "+$vswitch_start}
+      </record>
+    </filter>
+    #############################################################################################
+    #parse time from the log
+    #############################################################################################
+    <filter setupend.**>
+      @type parser
+      key_name newmsg
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type regexp
+        expression /^(?<setupend>.*) : Class found: Trex. (?<setupstart>.*) : .*$/
+      </parse>
+    </filter>
+    <filter iterationend.**>
+      @type parser
+      key_name newmsg
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type regexp
+        expression /^(?<iterationend>.*) : Starting traffic at 5.0 Gbps speed (?<iterationstart>.*) : Starting traffic at 10.0 Gbps speed$/
+      </parse>
+    </filter>
+    <filter vswitch.**>
+      @type parser
+      key_name newmsg
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type regexp
+        expression /^(?<vswitch>.*) : send_traffic with <.*> (?<vswitchstart>.*) : Starting vswitchd...$/
+      </parse>
+    </filter>
+    <filter trafficend.**>
+      @type parser
+      key_name newmsg
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type regexp
+        expression /^(?<trafficend>.*) : Traffic Results: (?<trafficstart>.*) : Starting traffic at 0.1 Gbps speed/
+      </parse>
+    </filter>
+    <filter lastline.**>
+      @type parser
+      key_name newmsg
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type regexp
+        expression /^(?<lastline>.*) : Write results to file: .* \| (?<firstline>.*) : Creating result directory: .* \| (?<reportstart>.*) : Traffic Results:$/
+      </parse>
+    </filter>
+    #############################################################################################
+    #calculate time
+    #############################################################################################
+    <filter setupend.**>
+      @type record_transformer
+      enable_ruby
+      <record>
+        setup_duration ${ require 'time';Time.parse(record["setupend"])-Time.parse(record["setupstart"]); }
+      </record>
+    </filter>
+    <filter iterationend.**>
+      @type record_transformer
+      enable_ruby
+      <record>
+        iteration_duration ${ require 'time';Time.parse(record["iterationend"])-Time.parse(record["iterationstart"]); }
+      </record>
+    </filter>
+    <filter vswitch.**>
+      @type record_transformer
+      enable_ruby
+      <record>
+        vswitch_duration ${ require 'time';Time.parse(record["vswitch"])-Time.parse(record["vswitchstart"]); }
+      </record>
+    </filter>
+    <filter trafficend.**>
+      @type record_transformer
+      enable_ruby
+      <record>
+        traffic_duration ${ require 'time';Time.parse(record["trafficend"])-Time.parse(record["trafficstart"]); }
+      </record>
+    </filter>
+    <filter lastline.**>
+      @type record_transformer
+      enable_ruby
+      <record>
+        test_duration ${ require 'time';Time.parse(record["lastline"])-Time.parse(record["firstline"]); }
+      </record>
+      <record>
+        report_duration ${ require 'time';Time.parse(record["lastline"])-Time.parse(record["reportstart"]); }
+      </record>
+    </filter>
+    #############################################################################################

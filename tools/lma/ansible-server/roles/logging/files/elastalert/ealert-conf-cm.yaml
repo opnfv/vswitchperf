@@ -1,0 +1,48 @@
+# Copyright 2020 Adarsh yadav
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elastalert-config
+data:
+  elastalert.yaml: |
+      # This is the folder that contains the rule yaml files
+      # Any .yaml file will be loaded as a rule
+      rules_folder: rules
+      # How often ElastAlert will query Elasticsearch
+      # The unit can be anything from weeks to seconds
+      run_every:
+        minutes: 1
+      # ElastAlert will buffer results from the most recent
+      # period of time, in case some log sources are not in real time
+      buffer_time:
+        minutes: 15
+
+      scan_subdirectories: false
+
+      # The Elasticsearch hostname for metadata writeback
+      # Note that every rule can have its own Elasticsearch host
+      es_host: logging-es-http
+      es_port: 9200
+      es_username: ${ES_USERNAME}
+      es_password: ${ES_PASSWORD}
+      es_conn_timeout: 120
+      verify_certs: False
+      use_ssl: True
+      client_cert: '/opt/elastalert/key/elastalert.pem'
+      client_key: '/opt/elastalert/key/elastalert.key'
+      writeback_index: elastalert_status
+      writeback_alias: elastalert_alerts
+      alert_time_limit:
+        days: 2
