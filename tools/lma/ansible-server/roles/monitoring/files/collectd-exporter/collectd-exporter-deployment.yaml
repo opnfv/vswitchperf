@@ -1,0 +1,51 @@
+# Copyright 2020 Aditya Srivastava.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: collectd-exporter
+  namespace: monitoring
+  labels:
+    app: collectd-exporter
+    adi10hero.monitoring: collectd-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: collectd-exporter
+      adi10hero.monitoring: collectd-exporter
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: collectd-exporter
+      labels:
+        app: collectd-exporter
+        adi10hero.monitoring: collectd-exporter
+    spec:
+      containers:
+      - args:
+        - --collectd.listen-address=0.0.0.0:25826
+        image: prom/collectd-exporter
+        name: collectd-exporter
+        ports:
+        - containerPort: 9103
+        - containerPort: 25826
+          protocol: UDP
+        securityContext:
+          runAsUser: 0
+      restartPolicy: Always
+      volumes: null
+
