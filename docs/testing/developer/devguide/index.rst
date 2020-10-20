@@ -31,7 +31,7 @@ new techniques together. A new IETF benchmarking specification (RFC8204) is base
 2015. VSPERF is also contributing to development of ETSI NFV test specifications through the Test and Open Source
 Working Group.
 
-* Wiki: https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases
+* Wiki: https://wiki.opnfv.org/display/vsperf
 * Repository: https://git.opnfv.org/vswitchperf
 * Artifacts: https://artifacts.opnfv.org/vswitchperf.html
 * Continuous Integration: https://build.opnfv.org/ci/view/vswitchperf/
@@ -43,7 +43,6 @@ Design Guides
 .. toctree::
    :caption: Traffic Gen Integration, VSPERF Design, Test Design, Test Plan
    :maxdepth: 2
-   :numbered:
 
    ./design/trafficgen_integration_guide.rst
    ./design/vswitchperf_design.rst
@@ -75,6 +74,3 @@ VSPERF CI Test Cases
    :numbered:
 
 CI Test cases run daily on the VSPERF Pharos POD for master and stable branches.
-
-   ./results/scenario.rst
-   ./results/results.rst

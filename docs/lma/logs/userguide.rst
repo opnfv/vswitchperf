@@ -1,14 +1,16 @@
-=================
-Table of Contents
-=================
-.. contents::
-.. section-numbering::
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
+.. (c) OPNFV, Intel Corporation, AT&T, Red Hat, Spirent, Ixia  and others.
 
-Setup
-======
+.. OPNFV VSPERF Documentation master file.
+
+***************
+Logs User Guide
+***************
 
 Prerequisites
--------------------------
+=============
+
 - Require 3 VMs to setup K8s
 - ``$ sudo yum install ansible``
 - ``$ pip install openshift pyyaml kubernetes`` (required for ansible K8s module)
@@ -23,19 +25,21 @@ Prerequisites
    ====================================================================== ======================
 
 Architecture
---------------
+============
 .. image:: images/setup.png
 
 Installation - Clientside
--------------------------
+=========================
 
 Nodes
-`````
+-----
+
 - **Node1** = 10.10.120.21
 - **Node4** = 10.10.120.24
 
 How installation is done?
-`````````````````````````
+-------------------------
+
 - TD-agent installation
    ``$ curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh``
 - Copy the TD-agent config file in **Node1**
@@ -46,10 +50,11 @@ How installation is done?
    ``$ sudo service td-agent restart``
 
 Installation - Serverside
--------------------------
+=========================
 
 Nodes
-`````
+-----
+
 Inside Jumphost - POD12
    - **VM1** = 10.10.120.211
    - **VM2** = 10.10.120.203
@@ -57,7 +62,8 @@ Inside Jumphost - POD12
 
 
 How installation is done?
-`````````````````````````
+-------------------------
+
 **Using Ansible:**
    - **K8s**
       - **Elasticsearch:** 1 Master & 1 Data node at each VM
@@ -70,12 +76,14 @@ How installation is done?
       - ``/srv/nfs/data``
 
 How to setup?
-`````````````
+-------------
+
 - **To setup K8s cluster and EFK:** Run the ansible-playbook ``ansible/playbooks/setup.yaml``
 - **To clean everything:** Run the ansible-playbook ``ansible/playbooks/clean.yaml``
 
 Do we have HA?
-````````````````
+--------------
+
 Yes
 
 Configuration
@@ -83,33 +91,39 @@ Configuration
 
 K8s
 ---
+
 Path of all yamls (Serverside)
-````````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ``ansible-server/roles/logging/files/``
 
 K8s namespace
-`````````````
+^^^^^^^^^^^^^
+
 ``logging``
 
 K8s Service details
-````````````````````
+^^^^^^^^^^^^^^^^^^^
+
 ``$ kubectl get svc -n logging``
 
 Elasticsearch Configuration
 ---------------------------
 
 Elasticsearch Setup Structure
-`````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 .. image:: images/elasticsearch.png
 
 Elasticsearch service details
-`````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 | **Service Name:** ``logging-es-http``
 | **Service Port:** ``9200``
 | **Service Type:** ``ClusterIP``
 
 How to get elasticsearch default username & password?
-`````````````````````````````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 - User1 (custom user):
     | **Username:** ``elasticsearch``
     | **Password:** ``password123``
@@ -120,7 +134,8 @@ How to get elasticsearch default username & password?
     | ``$ echo $PASSWORD``
 
 How to increase replica of any index?
-````````````````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 | $ curl -k -u "elasticsearch:password123" -H 'Content-Type: application/json' -XPUT  "https://10.10.120.211:9200/indexname*/_settings" -d '
 | {
 |   "index" : {
@@ -128,51 +143,60 @@ How to increase replica of any index?
 | }'
 
 Index Life
-```````````
+^^^^^^^^^^
 **30 Days**
 
 Kibana Configuration
 --------------------
 
 Kibana Service details
-````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^
+
 | **Service Name:** ``logging-kb-http``
 | **Service Port:** ``5601``
 | **Service Type:** ``ClusterIP``
 
 Nginx Configuration
---------------------
+-------------------
+
 IP
-````
-https://10.10.120.211:32000
+^^
+
+The IP address with https. Ex: "10.10.120.211:32000"
 
 Nginx Setup Structure
-`````````````````````
+^^^^^^^^^^^^^^^^^^^^^
+
 .. image:: images/nginx.png
 
 Ngnix Service details
-`````````````````````
+^^^^^^^^^^^^^^^^^^^^^
+
 | **Service Name:** ``nginx``
 | **Service Port:** ``32000``
 | **Service Type:** ``NodePort``
 
 Why NGINX is used?
-```````````````````
+^^^^^^^^^^^^^^^^^^
+
 `Securing ELK using Nginx <https://logz.io/blog/securing-elk-nginx/>`_
 
 Nginx Configuration
-````````````````````
+^^^^^^^^^^^^^^^^^^^
+
 **Path:** ``ansible-server/roles/logging/files/nginx/nginx-conf-cm.yaml``
 
 Fluentd Configuration - Clientside (Td-agent)
 ---------------------------------------------
 
 Fluentd Setup Structure
-````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^
+
 .. image:: images/fluentd-cs.png
 
 Log collection paths
-`````````````````````
+^^^^^^^^^^^^^^^^^^^^
+
 - ``/tmp/result*/*.log``
 - ``/tmp/result*/*.dat``
 - ``/tmp/result*/*.csv``
@@ -181,21 +205,25 @@ Log collection paths
 - ``/var/log/sriovdp/*.log.*``
 - ``/var/log/pods/**/*.log``
 
-Logs sends to
-`````````````
+Logs sent to
+^^^^^^^^^^^^
+
 Another fluentd instance of K8s cluster (K8s Master: 10.10.120.211) at Jumphost.
 
 Td-agent logs
-`````````````
+^^^^^^^^^^^^^
+
 Path of td-agent logs: ``/var/log/td-agent/td-agent.log``
 
 Td-agent configuration
-````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^
+
 | Path of conf file: ``/etc/td-agent/td-agent.conf``
 | **If any changes is made in td-agent.conf then restart the td-agent service,** ``$ sudo service td-agent restart``
 
 Config Description
-````````````````````
+^^^^^^^^^^^^^^^^^^
+
 - Get the logs from collection path
 - | Convert to this format
   | {
@@ -210,21 +238,24 @@ Fluentd Configuration - Serverside
 ----------------------------------
 
 Fluentd Setup Structure
-````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^
+
 .. image:: images/fluentd-ss.png
 
 Fluentd Service details
-````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^
+
 | **Service Name:** ``fluentd``
 | **Service Port:** ``32224``
 | **Service Type:** ``NodePort``
 
-Logs sends to
-`````````````
-Elasticsearch service (https://logging-es-http:9200)
+Logs sent to
+^^^^^^^^^^^^
+Elasticsearch service (Example: logging-es-http at port 9200)
 
 Config Description
-````````````````````
+^^^^^^^^^^^^^^^^^^
+
 - **Step 1**
    - Get the logs from Node1 & Node4
 - **Step 2**
@@ -264,10 +295,11 @@ Config Description
    ================================ ======================
 
 Elastalert
-----------
+==========
 
 Send alert if
-``````````````
+-------------
+
 - Blacklist
     - "Failed to run test"
     - "Failed to execute in '30' seconds"
@@ -283,7 +315,8 @@ Send alert if
     - vswitch_duration > 3 sec
 
 How to configure alert?
-````````````````````````
+-----------------------
+
 - Add your rule in ``ansible/roles/logging/files/elastalert/ealert-rule-cm.yaml`` (`Elastalert Rule Config <https://elastalert.readthedocs.io/en/latest/ruletypes.html>`_)
     | name: anything
     | type: <check-above-link> #The RuleType to use
@@ -291,12 +324,13 @@ How to configure alert?
     | realert:
     |   minutes: 0    #to get alert for all cases after each interval
     | alert: post #To send alert as HTTP POST
-    | http_post_url: "http://url"
+    | http_post_url: # Provide URL
 
 - Mount this file to elastalert pod in ``ansible/roles/logging/files/elastalert/elastalert.yaml``.
 
 Alert Format
-````````````
+------------
+
 {"type": "pattern-match", "label": "failed", "index": "node4-20200815", "log": "error-log-line", "log-path": "/tmp/result/file.log", "reson": "error-message" }
 
 Data Management
@@ -305,37 +339,41 @@ Data Management
 Elasticsearch
 -------------
 
+Q&As
+^^^^
+
 Where data is stored now?
-`````````````````````````
 Data is stored in NFS server with 1 replica of each index (default). Path of data are following:
+  
   - ``/srv/nfs/data (VM1)``
   - ``/srv/nfs/data (VM2)``
   - ``/srv/nfs/data (VM3)``
   - ``/srv/nfs/master (VM1)``
   - ``/srv/nfs/master (VM2)``
   - ``/srv/nfs/master (VM3)``
-If user wants to change from NFS to local storage
-``````````````````````````````````````````````````
+
+If user wants to change from NFS to local storage, can he do it?
 Yes, user can do this, need to configure persistent volume. (``ansible-server/roles/logging/files/persistentVolume.yaml``)
 
 Do we have backup of data?
-````````````````````````````
-1 replica of each index
+Yes. 1 replica of each index
 
 When K8s restart, the data is still accessible?
-`````````````````````````````````````````````````````
 Yes (If data is not deleted from /srv/nfs/data)
 
 Troubleshooting
 ===============
+
 If no logs receiving in Elasticsearch
---------------------------------------
+-------------------------------------
+
 - Check IP & port of server-fluentd in client config.
 - Check client-fluentd logs, ``$ sudo tail -f /var/log/td-agent/td-agent.log``
 - Check server-fluentd logs, ``$ sudo kubectl logs -n logging <fluentd-pod-name>``
 
 If no notification received
 ---------------------------
+
 - Search your "log" in Elasticsearch.
 - Check config of elastalert
 - Check IP of alert-receiver

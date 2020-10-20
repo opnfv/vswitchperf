@@ -34,7 +34,7 @@ Deployment topologies:
 
 Loopback applications in the Guest:
 
-* `DPDK testpmd <http://dpdk.org/doc/guides/testpmd_app_ug/index.html>`_.
+* `DPDK testpmd <http://doc.dpdk.org/guides/testpmd_app_ug/index.html>`_.
 * Linux Bridge.
 * :ref:`l2fwd-module`
 

@@ -1,10 +1,6 @@
-=================
-Metrics
-=================
-Table of Contents
-=================
-.. contents::
-.. section-numbering::
+==================
+Metrics User Guide
+==================
 
 Setup
 =======
@@ -133,7 +129,7 @@ Data Management
 
 DataFlow:
 --------------
-.. image:: images/dataFlow.png
+.. image:: images/dataflow.png
 
 Where is the data stored now?
 ----------------------------------

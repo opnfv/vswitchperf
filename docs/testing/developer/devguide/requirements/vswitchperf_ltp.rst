@@ -63,21 +63,21 @@ References
 ===============
 
 *  `RFC 1242 Benchmarking Terminology for Network Interconnection
-   Devices <http://www.ietf.org/rfc/rfc1242.txt>`__
+   Devices <https://www.ietf.org/rfc/rfc1242.txt>`__
 *  `RFC 2544 Benchmarking Methodology for Network Interconnect
-   Devices <http://www.ietf.org/rfc/rfc2544.txt>`__
+   Devices <https://www.ietf.org/rfc/rfc2544.txt>`__
 *  `RFC 2285 Benchmarking Terminology for LAN Switching
-   Devices <http://www.ietf.org/rfc/rfc2285.txt>`__
+   Devices <https://www.ietf.org/rfc/rfc2285.txt>`__
 *  `RFC 2889 Benchmarking Methodology for LAN Switching
-   Devices <http://www.ietf.org/rfc/rfc2889.txt>`__
+   Devices <https://www.ietf.org/rfc/rfc2889.txt>`__
 *  `RFC 3918 Methodology for IP Multicast
-   Benchmarking <http://www.ietf.org/rfc/rfc3918.txt>`__
+   Benchmarking <https://www.ietf.org/rfc/rfc3918.txt>`__
 *  `RFC 4737 Packet Reordering
-   Metrics <http://www.ietf.org/rfc/rfc4737.txt>`__
+   Metrics <https://www.ietf.org/rfc/rfc4737.txt>`__
 *  `RFC 5481 Packet Delay Variation Applicability
-   Statement <http://www.ietf.org/rfc/rfc5481.txt>`__
+   Statement <https://www.ietf.org/rfc/rfc5481.txt>`__
 *  `RFC 6201 Device Reset
-   Characterization <http://tools.ietf.org/html/rfc6201>`__
+   Characterization <https://tools.ietf.org/html/rfc6201>`__
 
 .. 3.1.4
 
@@ -633,7 +633,7 @@ General Methodology:
 --------------------------
 To establish the baseline performance of the virtual switch, tests would
 initially be run with a simple workload in the VNF (the recommended
-simple workload VNF would be `DPDK <http://www.dpdk.org/>`__'s testpmd
+simple workload VNF would be `DPDK <https://www.dpdk.org/>`__'s testpmd
 application forwarding packets in a VM or vloop\_vnf a simple kernel
 module that forwards traffic between two network interfaces inside the
 virtualized environment while bypassing the networking stack).
@@ -656,7 +656,7 @@ tests:
 -  Reference application: Simple forwarding or Open Source VNF.
 -  Frame size (bytes): 64, 128, 256, 512, 1024, 1280, 1518, 2K, 4k OR
    Packet size based on use-case (e.g. RTP 64B, 256B) OR Mix of packet sizes as
-   maintained by the Functest project <https://wiki.opnfv.org/traffic_profile_management>.
+   maintained by the Functest project <https://wiki.opnfv.org/display/functest/Traffic+Profile+Management>.
 -  Reordering check: Tests should confirm that packets within a flow are
    not reordered.
 -  Duplex: Unidirectional / Bidirectional. Default: Full duplex with
