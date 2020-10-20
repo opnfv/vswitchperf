@@ -17,5 +17,7 @@ OPNFV Vswitchperf
    testing/developer/devguide/index
    testing/developer/devguide/results/index
    testing/user/configguide/index
-   testing/user/userguide/index
+   lma/index
+   openstack/index
+   k8s/index
 

@@ -1,6 +1,50 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. (c) OPNFV, Intel Corporation, AT&T and others.
+.. (c) OPNFV, Intel Corporation, Spirent Communications, AT&T and others.
+
+OPNFV Iruya Release
+====================
+
+* Supported Versions - DPDK:18.11, OVS:2.12.0, VPP:19.08.1, QEMU:3.1.1
+* Few bugfixes and minor improvements
+
+* New Feature: Containers to manage VSPERF.
+
+    * VSPERF Containers for both deployment and test runs
+
+* Improvement
+  
+    * Results Analysis to include all 5 types of data.
+
+        * Infrastructure data
+        * End-Of-Test Results
+        * Live-Results
+        * Events from VSPERF Logs
+        * Test Environment
+
+* Usability
+
+    * Configuration Wizard tool.
+
+
+OPNFV Hunter Release
+====================
+
+* Supported Versions - DPDK:17.08, OVS:2.8.1, VPP:17.07, QEMU:2.9.1
+* Few bugfixes and minor improvements
+
+* Traffic Generators
+
+    * Spirent - Live Results Support.
+    * T-Rex - Live Results Support.
+
+* Improvment
+    
+    * Results container to receive logs from Logstash/Fluentd.
+
+* CI
+
+    * Bug Fixes.
 
 
 OPNFV Gambia Release

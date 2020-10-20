@@ -1,6 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. (c) OPNFV, Intel Corporation, AT&T and others.
+.. (c) OPNFV, Intel Corporation, Spirent, AT&T and others.
 
 vSwitchPerf test suites userguide
 ---------------------------------
@@ -662,7 +662,7 @@ modified to use igb_uio_from_src instead.
 Note: vfio_no_iommu requires kernels equal to or greater than 4.5 and dpdk
 16.04 or greater. Using this option will also taint the kernel.
 
-Please refer to the dpdk documents at http://dpdk.org/doc/guides for more
+Please refer to the dpdk documents at https://doc.dpdk.org/guides for more
 information on these drivers.
 
 Guest Core and Thread Binding

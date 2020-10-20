@@ -4,17 +4,11 @@
 
 .. OPNFV VSPERF Documentation master file.
 
-=================
-VSPERF Test Guide
-=================
+**************************
+OPNFV VSPERF K8S CNB Guide
+**************************
 
-.. toctree::
-   :caption: VSPERF Test Execution
-   :maxdepth: 2
+============
+Introduction
+============
 
-   ./testusage.rst
-   ./teststeps.rst
-   ./integration.rst
-   ./trafficcapture.rst
-   ./yardstick.rst
-   ./testlist.rst

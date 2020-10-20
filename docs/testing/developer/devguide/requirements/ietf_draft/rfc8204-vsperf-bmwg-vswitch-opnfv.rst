@@ -13,7 +13,7 @@ informational RFC published by the IETF available here https://tools.ietf.org/ht
 
 For more information about VSPERF refer to:
 
-* Wiki: https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases
+* Wiki: https://wiki.opnfv.org/display/vsperf
 * Repository: https://git.opnfv.org/vswitchperf
 * Artifacts: https://artifacts.opnfv.org/vswitchperf.html
 * Continuous Integration: https://build.opnfv.org/ci/view/vswitchperf/

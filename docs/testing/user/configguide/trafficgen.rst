@@ -407,7 +407,7 @@ Spirent Setup
 Spirent installation files and instructions are available on the
 Spirent support website at:
 
-http://support.spirent.com
+https://support.spirent.com
 
 Select a version of Spirent TestCenter software to utilize. This example
 will use Spirent TestCenter v4.57 as an example. Substitute the appropriate
@@ -459,7 +459,7 @@ STC ReST API. Basic ReST functionality is provided by the resthttp module,
 and may be used for writing ReST clients independent of STC.
 
 - Project page: <https://github.com/Spirent/py-stcrestclient>
-- Package download: <http://pypi.python.org/pypi/stcrestclient>
+- Package download: <https://pypi.python.org/project/stcrestclient>
 
 To use REST interface, follow the instructions in the Project page to
 install the package. Once installed, the scripts named with 'rest' keyword
@@ -618,7 +618,7 @@ support contract.
 To execute the Xena2544.exe file under Linux distributions the mono-complete
 package must be installed. To install this package follow the instructions
 below. Further information can be obtained from
-http://www.mono-project.com/docs/getting-started/install/linux/
+https://www.mono-project.com/docs/getting-started/install/linux/
 
 .. code-block:: console
 
@@ -754,7 +754,7 @@ trafficgen.lua
 
 Follow MoonGen set up and execution instructions here:
 
-https://github.com/atheurer/lua-trafficgen/blob/master/README.md
+https://github.com/atheurer/trafficgen/blob/master/README.md
 
 Note one will need to set up ssh login to not use passwords between the server
 running MoonGen and the device under test (running the VSPERF test
@@ -1006,7 +1006,7 @@ dictionary are shown. The rest of the TRAFFIC dictionary is set to default value
 as they are defined in ``conf/03_traffic.conf``.
 
 Please check official documentation of SCAPY project for details about SCAPY frame
-definition and supported network layers at: http://www.secdev.org/projects/scapy
+definition and supported network layers at: https://scapy.net
 
 #. Generate ICMP frames:
 

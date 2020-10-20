@@ -62,21 +62,21 @@ References
 ==========
 
 *  `RFC 1242 Benchmarking Terminology for Network Interconnection
-   Devices <http://www.ietf.org/rfc/rfc1242.txt>`__
+   Devices <https://www.ietf.org/rfc/rfc1242.txt>`__
 *  `RFC 2544 Benchmarking Methodology for Network Interconnect
-   Devices <http://www.ietf.org/rfc/rfc2544.txt>`__
+   Devices <https://www.ietf.org/rfc/rfc2544.txt>`__
 *  `RFC 2285 Benchmarking Terminology for LAN Switching
-   Devices <http://www.ietf.org/rfc/rfc2285.txt>`__
+   Devices <https://www.ietf.org/rfc/rfc2285.txt>`__
 *  `RFC 2889 Benchmarking Methodology for LAN Switching
-   Devices <http://www.ietf.org/rfc/rfc2889.txt>`__
+   Devices <https://www.ietf.org/rfc/rfc2889.txt>`__
 *  `RFC 3918 Methodology for IP Multicast
-   Benchmarking <http://www.ietf.org/rfc/rfc3918.txt>`__
+   Benchmarking <https://www.ietf.org/rfc/rfc3918.txt>`__
 *  `RFC 4737 Packet Reordering
-   Metrics <http://www.ietf.org/rfc/rfc4737.txt>`__
+   Metrics <https://www.ietf.org/rfc/rfc4737.txt>`__
 *  `RFC 5481 Packet Delay Variation Applicability
-   Statement <http://www.ietf.org/rfc/rfc5481.txt>`__
+   Statement <https://www.ietf.org/rfc/rfc5481.txt>`__
 *  `RFC 6201 Device Reset
-   Characterization <http://tools.ietf.org/html/rfc6201>`__
+   Characterization <https://tools.ietf.org/html/rfc6201>`__
 
 .. 3.2
 

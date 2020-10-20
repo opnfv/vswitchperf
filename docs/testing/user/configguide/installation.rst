@@ -167,8 +167,12 @@ repository provided by Software Collections (`a link`_). The installation script
 will also use `virtualenv`_ to create a vsperf virtual environment, which is
 isolated from the default Python environment, using the Python3 package located
 in **/usr/bin/python3**. This environment will reside in a directory called
-**vsperfenv** in $HOME. It will ensure, that system wide Python installation
- is not modified or broken by VSPERF installation. The complete list of Python
+**vsperfenv** in $HOME. 
+
+It will ensure, that system wide Python installation is not modified or
+broken by VSPERF installation. 
+ 
+The complete list of Python
 packages installed inside virtualenv can be found in the file
 ``requirements.txt``, which is located at the vswitchperf repository.
 
@@ -266,8 +270,8 @@ running any of the above. For example:
     export http_proxy=proxy.mycompany.com:123
     export https_proxy=proxy.mycompany.com:123
 
-.. _a link: http://www.softwarecollections.org/en/scls/rhscl/python33/
-.. _virtualenv: https://virtualenv.readthedocs.org/en/latest/
+.. _a link: https://www.softwarecollections.org/en/scls/rhscl/python33/
+.. _virtualenv: https://virtualenv.pypa.io/en/latest/
 .. _vloop-vnf-ubuntu-14.04_20160823: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20160823.qcow2
 .. _vloop-vnf-ubuntu-14.04_20160804: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20160804.qcow2
 .. _vloop-vnf-ubuntu-14.04_20160303: http://artifacts.opnfv.org/vswitchperf/vnf/vloop-vnf-ubuntu-14.04_20160303.qcow2
@@ -326,7 +330,7 @@ to your OS documentation to set hugepages correctly. It is recommended to set
 the required amount of hugepages to be allocated by default on reboots.
 
 Information on hugepage requirements for dpdk can be found at
-http://dpdk.org/doc/guides/linux_gsg/sys_reqs.html
+http://doc.dpdk.org/guides/linux_gsg/sys_reqs.html
 
 You can review your hugepage amounts by executing the following command
 
@@ -356,7 +360,7 @@ default on the Linux DUT
 VSPerf recommends the latest tuned-adm package, which can be downloaded from the
 following location:
 
-http://www.tuned-project.org/2017/04/27/tuned-2-8-0-released/
+https://github.com/redhat-performance/tuned/releases
 
 Follow the instructions to install the latest tuned-adm onto your system. For
 current RHEL customers you should already have the most current version. You

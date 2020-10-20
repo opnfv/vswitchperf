@@ -1,17 +1,12 @@
-====================
-Metrics Dev Guide
-====================
-Table of Contents
-=================
-.. contents::
-.. section-numbering::
-
+=======================
+Metrics Developer Guide
+=======================
 
 Anible File Organization
-============================
+========================
 
 Ansible-Server
-----------------
+--------------
 
 Please follow the following file structure:
 
@@ -82,7 +77,7 @@ Please follow the following file structure:
 
 
 Ansible - Client
-------------------
+----------------
 
 Please follow the following file structure:
 
@@ -113,25 +108,25 @@ Please follow the following file structure:
 
 
 Summary of Roles
-==================
+================
 
 A brief description of the Ansible playbook roles,
 which are used to deploy the  monitoring cluster
 
 Ansible Server Roles
-----------------------
+--------------------
 
 Ansible Server, this part consists of the roles used to deploy
 Prometheus Alertmanager Grafana stack on the server-side
 
 Role: Monitoring
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 Deployment and configuration of PAG stack along with collectd-exporter,
 cadvisor and node-exporter.
 
 Role: Clean-Monitoring
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 Removes all the components deployed by the Monitoring role.
 
@@ -163,7 +158,7 @@ Configurable Parameters:
 
 
 File: alertmanager-deployment.yaml
-'''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''
 Path : monitoring/files/alertmanager/alertmanager-deployment.yaml
 
 Task: Deploys alertmanager instance
@@ -315,7 +310,7 @@ Kube State Metrics
 ^^^^^^^^^^^^^^^^^^^^
 
 File: kube-state-metrics-deployment.yaml
-''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''
 Path : monitoring/files/kube-state-metrics/kube-state-metrics-deployment.yaml
 
 Task: To create a kube-state-metrics instance
@@ -327,7 +322,7 @@ Configurable Parameters:
 
 
 File: kube-state-metrics-service.yaml
-'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''''''
 Path : monitoring/files/kube-state-metrics/kube-state-metrics-service.yaml
 
 Task: To create a collectd service
@@ -343,7 +338,7 @@ Node Exporter
 ^^^^^^^^^^^^^^^
 
 File: node-exporter-daemonset.yaml
-'''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''
 Path : monitoring/files/node-exporter/node-exporter-daemonset.yaml
 
 Task: To create a node exporter daemonset
@@ -467,7 +462,7 @@ Task: Install collectd along with prerequisites
 
 Associated template file:
 
-- collectd.conf.j2
+collectd.conf.j2
 Path: collectd/files/collectd.conf.j2
 
 Summary: Edit this file to change the default configuration to

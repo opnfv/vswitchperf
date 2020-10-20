@@ -46,7 +46,7 @@ Installation
 
 No installation is required for *pidstat*, whereas, collectd has to be installed
 separately. For installation of collectd, we recommend to follow the process described
-in *OPNFV-Barometer* project, which can be found here `Barometer-Euphrates <http://docs.opnfv.org/en/stable-euphrates/submodules/barometer/docs/release/userguide/feature.userguide.html#building-all-barometer-upstreamed-plugins-from-scratch>`_ or the most
+in *OPNFV-Barometer* project, which can be found here `Barometer <https://opnfv-barometer.readthedocs.io/en/latest/release/userguide>`_
 recent release.
 
 VSPERF assumes that collectd is installed and configured to send metrics over localhost.
