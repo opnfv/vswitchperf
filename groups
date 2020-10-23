@@ -1,4 +1,5 @@
 # UUID                                                                       	Group Name
 #
 4b0ee50b1dda533aa89c224e0234b35e92d2e49b                                     	GitHub Replication
+d5bce3559ecf475da5cd204c1a5888b518d68a61                                     	saml/opnfv-gerrit-vswitchperf-committers
 ldap:cn=opnfv-gerrit-vswitchperf-committers,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-vswitchperf-committers
