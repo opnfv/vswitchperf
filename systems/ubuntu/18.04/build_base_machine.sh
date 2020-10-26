@@ -21,7 +21,6 @@
 #   Martin Klozik, Intel Corporation.
 #   Abdul Halim, Intel Corporation.
 
-add-apt-repository ppa:deadsnakes/ppa
 apt-get update
 apt-get -y install $(echo "
 # Make and Compilers
