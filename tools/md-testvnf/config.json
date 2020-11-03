@@ -1,0 +1,11 @@
+{
+    "username": "",
+    "password": "",
+    "networks" : "",
+    "source_image": "",
+    "flavor": "",
+    "domain_name": "",
+    "floating_ip_network" : "",
+
+    "ssh_path": ""
+}

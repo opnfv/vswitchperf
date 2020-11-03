@@ -1,0 +1,36 @@
+---
+- hosts: all
+  vars:
+    username: "testvnf"
+    password: "testvnf"
+  become: true
+  tasks:
+  
+   - name: create a new user
+     user: 
+        name: "{{ username }}"
+        state:  present
+        groups: "wheel"
+        password: "{{ password | password_hash('sha512') }}"
+        comment: "user for ansible connection"
+  
+   - lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+    
+   - name: Ansible create file if it doesn't exist example
+     file:
+        path: "temp"
+        state: touch
+    
+
+   - name: install epel-release
+     package:
+        name: epel-release
+        state: present
+  
+   - name: Execute the deployment script
+     command: /home/centos/deploycentostools.sh deploy

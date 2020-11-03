@@ -1,0 +1,72 @@
+{ 
+  "builders": [
+    {
+      "boot_command": [
+        "<tab> text biosdevname=0 net.ifnames=0 ",
+        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "accelerator": "kvm",
+      "boot_wait": "10s",
+      "disk_size": 2048,
+      "disk_interface": "virtio-scsi",
+      "http_directory": "http",
+      "iso_checksum": "101bc813d2af9ccf534d112cbe8670e6d900425b297d1a4d2529c5ad5f226372",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://centos.osuosl.org/7.8.2003/isos/x86_64/CentOS-7-x86_64-NetInstall-2003.iso",
+      "output_directory": "image",
+      "qemuargs": [ [ "-m", "1024M" ]],
+      "shutdown_command": "echo 'centos'|sudo -S /sbin/halt -h -p",
+      "ssh_password": "centos",
+      "ssh_port": 22,
+      "ssh_username": "centos",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "packer-centos-7-x86_64-openstack",
+      "vnc_bind_address": "0.0.0.0",
+      "Headless": "true"
+    },
+    {
+      "name": "openstack",
+      "type": "openstack",
+        "image_name": "testvnf_image",
+        "identity_endpoint": "{{user `identiy_endpoint`}}",
+        "username": "{{user `username`}}",
+        "password": "{{user `password`}}",
+        "ssh_username": "centos",
+        "networks" : "{{user `networks`}}",
+        "source_image": "{{user `source_image`}}",
+        "flavor": "{{user `flavor`}}",
+        "domain_name": "{{user `domain_name`}}",
+        "ssh_timeout": "15m",
+        "use_floating_ip": "true",
+        "floating_ip_network" : "{{user `floating_ip_network`}}"
+       } 
+],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo testvnf | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "script": "scripts/ansible.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/deploycentostools.sh",
+      "destination": "deploycentostools.sh"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "playbook.yml"
+    },
+    {
+      "type": "file",
+      "source": "{{user `ssh_path`}}",
+      "destination": "temp"
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo testvnf | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "script": "scripts/sshConfig.sh"
+    }
+  ]
+}
+
