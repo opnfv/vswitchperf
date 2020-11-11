@@ -1,0 +1,44 @@
+name: tdep scenario schema
+type: map
+allowempty: True
+mapping:
+  title:
+    type: str
+  description:
+    type: str
+  deployment:
+    type: map
+    mapping:
+      support_templates:
+        type: seq
+        sequence:
+          - type: map
+            mapping:
+              name:
+                type: str
+              template:
+                type: str
+              env_file:
+                type: str
+      template:
+        type: str
+      env_file:
+        type: str
+      agents:
+        type: any
+      accommodation:
+        type: seq
+        matching: any
+        sequence:
+        - type: str
+          enum: [pair, alone, double_room, single_room, mixed_room, cross_az, best_effort]
+        - type: map
+          mapping:
+            density:
+              type: number
+            compute_nodes:
+              type: number
+            zones:
+              type: seq
+              sequence:
+              - type: str
