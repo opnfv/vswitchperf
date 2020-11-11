@@ -108,6 +108,13 @@ class Settings(object):
             raise AttributeError("%r object has no attribute %r" %
                                  (self.__class__, attr))
 
+    def hasValue(self, attr):
+        """Return true if key exists
+        """
+        if attr in self.__dict__:
+            return True
+        return False
+
     def __setattr__(self, name, value):
         """Set a value
         """
