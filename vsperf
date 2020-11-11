@@ -45,6 +45,7 @@ from tools import networkcard
 from tools import functions
 from tools.pkt_gen import trafficgen
 from tools.opnfvdashboard import opnfvdashboard
+from tools.os_deploy_tgen import osdt
 sys.dont_write_bytecode = True
 
 VERBOSITY_LEVELS = {
@@ -201,6 +202,7 @@ def parse_arguments():
     group.add_argument('--verbosity', choices=list_logging_levels(),
                        help='debug level')
     group.add_argument('--integration', action='store_true', help='execute integration tests')
+    group.add_argument('--openstack', action='store_true', help='Run VSPERF with openstack')
     group.add_argument('--trafficgen', help='traffic generator to use')
     group.add_argument('--vswitch', help='vswitch implementation to use')
     group.add_argument('--fwdapp', help='packet forwarding application to use')
@@ -707,6 +709,14 @@ def main():
 
     settings.setValue('mode', args['mode'])
 
+    if args['openstack']:
+        result = osdt.deploy_testvnf()
+        if result:
+            _LOGGER.info('TestVNF successfully deployed on Openstack')
+            settings.setValue('mode', 'trafficgen')
+        else:
+            _LOGGER.error('Failed to deploy TestVNF in Openstac')
+            sys.exit(1)
     # update paths to trafficgens if required
     if settings.getValue('mode') == 'trafficgen':
         functions.settings_update_paths()
