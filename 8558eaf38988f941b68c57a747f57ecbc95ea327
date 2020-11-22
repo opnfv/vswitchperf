@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e00b3919_cc511bf2",
+        "filename": "conf/kubernetes/01_testcases.conf",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-11-22T21:17:24Z",
+      "side": 1,
+      "message": "No physical ports involved, right?",
+      "range": {
+        "startLine": 13,
+        "startChar": 17,
+        "endLine": 13,
+        "endChar": 25
+      },
+      "revId": "8558eaf38988f941b68c57a747f57ecbc95ea327",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95aeb2f2_06e054c5",
+        "filename": "core/component_factory.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-11-22T21:17:24Z",
+      "side": 1,
+      "message": "maybe pcp and pccp instead ??",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 39
+      },
+      "revId": "8558eaf38988f941b68c57a747f57ecbc95ea327",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "618de684_21a48809",
+        "filename": "testcases/testcase.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-11-22T21:17:24Z",
+      "side": 1,
+      "message": "Where are the memif ports used in the connections for pcp and cvc ??",
+      "range": {
+        "startLine": 637,
+        "startChar": 12,
+        "endLine": 640,
+        "endChar": 39
+      },
+      "revId": "8558eaf38988f941b68c57a747f57ecbc95ea327",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    }
+  ]
+}
