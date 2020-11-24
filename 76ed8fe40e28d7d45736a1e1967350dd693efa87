@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e42a0fb_e8504842",
+        "filename": "docs/k8s/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-11-24T18:41:08Z",
+      "side": 1,
+      "message": "testcase",
+      "range": {
+        "startLine": 40,
+        "startChar": 108,
+        "endLine": 40,
+        "endChar": 117
+      },
+      "revId": "76ed8fe40e28d7d45736a1e1967350dd693efa87",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    }
+  ]
+}
