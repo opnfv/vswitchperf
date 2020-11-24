@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8863e9c_3c61cac1",
+        "filename": "tools/os_deploy_tgen/templates/l2_old.hot",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-11-24T18:20:53Z",
+      "side": 1,
+      "message": "wow...",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 33
+      },
+      "revId": "e7efd893ab4c2d7bee653657a640bebd7a83005f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ce34231_e0a1f03d",
+        "filename": "tools/os_deploy_tgen/templates/l3_2c_2i.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-11-24T18:20:53Z",
+      "side": 1,
+      "message": "This description seems to be the same as for the file l3_1c_2i.yaml \nDo we have 2 compute nodes \u003d 2c here, and the desc. for file l3_1c_2i.yaml needs to change to say \"both instances on the same compute node\" ?",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "e7efd893ab4c2d7bee653657a640bebd7a83005f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    }
+  ]
+}
