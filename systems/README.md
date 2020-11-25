@@ -12,3 +12,7 @@ On a freshly built system, run the following with a super user privilege
 or with password less sudo access.
 
 ./build_base_machine.sh
+
+If you want to use vsperf in trafficgen-mode ONLY, then add a parameter.
+
+./build_base_machine.sh trafficgen
