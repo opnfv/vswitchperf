@@ -40,3 +40,4 @@ PyYAML>=3.10.0
 pyzmq>=16.0
 six>=1.9.0
 timeout-decorator>=0.4.0
+kubernetes

@@ -24,7 +24,7 @@ from core.vswitch_controller_op2p import VswitchControllerOP2P
 from core.vswitch_controller_ptunp import VswitchControllerPtunP
 from core.vnf_controller import VnfController
 from core.pktfwd_controller import PktFwdController
-
+from core.pod_controller import PodController
 
 def __init__():
     """Finds and loads all the modules required.
@@ -101,6 +101,19 @@ def create_vnf(deployment_scenario, vnf_class, extra_vnfs):
     :return: VnfController for the deployment_scenario
     """
     return VnfController(deployment_scenario, vnf_class, extra_vnfs)
+
+def create_pod(deployment_scenario, pod_class):
+    """Return a new PodController for the deployment_scenario.
+
+    The returned controller is configured with the given POD class.
+
+    Deployment scenarios: 'pvp', 'pvvp'
+
+    :param deployment_scenario: The deployment scenario name
+    :param pod_class: Reference to pod class to be used.
+    :return: PodController for the deployment_scenario
+    """
+    return PodController(deployment_scenario, pod_class)
 
 def create_collector(collector_class, result_dir, test_name):
     """Return a new Collector of the given class

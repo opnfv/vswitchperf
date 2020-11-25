@@ -40,6 +40,7 @@ import core.component_factory as component_factory
 from core.loader import Loader
 from testcases import PerformanceTestCase
 from testcases import IntegrationTestCase
+from testcases import K8sPerformanceTestCase
 from tools import tasks
 from tools import networkcard
 from tools import functions
@@ -179,6 +180,8 @@ def parse_arguments():
                         help='list all system vnfs and exit')
     parser.add_argument('--list-loadgens', action='store_true',
                         help='list all background load generators')
+    parser.add_argument('--list-pods', action='store_true',
+                        help='list all system pods')
     parser.add_argument('--list-settings', action='store_true',
                         help='list effective settings configuration and exit')
     parser.add_argument('exact_test_name', nargs='*', help='Exact names of\
@@ -202,6 +205,7 @@ def parse_arguments():
     group.add_argument('--verbosity', choices=list_logging_levels(),
                        help='debug level')
     group.add_argument('--integration', action='store_true', help='execute integration tests')
+    group.add_argument('--k8s', action='store_true', help='execute Kubernetes tests')
     group.add_argument('--openstack', action='store_true', help='Run VSPERF with openstack')
     group.add_argument('--trafficgen', help='traffic generator to use')
     group.add_argument('--vswitch', help='vswitch implementation to use')
@@ -579,6 +583,10 @@ def handle_list_options(args):
         print(Loader().get_loadgens_printable())
         sys.exit(0)
 
+    if args['list_pods']:
+        print(Loader().get_pods_printable())
+        sys.exit(0)
+
     if args['list_settings']:
         print(str(settings))
         sys.exit(0)
@@ -596,6 +604,8 @@ def list_testcases(args):
     # configure tests
     if args['integration']:
         testcases = settings.getValue('INTEGRATION_TESTS')
+    elif args['k8s']:
+        testcases = settings.getValue('K8SPERFORMANCE_TESTS')
     else:
         testcases = settings.getValue('PERFORMANCE_TESTS')
 
@@ -692,6 +702,8 @@ def main():
     # load non performance/integration tests
     if args['integration']:
         settings.load_from_dir(os.path.join(_CURR_DIR, 'conf/integration'))
+    if args['k8s']:
+        settings.load_from_dir(os.path.join(_CURR_DIR, 'conf/kubernetes'))
 
     # load command line parameters first in case there are settings files
     # to be used
@@ -708,6 +720,11 @@ def main():
     settings.load_from_dict(args)
 
     settings.setValue('mode', args['mode'])
+
+    if args['k8s']:
+        settings.setValue('K8S', True)
+    else:
+        settings.setValue('K8S', False)
 
     if args['openstack']:
         result = osdt.deploy_testvnf()
@@ -833,6 +850,8 @@ def main():
         # configure tests
         if args['integration']:
             testcases = settings.getValue('INTEGRATION_TESTS')
+        elif args['k8s']:
+            testcases = settings.getValue('K8SPERFORMANCE_TESTS')
         else:
             testcases = settings.getValue('PERFORMANCE_TESTS')
 
@@ -875,6 +894,8 @@ def main():
 
                 if args['integration']:
                     test = IntegrationTestCase(cfg)
+                elif args['k8s']:
+                    test = K8sPerformanceTestCase(cfg)
                 else:
                     test = PerformanceTestCase(cfg)
 

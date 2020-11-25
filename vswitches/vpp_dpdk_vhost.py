@@ -462,4 +462,4 @@ class VppDpdkVhost(IVSwitch, tasks.Process):
     def get_ports(self, switch_name):
         """See IVswitch for general description
         """
-        raise NotImplementedError()
+        return self._phy_ports
