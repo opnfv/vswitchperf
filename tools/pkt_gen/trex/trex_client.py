@@ -26,7 +26,7 @@ import re
 from collections import OrderedDict
 # pylint: disable=unused-import
 import netaddr
-import zmq
+#import zmq
 from conf import settings
 from conf import merge_spec
 from core.results.results_constants import ResultsConstants
@@ -35,7 +35,7 @@ try:
     # pylint: disable=wrong-import-position, import-error
     sys.path.append(settings.getValue('PATHS')['trafficgen']['Trex']['src']['path'])
     from trex_stl_lib.api import *
-    from trex_stl_lib import trex_stl_exceptions
+    # from trex_stl_lib import trex_stl_exceptions
 except ImportError:
     # VSPERF performs detection of T-Rex api during testcase initialization. So if
     # T-Rex is requsted and API is not available it will fail before this code
@@ -160,7 +160,7 @@ class Trex(ITrafficGenerator):
 
         try:
             self._stlclient = STLClient(username=self._trex_user, server=self._trex_host_ip_addr,
-                                        verbose_level=0)
+                                        verbose_level='info')
             self._stlclient.connect()
         except STLError:
             raise RuntimeError('T-Rex: Cannot connect to T-Rex server. Please check if it is '
