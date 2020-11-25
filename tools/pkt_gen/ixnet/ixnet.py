@@ -193,10 +193,12 @@ class IxNet(trafficgen.ITrafficGenerator):
             'port': settings.getValue('TRAFFICGEN_IXNET_PORT'),
             'user': settings.getValue('TRAFFICGEN_IXNET_USER'),
             # IXIA chassis configuration
-            'chassis': settings.getValue('TRAFFICGEN_IXIA_HOST'),
-            'card': settings.getValue('TRAFFICGEN_IXIA_CARD'),
-            'port1': settings.getValue('TRAFFICGEN_IXIA_PORT1'),
-            'port2': settings.getValue('TRAFFICGEN_IXIA_PORT2'),
+            'chassis_east': settings.getValue('TRAFFICGEN_EAST_IXIA_HOST'),
+            'card_east': settings.getValue('TRAFFICGEN_EAST_IXIA_CARD'),
+            'port_east': settings.getValue('TRAFFICGEN_EAST_IXIA_PORT'),
+            'chassis_west': settings.getValue('TRAFFICGEN_WEST_IXIA_HOST'),
+            'card_west': settings.getValue('TRAFFICGEN_WEST_IXIA_CARD'),
+            'port_west': settings.getValue('TRAFFICGEN_WEST_IXIA_PORT'),
             'output_dir':
                 settings.getValue('TRAFFICGEN_IXNET_TESTER_RESULT_DIR'),
             'frame_size_list':
