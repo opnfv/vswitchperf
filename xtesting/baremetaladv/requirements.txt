@@ -1,0 +1,2 @@
+xtesting
+requests!=2.20.0,!=2.24.0 # Apache-2.0
