@@ -43,7 +43,7 @@ lappend auto_path [list $lib_path]
 
 # verify that the IXIA chassis spec is given
 
-set reqVars [list "machine" "port" "user" "chassis" "card" "port1" "port2" "output_dir" "bidir" "frame_size_list"]
+set reqVars [list "machine" "port" "user" "chassis_east" "card_east" "port_east" "chassis_west" "card_west" "port_west" "output_dir" "bidir" "frame_size_list"]
 set rfc2544test ""
 
 foreach var $reqVars {
@@ -73,8 +73,8 @@ proc startRfc2544Test { testSpec trafficSpec } {
     # information on why this is necessary
     #   https://www.tcl.tk/man/tcl8.5/tutorial/Tcl13.html
     global rfc2544test
-	  global qt
-	  global frameSizeList
+    global qt
+    global frameSizeList
     global sg_rfc2544throughput
     global sg_rfc2544back2back
     global output_dir
@@ -94,13 +94,16 @@ proc startRfc2544Test { testSpec trafficSpec } {
     set duration                [dict get $testSpec duration]
 
     # check if only one tgen port is requested
-    if {($::port1 == $::port2)} {
-        set twoPorts 0
-        set selfDestined True
-    } else {
-        set twoPorts 1
-        set selfDestined False
-    }
+    set twoPorts 1
+    set selfDestined False
+    if {($::chassis_east == $::chassis_west)} {
+        if {($::card_east == $::card_west)} {
+			if {($::port_east == $::port_west)} {
+				set twoPorts 0
+				set selfDestined True
+				}}
+	}
+
 
     # RFC2544 to IXIA terminology mapping (it affects Ixia configuration inside this script):
     # Test    => Trial
@@ -1146,21 +1149,30 @@ proc startRfc2544Test { testSpec trafficSpec } {
      -masterChassis {} \
      -sequenceId 1 \
      -cableLength 0 \
-     -hostname $::chassis
+     -hostname $::chassis_east
+    sg_commit
+    set sg_chassis1 [ixNet add $ixNetSG_Stack(0)/availableHardware chassis]
+    ixNet setMultiAttrs $sg_chassis1 \
+     -masterChassis {} \
+     -sequenceId 2 \
+     -cableLength 0 \
+     -hostname $::chassis_west
     sg_commit
     set sg_chassis [lindex [ixNet remapIds $sg_chassis] 0]
     set ixNetSG_Stack(1) $sg_chassis
+    set sg_chassis1 [lindex [ixNet remapIds $sg_chassis1] 0]
+    set ixNetSG_Stack(4) $sg_chassis1
 
     #
-    # configuring the object that corresponds to /availableHardware/chassis/card
+    # configuring the object that corresponds to /availableHardware/chassis/card_east
     #
-    set sg_card $ixNetSG_Stack(1)/card:$::card
-    ixNet setMultiAttrs $sg_card \
+    set sg_card_east $ixNetSG_Stack(1)/card:$::card_east
+    ixNet setMultiAttrs $sg_card_east \
      -aggregationMode normal
     sg_commit
-    set sg_card [lindex [ixNet remapIds $sg_card] 0]
-    set ixNetSG_ref(19) $sg_card
-    set ixNetSG_Stack(2) $sg_card
+    set sg_card_east [lindex [ixNet remapIds $sg_card_east] 0]
+    set ixNetSG_ref(19) $sg_card_east
+    set ixNetSG_Stack(2) $sg_card_east
 
     #
     # configuring the object that corresponds to /availableHardware/chassis/card/aggregation:1
@@ -1198,11 +1210,24 @@ proc startRfc2544Test { testSpec trafficSpec } {
     sg_commit
     set sg_aggregation [lindex [ixNet remapIds $sg_aggregation] 0]
     ixNet setMultiAttrs $ixNetSG_ref(2) \
-     -connectedTo $ixNetSG_ref(19)/port:$::port1
+     -connectedTo $ixNetSG_ref(19)/port:$::port_east
     sg_commit
+
+    #
+    # configuring the object that corresponds to /availableHardware/chassis/card_west
+    #
+    puts "ixNetSG_Stack(4) is $ixNetSG_Stack(4)"
+    set sg_card_west $ixNetSG_Stack(4)/card:$::card_west
+    ixNet setMultiAttrs $sg_card_west \
+     -aggregationMode normal
+    sg_commit
+    set sg_card_west [lindex [ixNet remapIds $sg_card_west] 0]
+    set ixNetSG_ref(20) $sg_card_west
+    set ixNetSG_Stack(4) $sg_card_west
+
     if {$twoPorts} {
         ixNet setMultiAttrs $ixNetSG_ref(10) \
-         -connectedTo $ixNetSG_ref(19)/port:$::port2
+         -connectedTo $ixNetSG_ref(20)/port:$::port_west
         sg_commit
     }
     sg_commit
