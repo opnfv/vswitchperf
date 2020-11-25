@@ -1,0 +1,10 @@
+export OS_AUTH_URL=http://10.10.180.21/identity
+export OS_PROJECT_ID=0440a230a799460facec0d09dde64497
+export OS_PROJECT_NAME="admin"
+export OS_USER_DOMAIN_NAME="Default"
+export OS_PROJECT_DOMAIN_ID="default"
+export OS_USERNAME="admin"
+export OS_PASSWORD="admin123"
+export OS_REGION_NAME="RegionOne"
+export OS_INTERFACE=public
+export OS_IDENTITY_API_VERSION=3

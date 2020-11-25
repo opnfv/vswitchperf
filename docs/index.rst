@@ -20,4 +20,5 @@ OPNFV Vswitchperf
    lma/index
    openstack/index
    k8s/index
+   xtesting/index
 

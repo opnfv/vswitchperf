@@ -1,0 +1,19 @@
+---
+tiers:
+    -
+        name: vsperfostack
+        order: 1
+        description: 'VSPERF Openstack Testing'
+        testcases:
+            -
+                case_name: phy2phy_tput
+                project_name: vsperfostack
+                criteria: 100
+                blocking: true
+                clean_flag: false
+                description: 'VSPERF Openstack RFC2544 Throughput Test'
+                run:
+                    name: vsperfostack
+                    args:
+                        conf_file: vsperfostack.conf
+                        deploy_tgen: false
