@@ -1,0 +1,8 @@
+title: OpenStack L2 Performance
+
+description:
+  In this scenario tdep launches single instances on a tenant network.
+
+deployment:
+  template: l2.hot
+  accommodation: [single_room, compute_nodes: 1]
