@@ -1,0 +1,18 @@
+---
+tiers:
+    -
+        name: vsperf
+        order: 1
+        description: ''
+        testcases:
+            -
+                case_name: phy2phy_tput
+                project_name: vsperf
+                criteria: 100
+                blocking: true
+                clean_flag: false
+                description: ''
+                run:
+                    name: 'bashfeature'
+                    args:
+                        cmd: 'python3 vsperf_controller.py'
