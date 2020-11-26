@@ -70,6 +70,7 @@ _TEMPLATE_MATRIX = "Performance Matrix\n------------------\n\n"\
                    "currently run tests. The metric used for comparison is {}.\n\n{}\n\n"
 
 _LOGGER = logging.getLogger()
+logging.getLogger('matplotlib').setLevel(logging.ERROR)
 
 def parse_param_string(values):
     """
