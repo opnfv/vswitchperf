@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97e63352_3e8c6470",
+        "filename": "xtesting/openstack/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2020-11-27T08:31:44Z",
+      "side": 1,
+      "message": "you could remove this line by adding --update to the following one",
+      "revId": "2f1089361437019e9711fee42a52c7f2d6cdd12a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "940e89d3_64eab794",
+        "filename": "xtesting/openstack/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2020-11-27T08:31:44Z",
+      "side": 1,
+      "message": "use \u0026\u0026 instead of multiple run instructions (docker layer optimizations) and allows cleaning dev dependencies at the end (git or *-dev)",
+      "revId": "2f1089361437019e9711fee42a52c7f2d6cdd12a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4178db4d_722b0250",
+        "filename": "xtesting/openstack/setup.cfg",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2020-11-27T08:31:44Z",
+      "side": 1,
+      "message": "trailing whitespaces?",
+      "revId": "2f1089361437019e9711fee42a52c7f2d6cdd12a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05dfa263_8bf06106",
+        "filename": "xtesting/openstack/vsperfostack",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2020-11-27T08:31:44Z",
+      "side": 1,
+      "message": "missing .py in filename",
+      "revId": "2f1089361437019e9711fee42a52c7f2d6cdd12a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    }
+  ]
+}
