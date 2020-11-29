@@ -2,6 +2,43 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) OPNFV, Intel Corporation, Spirent Communications, AT&T and others.
 
+OPNFV Jerma Release
+===================
+
+* Supported Versions - DPDK:18.11, OVS:2.12.0, VPP:19.08.1, QEMU:3.1.1, Trex:2.86
+
+* Supported Release-Requirements.
+
+    * RELREQ-6 - Openstack dataplane performance benchmarking.
+    * RELREQ-9 - Kubernetes container-networking benchmarking.
+
+* Additional Features
+
+    * OPNFV Xtesting integration - Baremetal and Openstack.
+    * Analytics of metrics and logs using Jupyter notebooks.
+    * Custom Alarms from both metrics and logs.
+    * Container metrics collection.
+
+* Traffic Generators.
+
+    * Ixia - Support for using multiple instances of Traffic-generator.
+    * Ixia - Live results support (real-time collection and storage)
+    * TRex - ETSI-NFV GS-TST009 binary search with loss-verification support.
+
+* New Tools
+
+    * Kubernetes cluster deployment.
+    * TestVNF deployment in Openstack.
+    * Server-side telemetry collection from the test-environment.
+    * Version-1 of multi-dimensional TestVNF.
+
+* Multiple bugfixes and minor improvements
+
+    * matplotlib version and log-dump.
+    * VPP socket paths.
+    * Newer version of some python packages.
+
+
 OPNFV Iruya Release
 ====================
 
