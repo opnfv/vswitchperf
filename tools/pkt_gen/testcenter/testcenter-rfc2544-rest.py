@@ -691,6 +691,11 @@ def main():
         lab_server_resultsdb = stc.get(
             "system1.project.TestResultSetting", "CurrentResultFileName")
 
+        if not lab_server_resultsdb or 'Results' not in lab_server_resultsdb:
+            _LOGGER.info("Failed to find results.")
+            stc.end_session()
+            return
+
         if args.verbose:
             _LOGGER.debug("The lab server results database is %s",
                           lab_server_resultsdb)
@@ -811,6 +816,7 @@ def main():
             args.results_dir, args.csv_results_file_prefix, resultsdict)
 
     except RuntimeError as e:
+        stc.end_session()
         _LOGGER.error(e)
 
     if args.verbose:
