@@ -338,6 +338,8 @@ class TestCenter(trafficgen.ITrafficGenerator):
         Reads the CSV file and return the results
         """
         result = {}
+        if not os.path.exists(filename):
+            return result
         with open(filename, "r") as csvfile:
             csvreader = csv.DictReader(csvfile)
             for row in csvreader:

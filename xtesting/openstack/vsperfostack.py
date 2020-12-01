@@ -73,7 +73,7 @@ class VsperfOstack(testcase.TestCase):
                                                   conffile,
                                                   '--load-env',
                                                   '--mode',
-                                                  'traffigen',
+                                                  'trafficgen',
                                                   '--tests',
                                                   self.case_name])
             print(output)
