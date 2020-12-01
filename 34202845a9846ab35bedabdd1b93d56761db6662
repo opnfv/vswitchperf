@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ecc70c7_85342714",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-12-01T03:12:40Z",
+      "side": 1,
+      "message": "Support for using Multiple instances of a Traffic-generator.",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 60
+      },
+      "revId": "34202845a9846ab35bedabdd1b93d56761db6662",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cd1ccbe_a7be4c6e",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-12-01T03:12:40Z",
+      "side": 1,
+      "message": "Live results support (real-time collection and storage).",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 33
+      },
+      "revId": "34202845a9846ab35bedabdd1b93d56761db6662",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2a83f98_c701c4f1",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-12-01T03:12:40Z",
+      "side": 1,
+      "message": "s/RFC2544/ETSI-NFV GS-TST009/",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 20
+      },
+      "revId": "34202845a9846ab35bedabdd1b93d56761db6662",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fd077e4_05dbbcb1",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 385
+      },
+      "writtenOn": "2020-12-01T03:12:40Z",
+      "side": 1,
+      "message": "maybe: Server-side telemetry collection from the DUT  ??",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "34202845a9846ab35bedabdd1b93d56761db6662",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": true
+    }
+  ]
+}
