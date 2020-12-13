@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VSperf | Config</title>
+
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <script src="/scripts/lib/yahu.js"></script>
+    <script src="/scripts/index.js"></script>
+
+</head>
+
+<body onload="loadAllValues()">
+
+
+
+<div id="page-layout">
+	
+
+	<div class="dashboard">
+		<a class="tab" href="/index.html"><br><strong>Dashboard</strong></a>
+		<a class="active tab" href="#" >Configure Testbed
+			<a class="active subtab" href="/config/scenario.html">Scenario</a>
+			<a class="subtab" href="/config/trafficgen.html">Trafficgen</a>
+			<a class="subtab" href="/config/dataplane.html">Dataplane</a>
+			<a class="subtab" href="/config/workload.html">Workload</a>
+			<a class="subtab" href="/config/testcases.html">Testcases</a>
+			<a class="subtab" href="/config/config.html">View & Download Conf</a>
+		</a>
+		<a class="tab" href="/test-status.html">Test</a>
+		<a class="tab" href="/results.html">Results</a>
+		<a class="tab" href="/settings.html">Settings</a>
+	</div>
+
+	<div class="page">
+
+		<div class="panel scenario">
+			<div><strong>Select Cloud:</strong></div><br>
+
+			<input type="radio" name="cloud" value="dut" id="cloud:dut" onchange="toggleModePanel()">
+			<label for="cloud:dut">Baremetal</label>
+			
+			<input type="radio" name="cloud" value="openstack" id="cloud:openstack" onchange="toggleModePanel()">
+			<label for="cloud:openstack">Openstack</label>
+			
+			<input type="radio" name="cloud" value="k8s" id="cloud:k8s" onchange="toggleModePanel()">
+			<label for="cloud:k8s">Kubernetes</label>
+		</div>
+
+
+		<div id="mode" class="panel scenario">
+			<div><strong>Select mode:</strong></div><br><br>
+
+			<input type="radio" name="mode" value="normal" id="mode:normal">
+			<label for="mode:normal" title="Execute vSwitch, VNF, Pods and traffic generator">Normal</label>
+			
+			<input type="radio" name="mode" value="trafficgen" id="mode:trafficgen">
+			<label for="mode:trafficgen" title="Execute only traffic generator">Trafficgen</label>
+
+			<br>
+
+			<input type="radio" name="mode" value="trafficgen-off" id="mode:trafficgen-off">
+			<label for="mode:trafficgen-off" title="Execute vSwitch, VNF and Pods">Trafficgen-off</label>
+			
+			
+		</div>
+
+
+	</div>
+
+	<div class="control-box">
+		<button onclick="saveScenario()">Next</button>
+	</div>
+
+	<script type="text/javascript">
+
+		function saveScenario(){
+			var cloud = getRadioValue('cloud');
+			var mode = getRadioValue('mode');
+
+			if(cloud === undefined){
+				alert("Please Select a Cloud!");
+				return;
+			}
+
+			if(cloud === "dut"){
+				if(mode === undefined){
+					alert("Please Select a Mode!");
+					return;
+				}
+				setValue('cloud', cloud);
+				setValue('mode', mode);
+			}
+			else{
+				setValue('cloud', cloud);
+				deleteValue('mode');
+			}
+			window.location.href = "/config/trafficgen.html";
+        }
+
+        function toggleModePanel(){
+
+        	cloud = getRadioValue('cloud');
+        	if(cloud === 'dut'){
+        		document.getElementById('mode').style.display = "block";
+        	}
+        	else{
+        		document.getElementById('mode').style.display = "none";
+        	}
+
+        }
+
+        function loadAllValues(){
+			config = getAllValues();
+
+			writeToHTML(document.getElementsByClassName('scenario')[0],config);
+			writeToHTML(document.getElementById('mode'),config);
+			toggleModePanel();
+		}
+
+		
+	</script>
+
+</div>
+
+</body>
+
+</html>

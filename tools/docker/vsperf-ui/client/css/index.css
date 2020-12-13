@@ -1,0 +1,186 @@
+@import url('/css/panel.css');
+@import url('/css/array.css');
+
+@import url('/css/config.css');
+
+html,body
+{
+  --text-color-0: #333; /*grey*/
+  --bgcolor-0: white;
+
+  --bgcolor-1: #50affa; /*blue*/
+  --text-color-1: #f5f5f5; /*white*/
+  --text-shadow-color-1: #c9c9c9; /*white*/
+
+  --bgcolor-2: #e0e0e0; /*blue*/
+  --text-color-2: #242424; /*white*/
+  --text-shadow-color-2: #c9c9c9; /*white*/
+
+
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 16px;
+  color: #333333;
+  background-color: var(--bgcolor-0);
+  scroll-behavior: smooth;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+/*************
+*  Home page
+*************/
+
+#home{
+  height: 100vh;
+  width: 100vw;
+  display: table-cell;
+  vertical-align: middle;
+	text-align: center;
+}
+
+#home img{
+	width: 330px;
+  filter: contrast(65%);
+}
+
+#home hr{
+	width: 20%;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.home-menu-option{
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 1.2em;
+  color: var(--text-color-1);
+  padding: 10px;
+
+  background-color: var(--bgcolor-1);
+  min-width: 170px;
+  margin: 40px;
+
+  box-shadow: 0px 0px 1px 1px grey;
+  border: solid var(--text-shadow-color-1) 1px;
+  border-radius: 5px;
+}
+
+.home-menu-option:hover{
+
+  text-shadow: var(--text-shadow-color-1) 0px 0px 1px;
+
+  box-shadow: 0px 0px 50px 2px var(--bgcolor-1);
+}
+
+/*************
+*  Cross page- Dashboard + Panels
+*************/
+
+#page-layout{
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: auto 100px;
+  grid-template-areas: "dashboard page page page page page"
+                       "dashboard controlbox controlbox controlbox controlbox controlbox";
+  height: 100vh;
+  background-color: var(--bgcolor-0);
+}
+
+.page{
+  grid-area: page;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+
+
+.dashboard{
+  grid-area: dashboard;
+  background-color: var(--bgcolor-0);
+  border-right: solid var(--text-shadow-color-1) 1px;
+}
+
+.tab{
+  display: block;
+  text-decoration: none;
+  padding: 20px;
+  font-size: 1.3em;
+  color: var(--text-color-1);
+  border-left-width: 0px;
+
+  background-color: var(--bgcolor-1);
+  opacity: 0.7;
+  border: solid var(--text-shadow-color-1) 1px;
+
+}
+
+.tab:hover, .active.tab{
+  opacity: 1;
+  text-shadow: var(--text-color-1) 0px 0px 1px;
+}
+
+.subtab{
+  display: block;
+  text-decoration: none;
+  padding: 10px;
+  padding-left: 40px;
+  font-size: 1em;
+  color: var(--text-color-2);
+
+  background-color: var(--bgcolor-2);
+  opacity: 0.8;
+  border: solid var(--text-shadow-color-2) 1px;
+}
+
+.subtab:hover, .active.subtab{
+  opacity: 0.8;
+  text-shadow: var(--text-color-1) 0px 0px 1px;
+  background-color: var(--bgcolor-1);
+  color: var(--text-color-1);
+}
+.active.subtab{
+  opacity: 0.85;
+}
+
+
+
+
+.control-box{
+  grid-area: controlbox;
+  text-align: right;
+  background-color: var(--bgcolor-0);
+  display: inline-block;
+  padding: 20px;
+  padding-right: 70px;
+}
+
+.control-box > button{
+  height: 45px;
+  width: 170px;
+  font-size: 1.1em;
+  color: var(--text-color-1);
+  margin-left: 30px;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+
+  background-color: var(--bgcolor-1);
+  border: 1px solid grey;
+  border-radius: 5px;
+  text-align: center;
+}
+.control-box > button:hover{
+  box-shadow: 0px 0px 2px 1px grey;
+  text-shadow: var(--text-shadow-color-1) 0px 0px 1px;
+}
+
+
+

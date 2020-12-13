@@ -1,0 +1,118 @@
+
+.panel{
+  padding: 30px;
+  padding-left: 50px;
+  background-color: white;
+  margin: 5px;
+  margin-bottom: 2px;
+}
+
+
+.panel  select{
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  color: #333333;
+  padding: 0.5em;
+  
+  font-size: 1em;
+  cursor: pointer;
+  min-width: 150px;
+  border: 1px solid grey;
+  border-radius: 6px;
+
+
+  /*--dropdown-arrow--*/
+  background-position-x: 100%;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml;charset=utf-8, \
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'> \
+  <polygon points='20,35 80,35 50,60' fill='%2350affa'/> \
+  </svg>") ;
+   
+}
+
+.panel  select:hover{
+  background-color: #50affa;
+  color: white;
+  background-image: url("data:image/svg+xml;charset=utf-8, \
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'> \
+  <polygon points='20,35 80,35 50,60' fill='%23fff'/> \
+  </svg>") ;
+}
+
+
+.panel > input{
+  background-color: transparent;
+  color: #333333;
+  padding: 0.5em;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 1em;
+  cursor: pointer;
+  min-width: 150px;
+  border: 1px solid grey;
+  border-radius: 6px;
+  margin: 10px;
+}
+
+.panel > input:hover{
+  background-color: #50affa;
+  color: white;
+}
+
+.panel > input[type="number"]{
+  width: 40px;
+}
+
+
+
+.panel > div > label{
+  display: inline-block;
+  line-height: 1.4em;
+}
+
+
+.panel input[type="radio"]{
+  display: none;
+}
+
+.panel input[type="radio"] + label{
+  background-color: transparent;
+  color: #333333;
+  padding: 0.5em;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 1em;
+  cursor: pointer;
+  min-width: 150px;
+  display: inline-block;
+  border: 1px solid grey;
+  border-radius: 6px;
+  text-align: center;
+  margin: 10px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.panel input[type="radio"] + label:hover{
+  background-color: #50affa;
+  color: white;
+  opacity: 0.5;
+}
+
+.panel input[type="radio"]:checked + label{
+  background-color: #50affa;
+  color: white;
+  text-shadow: #f5f5f5 0px 0px 1px;
+}
+
+.panel > label[title]:after{
+  position: relative;
+  left: 5px;
+  content: "ⓘ";
+  font-size: 0.7em;
+  font-weight: bolder;
+}

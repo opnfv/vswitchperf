@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VSperf | Config</title>
+
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <script src="/scripts/lib/yahu.js"></script>
+
+</head>
+
+<body onload="loadAllValues()">
+
+
+
+<div id="page-layout">
+	
+
+	<div class="dashboard">
+		<a class="tab" href="/index.html"><br><strong>Dashboard</strong></a>
+		<a class="active tab" href="#" >Configure Testbed
+			<a class="subtab" href="/config/scenario.html">Scenario</a>
+			<a class="subtab" href="/config/trafficgen.html">Trafficgen</a>
+			<a class="subtab" href="/config/dataplane.html">Dataplane</a>
+			<a class="subtab" href="/config/workload.html">Workload</a>
+			<a class="active subtab" href="/config/testcases.html">Testcases</a>
+			<a class="subtab" href="/config/config.html">View & Download Conf</a>
+		</a>
+		<a class="tab" href="/test-status.html">Test</a>
+		<a class="tab" href="/results.html">Results</a>
+		<a class="tab" href="/settings.html">Settings</a>
+	</div>
+
+	<div class="page">
+
+		
+		<div id="testcases" class="panel">
+			<div><strong>Select Testcases:</strong></div><br>
+
+			<span><br>
+			<select class="arr" name='testcases'>
+				<option value="phy2phy_tput" title="LTD.Throughput.RFC2544.PacketLossRatio">phy2phy_tput</option>
+				<option value="phy2phy_forwarding" title="LTD.Forwarding.RFC2889.MaxForwardingRate">phy2phy_forwarding</option>
+				<option value="phy2phy_learning" title="LTD.AddrLearning.RFC2889.AddrLearningRate">phy2phy_learning</option>
+				<option value="phy2phy_caching" title="LTD.AddrCaching.RFC2889.AddrCachingCapacity">phy2phy_caching</option>
+				<option value="back2back" title="LTD.Throughput.RFC2544.BackToBackFrames">back2back</option>
+				<option value="phy2phy_tput_mod_vlan" title="LTD.Throughput.RFC2544.PacketLossRatioFrameModification">phy2phy_tput_mod_vlan</option>
+				<option value="phy2phy_tput_mod_vlan_cont" title="Phy2Phy VLAN Continuous Stream">phy2phy_tput_mod_vlan_cont</option>
+				<option value="phy2phy_cont" title="Phy2Phy Continuous Stream">phy2phy_cont</option>
+				<option value="phy2phy_burst" title="Phy2Phy single burst of 1000 frames at 100% frame rate">phy2phy_burst</option>
+				<option value="pvp_cont" title="PVP Continuous Stream">pvp_cont</option>
+				<option value="pvvp_cont" title="PVVP Continuous Stream">pvvp_cont</option>
+				<option value="pvpv_cont" title="Two VMs in parallel with Continuous Stream">pvpv_cont</option>
+				<option value="phy2phy_scalability" title="LTD.Scalability.Flows.RFC2544.0PacketLoss">phy2phy_scalability</option>
+				<option value="phy2phy_scalability_cont" title="Phy2Phy Scalability Continuous Stream">phy2phy_scalability_cont</option>
+				<option value="pvp_tput" title="LTD.Throughput.RFC2544.PacketLossRatio">pvp_tput</option>
+				<option value="pvp_back2back" title="LTD.Throughput.RFC2544.BackToBackFrames">pvp_back2back</option>
+				<option value="pvvp_tput" title="LTD.Throughput.RFC2544.PacketLossRatio">pvvp_tput</option>
+				<option value="pvvp_back2back" title="LTD.Throughput.RFC2544.BackToBackFrames">pvvp_back2back</option>
+				<option value="phy2phy_cpu_load" title="LTD.CPU.RFC2544.0PacketLoss">phy2phy_cpu_load</option>
+				<option value="phy2phy_mem_load" title="LTD.Memory.RFC2544.0PacketLoss">phy2phy_mem_load</option>
+				<option value="phy2phy_tput_vpp" title="VPP: LTD.Throughput.RFC2544.PacketLossRatio">phy2phy_tput_vpp</option>
+				<option value="phy2phy_cont_vpp" title="VPP: Phy2Phy Continuous Stream">phy2phy_cont_vpp</option>
+				<option value="phy2phy_back2back_vpp" title="VPP: LTD.Throughput.RFC2544.BackToBackFrames">phy2phy_back2back_vpp</option>
+				<option value="pvp_tput_vpp" title="VPP: LTD.Throughput.RFC2544.PacketLossRatio">pvp_tput_vpp</option>
+				<option value="pvp_cont_vpp" title="VPP: PVP Continuous Stream">pvp_cont_vpp</option>
+				<option value="pvp_back2back_vpp" title="VPP: LTD.Throughput.RFC2544.BackToBackFrames">pvp_back2back_vpp</option>
+				<option value="pvvp_tput_vpp" title="VPP: LTD.Throughput.RFC2544.PacketLossRatio">pvvp_tput_vpp</option>
+				<option value="pvvp_cont_vpp" title="VPP: PVP Continuous Stream">pvvp_cont_vpp</option>
+				<option value="pvvp_back2back_vpp" title="VPP: LTD.Throughput.RFC2544.BackToBackFrames">pvvp_back2back_vpp</option>
+			</select>
+			</span>		
+			<div data-add="testcases" class="add-button" onclick="duplicate(this)"></div>
+
+			
+		</div>
+
+
+
+		<div id="trafficconfig" class="panel">
+			<div><strong>Traffic Details:</strong></div><br><br>
+
+			<label>Select Packet Sizes:</label><br>
+			<span>
+			<select class="arr" name='TRAFFICGEN_PKT_SIZES'>64,128,256,512,1024,1280,1518
+				<option value="64" selected>64</option>
+				<option value="128">128</option>
+				<option value="256">256</option>
+				<option value="512">512</option>
+				<option value="1024">1024</option>
+				<option value="1280">1280</option>
+				<option value="1518">1518</option>
+			</select>
+			</span>		
+			<div data-add="TRAFFICGEN_PKT_SIZES" class="add-button" onclick="duplicate(this)"></div>
+
+			<br><br><br>
+			<label>Traffic duration(in secs):</label><br>
+			<input type="number" name="TRAFFICGEN_DURATION" min="0" max="1000" placeholder="example: 10">
+
+			<br><br><br>
+			<label>Number of flows(2 - 1,000,000:</label><br>
+			<input type="number" name="TRAFFIC.multistream" min="2" max="1000000" placeholder="example: 2">
+
+		</div>
+
+
+
+	</div>
+
+	<div class="control-box">
+		<button onclick="saveTestcase()">Next</button>
+	</div>
+
+	<script type="text/javascript">
+
+		function saveTestcase(){
+
+			testcases = readFromHTML(document.getElementById('testcases'));
+			trafficconfig = readFromHTML(document.getElementById('trafficconfig'));
+
+			if(testcases['testcases'] === "" || trafficconfig['TRAFFIC']['multistream'] === "" 
+				  ||trafficconfig['TRAFFICGEN_DURATION'] === ""|| trafficconfig['TRAFFICGEN_PKT_SIZES']===""){
+				
+				alert('Please fill all field');
+				return;
+			}
+
+			setValue('testcases', testcases['testcases']);
+			setValue('TRAFFIC.multistream', trafficconfig['TRAFFIC']['multistream']);
+			setValue('TRAFFICGEN_DURATION', trafficconfig['TRAFFICGEN_DURATION']);
+			setValue('TRAFFICGEN_PKT_SIZES', trafficconfig['TRAFFICGEN_PKT_SIZES']);
+
+
+			window.location.href = "/config/config.html";
+		}
+
+
+        function loadAllValues(){
+			config = getAllValues();
+
+			if(config['testcases'] !== undefined)
+				config['testcases'] = config['testcases'].split(',');
+
+			if(config['TRAFFICGEN_PKT_SIZES'] !== undefined)
+				config['TRAFFICGEN_PKT_SIZES'] = config['TRAFFICGEN_PKT_SIZES'].split(',');
+
+			if(config['TRAFFIC.multistream'] !== undefined){
+				config['TRAFFIC'] = {'multistream' : config['TRAFFIC.multistream']};
+				delete config['TRAFFIC.multistream'];
+			}
+
+			writeToHTML(document.getElementById('testcases'),config);
+			writeToHTML(document.getElementById('trafficconfig'),config);
+		}
+
+		
+	</script>
+
+</div>
+
+</body>
+</html>

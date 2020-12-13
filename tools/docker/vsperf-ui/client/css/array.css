@@ -1,0 +1,71 @@
+
+@keyframes popup {
+  0%{
+    transform: scale(0.5);
+  }
+  90%{
+    transform: scale(1.1);
+  }
+  100%{
+    transform: scale(1.0);
+  }
+}
+
+.arr{
+  display: inline-block;
+  padding-right: 3em;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  position: relative;
+  animation: popup 0.2s ease;
+}
+
+.arr > input{
+  background-color: transparent;
+  color: #333333;
+  padding: 0.5em;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 1em;
+  cursor: pointer;
+  min-width: 150px;
+  border: 1px solid grey;
+  border-radius: 6px;
+  margin: 10px;
+}
+
+.arr > input:hover{
+  background-color: #50affa;
+  color: white;
+}
+
+
+.arr > input[type="number"]{
+  width: 40px;
+}
+
+
+
+
+.add-button{
+  background-image: url("../assets/plus-circle-solid.svg");
+  width: 1.5em;
+  height: 1.5em;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+
+.del-button{
+  background-image: url("../assets/trash-alt-regular.svg");
+  background-repeat: no-repeat;
+  opacity: 0.7;
+  width: 1.5em;
+  height: 1.5em;
+  display: inline-block;
+}
+.del-button:hover{
+  opacity: 1
+}
+

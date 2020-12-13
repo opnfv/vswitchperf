@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VSperf | Config</title>
+
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <script src="/scripts/lib/yahu.js"></script>
+
+
+</head>
+
+<body onload="loadAllValues()">
+
+
+
+<div id="page-layout">
+	
+
+	<div class="dashboard">
+		<a class="tab" href="/index.html"><br><strong>Dashboard</strong></a>
+		<a class="active tab" href="#" >Configure Testbed
+			<a class="subtab" href="/config/scenario.html">Scenario</a>
+			<a class="subtab" href="/config/trafficgen.html">Trafficgen</a>
+			<a class="subtab" href="/config/dataplane.html">Dataplane</a>
+			<a class="subtab" href="/config/workload.html">Workload</a>
+			<a class="subtab" href="/config/testcases.html">Testcases</a>
+			<a class="active subtab" href="/config/config.html">View & Download Conf</a>
+		</a>
+		<a class="tab" href="/test-status.html">Test</a>
+		<a class="tab" href="/results.html">Results</a>
+		<a class="tab" href="/settings.html">Settings</a>
+	</div>
+
+	<div class="page">
+
+		<div>
+			<br><h2>VSperf Conf</h2>
+
+
+			<pre id="conf-file">
+			</pre >
+
+		</div>
+
+
+	</div>
+
+	<div class="control-box">
+		<button onclick="clearSettings()">Clear Config</button>
+		<button onclick="copyToClipboard(document.getElementById('conf-file').innerHTML)">Copy to Clipboard</button>
+		<button onclick="downloadAsFile('vsperf.conf', document.getElementById('conf-file').innerHTML)">Download</button>
+		<button onclick="document.location='/test.html'">Run Tests</button>
+	</div>
+
+	<script type="text/javascript">
+
+
+
+		function clearSettings(){
+			if(confirm("Are you sure you want to delete all Testbed configurations?"))
+				deleteAllValues();
+			location.reload(); 
+		}
+
+
+
+        function loadAllValues(){
+        	var conf = vsperfConfFile();
+        	if(conf !== "")
+        		document.getElementById('conf-file').innerHTML = conf;
+        	else
+        		document.getElementById('conf-file').innerHTML = "\n# No configurations found! ";
+        }
+
+
+
+
+
+
+
+
+
+
+function getConfStr(config, key){
+
+	if(config[key] !== undefined && config[key] !== "")
+		return `\n${key} = '${config[key]}'`;
+	else
+		return '';
+}
+
+function vsperfConfFile(){
+	config = getAllValues();
+
+	conf_file = "";
+
+	var cloud = config["cloud"];
+	var mode = config["mode"];
+
+	if(cloud !== undefined){
+
+		conf_file += "\n## This config is designed according to scenario \n## Cloud : ";
+
+		if(cloud === "dut" && mode!== undefined)
+			conf_file += "Baremetal,  Mode: "+mode;
+		else
+			conf_file += cloud;
+
+		conf_file+= "\n\n";
+	}
+
+
+
+	if(config['TRAFFICGEN'] === 'IxNet'){
+
+			conf_file+="\n########################\n#  Trafficgen settings\n########################";
+			conf_file+= "\nTRAFFICGEN = IxNet";
+
+			for(key of [  'TRAFFICGEN_IXIA_CARD', 
+						  'TRAFFICGEN_IXIA_PORT1', 
+				          'TRAFFICGEN_IXIA_PORT2', 
+				          'TRAFFICGEN_IXIA_LIB_PATH', 
+				          'TRAFFICGEN_IXNET_LIB_PATH', 
+				          'TRAFFICGEN_IXIA_HOST', 
+				          'TRAFFICGEN_IXNET_MACHINE', 
+				          'TRAFFICGEN_IXNET_PORT', 
+				          'TRAFFICGEN_IXNET_USER', 
+				          'TRAFFICGEN_IXNET_TESTER_RESULT_DIR', 
+				          'TRAFFICGEN_IXNET_DUT_RESULT_DIR'
+				        ])
+				conf_file += getConfStr(config, key);
+
+		conf_file+= "\n\n";
+
+	}
+	else if(config['TRAFFICGEN'] === 'TestCenter'){
+
+			conf_file+="\n########################\n#  Trafficgen settings\n########################";
+			conf_file+= "\nTRAFFICGEN = TestCenter";
+
+			for(key of [  'TRAFFICGEN_STC_LAB_SERVER_ADDR', 
+						  'TRAFFICGEN_STC_LICENSE_SERVER_ADDR', 
+						  'TRAFFICGEN_STC_EAST_CHASSIS_ADDR', 
+						  'TRAFFICGEN_STC_EAST_SLOT_NUM', 
+						  'TRAFFICGEN_STC_EAST_PORT_NUM', 
+						  'TRAFFICGEN_STC_EAST_INTF_ADDR', 
+						  'TRAFFICGEN_STC_EAST_INTF_GATEWAY_ADDR', 
+						  'TRAFFICGEN_STC_WEST_CHASSIS_ADDR', 
+						  'TRAFFICGEN_STC_WEST_SLOT_NUM', 
+						  'TRAFFICGEN_STC_WEST_PORT_NUM', 
+						  'TRAFFICGEN_STC_WEST_INTF_ADDR', 
+						  'TRAFFICGEN_STC_WEST_INTF_GATEWAY_ADDR', 
+						  'TRAFFICGEN_STC_RFC2544_TPUT_TEST_FILE_NAME'
+				        ])
+				conf_file += getConfStr(config, key);
+
+		conf_file+= "\n\n";
+
+	}
+	else if(config['TRAFFICGEN'] === 'Trex'){
+
+			conf_file+="\n########################\n#  Trafficgen settings\n########################";
+			conf_file+= "\nTRAFFICGEN = Trex";
+
+			for(key of [  'TRAFFICGEN_TREX_HOST_IP_ADDR',
+						  'TRAFFICGEN_TREX_USER',
+						  'TRAFFICGEN_TREX_BASE_DIR',
+						  'TRAFFICGEN_TREX_PORT1',
+						  'TRAFFICGEN_TREX_PORT2',
+						  'TRAFFICGEN_TREX_LINE_SPEED_GBPS',
+						  'TRAFFICGEN_TREX_PROMISCUOUS',
+						  'TRAFFICGEN_TREX_LATENCY_PPS',
+						  'TRAFFICGEN_TREX_RFC2544_BINARY_SEARCH_LOSS_VERIFICATION'
+				        ])
+				conf_file += getConfStr(config, key);
+
+			if(config['TRAFFICGEN_TREX_RFC2544_BINARY_SEARCH_LOSS_VERIFICATION'] === "True")
+				conf_file += getConfStr(config, 'TRAFFICGEN_TREX_MAX_REPEAT');
+
+
+		conf_file+= "\n\n";			
+
+	}
+
+	//
+	// Dataplane ->
+	//
+
+	if(cloud === 'dut' && (mode ==='normal' ||mode ==='trafficgen-off') && config['VSWITCH']!==undefined){
+
+		conf_file+="\n########################\n#  Vswitch settings\n########################";
+		conf_file += getConfStr(config, 'VSWITCH');
+
+		if(config['VSWITCH'] === 'OvsDpdkVhost' || config['VSWITCH'] === 'OvsVanilla')
+			conf_file += getConfStr(config, 'VSWITCH_PMD_CPU_MASK');
+		else if(config['VSWITCH']==='VppDpdkVhost')
+			conf_file += getConfStr(config, 'VSWITCH_VPP_L2_CONNECT_MODE');
+
+		conf_file+= "\n\n";
+
+	}
+	else if(cloud === 'k8s' && config['PLUGIN']!==undefined){
+		conf_file+="\n########################\n#  CNI Plugin settings\n########################";
+		conf_file += getConfStr(config, 'PLUGIN');
+
+		if(config['NETWORK_ATTACHMENT_FILEPATH']!== undefined && config['NETWORK_ATTACHMENT_FILEPATH']!==""){
+			
+			filepaths = config['NETWORK_ATTACHMENT_FILEPATH'].split(',');
+			delete config['NETWORK_ATTACHMENT_FILEPATH'];
+			var net_attach_defs = [];
+			for(var filepath of filepaths)
+				net_attach_defs.push({'filepath': filepath});
+
+			var nad = '[';
+			for(i in net_attach_defs){
+				if(i!=0)
+					nad += ',';
+				nad += `'${net_attach_defs[i]["filepath"]}'`;
+			}
+			nad += ']';
+
+			conf_file += `\nNETWORK_ATTACHMENT_FILEPATH = ${nad}`;
+		}
+
+		if(config['PLUGIN'] === 'sriov'){
+			conf_file += getConfStr(config, 'CONFIGMAP_FILEPATH');
+			conf_file += getConfStr(config, 'DEVICE_PLUGIN_FILEPATH');
+		}
+
+		conf_file+= "\n\n";
+
+	}
+
+
+	
+	//
+	// Workload ->
+	//
+
+	if(cloud === 'dut' && (mode ==='normal' ||mode ==='trafficgen-off') && config["GUEST_IMAGE"]!==undefined){
+
+		conf_file+="\n########################\n#  VNF settings\n########################";
+		conf_file += `\nGUEST_IMAGE = ${config["GUEST_IMAGE"]}`;
+		conf_file += `\nGUEST_TESTPMD_FWD_MODE = ${config["GUEST_TESTPMD_FWD_MODE"]}`;
+		conf_file += `\nGUEST_SMP = ${config["GUEST_SMP"]}`;
+		conf_file += `\nGUEST_CORE_BINDING = ${config["GUEST_CORE_BINDING"]}`;
+
+		conf_file+= "\n\n";
+
+	}
+	else if(cloud === 'k8s' && config['PLUGIN']!==undefined){
+		conf_file+="\n########################\n#  POD settings\n########################";
+		conf_file += getConfStr(config, 'POD_MANIFEST_FILEPATH');
+
+		conf_file+= "\n\n";
+	}
+
+
+	
+	//
+	// Workload ->
+	//
+
+	if(config['TRAFFICGEN_PKT_SIZES'] !== undefined && config['TRAFFICGEN_PKT_SIZES']!== ""){
+		conf_file+="\n########################\n#  Traffic settings\n########################";
+		conf_file += `\nTRAFFICGEN_DURATION = ${config['TRAFFICGEN_DURATION']}`;
+		conf_file += `\nTRAFFICGEN_PKT_SIZES = (${config['TRAFFICGEN_PKT_SIZES']},)`;
+		conf_file += `\nTRAFFIC = {'multistream' : ${config['TRAFFIC.multistream']} }`;
+	
+		conf_file+= "\n\n\n\n";
+	}
+
+
+	return conf_file;
+}
+
+
+		
+	</script>
+
+</div>
+
+</body>
+</html>
