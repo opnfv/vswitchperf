@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VSperf | Config</title>
+
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <script src="/scripts/lib/yahu.js"></script>
+    <script src="/scripts/index.js"></script>
+</head>
+
+<body onload="loadAllValues()">
+
+
+
+<div id="page-layout">
+	
+
+	<div class="dashboard">
+		<a class="tab" href="/index.html"><br><strong>Dashboard</strong></a>
+		<a class="active tab" href="#" >Configure Testbed
+			<a class="subtab" href="/config/scenario.html">Scenario</a>
+			<a class="active subtab" href="/config/trafficgen.html">Trafficgen</a>
+			<a class="subtab" href="/config/dataplane.html">Dataplane</a>
+			<a class="subtab" href="/config/workload.html">Workload</a>
+			<a class="subtab" href="/config/testcases.html">Testcases</a>
+			<a class="subtab" href="/config/config.html">View & Download Conf</a>
+		</a>
+		<a class="tab" href="/test-status.html">Test</a>
+		<a class="tab" href="/results.html">Results</a>
+		<a class="tab" href="/settings.html">Settings</a>
+	</div>
+
+	<div class="page">
+
+
+
+		<div class="panel scenario">
+			<div><strong>Select Trafficgen:</strong></div><br>
+
+			<input type="radio" name="TRAFFICGEN" value="IxNet" id="TRAFFICGEN:IxNet" onchange="toggleTrafficPanel()">
+			<label for="TRAFFICGEN:IxNet" title="IXIA IxNetwork applications.">IxNet</label>
+
+			<input type="radio" name="TRAFFICGEN" value="TestCenter" id="TRAFFICGEN:TestCenter" onchange="toggleTrafficPanel()">
+			<label for="TRAFFICGEN:TestCenter" title="Spirent TestCenter Traffic generator">TestCenter</label>
+
+			<input type="radio" name="TRAFFICGEN" value="Trex" id="TRAFFICGEN:Trex" onchange="toggleTrafficPanel()">
+			<label for="TRAFFICGEN:Trex" title="Trex Traffic generator wrapper.">Trex</label>
+
+		</div>
+
+
+
+
+
+
+
+		<div id="trex" class="panel">
+
+			<label title="IP address of host where Trex is running">IP Address:</label><br>
+			<input name="TRAFFICGEN_TREX_HOST_IP_ADDR"
+			type="text" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+			placeholder="example: 10.10.120.25" >
+
+			<br><br><br>
+			<label title="Username of host where Trex is running">Username:</label><br>
+			<input name="TRAFFICGEN_TREX_USER"
+			type="text" maxlength="32" pattern="^[a-z\d]+$"
+			placeholder="example: root">
+
+			<br><br><br>
+			<label title="Location where Trex Binary resides">Trex Base Dir:</label><br>
+			<input name="TRAFFICGEN_TREX_BASE_DIR"
+			type="text" maxlength="82" pattern="^\/$|(\/[a-zA-Z_0-9-.]+)+$|(\/[a-zA-Z_0-9-.]+)+\/$"
+			placeholder="example: /root/trex_2.5/scripts/">
+
+			<br><br><br>
+			<label title="PCI address of Data port 1">Port1:</label><br>
+			<input name="TRAFFICGEN_TREX_PORT1"
+			type="text" pattern="\b(0{0,4}:\d{2}:\d{2}.\d:?\w*)"
+			placeholder="example: 0000:81:00.1">
+
+			<br><br><br>
+			<label title="PCI address of Data port 2">Port2:</label><br>
+			<input name="TRAFFICGEN_TREX_PORT2"
+			type="text" pattern="\b(0{0,4}:\d{2}:\d{2}.\d:?\w*)"
+			placeholder="example: 0000:81:00.1">
+
+			<br><br><br>
+			<label title="Line rate (in Gbps) of the ports">Line Speed Gbps:</label><br>
+			<input name="TRAFFICGEN_TREX_LINE_SPEED_GBPS" 
+			type="number" min="0" max="1000" placeholder="example: 10">
+
+			<br><br><br>
+			<label>T-Rex Promiscuous enabled?</label><br>
+			<select name="TRAFFICGEN_TREX_PROMISCUOUS">
+				<option value="True">True</option>
+				<option value="False" selected>False</option>
+			</select>
+
+			<br><br><br>
+			<label title="Latency value in PPS">Latency PPS:</label><br>
+			<input name="TRAFFICGEN_TREX_LATENCY_PPS"
+			type="number" min="0" placeholder="example: 1000">
+
+			<br><br><br>
+			<label>Do you want Binary Loss Verification Enabled?</label><br>
+			<select onchange="toggleMaxrepBox(this)" name="TRAFFICGEN_TREX_RFC2544_BINARY_SEARCH_LOSS_VERIFICATION">
+				<option value="True">True</option>
+				<option value="False" selected>False</option>
+			</select>
+
+			<br><br><br>
+			<label class="trex-maxrep">Whats the max repetition value in Binary Loss Verification?</label><br>
+			<input class="trex-maxrep" name="TRAFFICGEN_TREX_MAX_REPEAT" type="number" min="0" placeholder="example: 2">
+
+		</div>
+
+
+
+
+
+
+
+
+		<div id="testcenter" class="panel">
+
+			<label>Lab Server IP Address:</label><br>
+			<input name="TRAFFICGEN_STC_LAB_SERVER_ADDR"
+			type="text" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+			placeholder="example: 10.10.120.25" >
+
+			<br><br><br>
+			<label>License Server IP Address:</label><br>
+			<input name="TRAFFICGEN_STC_LICENSE_SERVER_ADDR"
+			type="text" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+			placeholder="example: 10.10.120.25" >
+
+			<br><br><br>
+			<label>East Port Chassis IP Address:</label><br>
+			<input name="TRAFFICGEN_STC_EAST_CHASSIS_ADDR"
+			type="text" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+			placeholder="example: 10.10.120.25" >
+
+			<br><br><br>
+			<label>East Port Slot Number:</label><br>
+			<input name="TRAFFICGEN_STC_EAST_SLOT_NUM" type="number" min="0" placeholder="example: 2">
+
+			<br><br><br>
+			<label>Port Number of the East-Port:</label><br>
+			<input name="TRAFFICGEN_STC_EAST_PORT_NUM" type="number" min="0" placeholder="example: 2">
+
+			<br><br><br>
+			<label>East port Interface IP Address:</label><br>
+			<input name="TRAFFICGEN_STC_EAST_INTF_ADDR"
+			type="text" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+			placeholder="example: 10.10.120.25" >
+
+			<br><br><br>
+			<label>Gateway IP Address for East Port:</label><br>
+			<input name="TRAFFICGEN_STC_EAST_INTF_GATEWAY_ADDR"
+			type="text" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+			placeholder="example: 10.10.120.25" >
+
+			<br><br><br>
+			<label>West Port Chassis IP Address:</label><br>
+			<input name="TRAFFICGEN_STC_WEST_CHASSIS_ADDR"
+			type="text" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+			placeholder="example: 10.10.120.25" >
+
+			<br><br><br>
+			<label>West Port Slot Number:</label><br>
+			<input name="TRAFFICGEN_STC_WEST_SLOT_NUM" type="number" min="0" placeholder="example: 2">
+
+			<br><br><br>
+			<label>Port Number of the West-Port:</label><br>
+			<input name="TRAFFICGEN_STC_WEST_PORT_NUM" type="number" min="0" placeholder="example: 2">
+
+			<br><br><br>
+			<label>West port Interface IP Address:</label><br>
+			<input name="TRAFFICGEN_STC_WEST_INTF_ADDR"
+			type="text" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+			placeholder="example: 10.10.120.25" >
+
+			<br><br><br>
+			<label>Gateway IP Address for West Port:</label><br>
+			<input name="TRAFFICGEN_STC_WEST_INTF_GATEWAY_ADDR"
+			type="text" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+			placeholder="example: 10.10.120.25" >
+
+			<br><br><br>
+			<label>Name of the Script to use for RFC2544 Tests:</label><br>
+			<input name="TRAFFICGEN_STC_RFC2544_TPUT_TEST_FILE_NAME"
+			type="text" maxlength="82" pattern="^[a-zA-Z_0-9-.]+$"
+			placeholder="example: testcenter-rfc2544-rest.py">
+
+		</div>
+
+
+
+
+
+
+
+		<div id="ixnet" class="panel">
+
+			<label>Chassis Card Number:</label><br>
+			<input name="TRAFFICGEN_IXIA_CARD" type="number" min="0" placeholder="example: 1">
+
+			<br><br><br>
+			<label>Chassis Port-1 Number:</label><br>
+			<input name="TRAFFICGEN_IXIA_PORT1" type="number" min="0" placeholder="example: 5">
+
+			<br><br><br>
+			<label>Chassis Port-2 Number:</label><br>
+			<input name="TRAFFICGEN_IXIA_PORT2" type="number" min="0" placeholder="example: 5">
+
+			<br><br><br>
+			<label title="Library path of Ixia">IXIA Library path:</label><br>
+			<input name="TRAFFICGEN_IXIA_LIB_PATH"
+			type="text" maxlength="82" pattern="^\/$|(\/[a-zA-Z_0-9-.]+)+$|(\/[a-zA-Z_0-9-.]+)+\/$"
+			placeholder="example: /opt/ixnet/lib/ixTcl1.0">
+
+			<br><br><br>
+			<label title="Library Path for the IXNET">IXNET Library Path:</label><br>
+			<input name="TRAFFICGEN_IXNET_LIB_PATH"
+			type="text" maxlength="82" pattern="^\/$|(\/[a-zA-Z_0-9-.]+)+$|(\/[a-zA-Z_0-9-.]+)+\/$"
+			placeholder="example: /opt/ixnet/lib/ixTcl1.0">
+
+			<br><br><br>
+			<label>IP of the Chassis:</label><br>
+			<input name="TRAFFICGEN_IXIA_HOST"
+			type="text" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+			placeholder="example: 10.10.120.25" >
+
+			<br><br><br>
+			<label>IP of the API Server:</label><br>
+			<input name="TRAFFICGEN_IXNET_MACHINE"
+			type="text" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+			placeholder="example: 10.10.120.25" >
+
+			<br><br><br>
+			<label>API Server Port:</label><br>
+			<input name="TRAFFICGEN_IXNET_PORT" type="number" min="0" placeholder="example: 8080">
+
+			<br><br><br>
+			<label>Username for the API server:</label><br>
+			<input name="TRAFFICGEN_IXNET_USER"
+			type="text" maxlength="32" pattern="^[a-z\d]+$"
+			placeholder="example: root">
+
+			<br><br><br>
+			<label>Results Directory on API Server:</label><br>
+			<input name="TRAFFICGEN_IXNET_TESTER_RESULT_DIR"
+			type="text" maxlength="82" pattern='^[a-zA-Z]:\\(((?![<>:"/\\|?*]).)+((?<![ .])\\)?)*$'
+			placeholder="example: c:\ixia_results\">
+
+
+			<br><br><br>
+			<label>Results Directory on DUT:</label><br>
+			<input name="TRAFFICGEN_IXNET_DUT_RESULT_DIR"
+			type="text" maxlength="82" pattern="^\/$|(\/[a-zA-Z_0-9-.]+)+$|(\/[a-zA-Z_0-9-.]+)+\/$"
+			placeholder="example: /opt/ixnet/lib/ixTcl1.0">
+
+
+
+
+		</div>
+
+
+
+	</div>
+
+	<div class="control-box">
+		<button onclick="saveTrafficgen()">Next</button>
+	</div>
+
+	<script type="text/javascript">
+
+		function saveTrafficgen(){
+
+			var trafficgen = getRadioValue('TRAFFICGEN');
+
+			if(trafficgen === undefined){
+				alert('Please select a Traffic generator!');
+				return;
+			}
+
+			if(Trafficgen == "IxNet")
+				var trafficgen_panel = document.getElementById('ixnet');
+			else if(Trafficgen == "TestCenter")
+				var trafficgen_panel = document.getElementById('testcenter');
+			else if(Trafficgen == "Trex")
+				var trafficgen_panel = document.getElementById('trex');
+
+			var traffigenConig = readFromHTML(trafficgen_panel);
+
+			var alertFillAllValues = false;
+
+			for (const [key, value] of Object.entries(traffigenConig)) {
+
+				if(value === ""){
+					
+					if(key=== "TRAFFICGEN_TREX_MAX_REPEAT")
+						if(getValue("TRAFFICGEN_TREX_RFC2544_BINARY_SEARCH_LOSS_VERIFICATION")=== "False")
+							continue;
+
+					alertFillAllValues = true;
+
+					continue;
+				}
+
+				setValue(key, value);
+			}
+			setValue('TRAFFICGEN', trafficgen);
+
+		if(alertFillAllValues){
+			alert('You must fill all values');
+			return;
+		}
+			
+
+			window.location.href = "/config/dataplane.html";
+		}
+
+
+		function toggleMaxrepBox(binarySearch){
+
+			if(binarySearch.value === "True")
+				var display = "inline-block";
+			else if(binarySearch.value === "False")
+				var display = "none"
+
+			var objs = document.getElementsByClassName('trex-maxrep')
+			for(i=0; i<objs.length; i++)
+				objs[i].style.display = display;
+		}
+
+		function toggleTrafficPanel(){
+			Trafficgen = getRadioValue("TRAFFICGEN");
+
+			panelIDs = ["trex", "testcenter", "ixnet"];
+			for(i=0; i<panelIDs.length; i++)
+				document.getElementById(panelIDs[i]).style.display = "none";
+
+			if(Trafficgen == "IxNet")
+				document.getElementById("ixnet").style.display = "block";
+			else if(Trafficgen == "TestCenter")
+				document.getElementById("testcenter").style.display = "block";
+			else if(Trafficgen == "Trex")
+				document.getElementById("trex").style.display = "block";
+
+			
+			
+		}
+
+		function loadAllValues(){
+			config = getAllValues();
+
+			writeToHTML(document.getElementsByClassName('scenario')[0],config);
+			writeToHTML(document.getElementById('trex'),config);
+			writeToHTML(document.getElementById('testcenter'),config);
+			writeToHTML(document.getElementById('ixnet'),config);
+			toggleTrafficPanel();
+			toggleMaxrepBox(document.getElementsByName('TRAFFICGEN_TREX_RFC2544_BINARY_SEARCH_LOSS_VERIFICATION')[0]);
+
+
+			cloud = getValue('cloud');
+			mode = getValue('mode');
+
+			if(cloud === undefined){
+				alert('Please select a scenario first! (Redirecting you..)');
+				window.location.href = "/config/scenario.html";
+			}
+
+			if(cloud === 'dut' && (mode ==='trafficgen-off')){
+				window.location.href = "/config/dataplane.html";				
+			}
+		}
+
+		
+
+
+		
+	</script>
+
+</div>
+
+</body>
+
+</html>

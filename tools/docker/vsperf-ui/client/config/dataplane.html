@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VSperf | Config</title>
+
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <script src="/scripts/lib/yahu.js"></script>
+    <script src="/scripts/index.js"></script>
+
+</head>
+
+<body onload="loadAllValues()">
+
+
+
+<div id="page-layout">
+	
+
+	<div class="dashboard">
+		<a class="tab" href="/index.html"><br><strong>Dashboard</strong></a>
+		<a class="active tab" href="#" >Configure Testbed
+			<a class="subtab" href="/config/scenario.html">Scenario</a>
+			<a class="subtab" href="/config/trafficgen.html">Trafficgen</a>
+			<a class="active subtab" href="/config/dataplane.html">Dataplane</a>
+			<a class="subtab" href="/config/workload.html">Workload</a>
+			<a class="subtab" href="/config/testcases.html">Testcases</a>
+			<a class="subtab" href="/config/config.html">View & Download Conf</a>
+		</a>
+		<a class="tab" href="/test-status.html">Test</a>
+		<a class="tab" href="/results.html">Results</a>
+		<a class="tab" href="/settings.html">Settings</a>
+	</div>
+
+	<div class="page">
+
+		<div id="vswitch" class="panel scenario">
+			<div><strong>Choose a Dataplane Technology:</strong></div><br>
+
+			<input type="radio" name="VSWITCH" value="OvsDpdkVhost" id="VSWITCH:OvsDpdkVhost" onchange="toggleVswitchConfig()">
+			<label for="VSWITCH:OvsDpdkVhost">OvsDpdkVhost</label>
+			
+			<input type="radio" name="VSWITCH" value="OvsVanilla" id="VSWITCH:OvsVanilla" onchange="toggleVswitchConfig()">
+			<label for="VSWITCH:OvsVanilla">OvsVanilla</label>
+			
+			<input type="radio" name="VSWITCH" value="VppDpdkVhost" id="VSWITCH:VppDpdkVhost" onchange="toggleVswitchConfig()">
+			<label for="VSWITCH:VppDpdkVhost">VppDpdkVhost</label>
+		</div>
+
+
+		<div id="vswitchconfig" class="panel">
+
+			<label class="ovs-mask" title="Mask for OVS PMDs">CPU Mask for OVS:</label><br>
+			<input class="ovs-mask" name="VSWITCH_PMD_CPU_MASK"
+			type="text" maxlength="8" pattern="^[0-9a-fA-F]+$"
+			placeholder="example: F0">
+
+			<label class="vpp-mode">L2 connection mode:</label><br>
+			<select class="vpp-mode" name="VSWITCH_VPP_L2_CONNECT_MODE">
+				<option value="xconnect" selected>xconnect</option>
+				<option value="bridge">bridge</option>
+				<option value="l2patch">l2patch</option>
+			</select>
+		</div>
+
+
+		<div id="cni" class="panel scenario">
+			<div><strong>Choose a CNI Plugin:</strong></div><br>
+
+			<input type="radio" name="PLUGIN" value="ovsdpdk" id="PLUGIN:ovsdpdk" onchange="togglePluginConfig()">
+			<label for="PLUGIN:ovsdpdk">ovsdpdk</label>
+			
+			<input type="radio" name="PLUGIN" value="vpp" id="PLUGIN:vpp" onchange="togglePluginConfig()">
+			<label for="PLUGIN:vpp">vpp</label>
+			
+			<input type="radio" name="PLUGIN" value="sriov" id="PLUGIN:sriov" onchange="togglePluginConfig()">
+			<label for="PLUGIN:sriov">sriov</label>
+		</div>
+
+
+		<div id="cniconfig" class="panel">
+
+			<label title="Add all network attachment definitions filepaths to be used">Network Attachment Definitions:</label><br>
+			<div class="arr" name="NETWORK_ATTACHMENT_FILEPATH">
+			<input name="filepath"
+			type="text" maxlength="82" pattern="^\/$|(\/[a-zA-Z_0-9-.]+)+$|(\/[a-zA-Z_0-9-.]+)+\/$"
+			placeholder="example: /root/files/vpp-nad.yaml">
+			</div>
+			<div data-add="NETWORK_ATTACHMENT_FILEPATH" class="add-button" onclick="duplicate(this)"></div>
+
+			<br><br><br>
+			<label class='sriov-dp'>SRIOV Device Plugin Filepath:</label><br>
+			<input class='sriov-dp' name="DEVICE_PLUGIN_FILEPATH"
+			type="text" maxlength="82" pattern="^\/$|(\/[a-zA-Z_0-9-.]+)+$|(\/[a-zA-Z_0-9-.]+)+\/$"
+			placeholder="example: /root/files/vpp-nad.yaml">
+
+			<br><br><br>
+			<label class='sriov-dp'>SRIOV Device Plugin ConfigMap Filepath:</label><br>
+			<input class='sriov-dp' name="CONFIGMAP_FILEPATH"
+			type="text" maxlength="82" pattern="^\/$|(\/[a-zA-Z_0-9-.]+)+$|(\/[a-zA-Z_0-9-.]+)+\/$"
+			placeholder="example: /root/files/vpp-nad.yaml">
+			
+			
+
+		</div>
+
+
+
+	</div>
+
+	<div class="control-box">
+		<button onclick="saveDataplane()">Next</button>
+	</div>
+
+	<script type="text/javascript">
+
+		function saveDataplane(){
+			var cloud = getValue('cloud');
+			var mode = getValue('mode');
+
+			if(cloud === 'dut' && (mode ==='normal' ||mode ==='trafficgen-off')){
+
+				vswitch = readFromHTML(document.getElementById('vswitch'));
+				vswitchconfig = readFromHTML(document.getElementById('vswitchconfig'));
+				
+				if(vswitch['VSWITCH'] === undefined){
+					alert('Please select a dataplane technology!');
+					return;
+				}
+				setValue('VSWITCH', vswitch['VSWITCH']);
+
+				if(vswitch['VSWITCH'] === 'OvsDpdkVhost' || vswitch['VSWITCH'] === 'OvsVanilla'){
+					if(vswitchconfig['VSWITCH_PMD_CPU_MASK'] === ""){
+						alert('Please fill all values!');
+						return;
+					}
+					setValue('VSWITCH_PMD_CPU_MASK', vswitchconfig['VSWITCH_PMD_CPU_MASK']);
+				}
+				else if(vswitch['VSWITCH']==='VppDpdkVhost'){
+					if(vswitchconfig['VSWITCH_VPP_L2_CONNECT_MODE'] === ""){
+						alert('Please fill all values!');
+						return;
+					}
+					setValue('VSWITCH_VPP_L2_CONNECT_MODE', vswitchconfig['VSWITCH_VPP_L2_CONNECT_MODE']);
+				}
+
+			
+				
+			}else if(cloud === 'k8s'){
+				cni = readFromHTML(document.getElementById('cni'));
+				cniconfig = readFromHTML(document.getElementById('cniconfig'));
+				
+				if(cni['PLUGIN'] === undefined){
+					alert('Please select a CNI Plugin first!');
+					return;
+				}
+				setValue('PLUGIN', cni['PLUGIN']);
+
+				const net_attach_defs = [];
+				for(i=0; i< cniconfig['NETWORK_ATTACHMENT_FILEPATH'].length ; i++){
+					if(cniconfig['NETWORK_ATTACHMENT_FILEPATH'][i]['filepath'] === ""){
+						alert('A Network Attachment Filepath field is empty');
+						return;
+					}
+					net_attach_defs.push(cniconfig['NETWORK_ATTACHMENT_FILEPATH'][i]['filepath']);
+					
+				}
+				setValue('NETWORK_ATTACHMENT_FILEPATH', net_attach_defs);
+
+				if(cni['PLUGIN'] === 'sriov'){
+					if(cniconfig['CONFIGMAP_FILEPATH'] === "" || 'DEVICE_PLUGIN_FILEPATH' === ""){
+						alert('Please fill all values!');
+						return;
+					}
+					setValue('CONFIGMAP_FILEPATH', cniconfig['CONFIGMAP_FILEPATH']);
+					setValue('DEVICE_PLUGIN_FILEPATH', cniconfig['DEVICE_PLUGIN_FILEPATH']);
+				}
+				
+			}
+
+			window.location.href = "/config/workload.html";
+
+		}
+
+        function toggleVswitchConfig(){
+
+        	vswitch = getRadioValue('VSWITCH');
+
+        	Array.from(document.getElementsByClassName('ovs-mask')).forEach(function(item){
+        			item.style.display = "none"; });
+        	Array.from(document.getElementsByClassName('vpp-mode')).forEach(function(item){
+        			item.style.display = "none"; });
+
+        	if(vswitch === 'OvsDpdkVhost' || vswitch === 'OvsVanilla'){
+        		Array.from(document.getElementsByClassName('ovs-mask')).forEach(function(item){
+        			item.style.display = "block"; });
+        	}
+        	else if(vswitch === 'VppDpdkVhost'){
+        		Array.from(document.getElementsByClassName('vpp-mode')).forEach(function(item){
+        			item.style.display = "block"; });
+        	}
+
+        }
+
+        function togglePluginConfig(){
+        	plugin = getRadioValue('PLUGIN');
+
+        	Array.from(document.getElementsByClassName('sriov-dp')).forEach(function(item){
+        			item.style.display = "none"; });
+
+        	if(plugin === 'sriov'){
+        		Array.from(document.getElementsByClassName('sriov-dp')).forEach(function(item){
+        			item.style.display = "block"; });
+        	}
+
+
+        }
+
+        function loadAllValues(){
+			config = getAllValues();
+
+			if(config['NETWORK_ATTACHMENT_FILEPATH']!== undefined){
+				filepaths = config['NETWORK_ATTACHMENT_FILEPATH'].split(',');
+				delete config['NETWORK_ATTACHMENT_FILEPATH'];
+				var net_attach_defs = [];
+				for(const filepath of filepaths)
+					net_attach_defs.push({'filepath': filepath});
+				config['NETWORK_ATTACHMENT_FILEPATH'] = net_attach_defs;
+			}
+
+			writeToHTML(document.getElementById('vswitch'),config);
+			writeToHTML(document.getElementById('vswitchconfig'),config);
+			writeToHTML(document.getElementById('cni'),config);
+			writeToHTML(document.getElementById('cniconfig'),config);
+			toggleVswitchConfig();
+			togglePluginConfig();
+
+			document.getElementById('vswitch').style.display = 'none';
+			document.getElementById('vswitchconfig').style.display = 'none';
+			document.getElementById('cni').style.display = 'none';
+			document.getElementById('cniconfig').style.display = 'none';
+
+			cloud = getValue('cloud');
+			mode = getValue('mode');
+
+			if(cloud === undefined){
+				alert('Please select a scenario first! (Redirecting you..)');
+				window.location.href = "/config/scenario.html";
+			}
+
+
+			if(cloud === 'dut' && (mode ==='normal' ||mode ==='trafficgen-off')){
+				document.getElementById('vswitch').style.display = 'block';
+				document.getElementById('vswitchconfig').style.display = 'block';
+			}else if(cloud === 'openstack' || (cloud === 'dut' && mode ==='trafficgen')){
+				window.location.href = "/config/workload.html";
+
+			}else if(cloud === 'k8s'){
+				document.getElementById('cni').style.display = 'block';
+				document.getElementById('cniconfig').style.display = 'block';
+			}
+			
+		}
+
+		
+	</script>
+
+</div>
+
+</body>
+
+</html>

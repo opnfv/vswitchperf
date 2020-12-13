@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VSperf | Config</title>
+
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <script src="/scripts/lib/yahu.js"></script>
+
+</head>
+
+<body onload="loadAllValues()">
+
+
+
+<div id="page-layout">
+	
+
+	<div class="dashboard">
+		<a class="tab" href="/index.html"><br><strong>Dashboard</strong></a>
+		<a class="active tab" href="#" >Configure Testbed
+			<a class="subtab" href="/config/scenario.html">Scenario</a>
+			<a class="subtab" href="/config/trafficgen.html">Trafficgen</a>
+			<a class="subtab" href="/config/dataplane.html">Dataplane</a>
+			<a class="active subtab" href="/config/workload.html">Workload</a>
+			<a class="subtab" href="/config/testcases.html">Testcases</a>
+			<a class="subtab" href="/config/config.html">View & Download Conf</a>
+		</a>
+		<a class="tab" href="/test-status.html">Test</a>
+		<a class="tab" href="/results.html">Results</a>
+		<a class="tab" href="/settings.html">Settings</a>
+	</div>
+
+	<div class="page">
+
+		
+		<div id="vnfconfig" class="panel">
+
+		<div class="arr vnf panel" name="VNF">
+
+			<label title="Complete path where image resides">VNF Image Path:</label><br>
+			<input name="GUEST_IMAGE"
+			type="text" maxlength="82" pattern="^\/$|(\/[a-zA-Z_0-9-.]+)+$|(\/[a-zA-Z_0-9-.]+)+\/$"
+			placeholder="example: /home/vloop-vnf.qcow2l">
+			
+			<br><br><br>
+			<label>Forwarding mode:</label><br>
+			<select name="GUEST_TESTPMD_FWD_MODE">
+				<option value="io" selected>io</option>
+				<option value="mac">mac</option>
+				<option value="mac_retry">mac_retry</option>
+				<option value="macswap">macswap</option>
+				<option value="flowgen">flowgen</option>
+				<option value="rxonly">rxonly</option>
+			</select>
+
+			<br><br><br>
+			<label title="While Spawning the guest, how many SMPs to use?">Number of SMP to use:</label><br>
+			<input name="GUEST_SMP" 
+			type="number" min="0" max="100" placeholder="example: 2">
+
+			<br><br><br>
+			<label title="Enter the cores to use for VNF">VNF Core binding:</label><br>
+			<input name="GUEST_CORE_BINDING" 
+			type="text" maxlength="82" pattern="^[ ]*\[([ ]*('\d{1,3}')([ ]*,[ ]*('\d{1,3}')[ ]*)*[ ]*)\][ ]*$"
+			placeholder="example: ['8','22']">
+
+		</div>
+		<div data-add="VNF" class="add-button" onclick="duplicate(this)"></div>
+
+			
+		</div>
+
+
+
+		<div id="podconfig" class="panel">
+
+			<label>POD Manifest Filepath:</label><br>
+			<input name="POD_MANIFEST_FILEPATH"
+			type="text" maxlength="82" pattern="^\/$|(\/[a-zA-Z_0-9-.]+)+$|(\/[a-zA-Z_0-9-.]+)+\/$"
+			placeholder="ex: /root/files/testpmd-pod.yaml">			
+			
+
+		</div>
+
+
+
+	</div>
+
+	<div class="control-box">
+		<button onclick="saveWorkload()">Next</button>
+	</div>
+
+	<script type="text/javascript">
+
+		function saveWorkload(){
+			var cloud = getValue('cloud');
+			var mode = getValue('mode');
+
+			if(cloud === 'dut' && (mode ==='normal' ||mode ==='trafficgen-off')){
+
+				vnfconfig = readFromHTML(document.getElementById('vnfconfig'));
+
+				var GUEST_IMAGE = '[';
+				var GUEST_TESTPMD_FWD_MODE = '[';
+				var GUEST_SMP = '[';
+				var GUEST_CORE_BINDING = '[';
+
+				vnfconfig['VNF'].forEach(function(vnf, i){
+
+					if(vnf['GUEST_IMAGE'] === "" || vnf['GUEST_TESTPMD_FWD_MODE'] === "" ||vnf['GUEST_SMP'] === ""){
+						alert('Please fill all field');
+						return;
+					}
+
+					if(i!=0)
+						GUEST_IMAGE += ',';
+					GUEST_IMAGE+= `'${vnf['GUEST_IMAGE']}'`;
+
+					if(i!=0)
+						GUEST_TESTPMD_FWD_MODE += ',';
+					GUEST_TESTPMD_FWD_MODE += `'${vnf['GUEST_TESTPMD_FWD_MODE']}'`;
+
+					if(i!=0)
+						GUEST_SMP += ',';
+					GUEST_SMP += `'${vnf['GUEST_SMP']}'`;
+
+					if(i!=0)
+						GUEST_CORE_BINDING += ',';
+					GUEST_CORE_BINDING += `${vnf['GUEST_CORE_BINDING']}`
+
+				});
+
+				GUEST_IMAGE+= ']';
+				GUEST_TESTPMD_FWD_MODE+= ']';
+				GUEST_SMP+= ']';
+				GUEST_CORE_BINDING+= ',]';
+
+				setValue('GUEST_IMAGE', GUEST_IMAGE);
+				setValue('GUEST_TESTPMD_FWD_MODE', GUEST_TESTPMD_FWD_MODE);
+				setValue('GUEST_SMP', GUEST_SMP);
+				setValue('GUEST_CORE_BINDING', GUEST_CORE_BINDING);
+			
+				
+			}else if(cloud === 'k8s'){
+				podconfig = readFromHTML(document.getElementById('podconfig'));
+				
+				
+				if(podconfig['POD_MANIFEST_FILEPATH'] === ""){
+					alert('Please enter POD Manifest Filepath');
+					return;
+				}
+				setValue('POD_MANIFEST_FILEPATH', podconfig['POD_MANIFEST_FILEPATH']);				
+			}
+
+			window.location.href = "/config/testcases.html";
+
+		}
+
+
+        function loadAllValues(){
+			config = getAllValues();
+
+			vnf = [];
+
+			if(config['GUEST_IMAGE'] !== undefined){
+				vnf_images = config['GUEST_IMAGE'].replace(/[\[\]'']/g, '').split(',');
+				vnf_images.forEach(function(image, i){
+					if(vnf[i] === undefined)
+						vnf.push({'GUEST_IMAGE': image});
+					else
+						vnf[i]['GUEST_IMAGE'] = image;
+				});
+			}
+
+			if(config['GUEST_TESTPMD_FWD_MODE'] !== undefined){
+				fwd_mode = config['GUEST_TESTPMD_FWD_MODE'].replace(/[\[\]'']/g, '').split(',');
+				fwd_mode.forEach(function(mode, i){
+					if(vnf[i] === undefined)
+						vnf.push({'GUEST_TESTPMD_FWD_MODE': mode});
+					else
+						vnf[i]['GUEST_TESTPMD_FWD_MODE'] = mode;
+				});
+			}
+
+			if(config['GUEST_SMP'] !== undefined){
+				smp_count = config['GUEST_SMP'].replace(/[\[\]'']/g, '').split(',');
+				smp_count.forEach(function(smp, i){
+					if(vnf[i] === undefined)
+						vnf.push({'GUEST_SMP': smp});
+					else
+						vnf[i]['GUEST_SMP'] = smp;
+				});
+			}
+
+			if(config['GUEST_CORE_BINDING'] !== undefined){
+				eval(config['GUEST_CORE_BINDING']).forEach(function(item, i){
+					corelist = '[';
+					item.forEach(function(core, j){
+						if(j!=0)
+							corelist+= ',';
+						corelist+= `'${core}'`;
+					});
+					corelist+= ']';
+
+					if(vnf[i] === undefined)
+						vnf.push({'GUEST_CORE_BINDING': corelist});
+					else
+						vnf[i]['GUEST_CORE_BINDING'] = corelist;
+				});
+			}
+
+			
+			config['VNF'] = vnf;
+
+			writeToHTML(document.getElementById('vnfconfig'),config);
+			writeToHTML(document.getElementById('podconfig'),config);
+
+
+			document.getElementById('vnfconfig').style.display = 'none';
+			document.getElementById('podconfig').style.display = 'none';
+
+			cloud = getValue('cloud');
+			mode = getValue('mode');
+
+			if(cloud === undefined){
+				alert('Please select a scenario first! (Redirecting you..)');
+				window.location.href = "/config/scenario.html";
+			}
+
+
+			if(cloud === 'dut' && (mode ==='normal' ||mode ==='trafficgen-off')){
+				document.getElementById('vnfconfig').style.display = 'block';
+			}else if(cloud === 'openstack' || (cloud === 'dut' && mode ==='trafficgen')){
+				window.location.href = "/config/testcases.html";
+
+			}else if(cloud === 'k8s'){
+				document.getElementById('podconfig').style.display = 'block';
+			}
+			
+		}
+
+		
+	</script>
+
+</div>
+
+</body>
+
+</html>

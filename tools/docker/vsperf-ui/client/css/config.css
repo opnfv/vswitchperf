@@ -1,0 +1,44 @@
+.scenario{
+  text-align: center;
+  user-select: none;
+  padding: 70px;
+}
+
+#mode{
+	display: none;
+}
+
+
+#trex, #testcenter, #ixnet{
+	column-count: 2;
+	display: none;
+}
+
+.trex-maxrep{
+	display: none;
+}
+
+.vnf{
+  border-radius: 6px;
+  border-style: dashed;
+  border-color: #c9c9c9;
+  border-width: 2px;
+  padding: 20px;
+}
+
+
+
+
+#conf-file{
+  display: block;
+  padding: 15px;
+  margin: 15px;
+
+  background-color: #282923;
+  color: white;
+  line-height: 1.5em;
+  font-size: 0.9em;
+  border:ridge #bdbcc1;
+
+  min-height: 100px;
+}
